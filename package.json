@@ -1,0 +1,33 @@
+{
+  "name": "usm-client",
+  "version": "0.0.1",
+  "dependencies": {},
+  "devDependencies": {
+    "bower": "*",
+    "typescript": "*",
+    "requirejs": "*",
+    "browserify": "*",
+    "vinyl-source-stream": "*",
+    "gulp": "~3.9.0",
+    "gulp-load-plugins": "*",
+    "gulp-debug": "*",
+    "gulp-typescript": "*",
+    "gulp-ng-annotate": "*",
+    "gulp-sass": "*",
+    "gulp-sourcemaps": "*",
+    "gulp-inject": "*",
+    "del": "*",
+    "browserify-shim": "~3.8.9"
+  },
+  "browser": {
+    "angular": "./app/bower_components/angular/angular.js"
+  },
+  "browserify": {
+    "transform": [
+      "browserify-shim"
+    ]
+  },
+  "browserify-shim": {
+    "angular": "angular"
+  }
+}

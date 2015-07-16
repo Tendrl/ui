@@ -1,0 +1,6 @@
+app/bower_components
+app/**/*.js
+app/**/*.js.map
+dist
+node_modules
+typings
