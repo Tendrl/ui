@@ -10,3 +10,14 @@ This uses following frameworks and tools
 * Bower
 
 ## How to build
+### Fedora 20/21/22
+1. install latest version of nodejs `yum install nodejs npm`
+2. install `gulp`, `bower` and `tsd` gloabally - `npm install -g gulp bower tsd`
+3. clone the repository `git clone git@github.com:kmkanagaraj/usm-client-2.git`
+4. `cd usm-client-2`
+5. install node modules `npm install`
+6. install bower dependencies `bower install`
+7. install typescript definition files `tsd install`
+8. to build `gulp compile`
+
+Build artificats can be found in the `dist` directory
