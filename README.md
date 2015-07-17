@@ -21,3 +21,8 @@ This uses following frameworks and tools
 8. to build `gulp compile`
 
 Build artificats can be found in the `dist` directory
+
+## Debugging in browser
+sourcemaps will be generated as part of the build process. So in the browser debugging window, you could see the typescript files(.ts). 
+You could set breakpoints as like how it can be done with any javascript file. This works well in chrome browser. But the current version 
+of firefox(39) is not be able to load the sourcemaps. You could either use chrome or download a nightly version of firefox(42).
