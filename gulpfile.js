@@ -27,7 +27,7 @@ gulp.task('tsc', function () {
 	return gulp.src(path.tscripts)
 		.pipe($.sourcemaps.init())
 		.pipe(tsc(tscProject))
-		.pipe($.sourcemaps.write('.'))
+		.pipe($.sourcemaps.write())
 		.pipe(gulp.dest(path.tsdist));
 });
 
@@ -45,6 +45,7 @@ gulp.task('sass', function () {
 	gulp.src(path.styles)
 		.pipe($.sourcemaps.init())
 		.pipe(sass())
+		.pipe($.concat('app.css'))
 		.pipe($.sourcemaps.write('.'))
 		.pipe(gulp.dest(path.dist + '/css'));
 });

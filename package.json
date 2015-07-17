@@ -17,7 +17,8 @@
     "gulp-sourcemaps": "*",
     "gulp-inject": "*",
     "del": "*",
-    "browserify-shim": "~3.8.9"
+    "browserify-shim": "~3.8.9",
+    "gulp-concat": "~2.6.0"
   },
   "browser": {
     "angular": "./app/bower_components/angular/angular.js"
