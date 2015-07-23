@@ -1,10 +1,16 @@
 // <reference path="../typings/tsd.d.ts" />
-declare function require(name:string);
+declare function require(name: string);
 
+import {RouteConfig} from "./components/router/route-config";
 import {ClustersController} from "./components/clusters/clusters-controller";
 import {ClusterService} from "./components/rest/clusters";
 
-var angular = require("angular");
+var angular: ng.IAngularStatic = require("angular");
+var ngRoute = require("angular-route");
+var ngAnimate = require("angular-animate");
+var ngCookies = require("angular-cookies");
+var ngResource = require("angular-resource");
+var ngSanitize = require("angular-sanitize");
 var restangular = require("restangular");
 var ngStrap = require("angular-strap");
 var ngStrapTpl = require("angular-strap-tpl");
@@ -19,12 +25,17 @@ class USMApp {
 			'ngAnimate',
 			'ngCookies',
 			'ngResource',
-			'ngSanitaize',
+			'ngSanitize',
 			'ngRoute',
-			'mgcrea.ngStrap'
+			'mgcrea.ngStrap',
+			'restangular'
 		])
 			.controller('ClusterController', ClustersController)
-			.service('ClusterService', ClusterService);
+			.service('ClusterService', ClusterService)
+			.config(RouteConfig);
+		angular.element(document).ready(function() {
+			angular.bootstrap(document, ['usm-client']);
+		});
 	}
 }
 

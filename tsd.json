@@ -16,6 +16,9 @@
     },
     "restangular/restangular.d.ts": {
       "commit": "8f51d25ad3523cd01f2d92e343247852f6b70dff"
+    },
+    "angularjs/angular-route.d.ts": {
+      "commit": "581563c4684d405afec14260ba79a89a52666c09"
     }
   }
 }
