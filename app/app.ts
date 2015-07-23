@@ -1,20 +1,32 @@
-/// <reference path="../typings/tsd.d.ts" />
+// <reference path="../typings/tsd.d.ts" />
+declare function require(name:string);
 
-//import * as clusters from "./components/clusters/clusters-controller";
-// var angular = require("angular");
-import angular = require("angular");
-import clusters = require("./components/clusters/clusters-controller");
+import {ClustersController} from "./components/clusters/clusters-controller";
+import {ClusterService} from "./components/rest/clusters";
 
-class USApp {
+var angular = require("angular");
+var restangular = require("restangular");
+var ngStrap = require("angular-strap");
+var ngStrapTpl = require("angular-strap-tpl");
+
+class USMApp {
 	constructor() {
 
 	}
 	initialize() {
 		console.log('Initializing...');
-		angular.module('usm-client', [])
-			.controller(clusters.ClustersController);
+		angular.module('usm-client', [
+			'ngAnimate',
+			'ngCookies',
+			'ngResource',
+			'ngSanitaize',
+			'ngRoute',
+			'mgcrea.ngStrap'
+		])
+			.controller('ClusterController', ClustersController)
+			.service('ClusterService', ClusterService);
 	}
 }
 
-var app = new USApp();
+var app = new USMApp();
 app.initialize();

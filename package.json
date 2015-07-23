@@ -1,7 +1,17 @@
 {
   "name": "usm-client",
   "version": "0.0.1",
-  "dependencies": {},
+  "dependencies": {
+    "angular": "~1.4.3",
+    "angular-resource": "~1.4.3",
+    "angular-cookies": "~1.4.3",
+    "angular-sanitize": "~1.4.3",
+    "angular-route": "~1.4.3",
+    "angular-animate": "~1.4.3",
+    "angular-strap": "~2.3.1",
+    "numeral": "~1.5.3",
+    "idb-wrapper": "~1.5.0"
+  },
   "devDependencies": {
     "bower": "*",
     "typescript": "*",
@@ -21,7 +31,9 @@
     "gulp-concat": "~2.6.0"
   },
   "browser": {
-    "angular": "./app/bower_components/angular/angular.js"
+    "restangular": "./app/bower_components/restangular/dist/restangular.js",
+    "angular-strap": "./node_modules/angular-strap/dist/angular-strap.js",
+    "angular-strap-tpl": "./node_modules/angular-strap/dist/angular-strap.tpl.js"
   },
   "browserify": {
     "transform": [
@@ -29,6 +41,20 @@
     ]
   },
   "browserify-shim": {
-    "angular": "angular"
+    "restangular": {
+      "depends": [
+        "angular"
+      ]
+    },
+    "angular-strap": {
+      "depends": [
+        "angular"
+      ]
+    },
+    "angular-strap-tpl": {
+      "depends": [
+        "angular-strap"
+      ]
+    }
   }
 }
