@@ -18,4 +18,19 @@ export class ClusterService {
             return clusters;
         });
     }
+    
+    // **getCapacity**
+    // **@returns** a promise with the cluster capacity for the specific
+    // cluster based on it's id.
+    getCapacity(id) {
+    }
+    
+    // **remove**
+    // **@param** id - id of cluster you wish to remove.
+    // This is a **destructive** operation and will remove
+    // any data on this cluster.
+    // **@returns** a promise with the request id for the operation.
+    remove(id) {
+        return this.rest.one('clusters', id).remove();
+    }
 }
