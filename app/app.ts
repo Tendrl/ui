@@ -4,6 +4,8 @@ declare function require(name: string);
 import {RouteConfig} from "./components/router/route-config";
 import {ClustersController} from "./components/clusters/clusters-controller";
 import {ClusterService} from "./components/rest/clusters";
+import {UtilService} from "./components/rest/util";
+import {RequestService} from "./components/rest/request";
 
 var angular: ng.IAngularStatic = require("angular");
 var ngRoute = require("angular-route");
@@ -32,6 +34,8 @@ class USMApp {
 		])
 			.controller('ClusterController', ClustersController)
 			.service('ClusterService', ClusterService)
+			.service('UtilService', UtilService)
+			.service('RequestService', RequestService)
 			.config(RouteConfig);
 		angular.element(document).ready(function() {
 			angular.bootstrap(document, ['usm-client']);
