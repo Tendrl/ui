@@ -23,6 +23,19 @@ var path = {
 	dist: 'dist'
 };
 
+var config = {
+	fonts: {
+		src: ['./node_modules/patternfly/dist/fonts/*.*', './node_modules/font-awesome/fonts/*.*'],
+		dest: 'dist/fonts'
+	},
+	css: {
+		vendor: {
+			src: ['./node_modules/patternfly/dist/css/patternfly.css'],
+			dest: 'dist/css'
+		}
+	}
+}
+
 gulp.task('tsc', function () {
 	return gulp.src(path.tscripts)
 		.pipe($.sourcemaps.init())
@@ -42,7 +55,7 @@ gulp.task('browserify', ['tsc'], function () {
 });
 
 gulp.task('sass', function () {
-	gulp.src(path.styles)
+	return gulp.src(path.styles)
 		.pipe($.sourcemaps.init())
 		.pipe(sass())
 		.pipe($.concat('app.css'))
@@ -50,22 +63,34 @@ gulp.task('sass', function () {
 		.pipe(gulp.dest(path.dist + '/css'));
 });
 
+//Copy css to dist/css
+gulp.task('css', function () {
+	return gulp.src(config.css.vendor.src)
+		.pipe(gulp.dest(config.css.vendor.dest));
+});
+
+//Copy the fonts to dist/fonts
+gulp.task('fonts', function () {
+	return gulp.src(config.fonts.src)
+		.pipe(gulp.dest(config.fonts.dest));
+});
+
 gulp.task('html', function () {
 	//Copy the partial html files to dist
-	gulp.src(path.partials)
+	return gulp.src(path.partials)
 		.pipe(gulp.dest(path.dist + '/views'));
 });
 
-gulp.task('inject', ['browserify', 'sass', 'html'], function () {
+gulp.task('inject', ['browserify', 'sass', 'css', 'html'], function () {
 	//Copy index.html to dist and inject css/js
-	gulp.src(path.index)
+	return gulp.src(path.index)
 		.pipe(gulp.dest(path.dist))
 		.pipe($.inject(gulp.src([path.dist + '/css/*.css', path.dist + '/scripts/*.js']), { relative: true }))
 		.pipe(gulp.dest(path.dist));
 });
 
 
-gulp.task('compile', ['tsc', 'browserify', 'sass', 'html', 'inject']);
+gulp.task('compile', ['tsc', 'browserify', 'sass', 'css', 'fonts', 'html', 'inject']);
 
 gulp.task('watch', function () {
 	gulp.watch(path.tscripts, ['browserify']);

@@ -1,7 +1,6 @@
 import {ClusterService} from '../rest/clusters';
 
 export class ClustersController {
-	private self = this;
 	public list: Array<any>;
 	static $inject: Array<string> = ['ClusterService'];
 	constructor(private clusterSvc: ClusterService) {
