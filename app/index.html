@@ -1,13 +1,82 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		<title>My index</title>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<title>Unified Storage Manager</title>
+		<meta name="description" content="">
+		<meta name="viewport" content="width=device-width">
 		<!-- inject:css -->
 		<!-- endinject -->
 	</head>
-	<body class="usmClientApp">
-		<div>
-			<div ng-view></div>
+	<body class="usmClientApp skin-material sidebar-mini fixed" ng-class="{'sidebar-collapse sidebar-open':!expandedView}" ng-controller="ApplicationController">
+		<div class="wrapper">
+			<header ng-style="{display:(currentURI == '/')?'none':''}" class="main-header">
+				<!-- Logo -->
+				<a class="logo" href="index.html">
+                <!-- mini logo for sidebar mini 50x50 pixels --><span class="logo-mini">
+                                                                <b>USM</b>
+                                                            </span>
+                <!-- logo for regular state and mobile devices --><span class="logo-lg">
+                                                                <b>Unified</b>Storage
+                                                            </span> </a>
+				<!-- Header Navbar: style can be found in header.less -->
+				<nav role="navigation" class="navbar navbar-static-top">
+					<!-- Sidebar toggle button-->
+					<a role="button" ng-click="expandedView = !expandedView" class="sidebar-toggle" href=""> <span class="sr-only">Toggle navigation</span> </a>
+					<!-- Navbar Right Menu -->
+					<div class="navbar-custom-menu">
+						<ul class="nav navbar-nav" ng-controller="RequestsController">
+							<!-- search box -->
+							<li class="dropdown search-menu wrap">
+								<form action="" autocomplete="on">
+									<input class="search_textbox" id="search" name="search" type="text" placeholder="What're we looking for ?" />
+									<button id="search_submit" class="search-btn" type="submit">
+										<i class="fa fa-search"></i>
+									</button>
+								</form>
+							</li>
+							<!-- Messages: style can be found in dropdown.less-->
+							<li class="dropdown messages-menu">
+								<a href="" data-template="views/alert-dropdown.tpl.html" data-animation="am-fade-and-slide-top" bs-dropdown=""> <i class="fa fa-bell"></i> <span class="label label-success" ng-if="alerts.length>0">{{alerts.length}}</span> </a>
+							</li>
+							<!-- Notifications: style can be found in dropdown.less -->
+							<li class="dropdown notifications-menu">
+								<a data-toggle="dropdown" class="dropdown-toggle" bs-dropdown="dropdown" href="" ng-click="getDiscoveredHosts();" data-template="views/discovered-hosts.tpl.html"
+								data-animation="am-fade-and-slide-top" bs-dropdown=""> <i class="fa fa-desktop"></i> <span class="label label-warning" ng-if="discoveredHostsLength>0" ng-bind="discoveredHostsLength"></span>
+                                <div growl></div>
+                            </a>
+							</li>
+							<!-- Tasks: style can be found in dropdown.less -->
+							<li class="dropdown tasks-menu">
+								<a data-toggle="dropdown" class="dropdown-toggle" bs-dropdown="dropdown" href="" data-template="views/progress-dropdown.tpl.html"
+								data-animation="am-fade-and-slide-top" bs-dropdown=""> <i class="fa fa-flag"></i> <span class="label label-danger" ng-if="tasks.length>0" ng-bind="tasks.length"></span>
+                                <div growl></div>
+                            </a>
+							</li>
+							<!-- User Account: style can be found in dropdown.less -->
+							<li class="dropdown user user-menu">
+								<a data-toggle="dropdown" class="dropdown-toggle" bs-dropdown="dropdown" href="" data-template="views/admin-dropdown.tpl.html"
+								data-animation="am-fade-and-slide-top"> <i class="fa fa-user"></i> <span class="hidden-xs">Admin</span> </a>
+							</li>
+						</ul>
+					</div>
+				</nav>
+			</header>
+			<aside ng-if="currentURI !== '/'" class="main-sidebar">
+				<!-- sidebar: style can be found in sidebar.less -->
+				<section class="sidebar" style="height: auto;">
+					<ul class="sidebar-menu" ng-controller="MenuController">
+						<li class="treeview" ng-class="{'active' : menu.active}" ng-repeat="menu in menus">
+							<a ng-show="!menu.hasSubMenus" ng-click="navigate(menu)"> <i class="fa" ng-class="menu.icon"></i> <span>{{menu.label}}</span> </a>
+							<a ng-show="menu.hasSubMenus" data-trigger="click" data-template="views/menu-dropdown.tpl.html" bs-dropdown="menu.subMenus"
+							ng-click="navigate(menu)"> <i class="fa" ng-class="menu.icon"></i> <span>{{menu.label}}</span> <i class="fa fa-angle-left pull-right"></i> </a>
+						</li>
+					</ul>
+				</section>
+				<!-- /.sidebar -->
+			</aside>
+			<div ng-class="{'content-wrapper' : (currentURI !== '/')}" ng-view></div>
 		</div>
 		<!-- inject:js -->
 		<!-- endinject -->

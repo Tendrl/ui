@@ -1,0 +1,104 @@
+//@import 'compass/css3/box-shadow';
+@import 'modules/usm_colors';
+
+.cluster-hosts-panel {
+    &:after {
+        display: block;
+        content: "";
+        background: #ccc;
+        position: relative;
+        height: 2px;
+        margin: 35px 20px 0px 20px;
+    }
+}
+
+.cluster-hosts-panel .avaliable-hosts-count {
+    font-weight: 600;
+}
+
+.cluster-add-host-row {
+    background-color: lightgrey;
+    margin-left: 0px;
+    margin-right: 0px;
+    margin-top: 5px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    border-radius: 2px;
+}
+
+.available-hosts-list {
+    .host-row {
+        //@include box-shadow(1px 1px 3px black);
+        box-shadow:1px 1px 3px black;
+        margin: 5px 0px;
+        padding: 5px;
+        border-radius: 2px;
+
+        &:hover {
+            background-color: #D5ECF9;
+            border-bottom-color: #A7CADF;
+        }
+    }
+
+    .verified-col {
+        color: green;
+    }
+
+    .host-col-middle {
+        margin-top: 10px;
+        text-align: center;
+    }
+
+    .host-col-select {
+        color: #267DA1;
+    }
+}
+
+.selected-hosts-storage {
+    .box {
+        font-size: 20px;
+        margin-top: 20px;
+        height: 90px;
+        text-align: center;
+        color: white;
+        background-color: #6a7489;
+    }
+    .content {
+        padding-top:25px;
+    }
+}
+
+.cluster-volumes-panel {
+    &:after {
+        display: block;
+        content: "";
+        background: #ccc;
+        position: relative;
+        height: 2px;
+    }
+}
+
+.table-volumes {
+    margin-top: 5px;
+}
+
+.cluster-summary-edit {
+    font-size: 13px;
+    margin-left: 10px;
+}
+
+.create-cluster-progress {
+    margin-bottom: 0px;
+    font-weight: bold;
+    font-size: 12px;
+}
+
+.error-msg-color {
+    color: #c00;
+}
+
+.available-storage {
+    color: #8b8d8f;
+    font-size: 25px;
+    margin-top: 26px;
+}
