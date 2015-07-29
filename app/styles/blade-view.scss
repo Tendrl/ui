@@ -1,0 +1,169 @@
+ .blade-view {
+    background: none repeat scroll 0 0 #fff;
+    margin-left: 0 !important;
+    width: 100%;
+    overflow: unset;
+    position: relative;
+    min-height: 136px;
+    margin-top: 15px;
+    margin-bottom : 15px;
+    border-radius: 5px;
+    box-shadow: 2px 2px 2px #c5c5c5;
+    border: 1px solid lightgray;
+ }
+
+ .blade-view .description {
+    font-size: 13px;
+    font-weight: 600;
+ }
+
+ .blade-view .description-for-host {
+    font-size: 13px;
+    font-weight: 600;
+    margin-left: 31px;
+ }
+
+ .blade-view-with-opacity {
+    opacity: 0.3
+ }
+
+ .blade-view .vertical-line-for-gluster {
+    background-color: dimgray;
+    min-height: 135px;
+    padding: 14px;
+    position: absolute;
+    border-bottom-left-radius: 5px;
+    border-top-left-radius: 5px;
+ }
+
+ .blade-view .vertical-line-for-ceph {
+    background-color: gainsboro;
+    min-height: 135px;
+    padding: 14px;
+    position: absolute;
+    border-bottom-left-radius: 5px;
+    border-top-left-radius: 5px;
+ }
+
+ .blade-view .set-top-margin {
+    margin-top: 43px;
+ }
+
+ .blade-view .set-top-margin-for-donut {
+    margin-top: 9px;
+ }
+
+ .blade-view .heading {
+    font-size: 18px;
+    font-weight: 600;
+    margin-left: 29px;
+ }
+
+ .blade-view .host-name-heading {
+    font-size: 15px;
+    font-weight: 600;
+    margin-left: 29px;
+ }
+
+ .blade-view .sub-heading {
+    font-size: 13px;
+    font-family: "Open Sans",Helvetica,Arial,sans-serif;
+    font-weight: 600;
+    text-align: center;
+ }
+
+ .blade-view .set-margin {
+    font-size: 22px;
+    margin-left: 6px;
+    margin-top: 2px;
+ }
+
+ .blade-view .exclamation-mark {
+    display: inline;
+    font-size: 20px;
+    margin-right: 9px;
+    position: absolute;
+ }
+
+ .blade-view .percentage-heading {
+    font-size: 40px;
+    font-family: "Open Sans",Helvetica,Arial,sans-serif;
+    margin-top: -22px;
+ }
+
+ .blade-view .percentage-used {
+    font-size: 13px;
+    font-family: "Open Sans",Helvetica,Arial,sans-serif;
+    font-weight: 600;
+    margin-left: 8px;
+ }
+
+ .blade-view .disk-info-cart {
+    margin-top: -12px;
+ }
+
+ .blade-view .adjust-area-spline {
+    margin-top: -41px;
+ }
+
+ .blade-view .adjust-gauge {
+    margin-top: -16px;
+ }
+
+ .blade-view .add-cursor-pointer {
+   cursor: pointer;
+ }
+
+ .blade-view .cluster-dropdown-menu {
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    padding: 11px;
+    text-align: inherit;
+    font-family: "Open Sans",Helvetica,Arial,sans-serif;
+ }
+
+ .blade-view .vertical-text-for-gluster {
+    color: white;
+    float: left;
+    font-size: 16px;
+    font-weight: 600;
+    margin-left: -36px;
+    margin-top: 40px;
+    text-transform: uppercase;
+    transform: rotate(270deg);
+ }
+
+ .blade-view .vertical-text-for-ceph {
+    color: black;
+    float: left;
+    font-size: 16px;
+    font-weight: 600;
+    margin-left: -22px;
+    margin-top: 40px;
+    text-transform: uppercase;
+    transform: rotate(270deg);
+ }
+
+ .blade-view .create-cluster-progress {
+    font-size: 12px;
+    font-weight: 600;
+    margin-bottom: 0;
+    margin-left: -78px;
+    margin-top: 51px;
+ }
+
+.blade-view .cluster_name {
+    font-size: 13px;
+    text-align: center;
+ }
+
+ .blade-view .version {
+    font-size: 13px;
+    font-family: "Open Sans",Helvetica,Arial,sans-serif;
+    font-weight: 600;
+ }
+
+ .blade-view .gadget {
+    text-align: center;
+ }

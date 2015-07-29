@@ -1,0 +1,58 @@
+.wizard {
+    font-size: 16px;
+    padding: 10px 0px 20px;
+}
+
+.wizard .default {
+    display: inline-block;
+    color:#aaaaaa;
+}
+
+.wizard .active {
+    display: inline-block;
+    color:#199DDE;
+}
+
+.wizard .visited {
+    display: inline-block;
+}
+
+.wizard .step-text {
+    padding-right: 30px;
+}
+
+.wizard-step-dot {
+    margin: 0 auto;
+    text-align: center;
+    font-size: 8px;
+    position:relative;
+    z-index:10;
+    &:after {
+        display: block;
+        content: "";
+        background: #ccc;
+        position: relative;
+        height: 2px;
+        width: 100%;
+        top: -7px;
+        z-index:-1;
+    }
+}
+
+.wizard-step-dot-last {
+    margin: 0 auto;
+    text-align: center;
+    font-size: 8px;
+    position:relative;
+    z-index:10;
+    &:after {
+        display: block;
+        content: "";
+        background: #ccc;
+        position: relative;
+        height: 2px;
+        width: 50%;
+        top: -7px;
+        z-index:-1;
+    }
+}
