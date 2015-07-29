@@ -14,6 +14,8 @@ import {UtilService} from "./components/rest/util";
 import {RequestService} from "./components/rest/request";
 import {UserService} from "./components/rest/user";
 import {OSDService} from "./components/rest/osd";
+import {PoolController} from "./components/pools/pools-controller";
+import {PoolNewController} from "./components/pools/pool-new";
 
 var angular: ng.IAngularStatic = require("angular");
 var ngRoute = require("angular-route");
@@ -45,6 +47,8 @@ class USMApp {
             .controller('RequestsController', RequestsController)
             .controller('FirstController', FirstController)
 			.controller('ClusterController', ClustersController)
+			.controller('PoolController', PoolController)
+			.controller('PoolNewController', PoolNewController)
 			.service('MenuService', MenuService)
 			.service('ClusterService', ClusterService)
 			.service('UtilService', UtilService)
