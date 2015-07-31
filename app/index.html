@@ -26,7 +26,7 @@
 					<a role="button" ng-click="expandedView = !expandedView" class="sidebar-toggle" href=""> <span class="sr-only">Toggle navigation</span> </a>
 					<!-- Navbar Right Menu -->
 					<div class="navbar-custom-menu">
-						<ul class="nav navbar-nav" ng-controller="RequestsController">
+						<ul class="nav navbar-nav">
 							<!-- search box -->
 							<li class="dropdown search-menu wrap">
 								<form action="" autocomplete="on">
@@ -69,7 +69,7 @@
 					<ul class="sidebar-menu" ng-controller="MenuController">
 						<li class="treeview" ng-class="{'active' : menu.active}" ng-repeat="menu in menus">
 							<a ng-show="!menu.hasSubMenus" ng-click="navigate(menu)"> <i class="fa" ng-class="menu.icon"></i> <span>{{menu.label}}</span> </a>
-							<a ng-show="menu.hasSubMenus" data-trigger="click" data-template="views/menu-dropdown.tpl.html" bs-dropdown="menu.subMenus"
+							<a ng-show="menu.hasSubMenus" data-trigger="click" data-template="views/base/menu-dropdown.tpl.html" bs-dropdown="menu.subMenus"
 							ng-click="navigate(menu)"> <i class="fa" ng-class="menu.icon"></i> <span>{{menu.label}}</span> <i class="fa fa-angle-left pull-right"></i> </a>
 						</li>
 					</ul>
