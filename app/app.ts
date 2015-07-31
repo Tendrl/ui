@@ -2,6 +2,10 @@
 declare function require(name: string);
 
 import {RouteConfig} from "./components/router/route-config";
+import {MenuService} from "./components/base/menu-svc";
+
+import {ApplicationController} from "./components/base/application-controller";
+import {MenuController} from "./components/base/menu-controller";
 import {ClustersController} from "./components/clusters/clusters-controller";
 import {ClusterService} from "./components/rest/clusters";
 import {UtilService} from "./components/rest/util";
@@ -34,7 +38,10 @@ class USMApp {
 			'mgcrea.ngStrap',
 			'restangular'
 		])
+			.controller('ApplicationController', ApplicationController)
+			.controller('MenuController', MenuController)
 			.controller('ClusterController', ClustersController)
+			.service('MenuService', MenuService)
 			.service('ClusterService', ClusterService)
 			.service('UtilService', UtilService)
 			.service('RequestService', RequestService)
