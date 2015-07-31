@@ -4,7 +4,7 @@ USM Client is a user interface for Unified Storage Manager
 The build steps can be found at [README](./README.md)
 
 ## Running a local static http server
-1. Install http-server `npm install http-server`
+1. Install http-server `npm install -g http-server`
 2. Run `http-server`
 3. Open `http://localhost:8080/dist/` in the browser
 
