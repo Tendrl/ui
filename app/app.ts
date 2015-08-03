@@ -6,6 +6,7 @@ import {MenuService} from "./components/base/menu-svc";
 
 import {ApplicationController} from "./components/base/application-controller";
 import {MenuController} from "./components/base/menu-controller";
+import {RequestsController} from "./components/requests/requests-controller";
 import {ClustersController} from "./components/clusters/clusters-controller";
 import {ClusterService} from "./components/rest/clusters";
 import {UtilService} from "./components/rest/util";
@@ -40,6 +41,7 @@ class USMApp {
 		])
 			.controller('ApplicationController', ApplicationController)
 			.controller('MenuController', MenuController)
+            .controller('RequestsController', RequestsController)
 			.controller('ClusterController', ClustersController)
 			.service('MenuService', MenuService)
 			.service('ClusterService', ClusterService)
