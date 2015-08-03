@@ -13,9 +13,9 @@ export class RouteConfig {
 			controller: 'DashboardController',
 			controllerAs: 'dash'
 		}).when('/first', {
-			templateUrl: 'views/first.html',
+			templateUrl: 'views/first/first.html',
 			menuId: '',
-			controller: 'FirstTimeController',
+			controller: 'FirstController',
 			controllerAs: 'first'
 		}).when('/clusters', {
 			templateUrl: 'views/clusters/clusters.html',
