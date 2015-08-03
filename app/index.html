@@ -26,7 +26,7 @@
 					<a role="button" ng-click="expandedView = !expandedView" class="sidebar-toggle" href=""> <span class="sr-only">Toggle navigation</span> </a>
 					<!-- Navbar Right Menu -->
 					<div class="navbar-custom-menu">
-						<ul class="nav navbar-nav">
+						<ul class="nav navbar-nav" ng-controller="RequestsController">
 							<!-- search box -->
 							<li class="dropdown search-menu wrap">
 								<form action="" autocomplete="on">
@@ -38,25 +38,25 @@
 							</li>
 							<!-- Messages: style can be found in dropdown.less-->
 							<li class="dropdown messages-menu">
-								<a href="" data-template="views/alert-dropdown.tpl.html" data-animation="am-fade-and-slide-top" bs-dropdown=""> <i class="fa fa-bell"></i> <span class="label label-success" ng-if="alerts.length>0">{{alerts.length}}</span> </a>
+								<a href="" data-template="views/base/alert-dropdown.tpl.html" data-animation="am-fade-and-slide-top" bs-dropdown=""> <i class="fa fa-bell"></i> <span class="label label-success" ng-if="alerts.length>0">{{alerts.length}}</span> </a>
 							</li>
 							<!-- Notifications: style can be found in dropdown.less -->
 							<li class="dropdown notifications-menu">
-								<a data-toggle="dropdown" class="dropdown-toggle" bs-dropdown="dropdown" href="" ng-click="getDiscoveredHosts();" data-template="views/discovered-hosts.tpl.html"
+								<a data-toggle="dropdown" class="dropdown-toggle" bs-dropdown="dropdown" href="" ng-click="getDiscoveredHosts();" data-template="views/base/discovered-hosts.tpl.html"
 								data-animation="am-fade-and-slide-top" bs-dropdown=""> <i class="fa fa-desktop"></i> <span class="label label-warning" ng-if="discoveredHostsLength>0" ng-bind="discoveredHostsLength"></span>
                                 <div growl></div>
                             </a>
 							</li>
 							<!-- Tasks: style can be found in dropdown.less -->
 							<li class="dropdown tasks-menu">
-								<a data-toggle="dropdown" class="dropdown-toggle" bs-dropdown="dropdown" href="" data-template="views/progress-dropdown.tpl.html"
+								<a data-toggle="dropdown" class="dropdown-toggle" bs-dropdown="dropdown" href="" data-template="views/base/progress-dropdown.tpl.html"
 								data-animation="am-fade-and-slide-top" bs-dropdown=""> <i class="fa fa-flag"></i> <span class="label label-danger" ng-if="tasks.length>0" ng-bind="tasks.length"></span>
                                 <div growl></div>
                             </a>
 							</li>
 							<!-- User Account: style can be found in dropdown.less -->
 							<li class="dropdown user user-menu">
-								<a data-toggle="dropdown" class="dropdown-toggle" bs-dropdown="dropdown" href="" data-template="views/admin-dropdown.tpl.html"
+								<a data-toggle="dropdown" class="dropdown-toggle" bs-dropdown="dropdown" href="" data-template="views/base/admin-dropdown.tpl.html"
 								data-animation="am-fade-and-slide-top"> <i class="fa fa-user"></i> <span class="hidden-xs">Admin</span> </a>
 							</li>
 						</ul>
