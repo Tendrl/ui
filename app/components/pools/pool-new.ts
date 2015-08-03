@@ -7,6 +7,7 @@ interface pool {
 	pool_name: string;
 	pg_num: number;
 }
+
 export class PoolNewController {
 	private self = this;
     private tier;
@@ -39,7 +40,7 @@ export class PoolNewController {
 		this.copyCount = VolumeHelpers.getRecomendedCopyCount();
 		this.tierList = VolumeHelpers.getTierList();
 		clusterSvc.getList().then(function(clusters) {
-			this.clusters = _.filter(clusters, function(cluster) {
+			this.clusters = _.filter(clusters, function(cluster : any) {
 				return cluster.cluster_type == 2;
 			});
 
@@ -61,7 +62,6 @@ export class PoolNewController {
 
 	public submit(): void {
 		var pools: Array<pool>;
-		// cluster: self.cluster.cluster_id;
 		pools: [
 			{
 				pool_name: this.name,

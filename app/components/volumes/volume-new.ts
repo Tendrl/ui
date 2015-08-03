@@ -58,7 +58,7 @@ export class VolumeNewController {
         this.disperseOption = this.disperseOptions[0];
 
         this.clusterSvc.getList().then((clusters) => {
-            this.clusters = _.filter(clusters, function(cluster) {
+            this.clusters = _.filter(clusters, function(cluster :any) {
                 return cluster.cluster_type == 1;
             });
 
@@ -101,7 +101,7 @@ export class VolumeNewController {
 
             var selectedDevices = [];
             this.$q.all(deviceRequests).then((devicesList) => {
-                selectedDevices = VolumeHelpers.getStorageDervicesForVolumeBasic(
+                selectedDevices = VolumeHelpers.getStorageDevicesForVolumeBasic(
                     this.targetSize, this.copyCount, devicesList);
                 this.storageDevices = selectedDevices;
                 this.actualSize = VolumeHelpers.getVolumeSize(this.storageDevices, this.copyCount);

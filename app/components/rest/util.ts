@@ -2,10 +2,12 @@
 
 export class UtilService {
     config: Array<any>;
-    rest: restangular.ICollection;
+    rest: restangular.IService;
     static $inject: Array<string> = ['Restangular'];
-    constructor(rest:restangular.ICollection) {
-        this.rest = rest;
+    constructor(rest: restangular.ICollection) {
+        this.rest = rest.withConfig((RestangularConfigurer) => {
+            RestangularConfigurer.setBaseUrl('/api/v1/');
+        });
     }
 
     // **getVerify**
@@ -32,7 +34,7 @@ export class UtilService {
     // **@returns** a promise with IP Address.
     getIpAddress(hostname) {
         return this.rest.one('utils/resolve_hostname', hostname).get().then(function(result) {
-            if(!_.isEmpty(result['IP_Address'])) {
+            if (!_.isEmpty(result['IP_Address'])) {
                 return _.first(result['IP_Address']);
             }
             return;

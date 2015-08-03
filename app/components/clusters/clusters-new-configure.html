@@ -1,0 +1,41 @@
+<div class="wizard-step-view">
+  <form name="form" class="form-horizontal" novalidate>
+    <div class="form-group">
+      <label class="col-md-2 control-label" for="textInput">Name</label>
+      <div class="col-md-4">
+        <input type="text" id="textInput" name="clusterName" ng-class="form.clusterName.$error.required && form.clusterName.$touched ? 'form-control textbox-with-red-border': 'form-control'" ng-model="cluster.clusterName" autofocus required=""></input>
+      </div>
+      <div ng-show="form.clusterName.$touched">
+        <div ng-show="form.clusterName.$error.required" class="error-validation-msg">Cluster name is required!</div>
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="col-md-2 control-label" for="storageType">Storage Type</label>
+      <div class="col-md-4">
+        <select pf-select ng-model="cluster.storageType" id="storageType" class="form-control" ng-options="storageType.type for storageType in cluster.storageTypes" ng-change="cluster.onStorageTypeChanged()">
+        </select>
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="col-md-2 control-label" for="clusterType">Cluster Type</label>
+      <div class="col-md-4">
+        <select pf-select ng-model="cluster.clusterType" id="clusterType" class="form-control" ng-options="clusterType.type for clusterType in cluster.clusterTypes" ng-change="cluster.onClusterTypeChanged()">
+        </select>
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="col-md-2 control-label" for="workLoad">Workload</label>
+      <div class="col-md-4">
+        <select pf-select ng-model="cluster.workLoad" id="workload" class="form-control" ng-options="workLoad.type for workLoad in cluster.workLoads">
+        </select>
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="col-md-2 control-label" for="deploymentType">Cluster Size</label>
+      <div class="col-md-4">
+        <select pf-select ng-model="cluster.deploymentType" id="deploymentType" class="form-control" ng-options="deploymentType.type for deploymentType in cluster.deploymentTypes">
+        </select>
+      </div>
+    </div>
+  </form>
+</div>

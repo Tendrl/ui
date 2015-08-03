@@ -1,0 +1,106 @@
+<div class="row">
+  <div class="col-md-4">
+    <h3>
+      Configuration
+      <a href="" class="cluster-summary-edit" ng-click="cluster.step = 1">
+        <i class="fa fa-pencil active"></i>
+      </a>
+    </h3>
+    <dl class="dl-horizontal">
+      <dt>Name</dt>
+      <dd> {{cluster.clusterName}} </dd>
+
+      <dt>Storage Type</dt>
+      <dd> {{cluster.storageType.type}} </dd>
+
+      <dt>Cluster Type</dt>
+      <dd> {{cluster.clusterType.type}} </dd>
+
+      <dt>Workload</dt>
+      <dd> {{cluster.workLoad.type}} </dd>
+
+      <dt>Deployment Type</dt>
+      <dd> {{cluster.deploymentType.type}} </dd>
+      
+    </dl>
+  </div>
+
+  
+  <div class="col-md-4" ng-show="cluster.clusterType.ID == 1">
+    <h3>
+      Volumes
+      <a href="" class="cluster-summary-edit" ng-click="cluster.step = 3">
+        <i class="fa fa-pencil active"></i>
+      </a>
+    </h3>
+    <table class="table table-hover table-bordered">
+      <thead>
+        <tr>
+          <th> Name </th>
+          <th> No.of Copies </th>
+          <th> Size </th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr ng-repeat="volume in cluster.volumes">
+          <td>{{volume.name}}</td>
+          <td>{{volume.copyCount}}</td>
+          <td>{{volume.size}} {{volume.sizeUnit.unit}}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="col-md-4" ng-show="cluster.clusterType.ID == 2">
+    <h3>
+      Pools
+      <a href="" class="cluster-summary-edit" ng-click="cluster.step = 3">
+        <i class="fa fa-pencil active"></i>
+      </a>
+    </h3>
+    <table class="table table-hover table-bordered">
+      <thead>
+        <tr>
+          <th> Pool Name </th>
+          <th> No.of Copies (Size)</th>
+          <th> Placement Groups</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr ng-repeat="pool in cluster.pools">
+            <td>{{pool.name}}</td>
+            <td>{{pool.copyCount}}</td>
+            <td>{{pool.pgNum}}</td>
+          </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<h3>
+  Hosts
+  <a href="" class="cluster-summary-edit" ng-click="cluster.step = 2">
+    <i class="fa fa-pencil active"></i>
+  </a>
+</h3>
+<table class="table table-hover table-bordered">
+  <thead>
+    <tr>
+      <th class="cluster-summary-host-header" ng-click="cluster.sortHostsInSummary();">
+         <span class="cluster-summary-host-header-text">Hostname</span>
+         <span ng-class="cluster.summaryHostsSortOrder === '-hostname' ? 'fa fa-angle-up': 'fa fa-angle-down'"></span>
+      </th>
+      <th>IP Address</th>
+      <th ng-show="cluster.clusterType.id === 2">Type</th>
+      <th>Cluster IP Adress</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr ng-repeat="host in cluster.hosts | filter: { selected: true } | orderBy: cluster.summaryHostsSortOrder">
+      <td>{{host.hostname}}</td>
+      <td>{{host.ipaddress}}</td>
+      <td ng-show="cluster.clusterType.id === 2">{{host.isMon ? 'Monitor' : 'OSD'}}</td>
+      <td>{{host.ipaddress}}</td>
+    </tr>
+  </tbody>
+</table>

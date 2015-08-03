@@ -12,6 +12,7 @@ import {ApplicationController} from "./components/base/application-controller";
 import {MenuController} from "./components/base/menu-controller";
 import {FirstController} from "./components/first/first-controller";
 import {ClustersController} from "./components/clusters/clusters-controller";
+import {ClusterNewController} from "./components/clusters/cluster-new";
 import {PoolController} from "./components/pools/pools-controller";
 import {PoolNewController} from "./components/pools/pool-new";
 import {VolumeController} from "./components/volumes/volume-controller";
@@ -52,6 +53,7 @@ class USMApp {
             .controller('MenuController', MenuController)
             .controller('FirstController', FirstController)
             .controller('ClusterController', ClustersController)
+            .controller('ClusterNewController', ClusterNewController)
             .controller('PoolController', PoolController)
             .controller('PoolNewController', PoolNewController)
             .controller('VolumeController', VolumeController)

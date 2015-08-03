@@ -1,6 +1,13 @@
 // <reference path="../typings/tsd.d.ts" />
 export class MockDataProvider {
-    // When cluster name will not match with any exist object , than this will be by default cluster.
+    
+    constructor()   {
+        this.byDefaultCluster = {};
+        this.byDefaultHost = {};
+        this.byDefaultVolume = {};
+    }
+    
+    // When cluster name will not match with any exist object , than this will be the default cluster.
     private byDefaultCluster: any = {
         clusterName: "default",
         alerts: 0,
@@ -144,9 +151,9 @@ export class MockDataProvider {
     };
         
     // **@returns** a host object with the host name for the specific
-    public getMockHost(node_name) {
+    public getMockHost(nodeName) {
         var tempHost: any = _.find(this.mockHosts, (host: any) => {
-            return host.node_name === node_name;
+            return host.nodeName === nodeName;
         });
         return tempHost === undefined ? this.byDefaultHost : tempHost;
     };

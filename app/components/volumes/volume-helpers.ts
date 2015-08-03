@@ -42,7 +42,7 @@ export class VolumeHelpers {
         ];
     }
     
-    public static getStorageDervicesForVolumeBasic(targetSize, copyCount, devicesList) {
+        public static getStorageDevicesForVolumeBasic(targetSize, copyCount, devicesList) {
         var selectedDevices = [];
         var size = 0;
         var iter = 0;

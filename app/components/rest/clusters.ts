@@ -21,10 +21,9 @@ export class ClusterService {
             RestangularConfigurer.setFullResponse(true);
         });
     }
-
     // **getList**
     // **@returns** a promise with a list of all the clusters.
-    getList() {
+    public getList(): any {
         return this.rest.all('clusters').getList().then(function(clusters) {
             clusters = _.sortBy(clusters, function(cluster) {
                 return cluster.cluster_name;
@@ -36,8 +35,9 @@ export class ClusterService {
     // **getCapacity**
     // **@returns** a promise with the cluster capacity for the specific
     // cluster based on it's id.
+
     getCapacity(id) {
-        return this.serverSvc.getListByCluster(id).then(function(servers) {
+        return this.serverSvc.getListByCluster(id).then((servers) =>{
             var requests = [];
             _.each(servers, function(server) {
                 requests.push(this.serverSvc.getDiskStorageDevices(server.node_id));
@@ -70,9 +70,9 @@ export class ClusterService {
     // **@returns** a promise so you can wait for it to be complete.
     initialize() {
         var self = this;
-        return this.getList().then(function(clusters) {
+        return this.getList().then(function(clusters: any) {
             if (clusters.length) {
-                var cluster = _.first(clusters);
+                var cluster: any = _.first(clusters);
                 self.clusterId = cluster.id;
                 self.clusterModel = cluster;
                 return;
@@ -97,7 +97,7 @@ export class ClusterService {
     // cluster based on it's id.
     getByName(name) {
         return this.getList().then(function(clusters) {
-            return _.find(clusters, function(cluster) {
+            return _.find(clusters, function(cluster: any) {
                 return cluster.cluster_name === name;
             });
         });
@@ -138,7 +138,7 @@ export class ClusterService {
     // **@param** cluster - Information about the cluster and list of hosts.
     // **@returns** a promise which returns a request id to track the task.
     create(cluster) {
-        return this.rest.all('clusters').post(cluster);
+        return this.restFull.all('clusters').post(cluster);
     }
 
     // **switchCluster**

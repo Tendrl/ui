@@ -8,12 +8,10 @@ import {KeyValue} from './cluster-modals';
 import {Cluster} from './cluster-modals';
 import {Node} from './cluster-modals';
 
-export class ClusterHelper     {
-    private self = this;    
-    static $inject: Array<string> = ['UtilService', 'RequestService', '$log', '$timeout'];
-    public static storgeTypes : Array<KeyValue>;
-    public static clusterTypes : Array<Cluster>;
-    public static clusterStates : Array<ClusterState>;
+export class ClusterHelper     {  
+    public storgeTypes : Array<KeyValue>;
+    public clusterTypes : Array<Cluster>;
+    public clusterStates : Array<ClusterState>;
     
     constructor(private utilService : UtilService,
         private requestService : RequestService,
@@ -21,98 +19,98 @@ export class ClusterHelper     {
         private timeoutService : ng.ITimeoutService)    {
         
         //Different types of Storages.    
-        ClusterHelper.storgeTypes = [
-            { id:1, type:'Block' },
-            { id:2, type:'File' },
-            { id:3, type:'Object' }
+        this.storgeTypes = [
+            { ID:1, type:'Block' },
+            { ID:2, type:'File' },
+            { ID:3, type:'Object' }
         ];
         
         //Different types of clusters.
-        ClusterHelper.clusterTypes = [
-            {    id : 1, 
+        this.clusterTypes = [
+            {    ID : 1, 
                 type : 'Gluster', 
-                deploymentType :[
-                    { id:1, type:'Demo (2 nodes)', nodeCount:2 },
-                    { id:2, type:'Minimum (3 nodes)', nodeCount:3 },
-                    { id:3, type:'Basic (more than 3 nodes)', nodeCount:3 },
-                    { id:4, type:'Standard (6 nodes)', nodeCount:6 },
-                    { id:5, type:'Big (more than 6 nodes)',nodeCount:6}
+                deploymentTypes :[
+                    { ID:1, type:'Demo (2 nodes)', nodeCount:2 },
+                    { ID:2, type:'Minimum (3 nodes)', nodeCount:3 },
+                    { ID:3, type:'Basic (more than 3 nodes)', nodeCount:3 },
+                    { ID:4, type:'Standard (6 nodes)', nodeCount:6 },
+                    { ID:5, type:'Big (more than 6 nodes)',nodeCount:6}
                 ],
                 workLoads : [
-                    { id:0, type: 'Generic' },
-                    { id:1, type: 'Hadoop' },
-                    { id:2, type: 'Virtualization' },
-                    { id:3, type: 'OpenStack (Glance)' }
+                    { ID:0, type: 'Generic' },
+                    { ID:1, type: 'Hadoop' },
+                    { ID:2, type: 'Virtualization' },
+                    { ID:3, type: 'OpenStack (Glance)' }
                 ]
             },
             {
-                id :2,
+                ID :2,
                 type : 'Ceph', 
-                deploymentType :[
-                    { id:1, type:'Demo (2 nodes)', nodeCount:2 },
-                    { id:2, type:'Minimum (3 nodes)', nodeCount:3 },
-                    { id:3, type:'Basic (more than 3 nodes)', nodeCount:3 },
-                    { id:4, type:'Standard (10 nodes)', nodeCount:10 },
-                    { id:5, type:'Big (more than 10 nodes)',nodeCount:10}
+                deploymentTypes :[
+                    { ID:1, type:'Demo (2 nodes)', nodeCount:2 },
+                    { ID:2, type:'Minimum (3 nodes)', nodeCount:3 },
+                    { ID:3, type:'Basic (more than 3 nodes)', nodeCount:3 },
+                    { ID:4, type:'Standard (10 nodes)', nodeCount:10 },
+                    { ID:5, type:'Big (more than 10 nodes)',nodeCount:10}
                 ],
                 workLoads : [
-                    { id:0, type: 'Generic' },
-                    { id:1, type: 'OpenStack (with Swift)' },
-                    { id:2, type: 'OpenStack (without Swift)' }
+                    { ID:0, type: 'Generic' },
+                    { ID:1, type: 'OpenStack (with Swift)' },
+                    { ID:2, type: 'OpenStack (without Swift)' }
                 ]
             }
         ];
         
         //This property indicates the states that a cluster can have.
-        ClusterHelper.clusterStates = [
-            { id:1, state:'Inactive'},
-            { id:2, state:'Not Available'},
-            { id:3, state:'Active'},
-            { id:4, state:'Creating'},
-            { id:5, state:'Failed'}
+        this.clusterStates = [
+            { ID:1, state:'Inactive'},
+            { ID:2, state:'Not Available'},
+            { ID:3, state:'Active'},
+            { ID:4, state:'Creating'},
+            { ID:5, state:'Failed'}
         ];
     }
 
-    public static getClusterTypes() : Array<Cluster>{
-        return ClusterHelper.clusterTypes;
+    public  getClusterTypes() : Array<Cluster>{
+        return this.clusterTypes;
     }
     
-    public static getClusterType(id : number) : Cluster{
-        return _.find(ClusterHelper.clusterTypes, function(type) {
-            return type.id === id;
+    public  getClusterType(id : number) : Cluster{
+        return _.find(this.clusterTypes, function(type: Cluster) {
+            return type.ID === id;
         });    
     }
     
-    public static getStorageTypes()    : Array<KeyValue> {
-        return ClusterHelper.storgeTypes;
+    public getStorageTypes() : Array<KeyValue> {
+        return this.storgeTypes;
     }
     
-    public static getStorageType(id : number) : KeyValue    {
-        return _.find(ClusterHelper.storgeTypes, function(type) {
-            return type.id === id;
+    public getStorageType(id : number) : KeyValue    {
+        return _.find(this.storgeTypes, function(type) {
+            return type.ID === id;
         });
     }
     
-    public static getClusterStatus(id : number)  : ClusterState{
-        return _.find(ClusterHelper.clusterStates, function(type) {
-            return type.id === id;
+    public getClusterStatus(id : number)  : ClusterState{
+        return _.find(this.clusterStates, function(type) {
+            return type.ID === id;
         });
     }
     
-    callBack(cluster :any,  host : any, result : any) {
+    public callBack(cluster :any,  host : any, result : any) {
         this.requestService.get(result).then((request) => {
             if(request.status === "FAILED" || request.status === "FAILURE")    {
-                this.logService.info('Failed  to accept host ' + host.hostName);
+                this.logService.info('Failed  to accept host ' + host.hostname);
                 host.state = "FAILED";
                 host.task = undefined;
             } else if(request.status === "SUCCESS")    {
-                this.logService.info('Accepted Host ' + host.hostName);
+                this.logService.info('Accepted Host ' + host.hostname);
                 host.state = "ACCEPTED";
                 host.task = undefined;
                 cluster.postAcceptHost(host);
             } else {
-                this.logService.info('Accepting Host ' + host.hostName);
-                this.timeoutService(this.callBack, 5000);
+                this.logService.info('Accepting Host ' + host.hostname);
+                this.timeoutService((cluster, host, result)=>this.callBack(cluster,host,result), 5000);
             }
         });
     }
@@ -121,11 +119,11 @@ export class ClusterHelper     {
      * This function helps in accepting a host that already exsist.
      */
     public acceptHost(cluster : any, host : any)    {
-        var hosts : Array<Node>;
+        var hosts : Array<any>;
         hosts = [
             {
-                nodeName : host.hostName,
-                managementIPAddress : host.ipAddress
+                node_name : host.hostname,
+                management_ip_address : host.ipaddress
             }
         ];
         
@@ -133,8 +131,8 @@ export class ClusterHelper     {
             this.logService.info(result);
             host.state = "ACCEPTING";
             host.task = result;
-            (cluster, host, result) => this.callBack(cluster, host, result);
-            this.timeoutService(this.callBack, 5000);  
+            this.callBack(cluster, host, result);
+            this.timeoutService((cluster, host, result)=>this.callBack(cluster,host,result), 5000);  
         });
     }
     
@@ -142,15 +140,15 @@ export class ClusterHelper     {
      * This function helps in accepting a new host that comes in.
      */
     public acceptNewHost(cluster : any,  host : any)    {
-        var hosts : Array<Node>;
+        var hosts : Array<any>;
         hosts = [
             {
-                nodeName : host.hostName,
-                managementIPAddress : host.ipAddress,
-                sshUserName : host.userName,
-                sshPassoword : host.password,
-                sshKeyFingerPrint : host.fingerPrint,
-                sshPort :22
+                node_name : host.hostname,
+                management_ip : host.ip_address,
+                ssh_user_name : host.user_name,
+                ssh_passoword : host.password,
+                ssh_key_fingerPrint : host.fingerprint,
+                ssh_port :22
             }
         ];     
         
@@ -158,8 +156,8 @@ export class ClusterHelper     {
             this.logService.info(result);
             host.state = "ACCEPTING";
             host.task = result;
-            (cluster, host, result) => this.callBack(cluster, host, result);
-            this.timeoutService(this.callBack, 5000);
+            this.callBack(cluster, host, result);
+            this.timeoutService((cluster, host, result)=>this.callBack(cluster,host,result), 5000);
         });
     }    
     
@@ -169,20 +167,21 @@ export class ClusterHelper     {
     public addNewHost(cluster : any)    {
          var newHost = cluster.newHost;
          newHost.isVerifyingHost = true;
-         newHost.errorMsg = "";    
-         newHost.cautionMsg = "";
+         newHost.errorMessage = "";    
+         newHost.cautionMessage = "";
          var hostObject = {
              "host": newHost.ipaddress,
              "port": 22,
              "fingerprint": newHost.fingerprint,
              "username": newHost.username,
-             "ssh_password": newHost.password
+             "password": newHost.password
          };
         
         //This called on success[promise].
         this.utilService.getVerifyHost(hostObject).then( () => {
             var host = {
                 isMon : false,
+                hostname: newHost.hostname, 
                 username: newHost.username,
                 password: newHost.password,
                 ipaddress: newHost.ipaddress,
@@ -194,8 +193,8 @@ export class ClusterHelper     {
         },
         //This a called on failure[promise].
          () => {
-            cluster.newHost.cautionMsg = 'Authentication Error!.';
-            cluster.newHost.errorMsg = " The username and password is incorrect.";
+            cluster.newHost.cautionMessage = 'Authentication Error!.';
+            cluster.newHost.errorMessage = " The username and password is incorrect.";
             cluster.newHost.isVerifyingHost = false;
         });
     }

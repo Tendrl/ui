@@ -21,8 +21,9 @@ export class RouteConfig {
 			templateUrl: 'views/clusters/clusters.html',
 			menuId: 'clusters',
 			controller: 'ClusterController',
+            controllerAs: 'clusters'
 		}).when('/clusters/new', {
-			templateUrl: 'views/clusters-new.html',
+			templateUrl: 'views/clusters/clusters-new.html',
 			menuId: 'clusters',
 			controller: 'ClusterNewController',
 			controllerAs: 'cluster'
@@ -32,7 +33,7 @@ export class RouteConfig {
 			controller: 'ClusterExpandController',
 			controllerAs: 'cluster'
 		}).when('/clusters/detail/:id', {
-			templateUrl: 'views/clusters-detail.html',
+			templateUrl: 'views/clusters/clusters-detail.html',
 			menuId: '',
 			controller: 'ClusterDetailController',
 			controllerAs: 'clusterdetail'
