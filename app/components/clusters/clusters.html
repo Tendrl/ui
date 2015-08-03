@@ -17,12 +17,12 @@
   <div id="desktop" class="row blade-view" ng-class="cluster.cluster_status==4 ? 'blade-view-with-opacity':'' " ng-repeat="cluster in clusters.clusterList | filter:search">
       <div class="col-md-2 col-sm-4">
         <div class="row">
-          <div class="col-md-1" ng-class="getClusterTypeTitle(cluster.cluster_type)==='Gluster'?'vertical-line-for-gluster':'vertical-line-for-ceph'">
-            <span ng-class="getClusterTypeTitle(cluster.cluster_type)==='Gluster'?'vertical-text-for-gluster':'vertical-text-for-ceph'" ng-bind="getClusterTypeTitle(cluster.cluster_type)"></span>
+          <div class="col-md-1" ng-class="clusters.getClusterTypeTitle(cluster.cluster_type)==='Gluster'?'vertical-line-for-gluster':'vertical-line-for-ceph'">
+            <span ng-class="clusters.getClusterTypeTitle(cluster.cluster_type)==='Gluster'?'vertical-text-for-gluster':'vertical-text-for-ceph'" ng-bind="clusters.getClusterTypeTitle(cluster.cluster_type)"></span>
           </div>
           <div class="col-md-offset-1 col-md-10 set-top-margin pull-right">
             <div>
-              <span ng-if="cluster.cluster_status != 4 && getStatusTitle(cluster.cluster_status) === 'Failed'">
+              <span ng-if="cluster.cluster_status != 4 && clusters.getStatusTitle(cluster.cluster_status) === 'Failed'">
                 <i class="fa fa-2x fa-exclamation-triangle exclamation-mark warning"></i>
               </span>
               <a ng-href="#/clusters/detail/{{cluster.cluster_id}}"><span class="heading" ng-bind="cluster.cluster_name"></span></a>
@@ -65,7 +65,7 @@
         <!-- Adding gauge-graph here -->
         <div class="adjust-gauge" ng-if="cluster.cluster_status != 4">
           <c3chart bindto-id="gauge-iops-chart-{{$index}}">
-            <chart-column column-id="IOPS-{{$index}}" column-values="{{cluster.gauge_values}}" column-type="gauge" column-color="{{getClusterGaugeColor(cluster.gauge_values)}}" />
+            <chart-column column-id="IOPS-{{$index}}" column-values="{{cluster.gauge_values}}" column-type="gauge" column-color="{{clusters.getClusterGaugeColor(cluster.gauge_values)}}" />
              <chart-gauge min="0" max="10" units="{{cluster.gauge_values}}M IOPS" width="20" />
               <chart-size chart-height="80"></chart-size>
           </c3chart>
@@ -78,8 +78,8 @@
       </div>
       <div class="col-md-1 col-sm-3 set-top-margin">
         <div class="sub-heading">
-          <span ng-if="getClusterTypeTitle(cluster.cluster_type) === 'Gluster'">Volumes</span>
-          <span ng-if="getClusterTypeTitle(cluster.cluster_type) === 'Ceph'">Pools</span>
+          <span ng-if="clusters.getClusterTypeTitle(cluster.cluster_type) === 'Gluster'">Volumes</span>
+          <span ng-if="clusters.getClusterTypeTitle(cluster.cluster_type) === 'Ceph'">Pools</span>
         </div>
         <div class="sub-heading" ng-bind="cluster.no_of_volumes_or_pools"></div>
       </div>
@@ -108,7 +108,7 @@
         <div class="panel-body">
           <div class="row">
             <div class="col-xs-1 exclamation-margin">
-              <span ng-if="cluster.cluster_status != 4 && getStatusTitle(cluster.cluster_status) === 'Failed'">
+              <span ng-if="cluster.cluster_status != 4 && clusters.getStatusTitle(cluster.cluster_status) === 'Failed'">
                 <i class="fa fa-2x fa-exclamation-triangle exclamation-mark warning"></i>
               </span>
             </div>
@@ -118,7 +118,7 @@
               </a>
             </div>
              <div class="col-xs-6 text-right">
-              <span ng-bind="getClusterTypeTitle(cluster.cluster_type)"></span>
+              <span ng-bind="clusters.getClusterTypeTitle(cluster.cluster_type)"></span>
             </div>
           </div>
           <div  class="col-xs-3 set-top-margin text-left">
@@ -131,8 +131,8 @@
           </div>
           <div class="col-xs-3 set-top-margin">
             <div class="sub-heading">
-              <span ng-if="getClusterTypeTitle(cluster.cluster_type) === 'Gluster'">Volumes</span>
-              <span ng-if="getClusterTypeTitle(cluster.cluster_type) === 'Ceph'">Pools</span>
+              <span ng-if="clusters.getClusterTypeTitle(cluster.cluster_type) === 'Gluster'">Volumes</span>
+              <span ng-if="clusters.getClusterTypeTitle(cluster.cluster_type) === 'Ceph'">Pools</span>
             </div>
             <div class="sub-heading" ng-bind="cluster.no_of_volumes_or_pools"></div>
           </div>

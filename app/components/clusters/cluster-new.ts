@@ -91,6 +91,7 @@ export class ClusterNewController {
         this.volumes = [];
         this.pools = [];
         this.disks = [];
+        this.newHost = {};
         
         this.storageTypes = this.clusterHelper.getStorageTypes();
         this.storageType = _.first(this.storageTypes);
@@ -106,6 +107,7 @@ export class ClusterNewController {
 
         this.newVolume.copyCount = VolumeHelpers.getRecomendedCopyCount();
         this.newVolume.copyCountList = VolumeHelpers.getCopiesList();
+        
         this.newVolume.sizeUnits = VolumeHelpers.getTargetSizeUnits();
         this.newVolume.sizeUnit = _.first(this.newVolume.sizeUnits);
 
@@ -117,28 +119,19 @@ export class ClusterNewController {
     }
 
 
-    public updateFingerCallBack(host: any): any {
+    public updateFingerPrint(host: any) {
+        this.newHost.cautionMessage = "";
+        this.newHost.errorMessage = "";
         this.utilService.getIpAddress(host.hostname).then((ipaddress) => {
             host.ipaddress = ipaddress;
-            this.newHost = {};
-            this.newHost.errorMessage = "";
-            this.newHost.cautionMessage = "";
             return this.utilService.getSshFingerprint(host.ipaddress);
         },
             () => {
-                this.newHost = {};
                 this.newHost.cautionMessage = "Error!.";
                 this.newHost.errorMessage = "Could not resolve the hostname";
             }).then((fingerprint: any) => {
                 host.fingerprint = fingerprint;
             });
-    }
-
-    public updateFingerPrintHost(host: any) {
-        this.newHost = {};
-        this.newHost.cautionMessage = "";
-        this.newHost.errorMessage = "";
-        this.updateFingerCallBack(host);
     }
 
     public discoveredHostCallBack = (freeHosts: any) => {
@@ -151,7 +144,7 @@ export class ClusterNewController {
                 selected: false
             };
             this.hosts.push(host);
-            this.updateFingerPrintHost(host);
+            this.updateFingerPrint(host);
         });
     }
 
@@ -166,7 +159,7 @@ export class ClusterNewController {
                 selected: false
             };
             this.hosts.push(host);
-            this.updateFingerPrintHost(host);
+            this.updateFingerPrint(host);
         });
     }
 
@@ -256,8 +249,8 @@ export class ClusterNewController {
 
     public postAcceptHostCallBack = (host: any) => {
         this.serverService.getByHostname(host.hostname).then((hostFound) => {
-            host.ID = hostFound.node_id;
-            this.selectHost(host, true);
+            host.id = hostFound.node_id;
+            this.selectHost(host, true);    
         });
     }
 
@@ -295,6 +288,7 @@ export class ClusterNewController {
         newVolume.disks = selectedDisks;
         this.volumes.push(newVolume);
 
+        this.newVolume = {};    
         this.newVolume = {
             copyCountList: VolumeHelpers.getCopiesList(),
             copyCount: VolumeHelpers.getRecomendedCopyCount(),
@@ -354,7 +348,7 @@ export class ClusterNewController {
             _.each(volume.disks, (device: any) => {
                 var brick: any = {
                     node: device.node,
-                    storageDevices: device.storage_device_id
+                    storage_devices: device.storage_device_id
                 };
                 localVolume.bricks.push(brick);
             });

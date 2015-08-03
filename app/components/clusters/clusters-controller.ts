@@ -129,7 +129,8 @@ export class ClustersController {
     public clusterPromise = () => {
         var tempClusters: Array<any> = [];
         _.each(this.clusterList, (cluster) => {
-            var mockCluster: any = this.mockDataProvider.getMockCluster(cluster.cluster_name);
+            var mockCluster: any = {};
+            mockCluster = this.mockDataProvider.getMockCluster(cluster.cluster_name);
             var tempCluster: any = {
                 cluster_id: cluster.cluster_id,
                 cluster_name: cluster.cluster_name,
@@ -138,10 +139,10 @@ export class ClustersController {
                 cluster_status: cluster.cluster_status,
                 used: cluster.used,
                 area_spline_cols: [{ ID: 1, name: 'Used', color: '#39a5dc', type: 'area-spline' }],
-                area_spline_values: mockCluster.area_spline_values,
+                area_spline_values: mockCluster.areaSplineValues,
                 gauge_values: _.random(20, 70) / 10,
                 alerts: mockCluster.alerts,
-                no_of_volume_or_pools: 0
+                no_of_volumes_or_pools: 0
             };
 
             if (tempCluster.used === 0) {
@@ -185,7 +186,7 @@ export class ClustersController {
                 _.each(sizeList, (size) => {
                     tempClusters[index].total_size = size;
                     tempClusters[index].free_size = size - tempClusters[index].used;
-                    tempClusters[index].percent_ssed = isNaN(Math.round(tempClusters[index].used * (100 / size))) ? 0 : Math.round(tempClusters[index].used * (100 / size));
+                    tempClusters[index].percent_used = isNaN(Math.round(tempClusters[index].used * (100 / size))) ? 0 : Math.round(tempClusters[index].used * (100 / size));
                     ++index;
                 });
 

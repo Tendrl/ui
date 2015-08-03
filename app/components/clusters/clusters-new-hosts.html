@@ -38,17 +38,17 @@
 
     <div class="row cluster-add-host-row" ng-show="isAddRow">
       <div class="col-md-3">
-        <input type="text" class="form-control" ng-model="cluster.newHost.hostName" placeholder="Hostname" ng-blur="cluster.updateFingerprint(cluster.newHost)"> </input>
+        <input type="text" class="form-control" ng-model="cluster.newHost.hostname" placeholder="Hostname" ng-blur="cluster.updateFingerPrint(cluster.newHost)"> </input>
       </div>
       <div class="col-md-3">
-        <input type="text" class="form-control" ng-model="cluster.newHost.userName" placeholder="Username"> </input>
+        <input type="text" class="form-control" ng-model="cluster.newHost.username" placeholder="Username"> </input>
       </div>
       <div class="col-md-3">
          <input type="password" class="form-control" ng-model="cluster.newHost.password" placeholder="Password"> </input>
       </div>
       <div class="col-md-3">
         <div class="pull-right">
-          <button class="btn btn-primary" ng-disabled="cluster.newHost.isVerifyingHost || !(cluster.newHost.hostName && cluster.newHost.userName && cluster.newHost.password) || cluster.newHost.cautionMessage === 'Error!.'" ng-click="cluster.addNewHost(newHost)">
+          <button class="btn btn-primary" ng-disabled="cluster.newHost.isVerifyingHost || !(cluster.newHost.hostname && cluster.newHost.username && cluster.newHost.password) || cluster.newHost.cautionMessage === 'Error!.'" ng-click="cluster.addNewHost(newHost)">
             <i class="fa fa-spinner fa-spin" ng-show="cluster.newHost.isVerifyingHost"></i>
             Ok
           </button>

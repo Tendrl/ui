@@ -1,134 +1,138 @@
 // <reference path="../typings/tsd.d.ts" />
 export class MockDataProvider {
-    
-    constructor()   {
-        this.byDefaultCluster = {};
-        this.byDefaultHost = {};
-        this.byDefaultVolume = {};
+    private byDefaultCluster: any;
+    private byDefaultVolume: any;
+    private byDefaultHost: any;
+    private mockClusters: any;
+    private mockVolumes: any;
+    private mockHosts: any;
+
+    constructor() {
+        this.byDefaultCluster = {
+            clusterName: "default",
+            alerts: 0,
+            areaSplineValues: [{ '1': 2 }, { '1': 12 }, { '1': 50 }, { '1': 60 }, { '1': 90 }],
+            gaugeValues: [{ '1': 10 }],
+            cpu: {
+                average: 45,
+                highest: 90,
+                lowest: 3
+            },
+            memory: {
+                average: 81,
+                highest: 85,
+                lowest: 8
+            },
+            managementNetwork: {
+                inbound: _.random(3, 10),
+                outbound: _.random(13, 25),
+            },
+            clusterNetwork: {
+                inbound: _.random(10, 20),
+                outbound: _.random(25, 40),
+            }
+        };  
+        
+        //When volume name will not match with any exist object , than this will be by default volume.
+        this.byDefaultVolume = {
+            volumeName: "default",
+            areaSplineValues: [{ '1': 2 }, { '1': 12 }, { '1': 50 }, { '1': 60 }, { '1': 90 }],
+            alerts: 0
+        };
+        
+        // When host name will not match with any exist object , than this will be by default host.
+        this.byDefaultHost = {
+            nodeName: "default",
+            alerts: 0,
+        };
+        
+        // Mock clusters with hard coded data.
+        this.mockClusters = [
+            {
+                clusterName: "Cluster10",
+                alerts: 0,
+                areaSplineValues: [{ '1': 5 }, { '1': 9 }, { '1': 50 }, { '1': 80 }, { '1': 82 }],
+                cpu: {
+                    average: 28,
+                    highest: 79,
+                    lowest: 5
+                },
+                memory: {
+                    average: 84,
+                    highest: 91,
+                    lowest: 45
+                },
+                managementNetwork: {
+                    inbound: 305,
+                    outbound: 250
+                },
+                clusterNetwork: {
+                    inbound: 311,
+                    outbound: 288
+                }
+            },
+            {
+                clusterName: "Cluster11",
+                alerts: 1,
+                areaSplineValues: [{ '1': 2 }, { '1': 5 }, { '1': 20 }, { '1': 30 }, { '1': 60 }],
+                cpu: {
+                    average: 85,
+                    highest: 95,
+                    lowest: 26
+                },
+                memory: {
+                    average: 38,
+                    highest: 84,
+                    lowest: 5
+                },
+                managementNetwork: {
+                    inbound: 320,
+                    outbound: 300
+                },
+                clusterNetwork: {
+                    inbound: 421,
+                    outbound: 312
+                }
+            }
+        ];
+        
+        // Mock volumes with hard coded data.
+        this.mockVolumes = [
+            {
+                volumeNname: "v1",
+                areaSplineValues: [{ '1': 2 }, { '1': 12 }, { '1': 50 }, { '1': 60 }, { '1': 90 }],
+                alerts: 0
+            },
+            {
+                volumeName: "v2",
+                areaSplineValues: [{ '1': 4 }, { '1': 8 }, { '1': 40 }, { '1': 60 }, { '1': 60 }],
+                alerts: 4
+            }
+        ];
+        
+        // Mock hosts with hard coded data.
+        this.mockHosts = [
+            {
+                nodeName: "dhcp42-159.lab.eng.blr.redhat.com",
+                alerts: 0,
+            },
+            {
+                nodeName: "dhcp42-135.lab.eng.blr.redhat.com",
+                alerts: 2,
+            },
+            {
+                nodeName: "dhcp42-41.lab.eng.blr.redhat.com",
+                alerts: 3,
+            },
+            {
+                nodeName: "dhcp42-208.lab.eng.blr.redhat.com",
+                alerts: 0,
+            }
+        ];
+
     }
     
     // When cluster name will not match with any exist object , than this will be the default cluster.
-    private byDefaultCluster: any = {
-        clusterName: "default",
-        alerts: 0,
-        areaSplineValues: [{ '1': 2 }, { '1': 12 }, { '1': 50 }, { '1': 60 }, { '1': 90 }],
-        gaugeValues: [{ '1': 10 }],
-        cpu: {
-            average: 45,
-            highest: 90,
-            lowest: 3
-        },
-        memory: {
-            average: 81,
-            highest: 85,
-            lowest: 8
-        },
-        managementNetwork: {
-            inbound: _.random(3, 10),
-            outbound: _.random(13, 25),
-        },
-        clusterNetwork: {
-            inbound: _.random(10, 20),
-            outbound: _.random(25, 40),
-        }
-    };  
-        
-    //When volume name will not match with any exist object , than this will be by default volume.
-    private byDefaultVolume: any = {
-        volumeName: "default",
-        areaSplineValues: [{ '1': 2 }, { '1': 12 }, { '1': 50 }, { '1': 60 }, { '1': 90 }],
-        alerts: 0
-    };
-        
-    // When host name will not match with any exist object , than this will be by default host.
-    private byDefaultHost: any = {
-        nodeName: "default",
-        alerts: 0,
-    };
-        
-    // Mock clusters with hard coded data.
-    private mockClusters: any = [
-        {
-            clusterName: "Cluster10",
-            alerts: 0,
-            areaSplineValues: [{ '1': 5 }, { '1': 9 }, { '1': 50 }, { '1': 80 }, { '1': 82 }],
-            cpu: {
-                average: 28,
-                highest: 79,
-                lowest: 5
-            },
-            memory: {
-                average: 84,
-                highest: 91,
-                lowest: 45
-            },
-            managementNetwork: {
-                inbound: 305,
-                outbound: 250
-            },
-            clusterNetwork: {
-                inbound: 311,
-                outbound: 288
-            }
-        },
-        {
-            clusterName: "Cluster11",
-            alerts: 1,
-            areaSplineValues: [{ '1': 2 }, { '1': 5 }, { '1': 20 }, { '1': 30 }, { '1': 60 }],
-            cpu: {
-                average: 85,
-                highest: 95,
-                lowest: 26
-            },
-            memory: {
-                average: 38,
-                highest: 84,
-                lowest: 5
-            },
-            managementNetwork: {
-                inbound: 320,
-                outbound: 300
-            },
-            clusterNetwork: {
-                inbound: 421,
-                outbound: 312
-            }
-        }
-    ];
-        
-    // Mock volumes with hard coded data.
-    private mockVolumes: any = [
-        {
-            volumeNname: "v1",
-            areaSplineValues: [{ '1': 2 }, { '1': 12 }, { '1': 50 }, { '1': 60 }, { '1': 90 }],
-            alerts: 0
-        },
-        {
-            volumeName: "v2",
-            areaSplineValues: [{ '1': 4 }, { '1': 8 }, { '1': 40 }, { '1': 60 }, { '1': 60 }],
-            alerts: 4
-        }
-    ];
-        
-    // Mock hosts with hard coded data.
-    private mockHosts: any = [
-        {
-            nodeName: "dhcp42-159.lab.eng.blr.redhat.com",
-            alerts: 0,
-        },
-        {
-            nodeName: "dhcp42-135.lab.eng.blr.redhat.com",
-            alerts: 2,
-        },
-        {
-            nodeName: "dhcp42-41.lab.eng.blr.redhat.com",
-            alerts: 3,
-        },
-        {
-            nodeName: "dhcp42-208.lab.eng.blr.redhat.com",
-            alerts: 0,
-        }
-    ];
         
     /**
      *  **@returns** a cluster object with the cluster name for the specific

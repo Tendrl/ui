@@ -27,7 +27,7 @@ export class ClusterHelper     {
         
         //Different types of clusters.
         this.clusterTypes = [
-            {    ID : 1, 
+            {   ID : 1, 
                 type : 'Gluster', 
                 deploymentTypes :[
                     { ID:1, type:'Demo (2 nodes)', nodeCount:2 },
@@ -75,8 +75,8 @@ export class ClusterHelper     {
         return this.clusterTypes;
     }
     
-    public  getClusterType(id : number) : Cluster{
-        return _.find(this.clusterTypes, function(type: Cluster) {
+    public  getClusterType(id : number){
+        return _.find(this.clusterTypes, function(type) {
             return type.ID === id;
         });    
     }
@@ -107,10 +107,10 @@ export class ClusterHelper     {
                 this.logService.info('Accepted Host ' + host.hostname);
                 host.state = "ACCEPTED";
                 host.task = undefined;
-                cluster.postAcceptHost(host);
+                    cluster.postAcceptHost(host);
             } else {
                 this.logService.info('Accepting Host ' + host.hostname);
-                this.timeoutService((cluster, host, result)=>this.callBack(cluster,host,result), 5000);
+                this.timeoutService(()=>this.callBack(cluster,host,result), 5000);
             }
         });
     }
@@ -119,11 +119,11 @@ export class ClusterHelper     {
      * This function helps in accepting a host that already exsist.
      */
     public acceptHost(cluster : any, host : any)    {
-        var hosts : Array<any>;
+        var hosts : Array<any> = [];
         hosts = [
             {
                 node_name : host.hostname,
-                management_ip_address : host.ipaddress
+                management_ip : host.ipaddress
             }
         ];
         
@@ -132,7 +132,7 @@ export class ClusterHelper     {
             host.state = "ACCEPTING";
             host.task = result;
             this.callBack(cluster, host, result);
-            this.timeoutService((cluster, host, result)=>this.callBack(cluster,host,result), 5000);  
+            this.timeoutService(()=>this.callBack(cluster,host,result), 5000);  
         });
     }
     
@@ -140,24 +140,25 @@ export class ClusterHelper     {
      * This function helps in accepting a new host that comes in.
      */
     public acceptNewHost(cluster : any,  host : any)    {
-        var hosts : Array<any>;
-        hosts = [
-            {
-                node_name : host.hostname,
-                management_ip : host.ip_address,
-                ssh_user_name : host.user_name,
-                ssh_passoword : host.password,
-                ssh_key_fingerPrint : host.fingerprint,
-                ssh_port :22
-            }
-        ];     
-        
+        var hosts : any;
+        hosts = {
+            nodes:[
+               {
+                    "node_name" : host.hostname,
+                    "management_ip" : host.ipaddress,
+                    "ssh_username" : host.username,
+                    "ssh_password" : host.password,
+                    "ssh_key_fingerprint" : host.fingerprint,
+                    "ssh_port" :22
+               }
+            ]
+        };     
         this.utilService.acceptHosts(hosts).then((result) => {
             this.logService.info(result);
             host.state = "ACCEPTING";
             host.task = result;
             this.callBack(cluster, host, result);
-            this.timeoutService((cluster, host, result)=>this.callBack(cluster,host,result), 5000);
+            this.timeoutService(()=>this.callBack(cluster,host,result), 5000);
         });
     }    
     
@@ -176,7 +177,6 @@ export class ClusterHelper     {
              "username": newHost.username,
              "password": newHost.password
          };
-        
         //This called on success[promise].
         this.utilService.getVerifyHost(hostObject).then( () => {
             var host = {
@@ -187,6 +187,7 @@ export class ClusterHelper     {
                 ipaddress: newHost.ipaddress,
                 fingerprint: newHost.fingerprint
             };
+            //alert("here success");
             cluster.hosts.unshift(host);
             cluster.postAddNewHost(host);
             cluster.newHost = {};
