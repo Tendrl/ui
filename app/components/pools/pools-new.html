@@ -1,0 +1,48 @@
+<div class="row wizard-top">
+	<div class="col-sm-12 col-md-12">
+		<h1>Create Pool</h1>
+	</div>
+</div>
+<div class="row">
+	<div class="col-sm-12 col-md-12">
+		<div class="wizard-step-view">
+			<form name="form" class="form-horizontal" novalidate>
+				<div class="form-group">
+					<label class="col-md-2 control-label" for="cluster">Cluster</label>
+					<div class="col-md-4">
+						<select pf-select ng-model="pool.cluster" id="cluster" class="form-control" ng-options="cluster.cluster_name for cluster in pool.clusters"></select>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-md-2 control-label" for="textInput">Pool Name</label>
+					<div class="col-md-4">
+						<input type="text" id="textInput" name="poolName" class="form-control" ng-model="pool.name"></input>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-md-2 control-label" for="tier">Storage Profile</label>
+					<div class="col-md-4">
+						<select pf-select ng-model="pool.tier" id="tier" class="form-control" ng-options="tier.type for tier in pool.tierList"></select>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-md-2 control-label" for="copyCount">No.of Copies</label>
+					<div class="col-md-4">
+						<select pf-select ng-model="pool.copyCount" id="" class="form-control" ng-options="copyCount for copyCount in pool.copyCountList"
+						ng-change=""></select>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-md-2 control-label" for="textInput">Placement Groups</label>
+					<div class="col-md-4">
+						<input type="text" id="textInput" name="pgNum" class="form-control" ng-model="pool.pg_num"></input>
+					</div>
+				</div>
+			</form>
+		</div>
+	</div>
+	<div class="col-md-10 col-md-offset-2">
+		<button type="button" class="btn btn-default" ng-click='pool.cancel()'>Cancel</button>
+		<button type="button" class="btn btn-primary" ng-show='pool.isSubmitAvailable()' ng-click='pool.submit()'>Create Pool</button>
+	</div>
+</div>
