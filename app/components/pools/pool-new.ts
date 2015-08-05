@@ -1,7 +1,7 @@
 import {ClusterService} from '../rest/clusters';
-import {VolumeHelpers} from '';
-import {PoolService} from '';
-import {ModalHelpers} from '';
+import {VolumeHelpers} from '../volumes/volume-helpers';
+import {PoolService} from '../rest/pool';
+import * as ModalHelpers from '../modal/modal-helpers';
 
 interface pool {
 	pool_name: string;
@@ -33,13 +33,11 @@ export class PoolNewController {
 		private modal,
 		private clusterSvc: ClusterService,
 		private poolSvc: PoolService,
-		private RequestTrackingSvc,
-		private VolumeHelpers: VolumeHelpers,
-		private ModalHelpers: ModalHelpers) {
+		private RequestTrackingSvc) {
 		this.tier = this.tierList[0];
-		this.copyCountList = this.VolumeHelpers.getCopiesList();
-		this.copyCount = this.VolumeHelpers.getRecomenedCopyCount();
-		this.tierList = this.VolumeHelpers.getTierList();
+		this.copyCountList = VolumeHelpers.getCopiesList();
+		this.copyCount = VolumeHelpers.getRecomendedCopyCount();
+		this.tierList = VolumeHelpers.getTierList();
 		clusterSvc.getList().then(function(clusters) {
 			this.clusters = _.filter(clusters, function(cluster) {
 				return cluster.cluster_type == 2;
@@ -71,7 +69,7 @@ export class PoolNewController {
 			}
 		]
 		console.log(pools);
-		PoolService.create(pools).then(function(result) {
+		this.poolSvc.create(pools).then(function(result) {
 			console.log(result);
 			if (result.status === 202) {
 				this.RequestTrackingSvc.add(result.data, 'Creating pool \'' + self.name + '\'');

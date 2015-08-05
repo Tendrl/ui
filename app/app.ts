@@ -29,6 +29,7 @@ var ngSanitize = require("angular-sanitize");
 var restangular = require("restangular");
 var ngStrap = require("angular-strap");
 var ngStrapTpl = require("angular-strap-tpl");
+var idbWrapper = require("idb-wrapper");
 
 class USMApp {
 	constructor() {
