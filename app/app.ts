@@ -16,6 +16,7 @@ import {UserService} from "./components/rest/user";
 import {OSDService} from "./components/rest/osd";
 import {VolumeService} from "./components/rest/volume";
 import {PoolService} from "./components/rest/pool";
+import {ServerService} from "./components/rest/server";
 import {PoolController} from "./components/pools/pools-controller";
 import {PoolNewController} from "./components/pools/pool-new";
 
@@ -59,6 +60,7 @@ class USMApp {
 			.service('OSDService', OSDService)
 			.service('VolumeService', VolumeService)
 			.service('PoolService', PoolService)
+			.service('ServerService', ServerService)
 			.config(RouteConfig);
 		angular.element(document).ready(function() {
 			angular.bootstrap(document, ['usm-client']);
