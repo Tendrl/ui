@@ -1,30 +1,44 @@
 /// <reference path="../../../typings/tsd.d.ts" />
+declare function require(name: string);
+
+var idbWrapper = require('idb-wrapper');
 
 import {UserService} from '../rest/user';
+import {ServerService} from '../rest/server';
+import {RequestTrackingService} from './request-tracking-svc';
 
 export class RequestsController {
-    private ServerService:any;
-    private RequestTrackingService: any;
-    static $inject: Array<string> = ['$scope', '$interval', '$timeout', '$log', 'UtilService', 'RequestService', 'UserService'];
+    static $inject: Array<string> = [
+        '$scope',
+        '$interval',
+        '$timeout',
+        '$log',
+        'ServerService',
+        'UtilService',
+        'RequestService',
+        'RequestTrackingService',
+        'UserService'];
     constructor(
         $scope: any,
         $interval: ng.IIntervalService,
         $timeout: ng.ITimeoutService,
         $log: ng.ILogService,
+        serverSvc: ServerService,
         utilSvc: any,
         requestSvc: any,
+        requestTrackingService: RequestTrackingService,
         userSvc: UserService) {
 
         $scope.alerts = [];
         $scope.tasks = [];
         $scope.discoveredHostsLength = 0;
         $scope.discoveredHosts = [];
-        
+
         $scope.reloadAlerts = function() {
-            this.ServerService.getList().then(function(hosts) {
+            serverSvc.getList().then(function(hosts) {
                 var alerts = [];
-                _.each(hosts, function(host:any) {
-                    if(host.node_status === 1) {
+                _.each(hosts, function(host: any) {
+                    if (host.node_status === 1) {
                         alerts.push('Host ' + host.node_name + ' is down');
                     }
                 });
@@ -33,49 +47,49 @@ export class RequestsController {
         }
 
         $scope.reloadTasks = function() {
-           this. RequestTrackingService.getTrackedRequests().then(function(tasks) {
+            requestTrackingService.getTrackedRequests().then(function(tasks) {
                 $scope.tasks = tasks;
             });
         }
 
 
-        $scope.logoutUser = function()   {
-            userSvc.logout().then(function(logout)  {
+        $scope.logoutUser = function() {
+            userSvc.logout().then(function(logout) {
                 document.location.href = '';
             });
         }
 
         $scope.reloadDiscoveredHosts = function() {
-        
-            $scope.discoveredHosts = _.filter($scope.discoveredHosts, function(host:any)    {
+
+            $scope.discoveredHosts = _.filter($scope.discoveredHosts, function(host: any) {
                 return host.state !== "ACCEPTED" && host.state !== "UNACCEPTED";
             });
-        
-            this.ServerService.getDiscoveredHosts().then(function(freeHosts) {
-        
+
+            serverSvc.getDiscoveredHosts().then(function(freeHosts) {
+
                 $scope.discoveredHostsLength = freeHosts.length;
-        
-               _.each(freeHosts, function(freeHost:any) {
+
+                _.each(freeHosts, function(freeHost: any) {
                     var host = {
                         hostname: freeHost.node_name,
                         ipaddress: freeHost.management_ip,
                         state: "UNACCEPTED",
                         selected: false
                     };
-        
-                    var isPresent = false; 
-        
-                    isPresent = _.some($scope.discoveredHosts, function(dHost:any)  {
+
+                    var isPresent = false;
+
+                    isPresent = _.some($scope.discoveredHosts, function(dHost: any) {
                         return dHost.hostname === host.hostname;
                     });
-        
-                    if(!isPresent)  {
+
+                    if (!isPresent) {
                         $scope.discoveredHosts.push(host);
                     }
-               });
+                });
             });
         }
-        
+
         $scope.acceptHost = function(host) {
             var hosts = {
                 nodes: [
@@ -91,13 +105,13 @@ export class RequestsController {
                 host.state = "ACCEPTING";
                 host.task = result;
                 var callback = function() {
-                    requestSvc.get(result).then(function (request) {
+                    requestSvc.get(result).then(function(request) {
                         if (request.status === 'FAILED' || request.status === 'FAILURE') {
                             $log.info('Failed to accept host in requests controller' + host.hostname);
                             host.state = "FAILED";
                             host.task = undefined;
                         }
-                        else if (request.status === 'SUCCESS'){
+                        else if (request.status === 'SUCCESS') {
                             $log.info('Accepted host in requests controller ' + host.hostname);
                             host.state = "ACCEPTED";
                             host.task = undefined;
@@ -111,19 +125,19 @@ export class RequestsController {
                 $timeout(callback, 5000);
             });
         };
-        
+
         $scope.openDiscoveredHostsModel = function() {
             document.getElementById("openDiscoveredHosts").click();
         }
-        
+
         $scope.acceptAllHosts = function() {
             _.each($scope.discoveredHosts, function(host: any) {
-                if(host.state === "UNACCEPTED") {
+                if (host.state === "UNACCEPTED") {
                     $scope.acceptHost(host);
                 }
             });
         };
-        
+
         $interval($scope.reloadDiscoveredHosts, 5000);
         $interval($scope.reloadAlerts, 6000);
         $interval($scope.reloadTasks, 5000);
