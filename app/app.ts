@@ -1,12 +1,13 @@
 // <reference path="../typings/tsd.d.ts" />
 declare function require(name: string);
 
+import {default as RequestsModule} from "./components/requests/module";
+
 import {RouteConfig} from "./components/router/route-config";
 import {MenuService} from "./components/base/menu-svc";
 
 import {ApplicationController} from "./components/base/application-controller";
 import {MenuController} from "./components/base/menu-controller";
-import {RequestsController} from "./components/requests/requests-controller";
 import {FirstController} from "./components/first/first-controller";
 import {ClustersController} from "./components/clusters/clusters-controller";
 import {ClusterService} from "./components/rest/clusters";
@@ -29,26 +30,25 @@ var ngSanitize = require("angular-sanitize");
 var restangular = require("restangular");
 var ngStrap = require("angular-strap");
 var ngStrapTpl = require("angular-strap-tpl");
-var idbWrapper = require("idb-wrapper");
 
 class USMApp {
 	constructor() {
 
 	}
 	initialize() {
-		console.log('Initializing...');
-		angular.module('usm-client', [
-			'ngAnimate',
-			'ngCookies',
-			'ngResource',
-			'ngSanitize',
-			'ngRoute',
-			'mgcrea.ngStrap',
-			'restangular'
+        console.log('Initializing...');
+        angular.module('usm-client', [
+            'ngAnimate',
+            'ngCookies',
+            'ngResource',
+            'ngSanitize',
+            'ngRoute',
+            'mgcrea.ngStrap',
+            'restangular',
+            RequestsModule
 		])
 			.controller('ApplicationController', ApplicationController)
 			.controller('MenuController', MenuController)
-            .controller('RequestsController', RequestsController)
             .controller('FirstController', FirstController)
 			.controller('ClusterController', ClustersController)
 			.controller('PoolController', PoolController)

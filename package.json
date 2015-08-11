@@ -14,7 +14,8 @@
     "lodash": "~3.10.0",
     "font-awesome": "~4.3.0",
     "patternfly": "~1.3.0",
-    "angular-motion": "~0.4.2"
+    "angular-motion": "~0.4.2",
+    "angular-growl-v2": "~0.7.5"
   },
   "devDependencies": {
     "bower": "*",
@@ -37,7 +38,9 @@
   "browser": {
     "restangular": "./app/bower_components/restangular/dist/restangular.js",
     "angular-strap": "./node_modules/angular-strap/dist/angular-strap.js",
-    "angular-strap-tpl": "./node_modules/angular-strap/dist/angular-strap.tpl.js"
+    "angular-strap-tpl": "./node_modules/angular-strap/dist/angular-strap.tpl.js",
+    "angular-growl": "./node_modules/angular-growl-v2/build/angular-growl.js",
+    "idb-wrapper": "./node_modules/idb-wrapper/idbstore.js"
   },
   "browserify": {
     "transform": [
