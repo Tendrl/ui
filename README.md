@@ -1,4 +1,5 @@
-# USM Client
+# USM Client [![Build Status](https://travis-ci.org/kmkanagaraj/usm-client-2.svg?branch=master)](https://travis-ci.org/kmkanagaraj/usm-client-2)
+
 USM Client is a user interface for Unified Storage Manager
 
 This uses following frameworks and tools
