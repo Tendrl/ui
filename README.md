@@ -1,4 +1,4 @@
-# Kitoon [![Build Status](https://travis-ci.org/kmkanagaraj/usm-client-2.svg?branch=master)](https://travis-ci.org/kmkanagaraj/usm-client-2)
+# Kitoon [![Build Status](https://travis-ci.org/skyrings/kitoon.svg?branch=master)](https://travis-ci.org/skyrings/kitoon)
 
 Graphical user interface for [SkyRing] (https://github.com/skyrings/skyring)
 
