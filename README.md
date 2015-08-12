@@ -1,6 +1,6 @@
-# USM Client [![Build Status](https://travis-ci.org/kmkanagaraj/usm-client-2.svg?branch=master)](https://travis-ci.org/kmkanagaraj/usm-client-2)
+# Kitoon [![Build Status](https://travis-ci.org/kmkanagaraj/usm-client-2.svg?branch=master)](https://travis-ci.org/kmkanagaraj/usm-client-2)
 
-USM Client is a user interface for Unified Storage Manager
+Graphical user interface for [SkyRing] (https://github.com/skyrings/skyring)
 
 This uses following frameworks and tools
 * AngularJS
@@ -14,8 +14,8 @@ This uses following frameworks and tools
 ### Fedora 20/21/22
 1. install latest version of nodejs `yum install nodejs npm`
 2. install `gulp`, `bower` and `tsd` gloabally - `npm install -g gulp bower tsd`
-3. clone the repository `git clone git@github.com:kmkanagaraj/usm-client-2.git`
-4. `cd usm-client-2`
+3. clone the repository `git clone git@github.com:skyrings/kitoon.git`
+4. `cd kitoon`
 5. install node modules `npm install`
 6. install bower dependencies `bower install`
 7. install typescript definition files `tsd install`
