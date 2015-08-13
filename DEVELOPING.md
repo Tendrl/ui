@@ -1,7 +1,17 @@
-# USM Client
-USM Client is a user interface for Unified Storage Manager
+# Kitoon
+Kitoon is a user interface for Skyring
 
 The build steps can be found at [README](./README.md)
+
+## Adding type definitions
+While using an external javascript library in the project, type definitions for that library needs to be added so that typescript compiler can perform the validations. 
+
+For example, if you need to add type definitions for lodash
+
+1. Run `tsd query lodash`. It will return the output `- lodash / lodash`
+2. Now run `tsd install lodash/lodash --save`
+  - This will make a new entry in tsd.json
+  - Type definitions should be available at `typings/lodash/lodash.d.ts`
 
 ## Running a local static http server
 1. Install http-server `npm install -g http-server`
