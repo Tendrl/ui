@@ -1,11 +1,17 @@
 /// <reference path="../../../typings/tsd.d.ts" />
 
 export class VolumeService {
-    config: Array<any>;
-    rest: restangular.ICollection;
+    rest: restangular.IService;
+    restFull: restangular.IService;
     static $inject: Array<string> = ['Restangular'];
-    constructor(rest:restangular.ICollection) {
-        this.rest = rest;
+    constructor(rest: restangular.ICollection) {
+        this.rest = rest.withConfig((RestangularConfigurer) => {
+            RestangularConfigurer.setBaseUrl('api/v1/gluster');
+        });
+        this.restFull = rest.withConfig((RestangularConfigurer) => {
+            RestangularConfigurer.setBaseUrl('api/v1/gluster');
+            RestangularConfigurer.setFullResponse(true);
+        });
     }
 
     // **getList**
@@ -51,23 +57,23 @@ export class VolumeService {
     }
 
     // **create**
-	// **@param** volume - Information about the volume and list of bricks.
-	// **@returns** a promise which returns a request id to track the task.
+    // **@param** volume - Information about the volume and list of bricks.
+    // **@returns** a promise which returns a request id to track the task.
     create(volume) {
-        return this.rest.all('volumes').post(volume);
+        return this.restFull.all('volumes').post(volume);
     }
 
     // **create**
     // **@param** volume - Information about the volume and list of bricks.
     // **@returns** a promise which returns a request id to track the task.
     expand(volume) {
-        return this.rest.all('bricks').post(volume);
+        return this.restFull.all('bricks').post(volume);
     }
 
     // **start**
     // **@param** id - Volume Identifier.
     // **@returns** a promise with status code.
     start(id) {
-        return this.rest.one('volumes', id).one('start').get();
+        return this.restFull.one('volumes', id).one('start').get();
     }
 }
