@@ -1,0 +1,205 @@
+<div class="cluster-detail dashboard row">
+    <div class="top-box card">
+        <div class="row">
+            <div class="col-md-6 col-sm-6 col-xs-12">
+                <div class="vertical-bar-cluster-name">
+                    <div class="rotate">
+                        {{hostdetail.host.type.type}}
+                    </div>
+                </div>
+                <div class="border-right pad-me">
+                    <div class="row">
+                        <div class="cluster-name"> {{hostdetail.host.name}} </div>
+                        <div class="col-md-3">
+                            <div class="title"> Utilization </div>
+                            <div class="free-space">
+                              <span class="card-big-text">
+                                {{hostdetail.formatSize(hostdetail.capacity.free)}}
+                              </span>
+                              Available
+                              <br/>
+                              <span class="bold">
+                                {{hostdetail.formatSize(hostdetail.capacity.used)}}
+                              </span> Used
+                              <br/>
+                              <span class="bold">
+                                {{hostdetail.formatSize(hostdetail.capacity.total)}}
+                              </span> Total
+                            </div>
+                        </div>
+                        <div class="col-md-9">
+                            <c3chart bindto-id="cluster-donut" chart-columns="hostdetail.capacity.legends" chart-data="hostdetail.capacity.values">
+                                <chart-donut title="Usage" width="40"> </chart-donut>
+                                <chart-legend show-legend="true" legend-position="right"> </chart-legend>
+                                <chart-size chart-height="200"></chart-size>
+                            </c3chart>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="usage-trending">
+                                <div class="usage-trending-content">
+                                    <c3chart bindto-id="cluster-trend" chart-columns="hostdetail.capacity.trends.cols" chart-data="hostdetail.capacity.trends.values">
+                                        <chart-axis>
+                                            <chart-axis-x show="false"> </chart-axis-x>
+                                            <chart-axis-y show="false"> </chart-axis-y>
+                                        </chart-axis>
+                                        <chart-points show-point="false"></chart-points>
+                                        <chart-legend show-legend="false"></chart-legend>
+                                        <chart-size chart-height="80"></chart-size>
+                                        <chart-tooltip show-tooltip="true"></chart-tooltip>
+                                    </c3chart>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 col-sm-6 col-xs-12">
+                <div class="no-border pad-me">
+                    <div class="title"> Performance </div>
+                    <div class="row">
+                        <div class="col-md-3">
+                            <div class="iops-count">
+                              <span class="card-big-text">
+                                {{hostdetail.iops.total | number : 2}}M IOPS
+                              </span>
+                              <span class="card-big-text">
+                                {{hostdetail.iops.reads}}M
+                              </span> reads/s
+                              <span class="card-big-text">
+                                {{hostdetail.iops.writes}}M
+                              </span> writes/s
+                            </div>
+                        </div>
+                        <div class="col-md-9">
+                            <c3chart bindto-id="gauge-iops-chart">
+                                <chart-column column-id="IOPS" column-values="{{hostdetail.iops.total}}" column-type="gauge" column-color="{{hostdetail.getStatusColor((hostdetail.iops.total)/1000*100)}}" />
+                                <chart-gauge min="0" max="10" units="{{hostdetail.iops.total | number :2}}M IOPS" width="30" />
+                                <chart-size chart-height="200"></chart-size>
+                            </c3chart>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="usage-trending">
+                                <div class="usage-trending-content">
+                                    <c3chart bindto-id="cluster-iops-trend" chart-columns="hostdetail.iops.trends.cols" chart-data="hostdetail.iops.trends.values">
+                                        <chart-axis>
+                                            <chart-axis-x show="false"> </chart-axis-x>
+                                            <chart-axis-y show="false"> </chart-axis-y>
+                                        </chart-axis>
+                                        <chart-points show-point="false"></chart-points>
+                                        <chart-legend show-legend="false"></chart-legend>
+                                        <chart-size chart-height="80"></chart-size>
+                                        <chart-tooltip show-tooltip="false"></chart-tooltip>
+                                    </c3chart>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+            <div class="row center-content">
+            <div class="col-md-3 col-sm-6 col-xs-12">
+                <div class="card">              
+                <div class="card-title"> CPU </div>
+                <div class="col-md-7">
+                    <c3chart bindto-id="donut-plot1-chart">
+                        <chart-column column-id="Free" column-values="{{100-hostdetail.mockHost.cpu.average}}" column-color="#CCCCCC" column-type="donut" />
+                        <chart-column column-id="Using" column-values="{{hostdetail.mockHost.cpu.average}}" column-color="{{hostdetail.getStatusColor(hostdetail.mockHost.cpu.average)}}" column-type="donut" />
+                        <chart-donut title="{{hostdetail.mockHost.cpu.average}}%" width="10" />
+                        <chart-legend show-legend="false" />
+                        <chart-tooltip show-tooltip="false"></chart-tooltip>
+                        <chart-size chart-height="100"></chart-size>
+                    </c3chart>
+                </div>
+                <div class="col-md-5 left-content">
+                    <div class="row">
+                        <div class="col-md-12"> </div>
+                        <div class="col-md-12 bold">Past 30 Days</div>
+                        <div class="col-md-6">Average</div>
+                        <div class="col-md-6 bold">{{hostdetail.mockHost.cpu.average}} %</div>
+                        <div class="col-md-6">Highest</div>
+                        <div class="col-md-6 bold">{{hostdetail.mockHost.cpu.highest}} %</div>
+                        <div class="col-md-6">Lowest</div>
+                        <div class="col-md-6 bold">{{hostdetail.mockHost.cpu.lowest}} %</div>
+                    </div>
+                </div>
+                </div>
+            </div>
+            <div class="col-md-3 col-sm-6 col-xs-12">
+                <div class="equal-space card">              
+                <div class="card-title"> Memory </div>
+                <div class="col-md-7">
+                    <c3chart bindto-id="donut-plot2-chart">
+                        <chart-column column-id="Free" column-values="{{100-hostdetail.mockHost.memory.average}}" column-color="#CCCCCC" column-type="donut" />
+                        <chart-column column-id="Using" column-values="{{hostdetail.mockHost.memory.average}}" column-color="{{hostdetail.getStatusColor(hostdetail.mockHost.memory.average)}}" column-type="donut" />
+                        <chart-donut title="{{hostdetail.mockHost.memory.average}}%" width="10" />
+                        <chart-legend show-legend="false" />
+                        <chart-tooltip show-tooltip="false"></chart-tooltip>
+                        <chart-size chart-height="100"></chart-size>
+                    </c3chart>
+                </div>
+                <div class="col-md-5 left-content">
+                    <div class="row">
+                        <div class="col-md-12"> </div>
+                        <div class="col-md-12 bold">Past 30 Days</div>
+                        <div class="col-md-6">Average</div>
+                        <div class="col-md-6 bold">{{hostdetail.mockHost.memory.average}} %</div>
+                        <div class="col-md-6">Highest</div>
+                        <div class="col-md-6 bold">{{hostdetail.mockHost.memory.highest}} %</div>
+                        <div class="col-md-6">Lowest</div>
+                        <div class="col-md-6 bold">{{hostdetail.mockHost.memory.lowest}} %</div>
+                    </div>
+                </div>
+                </div>
+            </div>
+            <div class="col-md-3 col-sm-6 col-xs-12">
+                <div class="equal-space card">
+                <div class="card-title"> Management Network </div>
+                <div class="col-md-7">
+                    <c3chart bindto-id="gauge-kbps-chart">
+                        <chart-column column-id="Mbps" column-values="{{hostdetail.mockHost.managementNetwork.inbound + hostdetail.mockHost.managementNetwork.outbound}}" column-type="gauge" column-color="{{hostdetail.getStatusColor((hostdetail.mockHost.managementNetwork.inbound + hostdetail.mockHost.managementNetwork.outbound)/100*100)}}" />
+                        <chart-gauge min="0" max="100" units="{{hostdetail.mockHost.managementNetwork.inbound + hostdetail.mockHost.managementNetwork.outbound}} Mbps" width="10" />
+                        <chart-tooltip show-tooltip="false"></chart-tooltip>
+                        <chart-size chart-height="100"></chart-size>
+                    </c3chart>
+                </div>
+                <div class="col-md-5 left-content">
+                    <div class="row">
+                        <div class="col-md-12"> </div>
+                        <div class="col-md-6">Inbound</div>
+                        <div class="col-md-6 bold">{{hostdetail.mockHost.managementNetwork.inbound}} Mbps</div>
+                        <div class="col-md-6">Outbound</div>
+                        <div class="col-md-6 bold">{{hostdetail.mockHost.managementNetwork.outbound}} Mbps</div>
+                    </div>
+                </div>
+                </div>
+            </div>
+            <div class="col-md-3 col-sm-6 col-xs-12">
+                <div class="equal-space card">
+                <div class="card-title"> Cluster network </div>
+                <div class="col-md-7">
+                    <c3chart bindto-id="gauge-kbps1-chart">
+                        <chart-column column-id="Data Rate" column-values="{{hostdetail.mockHost.clusterNetwork.inbound+hostdetail.mockHost.clusterNetwork.outbound}}" column-type="gauge" column-color="{{hostdetail.getStatusColor((hostdetail.mockHost.cluster_network.inbound + hostdetail.mockHost.clusterNetwork.outbound)/100*100)}}" />
+                        <chart-gauge min="0" max="100" units="{{hostdetail.mockHost.clusterNetwork.inbound+hostdetail.mockHost.clusterNetwork.outbound}} Gbps" width="10" />
+                        <chart-tooltip show-tooltip="false"></chart-tooltip>
+                        <chart-size chart-height="100"></chart-size>
+                    </c3chart>
+                </div>
+                <div class="col-md-5 left-content">
+                    <div class="row">
+                        <div class="col-md-12"> </div>
+                        <div class="col-md-6">Inbound</div>
+                        <div class="col-md-6 bold">{{hostdetail.mockHost.clusterNetwork.inbound}} Gbps</div>
+                        <div class="col-md-6">Outbound</div>
+                        <div class="col-md-6 bold">{{hostdetail.mockHost.clusterNetwork.outbound}} Gbps</div>
+                    </div>
+                </div>
+            </div>
+            </div>
+        </div>
+</div>

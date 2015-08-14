@@ -1,4 +1,4 @@
-<div class="container">
+<div class="container-fluid">
   <div class="page-header page-header-bleed-right">
     <h1>Hosts</h1>
   </div>
@@ -19,7 +19,7 @@
               <span ng-if="host.node_status === 1">
                 <i class="fa fa-2x fa-exclamation-triangle exclamation-mark warning"></i>
               </span>
-              <span class="host-name-heading" ng-bind="host.node_name"></span>
+              <a ng-href="#/hosts/detail/{{host.node_id}}"><span class="host-name-heading" ng-bind="host.node_name"></span></a>
               <span class="description-for-host" ng-bind="host.management_ip"></span>
             </div>
           </div>
@@ -73,9 +73,10 @@
         </div>
       </div>
       <div class="col-md-1 col-sm-1 set-top-margin">
-        <a class="pull-right add-cursor-pointer" data-animation="am-flip-x" data-template="views/host-menu-dropdown.tpl.html" bs-dropdown="ellipsis">
+        <a class="pull-right add-cursor-pointer" data-animation="am-flip-x" data-template="views/hosts/host-menu-dropdown.tpl.html" bs-dropdown="ellipsis">
           <i class="fa fa-ellipsis-v fa-4x elipsis-color"></i>
         </a>
       </div>
    </div>
 </div>
+

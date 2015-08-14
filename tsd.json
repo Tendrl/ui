@@ -19,6 +19,9 @@
     },
     "angularjs/angular-route.d.ts": {
       "commit": "581563c4684d405afec14260ba79a89a52666c09"
+    },
+    "numeraljs/numeraljs.d.ts": {
+      "commit": "338f9db37074d197764e95a487ddb865c5f2d73c"
     }
   }
 }

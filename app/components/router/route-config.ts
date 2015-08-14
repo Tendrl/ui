@@ -42,7 +42,7 @@ export class RouteConfig {
 			controller: 'HostController',
 			controllerAs: 'hosts'
 		}).when('/hosts/detail/:id', {
-			templateUrl: 'views/hosts-detail.html',
+			templateUrl: 'views/hosts/hosts-detail.html',
 			menuId: '',
 			controller: 'HostDetailController',
 			controllerAs: 'hostdetail'
@@ -67,12 +67,12 @@ export class RouteConfig {
 			controller: 'VolumeDetailController',
 			controllerAs: 'volumedetail'
 		}).when('/pools', {
-			templateUrl: 'views/pools/pool.html',
+			templateUrl: 'views/pools/pools.html',
 			menuId: 'storage',
 			controller: 'PoolController',
 			controllerAs: 'pools'
 		}).when('/pools/new', {
-			templateUrl: 'views/pools/pool-new.html',
+			templateUrl: 'views/pools/pools-new.html',
 			menuId: 'storage',
 			controller: 'PoolNewController',
 			controllerAs: 'pool'

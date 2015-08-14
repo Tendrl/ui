@@ -15,7 +15,9 @@
     "font-awesome": "~4.3.0",
     "patternfly": "~1.3.0",
     "angular-motion": "~0.4.2",
-    "angular-growl-v2": "~0.7.5"
+    "angular-growl-v2": "~0.7.5",
+    "d3": "~3.5.6",
+    "c3": "~0.4.11-rc3"
   },
   "devDependencies": {
     "bower": "*",
@@ -37,6 +39,7 @@
   },
   "browser": {
     "restangular": "./app/bower_components/restangular/dist/restangular.js",
+    "c3-angular": "./app/bower_components/c3-angular/c3-angular.min.js",
     "angular-strap": "./node_modules/angular-strap/dist/angular-strap.js",
     "angular-strap-tpl": "./node_modules/angular-strap/dist/angular-strap.tpl.js",
     "angular-growl": "./node_modules/angular-growl-v2/build/angular-growl.js",
@@ -52,6 +55,13 @@
       "depends": [
         "angular",
         "lodash: _"
+      ]
+    },
+    "c3-angular": {
+      "depends": [
+        "angular",
+        "d3",
+        "c3: c3"
       ]
     },
     "angular-strap": {

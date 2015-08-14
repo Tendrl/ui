@@ -15,6 +15,7 @@ import {PoolController} from "./components/pools/pools-controller";
 import {PoolNewController} from "./components/pools/pool-new";
 import {HostController} from "./components/hosts/host";
 import {VolumeController} from "./components/volumes/volume-controller";
+import {HostDetailController} from "./components/hosts/host-detail";
 
 var angular: ng.IAngularStatic = require("angular");
 var ngRoute = require("angular-route");
@@ -25,6 +26,10 @@ var ngSanitize = require("angular-sanitize");
 var restangular = require("restangular");
 var ngStrap = require("angular-strap");
 var ngStrapTpl = require("angular-strap-tpl");
+var idbWrapper = require("idb-wrapper");
+var c3 = require("c3");
+var d3 = require("d3");
+var c3Angular = require("c3-angular");
 
 class USMApp {
     constructor() {
@@ -39,6 +44,7 @@ class USMApp {
             'ngSanitize',
             'ngRoute',
             'mgcrea.ngStrap',
+			'gridshore.c3js.chart',
             'restangular',
             RequestsModule,
             RestModule
@@ -50,6 +56,7 @@ class USMApp {
             .controller('PoolController', PoolController)
             .controller('PoolNewController', PoolNewController)
             .controller('HostController', HostController)
+            .controller('HostDetailController', HostDetailController)
             .controller('VolumeController', VolumeController)
             .service('MenuService', MenuService)
             .config(RouteConfig);
