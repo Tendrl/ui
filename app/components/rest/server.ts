@@ -78,7 +78,7 @@ export class ServerService {
     // this specific server, aka grains in Salt Stack parlance.
     // **@see** http://docs.saltstack.com/en/latest/topics/targeting/grains.html
     getGrains(id) {
-        return this.rest.base().one('server', id).one('grains').get().then(function(server) {
+        return this.rest.one('server', id).one('grains').get().then(function(server) {
             return server;
         });
     }
