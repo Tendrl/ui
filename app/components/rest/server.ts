@@ -2,10 +2,17 @@
 
 export class ServerService {
     config: Array<any>;
-    rest: restangular.ICollection;
+    rest: restangular.IService;
+    restFull: restangular.IService;
     static $inject: Array<string> = ['Restangular'];
-    constructor(rest:restangular.ICollection) {
-        this.rest = rest;
+    constructor(rest: restangular.ICollection) {
+        this.rest = rest.withConfig((RestangularConfigurer) => {
+            RestangularConfigurer.setBaseUrl('/api/v1/');
+        });
+        this.restFull = rest.withConfig((RestangularConfigurer) => {
+            RestangularConfigurer.setBaseUrl('/api/v1/');
+            RestangularConfigurer.setFullResponse(true);
+        });
     }
 
     // **getList**
@@ -63,7 +70,7 @@ export class ServerService {
     // **add**
     // **@returns** a promise with the request id for the operation.
     add(host) {
-        return this.rest.all('hosts').post(host);
+        return this.restFull.all('hosts').post(host);
     }
 
     // **remove**
@@ -104,9 +111,9 @@ export class ServerService {
     // **getStorageDevicesFree**
     // **@returns** a promise with all storage devices which are not being used in the server.
     getStorageDevicesFree(hostId, hostname) {
-        return this.getStorageDevices(hostId).then(function(devices){
-            if(hostname) {
-                _.each(devices, function(device){
+        return this.getStorageDevices(hostId).then(function(devices) {
+            if (hostname) {
+                _.each(devices, function(device) {
                     device.hostname = hostname;
                 });
             }

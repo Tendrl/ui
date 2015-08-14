@@ -1,16 +1,16 @@
 /// <reference path="../../../typings/tsd.d.ts" />
 
 export class RequestService {
-    config: Array<any>;
-    rest: restangular.ICollection;
-    static $inject: Array<string> = ['Restangular'];
-    constructor(rest:restangular.ICollection) {
-        this.rest = rest;
-    }
-
     // **Constant variable** constant variable for *pageSize*.
     pageSize = 32;
-      
+    rest: restangular.IService;
+    static $inject: Array<string> = ['Restangular'];
+    constructor(rest: restangular.ICollection) {
+        this.rest = rest.withConfig((RestangularConfigurer) => {
+            RestangularConfigurer.setBaseUrl('/api/v1/');
+        });
+    }
+
     // **getList**
     // **@returns** a promise with most recent *pageSize* requests.
     getList() {

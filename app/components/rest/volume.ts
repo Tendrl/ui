@@ -6,10 +6,10 @@ export class VolumeService {
     static $inject: Array<string> = ['Restangular'];
     constructor(rest: restangular.ICollection) {
         this.rest = rest.withConfig((RestangularConfigurer) => {
-            RestangularConfigurer.setBaseUrl('api/v1/gluster');
+            RestangularConfigurer.setBaseUrl('/api/v1/gluster');
         });
         this.restFull = rest.withConfig((RestangularConfigurer) => {
-            RestangularConfigurer.setBaseUrl('api/v1/gluster');
+            RestangularConfigurer.setBaseUrl('/api/v1/gluster');
             RestangularConfigurer.setFullResponse(true);
         });
     }
