@@ -1,0 +1,79 @@
+<div class="container-fluid">
+  <div class="page-header page-header-bleed-right">
+    <h1>Volumes</h1>
+  </div>
+  <div class="row">
+    <div class="col-md-3">
+      <input type="text" class="form-control" placeholder="Search" ng-model="search">
+    </div>
+    <div class="col-md-offset-6 col-md-3">
+      <span class="pull-right"> 
+        <button class="btn btn-primary btn-lg">Import</button>
+        <button class="btn btn-primary btn-lg" ng-click="volumes.create()">Create</button>
+      </span>
+    </div>
+  </div>
+  
+  <div class="row blade-view" ng-repeat="volume in volumes.list | filter:search">
+      <div class="col-md-3 col-sm-4">
+        <div class="row">
+          <div class="col-md-1 vertical-line-for-gluster">
+            <span class="vertical-text-for-gluster">Gluster</span>
+          </div>
+          <div class="col-md-offset-1 col-md-10 set-top-margin pull-right">
+            <div>
+              <span ng-if="volume.volume_status === 1">
+                <i class="fa fa-2x fa-exclamation-triangle exclamation-mark warning"></i>
+              </span>
+              <a ng-href="#/volumes/detail/{{volume.volume_id}}"><div class="heading" ng-bind="volume.volume_name"></div></a>
+              <div class="description" ng-bind="volumes.getVolumeType(volume.volume_type)"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-2 col-sm-4 set-top-margin">
+         <div class="percentage-heading" ng-class="volume.percent_used >= 90 ?'critical':volume.percent_used >= 80 ?'warning':'ok'">{{volume.capacity.percent_used | number:0 }}%</div>
+         <div class="percentage-used">Used</div>
+      </div>
+      <div class="col-md-3 col-sm-4 set-top-margin">
+        <div class="disk-info-cart">
+          {{volume.capacity.freeFormatted}} Free <br>
+          of {{volume.capacity.totalFormatted}} Total
+        </div>
+        <!-- Adding area-spline-graph here -->
+        <div class="adjust-area-spline">
+          <c3chart bindto-id="volume-areaSpline-{{$index}}" chart-columns="volume.areaSpline_cols" chart-data="volume.areaSpline_values">
+            <chart-axis>
+              <chart-axis-x show="false"> </chart-axis-x>
+              <chart-axis-y show="false"> </chart-axis-y>
+            </chart-axis>
+            <chart-points show-point="false"></chart-points>
+            <chart-legend show-legend="false"></chart-legend>
+            <chart-size chart-height="80"></chart-size>
+            <chart-tooltip show-tooltip="false"></chart-tooltip>
+          </c3chart>
+        </div>
+        <!-- End of adding area-spline-graph here -->
+      </div>
+      <div class="col-md-1 col-sm-3 set-top-margin">
+          <div class="sub-heading">Cluster</div>
+          <div class="cluster_name" ng-bind="volume.cluster_name"></div>
+      </div>
+      <div class="col-md-1 col-sm-3 set-top-margin">
+        <div class="sub-heading">Bricks</div>
+        <div class="sub-heading" ng-bind="volume.bricks"></div>
+      </div>
+      <div class="col-md-1 col-sm-2 set-top-margin">
+        <div class="sub-heading">Alerts</div>
+        <div class="sub-heading">
+          <span ng-bind="volume.alerts"></span>
+          <i class="fa fa-2x set-margin" ng-class="volume.alerts>0?'fa-times-circle critical':'fa-check-circle-o ok'"></i>
+        </div>
+      </div>
+      <div class="col-md-1 col-sm-1 set-top-margin">
+        <a class="pull-right add-cursor-pointer" data-animation="am-flip-x" data-template="views/volumes/volume-menu-dropdown.tpl.html" bs-dropdown="ellipsis">
+          <i class="fa fa-ellipsis-v fa-4x elipsis-color"></i>
+        </a>
+      </div>
+   </div>
+</div>
