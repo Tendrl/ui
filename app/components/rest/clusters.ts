@@ -3,21 +3,30 @@
 import {ServerService} from '../rest/server'
 
 export class ClusterService {
-	config: Array<any>;
+    config: Array<any>;
     private clusterId: any;
     private clusterModel: any;
-	static $inject: Array<string> = ['Restangular', '$location', '$q', 'ServerService'];
-	constructor(private rest:restangular.ICollection, 
-         private $location: ng.ILocationService,
-         private $q: ng.IQService,
-         private serverSvc: ServerService) {
-	}
+    rest: restangular.IService;
+    restFull: restangular.IService;
+    static $inject: Array<string> = ['Restangular', '$location', '$q', 'ServerService'];
+    constructor(rest: restangular.ICollection,
+        private $location: ng.ILocationService,
+        private $q: ng.IQService,
+        private serverSvc: ServerService) {
+        this.rest = rest.withConfig((RestangularConfigurer) => {
+            RestangularConfigurer.setBaseUrl('/api/v1/');
+        });
+        this.restFull = rest.withConfig((RestangularConfigurer) => {
+            RestangularConfigurer.setBaseUrl('/api/v1/');
+            RestangularConfigurer.setFullResponse(true);
+        });
+    }
 
     // **getList**
     // **@returns** a promise with a list of all the clusters.
     getList() {
         return this.rest.all('clusters').getList().then(function(clusters) {
-            clusters = _.sortBy(clusters, function(cluster){
+            clusters = _.sortBy(clusters, function(cluster) {
                 return cluster.cluster_name;
             });
             return clusters;
@@ -28,15 +37,15 @@ export class ClusterService {
     // **@returns** a promise with the cluster capacity for the specific
     // cluster based on it's id.
     getCapacity(id) {
-       return this.serverSvc.getListByCluster(id).then(function(servers) {
+        return this.serverSvc.getListByCluster(id).then(function(servers) {
             var requests = [];
             _.each(servers, function(server) {
                 requests.push(this.serverSvc.getDiskStorageDevices(server.node_id));
             });
             return this.$q.all(requests).then(function(devicesList) {
                 var capacity = 0;
-                 _.each(devicesList, function(devices: Array<any>) {
-                   var size = _.reduce(devices, function(size, device) {
+                _.each(devicesList, function(devices: Array<any>) {
+                    var size = _.reduce(devices, function(size, device) {
                         return device.size + size;
                     }, 0);
                     capacity = capacity + size;

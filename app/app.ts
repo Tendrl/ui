@@ -21,6 +21,7 @@ import {ServerService} from "./components/rest/server";
 import {PoolController} from "./components/pools/pools-controller";
 import {PoolNewController} from "./components/pools/pool-new";
 import {HostController} from "./components/hosts/host";
+import {VolumeController} from "./components/volumes/volume-controller";
 
 var angular: ng.IAngularStatic = require("angular");
 var ngRoute = require("angular-route");
@@ -55,6 +56,7 @@ class USMApp {
 			.controller('PoolController', PoolController)
 			.controller('PoolNewController', PoolNewController)
 			.controller('HostController', HostController)
+            .controller('VolumeController', VolumeController)
 			.service('MenuService', MenuService)
 			.service('ClusterService', ClusterService)
 			.service('UtilService', UtilService)

@@ -47,7 +47,7 @@ export class RouteConfig {
 			controller: 'HostDetailController',
 			controllerAs: 'hostdetail'
 		}).when('/volumes', {
-			templateUrl: 'views/volumes.html',
+			templateUrl: 'views/volumes/volumes.html',
 			menuId: 'storage',
 			controller: 'VolumeController',
 			controllerAs: 'volumes'
