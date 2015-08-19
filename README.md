@@ -1,4 +1,4 @@
-# Kitoon [![Build Status](https://travis-ci.org/skyrings/kitoon.svg?branch=master)](https://travis-ci.org/skyrings/kitoon) [![Dependency Status](https://david-dm.org/skyrings/kitoon.svg)](https://david-dm.org/skyrings/kitoon)
+# Kitoon [![Build Status](https://travis-ci.org/skyrings/kitoon.svg?branch=master)](https://travis-ci.org/skyrings/kitoon) [![Dependency Status](https://david-dm.org/skyrings/kitoon.svg)](https://david-dm.org/skyrings/kitoon) [![Issue Stats](http://issuestats.com/github/skyrings/kitoon/badge/pr?style=flat)](http://issuestats.com/github/skyrings/kitoon)
 
 Graphical user interface for [SkyRing] (https://github.com/skyrings/skyring)
 
