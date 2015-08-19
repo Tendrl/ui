@@ -3,6 +3,7 @@ declare function require(name: string);
 
 import {default as RequestsModule} from "./components/requests/module";
 import {default as RestModule} from "./components/rest/rest-module";
+import {default as HostModule} from "./components/hosts/host-module";
 
 import {RouteConfig} from "./components/router/route-config";
 import {MenuService} from "./components/base/menu-svc";
@@ -13,10 +14,8 @@ import {FirstController} from "./components/first/first-controller";
 import {ClustersController} from "./components/clusters/clusters-controller";
 import {PoolController} from "./components/pools/pools-controller";
 import {PoolNewController} from "./components/pools/pool-new";
-import {HostController} from "./components/hosts/host";
 import {VolumeController} from "./components/volumes/volume-controller";
 import {VolumeNewController} from "./components/volumes/volume-new";
-import {HostDetailController} from "./components/hosts/host-detail";
 
 var angular: ng.IAngularStatic = require("angular");
 var ngRoute = require("angular-route");
@@ -45,7 +44,8 @@ class USMApp {
             'gridshore.c3js.chart',
             'restangular',
             RequestsModule,
-            RestModule
+            RestModule,
+            HostModule
         ])
             .controller('ApplicationController', ApplicationController)
             .controller('MenuController', MenuController)
@@ -53,8 +53,6 @@ class USMApp {
             .controller('ClusterController', ClustersController)
             .controller('PoolController', PoolController)
             .controller('PoolNewController', PoolNewController)
-            .controller('HostController', HostController)
-            .controller('HostDetailController', HostDetailController)
             .controller('VolumeController', VolumeController)
             .controller('VolumeNewController', VolumeNewController)
             .service('MenuService', MenuService)
