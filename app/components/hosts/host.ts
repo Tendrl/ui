@@ -6,9 +6,8 @@ import {ServerService} from '../rest/server';
 
 export class HostController {
     private self = this;
-    public clusterList: Array<any>;
-    private clusterHelper;
-    private mockDataProviderHelper;
+    public list: Array<any>;
+    private MockDataProvider = new MockDataProvider();
     static $inject: Array<string> = [
         '$scope',
         '$interval',
@@ -16,7 +15,7 @@ export class HostController {
         'ClusterService',
         'ServerService',
     ];
-    private timer = this.intervalSvc(this.reloadData, 15000);
+    private timer;
 
     constructor(
         private scopeSvc: ng.IScope,
@@ -24,36 +23,37 @@ export class HostController {
         private locationSvc: ng.ILocationService,
         private clusterSvc: ClusterService,
         private serverService: ServerService) {
-        clusterSvc.getList().then(this.updateData);
-
+        this.timer =  this.intervalSvc(this.reloadData, 5000);
+        //clusterSvc.getList().then(this.updateData);
     }
     updateData = (clusters) => {
-        this.clusterList = clusters;
-        if (this.clusterList.length === 0) {
+        if (clusters.length === 0) {
             this.locationSvc.path('/first');
         }
     }
 
-    reloadData() {
+    reloadData = () => {
         this.serverService.getList().then(this.updateHost);
     }
 
     updateHost = (hosts) => {
+        var self = this;
         _.each(hosts, function(host: any) {
-            var mockHost = this.MockDataProvider.getMockHost(host.node_name);
+            var MockHost = self.MockDataProvider.getMockHost(host.node_name);
             host.node_name = host.node_name.split(".")[0];
-            host.alerts = mockHost.alerts;
-            host.cpu_average = Math.random() * 100;
-            host.memory_average = Math.random() * 100;
+            host.alerts = MockHost.alerts;
+            host.cpu_average = Math.round(Math.random() * 100);
+            host.memory_average = Math.round(Math.random() * 100);
             host.cluster_type = 2;
             host.version = '';
             if (host.cluster != null) {
-                this.clusterSvc.get(host.cluster).then(function(cluster) {
+                self.clusterSvc.get(host.cluster).then(function(cluster) {
                     host.cluster_type = cluster.cluster_type;
                     host.version = host.cluster_type === 1 ? 'V3.7.1' : 'V9.0.1';
                 });
             }
         });
+        this.list = hosts;
     }
 
     public getClusterTypeTitle(type) {
@@ -84,4 +84,5 @@ export class HostController {
         });
     }
 }
+
  

@@ -153,7 +153,7 @@ export class MockDataProvider {
 
 
     public getRandomList(key, count, min, max, sort) {
-        var list: Array<any>;
+        var list = new Array;
         _.each(_.range(count), function(index) {
             var value = {};
             value[key] = _.random(min, max);
