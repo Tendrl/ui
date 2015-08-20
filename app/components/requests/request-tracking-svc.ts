@@ -18,19 +18,18 @@ export class RequestTrackingService {
         private requestSvc: RequestService,
         private growl: any) {
         this.id = this.id + 1;
-        $log.debug('Creating Request Tracking Service [' + this.id + ']');
-        var self = this;
+        this.$log.debug('Creating Request Tracking Service [' + this.id + ']');
         this.requests = new IDBStore({
             dbVersion: 1,
             storeName: 'UserRequest',
             keyPath: 'id',
             autoIncrement: false,
-            onStoreReady: function() {
-                $log.info('UserRequest store is ready!');
-                self.timeout = $timeout(() => self.processRequests, this.timer);
+            onStoreReady: () => {
+                this.$log.info('UserRequest store is ready!');
+                this.timeout = $timeout(() => this.processRequests(), this.timer);
             },
-            onError: function() {
-                $log.error('Unable to create UserRequest store');
+            onError: () => {
+                this.$log.error('Unable to create UserRequest store');
             }
         });
     }
@@ -60,9 +59,9 @@ export class RequestTrackingService {
     public remove(id) {
         var d = this.$q.defer();
         this.requests.remove(id, d.resolve, d.reject);
-        d.promise.then(function() {
+        d.promise.then((id) => {
             this.$log.info('Removed request id ' + id);
-        }, function(error) {
+        }, (error) => {
             this.$log.error('Error in removing request id ' + id);
         });
         return d.promise;
@@ -81,36 +80,35 @@ export class RequestTrackingService {
     }
 
     public processRequests() {
-        var self = this;
-        RequestTrackingService.prototype.$log.debug('Refreshing the requests in the store');
-        self.getTrackedRequests().then(function(requests) {
-            _.each(requests, function(trackedRequest: any) {
-                self.requestSvc.get(trackedRequest.id).then(function(request) {
+        this.$log.debug('Refreshing the requests in the store');
+        this.getTrackedRequests().then((requests) => {
+            _.each(requests, (trackedRequest: any) => {
+                this.requestSvc.get(trackedRequest.id).then((request) => {
                     if (request.status === 'FAILED' || request.status === 'FAILURE') {
-                        self.showError(trackedRequest.operation + ' is failed');
-                        self.$log.info(trackedRequest.operation + ' is failed');
-                        self.remove(trackedRequest.id);
+                        this.showError(trackedRequest.operation + ' is failed');
+                        this.$log.error(trackedRequest.operation + ' is failed');
+                        this.remove(trackedRequest.id);
                     }
                     else if (request.status === 'SUCCESS') {
-                        self.showNotification(trackedRequest.operation + ' is completed sucessfully');
-                        self.$log.info(trackedRequest.operation + ' is completed sucessfully');
-                        self.remove(trackedRequest.id);
+                        this.showNotification(trackedRequest.operation + ' is completed sucessfully');
+                        this.$log.info(trackedRequest.operation + ' is completed sucessfully');
+                        this.remove(trackedRequest.id);
                     }
                     else if (request.status === 'STARTED') {
-                        self.$log.info('Request ' + trackedRequest.id + ' is in progress');
+                        this.$log.info('Request ' + trackedRequest.id + ' is in progress');
                     }
                     else if (request.status) {
-                        self.$log.info('Request ' + trackedRequest.id + ' is in unknown state: ' + request.status);
+                        this.$log.warn('Request ' + trackedRequest.id + ' is in unknown state: ' + request.status);
                     }
-                }, function(resp) {
+                }, (resp) => {
                     if (resp.status === 404) {
-                        self.$log.warn('Request ' + trackedRequest.id + ' NOT FOUND');
-                        self.remove(trackedRequest.id);
+                        this.$log.warn('Request ' + trackedRequest.id + ' NOT FOUND');
+                        this.remove(trackedRequest.id);
                     }
                 });
             });
         });
-        this.timeout = this.$timeout(self.processRequests, this.timer);
+        this.timeout = this.$timeout(() => this.processRequests(), this.timer);
     }
 
     public showError(msg) {
