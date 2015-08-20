@@ -33,9 +33,6 @@ var d3 = require("d3");
 var c3Angular = require("c3-angular");
 
 class USMApp {
-    constructor() {
-
-    }
     initialize() {
         console.log('Initializing...');
         angular.module('usm-client', [
@@ -65,6 +62,9 @@ class USMApp {
             .config(['$httpProvider', function($httpProvider) {
                 $httpProvider.defaults.xsrfCookieName = 'csrftoken';
                 $httpProvider.defaults.xsrfHeaderName = 'X-CSRFToken';
+            }])
+            .config(['$logProvider', function($logProvider) {
+                $logProvider.debugEnabled(true);
             }]);
         angular.element(document).ready(function() {
             angular.bootstrap(document, ['usm-client']);
