@@ -1,0 +1,47 @@
+<div class="row wizard-top">
+  <div class="col-sm-12 col-md-12">
+    <h1>Create Volume</h1>
+
+    <div class="wizard">
+      <div ng-class="volume.step == 1 ? 'active' : (volume.step > 1 ? 'visited' : 'default')">
+        <div class="wizard-step-dot"><i class="fa fa-circle"></i></div>
+        <div class="step-text">1. Configure Volume</div>
+      </div>
+      <div ng-class="volume.step == 2 ? 'active' : (volume.step > 2 ? 'visited' : 'default')">
+        <div class="wizard-step-dot"><i class="fa fa-circle"></i></div>
+        <div class="step-text">2. Tune Parameters</div>
+      </div>
+      <div ng-class="volume.step == 3 ? 'active' : (volume.step > 3 ? 'visited' : 'default')">
+        <div class="wizard-step-dot-last"><i class="fa fa-circle"></i></div>
+        <div class="step-text">3. Review Summary</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-sm-12 col-md-12">
+
+    <div class="content" ng-switch on="volume.step">
+      <div ng-switch-when="1" >
+        <div ng-include src="'views/volumes/volumes-new-configure.html'"> </div>
+      </div>
+      <div ng-switch-when="2">
+        <div ng-include src="'views/volumes/volumes-new-options.html'"> </div>
+      </div>
+      <div ng-switch-when="3">
+        <div ng-include src="'views/volumes/volumes-new-summary.html'"> </div>
+      </div>
+    </div>
+
+    <div class="row wizard-buttons">
+      <div ng-class="(volume.step !== 3) ? 'col-md-10 col-md-offset-2' : 'col-md-10'">
+        <button type="button" class="btn btn-default" ng-show='volume.isCancelAvailable()' ng-click='volume.cancel()'>Cancel</button>
+        <button type="button" class="btn btn-default" ng-show='!volume.isCancelAvailable()' ng-click='volume.moveStep(-1)'>&lt;&nbsp;&nbsp;Back</button>
+        <button type="button" class="btn btn-default" ng-show='!volume.isSubmitAvailable()' ng-click='volume.moveStep(1)'>Next&nbsp;&nbsp;&gt;</button>
+        <button type="button" class="btn btn-primary" ng-show='volume.isSubmitAvailable()' ng-click='volume.submit()'>Create Volume</button>
+      </div>
+    </div>
+
+  </div><!-- /col -->
+</div> <!-- /row -->

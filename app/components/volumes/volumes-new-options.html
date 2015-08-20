@@ -1,0 +1,65 @@
+<div class="wizard-step-view">
+  <form name="form" class="form-horizontal" novalidate>
+
+    <div class="form-group" ng-if="volume.type == 1 || volume.type == 2">
+      <label class="col-md-2 control-label" for="copyCount">Mirroring Size</label>
+      <div class="col-md-4">
+        <select pf-select ng-model="volume.copyCount" id="" class="form-control" ng-options="copyCount for copyCount in volume.copyCountList" ng-change="">
+        </select>
+      </div>
+    </div>
+
+    <div class="form-group" ng-show="false">
+      <label class="col-md-2 control-label" for="tier">Storage Tier</label>
+      <div class="col-md-4">
+        <select pf-select ng-model="volume.tier" id="tier" class="form-control" ng-options="tier.type for tier in volume.tierList">
+        </select>
+      </div>
+    </div>
+
+    <div class="form-group" ng-if="volume.type == 2">
+      <label class="col-md-2 control-label" >Size of the {{volume.tier.type}} tier</label>
+      <div class="col-md-2">
+        <div class="input-group">
+          <span class="input-group-addon">
+            <input type="radio" value="1" ng-model="volume.cacheTierByPercentage"></input>
+          </span>
+          <input type="text" id="textInput" name="cacheSize" class="form-control" ng-model="volume.cacheSizePercentage" ng-focus="volume.cacheTierByPercentage=1;volume.cacheSizeValue=''"></input>
+          <span class="input-group-addon">
+            %
+          </span>
+        </div>
+        <div ng-if="volume.cacheTierByPercentage === 1" class="volume-tier-info-label">
+          {{volume.cacheSizePercentage}} % of volume will be in {{volume.tier.type}} tier
+        </div>
+      </div>
+      <div class="col-md-2">
+        <div class="input-group">
+          <span class="input-group-addon">
+            <input type="radio" value="0" ng-model="volume.cacheTierByPercentage"></input>
+          </span>
+          <input type="text" id="textInput" name="cacheSize" class="form-control" ng-model="volume.cacheSizeValue" ng-focus="volume.cacheTierByPercentage=0;volume.cacheSizePercentage=''"></input>
+          <span class="input-group-addon">
+            {{volume.targetSizeUnit.unit}}
+          </span>
+        </div>
+        <div ng-if="volume.cacheTierByPercentage === 0" class="volume-tier-info-label">
+          {{volume.cacheSizeValue}} {{volume.targetSizeUnit.unit}} of the volume will be in {{volume.tier.type}} tier
+        </div>
+      </div>
+    </div>
+
+    <div class="form-group" ng-if="volume.type == 3">
+      <label class="col-md-2 control-label">Erasure Coding</label>
+      <div class="col-md-4">
+        <div class="volume-disperse-config-label">
+          <select pf-select ng-model="volume.disperseOption" id="disperseOption" class="form-control" ng-options="disperseOption.type for disperseOption in volume.disperseOptions">
+          </select>
+        </div>
+        <div class="volume-disperse-info">
+          {{volume.disperseOption.desc}}
+        </div>
+      </div>
+    </div>
+  </form>
+</div>
