@@ -15,6 +15,7 @@ import {PoolController} from "./components/pools/pools-controller";
 import {PoolNewController} from "./components/pools/pool-new";
 import {HostController} from "./components/hosts/host";
 import {VolumeController} from "./components/volumes/volume-controller";
+import {VolumeNewController} from "./components/volumes/volume-new";
 import {HostDetailController} from "./components/hosts/host-detail";
 
 var angular: ng.IAngularStatic = require("angular");
@@ -44,7 +45,7 @@ class USMApp {
             'ngSanitize',
             'ngRoute',
             'mgcrea.ngStrap',
-			'gridshore.c3js.chart',
+            'gridshore.c3js.chart',
             'restangular',
             RequestsModule,
             RestModule
@@ -58,8 +59,13 @@ class USMApp {
             .controller('HostController', HostController)
             .controller('HostDetailController', HostDetailController)
             .controller('VolumeController', VolumeController)
+            .controller('VolumeNewController', VolumeNewController)
             .service('MenuService', MenuService)
-            .config(RouteConfig);
+            .config(RouteConfig)
+            .config(['$httpProvider', function($httpProvider) {
+                $httpProvider.defaults.xsrfCookieName = 'csrftoken';
+                $httpProvider.defaults.xsrfHeaderName = 'X-CSRFToken';
+            }]);
         angular.element(document).ready(function() {
             angular.bootstrap(document, ['usm-client']);
         });

@@ -46,10 +46,10 @@ export class RequestTrackingService {
                 id: id,
                 operation: operation,
                 timestamp: Date.now()
-            }, function(id) {
+            }, (id) => {
                 this.$log.info('Tracking new request ' + id);
                 d.resolve(id);
-            }, function(error) {
+            }, (error) => {
                 this.$log.error('Error inserting request ' + id + ' error: ' + error);
                 d.reject(error);
             });
