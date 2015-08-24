@@ -57,7 +57,7 @@ export class RouteConfig {
 			controller: 'VolumeNewController',
 			controllerAs: 'volume'
 		}).when('/volumes/expand/:id', {
-			templateUrl: 'views/volumes-expand.html',
+			templateUrl: 'views/volumes/volumes-expand.html',
 			menuId: 'storage',
 			controller: 'VolumeExpandController',
 			controllerAs: 'volume'

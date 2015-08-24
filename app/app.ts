@@ -16,6 +16,7 @@ import {PoolController} from "./components/pools/pools-controller";
 import {PoolNewController} from "./components/pools/pool-new";
 import {VolumeController} from "./components/volumes/volume-controller";
 import {VolumeNewController} from "./components/volumes/volume-new";
+import {VolumeExpandController} from "./components/volumes/volume-expand";
 
 var angular: ng.IAngularStatic = require("angular");
 var ngRoute = require("angular-route");
@@ -55,6 +56,7 @@ class USMApp {
             .controller('PoolNewController', PoolNewController)
             .controller('VolumeController', VolumeController)
             .controller('VolumeNewController', VolumeNewController)
+            .controller('VolumeExpandController', VolumeExpandController)
             .service('MenuService', MenuService)
             .config(RouteConfig)
             .config(['$httpProvider', function($httpProvider) {
