@@ -3,10 +3,15 @@
 export class UtilService {
     config: Array<any>;
     rest: restangular.IService;
+    restFull: restangular.IService;
     static $inject: Array<string> = ['Restangular'];
-    constructor(rest: restangular.ICollection) {
-        this.rest = rest.withConfig((RestangularConfigurer) => {
-            RestangularConfigurer.setBaseUrl('/api/v1/');
+    constructor(rest:restangular.ICollection) {
+       this.rest = rest.withConfig((RestangularConfigurer) => {
+            RestangularConfigurer.setBaseUrl('/api/v1');
+        });
+        this.restFull = rest.withConfig((RestangularConfigurer) => {
+            RestangularConfigurer.setBaseUrl('/api/v1');
+            RestangularConfigurer.setFullResponse(true);
         });
     }
 
