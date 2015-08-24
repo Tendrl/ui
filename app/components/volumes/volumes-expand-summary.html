@@ -1,0 +1,26 @@
+<div class="wizard-step-view">
+  <dl class="dl-horizontal">
+    <dt>Requested Size</dt>
+    <dd> {{volume.targetSize}} GB</dd>
+
+    <dt>Actual Size</dt>
+    <dd> {{volume.actualSize}} GB</dd>
+  </dl>
+</div>
+<h3>Devices for Volume</h3>
+<table class="table table-bordered">
+  <thead>
+    <tr>
+      <th>Device</th>
+      <th>Size</th>
+      <th>Replication</th>
+    </tr>
+  </thead>
+  <tbody>
+      <tr ng-repeat="device in volume.storageDevices" ng-class="{'volume-device-table-row-odd' : (device.repSet % 2) == 0}">
+        <td>{{device.hostname}} : {{device.storage_device_name}}</td>
+        <td>{{device.size}} GB</td>
+        <td ng-if="device.repStart" rowspan="{{volume.copyCount}}">Replicated</td>
+      </tr>
+  </tbody>
+</table>
