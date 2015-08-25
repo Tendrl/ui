@@ -1,0 +1,122 @@
+<div class="row">
+  <div class="col-md-9">
+    <h3>
+      Available Hosts
+    </h3>
+
+    <div class="row cluster-hosts-panel">
+      <div class="col-md-6">
+        <form role="form" class="search-pf has-button">
+          <div class="form-group has-clear">
+            <div class="search-pf-input-group">
+              <label for="search1" class="sr-only">Search</label>
+              <input id="search1" ng-model="searchText" type="search" class="form-control" placeholder="Search"></input>
+              <button type="button" class="clear" aria-hidden="true" style="display: none;"><span class="pficon pficon-close"></span></button>
+            </div>
+          </div>
+          <div class="form-group">
+            <button class="btn btn-default" type="button"><span class="fa fa-search"></span></button>
+          </div>
+        </form>
+      </div>
+      <div class="col-md-6">
+        <div class="pull-right">
+          <span class="avaliable-hosts-count">{{cluster.hosts.length}} Hosts</span>
+          (
+            <a ng-click="cluster.acceptAllHosts()" href="">Accept All</a>
+            |
+            <a ng-click="cluster.selectAllHosts()" href="">Select All</a>
+          )
+          <button class="btn btn-primary" ng-disabled="isAddRow" ng-click="isAddRow = true; cluster.newHost={}; cluster.errorMessage = ''">Add</button>
+          <button class="btn btn-default">Import</button>
+        </div>
+      </div>
+      <div class="col-md-12">
+
+      </div>
+    </div>
+
+    <div class="row cluster-add-host-row" ng-show="isAddRow">
+      <div class="col-md-3">
+        <input type="text" class="form-control" ng-model="cluster.newHost.hostName" placeholder="Hostname" ng-blur="cluster.updateFingerprint(cluster.newHost)"> </input>
+      </div>
+      <div class="col-md-3">
+        <input type="text" class="form-control" ng-model="cluster.newHost.userName" placeholder="Username"> </input>
+      </div>
+      <div class="col-md-3">
+         <input type="password" class="form-control" ng-model="cluster.newHost.password" placeholder="Password"> </input>
+      </div>
+      <div class="col-md-3">
+        <div class="pull-right">
+          <button class="btn btn-primary" ng-disabled="cluster.newHost.isVerifyingHost || !(cluster.newHost.hostName && cluster.newHost.userName && cluster.newHost.password) || cluster.newHost.cautionMessage === 'Error!.'" ng-click="cluster.addNewHost(newHost)">
+            <i class="fa fa-spinner fa-spin" ng-show="cluster.newHost.isVerifyingHost"></i>
+            Ok
+          </button>
+          <button class="btn btn-default" ng-click="isAddRow = false;">Cancel</button>
+        </div>
+      </div>
+      <div ng-show="cluster.newHost.errorMessage.length>0" class="col-md-12 error-msg-color">
+       <label ng-bind="cluster.newHost.cautionMessage"></label>
+       <span ng-bind="cluster.newHost.errorMessage"></span>
+      </div>
+    </div>
+
+    <div class="available-hosts-list">
+      <div class="row host-row" ng-repeat="host in cluster.hosts | filter:searchText" ng-click="cluster.selectHost(host, !host.selected)">
+        <div class="col-md-1 host-col-middle host-col-select">
+          <i ng-show="host.selected" class="fa fa-2x fa-check-square-o"></i>
+        </div>
+        <div class="col-md-6">
+          <div class="host-details">
+            <ul class="list-unstyled">
+              <li>
+                <span> {{host.hostname}} </span>
+              </li>
+              <li>
+                <span class="fa fa-paw"> </span>
+                <span class="text-muted"> {{host.fingerprint}} </span>
+              </li>
+            </ul>
+          </div>
+        </div>
+        <div class="col-md-2 host-col-middle">
+          {{host.ipaddress}}
+        </div>
+        <div class="col-md-2 host-col-middle verified-col">
+          <span class="fa fa-lg fa-check-circle-o verified-col-icon" ng-show="host.state === 'ACCEPTED'"></span>
+          <button class="btn btn-default" type="button" ng-show="host.state === 'UNACCEPTED' || host.state === 'ACCEPTING'" ng-click="cluster.acceptHost(host)" ng-disabled="host.state === 'ACCEPTING'">
+            <span class="fa fa-check" ng-show="host.state==='UNACCEPTED'">Accept</span>
+            <div ng-show="host.state==='ACCEPTING'">
+              <span class="fa fa-spinner fa-spin"></span>
+              Accepting
+            </div>
+          </button>
+        </div>
+        <div class="col-md-1 host-col-middle">
+          <div class="host-is-mon" ng-show="cluster.clusterType.id === 2">
+            <a class="host-is-mon-link" href="" ng-click="host.isMon=!host.isMon;$event.stopPropagation()">
+              <span class="fa fa-desktop fa-lg" ng-class="host.isMon ? '': 'host-is-mon-icon'" title="Use this host as Ceph monitor"></span>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <div class="col-md-3">
+    <h3>Storage Capacity</h3>
+    <span class="text-muted">
+       Available storage in selected hosts
+    </span>
+    <div class="row selected-hosts-storage">
+      <div class="col-md-6 available-storage">
+        <div>
+          <i class="fa fa-database icon"></i> <span>{{cluster.getDisks().length}} Disks</span>
+        </div>
+        <div>
+          <i class="fa fa-pie-chart"></i></i> <span>{{cluster.getDisksSize()}} GB</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

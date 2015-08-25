@@ -137,9 +137,9 @@ export class RequestsController {
                 }
             });
         };
+         $interval($scope.reloadDiscoveredHosts, 5000);
+         $interval($scope.reloadAlerts, 6000);
+         $interval($scope.reloadTasks, 5000);
 
-        $interval($scope.reloadDiscoveredHosts, 5000);
-        $interval($scope.reloadAlerts, 6000);
-        $interval($scope.reloadTasks, 5000);
     }
 }

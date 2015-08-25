@@ -1,0 +1,57 @@
+<div class="cluster-volumes-panel">
+  <h3>
+    Volumes
+    <button class="btn btn-primary pull-right" ng-click="isAddVolume = true;">Add</button>
+  </h3>
+</div>
+
+<div class="row cluster-add-host-row" ng-show="isAddVolume">
+  <div class="col-md-3">
+    <input type="text" class="form-control" ng-model="cluster.newVolume.name" placeholder="Volume"> </input>
+  </div>
+  <div class="col-md-3">
+    <select pf-select ng-model="cluster.newVolume.copyCount" id="" class="form-control" ng-options="copyCount for copyCount in cluster.newVolume.copyCountList" ng-change=""></select>
+  </div>
+  <div class="col-md-3">
+    <div class="input-group">
+      <input type="text" name="targetSize" class="form-control" ng-model="cluster.newVolume.size" placeholder="Size"></input>
+      <div class="input-group-btn">
+        <select pf-select ng-model="cluster.newVolume.sizeUnit" class="form-control form-size-selector" ng-options="sizeUnit.unit for sizeUnit in cluster.newVolume.sizeUnits">
+        </select>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-3">
+    <div class="pull-right">
+      <button class="btn btn-primary" ng-click="cluster.addNewVolume(cluster.newVolume)">
+        Ok
+      </button>
+      <button class="btn btn-default" ng-click="isAddVolume = false;">Cancel</button>
+    </div>
+  </div>
+</div>
+
+<table class="table table-hover table-bordered table-volumes">
+  <thead>
+    <tr>
+      <th> Volume Name </th>
+      <th> No.of Copies </th>
+      <th> Size </th>
+      <th> Disks </th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr ng-repeat="volume in cluster.volumes">
+      <td>{{volume.name}}</td>
+      <td>{{volume.copyCount}}</td>
+      <td>{{volume.size}} {{volume.sizeUnit.unit}}</td>
+      <td>
+        <ul class="list-unstyled">
+          <li ng-repeat="disk in volume.disks">
+            {{disk.hostname}} : {{disk.device_path}}
+          </li>
+        </ul>
+      </td>
+    </tr>
+  </tbody>
+</table>

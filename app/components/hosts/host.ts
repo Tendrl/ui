@@ -8,6 +8,8 @@ export class HostController {
     private self = this;
     public list: Array<any>;
     private MockDataProvider = new MockDataProvider();
+    public clusterList: Array<any>;
+    private clusterHelper: ClusterHelper;
     static $inject: Array<string> = [
         '$scope',
         '$interval',
@@ -57,7 +59,7 @@ export class HostController {
     }
 
     public getClusterTypeTitle(type) {
-        return ClusterHelper.getClusterType(type).type;
+        return this.clusterHelper.getClusterType(type).type;
     }
 
     public getNodeTypeTitle(node_type) {

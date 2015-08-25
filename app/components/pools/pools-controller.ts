@@ -1,6 +1,6 @@
 import {ClusterService} from '../rest/clusters';
-import {VolumeHelpers} from '';
-import {PoolService}  from '';
+import {VolumeHelpers} from '../volumes/volume-helpers';
+ import {PoolService}  from '../rest/pool';
 
 export class PoolController {
 	private self = this;

@@ -128,7 +128,7 @@ export class VolumeExpandController {
 
             var selectedDevices = [];
             this.$q.all(deviceRequests).then((devicesList) => {
-                selectedDevices = VolumeHelpers.getStorageDervicesForVolumeBasic(
+                selectedDevices = VolumeHelpers.getStorageDevicesForVolumeBasic(
                     this.targetSize, this.copyCount, devicesList);
                 this.storageDevices = selectedDevices;
                 this.actualSize = VolumeHelpers.getVolumeSize(
