@@ -47,7 +47,7 @@ export class VolumeController {
             _.each(volumes, function(volume) {
                 var mockVolume = self.mockDataProvider.getMockVolume(volume.volume_name);
                 volume.areaSpline_cols = [{ id: 1, name: 'Used', color: '#39a5dc', type: 'area-spline' }];
-                volume.areaSpline_values = mockVolume.areaSpline_values;
+                volume.areaSpline_values = mockVolume.areaSplineValues;
                 volume.alerts = mockVolume.alerts;
                 self.volumeSvc.getBricks(volume.volume_id).then(function(bricks) {
                     volume.bricks = bricks.length;

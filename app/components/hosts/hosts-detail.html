@@ -184,7 +184,7 @@
                 <div class="card-title"> Cluster network </div>
                 <div class="col-md-7">
                     <c3chart bindto-id="gauge-kbps1-chart">
-                        <chart-column column-id="Data Rate" column-values="{{hostdetail.mockHost.clusterNetwork.inbound+hostdetail.mockHost.clusterNetwork.outbound}}" column-type="gauge" column-color="{{hostdetail.getStatusColor((hostdetail.mockHost.cluster_network.inbound + hostdetail.mockHost.clusterNetwork.outbound)/100*100)}}" />
+                        <chart-column column-id="Data Rate" column-values="{{hostdetail.mockHost.clusterNetwork.inbound+hostdetail.mockHost.clusterNetwork.outbound}}" column-type="gauge" column-color="{{hostdetail.getStatusColor((hostdetail.mockHost.clusterNetwork.inbound + hostdetail.mockHost.clusterNetwork.outbound)/100*100)}}" />
                         <chart-gauge min="0" max="100" units="{{hostdetail.mockHost.clusterNetwork.inbound+hostdetail.mockHost.clusterNetwork.outbound}} Gbps" width="10" />
                         <chart-tooltip show-tooltip="false"></chart-tooltip>
                         <chart-size chart-height="100"></chart-size>
