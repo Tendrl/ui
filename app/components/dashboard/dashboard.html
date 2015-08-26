@@ -1,0 +1,320 @@
+<div class="row dashboard">
+  <div class="col-sm-12 col-md-12">
+
+    <!-- Start Dashboard status card-->
+    <div class="row">
+      <div class="col-md-3">
+        <div class="dashboard-card dashboard-card-single dashboard-card-status">
+          <div class="title">
+            <span class="usmicon-cluster"></span>
+            {{dash.clusters.length}} Clusters
+          </div>
+          <div class="content">
+            <ul class="list-inline">
+              <li ng-if="dash.clustersWarning.length === 0 && dash.clustersCritical.length === 0">
+                <i class="fa fa-check-circle-o ok"></i>
+              </li>
+              <li ng-if="dash.clustersWarning.length > 0">
+                <i class="fa  fa-exclamation-triangle icon warning"></i>
+                {{dash.clustersWarning.length}}
+              </li>
+              <li ng-if="dash.clustersCritical.length > 0">
+                <i class="fa fa-times-circle-o icon critical"></i>
+                {{dash.clustersCritical.length}}
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-3">
+        <div class="dashboard-card dashboard-card-single dashboard-card-status">
+          <div class="title">
+            <span class="usmicon-host"></span>
+            {{dash.hosts.length}} Hosts
+          </div>
+          <div class="content">
+            <ul class="list-inline">
+              <li ng-if="dash.hostsWarning.length === 0 && dash.hostsCritical.length === 0">
+                <i class="fa fa-check-circle-o ok"></i>
+              </li>
+              <li ng-if="dash.hostsWarning.length > 0">
+                <i class="fa  fa-exclamation-triangle icon warning"></i>
+                {{dash.hostsWarning.length}}
+              </li>
+              <li ng-if="dash.hostsCritical.length > 0">
+                <i class="fa fa-times-circle-o icon critical"></i>
+                {{dash.hostsCritical.length}}
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-3">
+        <div class="dashboard-card dashboard-card-single dashboard-card-status">
+          <div class="title">
+            <i class="fa fa-database icon"></i>
+            {{dash.volumes.length+dash.pools.length}} Volumes &amp; Pools
+          </div>
+          <div class="content">
+             <ul class="list-inline">
+              <li ng-if="dash.volumesWarning.length === 0 && dash.volumesCritical.length === 0 && dash.poolsWarning.length === 0 && dash.poolsCritical.length === 0">
+                <i class="fa fa-check-circle-o ok"></i>
+              </li>
+              <li ng-if="dash.volumesWarning.length > 0 || dash.poolsWarning.length > 0">
+                <i class="fa  fa-exclamation-triangle icon warning"></i>
+                {{dash.volumesWarning.length+dash.poolsWarning.length}}
+              </li>
+              <li ng-if="dash.volumesCritical.length > 0 || dash.poolsCritical.length > 0">
+                <i class="fa fa-times-circle-o icon critical"></i>
+                {{dash.volumesCritical.length+dash.poolsCritical.length}}
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-3">
+        <div class="dashboard-card  dashboard-card-single dashboard-card-status">
+          <div class="title">
+            <span class="usmicon-services"></span>
+            {{dash.services.length}} Services
+          </div>
+          <div class="content">
+             <ul class="list-inline">
+              <li ng-if="dash.servicesWarning.length === 0 && dash.servicesCritical.length === 0">
+                <i class="fa fa-check-circle-o ok"></i>
+              </li>
+              <li ng-if="dash.servicesWarning.length > 0">
+                <i class="fa  fa-exclamation-triangle icon warning"></i>
+                {{dash.servicesWarning.length}}
+              </li>
+              <li ng-if="dash.servicesCritical.length > 0">
+                <i class="fa fa-times-circle-o icon critical"></i>
+                {{dash.servicesCritical.length}}
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- End Dashboard status card -->
+
+    <div class="row">
+      <div class="col-md-6">
+        <div class="dashboard-card  dashboard-card-single dashboard-card-capacity">
+          <div class="title">
+            Capacity Utilization
+          </div>
+          <div class="row">
+            <div class="col-md-12">
+              <div class="btn-group" role="group">
+                <button type="button" class="btn btn-primary btn-xs" ng-class="dash.config.capacityByType ? 'btn-primary' : 'btn-default'" ng-click="dash.switchCapacityCategory(!dash.config.capacityByType)">By Type</button>
+                <button type="button" class="btn btn-default btn-xs" ng-class="dash.config.capacityByTier ? 'btn-primary' : 'btn-default'" ng-click="dash.switchCapacityCategory(!dash.config.capacityByTier)">By Tier</button>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-3">
+              <div class="capacity-info">
+                <span class="free-space-value">
+                  {{dash.totalCapacity.freeFormatted}}
+                </span>
+                Available
+                <span class="used-total-space">
+                  {{dash.totalCapacity.usedFormatted}} Used
+                </span>
+                <span class="used-total-space">
+                  {{dash.totalCapacity.totalFormatted}} Total
+                </span>
+              </div>
+            </div>
+            <div class="col-md-9">
+              <c3chart bindto-id="cluster-donut" chart-columns="dash.totalCapacity.legends" chart-data="dash.totalCapacity.values">
+                <chart-donut title="Usage" width="50"></chart-donut>
+                <chart-legend show-legend="true" legend-position="right"> </chart-legend>
+                <chart-events on-click-data="dash.selectClusterCapacityLegend(data)"> </chart-events>
+                <chart-size chart-height="300"></chart-size>
+              </c3chart>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-12">
+              <div class="usage-trending">
+                <div class="usage-trending-content">
+                  <c3chart bindto-id="cluster-trend" chart-columns="dash.trendCapacity.legends" chart-data="dash.trendCapacity.values">
+                    <chart-axis>
+                      <chart-axis-x show="false"> </chart-axis-x>
+                      <chart-axis-y show="false"> </chart-axis-y>
+                    </chart-axis>
+                    <chart-points show-point="false"></chart-points>
+                    <chart-legend show-legend="false"></chart-legend>
+                    <chart-size chart-height="80"></chart-size>
+                    <chart-tooltip show-tooltip="false"></chart-tooltip>
+                  </c3chart>
+                </div>
+                <div class="usage-trending-footer">
+                  <span ng-if="dash.trendCapacity.selected.isTotal">Last 30 days - Total Used</span>
+                  <span ng-if="!dash.trendCapacity.selected.isTotal">
+                    Last 30 days - Used by {{dash.trendCapacity.selected.type}}
+                  </span>
+                  <span class="pull-right">
+                    {{dash.trendCapacity.selected.usedFormatted}}
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="row">
+          <div class="col-md-12">
+            <div class="dashboard-card dashboard-card-multiple">
+              <div class="row">
+                <div class="col-md-6 col-left">
+                  <div class="dashboard-card-tops">
+                    <div class="body">
+                      <div class="title">
+                        Top Clusters - IOPS
+                      </div>
+                      <table class="table table-striped table-content">
+                        <tbody>
+                          <tr ng-repeat="cluster in dash.clusters | orderBy: '-perf.iops' | limitTo: 5">
+                            <td class="bold"> {{cluster.cluster_name}} </td>
+                            <td> {{cluster.perf.iopsFormatted}} </td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                    <div class="footer">
+                      <a href="" > View All </a>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-6 col-right">
+                  <div class="dashboard-card-tops">
+                    <div class="body">
+                      <div class="title">
+                        Top Clusters - Bandwidth Mbps
+                      </div>
+                      <table class="table table-striped table-content">
+                        <tbody>
+                          <tr ng-repeat="cluster in dash.clusters | orderBy: '-perf.bandwidth' | limitTo: 5">
+                            <td class="bold"> {{cluster.cluster_name}} </td>
+                            <td> {{cluster.perf.bandwidthFormatted}} </td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                    <div class="footer">
+                      <a href="" > View All </a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-12">
+            <div class="dashboard-card dashboard-card-multiple">
+              <div class="row">
+                <div class="col-md-6 col-left">
+                  <div class="dashboard-card-tops">
+                    <div class="body">
+                      <div class="title">
+                        Top Hosts - CPU
+                      </div>
+                      <table class="table table-striped table-content">
+                        <tbody>
+                          <tr ng-repeat="host in dash.hosts | orderBy: '-perf.cpu' | limitTo: 5">
+                            <td> {{host.node_name}} </td>
+                            <td> {{host.perf.cpu}}% </td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                    <div class="footer">
+                      <a href="" > View All </a>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-6 col-right">
+                  <div class="dashboard-card-tops">
+                    <div class="body">
+                      <div class="title">
+                        Top Hosts - Memory
+                      </div>
+                      <table class="table table-striped table-content">
+                        <tbody>
+                          <tr ng-repeat="host in dash.hosts | orderBy: '-perf.memory' | limitTo: 5">
+                            <td> {{host.node_name}} </td>
+                            <td> {{host.perf.memory}}% </td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                    <div class="footer">
+                      <a href="" > View All </a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-md-12">
+        <div class="dashboard-card dashboard-card-single dashboard-card-pools">
+          <div class="title">
+            Pools and Volumes Utilization
+          </div>
+          <div class="row">
+            <div class="col-md-1 legends">
+              <div class="legend">
+                <span class="fa fa-stop legend-square legend-l0"></span>
+                &gt; 90 %
+              </div>
+              <div class="legend">
+                <span class="fa fa-stop legend-square legend-l1"></span>
+                80-90 %
+              </div>
+              <div class="legend">
+                <span class="fa fa-stop legend-square legend-l2"></span>
+                70-80 %
+              </div>
+              <div class="legend">
+                <span class="fa fa-stop legend-square legend-l3"></span>
+                &lt; 70 %
+              </div>
+            </div>
+            <div class="col-md-11">
+              <div class="row">
+                <div class="col-md-2" ng-repeat="cluster in dash.clusters">
+                  <div class="heat-map-title">
+                    {{cluster.cluster_name}}
+                  </div>
+                  <div class="heat-map">
+                    <div class="square heat-l0" ng-class="dash.getHeatLevel(pool.usage)" ng-repeat="pool in cluster.pools"></div>
+                    <div class="square heat-l0" ng-class="dash.getHeatLevel(volume.usage)" ng-repeat="volume in cluster.volumes"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- <div class="col-sm-2 col-md-2 sidebar-pf sidebar-pf-right" style="min-height:780px">
+    <div class="sidebar-header sidebar-header-bleed-left sidebar-header-bleed-right">
+      <div class="actions pull-right">
+        <span class="label label-default">20</span>
+      </div>
+      <h2 class="h3">Events</h2>
+    </div>
+  </div> -->
+</div>
