@@ -8,7 +8,7 @@ export class RouteConfig {
 			menuId: 'login',
 			controller: 'LoginController',
 		}).when('/dashboard', {
-			templateUrl: 'views/dashboard.html',
+			templateUrl: 'views/dashboard/dashboard.html',
 			menuId: 'dashboard',
 			controller: 'DashboardController',
 			controllerAs: 'dash'

@@ -39,7 +39,7 @@ export class ClusterService {
     getCapacity(id) {
         return this.serverSvc.getListByCluster(id).then((servers) =>{
             var requests = [];
-            _.each(servers, function(server) {
+            _.each(servers, (server) => {
                 requests.push(this.serverSvc.getDiskStorageDevices(server.node_id));
             });
             return this.$q.all(requests).then(function(devicesList) {
