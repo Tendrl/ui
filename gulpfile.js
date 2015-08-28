@@ -28,6 +28,10 @@ var config = {
 		src: ['./node_modules/patternfly/dist/fonts/*.*', './node_modules/font-awesome/fonts/*.*'],
 		dest: 'dist/fonts'
 	},
+	images : {
+		src: ['./app/images/*.*'],
+		dest: 'dist/images'
+	},
 	css: {
 		vendor: {
 			src: ['./node_modules/patternfly/dist/css/patternfly.css'],
@@ -75,6 +79,12 @@ gulp.task('fonts', function () {
 		.pipe(gulp.dest(config.fonts.dest));
 });
 
+//Copy the images to dist/images
+gulp.task('images', function () {
+	return gulp.src(config.images.src)
+		.pipe(gulp.dest(config.images.dest));
+});
+
 gulp.task('html', function () {
 	//Copy the partial html files to dist
 	return gulp.src(path.partials)
@@ -90,7 +100,7 @@ gulp.task('inject', ['browserify', 'sass', 'css', 'html'], function () {
 });
 
 
-gulp.task('compile', ['tsc', 'browserify', 'sass', 'css', 'fonts', 'html', 'inject']);
+gulp.task('compile', ['tsc', 'browserify', 'sass', 'css', 'fonts', 'html', 'inject', 'images']);
 
 gulp.task('watch', function () {
 	gulp.watch(path.tscripts, ['browserify']);

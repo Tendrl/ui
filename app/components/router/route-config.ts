@@ -4,9 +4,10 @@ export class RouteConfig {
 	static $inject: Array<string> = ['$routeProvider'];
 	constructor(private routeProvider: ng.route.IRouteProvider) {
 		routeProvider.when('/', {
-			templateUrl: 'views/login.html',
+			templateUrl: 'views/login/login.html',
 			menuId: 'login',
 			controller: 'LoginController',
+			controllerAs: 'login'
 		}).when('/dashboard', {
 			templateUrl: 'views/dashboard/dashboard.html',
 			menuId: 'dashboard',

@@ -8,6 +8,7 @@ import {default as HostModule} from "./components/hosts/host-module";
 import {RouteConfig} from "./components/router/route-config";
 import {MenuService} from "./components/base/menu-svc";
 
+import {LoginController} from "./components/login/login";
 import {ApplicationController} from "./components/base/application-controller";
 import {MenuController} from "./components/base/menu-controller";
 import {FirstController} from "./components/first/first-controller";
@@ -50,6 +51,7 @@ class USMApp {
             RestModule,
             HostModule
         ])
+            .controller('LoginController', LoginController)
             .controller('ApplicationController', ApplicationController)
             .controller('MenuController', MenuController)
             .controller('FirstController', FirstController)
@@ -62,6 +64,16 @@ class USMApp {
             .controller('VolumeNewController', VolumeNewController)
             .controller('VolumeExpandController', VolumeExpandController)
             .service('MenuService', MenuService)
+            .run( function($rootScope, $location) {
+               $rootScope.$watch(function() {
+                  return $location.path();
+                },
+                function(a){
+                  console.log('url has changed: ' + a);
+                  $rootScope.currentURI = a;
+                  // show loading div, etc...
+                });
+            })
             .config(RouteConfig)
             .config(['$httpProvider', function($httpProvider) {
                 $httpProvider.defaults.xsrfCookieName = 'csrftoken';
