@@ -4,10 +4,10 @@
     <div class="content">
       <ul class="list-unstyled">
         <li class="task-item main-navigation" ng-repeat="discoveredHost in discoveredHosts" ng-click="$event.stopPropagation()">
-          <div>
+          <div class="text-align-margin">
             <label ng-bind="discoveredHost.hostname"></label>
               <span  class="fa fa-lg fa-check-circle-o verified-col-icon left-check-icon" ng-show="discoveredHost.state === 'ACCEPTED'"></span>
-            <button class="btn btn-default pull-right" type="button" ng-show="discoveredHost.state === 'UNACCEPTED' || discoveredHost.state === 'ACCEPTING'"ng-click="acceptHost(discoveredHost);" ng-disabled="discoveredHost.state === 'ACCEPTING'"> 
+            <button class="btn btn-default pull-right accept-button-margin" type="button" ng-show="discoveredHost.state === 'UNACCEPTED' || discoveredHost.state === 'ACCEPTING'"ng-click="acceptHost(discoveredHost);" ng-disabled="discoveredHost.state === 'ACCEPTING'"> 
               <span class="fa fa-check" ng-show="discoveredHost.state==='UNACCEPTED'">    Accept
               </span>
               <div class="ng-hide" ng-show="discoveredHost.state==='ACCEPTING'">
