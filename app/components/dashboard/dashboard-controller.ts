@@ -46,6 +46,23 @@ export class DashboardController {
         private serverService: ServerService,
         private volumeService: VolumeService,
         private poolService: PoolService) {
+
+         this.clusters = new Array<any>();
+         this.clustersWarning = new Array<any>();
+         this.clustersCritical = new Array<any>();
+         this.hosts = new Array<any>();
+         this.hostsWarning = new Array<any>();
+         this.hostsCritical = new Array<any>();
+         this.volumes = new Array<any>();
+         this.volumesWarning = new Array<any>();
+         this.volumesCritical = new Array<any>();
+         this.pools = new Array<any>();
+         this.poolsWarning = new Array<any>();
+         this.poolsCritical = new Array<any>();
+         this.services = new Array<any>();
+         this.servicesWarning = new Array<any>();
+         this.servicesCritical = new Array<any>();
+         
          this.config = { capacityByType: true, capacityByTier: false };
          this.clusterTypes = [
             { id:1, name: 'Block', color: '#48b3ea', type: 'donut' },
