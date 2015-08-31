@@ -12,45 +12,45 @@ export class VolumeHelpers {
     private static targetSizeUnits: Array<SizeUnit>;
     private static disperseOptions: Array<DisperseOption>;
 
-    static init(){
+    static init() {
         this.volumeTypes = [
-            { id:1, type:'Distribute'},
-            { id:2, type:'Distributed Replicate'},
-            { id:3, type:'Replicate'}
+            { id: 1, type: 'Distribute' },
+            { id: 2, type: 'Distributed Replicate' },
+            { id: 3, type: 'Replicate' }
         ];
 
         this.volumeStates = [
-            { id:0, state:'Up'},
-            { id:1, state:'Warning'},
-            { id:2, state:'Down'},
-            { id:3, state:'Unknown'},
-            { id:4, state:'Created'}
+            { id: 0, state: 'Up' },
+            { id: 1, state: 'Warning' },
+            { id: 2, state: 'Down' },
+            { id: 3, state: 'Unknown' },
+            { id: 4, state: 'Created' }
         ];
 
         this.tierList = [
-            { id:1, type:'Hot'}
+            { id: 1, type: 'Hot' }
         ];
 
         this.targetSizeUnits = [
-            { id:1, unit: 'GB' },
-            { id:2, unit: 'TB' }
+            { id: 1, unit: 'GB' },
+            { id: 2, unit: 'TB' }
         ];
 
         this.disperseOptions = [
-            { id:1, type: 'RAID-6', desc: '8 + 2 (8 data disks + 2 parity disks)' },
-            { id:2, type: 'RAID-6 (E)', desc: '8 + 3 (8 data disks + 3 parity disks)' }
+            { id: 1, type: 'RAID-6', desc: '8 + 2 (8 data disks + 2 parity disks)' },
+            { id: 2, type: 'RAID-6 (E)', desc: '8 + 3 (8 data disks + 3 parity disks)' }
         ];
     }
-    
-        public static getStorageDevicesForVolumeBasic(targetSize, copyCount, devicesList) {
+
+    public static getStorageDevicesForVolumeBasic(targetSize, copyCount, devicesList) {
         var selectedDevices = [];
         var size = 0;
         var iter = 0;
-        while(size < targetSize) {
+        while (size < targetSize) {
             var subVolSize = 0;
             _.each(_.range(copyCount), function(copyNo) {
                 var device = devicesList[copyNo][iter];
-                if(subVolSize === 0) {
+                if (subVolSize === 0) {
                     device.repStart = true;
                 }
                 else {
@@ -68,10 +68,10 @@ export class VolumeHelpers {
 
     public static getVolumeSize(devices, copyCount) {
         var volumeSize = 0;
-        for(var subVol=0; subVol<devices.length/copyCount; subVol++) {
+        for (var subVol = 0; subVol < devices.length / copyCount; subVol++) {
             var subVolSize = 0;
-            _.each(_.range(copyCount), function(copyNo){
-                var device = devices[ subVol * copyCount + copyNo];
+            _.each(_.range(copyCount), function(copyNo) {
+                var device = devices[subVol * copyCount + copyNo];
                 subVolSize = device.size > subVolSize ? device.size : subVolSize;
             });
             volumeSize = volumeSize + subVolSize;
@@ -79,18 +79,18 @@ export class VolumeHelpers {
         return volumeSize;
     };
 
-    public static  getVolumeType(id: number): VolumeType {
+    public static getVolumeType(id: number): VolumeType {
         return _.find(this.volumeTypes, function(type) {
             return type.id === id;
         });
     }
-    
+
     public static getVolumeState(id: number): VolumeState {
         return _.find(this.volumeStates, function(state) {
             return state.id === id;
         });
     }
-    
+
     public static getCopiesList(): Array<number> {
         return this.volumeCopiesList;
     }

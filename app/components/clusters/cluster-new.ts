@@ -272,7 +272,7 @@ export class ClusterNewController {
         var freeDisks: any = _.filter(this.disks, (disk: any) => {
             return !disk.used;
         });
-
+        
         var devicesMap: any = _.groupBy(freeDisks, (disk: any) => {
             return disk.node;
         });
@@ -280,14 +280,14 @@ export class ClusterNewController {
         var devicesList: any = _.map(devicesMap, (disks: any) => {
             return disks;
         });
-
+        
         var selectedDisks = VolumeHelpers.getStorageDevicesForVolumeBasic(newVolume.size, newVolume.copyCount, devicesList);
         _.each(selectedDisks, (selectedDisk: any) => {
             selectedDisk.used = true;
         })
+        
         newVolume.disks = selectedDisks;
         this.volumes.push(newVolume);
-
         this.newVolume = {};    
         this.newVolume = {
             copyCountList: VolumeHelpers.getCopiesList(),
@@ -326,6 +326,7 @@ export class ClusterNewController {
             var index = 0;
             while (index < results.length) {
                 if (results[index].status === 202) {
+                    this.logService.info(results[index].data);
                     this.requestTrackingService.add(results[index].data, 'Creating volume \'' + volumes[index].name);
                 }
                 ++index;
@@ -335,23 +336,22 @@ export class ClusterNewController {
 
     public postGlusterClusterCreate(cluster: any, volumes: any) {
         var requests: Array<any> = [];
-
         _.each(volumes, (volume: any) => {
             var localVolume: any = {
-                cluster: cluster.cluter_id,
+                cluster: cluster.cluster_id,
                 volume_name: volume.name,
                 volume_type: 2,
                 replica_count: volume.copyCount,
                 bricks: []
             };
-
             _.each(volume.disks, (device: any) => {
                 var brick: any = {
                     node: device.node,
-                    storage_devices: device.storage_device_id
+                    storage_device: device.storage_device_id
                 };
                 localVolume.bricks.push(brick);
             });
+            console.log(localVolume);
             requests.push(this.volumeService.create(localVolume));
         });
 
@@ -387,9 +387,9 @@ export class ClusterNewController {
         });
     }
 
-    public addingOSDsCallBack(result: any, request: any, cluster: any, disks: any, pools: any) {
+    public addingOSDsCallBack(result: any, cluster: any, disks: any, pools: any) {
         this.logService.info('Adding OSDs callback ' + result.data);
-        this.requestService.get(result.data).then(() => {
+        this.requestService.get(result.data).then((request) => {
             if (request.staus === 'FAILED' || request.status === 'FAILURE') {
                 this.logService.info('Adding OSDs to cluster\'' + this.clusterName + '\' + is failed');
             } else if (request.status === 'SUCCESS') {
@@ -397,7 +397,7 @@ export class ClusterNewController {
                 this.createCephPools(cluster, disks, pools);
             } else {
                 this.logService.info('Waiting for OSDs to be added to cluster \'' + this.clusterName + '\'');
-                this.timeoutService((result, request, cluster, disks, pools) => this.addingOSDsCallBack(result, request, cluster, disks, pools), 5000);
+                this.timeoutService(() => this.addingOSDsCallBack(result, cluster, disks, pools), 5000);
             }
         });
     }
@@ -405,8 +405,8 @@ export class ClusterNewController {
     public cephCallBack(osds: any, cluster: any, disks: any, pools: any) {
         this.osdService.create(osds).then((result: any) => {
             this.requestTrackingService.add(result.data, 'Adding OSDs to cluster \'' + cluster.cluster_name + '\'');
-            (result, request, cluster, disks, pools) => this.addingOSDsCallBack(result, request, cluster, disks, pools);
-            this.timeoutService((result, request, cluster, disks, pools) => this.addingOSDsCallBack(result, request, cluster, disks, pools), 5000);
+            this.addingOSDsCallBack(result, cluster, disks, pools);
+            this.timeoutService(() => this.addingOSDsCallBack(result, cluster, disks, pools), 5000);
         });
     }
 
@@ -458,7 +458,7 @@ export class ClusterNewController {
                 this.clusterCreateSuccessCallBack(cluster);
             } else {
                 this.logService.info('Waiting for Cluster \'' + this.clusterName + '\' to be ready');
-                this.timeoutService((result, cluster) => this.clusterCreateCallBack(result, cluster));
+                this.timeoutService(() => this.clusterCreateCallBack(result, cluster));
             }
         })
     }
