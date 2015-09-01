@@ -16,7 +16,7 @@ var tscProject = tsc.createProject('tsconfig.json', { typescript: require('types
 var path = {
 	tscripts: './app/**/*.ts',
 	scripts: './app/components/**/*.js',
-	styles: ['app/styles/*.scss'],
+	styles: ['app/styles/main.scss'],
 	index: 'app/index.html',
 	partials: ['app/components/**/*.html', '!app/index.html'],
 	tsdist: 'app',
