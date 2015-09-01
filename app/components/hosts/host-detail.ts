@@ -2,6 +2,8 @@ import {ClusterHelper} from '../clusters/cluster-helpers';
 import {MockDataProvider} from '../clusters/mock-data-provider-helpers';
 import {ClusterService} from '../rest/clusters';
 import {ServerService} from '../rest/server';
+import {UtilService} from '../rest/util';
+import {RequestService} from '../rest/request';
 
 declare var require : any;
 var numeral = require("numeral");
@@ -10,7 +12,8 @@ export class HostDetailController {
     private capacity;
     private mockHost;
     private iops;
-    private MockDataProvider;
+    private mockDataProvider;
+    private clusterHelper : ClusterHelper;
     private Id;
 
     static $inject: Array<string> = [
@@ -21,6 +24,9 @@ export class HostDetailController {
         '$routeParams',
         'ClusterService',
         'ServerService',
+        'UtilService',
+        'RequestService',
+        '$timeout'
     ];
 
     constructor(private $q: ng.IQService,
@@ -29,9 +35,13 @@ export class HostDetailController {
         private $log: ng.ILogService,
         private $routeParams: ng.route.IRouteParamsService,
         private clusterSvc: ClusterService,
-        private serverService: ServerService) {
+        private serverService: ServerService,
+        private utilService: UtilService,
+        private requestService: RequestService,
+        private timeoutService: ng.ITimeoutService) {
         this.Id = this.$routeParams['id'];
-        this.MockDataProvider = new MockDataProvider();
+        this.mockDataProvider = new MockDataProvider();
+        this.clusterHelper = new ClusterHelper(utilService, requestService, $log, timeoutService);
         this.capacity = { free: 0, used: 0, total: 0 };
         this.capacity.legends = [
             { id: 1, name: 'Used', color: '#4AD170', type: 'donut' },
@@ -51,9 +61,9 @@ export class HostDetailController {
         this.iops.trends.cols = [
             { id: 1, name: 'Using', color: '#39a5dc', type: 'area' }
         ];
-        this.iops.trends.values = this.MockDataProvider.getRandomList('1', 50, this.iops.writes, this.iops.total,false);
+        this.iops.trends.values = this.mockDataProvider.getRandomList('1', 50, this.iops.writes, this.iops.total,false);
 
-        this.mockHost = this.MockDataProvider.getMockCluster(undefined);
+        this.mockHost = this.mockDataProvider.getMockCluster(undefined);
         this.mockHost.managementNetwork.inbound = _.random(3, 10);
         this.mockHost.managementNetwork.outbound = _.random(13, 25);
         this.mockHost.clusterNetwork.inbound = _.random(10, 20);
@@ -66,8 +76,8 @@ export class HostDetailController {
     updateHost = (host: any) => {
         host.name = host.node_name.split(".")[0];
         if (host.cluster != null) {
-            this.clusterSvc.get(host.cluster).then(function(cluster) {
-               // host.type = ClusterHelper.getClusterType(cluster.cluster_type);
+            this.clusterSvc.get(host.cluster).then( (cluster) => {
+                host.type = this.clusterHelper.getClusterType(cluster.cluster_type);
             });
         }
     }
@@ -89,7 +99,7 @@ export class HostDetailController {
             { '9': this.capacity.free }
         ];
         this.capacity.legends[0].color = this.getStatusColor(this.capacity.used / this.capacity.total * 100);
-        this.capacity.trends.values = this.MockDataProvider.getRandomList('1', 50, this.capacity.used * 0.1, this.capacity.used, true);
+        this.capacity.trends.values = this.mockDataProvider.getRandomList('1', 50, this.capacity.used * 0.1, this.capacity.used, true);
     }
 
     public formatSize(bytes) {

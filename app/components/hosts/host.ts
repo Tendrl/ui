@@ -3,6 +3,8 @@ import {MockDataProvider} from '../clusters/mock-data-provider-helpers';
 import {ClusterHelper} from '../clusters/cluster-helpers';
 import {ClusterService} from '../rest/clusters';
 import {ServerService} from '../rest/server';
+import {UtilService} from '../rest/util';
+import {RequestService} from '../rest/request';
 
 export class HostController {
     private self = this;
@@ -16,6 +18,10 @@ export class HostController {
         '$location',
         'ClusterService',
         'ServerService',
+        'UtilService',
+        'RequestService',
+        '$log',
+        '$timeout'
     ];
     private timer;
 
@@ -24,9 +30,13 @@ export class HostController {
         private intervalSvc: ng.IIntervalService,
         private locationSvc: ng.ILocationService,
         private clusterSvc: ClusterService,
-        private serverService: ServerService) {
-        this.timer =  this.intervalSvc(this.reloadData, 5000);
-        //clusterSvc.getList().then(this.updateData);
+        private serverService: ServerService,
+        private utilService: UtilService,
+        private requestService: RequestService,
+        private logService: ng.ILogService,
+        private timeoutService: ng.ITimeoutService) {
+        this.timer = this.intervalSvc(this.reloadData, 5000);
+        this.clusterHelper = new ClusterHelper(utilService, requestService, logService, timeoutService);        
     }
     updateData = (clusters) => {
         if (clusters.length === 0) {
