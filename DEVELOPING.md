@@ -1,6 +1,15 @@
 # Kitoon
 Kitoon is a user interface for Skyring
 
+This uses following frameworks and tools
+* AngularJS
+* Typescript
+* SASS
+* Gulp
+* Browserify
+* Bower
+
+## Building
 The build steps can be found at [README](./README.md)
 
 ## Adding type definitions
