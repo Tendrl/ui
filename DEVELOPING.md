@@ -34,3 +34,4 @@ of firefox(39) is not be able to load the sourcemaps. You could either use chrom
 
 ## ToDo
 * Experiment [angular-toasty](http://invertase.github.io/angular-toasty/example/) as a replacement for angular-growl
+* Try out [angular-wizard](https://github.com/mgonto/angular-wizard), need support for custom templates
