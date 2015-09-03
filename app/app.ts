@@ -4,16 +4,15 @@ declare function require(name: string);
 import {default as RequestsModule} from "./components/requests/module";
 import {default as RestModule} from "./components/rest/rest-module";
 import {default as HostModule} from "./components/hosts/host-module";
-
 import {RouteConfig} from "./components/router/route-config";
 import {MenuService} from "./components/base/menu-svc";
-
 import {LoginController} from "./components/login/login";
 import {ApplicationController} from "./components/base/application-controller";
 import {MenuController} from "./components/base/menu-controller";
 import {FirstController} from "./components/first/first-controller";
 import {DashboardController} from "./components/dashboard/dashboard-controller";
 import {ClustersController} from "./components/clusters/clusters-controller";
+import {ClusterExpandController} from "./components/clusters/cluster-expand";
 import {ClusterNewController} from "./components/clusters/cluster-new";
 import {PoolController} from "./components/pools/pools-controller";
 import {PoolNewController} from "./components/pools/pool-new";
@@ -57,6 +56,7 @@ class USMApp {
             .controller('FirstController', FirstController)
             .controller('DashboardController', DashboardController)
             .controller('ClusterController', ClustersController)
+            .controller('ClusterExpandController', ClusterExpandController)
             .controller('ClusterNewController', ClusterNewController)
             .controller('PoolController', PoolController)
             .controller('PoolNewController', PoolNewController)
