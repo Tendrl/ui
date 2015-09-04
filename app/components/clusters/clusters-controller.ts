@@ -27,10 +27,7 @@ export class ClustersController {
      
     //This line refresh the content every 15 second.
     private timer;
-    
-    //This function helps in reloading the content for the cluster page.
-    private reloading = false;
-    
+        
     /**
      * Here we do the dependency injection.
     */
@@ -45,7 +42,7 @@ export class ClustersController {
         this.clusterHelper = new ClusterHelper(null, null, null, null);
         this.mockDataProvider = new MockDataProvider();
         this.clusterSvc.getList().then((clusters) => this.updateData(clusters));
-        this.timer = this.intervalSvc(() => this.reloadData(), 5000);
+        this.timer = this.intervalSvc(() => this.reloadData(), 10000);
     }
 
     //This is to fix the 'this' problem with callbacks
@@ -61,10 +58,6 @@ export class ClustersController {
      * This function helps in reloading the content of the page.
     */
     public reloadData() {
-        if (this.reloading) {
-            return;
-        }
-        this.reloading = true;
         this.clusterSvc.getList().then(this.clusterPromise);
     }
     
@@ -191,7 +184,6 @@ export class ClustersController {
                 });
 
                 this.clusterList = tempClusters;
-                this.reloading = false;
             });
 
             if (this.clusterList.length === 0) {
