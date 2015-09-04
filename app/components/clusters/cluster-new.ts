@@ -398,7 +398,7 @@ export class ClusterNewController {
             } else {
                 this.logService.info('Waiting for OSDs to be added to cluster \'' + this.clusterName + '\'');
                 this.timeoutService(() => this.addingOSDsCallBack(result, cluster, disks, pools), 5000);
-            }
+            }   
         });
     }
 
@@ -458,7 +458,7 @@ export class ClusterNewController {
                 this.clusterCreateSuccessCallBack(cluster);
             } else {
                 this.logService.info('Waiting for Cluster \'' + this.clusterName + '\' to be ready');
-                this.timeoutService(() => this.clusterCreateCallBack(result, cluster));
+                this.timeoutService(() => this.clusterCreateCallBack(result, cluster), 5000);
             }
         })
     }
@@ -477,7 +477,7 @@ export class ClusterNewController {
                     $hide();
                     this.locationService.path('/clusters');
                 });
-                this.timeoutService(() => this.clusterCreateCallBack(result, cluster));
+                this.timeoutService(() => this.clusterCreateCallBack(result, cluster), 5000);
             } else {
                 this.logService.error('Unexpected response from Clusters.create', result);
             }
