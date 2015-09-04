@@ -1,101 +1,93 @@
-<div class="cluster-detail dashboard row">
-    <div class="top-box card">
-        <div class="row">
-            <div class="col-md-6 col-sm-6 col-xs-12">
-                <div class="vertical-bar-cluster-name">
-                    <div class="rotate">
-                        {{clusterdetail.cluster.type.type}}
-                    </div>
-                </div>
-                <div class="border-right pad-me">
-                    <div class="row">
-                        <div class="cluster-name"> {{clusterdetail.cluster.name}} </div>
-                        <div class="col-md-3">
-                            <div class="cluster-name-subline"> Generic </div>
-                            <div class="title"> Utilization </div>
-                            <div class="free-space">
-                              <span class="card-big-text">
+<div class="cluster-detail container-fluid container-cards-pf cards-pf">
+    <div class="row row-cards-pf card-pf">
+        <div class="col-md-6 col-sm-6 col-xs-12">
+            <div class="border-right pad-me">
+                <div class="row">
+                    <div class="cluster-name"> {{clusterdetail.cluster.name}} </div>
+                    <div class="col-md-3">
+                        <div class="cluster-name-subline"> Generic </div>
+                        <div class="title"> Utilization </div>
+                        <div class="free-space">
+                            <span class="card-big-text">
                                 {{clusterdetail.formatSize(clusterdetail.capacity.free)}}
-                              </span>
-                              Available
-                              <br/>
-                              <span class="bold">
+                              </span> Available
+                            <br/>
+                            <span class="bold">
                                 {{clusterdetail.formatSize(clusterdetail.capacity.used)}}
                               </span> Used
-                              <br/>
-                              <span class="bold">
+                            <br/>
+                            <span class="bold">
                                 {{clusterdetail.formatSize(clusterdetail.capacity.total)}}
                               </span> Total
-                            </div>
-                        </div>
-                        <div class="col-md-9">
-                            <c3chart bindto-id="cluster-donut" chart-columns="clusterdetail.capacity.legends" chart-data="clusterdetail.capacity.values">
-                                <chart-donut title="Usage" width="40"> </chart-donut>
-                                <chart-legend show-legend="true" legend-position="right"> </chart-legend>
-                                <chart-size chart-height="200"></chart-size>
-                            </c3chart>
                         </div>
                     </div>
-                    <div class="row">
-                        <div class="col-md-12">
-                            <div class="usage-trending">
-                                <div class="usage-trending-content">
-                                    <c3chart bindto-id="cluster-trend" chart-columns="clusterdetail.capacity.trends.cols" chart-data="clusterdetail.capacity.trends.values">
-                                        <chart-axis>
-                                            <chart-axis-x show="false"> </chart-axis-x>
-                                            <chart-axis-y show="false"> </chart-axis-y>
-                                        </chart-axis>
-                                        <chart-points show-point="false"></chart-points>
-                                        <chart-legend show-legend="false"></chart-legend>
-                                        <chart-size chart-height="80"></chart-size>
-                                        <chart-tooltip show-tooltip="true"></chart-tooltip>
-                                    </c3chart>
-                                </div>
+                    <div class="col-md-9">
+                        <c3chart bindto-id="cluster-donut" chart-columns="clusterdetail.capacity.legends" chart-data="clusterdetail.capacity.values">
+                            <chart-donut title="Usage" width="40"> </chart-donut>
+                            <chart-legend show-legend="true" legend-position="right"> </chart-legend>
+                            <chart-size chart-height="200"></chart-size>
+                        </c3chart>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="usage-trending">
+                            <div class="usage-trending-content">
+                                <c3chart bindto-id="cluster-trend" chart-columns="clusterdetail.capacity.trends.cols" chart-data="clusterdetail.capacity.trends.values">
+                                    <chart-axis>
+                                        <chart-axis-x show="false"> </chart-axis-x>
+                                        <chart-axis-y show="false"> </chart-axis-y>
+                                    </chart-axis>
+                                    <chart-points show-point="false"></chart-points>
+                                    <chart-legend show-legend="false"></chart-legend>
+                                    <chart-size chart-height="80"></chart-size>
+                                    <chart-tooltip show-tooltip="true"></chart-tooltip>
+                                </c3chart>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="col-md-6 col-sm-6 col-xs-12">
-                <div class="no-border pad-me">
-                    <div class="title"> Performance </div>
-                    <div class="row">
-                        <div class="col-md-3">
-                            <div class="iops-count">
-                              <span class="card-big-text">
+        </div>
+        <div class="col-md-6 col-sm-6 col-xs-12">
+            <div class="no-border pad-me">
+                <div class="title"> Performance </div>
+                <div class="row">
+                    <div class="col-md-3">
+                        <div class="iops-count">
+                            <span class="card-big-text">
                                 {{clusterdetail.iops.total | number : 2}}M IOPS
                               </span>
-                              <span class="card-big-text">
+                            <span class="card-big-text">
                                 {{clusterdetail.iops.reads}}M
                               </span> reads/s
-                              <span class="card-big-text">
+                            <span class="card-big-text">
                                 {{clusterdetail.iops.writes}}M
                               </span> writes/s
-                            </div>
-                        </div>
-                        <div class="col-md-9">
-                            <c3chart bindto-id="gauge-iops-chart">
-                                <chart-column column-id="IOPS" column-values="{{clusterdetail.iops.total}}" column-type="gauge" column-color="{{clusterdetail.getStatusColor((clusterdetail.iops.total)/1000*100)}}" />
-                                <chart-gauge min="0" max="10" units="{{clusterdetail.iops.total | number :2}}M IOPS" width="30" />
-                                <chart-size chart-height="200"></chart-size>
-                            </c3chart>
                         </div>
                     </div>
-                    <div class="row">
-                        <div class="col-md-12">
-                            <div class="usage-trending">
-                                <div class="usage-trending-content">
-                                    <c3chart bindto-id="cluster-iops-trend" chart-columns="clusterdetail.iops.trends.cols" chart-data="clusterdetail.iops.trends.values">
-                                        <chart-axis>
-                                            <chart-axis-x show="false"> </chart-axis-x>
-                                            <chart-axis-y show="false"> </chart-axis-y>
-                                        </chart-axis>
-                                        <chart-points show-point="false"></chart-points>
-                                        <chart-legend show-legend="false"></chart-legend>
-                                        <chart-size chart-height="80"></chart-size>
-                                        <chart-tooltip show-tooltip="false"></chart-tooltip>
-                                    </c3chart>
-                                </div>
+                    <div class="col-md-9">
+                        <c3chart bindto-id="gauge-iops-chart">
+                            <chart-column column-id="IOPS" column-values="{{clusterdetail.iops.total}}" column-type="gauge" column-color="{{clusterdetail.getStatusColor((clusterdetail.iops.total)/1000*100)}}" />
+                            <chart-gauge min="0" max="10" units="{{clusterdetail.iops.total | number :2}}M IOPS" width="30" />
+                            <chart-size chart-height="200"></chart-size>
+                        </c3chart>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="usage-trending">
+                            <div class="usage-trending-content">
+                                <c3chart bindto-id="cluster-iops-trend" chart-columns="clusterdetail.iops.trends.cols" chart-data="clusterdetail.iops.trends.values">
+                                    <chart-axis>
+                                        <chart-axis-x show="false"> </chart-axis-x>
+                                        <chart-axis-y show="false"> </chart-axis-y>
+                                    </chart-axis>
+                                    <chart-points show-point="false"></chart-points>
+                                    <chart-legend show-legend="false"></chart-legend>
+                                    <chart-size chart-height="80"></chart-size>
+                                    <chart-tooltip show-tooltip="false"></chart-tooltip>
+                                </c3chart>
                             </div>
                         </div>
                     </div>
@@ -103,11 +95,12 @@
             </div>
         </div>
     </div>
-            <div class="row center-content">
-            <div class="col-md-3 col-sm-6 col-xs-12">
-                <div class="card">              
-                <div class="card-title"> CPU </div>
-                <div class="col-md-7">
+
+    <div class="row">
+        <div class="col-md-3 col-sm-6 col-xs-12">
+            <div class="card-pf graph-box">
+                <div class="card-pf-title"> CPU </div>
+                <div class="col-md-12">
                     <c3chart bindto-id="donut-plot1-chart">
                         <chart-column column-id="Free" column-values="{{100-clusterdetail.mockCluster.cpu.average}}" column-color="#CCCCCC" column-type="donut" />
                         <chart-column column-id="Using" column-values="{{clusterdetail.mockCluster.cpu.average}}" column-color="{{clusterdetail.getStatusColor(clusterdetail.mockCluster.cpu.average)}}" column-type="donut" />
@@ -117,24 +110,24 @@
                         <chart-size chart-height="100"></chart-size>
                     </c3chart>
                 </div>
-                <div class="col-md-5 left-content">
+                <div class="col-md-12 left-content">
                     <div class="row">
                         <div class="col-md-12"> </div>
                         <div class="col-md-12 bold">Past 30 Days</div>
-                        <div class="col-md-6">Average</div>
-                        <div class="col-md-6 bold">{{clusterdetail.mockCluster.cpu.average}} %</div>
-                        <div class="col-md-6">Highest</div>
-                        <div class="col-md-6 bold">{{clusterdetail.mockCluster.cpu.highest}} %</div>
-                        <div class="col-md-6">Lowest</div>
-                        <div class="col-md-6 bold">{{clusterdetail.mockCluster.cpu.lowest}} %</div>
+                        <div class="col-md-6 col-xs-6">Average</div>
+                        <div class="col-md-6 col-xs-6 bold">{{clusterdetail.mockCluster.cpu.average}} %</div>
+                        <div class="col-md-6 col-xs-6">Highest</div>
+                        <div class="col-md-6 col-xs-6 bold">{{clusterdetail.mockCluster.cpu.highest}} %</div>
+                        <div class="col-md-6 col-xs-6">Lowest</div>
+                        <div class="col-md-6 col-xs-6 bold">{{clusterdetail.mockCluster.cpu.lowest}} %</div>
                     </div>
                 </div>
-                </div>
             </div>
-            <div class="col-md-3 col-sm-6 col-xs-12">
-                <div class="equal-space card">              
-                <div class="card-title"> Memory </div>
-                <div class="col-md-7">
+        </div>
+        <div class="col-md-3 col-sm-6 col-xs-12">
+            <div class="card-pf graph-box">
+                <div class="card-pf-title"> Memory </div>
+                <div class="col-md-12">
                     <c3chart bindto-id="donut-plot2-chart">
                         <chart-column column-id="Free" column-values="{{100-clusterdetail.mockCluster.memory.average}}" column-color="#CCCCCC" column-type="donut" />
                         <chart-column column-id="Using" column-values="{{clusterdetail.mockCluster.memory.average}}" column-color="{{clusterdetail.getStatusColor(clusterdetail.mockCluster.memory.average)}}" column-type="donut" />
@@ -144,24 +137,24 @@
                         <chart-size chart-height="100"></chart-size>
                     </c3chart>
                 </div>
-                <div class="col-md-5 left-content">
+                <div class="col-md-12 left-content">
                     <div class="row">
                         <div class="col-md-12"> </div>
                         <div class="col-md-12 bold">Past 30 Days</div>
-                        <div class="col-md-6">Average</div>
-                        <div class="col-md-6 bold">{{clusterdetail.mockCluster.memory.average}} %</div>
-                        <div class="col-md-6">Highest</div>
-                        <div class="col-md-6 bold">{{clusterdetail.mockCluster.memory.highest}} %</div>
-                        <div class="col-md-6">Lowest</div>
-                        <div class="col-md-6 bold">{{clusterdetail.mockCluster.memory.lowest}} %</div>
+                        <div class="col-md-6 col-xs-6">Average</div>
+                        <div class="col-md-6 col-xs-6 bold">{{clusterdetail.mockCluster.memory.average}} %</div>
+                        <div class="col-md-6 col-xs-6">Highest</div>
+                        <div class="col-md-6 col-xs-6 bold">{{clusterdetail.mockCluster.memory.highest}} %</div>
+                        <div class="col-md-6 col-xs-6">Lowest</div>
+                        <div class="col-md-6 col-xs-6 bold">{{clusterdetail.mockCluster.memory.lowest}} %</div>
                     </div>
                 </div>
-                </div>
             </div>
-            <div class="col-md-3 col-sm-6 col-xs-12">
-                <div class="equal-space card">
-                <div class="card-title"> Management Network </div>
-                <div class="col-md-7">
+        </div>
+        <div class="col-md-3 col-sm-6 col-xs-12">
+            <div class="card-pf graph-box">
+                <div class="card-pf-title"> Management Network </div>
+                <div class="col-md-12">
                     <c3chart bindto-id="gauge-kbps-chart">
                         <chart-column column-id="Mbps" column-values="{{clusterdetail.mockCluster.management_network.inbound + clusterdetail.mockCluster.management_network.outbound}}" column-type="gauge" column-color="{{clusterdetail.getStatusColor((clusterdetail.mockCluster.management_network.inbound + clusterdetail.mockCluster.management_network.outbound)/100*100)}}" />
                         <chart-gauge min="0" max="100" units="{{clusterdetail.mockCluster.management_network.inbound + clusterdetail.mockCluster.management_network.outbound}} Mbps" width="10" />
@@ -169,21 +162,21 @@
                         <chart-size chart-height="100"></chart-size>
                     </c3chart>
                 </div>
-                <div class="col-md-5 left-content">
+                <div class="col-md-12">
                     <div class="row">
                         <div class="col-md-12"> </div>
-                        <div class="col-md-6">Inbound</div>
-                        <div class="col-md-6 bold">{{clusterdetail.mockCluster.management_network.inbound}} Mbps</div>
-                        <div class="col-md-6">Outbound</div>
-                        <div class="col-md-6 bold">{{clusterdetail.mockCluster.management_network.outbound}} Mbps</div>
+                        <div class="col-md-6 col-xs-6">Inbound</div>
+                        <div class="col-md-6 col-xs-6 bold">{{clusterdetail.mockCluster.management_network.inbound}} Mbps</div>
+                        <div class="col-md-6 col-xs-6">Outbound</div>
+                        <div class="col-md-6 col-xs-6 bold">{{clusterdetail.mockCluster.management_network.outbound}} Mbps</div>
                     </div>
                 </div>
-                </div>
             </div>
-            <div class="col-md-3 col-sm-6 col-xs-12">
-                <div class="equal-space card">
-                <div class="card-title"> Cluster network </div>
-                <div class="col-md-7">
+        </div>
+        <div class="col-md-3 col-sm-6 col-xs-12">
+            <div class="card-pf graph-box">
+                <div class="card-pf-title"> Cluster network </div>
+                <div class="col-md-12">
                     <c3chart bindto-id="gauge-kbps1-chart">
                         <chart-column column-id="Data Rate" column-values="{{clusterdetail.mockCluster.cluster_network.inbound+clusterdetail.mockCluster.cluster_network.outbound}}" column-type="gauge" column-color="{{clusterdetail.getStatusColor((clusterdetail.mockCluster.cluster_network.inbound + clusterdetail.mockCluster.cluster_network.outbound)/100*100)}}" />
                         <chart-gauge min="0" max="100" units="{{clusterdetail.mockCluster.cluster_network.inbound+clusterdetail.mockCluster.cluster_network.outbound}} Gbps" width="10" />
@@ -191,96 +184,96 @@
                         <chart-size chart-height="100"></chart-size>
                     </c3chart>
                 </div>
-                <div class="col-md-5 left-content">
+                <div class="col-md-12 left-content">
                     <div class="row">
                         <div class="col-md-12"> </div>
-                        <div class="col-md-6">Inbound</div>
-                        <div class="col-md-6 bold">{{clusterdetail.mockCluster.cluster_network.inbound}} Gbps</div>
-                        <div class="col-md-6">Outbound</div>
-                        <div class="col-md-6 bold">{{clusterdetail.mockCluster.cluster_network.outbound}} Gbps</div>
+                        <div class="col-md-6 col-xs-6">Inbound</div>
+                        <div class="col-md-6 col-xs-6 bold">{{clusterdetail.mockCluster.cluster_network.inbound}} Gbps</div>
+                        <div class="col-md-6 col-xs-6">Outbound</div>
+                        <div class="col-md-6 col-xs-6 bold">{{clusterdetail.mockCluster.cluster_network.outbound}} Gbps</div>
                     </div>
                 </div>
             </div>
-            </div>
         </div>
+    </div>
     <div class="row center-content" ng-if="clusterdetail.cluster.type.type === 'Gluster'">
         <div class="col-md-4">
-            <div class="card">
-                <div class="card-title">{{clusterdetail.hosts.total}} Hosts</div>
-                <div class="card-content">
-                  <i class="fa fa-check-circle-o ok" ng-if="(clusterdetail.hosts.warning + clusterdetail.hosts.critical) == 0"></i>
-                  <span ng-if="clusterdetail.hosts.warning > 0">
-                    <i class="fa fa-exclamation-triangle warning"></i>
+            <div class="card-pf">
+                <div class="card-pf-title">{{clusterdetail.hosts.total}} Hosts</div>
+                <div class="card-pf-body">
+                    <i class="fa fa-2x fa-check-circle-o ok" ng-if="(clusterdetail.hosts.warning + clusterdetail.hosts.critical) == 0"></i>
+                    <span ng-if="clusterdetail.hosts.warning > 0">
+                    <i class="fa fa-2x fa-exclamation-triangle warning"></i>
                     {{clusterdetail.hosts.warning}}
                   </span>
-                  <span ng-if="clusterdetail.hosts.critical > 0">
-                    <i class="fa fa-times-circle-o critical"></i>
+                    <span ng-if="clusterdetail.hosts.critical > 0">
+                    <i class="fa fa-2x fa-times-circle-o critical"></i>
                     {{clusterdetail.hosts.critical}}
                   </span>
                 </div>
             </div>
         </div>
         <div class="col-md-4">
-            <div class="card equal-space">
-                <div class="card-title">{{clusterdetail.volumes.total}} Volumes</div>
-                <div class="card-content">
-                  <i class="fa fa-check-circle-o ok" ng-if="(clusterdetail.volumes.warning + clusterdetail.volumes.critical) == 0"></i>
-                  <span ng-if="clusterdetail.volumes.warning > 0">
-                    <i class="fa fa-exclamation-triangle warning"></i>
+            <div class="card-pf">
+                <div class="card-pf-title">{{clusterdetail.volumes.total}} Volumes</div>
+                <div class="card-pf-body">
+                    <i class="fa fa-2x fa-check-circle-o ok" ng-if="(clusterdetail.volumes.warning + clusterdetail.volumes.critical) == 0"></i>
+                    <span ng-if="clusterdetail.volumes.warning > 0">
+                    <i class="fa fa-2x fa-exclamation-triangle warning"></i>
                     {{clusterdetail.volumes.warning}}
                   </span>
-                  <span ng-if="clusterdetail.volumes.critical > 0">
-                    <i class="fa fa-times-circle-o critical"></i>
+                    <span ng-if="clusterdetail.volumes.critical > 0">
+                    <i class="fa fa-2x fa-times-circle-o critical"></i>
                     {{clusterdetail.volumes.critical}}
                   </span>
                 </div>
             </div>
         </div>
         <div class="col-md-4">
-            <div class="card equal-space">
-                <div class="card-title">{{clusterdetail.bricks.total}} Bricks</div>
-                <div class="card-content">
-                  <i class="fa fa-check-circle-o ok" ng-if="(clusterdetail.bricks.warning + clusterdetail.bricks.critical) == 0"></i>
-                  <span ng-if="clusterdetail.bricks.warning > 0">
-                    <i class="fa fa-exclamation-triangle warning"></i>
+            <div class="card-pf">
+                <div class="card-pf-title">{{clusterdetail.bricks.total}} Bricks</div>
+                <div class="card-pf-body">
+                    <i class="fa fa-2x fa-check-circle-o ok" ng-if="(clusterdetail.bricks.warning + clusterdetail.bricks.critical) == 0"></i>
+                    <span ng-if="clusterdetail.bricks.warning > 0">
+                    <i class="fa fa-2x fa-exclamation-triangle warning"></i>
                     {{clusterdetail.bricks.warning}}
                   </span>
-                  <span ng-if="clusterdetail.bricks.critical > 0">
-                    <i class="fa fa-times-circle-o critical"></i>
+                    <span ng-if="clusterdetail.bricks.critical > 0">
+                    <i class="fa fa-2x fa-times-circle-o critical"></i>
                     {{clusterdetail.bricks.critical}}
                   </span>
                 </div>
             </div>
         </div>
     </div>
-    <div class="row center-content" ng-if="clusterdetail.cluster.type.type === 'Ceph'">
+    <div class="row" ng-if="clusterdetail.cluster.type.type === 'Ceph'">
         <div class="col-md-3">
-            <div class="card">
-                <div class="card-title">{{clusterdetail.hosts.total}} Hosts</div>
-                <div class="card-content">
-                  <i class="fa fa-check-circle-o ok" ng-if="(clusterdetail.hosts.warning + clusterdetail.hosts.critical) == 0"></i>
-                  <span ng-if="clusterdetail.hosts.warning > 0">
-                    <i class="fa fa-exclamation-triangle warning"></i>
+            <div class="card-pf">
+                <div class="card-pf-title">{{clusterdetail.hosts.total}} Hosts</div>
+                <div class="card-pf-body">
+                    <i class="fa fa-2x fa-check-circle-o ok" ng-if="(clusterdetail.hosts.warning + clusterdetail.hosts.critical) == 0"></i>
+                    <span ng-if="clusterdetail.hosts.warning > 0">
+                    <i class="fa fa-2x fa-exclamation-triangle warning"></i>
                     {{clusterdetail.hosts.warning}}
                   </span>
-                  <span ng-if="clusterdetail.hosts.critical > 0">
-                    <i class="fa fa-times-circle-o critical"></i>
+                    <span ng-if="clusterdetail.hosts.critical > 0">
+                    <i class="fa fa-2x fa-times-circle-o critical"></i>
                     {{clusterdetail.hosts.critical}}
                   </span>
                 </div>
             </div>
         </div>
         <div class="col-md-3">
-            <div class="card equal-space">
-                <div class="card-title">{{clusterdetail.pools.total}} Pools</div>
-                <div class="card-content">
-                  <i class="fa fa-check-circle-o ok" ng-if="(clusterdetail.pools.warning + clusterdetail.pools.critical) == 0"></i>
-                  <span ng-if="clusterdetail.pools.warning > 0">
-                    <i class="fa fa-exclamation-triangle warning"></i>
+            <div class="card-pf">
+                <div class="card-pf-title">{{clusterdetail.pools.total}} Pools</div>
+                <div class="card-pf-body">
+                    <i class="fa fa-2x fa-check-circle-o ok" ng-if="(clusterdetail.pools.warning + clusterdetail.pools.critical) == 0"></i>
+                    <span ng-if="clusterdetail.pools.warning > 0">
+                    <i class="fa fa-2x fa-exclamation-triangle warning"></i>
                     {{clusterdetail.pools.warning}}
                   </span>
-                  <span ng-if="clusterdetail.pools.critical > 0">
-                    <i class="fa fa-times-circle-o critical"></i>
+                    <span ng-if="clusterdetail.pools.critical > 0">
+                    <i class="fa fa-2x fa-times-circle-o critical"></i>
                     {{clusterdetail.pools.critical}}
                   </span>
                 </div>
@@ -288,80 +281,75 @@
         </div>
         <div class="col-md-3">
             <div class="card equal-space">
-                <div class="card-title">{{clusterdetail.pgs.total}} PGs</div>
-                <div class="card-content">
-                  <i class="fa fa-check-circle-o ok" ng-if="(clusterdetail.pgs.warning + clusterdetail.pgs.critical) == 0"></i>
-                  <span ng-if="clusterdetail.pgs.warning > 0">
-                    <i class="fa fa-exclamation-triangle warning"></i>
+                <div class="card-pf-title">{{clusterdetail.pgs.total}} PGs</div>
+                <div class="card-pf-body">
+                    <i class="fa fa-2x fa-check-circle-o ok" ng-if="(clusterdetail.pgs.warning + clusterdetail.pgs.critical) == 0"></i>
+                    <span ng-if="clusterdetail.pgs.warning > 0">
+                    <i class="fa fa-2x fa-exclamation-triangle warning"></i>
                     {{clusterdetail.pgs.warning}}
                   </span>
-                  <span ng-if="clusterdetail.pgs.critical > 0">
-                    <i class="fa fa-times-circle-o critical"></i>
+                    <span ng-if="clusterdetail.pgs.critical > 0">
+                    <i class="fa fa-2x fa-times-circle-o critical"></i>
                     {{clusterdetail.pgs.critical}}
                   </span>
                 </div>
             </div>
         </div>
         <div class="col-md-3">
-            <div class="card equal-space">
-                <div class="card-title">{{clusterdetail.osds.total}} OSDs</div>
-                <div class="card-content">
-                  <i class="fa fa-check-circle-o ok" ng-if="(clusterdetail.osds.warning + clusterdetail.osds.critical) == 0"></i>
-                  <span ng-if="clusterdetail.osds.warning > 0">
-                    <i class="fa fa-exclamation-triangle warning"></i>
+            <div class="card-pf">
+                <div class="card-pf-title">{{clusterdetail.osds.total}} OSDs</div>
+                <div class="card-pf-body">
+                    <i class="fa fa-2x fa-check-circle-o ok" ng-if="(clusterdetail.osds.warning + clusterdetail.osds.critical) == 0"></i>
+                    <span ng-if="clusterdetail.osds.warning > 0">
+                    <i class="fa fa-2x fa-exclamation-triangle warning"></i>
                     {{clusterdetail.osds.warning}}
                   </span>
-                  <span ng-if="clusterdetail.osds.critical > 0">
-                    <i class="fa fa-times-circle-o critical"></i>
+                    <span ng-if="clusterdetail.osds.critical > 0">
+                    <i class="fa fa-2x fa-times-circle-o critical"></i>
                     {{clusterdetail.osds.critical}}
                   </span>
                 </div>
             </div>
         </div>
     </div>
-    <div class="row center-content">
-        <div class="col-md-12 left-content">
-            <div class="card">
+
+    <div class="row card-pf">
+        <div class="col-md-12" style="padding-bottom:10px;">
+            <div class="dashboard-card-pools">
                 <div class="row">
-                    <div class="col-md-12">
-                        <div class="dashboard-card-pools">
-                            <div class="row">
-                                <div class="col-md-3">
-                                    <div class="title">Thresholds</div>
-                                    <div class="legend"> <span class="fa fa-stop legend-square legend-l0"></span> &gt; 90 % </div>
-                                    <div class="legend"> <span class="fa fa-stop legend-square legend-l1"></span> 80-90 % </div>
-                                    <div class="legend"> <span class="fa fa-stop legend-square legend-l2"></span> 70-80 % </div>
-                                    <div class="legend"> <span class="fa fa-stop legend-square legend-l3"></span> &lt; 70 % </div>
+                    <div class="col-md-3">
+                        <div class="title">Thresholds</div>
+                        <div class="legend"> <span class="fa fa-stop legend-square legend-l0"></span> &gt; 90 % </div>
+                        <div class="legend"> <span class="fa fa-stop legend-square legend-l1"></span> 80-90 % </div>
+                        <div class="legend"> <span class="fa fa-stop legend-square legend-l2"></span> 70-80 % </div>
+                        <div class="legend"> <span class="fa fa-stop legend-square legend-l3"></span> &lt; 70 % </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="row">
+                            <div class="col-md-2">
+                                <div class="heat-map-title"> Utilization </div>
+                                <div class="heat-map">
+                                    <div class="square heat-l0" ng-class="clusterdetail.getHeatLevel(volume.utilization)" ng-repeat="volume in clusterdetail.cluster.volumes"></div>
                                 </div>
-                                <div class="col-md-3">
-                                    <div class="row">
-                                        <div class="col-md-2">
-                                            <div class="heat-map-title"> Utilization </div>
-                                            <div class="heat-map">
-                                                <div class="square heat-l0" ng-class="clusterdetail.getHeatLevel(volume.utilization)" ng-repeat="volume in clusterdetail.cluster.volumes"></div>
-                                            </div>
-                                        </div>
-                                    </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="row">
+                            <div class="col-md-2">
+                                <div class="heat-map-title"> Performance </div>
+                                <div class="heat-map">
+                                    <div class="square heat-l0" ng-class="clusterdetail.getHeatLevel(volume.performance)" ng-repeat="volume in clusterdetail.cluster.volumes"></div>
                                 </div>
-                                <div class="col-md-3">
-                                    <div class="row">
-                                        <div class="col-md-2">
-                                            <div class="heat-map-title"> Performance </div>
-                                            <div class="heat-map">
-                                                <div class="square heat-l0" ng-class="clusterdetail.getHeatLevel(volume.performance)" ng-repeat="volume in clusterdetail.cluster.volumes"></div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-3">
-                                    <div class="row">
-                                        <div class="col-md-2">
-                                            <div class="heat-map-title"> Uptime </div>
-                                            <div class="heat-map">
-                                                <div class="square heat-l0" ng-class="clusterdetail.getHeatLevel(volume.uptime)" ng-repeat="volume in clusterdetail.cluster.volumes"></div>
-                                            </div>
-                                        </div>
-                                    </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="row">
+                            <div class="col-md-2">
+                                <div class="heat-map-title"> Uptime </div>
+                                <div class="heat-map">
+                                    <div class="square heat-l0" ng-class="clusterdetail.getHeatLevel(volume.uptime)" ng-repeat="volume in clusterdetail.cluster.volumes"></div>
                                 </div>
                             </div>
                         </div>

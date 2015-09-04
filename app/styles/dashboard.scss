@@ -1,203 +1,107 @@
-//@import 'compass/css3/box-shadow';
-
 .dashboard {
     background-color: #F5F5F5;
     padding-bottom: 10px;
-}
-
-.dashboard-card {
-    background-color: #FFF;
-    margin: 10px -15px 0px -15px;
-    border-radius: 5px;
-    //@include box-shadow(2px 2px 2px #C5C5C5);
-    box-shadow: 2px 2px 2px #C5C5C5;
-    font-size: 16px;
-
-    .title {
-        display: block;
+    margin-top: 0;
+    padding-top: 20px;
+    .card-pf-heading {
+        margin: 0 -20px -1px !important;
     }
-}
-
-.dashboard-card-single {
-    padding: 5px 10px;
-}
-
-.dashboard-card-multiple {
-
-    .col-left {
-        padding-right: 0px;
-        border-right: 1px solid #C5C5C5;
+    .table-content > tr {
+        padding-top: 0px !important;
     }
-
-    .col-right {
-        padding-left: 0px;
+    .card-pf-body {
+        margin: 0px 0 !important;
     }
-}
-
-.dashboard-card-status {
-    min-height: 80px;
-    text-align: center;
-
-    .icon {
-        padding-right: 5px;
-    }
-
-    .content {
-        font-size: 20px;
-    }
-
-    li + li {
-        border-left: 1px solid #E0E0E0;
-        margin-left: 5px;
-        padding-left: 10px;
-    }
-}
-
-.dashboard-card-capacity {
-    min-height: 470px;
-
-    .capacity-info {
-        text-align: center;
-        margin-top: 30px;
-        font-size: 11px;
-    }
-
-    .free-space-value {
-        font-size: 30px;
-        display: block;
-    }
-
-    .used-total-space {
-        font-size: 15px;
-        display: block;
-    }
-
-    .c3-chart-arcs-title {
-        font-size: 18px;
-    }
-
-    .usage-trending {
-        min-height: 80px;
-        border-top: 1px solid #E0E0E0;
-        font-size: 11px;
-    }
-
-    .usage-trending-content {
-        min-height: 60px;
-        display: block;
-    }
-
-    .usage-trending-footer {
-        padding-left: 10px;
-        padding-right: 10px;
-    }
-}
-
-.dashboard-card-tops {
-    min-height: 230px;
-
-    .footer {
-        height: 35px;
-        padding: 5px 10px;
-        border-top: 1px solid #E0E0E0;
-        background-color: #F8F8F8;
-        font-size: 12px;
-    }
-
-    .table-content {
-        font-size: 12px;
-        margin-top: 10px;
-
-        td {
-            border: none;
-            &:nth-child(1) {
-                font-weight: 600;
-            }
-
-            &:nth-child(2) {
-                text-align: right;
-            }
-        }
-    }
-
     .bold {
         font-weight: bold;
     }
-
-    .body {
-        height: 195px;
-        padding: 10px;
+    .dashboard-card-capacity {
+        min-height: 470px;
+        .capacity-info {
+            text-align: center;
+            margin-top: 30px;
+            font-size: 11px;
+        }
+        .free-space-value {
+            font-size: 30px;
+            display: block;
+        }
+        .used-total-space {
+            font-size: 15px;
+            display: block;
+        }
+        .c3-chart-arcs-title {
+            font-size: 18px;
+        }
+        .usage-trending {
+            min-height: 80px;
+            border-top: 1px solid #E0E0E0;
+            font-size: 11px;
+        }
+        .usage-trending-content {
+            min-height: 60px;
+            display: block;
+        }
+        .usage-trending-footer {
+            padding-left: 10px;
+            padding-right: 10px;
+        }
     }
-}
-
-.dashboard-card-pools {
-
-    .legends {
-        padding-top: 20px;
-    }
-
-    .legend {
-        font-size: 11px;
-        display: block;
-        padding-bottom: 10px;
-    }
-
-    .legend-square {
-        padding-right: 10px;
-    }
-
-    .legend-l0 {
-        color: #cc0000;
-    }
-
-    .legend-l1 {
-        color: #EC7A08;
-    }
-
-    .legend-l2 {
-        color: #F9D67A;
-    }
-
-    .legend-l3 {
-        color: #d4f0fa;
-    }
-
-    .heat-map-title {
-        display: block;
-        font-size: 13px;
-        font-weight: bold;
-        padding-bottom: 5px;
-    }
-
-    .heat-map {
-        height: 160px;
-        width: 160px;
-    }
-
-    .heat-l0 {
-        background-color: #cc0000;
-    }
-
-    .heat-l1 {
-        background-color: #EC7A08;
-    }
-
-    .heat-l2 {
-        background-color: #F9D67A;
-    }
-
-    .heat-l3 {
-        background-color: #d4f0fa;
-    }
-
-    .square {
-        float:left;
-        position: relative;
-        width: 18.5%;
-        padding-bottom : 18.5%;
-        margin:0.7%;
-        background-position:center center;
-        background-repeat:no-repeat;
-        background-size:cover;
+    .dashboard-card-pools {
+        .legends {
+            padding-top: 20px;
+        }
+        .legend {
+            font-size: 11px;
+            display: block;
+            padding-bottom: 10px;
+        }
+        .legend-square {
+            padding-right: 10px;
+        }
+        .legend-l0 {
+            color: #cc0000;
+        }
+        .legend-l1 {
+            color: #EC7A08;
+        }
+        .legend-l2 {
+            color: #F9D67A;
+        }
+        .legend-l3 {
+            color: #d4f0fa;
+        }
+        .heat-map-title {
+            display: block;
+            font-size: 13px;
+            font-weight: bold;
+            padding-bottom: 5px;
+        }
+        .heat-map {
+            height: 160px;
+            width: 160px;
+        }
+        .heat-l0 {
+            background-color: #cc0000;
+        }
+        .heat-l1 {
+            background-color: #EC7A08;
+        }
+        .heat-l2 {
+            background-color: #F9D67A;
+        }
+        .heat-l3 {
+            background-color: #d4f0fa;
+        }
+        .square {
+            float: left;
+            position: relative;
+            width: 18.5%;
+            padding-bottom: 18.5%;
+            margin: 0.7%;
+            background-position: center center;
+            background-repeat: no-repeat;
+            background-size: cover;
+        }
     }
 }

@@ -86,7 +86,6 @@ a{
   transition: transform 0.3s ease-in-out, margin 0.3s ease-in-out;
   margin-left: 230px;
   z-index: 820;
-  padding:15px;
 }
 .layout-top-nav .content-wrapper,
 .layout-top-nav .right-side,
@@ -142,7 +141,7 @@ a{
 }
 .fixed .content-wrapper,
 .fixed .right-side {
-  padding-top: 50px;
+  padding-top: 35px;
 }
 @media (max-width: 767px) {
   .fixed .content-wrapper,
