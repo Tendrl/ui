@@ -80,10 +80,6 @@ a{
 .content-wrapper,
 .right-side,
 .main-footer {
-  -webkit-transition: -webkit-transform 0.3s ease-in-out, margin 0.3s ease-in-out;
-  -moz-transition: -moz-transform 0.3s ease-in-out, margin 0.3s ease-in-out;
-  -o-transition: -o-transform 0.3s ease-in-out, margin 0.3s ease-in-out;
-  transition: transform 0.3s ease-in-out, margin 0.3s ease-in-out;
   margin-left: 230px;
   z-index: 820;
 }
@@ -141,7 +137,7 @@ a{
 }
 .fixed .content-wrapper,
 .fixed .right-side {
-  padding-top: 35px;
+  padding-top: 50px;
 }
 @media (max-width: 767px) {
   .fixed .content-wrapper,
@@ -168,9 +164,6 @@ a{
   z-index: 1030;
 }
 .main-header > .navbar {
-  -webkit-transition: margin-left 0.3s ease-in-out;
-  -o-transition: margin-left 0.3s ease-in-out;
-  transition: margin-left 0.3s ease-in-out;
   margin-bottom: 0;
   margin-left: 230px;
   border: none;
@@ -257,9 +250,6 @@ a{
   line-height: .9;
 }
 .main-header .logo {
-  -webkit-transition: width 0.3s ease-in-out;
-  -o-transition: width 0.3s ease-in-out;
-  transition: width 0.3s ease-in-out;
   display: block;
   float: left;
   height: 50px;
@@ -398,10 +388,6 @@ a{
   min-height: 100%;
   width: 230px;
   z-index: 810;
-  -webkit-transition: -webkit-transform 0.3s ease-in-out, width 0.3s ease-in-out;
-  -moz-transition: -moz-transform 0.3s ease-in-out, width 0.3s ease-in-out;
-  -o-transition: -o-transform 0.3s ease-in-out, width 0.3s ease-in-out;
-  transition: transform 0.3s ease-in-out, width 0.3s ease-in-out;
 }
 @media (max-width: 767px) {
   .main-sidebar,
@@ -663,10 +649,6 @@ a{
   -ms-transform: translate(230px, 0);
   -o-transform: translate(230px, 0);
   transform: translate(230px, 0);
-  -webkit-transition: -webkit-transform 0.3s ease-in-out;
-  -moz-transition: -moz-transform 0.3s ease-in-out;
-  -o-transition: -o-transform 0.3s ease-in-out;
-  transition: transform 0.3s ease-in-out;
 }
 .control-sidebar {
   position: absolute;

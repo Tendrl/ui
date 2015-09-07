@@ -1,3 +1,4 @@
+<div class="container-fluid">
 <div class="row wizard-top">
   <div class="col-sm-12 col-md-12">
     <h1>Create Cluster</h1>
@@ -40,7 +41,7 @@
     </div>
     <div>
      <div ng-class="(cluster.step === 1) ? 'row wizard-buttons':''">
-       <div ng-class="(cluster.step === 1) ? 'col-md-10 col-md-offset-2' : ''">
+       <div ng-class="(cluster.step === 1) ? 'col-md-12' : ''">
       <button type="button" class="btn btn-default" ng-show='cluster.isCancelAvailable()' ng-click='cluster.cancel()'>Cancel</button>
       <button type="button" class="btn btn-default" ng-show='!cluster.isCancelAvailable()' ng-click='cluster.moveStep(-1)'>&lt;&nbsp;&nbsp;Back</button>
       <button type="button" class="btn btn-default" ng-show='!cluster.isSubmitAvailable()' ng-click='cluster.moveStep(1)' ng-disabled=" cluster.step === 2 && cluster.deploymentType.nodeCount > cluster.filtered.length">Next&nbsp;&nbsp;&gt;</button>
@@ -48,3 +49,4 @@
     </div>
   </div><!-- /col -->
 </div> <!-- /row -->
+</div>
