@@ -11,6 +11,7 @@ export class HostDetailController {
     private self = this;
     private capacity;
     private mockHost;
+    private host;
     private iops;
     private mockDataProvider;
     private clusterHelper : ClusterHelper;
@@ -43,6 +44,7 @@ export class HostDetailController {
         this.mockDataProvider = new MockDataProvider();
         this.clusterHelper = new ClusterHelper(utilService, requestService, $log, timeoutService);
         this.capacity = { free: 0, used: 0, total: 0 };
+        this.host = {};
         this.capacity.legends = [
             { id: 1, name: 'Used', color: '#4AD170', type: 'donut' },
             { id: 9, name: 'Free', color: '#CCCCCC', type: 'donut' }
@@ -74,10 +76,10 @@ export class HostDetailController {
     }
 
     updateHost = (host: any) => {
-        host.name = host.node_name.split(".")[0];
+        this.host.name = host.node_name.split(".")[0];
         if (host.cluster != null) {
             this.clusterSvc.get(host.cluster).then( (cluster) => {
-                host.type = this.clusterHelper.getClusterType(cluster.cluster_type);
+                this.host.type = this.clusterHelper.getClusterType(cluster.cluster_type);
             });
         }
     }
