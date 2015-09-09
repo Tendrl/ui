@@ -2,10 +2,17 @@
 
 export class OSDService {
     config: Array<any>;
-    rest: restangular.ICollection;
+    rest: restangular.IService;;
+    restFull: restangular.IService;
     static $inject: Array<string> = ['Restangular'];
     constructor(rest:restangular.ICollection) {
-        this.rest = rest;
+       this.rest = rest.withConfig((RestangularConfigurer) => {
+            RestangularConfigurer.setBaseUrl('/api/v1/ceph/');
+        });
+        this.restFull = rest.withConfig((RestangularConfigurer) => {
+            RestangularConfigurer.setBaseUrl('/api/v1/ceph/');
+            RestangularConfigurer.setFullResponse(true);
+        });
     }
 
     // **getList**
@@ -28,6 +35,6 @@ export class OSDService {
     // **@param** osds - Information about the list of osds.
     // **@returns** a promise which returns a request id to track the task.
     create(osds) {
-        return this.rest.all('osds').post(osds);
+        return this.restFull.all('osds').post(osds);
     }
 }
