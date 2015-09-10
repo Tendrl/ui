@@ -5,6 +5,9 @@ import {ClusterService} from '../rest/clusters';
 import {MockDataProvider} from '../clusters/mock-data-provider-helpers';
 import {VolumeHelpers} from './volume-helpers';
 
+declare var require : any;
+var numeral = require("numeral");
+
 export class VolumeController {
     private list: Array<any>;
     private first = true;
@@ -109,8 +112,7 @@ export class VolumeController {
     }
 
     private formatSize(size) {
-        //return numeral(size ? size : 0).format('0.0 b');
-        return size;
+        return numeral(size ? size : 0).format('0.0 b');
     };
 
     private getVolumeType(id) {
