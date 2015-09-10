@@ -1,6 +1,6 @@
 import {ClusterService} from '../rest/clusters';
 import {VolumeHelpers} from '../volumes/volume-helpers';
- import {PoolService}  from '../rest/pool';
+import {PoolService}  from '../rest/pool';
 
 export class PoolController {
 	private self = this;
@@ -11,7 +11,7 @@ export class PoolController {
 	static $inject: Array<string> = [
 		'$scope',
 		'$interval',
-		'$locatoion',
+		'$location',
 		'ClusterService',
 		'PoolService'
 	];
@@ -20,31 +20,27 @@ export class PoolController {
 		private intervalSvc: ng.IIntervalService,
 		private locationSvc: ng.ILocationService,
 		private clusterSvc: ClusterService,
-		private poolSvc: PoolService,
-		private VolumeHelpers: VolumeHelpers) {
-		this.timer = this.intervalSvc(this.reloadData, 5000);
+		private poolSvc: PoolService) {
+		this.timer = this.intervalSvc(() => this.reloadData(), 5000);
 		this.reloading = false;
-		clusterSvc.getList().then(this.updateData);
+		this.clusterSvc.getList().then((clusters) => this.loadClusters(clusters));
 	}
 
-	updateData = (clusters) => {
+	public loadClusters(clusters) {
 		this.clusterList = clusters;
 		if (this.clusterList.length === 0) {
 			this.locationSvc.path('/first');
 		}
 	}
 
-	reloadData() {
-		if (this.reloading) {
-			return;
-		}
-		this.reloading = true;
-		this.poolSvc.getList().then(function(pools) {
+	public reloadData() {
+		this.poolSvc.getList().then((pools) => {
 			this.list = pools;
 		});
 	}
 
 	public create(): void {
-		this.locationSvc.path('/clusters/new');
+		this.locationSvc.path('/pools/new');
 	}
+
 }

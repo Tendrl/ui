@@ -44,6 +44,7 @@ export class PoolService {
     // **@param** osds - Information about the list of pools.
     // **@returns** a promise which returns a request id to track the task.
     create(pools) {
-        return this.rest.all('pools').post(pools);
+        return this.restFull.all('pools').post(pools);
     }
+
 }

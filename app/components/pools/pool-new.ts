@@ -3,11 +3,6 @@ import {VolumeHelpers} from '../volumes/volume-helpers';
 import {PoolService} from '../rest/pool';
 import * as ModalHelpers from '../modal/modal-helpers';
 
-interface pool {
-	pool_name: string;
-	pg_num: number;
-}
-
 export class PoolNewController {
 	private self = this;
     private tier;
@@ -16,6 +11,8 @@ export class PoolNewController {
 	private copyCountList;
 	private copyCount;
 	private tierList;
+    private clusters;
+	private cluster;
 	static $inject: Array<string> = [
 		'$scope',
 		'$interval',
@@ -35,11 +32,13 @@ export class PoolNewController {
 		private clusterSvc: ClusterService,
 		private poolSvc: PoolService,
 		private RequestTrackingSvc) {
-		this.tier = this.tierList[0];
+		this.clusters ={};
+		this.tierList=[];
 		this.copyCountList = VolumeHelpers.getCopiesList();
 		this.copyCount = VolumeHelpers.getRecomendedCopyCount();
 		this.tierList = VolumeHelpers.getTierList();
-		clusterSvc.getList().then(function(clusters) {
+		this.tier = this.tierList[0];
+		this.clusterSvc.getList().then((clusters) => {
 			this.clusters = _.filter(clusters, function(cluster : any) {
 				return cluster.cluster_type == 2;
 			});
@@ -48,10 +47,9 @@ export class PoolNewController {
 				this.cluster = this.clusters[0];
 			}
 		});
-
+    
 	}
-
-
+   
 	public isSubmitAvailable(): boolean {
 		return true;
 	}
@@ -61,15 +59,17 @@ export class PoolNewController {
 	}
 
 	public submit(): void {
-		var pools: Array<pool>;
-		pools: [
-			{
+		var pools = {
+		   cluster: this.cluster.cluster_id,
+		   pools: [
+			 {
 				pool_name: this.name,
 				pg_num: parseInt(this.pg_num)
-			}
+			 }
 		]
+		};
 		console.log(pools);
-		this.poolSvc.create(pools).then(function(result) {
+		this.poolSvc.create(pools).then((result) => {
 			console.log(result);
 			if (result.status === 202) {
 				this.RequestTrackingSvc.add(result.data, 'Creating pool \'' + self.name + '\'');
