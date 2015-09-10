@@ -4,6 +4,7 @@ declare function require(name: string);
 import {default as RequestsModule} from "./components/requests/module";
 import {default as RestModule} from "./components/rest/rest-module";
 import {default as HostModule} from "./components/hosts/host-module";
+import {default as PoolModule} from "./components/pools/pool-module";
 import {RouteConfig} from "./components/router/route-config";
 import {MenuService} from "./components/base/menu-svc";
 import {LoginController} from "./components/login/login";
@@ -15,8 +16,6 @@ import {ClustersController} from "./components/clusters/clusters-controller";
 import {ClusterExpandController} from "./components/clusters/cluster-expand";
 import {ClusterNewController} from "./components/clusters/cluster-new";
 import {ClusterDetailController} from "./components/clusters/cluster-detail";
-import {PoolController} from "./components/pools/pools-controller";
-import {PoolNewController} from "./components/pools/pool-new";
 import {VolumeController} from "./components/volumes/volume-controller";
 import {VolumeNewController} from "./components/volumes/volume-new";
 import {VolumeExpandController} from "./components/volumes/volume-expand";
@@ -49,7 +48,8 @@ class USMApp {
             'restangular',
             RequestsModule,
             RestModule,
-            HostModule
+            HostModule,
+            PoolModule
         ])
             .controller('LoginController', LoginController)
             .controller('ApplicationController', ApplicationController)
@@ -60,8 +60,6 @@ class USMApp {
             .controller('ClusterExpandController', ClusterExpandController)
             .controller('ClusterNewController', ClusterNewController)
             .controller('ClusterDetailController', ClusterDetailController)
-            .controller('PoolController', PoolController)
-            .controller('PoolNewController', PoolNewController)
             .controller('VolumeController', VolumeController)
             .controller('VolumeNewController', VolumeNewController)
             .controller('VolumeExpandController', VolumeExpandController)
