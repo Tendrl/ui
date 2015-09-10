@@ -326,7 +326,6 @@ export class ClusterNewController {
             var index = 0;
             while (index < results.length) {
                 if (results[index].status === 202) {
-                    this.logService.info(results[index].data);
                     this.requestTrackingService.add(results[index].data, 'Creating volume \'' + volumes[index].name);
                 }
                 ++index;
@@ -415,7 +414,7 @@ export class ClusterNewController {
         _.each(disks, (disk: any) => {
             var osd: any = {
                 node: disk.node,
-                sotrageDevice: disk.storage_device_id
+                storage_device: disk.storage_device_id
             };
             osdList.push(osd);
         });
@@ -465,8 +464,6 @@ export class ClusterNewController {
 
     public createCluster(cluster: any) {
         this.clusterService.create(cluster).then((result: any) => {
-            this.logService.log(result);
-            this.logService.info(result + "coming")
             if (result.status === 202) {
                 this.requestTrackingService.add(result.data, 'Creating Cluster \'' + cluster.cluster_name + '\'');
                 var modal = ModalHelpers.SuccessfulRequest(this.modalService, {
