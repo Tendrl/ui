@@ -1,0 +1,48 @@
+.databox {
+    display: inline-block;
+    font-size: 0;
+    height: 73px;
+    margin-bottom: 30px;
+    min-width: 130px;
+    padding: 0;
+    vertical-align: top;
+    width: 100%;
+    border-radius: 2px;
+    box-shadow: 3px 3px 11px black;
+    margin-top: 12px;
+    background-color: #fff !important;
+}
+
+.databox .databox-right {
+    color: #555;
+    display: inline-block;
+    height: 65px;
+    margin: 0;
+    padding: 5px 10px;
+    position: relative;
+    vertical-align: top;
+    width: calc(100% - 65px);
+    border-radius: 12px;
+    text-align: center;
+}
+
+.databox .databox-right.bordered {
+    border-left: 1px solid #fff;
+}
+
+.databox .databox-right.bordered-thick {
+    border-left: 3px solid #fff;
+}
+
+.databox .databox-right[class*="bg-"] {
+    color: #fff;
+}
+
+.databox .databox-number {
+    display: block;
+    font-size: 15px;
+    line-height: 26px;
+    margin: 2px;
+    position: relative;
+    color: #fb6e52 !important;
+}

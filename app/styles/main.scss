@@ -15,6 +15,7 @@
 @import 'volume';
 @import 'cluster-detail';
 @import 'usm-icon';
+@import 'discovered-host';
 
 //---------- Guage Disable ---------
 .c3-chart-arc .c3-gauge-value
@@ -290,7 +291,13 @@
 }
 
 .margin-top-for-discovered-hosts {
-    margin-top: 23px;
+    background-color: #f5f5f5;
+    border: 1px solid #e3e3e3;
+    border-radius: 1px;
+    height: 93vh;
+    margin-bottom: 20px;
+    padding: 30px;
+    text-align: center;
 }
 
 .adjust_button {
@@ -298,7 +305,7 @@
 }
 
 .div-with-scroll {
-    height: 230px;
+    height: 218px;
     overflow: scroll;
     overflow-x: hidden;
 }
