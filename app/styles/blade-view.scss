@@ -6,7 +6,7 @@
     position: relative;
     min-height: 136px;
     margin-top: 15px;
-    margin-bottom : 15px;
+    margin-bottom : 20px;
     border-radius: 5px;
     box-shadow: 2px 2px 2px #c5c5c5;
     border: 1px solid lightgray;
@@ -121,6 +121,9 @@
     padding: 11px;
     text-align: inherit;
     font-family: "Open Sans",Helvetica,Arial,sans-serif;
+    left: 0px !important;
+    min-width: 100px !important;
+
  }
 
  .blade-view .vertical-text-for-gluster {
@@ -158,12 +161,17 @@
     text-align: center;
  }
 
- .blade-view .version {
+.blade-view .version {
     font-size: 13px;
     font-family: "Open Sans",Helvetica,Arial,sans-serif;
     font-weight: 600;
  }
 
- .blade-view .gadget {
+.blade-view .gadget {
     text-align: center;
+ }
+ 
+ 
+ .padding {
+    padding-bottom: 30px;
  }

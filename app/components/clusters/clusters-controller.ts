@@ -22,8 +22,8 @@ export class ClustersController {
         'ServerService',
     ];
         
-     //Mock-Data incase if data not available 
-     private mockDataProvider : MockDataProvider;
+    //Mock-Data incase if data not available 
+    private mockDataProvider: MockDataProvider;
      
     //This line refresh the content every 15 second.
     private timer;
@@ -131,7 +131,7 @@ export class ClustersController {
                 storage_type: cluster.storage_type,
                 cluster_status: cluster.cluster_status,
                 used: cluster.used,
-                area_spline_cols: [{ ID: 1, name: 'Used', color: '#39a5dc', type: 'area-spline' }],
+                area_spline_cols: [{ id: 1, name: 'Used', color: '#39a5dc', type: 'area-spline' }],
                 area_spline_values: mockCluster.areaSplineValues,
                 gauge_values: _.random(20, 70) / 10,
                 alerts: mockCluster.alerts,
