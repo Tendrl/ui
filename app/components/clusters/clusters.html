@@ -17,8 +17,8 @@
   <div id="desktop" class="row blade-view" ng-class="cluster.cluster_status==4 ? 'blade-view-with-opacity':'' " ng-repeat="cluster in clusters.clusterList | filter:search">
       <div class="col-md-2 col-sm-4">
         <div class="row">
-          <div class="col-md-1" ng-class="clusters.getClusterTypeTitle(cluster.cluster_type)==='Gluster'?'vertical-line-for-gluster':'vertical-line-for-ceph'">
-            <span ng-class="clusters.getClusterTypeTitle(cluster.cluster_type)==='Gluster'?'vertical-text-for-gluster':'vertical-text-for-ceph'" ng-bind="clusters.getClusterTypeTitle(cluster.cluster_type)"></span>
+          <div class="col-md-1" ng-class="clusters.getClusterTypeTitle(cluster.cluster_type)==='gluster'?'vertical-line-for-gluster':'vertical-line-for-ceph'">
+            <span ng-class="clusters.getClusterTypeTitle(cluster.cluster_type)==='gluster'?'vertical-text-for-gluster':'vertical-text-for-ceph'" ng-bind="clusters.getClusterTypeTitle(cluster.cluster_type)"></span>
           </div>
           <div class="col-md-offset-1 col-md-10 set-top-margin pull-right">
             <div>
@@ -78,8 +78,8 @@
       </div>
       <div class="col-md-1 col-sm-3 set-top-margin">
         <div class="sub-heading">
-          <span ng-if="clusters.getClusterTypeTitle(cluster.cluster_type) === 'Gluster'">Volumes</span>
-          <span ng-if="clusters.getClusterTypeTitle(cluster.cluster_type) === 'Ceph'">Pools</span>
+          <span ng-if="clusters.getClusterTypeTitle(cluster.cluster_type) === 'gluster'">Volumes</span>
+          <span ng-if="clusters.getClusterTypeTitle(cluster.cluster_type) === 'ceph'">Pools</span>
         </div>
         <div class="sub-heading" ng-bind="cluster.no_of_volumes_or_pools"></div>
       </div>

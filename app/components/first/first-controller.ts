@@ -37,15 +37,10 @@ export class FirstController {
     }
 
     acceptHost(host: any): void {
-        var hosts = {
-            nodes: [
-                {
-                    node_name: host.hostname,
-                    management_ip: host.ipaddress
-                }
-            ]
+        var saltfingerprint = {
+           saltfingerprint: host.saltfingerprint
         };
-        this.utilSvc.acceptHosts(hosts).then((result) => {
+        this.utilSvc.acceptHost(host.hostname, saltfingerprint).then((result) => {
             this.$log.info(result);
             host.state = "ACCEPTING";
             host.task = result;

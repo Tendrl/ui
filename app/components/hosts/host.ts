@@ -47,8 +47,8 @@ export class HostController {
     updateHost = (hosts) => {
         var self = this;
         _.each(hosts, function(host: any) {
-            var MockHost = self.MockDataProvider.getMockHost(host.node_name);
-            host.node_name = host.node_name.split(".")[0];
+            var MockHost = self.MockDataProvider.getMockHost(host.Hostname);
+            host.hostnameShort = host.Hostname.split(".")[0];
             host.alerts = MockHost.alerts;
             host.cpu_average = Math.round(Math.random() * 100);
             host.memory_average = Math.round(Math.random() * 100);

@@ -80,8 +80,8 @@ export class RequestsController {
 
             _.each(freeHosts, (freeHost: any) => {
                 var host = {
-                    hostname: freeHost.node_name,
-                    ipaddress: freeHost.management_ip,
+                    hostname: freeHost.hostname,
+                    saltfingerprint: freeHost.saltfingerprint,
                     state: "UNACCEPTED",
                     selected: false
                 };
@@ -100,16 +100,11 @@ export class RequestsController {
     }
 
     public acceptHost(host) {
-        var hosts = {
-            nodes: [
-                {
-                    node_name: host.hostname,
-                    management_ip: host.ipaddress
-                }
-            ]
-        }
+        var saltfingerprint = {
+            saltfingerprint: host.saltfingerprint
+        };
 
-        this.utilSvc.acceptHosts(hosts).then((result) => {
+        this.utilSvc.acceptHost(host.hostname, saltfingerprint).then((result) => {
             this.$log.info(result);
             host.state = "ACCEPTING";
             host.task = result;

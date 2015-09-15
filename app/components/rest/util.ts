@@ -29,27 +29,24 @@ export class UtilService {
 
     // **getList**
     // **@returns** a promise with ssh fingerprint.
-    getSshFingerprint(ipAddress) {
-        return this.rest.one('utils/get_ssh_fingerprint', ipAddress).get().then(function(result) {
-            return result['ssh_key_fingerprint'];
+    getSshFingerprint(hostname) {
+        return this.rest.one('utils/ssh_fingerprint', hostname).get().then(function(result) {
+            return result.sshfingerprint;
         });
     }
 
     // **get**
-    // **@returns** a promise with IP Address.
-    getIpAddress(hostname) {
-        return this.rest.one('utils/resolve_hostname', hostname).get().then(function(result) {
-            if (!_.isEmpty(result['IP_Address'])) {
-                return _.first(result['IP_Address']);
-            }
-            return;
+    // **@returns** a promise with IP Addresses.
+    getIpAddresses(hostname: string) {
+        return this.rest.one('utils/lookup_node', hostname).get().then(function(result: Array<string>) {
+            return result;
         });
     }
 
-    // **acceptHosts**
-    // **@returns** accept the salt-keys of the hosts.
-    acceptHosts(hosts) {
-        return this.rest.all('utils/accept-hosts').post(hosts);
+    // **acceptHost**
+    // **@returns** accept the salt-key of the node.
+    acceptHost(hostname: string, saltfingerprint: { saltfingerprint: string }) {
+        return this.restFull.one('unmanaged_nodes', hostname).post('accept', saltfingerprint);
     }
 }
 

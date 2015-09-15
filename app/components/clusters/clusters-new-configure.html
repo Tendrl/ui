@@ -10,31 +10,18 @@
       </div>
     </div>
     <div class="form-group">
-      <label class="col-md-2 control-label" for="storageType">Storage Type</label>
+      <label class="col-md-2 control-label" for="textInput">OpenStack Services</label>
       <div class="col-md-4">
-        <select pf-select ng-model="cluster.storageType" id="storageType" class="form-control" ng-options="storageType.type for storageType in cluster.storageTypes" ng-change="cluster.onStorageTypeChanged()">
-        </select>
-      </div>
-    </div>
-    <div class="form-group">
-      <label class="col-md-2 control-label" for="clusterType">Cluster Type</label>
-      <div class="col-md-4">
-        <select pf-select ng-model="cluster.clusterType" id="clusterType" class="form-control" ng-options="clusterType.type for clusterType in cluster.clusterTypes" ng-change="cluster.onClusterTypeChanged()">
-        </select>
-      </div>
-    </div>
-    <div class="form-group">
-      <label class="col-md-2 control-label" for="workLoad">Workload</label>
-      <div class="col-md-4">
-        <select pf-select ng-model="cluster.workLoad" id="workload" class="form-control" ng-options="workLoad.type for workLoad in cluster.workLoads">
-        </select>
-      </div>
-    </div>
-    <div class="form-group">
-      <label class="col-md-2 control-label" for="deploymentType">Cluster Size</label>
-      <div class="col-md-4">
-        <select pf-select ng-model="cluster.deploymentType" id="deploymentType" class="form-control" ng-options="deploymentType.type for deploymentType in cluster.deploymentTypes">
-        </select>
+       <div class="btn-group" role="group">
+          <button type="button" class="btn btn-sm" ng-class="cluster.openstack ? 'btn-primary' : 'btn-default'" ng-click="cluster.openstack=true">On</button>
+          <button type="button" class="btn btn-sm" ng-class="cluster.openstack ? 'btn-default' : 'btn-primary'" ng-click="cluster.openstack=false">Off</button>
+        </div>
+        <div class="checkbox" ng-show="cluster.openstack" ng-repeat="service in cluster.openstackServices">
+          <label>
+            <input type="checkbox" name="openstack" ng-model="service.selected"></input>
+            {{service.desc}}
+          </label>
+        </div>
       </div>
     </div>
   </form>
