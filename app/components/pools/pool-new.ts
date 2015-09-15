@@ -77,7 +77,7 @@ export class PoolNewController {
 					title: 'Create Pool Request is Submitted',
 					container: '.usmClientApp'
 				});
-				modal.$scope.$hide = _.wrap(modal.$scope.$hide, function($hide) {
+				modal.$scope.$hide = _.wrap(modal.$scope.$hide, ($hide) => {
 					$hide();
 					this.locationSvc.path('/pools');
 				});
