@@ -15,6 +15,7 @@
 						<div class="databox radius-bordered">
 							<div class="databox-right">
 								<span class="databox-number themesecondary" ng-bind="discoveredHost.hostname"></span>
+								<span class="fa fa-lg fa-check-circle-o verified-col-icon" ng-show="discoveredHost.state === 'ACCEPTED'"></span>
 								<button class="btn btn-default" type="button" ng-show="discoveredHost.state === 'UNACCEPTED' || discoveredHost.state === 'ACCEPTING'" ng-click="first.acceptHost(discoveredHost)" ng-disabled="discoveredHost.state === 'ACCEPTING'">
 						            <span class="fa fa-check" ng-show="discoveredHost.state==='UNACCEPTED'">Accept</span>
 						            <div ng-show="discoveredHost.state==='ACCEPTING'">
