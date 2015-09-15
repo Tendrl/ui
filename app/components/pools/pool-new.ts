@@ -72,7 +72,7 @@ export class PoolNewController {
 		this.poolSvc.create(pools).then((result) => {
 			console.log(result);
 			if (result.status === 202) {
-				this.RequestTrackingSvc.add(result.data, 'Creating pool \'' + self.name + '\'');
+				this.RequestTrackingSvc.add(result.data, 'Creating pool \'' + this.name + '\'');
 				var modal = ModalHelpers.SuccessfulRequest(this.modal, {
 					title: 'Create Pool Request is Submitted',
 					container: '.usmClientApp'
