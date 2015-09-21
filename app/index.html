@@ -10,7 +10,7 @@
 		<!-- endinject -->
 	</head>
 	<body class="usmClientApp skin-material sidebar-mini fixed" ng-class="{'sidebar-collapse sidebar-open':!expandedView}" ng-controller="ApplicationController">
-		<div class="wrapper">
+		<div ng-class = "{(currentURI == '/')?'wrapper':''}">
 			<header ng-style="{display:(currentURI == '/')?'none':''}" class="main-header">
 				<!-- Logo -->
 				<a class="logo" href="index.html">
