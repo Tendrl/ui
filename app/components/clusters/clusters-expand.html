@@ -1,15 +1,17 @@
-<div class="row wizard-top">
-  <div class="col-sm-12 col-md-12">
-    <h1>Expand Cluster: {{cluster.name}}</h1>
+<div class="container-fluid">
+  <div class="row wizard-top">
+      <div class="col-sm-12 col-md-12">
+        <h1>Expand Cluster: {{cluster.name}}</h1>
+      </div>
   </div>
-</div>
 
-<div class="row">
-  <div class="col-sm-12 col-md-12">
-    <div ng-include src="'views/clusters/clusters-new-hosts.html'"></div>
-        <div>
-          <button type="button" class="btn btn-default" ng-click='cluster.cancel()'>Cancel</button>
-          <button type="button" class="btn btn-primary" ng-show='cluster.isSubmitAvailable()' ng-click='cluster.submit()'>Expand Cluster</button>
-        </div>
+  <div class="row">
+    <div class="col-sm-12 col-md-12">
+      <div ng-include src="'views/clusters/clusters-new-hosts.html'"></div>
+          <div>
+            <button type="button" class="btn btn-default" ng-click='cluster.cancel()'>Cancel</button>
+            <button type="button" class="btn btn-primary" ng-show='cluster.isSubmitAvailable()' ng-click='cluster.submit()'>Expand Cluster</button>
+          </div>
+    </div>
   </div>
 </div>
