@@ -376,10 +376,10 @@ export class ClusterNewController {
 
         _.each(pools, (pool: any) => {
             poolsRequest.pools.push({
-                poolName: pool.name,
-                pgNum: parseInt(pool.pgNum)
+                pool_name: pool.name,
+                pg_num: parseInt(pool.pgNum)
             });
-
+            
             if (poolsRequest.pools.length > 0) {
                 this.createCephPoolsCallBack(cluster, poolsRequest);
             }
@@ -390,10 +390,10 @@ export class ClusterNewController {
         this.logService.info('Adding OSDs callback ' + result.data);
         this.requestService.get(result.data).then((request) => {
             if (request.staus === 'FAILED' || request.status === 'FAILURE') {
-                this.logService.info('Adding OSDs to cluster\'' + this.clusterName + '\' + is failed');
+                this.logService.info('Adding OSDs to cluster\'' + this.clusterName + '\'  is failed');
             } else if (request.status === 'SUCCESS') {
                 this.logService.info('Adding OSDs to cluster \'' + this.clusterName + '\' is completed successfully');
-                this.createCephPools(cluster, disks, pools);
+                this.createCephPools(cluster, disks, pools);    
             } else {
                 this.logService.info('Waiting for OSDs to be added to cluster \'' + this.clusterName + '\'');
                 this.timeoutService(() => this.addingOSDsCallBack(result, cluster, disks, pools), 5000);
