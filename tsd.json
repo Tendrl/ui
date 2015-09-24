@@ -22,6 +22,9 @@
     },
     "numeraljs/numeraljs.d.ts": {
       "commit": "338f9db37074d197764e95a487ddb865c5f2d73c"
+    },
+    "es6-shim/es6-shim.d.ts": {
+      "commit": "b27d0d0e1ce4207a7a5b1da847cb776c16d7531e"
     }
   }
 }

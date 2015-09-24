@@ -1,0 +1,20 @@
+<div class="row networks">
+    <div class="col-md-8">
+        <table class="table table-striped table-bordered">
+            <thead>
+                <tr>
+                    <td><span class="header">Detected Networks</span></td>
+                    <td>Cluster Network</td>
+                    <td>Public Network</td>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="network in cluster.availableNetworks">
+                    <td>{{network.address}}</td>
+                    <td><input type="checkbox" ng-model="network.cluster"></input></td>
+                    <td><input type="checkbox" ng-model="network.public"></input></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

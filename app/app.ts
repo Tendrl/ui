@@ -20,6 +20,7 @@ import {VolumeController} from "./components/volumes/volume-controller";
 import {VolumeNewController} from "./components/volumes/volume-new";
 import {VolumeExpandController} from "./components/volumes/volume-expand";
 
+var es6shim = require("es6-shim");
 var angular: ng.IAngularStatic = require("angular");
 var ngRoute = require("angular-route");
 var ngAnimate = require("angular-animate");
