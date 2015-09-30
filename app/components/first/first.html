@@ -1,5 +1,5 @@
 <div class="row margin-top-for-discovered-hosts blank-slate-pf">
-	<div ng-class="first.discoveredHosts.length === 1 ? 'col-md-offset-4 col-md-4': first.discoveredHosts.length === 2 ? 'col-md-offset-2 col-md-8':'col-md-12'">
+	<div ng-class="first.discoveredHosts.length === 1 ? 'col-lg-offset-4 col-lg-4': first.discoveredHosts.length === 2 ? 'col-lg-offset-2 col-lg-8':'col-lg-12 col-md-12 col-sm-12 col-xs-12'">
 		<div class="available-hosts-list">
 			<center ng-if="first.discoveredHosts.length > 0">
 				<h3><label>The following hosts are discovered.</label></h3>
@@ -9,9 +9,9 @@
 					<button class="btn btn-primary btn-lg pull-right accept-all" ng-if="first.discoveredHosts.length > 1" ng-click="first.acceptAllHosts();">Accept All</button>
 				</div>
 			</div>
-			<div ng-class="first.discoveredHosts.length > 6 ? 'div-with-scroll': ''">
+			<div ng-class="first.discoveredHosts.length > 6 ? 'div-with-scroll': ''" class="scroll-for-smaller-screen">
 				<div clas="row">
-					<div ng-class="first.discoveredHosts.length === 1 ? 'col-md-12': first.discoveredHosts.length === 2 ? 'col-md-6':'col-md-4'" class="col-xs-12" ng-repeat="discoveredHost in first.discoveredHosts">
+					<div ng-class="first.discoveredHosts.length === 1 ? 'col-lg-12': first.discoveredHosts.length === 2 ? 'col-lg-6':'col-lg-4 col-md-6 col-sm-6 col-xs-12'" ng-repeat="discoveredHost in first.discoveredHosts">
 						<div class="databox radius-bordered">
 							<div class="databox-right">
 								<span class="databox-number themesecondary" ng-bind="discoveredHost.hostname"></span>
@@ -27,31 +27,31 @@
 						</div>
 					</div>
 				</div>
-				<div class="row">
-					<div class="col-md-12">
-						<center>
-							<div>
-								<div class="blank-slate-pf-icon">
-									<i class="fa fa-plus-circle"></i>
-								</div>
-								<h1>You don't have any clusters</h1>
-								<p>You don't have any clusters. you need to create cluster or you can import the clusters</p>
-
-								<div class="blank-slate-pf-main-action">
-									<button ng-click="first.createCluster()" class="btn btn-primary btn-lg">
-										Create Cluster
-									</button>
-								</div>
-								<div class="blank-slate-pf-secondary-action">
-									<button class="btn btn-default">
-										Import Cluster
-									</button>
-								</div>
-							</div>
-						</center>
-				    </div>
-				</div>
 			</div>
 		</div>
+	</div>
+	<div class="row">
+		<div class="col-md-12">
+			<center>
+				<div>
+					<div class="blank-slate-pf-icon">
+						<i class="fa fa-plus-circle"></i>
+					</div>
+					<h1>You don't have any clusters</h1>
+					<p>You don't have any clusters. you need to create cluster or you can import the clusters</p>
+
+					<div class="blank-slate-pf-main-action">
+						<button ng-click="first.createCluster()" class="btn btn-primary btn-lg">
+							Create Cluster
+						</button>
+					</div>
+					<div class="blank-slate-pf-secondary-action">
+						<button class="btn btn-default">
+							Import Cluster
+						</button>
+					</div>
+				</div>
+			</center>
+	    </div>
 	</div>
 </div>
