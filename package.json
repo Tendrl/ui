@@ -17,7 +17,8 @@
     "angular-motion": "~0.4.2",
     "angular-growl-v2": "~0.7.5",
     "d3": "~3.5.6",
-    "c3": "~0.4.11-rc3"
+    "c3": "~0.4.11-rc3",
+    "jquery": "~1.11.3"
   },
   "devDependencies": {
     "bower": "*",
@@ -47,7 +48,8 @@
     "angular-strap": "./node_modules/angular-strap/dist/angular-strap.js",
     "angular-strap-tpl": "./node_modules/angular-strap/dist/angular-strap.tpl.js",
     "angular-growl": "./node_modules/angular-growl-v2/build/angular-growl.js",
-    "idb-wrapper": "./node_modules/idb-wrapper/idbstore.js"
+    "idb-wrapper": "./node_modules/idb-wrapper/idbstore.js",
+    "patternfly": "./node_modules/patternfly/dist/js/patternfly.js"
   },
   "browserify": {
     "transform": [
@@ -76,6 +78,11 @@
     "angular-strap-tpl": {
       "depends": [
         "angular-strap"
+      ]
+    },
+    "patternfly": {
+      "depends": [
+       "jquery: jQuery"
       ]
     }
   }

@@ -33,6 +33,8 @@ var idbWrapper = require("idb-wrapper");
 var c3 = require("c3");
 var d3 = require("d3");
 var c3Angular = require("c3-angular");
+var jquery = require("jquery");
+var patternfly = require("patternfly");
 
 class USMApp {
     initialize() {
