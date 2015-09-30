@@ -1,12 +1,12 @@
 <ul class="dropdown-menu alert-dropdown"> 
 	<li class="header">
     <i class="fa fa-bell"></i> Alerts
-    <span class="badge pull-right count">{{alerts.length}}</span>
+    <span class="badge pull-right count">{{request.alerts.length}}</span>
   </li>
 	<li>
     <div class="content">
       <ul class="list-unstyled">
-      	<li class="task-item" ng-repeat="alert in alerts">
+      	<li class="task-item" ng-repeat="alert in request.alerts">
           <i class="fa fa-exclamation-triangle icon warning"></i>
           <div class="task-item-text" ng-bind="alert"> </div>
         </li>

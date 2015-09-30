@@ -3,7 +3,7 @@
   <li>
     <div class="content">
       <ul class="list-unstyled">
-        <li class="task-item main-navigation" ng-repeat="discoveredHost in discoveredHosts" ng-click="$event.stopPropagation()">
+        <li class="task-item main-navigation" ng-repeat="discoveredHost in request.discoveredHosts" ng-click="$event.stopPropagation()">
           <div class="text-align-margin">
             <label ng-bind="discoveredHost.hostname"></label>
               <span  class="fa fa-lg fa-check-circle-o verified-col-icon left-check-icon" ng-show="discoveredHost.state === 'ACCEPTED'"></span>
