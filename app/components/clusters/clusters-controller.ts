@@ -31,10 +31,10 @@ export class ClustersController {
     /**
      * Here we do the dependency injection.
     */
-    constructor(private qService: ng.IQService,
-        private scopeSvc: ng.IScope,
-        private intervalSvc: ng.IIntervalService,
-        private locationSvc: ng.ILocationService,
+    constructor(private $q: ng.IQService,
+        private $scope: ng.IScope,
+        private $interval: ng.IIntervalService,
+        private $location: ng.ILocationService,
         private volumeService: VolumeService,
         private clusterSvc: ClusterService,
         private poolService: PoolService,
@@ -42,7 +42,10 @@ export class ClustersController {
         this.clusterHelper = new ClusterHelper(null, null, null, null);
         this.mockDataProvider = new MockDataProvider();
         this.clusterSvc.getList().then((clusters) => this.updateData(clusters));
-        this.timer = this.intervalSvc(() => this.reloadData(), 10000);
+        this.timer = this.$interval(() => this.reloadData(), 10000);
+        this.$scope.$on('$destroy', () => {
+            this.$interval.cancel(this.timer);
+        });
     }
 
     //This is to fix the 'this' problem with callbacks
@@ -50,7 +53,7 @@ export class ClustersController {
     public updateData(clusters) {
         this.clusterList = clusters;
         if (this.clusterList.length === 0) {
-            this.locationSvc.path('/first');
+            this.$location.path('/first');
         }
     }
 
@@ -95,7 +98,7 @@ export class ClustersController {
      * with the help of the UI provided.
     */
     public createNewCluster(): void {
-        this.locationSvc.path('/clusters/new');
+        this.$location.path('/clusters/new');
     }
     
     /**
@@ -103,7 +106,7 @@ export class ClustersController {
      * cluster can be seen. 
     */
     public expandCluster(clusterID: any): void {
-        this.locationSvc.path('/clusters/expand/' + clusterID);
+        this.$location.path('/clusters/expand/' + clusterID);
     }
     
     /**
@@ -165,7 +168,7 @@ export class ClustersController {
             });
             
             //The promises that are stored in the list are taken out one by one and processed here. 
-            this.qService.all(hosts).then((hostList) => {
+            this.$q.all(hosts).then((hostList) => {
                 var index: number = 0;
                 _.each(hostList, (host) => {
                     tempClusters[index].no_of_hosts = host.length;
@@ -174,7 +177,7 @@ export class ClustersController {
             });
             
             //Same thing is done here using the sizes list.
-            this.qService.all(sizes).then((sizeList) => {
+            this.$q.all(sizes).then((sizeList) => {
                 var index: number = 0;
                 _.each(sizeList, (size) => {
                     tempClusters[index].total_size = size;
