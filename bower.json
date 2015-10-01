@@ -1,5 +1,5 @@
 {
-  "name": "usm-client",
+  "name": "kitoon",
   "version": "0.0.1",
   "dependencies": {
     "restangular": "~1.5.1",
