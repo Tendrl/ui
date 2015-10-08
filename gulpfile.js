@@ -1,10 +1,14 @@
+var argv = require('yargs').argv;
 var gulp = require('gulp');
 var $ = require('gulp-load-plugins')();
 var debug = require('gulp-debug');
+var gulpif = require('gulp-if');
 var tsc = require('gulp-typescript');
 var browserify = require('browserify');
 var source = require('vinyl-source-stream');
+var buffer = require('vinyl-buffer');
 var ngAnnotate = require('gulp-ng-annotate');
+var uglify = require('gulp-uglify');
 var sass = require('gulp-sass');
 var del = require('del');
 //var es = require('event-stream');
@@ -51,11 +55,13 @@ gulp.task('tsc', function () {
 //tsc needs to be completed before browserify
 //https://github.com/gulpjs/gulp/issues/96#issuecomment-33512519
 gulp.task('browserify', ['tsc'], function () {
-	return browserify({ entries: './app/app.js', debug: true })
-		.bundle()
-		.pipe(source('app.js'))
-		.pipe(ngAnnotate())
-		.pipe(gulp.dest(path.dist + '/scripts'));
+    return browserify({ entries: './app/app.js', debug: true })
+        .bundle()
+        .pipe(source('app.js'))
+        .pipe(buffer())
+        .pipe(ngAnnotate())
+        .pipe(gulpif(argv.prod, uglify()))
+        .pipe(gulp.dest(path.dist + '/scripts'));
 });
 
 gulp.task('sass', function () {

@@ -35,7 +35,11 @@
     "gulp-inject": "*",
     "del": "*",
     "browserify-shim": "~3.8.9",
-    "gulp-concat": "~2.6.0"
+    "gulp-concat": "~2.6.0",
+    "gulp-uglify": "~1.4.1",
+    "vinyl-buffer": "~1.0.0",
+    "gulp-if": "~2.0.0",
+    "yargs": "~3.27.0"
   },
   "browser": {
     "restangular": "./app/bower_components/restangular/dist/restangular.js",
