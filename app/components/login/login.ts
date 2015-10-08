@@ -1,15 +1,15 @@
-import {UtilService} from '../rest/util';
+import {UserService} from '../rest/user';
 
 export class LoginController {
     private errorMsg;
     static $inject: Array<string> = [
         '$location',
-        'UtilService',
+        'UserService',
     ];
 
     constructor(
         private $location: ng.ILocationService,
-        private UtilService: UtilService) {
+        private UserService: UserService) {
     }
 
     public login(user) {
@@ -19,7 +19,7 @@ export class LoginController {
                 "username": user.username,
                 "password": user.password
             }
-            this.UtilService.getVerifyUser(userObject)
+            this.UserService.login(userObject)
                 .then(() => {
                     this.$location.path('/dashboard');
                 }).catch(() => {
