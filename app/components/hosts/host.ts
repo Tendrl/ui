@@ -7,41 +7,37 @@ import {UtilService} from '../rest/util';
 import {RequestService} from '../rest/request';
 
 export class HostController {
-    private self = this;
     public list: Array<any>;
     private MockDataProvider = new MockDataProvider();
-    public clusterList: Array<any>;
     private clusterHelper: ClusterHelper;
     static $inject: Array<string> = [
         '$scope',
         '$interval',
         '$location',
+        '$log',
+        '$timeout',
         'ClusterService',
         'ServerService',
         'UtilService',
-        'RequestService',
-        '$log',
-        '$timeout'
+        'RequestService'
     ];
     private timer;
 
     constructor(
-        private scopeSvc: ng.IScope,
-        private intervalSvc: ng.IIntervalService,
-        private locationSvc: ng.ILocationService,
+        private $scope: ng.IScope,
+        private $interval: ng.IIntervalService,
+        private $location: ng.ILocationService,
+        private $log: ng.ILogService,
+        private $timeout: ng.ITimeoutService,
         private clusterSvc: ClusterService,
         private serverService: ServerService,
         private utilService: UtilService,
-        private requestService: RequestService,
-        private logService: ng.ILogService,
-        private timeoutService: ng.ITimeoutService) {
-        this.timer = this.intervalSvc(this.reloadData, 5000);
-        this.clusterHelper = new ClusterHelper(utilService, requestService, logService, timeoutService);        
-    }
-    updateData = (clusters) => {
-        if (clusters.length === 0) {
-            this.locationSvc.path('/first');
-        }
+        private requestService: RequestService) {
+        this.clusterHelper = new ClusterHelper(utilService, requestService, $log, $timeout);
+        this.timer = this.$interval(this.reloadData, 5000);
+        this.$scope.$on('$destroy', () => {
+            this.$interval.cancel(this.timer);
+        });
     }
 
     reloadData = () => {
