@@ -7,40 +7,31 @@ export class MenuService {
             label: 'Dashboard',
             id: 'dashboard',
             href: '/dashboard',
-            hasSubMenus: false,
             icon: 'fa-tachometer',
             active: true
         }, {
             label: 'Clusters',
             id: 'clusters',
             href: '/clusters',
-            hasSubMenus: false,
             icon: 'fa-cubes',
             active: false
         }, {
             label: 'Hosts',
             id: 'hosts',
             href: '/hosts',
-            hasSubMenus: false,
             icon: 'fa-desktop',
             active: false
-        }, {
-            label: 'Storage',
-            id: 'storage',
+        },{
+            label: 'Volumes',
+            id: 'volumes',
+            href: '/volumes',
             icon: 'fa-hdd-o',
-            hasSubMenus: true,
-            subMenus: [
-                {
-                    title: 'Volumes',
-                    id: 'volumes',
-                    href: '/volumes'
-                },
-                {
-                    title: 'Pools',
-                    id: 'pools',
-                    href: '/pools'
-                }
-            ],
+            active: false
+        },{
+            label: 'Pools',
+            id: 'pools',
+            href: '/pools',
+            icon: 'fa-th',
             active: false
         }];
     }
