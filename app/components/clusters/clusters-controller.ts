@@ -41,29 +41,70 @@ export class ClustersController {
         private serverService: ServerService) {
         this.clusterHelper = new ClusterHelper(null, null, null, null);
         this.mockDataProvider = new MockDataProvider();
-        this.clusterSvc.getList().then((clusters) => this.updateData(clusters));
-        this.timer = this.$interval(() => this.reloadData(), 10000);
+        this.timer = this.$interval(() => this.refresh(), 10000);
+        this.refresh();
         this.$scope.$on('$destroy', () => {
             this.$interval.cancel(this.timer);
         });
     }
 
-    //This is to fix the 'this' problem with callbacks
-    //Refer https://github.com/Microsoft/TypeScript/wiki/'this'-in-TypeScript#use-instance-functions
-    public updateData(clusters) {
-        this.clusterList = clusters;
-        if (this.clusterList.length === 0) {
-            this.$location.path('/first');
-        }
+    /**
+     * This function helps in loading the content of the page.
+    */
+    public refresh() {
+        this.clusterSvc.getList().then((clusters) => {
+            if (clusters.length === 0) {
+                this.$location.path('/first');
+            }
+            this.loadData(clusters);
+        });
     }
 
-    /**
-     * This function helps in reloading the content of the page.
-    */
-    public reloadData() {
-        this.clusterSvc.getList().then(this.clusterPromise);
+    public loadData(clusters) {
+        var tempClusters: Array<any> = [];
+        _.each(clusters, (cluster: any) => {
+            var mockCluster: any = {};
+            mockCluster = this.mockDataProvider.getMockCluster(cluster.cluster_name);
+            var tempCluster: any = {
+                cluster_id: cluster.cluster_id,
+                cluster_name: cluster.cluster_name,
+                cluster_type: cluster.cluster_type,
+                storage_type: cluster.storage_type,
+                cluster_status: cluster.cluster_status,
+                used: cluster.used,
+                area_spline_cols: [{ id: 1, name: 'Used', color: '#39a5dc', type: 'area-spline' }],
+                area_spline_values: mockCluster.areaSplineValues,
+                gauge_values: _.random(20, 70) / 10,
+                no_of_hosts: cluster.nodes.length,
+                alerts: mockCluster.alerts,
+                no_of_volumes_or_pools: 0
+            };
+
+            if (tempCluster.used === 0) {
+                tempCluster.area_spline_values = [{ '1': 0 }, { '1': 0 }];
+                tempCluster.gauge_values = 0.5;
+            }
+
+            if (this.getClusterTypeTitle(cluster.cluster_type) === 'gluster') {
+                this.volumeService.getListByCluster(cluster.cluster_id).then((volumes) => {
+                    tempCluster.no_of_volume_or_pools = volumes.length;
+                });
+            }
+            else {
+                this.poolService.getListByCluster(cluster.cluster_id).then(function(pools) {
+                    tempCluster.no_of_volume_or_pools = pools.length;
+                });
+            }
+
+            tempCluster.total_size = 0;
+            tempCluster.free_size = 0;
+            tempCluster.percent_used = 0;
+
+            tempClusters.push(tempCluster);
+        });
+        this.clusterList = tempClusters;
     }
-    
+
     /**
      * This returns the color for the gauge.
     */
@@ -81,11 +122,11 @@ export class ClustersController {
     /**
      * These are the methods needed to access the members of the class.
     */
-    public getClusterTypeTitle(type: number): string {
+    public getClusterTypeTitle(type: string): string {
         return this.clusterHelper.getClusterType(type).type;
     }
 
-    public getStorageTypeTitle(type: number): string {
+    public getStorageTypeTitle(type: string): string {
         return this.clusterHelper.getClusterType(type).type;
     }
 
@@ -115,84 +156,7 @@ export class ClustersController {
     */
     public removeCluster(clusterID: any): void {
         this.clusterSvc.remove(clusterID).then((result) => {
-            this.reloadData();
-        });
-    }
-    
-    /**
-     *This is the callback function called after getting clusters list. 
-    */
-    public clusterPromise = () => {
-        var tempClusters: Array<any> = [];
-        _.each(this.clusterList, (cluster) => {
-            var mockCluster: any = {};
-            mockCluster = this.mockDataProvider.getMockCluster(cluster.cluster_name);
-            var tempCluster: any = {
-                cluster_id: cluster.cluster_id,
-                cluster_name: cluster.cluster_name,
-                cluster_type: cluster.cluster_type,
-                storage_type: cluster.storage_type,
-                cluster_status: cluster.cluster_status,
-                used: cluster.used,
-                area_spline_cols: [{ id: 1, name: 'Used', color: '#39a5dc', type: 'area-spline' }],
-                area_spline_values: mockCluster.areaSplineValues,
-                gauge_values: _.random(20, 70) / 10,
-                alerts: mockCluster.alerts,
-                no_of_volumes_or_pools: 0
-            };
-
-            if (tempCluster.used === 0) {
-                tempCluster.area_spline_values = [{ '1': 0 }, { '1': 0 }];
-                tempCluster.gauge_values = 0.5;
-            }
-
-            if (this.getClusterTypeTitle(cluster.cluster_type) === 'Gluster') {
-                this.volumeService.getListByCluster(cluster.cluster_id).then((volumes) => {
-                    tempCluster.no_of_volume_or_pools = volumes.length;
-                });
-            } else {
-                this.poolService.getListByCluster(cluster.cluster_id).then(function(pools) {
-                    tempCluster.no_of_volume_or_pools = pools.length;
-                });
-            }
-            tempClusters.push(tempCluster);
-            
-            //Lists to hold promises returned from ServerService and ClusterService.
-            var hosts: Array<any> = [];
-            var sizes: Array<any> = [];
-            
-            //Here we create a list of promises.
-            _.each(tempClusters, (cluster) => {
-                hosts.push(this.serverService.getListByCluster(cluster.cluster_id));
-                sizes.push(this.clusterSvc.getCapacity(cluster.cluster_id));
-            });
-            
-            //The promises that are stored in the list are taken out one by one and processed here. 
-            this.$q.all(hosts).then((hostList) => {
-                var index: number = 0;
-                _.each(hostList, (host) => {
-                    tempClusters[index].no_of_hosts = host.length;
-                    ++index;
-                });
-            });
-            
-            //Same thing is done here using the sizes list.
-            this.$q.all(sizes).then((sizeList) => {
-                var index: number = 0;
-                _.each(sizeList, (size) => {
-                    tempClusters[index].total_size = size;
-                    tempClusters[index].free_size = size - tempClusters[index].used;
-                    tempClusters[index].percent_used = isNaN(Math.round(tempClusters[index].used * (100 / size))) ? 0 : Math.round(tempClusters[index].used * (100 / size));
-                    ++index;
-                });
-
-                this.clusterList = tempClusters;
-            });
-
-            if (this.clusterList.length === 0) {
-                this.clusterList = tempClusters;
-            }
+            this.refresh();
         });
     }
 }
-

@@ -8,10 +8,10 @@ import {Host} from './cluster-modals';
 import {OSDService} from '../rest/osd';
 import {Volume} from './cluster-modals';
 import {Cluster} from './cluster-modals';
+import {OpenstackService} from './cluster-modals';
 import {PoolService} from '../rest/pool';
 import {UtilService} from '../rest/util';
 import {KeyValue} from './cluster-modals';
-import {Deployment} from './cluster-modals';
 import {ServerService} from '../rest/server';
 import {VolumeService} from '../rest/volume';
 import {RequestService} from '../rest/request';
@@ -23,21 +23,15 @@ import {RequestTrackingService} from '../requests/request-tracking-svc';
 
 
 export class ClusterNewController {
-    private self;
     private step: number;
     private summaryHostsSortOrder: any;
-
-    private storageTypes: Array<any>; private storageType: any;
 
     private clusterName: any;
     private clusterTypes: Array<Cluster>;
     private clusterType: Cluster;
 
-    private workLoads: Array<KeyValue>;
-    private workLoad: KeyValue;
-
-    private deploymentTypes: Array<Deployment>;
-    private deploymentType: Deployment;
+    private openstack = false;
+    private openstackServices: Array<OpenstackService>;
 
     private newHost: any;
     private hosts: Array<any>;
@@ -92,18 +86,11 @@ export class ClusterNewController {
         this.pools = [];
         this.disks = [];
         this.newHost = {};
-        
-        this.storageTypes = this.clusterHelper.getStorageTypes();
-        this.storageType = _.first(this.storageTypes);
 
         this.clusterTypes = this.clusterHelper.getClusterTypes();
-        this.clusterType = _.first(this.clusterTypes);
+        this.clusterType = this.clusterTypes[1];
 
-        this.workLoads = this.clusterType.workLoads;
-        this.workLoad = _.first(this.workLoads);
-
-        this.deploymentTypes = this.clusterType.deploymentTypes;
-        this.deploymentType = _.first(this.deploymentTypes);
+        this.openstackServices = this.clusterHelper.getOpenStackServices();
 
         this.newVolume.copyCount = VolumeHelpers.getRecomendedCopyCount();
         this.newVolume.copyCountList = VolumeHelpers.getCopiesList();
@@ -114,7 +101,6 @@ export class ClusterNewController {
         this.newPool.copyCountList = VolumeHelpers.getCopiesList();
         this.newPool.copyCount = VolumeHelpers.getRecomendedCopyCount();
 
-        this.serverService.getDiscoveredHosts().then(this.discoveredHostCallBack);
         this.serverService.getFreeHosts().then(this.freeHostCallBack);
     }
 
@@ -122,44 +108,36 @@ export class ClusterNewController {
     public updateFingerPrint(host: any) {
         this.newHost.cautionMessage = "";
         this.newHost.errorMessage = "";
-        this.utilService.getIpAddress(host.hostname).then((ipaddress) => {
-            host.ipaddress = ipaddress;
-            return this.utilService.getSshFingerprint(host.ipaddress);
-        },
+        this.utilService.getSshFingerprint(host.hostname).then(
+            (sshfingerprint: any) => {
+                host.sshfingerprint = sshfingerprint;
+            },
             () => {
                 this.newHost.cautionMessage = "Error!.";
-                this.newHost.errorMessage = "Could not resolve the hostname";
-            }).then((fingerprint: any) => {
-                host.fingerprint = fingerprint;
+                this.newHost.errorMessage = "Could not fetch ssh fingerprint";
             });
     }
 
-    public discoveredHostCallBack = (freeHosts: any) => {
-        _.each(freeHosts, (freeHost: any) => {
-            var host: any = {
-                hostname: freeHost.node_name,
-                ipaddress: freeHost.management_ip,
-                fingerprint: "abc",
-                state: "UNACCEPTED",
-                selected: false
-            };
-            this.hosts.push(host);
-            this.updateFingerPrint(host);
+    public updateIPAddress(host: any) {
+        this.utilService.getIpAddresses(host.hostname).then((result) => {
+            host.ipaddress = result.length > 0 ? result[0] : "N/A";
         });
     }
 
     public freeHostCallBack = (freeHosts: any) => {
         _.each(freeHosts, (freeHost: any) => {
             var host = {
-                id: freeHost.node_id,
-                hostname: freeHost.node_name,
-                ipaddress: freeHost.management_ip,
+                id: freeHost.uuid,
+                hostname: freeHost.hostname,
+                ipaddress: freeHost.managementip,
                 fingerprint: "abc",
                 state: "ACCEPTED",
+                disks: freeHost.storagedisks,
                 selected: false
             };
             this.hosts.push(host);
             this.updateFingerPrint(host);
+            this.updateIPAddress(host);
         });
     }
 
@@ -211,24 +189,11 @@ export class ClusterNewController {
         this.summaryHostsSortOrder = this.summaryHostsSortOrder === '-hostname' ? 'hostname' : '-hostname';
     }
 
-    public onStorageTypeChanged() {
-        if (this.storageType.ID === 1 || this.storageType.ID === 3) {
-            this.clusterType = this.clusterTypes[1];
-        } else {
-            this.clusterType = _.first(this.clusterTypes);
-        }
-        this.onClusterTypeChanged();
-    }
-
     public onClusterTypeChanged() {
-        this.deploymentTypes = this.clusterType.deploymentTypes;
-        this.deploymentType = _.first(this.deploymentTypes);
-        this.workLoads = this.clusterType.workLoads;
-        this.workLoad = _.first(this.workLoads);
     }
 
     public addNewHost() {
-        this.clusterHelper.addNewHost(this);
+        this.clusterHelper.addNewHost(this, this.serverService);
     }
 
     public postAddNewHost(host: any) {
@@ -475,33 +440,36 @@ export class ClusterNewController {
                     this.locationService.path('/clusters');
                 });
                 this.timeoutService(() => this.clusterCreateCallBack(result, cluster), 5000);
-            } else {
-                this.logService.error('Unexpected response from Clusters.create', result);
+            }
+            else if(result.status === 200) {
+                this.logService.info('Cluster ' + cluster.cluster_name + ' created successfully');
+                this.locationService.path('/clusters');
+            }
+            else {
+                this.logService.error('Unexpected response from Clusters.create:', result);
             }
         });
     }
 
     public submit() {
-        var hosts: Array<any> = [];
+        var nodes: Array<any> = [];
         var cluster = {};
 
         _.each(this.hosts, (host: any) => {
             if (host.selected) {
                 var nodeType: number = this.clusterType.ID === 1 ? 4 : (host.isMon ? 1 : 2);
                 var localHost: any = {
-                    node_name: host.hostname,
-                    management_ip: host.ipaddress,
-                    cluster_ip: host.ipaddress,
-                    public_ip: host.ipaddress,
-                    node_type: nodeType
+                    hostname: host.hostname
                 };
-                hosts.push(localHost);
+                if (host.isMon) {
+                    localHost.options = { mon: 'Y' };
+                }
+                nodes.push(localHost);
             }
             cluster = {
                 cluster_name: this.clusterName,
-                cluster_type: this.clusterType.ID,
-                storage_type: this.storageType.ID,
-                nodes: hosts
+                cluster_type: this.clusterType.type,
+                nodes: nodes
             };
         });
         this.createCluster(cluster);

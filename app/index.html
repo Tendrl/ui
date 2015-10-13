@@ -25,7 +25,7 @@
     </a>
   </div>
   <nav class="collapse navbar-collapse">
-    <ul class="nav navbar-nav navbar-right navbar-iconic" ng-controller="RequestsController">
+    <ul class="nav navbar-nav navbar-right navbar-iconic" ng-controller="RequestsController as request">
 		<li class="dropdown search-menu wrap">
 			<form action="" autocomplete="on">
 				<input class="search_textbox" id="search" name="search" type="text" placeholder="What're we looking for ?" />
@@ -39,8 +39,8 @@
 		</li>
 		<!-- Notifications: style can be found in dropdown.less -->
 		<li class="dropdown notifications-menu">
-			<a data-toggle="dropdown" class="dropdown-toggle nav-item-iconic" bs-dropdown="dropdown" href="" ng-click="getDiscoveredHosts();" data-template="views/base/discovered-hosts.tpl.html"
-			data-animation="am-fade-and-slide-top" bs-dropdown=""> <i class="fa fa-desktop"></i> <span class="badge label-warning" ng-if="discoveredHostsLength>0" ng-bind="discoveredHostsLength"></span>
+			<a data-toggle="dropdown" class="dropdown-toggle nav-item-iconic" bs-dropdown="dropdown" href="" ng-click="request.getDiscoveredHosts();" data-template="views/base/discovered-hosts.tpl.html"
+			data-animation="am-fade-and-slide-top" bs-dropdown=""> <i class="fa fa-desktop"></i> <span class="badge label-warning" ng-if="request.discoveredHostsLength>0" ng-bind="request.discoveredHostsLength"></span>
             <div growl></div>
         </a>
 		</li>

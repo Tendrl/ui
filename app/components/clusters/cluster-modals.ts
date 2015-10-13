@@ -3,22 +3,19 @@ export interface ClusterState {
     state: string;
 }
 
+export interface OpenstackService {
+    name: string;
+    desc: string;
+}
+
 export interface KeyValue {
     ID: number;
     type: string;
 }
 
-export interface Deployment {
-    ID: number;
-    type: string;
-    nodeCount: number;
-}
-
 export interface Cluster {
     ID: number;
     type: string;
-    deploymentTypes: Array<Deployment>;
-    workLoads: Array<KeyValue>;
 }
 
 export interface Host {

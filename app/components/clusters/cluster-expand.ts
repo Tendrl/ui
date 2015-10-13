@@ -87,8 +87,8 @@ export class ClusterExpandController {
     }
 
     public updateFingerCallBack(host: any): any {
-        this.utilService.getIpAddress(host.hostname).then((ipaddress) => {
-            host.ipaddress = ipaddress;
+        this.utilService.getIpAddresses(host.hostname).then((ipaddresses) => {
+            host.ipaddress = ipaddresses.length > 0 ? ipaddresses[0] : "N/A";
             this.newHost.errorMessage = "";
             this.newHost.cautionMessage = "";
             return this.utilService.getSshFingerprint(host.ipaddress);
@@ -146,7 +146,7 @@ export class ClusterExpandController {
     }
 
     public addNewHost() {
-        this.clusterHelper.addNewHost(this);
+        this.clusterHelper.addNewHost(this, this.serverService);
     }
 
     public postAddNewHost(host: any) {

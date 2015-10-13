@@ -19,8 +19,8 @@
               <span ng-if="host.node_status === 1">
                 <i class="fa fa-2x fa-exclamation-triangle exclamation-mark warning"></i>
               </span>
-              <a ng-href="#/hosts/detail/{{host.node_id}}"><span class="host-name-heading" ng-bind="host.node_name"></span></a>
-              <span class="description-for-host" ng-bind="host.management_ip"></span>
+              <a ng-href="#/hosts/detail/{{host.node_id}}"><span class="host-name-heading" ng-bind="host.hostnameShort"></span></a>
+              <span class="description-for-host" ng-bind="host.ManagementIp"></span>
             </div>
           </div>
         </div>

@@ -18,7 +18,7 @@ export class ServerService {
     // **getList**
     // **@returns** a promise with all servers.
     getList() {
-        return this.rest.all('hosts').getList().then(function(servers) {
+        return this.rest.all('nodes').getList().then(function(servers) {
             return servers;
         });
     }
@@ -34,19 +34,27 @@ export class ServerService {
     // **getFreeHosts**
     // **@returns** a promise with all servers which are free.
     getFreeHosts() {
-        return this.rest.all('hosts').getList().then(function(servers) {
+        return this.rest.all('nodes').getList().then(function(servers) {
             return _.filter(servers, function(server) {
-                return _.isNull(server.cluster);
+                return server.managedstate === "free";
             });
         });
     }
 
     // **getDiscoveredHosts**
-    // **@returns** a promise with all servers discovered.
+    // **@returns** a promise with all unmanaged nodes.
     getDiscoveredHosts() {
-        return this.rest.all('discovered-hosts').getList().then(function(servers) {
-            return servers;
+        return this.rest.all('unmanaged_nodes').getList().then(function(nodes: Array<any>) {
+            var unmanagedNodes: Array<any> = [];
+            _.each(nodes, (node) => {
+                 unmanagedNodes.push({ hostname: node.name, saltfingerprint: node.saltfingerprint });
+            });
+            return unmanagedNodes;
         });
+    }
+
+    acceptHost(hostname, saltfingerprint: { saltfingerprint: string }) {
+        return this.restFull.all('nodes').post(saltfingerprint);
     }
 
     // **get**
@@ -70,7 +78,7 @@ export class ServerService {
     // **add**
     // **@returns** a promise with the request id for the operation.
     add(host) {
-        return this.restFull.all('hosts').post(host);
+        return this.restFull.all('nodes').post(host);
     }
 
     // **remove**
