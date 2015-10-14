@@ -20,4 +20,7 @@ export class UserController {
         });
     }
            
+    public addUser(): void {
+        this.$location.path('/admin/new');
+    }
 }

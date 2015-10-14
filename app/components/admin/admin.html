@@ -10,8 +10,8 @@
     </div>
     <div class="col-md-offset-6 col-md-3">
       <span class="pull-right"> 
-        <button class="btn btn-primary btn-lg">Add</button>
-        <button class="btn btn-primary btn-lg" ng-click="volumes.create()">Remove</button>
+        <button class="btn btn-primary btn-lg" ng-click="users.addUser()">Add</button>
+        <button class="btn btn-primary btn-lg">Remove</button>
       </span>
     </div>
   </div>
@@ -19,6 +19,7 @@
   <thead>
     <tr>
       <th><input type="checkbox"/></th>
+      <th>User ID</th>
       <th>First Name</th>
       <th>Last Name</th>
       <th>Role</th>
@@ -33,11 +34,12 @@
     <tr ng-repeat="user in users.userList">
       <td><input type="checkbox"/></td>
       <td ng-bind="user.Username"></td>
+      <td ng-bind="user.Username"></td>
       <td>Last Name</td>
       <td ng-bind="user.Role"></td>
-      <td>Notifications</td>
+      <td><i class="fa fa-check">ON</i></td>
       <td ng-bind="user.Email"></td>
-      <td>Status</td>
+      <td><i class="fa fa-check">Enabled</i></td>
       <td><button ng-click=>Edit</button></td>
       <td>
       	<div class="dropdown">
