@@ -18,11 +18,12 @@
     "angular-growl-v2": "~0.7.5",
     "d3": "~3.5.6",
     "c3": "~0.4.11-rc3",
-    "jquery": "~1.11.3"
+    "jquery": "~1.11.3",
+    "es6-shim": "~0.33.6"
   },
   "devDependencies": {
     "bower": "*",
-    "typescript": "*",
+    "typescript": "~1.6.2",
     "requirejs": "*",
     "browserify": "*",
     "vinyl-source-stream": "*",
@@ -82,7 +83,7 @@
     },
     "patternfly": {
       "depends": [
-       "jquery: jQuery"
+        "jquery: jQuery"
       ]
     }
   }

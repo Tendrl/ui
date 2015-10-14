@@ -12,11 +12,15 @@
       </div>
       <div ng-class="cluster.step == 3 ? 'active' : (cluster.step > 3 ? 'visited' : 'default')">
         <div class="wizard-step-dot"><i class="fa fa-circle"></i></div>
-        <div class="step-text">3. Provision Storage</div>
+        <div class="step-text">3. Choose Networks</div>
       </div>
-      <div ng-class="cluster.step == 4 ?  'active' : (cluster.step > 4 ? 'visited' : 'default')">
+      <div ng-class="cluster.step == 4 ? 'active' : (cluster.step > 4 ? 'visited' : 'default')">
+        <div class="wizard-step-dot"><i class="fa fa-circle"></i></div>
+        <div class="step-text">4. Provision Storage</div>
+      </div>
+      <div ng-class="cluster.step == 5 ?  'active' : (cluster.step > 5 ? 'visited' : 'default')">
         <div class="wizard-step-dot-last"><i class="fa fa-circle"></i></div>
-        <div class="step-text">4. Review Summary</div>
+        <div class="step-text">5. Review Summary</div>
       </div>
     </div>
   </div>
@@ -32,9 +36,12 @@
         <div ng-include src="'views/clusters/clusters-new-hosts.html'"> </div>
       </div>
       <div ng-switch-when="3">
-        <div ng-include src="'views/clusters/clusters-new-options.html'"> </div>
+        <div ng-include src="'views/clusters/clusters-new-networks.html'"> </div>
       </div>
       <div ng-switch-when="4">
+        <div ng-include src="'views/clusters/clusters-new-options.html'"> </div>
+      </div>
+      <div ng-switch-when="5">
         <div ng-include src="'views/clusters/clusters-new-summary.html'"> </div>
       </div>
     </div>
@@ -50,3 +57,4 @@
    </div>
   </div><!-- /col -->
 </div> <!-- /row -->
+

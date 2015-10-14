@@ -37,6 +37,9 @@ export class ClusterNewController {
     private hosts: Array<any>;
     private disks: Array<any>;
     private osds: Array<any>;
+
+    private availableNetworks: Array<any>;
+
     private volumes: Array<any>;
     private newVolume: any;
     private pools: Array<any>;
@@ -86,6 +89,7 @@ export class ClusterNewController {
         this.pools = [];
         this.disks = [];
         this.newHost = {};
+        this.availableNetworks = [];
 
         this.clusterTypes = this.clusterHelper.getClusterTypes();
         this.clusterType = this.clusterTypes[1];
@@ -125,6 +129,7 @@ export class ClusterNewController {
     }
 
     public freeHostCallBack = (freeHosts: any) => {
+        var subnets = new Set();
         _.each(freeHosts, (freeHost: any) => {
             var host = {
                 id: freeHost.uuid,
@@ -138,7 +143,17 @@ export class ClusterNewController {
             this.hosts.push(host);
             this.updateFingerPrint(host);
             this.updateIPAddress(host);
+            _.each(freeHost.networkinfo.Subnet, (network) => {
+                subnets.add(network);
+            });
         });
+        subnets.forEach((network) => {
+            this.availableNetworks.push({ address: network, cluster: false, public: false });
+        });
+        if (this.availableNetworks.length > 0) {
+            this.availableNetworks[0].cluster = true;
+            this.availableNetworks[0].public = true;
+        }
     }
 
     public getDisks(): any {
@@ -279,7 +294,7 @@ export class ClusterNewController {
     }
 
     public isSubmitAvailable(): boolean {
-        return this.step === 4
+        return this.step === 5;
     }
 
     public cancel() {
@@ -453,8 +468,6 @@ export class ClusterNewController {
 
     public submit() {
         var nodes: Array<any> = [];
-        var cluster = {};
-
         _.each(this.hosts, (host: any) => {
             if (host.selected) {
                 var nodeType: number = this.clusterType.ID === 1 ? 4 : (host.isMon ? 1 : 2);
@@ -466,12 +479,23 @@ export class ClusterNewController {
                 }
                 nodes.push(localHost);
             }
-            cluster = {
-                cluster_name: this.clusterName,
-                cluster_type: this.clusterType.type,
-                nodes: nodes
-            };
         });
+        var clusterNetwork: any = _.find(this.availableNetworks, (network) => {
+            return network.cluster;
+        });
+        var publicNetwork: any = _.find(this.availableNetworks, (network) => {
+            return network.public;
+        });
+        var networks = {
+            cluster: clusterNetwork.address,
+            public: publicNetwork.address
+        };
+        var cluster = {
+            cluster_name: this.clusterName,
+            cluster_type: this.clusterType.type,
+            nodes: nodes,
+            networks: networks
+        };
         this.createCluster(cluster);
     }
 }
