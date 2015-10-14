@@ -42,4 +42,10 @@ export class UserService {
             return users;
         });
     }
+
+    // **addUser**
+    // **@returns** a promise with status code
+    addUser(user){
+        return this.restFull.all('users').post(user);
+    }
 }

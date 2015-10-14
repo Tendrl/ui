@@ -83,6 +83,11 @@ export class RouteConfig {
 			controller: 'UserController',
 			controllerAs: 'users',
 			menuId: 'admin'
+		}).when('/admin/new', {
+			templateUrl: 'views/admin/add-user.html',
+			controller: 'UserNewController',
+			controllerAs: 'user',
+			menuId: ''
 		}).otherwise({
 			redirectTo: '/'
 		});
