@@ -94,7 +94,7 @@ export class ClusterNewController {
         this.clusterTypes = this.clusterHelper.getClusterTypes();
         this.clusterType = this.clusterTypes[1];
 
-        this.openstackServices = this.clusterHelper.getOpenStackServices();
+        this.openstackServices = angular.copy(this.clusterHelper.getOpenStackServices());
 
         this.newVolume.copyCount = VolumeHelpers.getRecomendedCopyCount();
         this.newVolume.copyCountList = VolumeHelpers.getCopiesList();
@@ -490,11 +490,16 @@ export class ClusterNewController {
             cluster: clusterNetwork.address,
             public: publicNetwork.address
         };
+        var services = _.pluck(_.filter(this.openstackServices, (service: any) => {
+            return service.selected;
+        }), 'name');
+
         var cluster = {
             cluster_name: this.clusterName,
             cluster_type: this.clusterType.type,
             nodes: nodes,
-            networks: networks
+            networks: networks,
+            openstackservices: services
         };
         this.createCluster(cluster);
     }
