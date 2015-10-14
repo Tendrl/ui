@@ -11,7 +11,7 @@
 	</head>
 	<body class="usmClientApp" ng-controller="ApplicationController">
 
-<nav class="navbar navbar-pf-alt">
+<nav class="navbar navbar-pf-alt" ng-style="{display:(currentURI == '/')?'none':''}">
   <div class="navbar-header">
     <button class="navbar-toggle" type="button" href="" ng-click="expandedView = !expandedView">
       <span class="sr-only">Toggle navigation</span>
@@ -60,7 +60,7 @@
   </nav>
 </nav>
 
-<nav class="nav-pf-vertical-alt">
+<nav class="nav-pf-vertical-alt" ng-style="{display:(currentURI == '/')?'none':''}">
 	<ul class="list-group" ng-controller="MenuController">
 		<li class="list-group-item" ng-class="{'active' : menu.active}" ng-repeat="menu in menus">
 			<a ng-click="navigate(menu)" data-toggle="tooltip" data-placement="right"> <i class="fa" ng-class="menu.icon"></i> <span class="list-group-item-value">{{menu.label}}</span> </a>

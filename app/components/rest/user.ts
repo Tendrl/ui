@@ -4,6 +4,7 @@ export class UserService {
     rest: restangular.IService;
     restFull: restangular.IService;
     static $inject: Array<string> = ['Restangular'];
+    
     constructor(rest: restangular.ICollection) {
         this.rest = rest.withConfig((RestangularConfigurer) => {
             RestangularConfigurer.setBaseUrl('/api/v1/');
@@ -32,5 +33,13 @@ export class UserService {
     // **@returns** a promise with a user logout.
     logout() {
         return this.rest.one('auth').post('logout');
+    }
+    
+    // **getUsers**
+    // **@returns** a promise with list of users
+    getUsers(){
+        return this.rest.all('users').getList().then(function(users){
+            return users;
+        });
     }
 }

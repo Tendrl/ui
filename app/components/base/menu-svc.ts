@@ -33,6 +33,12 @@ export class MenuService {
             href: '/pools',
             icon: 'fa-th',
             active: false
+        },{
+            label: 'Admin',
+            id: 'admin',
+            href: '/admin',
+            icon: 'fa-users',
+            active: false
         }];
     }
 

@@ -78,6 +78,11 @@ export class RouteConfig {
 			menuId: 'storage',
 			controller: 'PoolNewController',
 			controllerAs: 'pool'
+		}).when('/admin', {
+			templateUrl: 'views/admin/admin.html',
+			controller: 'UserController',
+			controllerAs: 'users',
+			menuId: 'admin'
 		}).otherwise({
 			redirectTo: '/'
 		});
