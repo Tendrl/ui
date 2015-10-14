@@ -1,0 +1,57 @@
+<ul class="nav nav-tabs">
+  <li class="active"><a href="#">Events</a></li>
+  <li><a href="#">Users</a></li>
+  <li><a href="#">Roles</a></li>
+</ul>
+
+  <div class="row dataTables_wrapper">
+    <div class="col-md-3">
+      <input type="text" class="form-control" placeholder="Search" ng-model="search">
+    </div>
+    <div class="col-md-offset-6 col-md-3">
+      <span class="pull-right"> 
+        <button class="btn btn-primary btn-lg">Add</button>
+        <button class="btn btn-primary btn-lg" ng-click="volumes.create()">Remove</button>
+      </span>
+    </div>
+  </div>
+  <table class="table table-striped table-bordered">
+  <thead>
+    <tr>
+      <th><input type="checkbox"/></th>
+      <th>First Name</th>
+      <th>Last Name</th>
+      <th>Role</th>
+      <th>Notifications</th>
+      <th>Email</th>
+      <th>Status</th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr ng-repeat="user in users.userList">
+      <td><input type="checkbox"/></td>
+      <td ng-bind="user.Username"></td>
+      <td>Last Name</td>
+      <td ng-bind="user.Role"></td>
+      <td>Notifications</td>
+      <td ng-bind="user.Email"></td>
+      <td>Status</td>
+      <td><button ng-click=>Edit</button></td>
+      <td>
+      	<div class="dropdown">
+		  <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown">
+		    More
+		    <span class="caret"></span>
+		  </button>
+		  <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
+		    <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Disable user</a></li>
+		    <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Disable Notification</a></li>
+		    <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Reset Password</a></li>
+		  </ul>
+		</div>
+      </td>
+    </tr>
+  </tbody>
+</table>
