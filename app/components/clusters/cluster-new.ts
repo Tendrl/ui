@@ -2,6 +2,8 @@
 // <reference path="./cluster-helpers.ts" />
 // <reference path="../modal/modal-helpers.ts" />
 // <reference path="../typings/node.d.ts"/>
+declare var require : any;
+var numeral = require("numeral");
 
 import {Pool} from './cluster-modals';
 import {Host} from './cluster-modals';
@@ -162,34 +164,28 @@ export class ClusterNewController {
 
     public getDisksSize(): any {
         var size: number = 0;
-        return _.reduce(this.disks, (size: any, disk: any) => {
-            return disk.size + size;
+        size = _.reduce(this.disks, (size: any, disk: any) => {
+            return size + disk.Size;
         }, 0);
+        return numeral(size).format('0.0 b');
     }
 
     public countDisks() {
         var disks: Array<any> = [];
         _.each(this.hosts, (host) => {
             if (host.selected) {
-                Array.prototype.push.apply(disks, host.disks);
+                var freeDisks = _.filter(host.disks, (disk: any) => {
+                    return disk.Type === 'disk' && disk.Used == false;
+                });
+                Array.prototype.push.apply(disks, freeDisks);
             }
         });
         this.disks = disks;
     }
 
-    public selectHostCallBack = (host: any) => {
-        this.serverService.getStorageDevicesFree(host.id, host.hostname).then((disks) => {
-            host.disks = disks;
-            this.countDisks();
-        });
-    }
-
     public selectHost(host: any, selection: boolean) {
         if (host.state === "ACCEPTED") {
             host.selected = selection;
-            if (host.selected) {
-                this.selectHostCallBack(host);
-            }
             this.countDisks();
         }
     }
