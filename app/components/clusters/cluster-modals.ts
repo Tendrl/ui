@@ -16,6 +16,7 @@ export interface KeyValue {
 export interface Cluster {
     ID: number;
     type: string;
+    desc: string;
 }
 
 export interface Host {
