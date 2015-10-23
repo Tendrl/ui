@@ -13,16 +13,9 @@ export class MenuController {
 
         $scope.navigate = function(menu, parentMenu) {
             $location.path(menu.href)
-
-            if (parentMenu) {
-                MenuService.setActive(parentMenu.id);
-            }
-            else {
-                MenuService.setActive(menu.id);
-            }
         }
-        $rootScope.$on("$routeChangeStart", (event, next, current) => {
-            MenuService.setActive(next.menuId)
+        $rootScope.$on("$routeChangeSuccess", (event, current, prev) => {
+            MenuService.setActive(current.name)
         });
     }
 }
