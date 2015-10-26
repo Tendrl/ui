@@ -10,18 +10,8 @@
       <dt>Name</dt>
       <dd> {{cluster.clusterName}} </dd>
 
-      <dt>Storage Type</dt>
-      <dd> {{cluster.storageType.type}} </dd>
-
-      <dt>Cluster Type</dt>
-      <dd> {{cluster.clusterType.type}} </dd>
-
-      <dt>Workload</dt>
-      <dd> {{cluster.workLoad.type}} </dd>
-
-      <dt>Deployment Type</dt>
-      <dd> {{cluster.deploymentType.type}} </dd>
-      
+      <dt>OpenStack Services</dt>
+      <dd ng-repeat="openstackService in cluster.openstackServices | filter:{selected:true}"> {{openstackService.desc}} </dd>
     </dl>
   </div>
 

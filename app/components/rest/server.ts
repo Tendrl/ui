@@ -34,10 +34,8 @@ export class ServerService {
     // **getFreeHosts**
     // **@returns** a promise with all servers which are free.
     getFreeHosts() {
-        return this.rest.all('nodes').getList().then(function(servers) {
-            return _.filter(servers, function(server) {
-                return server.managedstate === "free";
-            });
+        return this.rest.all('nodes').getList({ state: 'free' }).then(function(servers) {
+            return servers;
         });
     }
 
