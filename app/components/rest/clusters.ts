@@ -141,6 +141,13 @@ export class ClusterService {
         return this.restFull.all('clusters').post(cluster);
     }
 
+    // **expand**
+    // **@param** cluster - Information about the cluster and list of hosts.
+    // **@returns** a promise which returns a request id to track the task.
+    expand(clusterId, cluster) {
+        return this.restFull.one('clusters', clusterId).post('expand', cluster);
+    }
+
     // **switchCluster**
     // This will be invoked when the user switches the cluster
     // using the cluster dropdown in the top of the page
