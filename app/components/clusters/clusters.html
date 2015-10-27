@@ -22,9 +22,6 @@
           </div>
           <div class="col-md-offset-1 col-md-10 set-top-margin pull-right">
             <div>
-              <span ng-if="cluster.cluster_status != 4 && clusters.getStatusTitle(cluster.cluster_status) === 'Failed'">
-                <i class="fa fa-2x fa-exclamation-triangle exclamation-mark warning"></i>
-              </span>
               <a ng-href="#/clusters/detail/{{cluster.cluster_id}}"><span class="heading" ng-bind="cluster.cluster_name"></span></a>
             </div>
           </div>

@@ -149,7 +149,19 @@ export class ClustersController {
     public expandCluster(clusterID: any): void {
         this.$location.path('/clusters/expand/' + clusterID);
     }
-    
+
+    public enableCluster(clusterID: any): void {
+        this.clusterSvc.enable(clusterID).then(() => {
+            this.refresh();
+        });
+    }
+
+    public disableCluster(clusterID: any): void {
+        this.clusterSvc.disable(clusterID).then(() => {
+            this.refresh();
+        });
+    }
+
     /**
      * This function helps in cleaning up or deleting the cluster with the help
      * of clusterID.
