@@ -466,10 +466,16 @@ export class ClusterNewController {
         var nodes: Array<any> = [];
         _.each(this.hosts, (host: any) => {
             if (host.selected) {
-                var nodeType: number = this.clusterType.ID === 1 ? 4 : (host.isMon ? 1 : 2);
                 var localHost: any = {
                     hostname: host.hostname
                 };
+                var disks = [];
+                _.each(host.disks, (disk: any) => {
+                    if(disk.Type === 'disk' && disk.Used == false) {
+                        disks.push(disk.DevName);
+                    }
+                });
+                localHost.disks = disks;
                 if (host.isMon) {
                     localHost.options = { mon: 'Y' };
                 }
