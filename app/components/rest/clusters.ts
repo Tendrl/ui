@@ -54,13 +54,27 @@ export class ClusterService {
             });
         });
     }
-    
+
+    // **enable**
+    // **@param** id - id of the cluster
+    // **@returns** a promise with the request id for the operation.
+    public enable(id) {
+        return this.rest.one('clusters', id).post('enable');
+    }
+
+    // **disable**
+    // **@param** id - id of the cluster
+    // **@returns** a promise with the request id for the operation.
+    public disable(id) {
+        return this.rest.one('clusters', id).post('disable');
+    }
+
     // **remove**
     // **@param** id - id of cluster you wish to remove.
     // This is a **destructive** operation and will remove
     // any data on this cluster.
     // **@returns** a promise with the request id for the operation.
-    remove(id) {
+    public remove(id) {
         return this.rest.one('clusters', id).remove();
     }
 
