@@ -13,7 +13,7 @@
     "idb-wrapper": "~1.5.0",
     "lodash": "~3.10.0",
     "font-awesome": "~4.3.0",
-    "patternfly": "~2.2.0",
+    "patternfly": "~2.5.0",
     "angular-motion": "~0.4.2",
     "angular-growl-v2": "~0.7.5",
     "d3": "~3.5.6",
