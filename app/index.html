@@ -9,7 +9,7 @@
 		<!-- inject:css -->
 		<!-- endinject -->
 	</head>
-	<body class="usmClientApp" ng-controller="ApplicationController">
+	<body class="usmClientApp" ng-controller="ApplicationController" ng-class="{'cards-pf':(currentURI == '/dashboard')}">
 
 <nav class="navbar navbar-pf-alt" ng-style="{display:(currentURI == '/')?'none':''}">
   <div class="navbar-header">

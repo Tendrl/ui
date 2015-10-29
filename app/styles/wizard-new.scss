@@ -1,62 +1,62 @@
 .wizard {
-    font-size: 16px;
-    padding: 10px 0px 20px;
-}
-.wizard > div {
-    position:relative;
-    float:left;
-}
+    margin-top: -20px;
 
-.wizard .default {
-    display: inline-block;
-    color:#aaaaaa;
-}
+    .wizard-top {
+        font-size: 16px;
+        background-color: #F5F5F5;
+        border-bottom: 1px solid;
+        border-color: #DDD;
 
-.wizard .active {
-    display: inline-block;
-    color:#199DDE;
-}
+        .step {
+            float: left;
+        }
 
-.wizard .visited {
-    display: inline-block;
-}
+        .step-default {           
+            color:#aaaaaa;
+        }
+    
+        .step-active {
+            color:#199DDE;
+        }
 
-.wizard .step-text {
-    padding-right: 30px;
-}
+        .step-visited {
+            color: #000;
+        }
 
-.wizard-step-dot {
-    margin: 0 auto;
-    text-align: center;
-    font-size: 8px;
-    position:relative;
-    z-index:10;
-    &:after {
-        display: block;
-        content: "";
-        background: #ccc;
-        position: relative;
-        height: 2px;
-        width: 100%;
-        top: -7px;
-        z-index:-1;
+        .step-line {
+            margin: 0 auto;
+            text-align: center;
+            font-size: 8px;
+            position:relative;
+            z-index:10;
+            &:after {
+                display: block;
+                content: "";
+                background: #ccc;
+                position: relative;
+                height: 2px;
+                width: 100%;
+                top: -7px;
+                z-index:-1;
+            }
+        }
+
+        .step-line-last {
+            &:after {
+                width: 50%;
+            }
+        }
+
+        .step-text {
+            padding-right: 30px;
+        }
     }
-}
 
-.wizard-step-dot-last {
-    margin: 0 auto;
-    text-align: center;
-    font-size: 8px;
-    position:relative;
-    z-index:10;
-    &:after {
-        display: block;
-        content: "";
-        background: #ccc;
-        position: relative;
-        height: 2px;
-        width: 50%;
-        top: -7px;
-        z-index:-1;
+    .wizard-content {
+        padding-top: 20px;
+        padding-bottom: 10px;
+    }
+
+     .wizard-bottom {   
     }
 }

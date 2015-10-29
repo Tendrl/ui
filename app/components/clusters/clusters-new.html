@@ -1,34 +1,35 @@
+<div class="wizard">
 <div class="row wizard-top">
   <div class="col-sm-12 col-md-12">
     <h1>Create Cluster</h1>
-    <div class="wizard">
-      <div ng-class="cluster.step == 1 ? 'active' : (cluster.step > 1 ? 'visited' : 'default')">
-        <div class="wizard-step-dot"><i class="fa fa-circle"></i></div>
+    <div>
+      <div class="step" ng-class="cluster.step == 1 ? 'step-active' : (cluster.step > 1 ? 'step-visited' : 'step-default')">
+        <div class="step-line"><i class="fa fa-circle"></i></div>
         <div class="step-text">1. Configure Cluster</div>
       </div>
-      <div ng-class="cluster.step == 2 ? 'active' : (cluster.step > 2 ? 'visited' : 'default')">
-        <div class="wizard-step-dot"><i class="fa fa-circle"></i></div>
+      <div class="step" ng-class="cluster.step == 2 ? 'step-active' : (cluster.step > 2 ? 'step-visited' : 'step-default')">
+        <div class="step-line"><i class="fa fa-circle"></i></div>
         <div class="step-text">2. Select Hosts</div>
       </div>
-      <div ng-class="cluster.step == 3 ? 'active' : (cluster.step > 3 ? 'visited' : 'default')">
-        <div class="wizard-step-dot"><i class="fa fa-circle"></i></div>
+      <div class="step" ng-class="cluster.step == 3 ? 'step-active' : (cluster.step > 3 ? 'step-visited' : 'step-default')">
+        <div class="step-line"><i class="fa fa-circle"></i></div>
         <div class="step-text">3. Choose Networks</div>
       </div>
-      <div ng-class="cluster.step == 4 ? 'active' : (cluster.step > 4 ? 'visited' : 'default')">
-        <div class="wizard-step-dot"><i class="fa fa-circle"></i></div>
+      <div class="step" ng-class="cluster.step == 4 ? 'step-active' : (cluster.step > 4 ? 'step-visited' : 'step-default')">
+        <div class="step-line"><i class="fa fa-circle"></i></div>
         <div class="step-text">4. Provision Storage</div>
       </div>
-      <div ng-class="cluster.step == 5 ?  'active' : (cluster.step > 5 ? 'visited' : 'default')">
-        <div class="wizard-step-dot-last"><i class="fa fa-circle"></i></div>
+      <div class="step" ng-class="cluster.step == 5 ? 'step-active' : (cluster.step > 5 ? 'step-visited' : 'step-default')">
+        <div class="step-line step-line-last"><i class="fa fa-circle"></i></div>
         <div class="step-text">5. Review Summary</div>
       </div>
     </div>
   </div>
 </div>
 
-<div class="row">
+<div class="row wizard-content">
   <div class="col-sm-12 col-md-12">
-    <div class="content no-left-padding" ng-switch on="cluster.step">
+    <div ng-switch on="cluster.step">
       <div ng-switch-when="1" >
         <div ng-include src="'views/clusters/clusters-new-configure.html'"> </div>
       </div>
@@ -45,16 +46,14 @@
         <div ng-include src="'views/clusters/clusters-new-summary.html'"> </div>
       </div>
     </div>
-    <div>
-     <div ng-class="(cluster.step === 1) ? 'row wizard-buttons':''">
-       <div ng-class="(cluster.step === 1) ? 'col-md-12' : ''">
-          <button type="button" class="btn btn-default" ng-show='cluster.isCancelAvailable()' ng-click='cluster.cancel()'>Cancel</button>
-          <button type="button" class="btn btn-default" ng-show='!cluster.isCancelAvailable()' ng-click='cluster.moveStep(-1)'>&lt;&nbsp;&nbsp;Back</button>
-          <button type="button" class="btn btn-default" ng-show='!cluster.isSubmitAvailable()' ng-click='cluster.moveStep(1)' ng-disabled=" cluster.step === 2 && cluster.deploymentType.nodeCount > cluster.filtered.length">Next&nbsp;&nbsp;&gt;</button>
-          <button type="button" class="btn btn-primary" ng-show='cluster.isSubmitAvailable()' ng-click='cluster.submit()'>Create Cluster</button>
-       </div>
-     </div>
-   </div>
+  </div>
+</div>
+<div class="row wizard-bottom">
+  <div class="col-sm-12 col-md-12">
+    <button type="button" class="btn btn-default" ng-show='cluster.isCancelAvailable()' ng-click='cluster.cancel()'>Cancel</button>
+    <button type="button" class="btn btn-default" ng-show='!cluster.isCancelAvailable()' ng-click='cluster.moveStep(-1)'>&lt;&nbsp;&nbsp;Back</button>
+    <button type="button" class="btn btn-default" ng-show='!cluster.isSubmitAvailable()' ng-click='cluster.moveStep(1)' ng-disabled=" cluster.step === 2 && cluster.deploymentType.nodeCount > cluster.filtered.length">Next&nbsp;&nbsp;&gt;</button>
+    <button type="button" class="btn btn-primary" ng-show='cluster.isSubmitAvailable()' ng-click='cluster.submit()'>Create Cluster</button>
   </div><!-- /col -->
 </div> <!-- /row -->
-
+</div>
