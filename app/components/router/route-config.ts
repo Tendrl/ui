@@ -48,6 +48,21 @@ export class RouteConfig {
 			name: 'hosts',
 			controller: 'HostDetailController',
 			controllerAs: 'hostdetail'
+		}).when('/storages', {
+			templateUrl: 'views/storage/storage-list.html',
+			name: 'storages',
+			controller: 'StorageListController',
+			controllerAs: 'storages'
+		}).when('/storages/new', {
+			templateUrl: 'views/storage/storage-new.html',
+			name: 'storages',
+			controller: 'StorageNewController',
+			controllerAs: 'storages'
+		}).when('/storages/new/openstack', {
+			templateUrl: 'views/storage/storage-new-openstack.html',
+			name: 'storages',
+			controller: 'OpenStackStorageController',
+			controllerAs: 'storage'
 		}).when('/volumes', {
 			templateUrl: 'views/volumes/volumes.html',
 			name: 'volumes',
