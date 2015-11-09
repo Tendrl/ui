@@ -134,18 +134,18 @@ export class ClusterNewController {
         var subnets = new Set();
         _.each(freeHosts, (freeHost: any) => {
             var host = {
-                id: freeHost.uuid,
+                id: freeHost.nodeid,
                 hostname: freeHost.hostname,
-                ipaddress: freeHost.managementip,
+                ipaddress: freeHost.management_ip4,
                 fingerprint: "abc",
                 state: "ACCEPTED",
-                disks: freeHost.storagedisks,
+                disks: freeHost.storage_disks,
                 selected: false
             };
             this.hosts.push(host);
             this.updateFingerPrint(host);
             this.updateIPAddress(host);
-            _.each(freeHost.networkinfo.Subnet, (network) => {
+            _.each(freeHost.network_info.Subnet, (network) => {
                 subnets.add(network);
             });
         });
@@ -467,17 +467,21 @@ export class ClusterNewController {
         _.each(this.hosts, (host: any) => {
             if (host.selected) {
                 var localHost: any = {
-                    hostname: host.hostname
+                    nodeid: host.id,
+                    nodetype: []
                 };
                 var disks = [];
                 _.each(host.disks, (disk: any) => {
                     if(disk.Type === 'disk' && disk.Used == false) {
-                        disks.push(disk.DevName);
+                        disks.push({ name: disk.DevName, fstype: 'xfs' });
                     }
                 });
                 localHost.disks = disks;
+                if(disks.length > 0) {
+                    localHost.nodetype.push('OSD');
+                }
                 if (host.isMon) {
-                    localHost.options = { mon: 'Y' };
+                    localHost.nodetype.push('MON');
                 }
                 nodes.push(localHost);
             }
@@ -497,8 +501,8 @@ export class ClusterNewController {
         }), 'name');
 
         var cluster = {
-            cluster_name: this.clusterName,
-            cluster_type: this.clusterType.type,
+            name: this.clusterName,
+            type: this.clusterType.type,
             nodes: nodes,
             networks: networks,
             openstackservices: services
