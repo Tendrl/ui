@@ -24,10 +24,10 @@ export class ServerService {
     }
 
     // **getListByCluster**
-    // **@returns** a promise with all servers.
+    // **@returns** a promise with all nodes part of the cluster.
     getListByCluster(clusterId) {
-        return this.rest.one('clusters', clusterId).all('hosts').getList().then(function(servers) {
-            return servers;
+        return this.rest.one('clusters', clusterId).all('nodes').getList().then(function(nodes) {
+            return nodes;
         });
     }
 

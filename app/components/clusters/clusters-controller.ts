@@ -64,18 +64,18 @@ export class ClustersController {
         var tempClusters: Array<any> = [];
         _.each(clusters, (cluster: any) => {
             var mockCluster: any = {};
-            mockCluster = this.mockDataProvider.getMockCluster(cluster.cluster_name);
+            mockCluster = this.mockDataProvider.getMockCluster(cluster.name);
             var tempCluster: any = {
-                cluster_id: cluster.cluster_id,
-                cluster_name: cluster.cluster_name,
-                cluster_type: cluster.cluster_type,
+                clusterid: cluster.clusterid,
+                cluster_name: cluster.name,
+                cluster_type: cluster.type,
                 storage_type: cluster.storage_type,
                 cluster_status: cluster.cluster_status,
                 used: cluster.used,
                 area_spline_cols: [{ id: 1, name: 'Used', color: '#39a5dc', type: 'area-spline' }],
                 area_spline_values: mockCluster.areaSplineValues,
                 gauge_values: _.random(20, 70) / 10,
-                no_of_hosts: cluster.nodes.length,
+                no_of_hosts: 0,
                 alerts: mockCluster.alerts,
                 no_of_volumes_or_pools: 0
             };
@@ -85,7 +85,11 @@ export class ClustersController {
                 tempCluster.gauge_values = 0.5;
             }
 
-            if (this.getClusterTypeTitle(cluster.cluster_type) === 'gluster') {
+            this.serverService.getListByCluster(cluster.clusterid).then((nodes) => {
+                tempCluster.no_of_hosts = nodes.length;
+            });
+
+            if (this.getClusterTypeTitle(cluster.type) === 'gluster') {
                 this.volumeService.getListByCluster(cluster.cluster_id).then((volumes) => {
                     tempCluster.no_of_volume_or_pools = volumes.length;
                 });
