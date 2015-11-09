@@ -2,6 +2,7 @@
 declare function require(name: string);
 
 import {ClusterService} from './clusters';
+import {StorageService} from './storage';
 import {OSDService} from './osd';
 import {PoolService} from './pool';
 import {RequestService} from './request';
@@ -12,10 +13,11 @@ import {VolumeService} from './volume';
 
 var angular: ng.IAngularStatic = require('angular');
 
-var moduleName = 'usm-client.rest';
+var moduleName = 'kitoon.rest';
 
 angular.module(moduleName, ['angular-growl'])
     .service('ClusterService', ClusterService)
+    .service('StorageService', StorageService)
     .service('OSDService', OSDService)
     .service('PoolService', PoolService)
     .service('RequestService', RequestService)
