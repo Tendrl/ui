@@ -22,16 +22,10 @@ export class MenuService {
             icon: 'fa-desktop',
             active: false
         },{
-            label: 'Volumes',
-            id: 'volumes',
-            href: '/volumes',
+            label: 'Storages',
+            id: 'storages',
+            href: '/storages',
             icon: 'fa-hdd-o',
-            active: false
-        },{
-            label: 'Pools',
-            id: 'pools',
-            href: '/pools',
-            icon: 'fa-th',
             active: false
         },{
             label: 'Admin',

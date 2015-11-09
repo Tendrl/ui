@@ -1,0 +1,75 @@
+<div class="row form-page storage-openstack">
+    <div class="col-md-12 form-body">
+        <div class="form-header">
+            <h1>Add Storage for OpenStack</h1>
+        </div>
+        <div class="form-content">
+            <form name="form" class="form-horizontal" novalidate>
+                <div class="form-group">
+                    <label class="col-md-1 control-label" style="text-align: left" for="cluster">Cluster</label>
+                    <div class="col-md-3">
+                        <select pf-select ng-model="storage.cluster" id="cluster" class="form-control" ng-options="storage.cluster_name for cluster in storage.clusters"></select>
+                    </div>
+                </div>
+                <div class="row">
+                    <label class="col-md-2">
+                        <h4>OpenStack Services</h4>
+                    </label>
+                </div>
+                <div class="row storage-group">
+                    <div class="col-md-12">
+                        <div class="storage-item">
+                            <div class="header">
+                                <input type="checkbox"></input>
+                                <span class="title">Cinder</span>
+                                <span class="text-muted desc">Block Volumes</span>
+                            </div>
+                            <div class="storage-pool">
+                                <div class="row">
+                                    <div class="col-md-2">CINDER</div>
+                                    <div class="col-md-2">
+                                        <span class="title">Type</span>
+                                        <span class="value">Standard</span>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <span class="title">Storage Profile</span>
+                                        <span class="value">Standard</span>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <span class="title">Replica</span>
+                                        <select pf-select ng-model="pool.replica" id="replica" class="form-control" ng-options="storage.replicaList"></select>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <span class="title">Capacity</span>
+                                    </div>
+                                    <div class="col-md-1">
+                                        <span class="title">Cache Tier</span>
+                                        <span class="value">None</span
+                                    </div>
+                                    <div class="col-md-1">
+                                        <span class="fa fa-pencil"></span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row storage-group">
+                    <div class="col-md-12">
+                        <div class="storage-item">
+                            <div class="checkbox">
+                                <label>
+                                    <input type="checkbox">Check me out</input>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="form-footer">
+            <button type="button" class="btn btn-lg btn-default" ng-click='storage.cancel()'>Cancel</button>
+            <button type="button" class="btn btn-lg btn-primary" ng-show='storage.isSubmitAvailable()' ng-click='storage.submit()'>Create Storage</button>
+        </div>
+    </div>
+</div>

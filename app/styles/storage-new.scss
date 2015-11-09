@@ -1,0 +1,23 @@
+.storage-new {
+    .header-item {
+        font-size: 17px;   
+    }
+
+    .storage-item {
+        height: 100px;
+        margin-bottom: 20px;
+        cursor: pointer;
+        border: 1px solid lightgray;
+        box-shadow: 2px 2px 2px #c5c5c5;
+
+        &:hover {
+            box-shadow: 4px 4px 4px #c5c5c5;
+        }
+
+        .header {
+            font-size: 17px;
+            text-align: center;
+            padding-top: 20px;     
+        }
+    }
+}
