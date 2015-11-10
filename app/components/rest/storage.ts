@@ -45,4 +45,11 @@ export class StorageService {
     create(clusterId, storage) {
         return this.restFull.one('clusters', clusterId).all('storages').post(storage);
     }
+
+    // **create**
+    // **@param** storageId - Information about the storage.
+    // **@returns** a promise which returns a request id to track the task.
+    delete(clusterId, storageId) {
+        return this.restFull.one('clusters', clusterId).one('storages', storageId).remove();
+    }
 }
