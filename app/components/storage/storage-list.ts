@@ -4,8 +4,12 @@ import {UtilService} from '../rest/util';
 import {ClusterService} from '../rest/clusters';
 import {StorageService} from '../rest/storage';
 
+declare var require: any;
+var numeral = require("numeral");
+
 export class StorageListController {
     private list: Array<any>;
+    private clusterMap = {};
     private timer;
     static $inject: Array<string> = [
         '$scope',
@@ -38,6 +42,7 @@ export class StorageListController {
             var requests = [];
             _.each(clusters, (cluster) => {
                 requests.push(this.storageSvc.getListByCluster(cluster.clusterid));
+                this.clusterMap[cluster.clusterid] = cluster;
             });
             this.$q.all(requests).then((results) => {
                 var storageList = [];
@@ -51,6 +56,14 @@ export class StorageListController {
 
     public loadData(storages) {
         this.list = storages;
+    }
+
+    public getClusterName(clusterid) {
+        return this.clusterMap[clusterid].name;
+    }
+
+    public getFormatedSize(size: number): string {
+        return numeral(size).format('0 b');
     }
 
     public create() {
