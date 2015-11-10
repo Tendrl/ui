@@ -64,6 +64,9 @@
         .row {
             padding: 15px;
         }
+        .col-md-2 {
+            min-height: 50px;
+        }
         .title {
             font-size: 12px;
             font-weight: 600;
@@ -74,20 +77,26 @@
             font-size: 15px;
             font-weight: 500;
         }
-        .replica {
+        .replica-edit {
             max-width: 120px;
+            transition: none;
         }
-        .capacity {
-            .size {
-                max-width: 70px;
+        .capacity-edit {
+            max-width: 120px;
+            .size-selector {
+                min-width: 50px;
             }
         }
         .actions {
             margin-top: 5px;
             font-size: 20px;
             text-align: center;
-            .span {
-                margin-right: 5px;
+            span {
+                margin-right: 10px;
+                cursor: pointer;
+                &:hover {
+                    font-size: 22px;
+                }
             }
         }
     }
