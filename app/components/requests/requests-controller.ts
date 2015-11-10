@@ -105,22 +105,18 @@ export class RequestsController {
         this.utilSvc.acceptHost(host.hostname, saltfingerprint).then((result) => {
             this.$log.info(result);
             host.state = "ACCEPTING";
-            host.task = result;
-            var callback = () => {
-                this.requestSvc.get(result).then((request) => {
-                    if (request.status === 'FAILED' || request.status === 'FAILURE') {
-                        this.$log.info('Failed to accept host in requests controller' + host.hostname);
-                        host.state = "FAILED";
-                        host.task = undefined;
-                    }
-                    else if (request.status === 'SUCCESS') {
-                        this.$log.info('Accepted host in requests controller ' + host.hostname);
+            host.taskid = result.data.taskid;
+            var self = this;
+            var callback = function() {
+                self.requestSvc.get(host.taskid).then((task) => {
+                    if (task.completed) {
+                        self.$log.info('Accepted host in first controller ' + host.hostname);
                         host.state = "ACCEPTED";
                         host.task = undefined;
                     }
                     else {
-                        this.$log.info('Accepting host in requests controller' + host.hostname);
-                        this.$timeout(callback, 5000);
+                        self.$log.info('Accepting host in first controller ' + host.hostname);
+                        self.$timeout(callback, 5000);
                     }
                 });
             }
@@ -140,4 +136,3 @@ export class RequestsController {
         });
     }
 }
-    

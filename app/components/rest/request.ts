@@ -12,21 +12,18 @@ export class RequestService {
     }
 
     // **getList**
-    // **@returns** a promise with most recent *pageSize* requests.
+    // **@returns** a promise with list of tasks.
     getList() {
-        /* jshint camelcase: false */
-        return this.rest.customGETLIST('tasks', {
-            page_size: this.pageSize
-        }).then(function(requests) {
-            return requests;
+        return this.rest.all('tasks').getList().then(function(tasks) {
+            return tasks;
         });
     }
 
     // **get**
-    // **@returns** a promise with a single request by it's ID.
+    // **@returns** a promise with the task.
     get(id) {
-        return this.rest.one('tasks', id).customGET('status').then(function(resp) {
-            return resp.task;
+        return this.rest.one('tasks', id).get().then(function(task) {
+            return task;
         });
     }
 
