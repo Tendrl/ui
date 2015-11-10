@@ -18,10 +18,9 @@ export class FirstController {
         this.serverSvc.getDiscoveredHosts().then((freeHosts) => {
             _.each(freeHosts, (freeHost: any) => {
                 var host = {
-                    hostname: freeHost.node_name,
-                    ipaddress: freeHost.management_ip,
+                    hostname: freeHost.hostname,
+                    saltfingerprint: freeHost.saltfingerprint,
                     state: "UNACCEPTED",
-                    selected: false
                 };
                 this.discoveredHosts.push(host);
             });
@@ -36,29 +35,24 @@ export class FirstController {
         this.$location.path('/clusters/import');
     }
 
-    acceptHost(host: any): void {
+    public acceptHost(host: any): void {
         var saltfingerprint = {
            saltfingerprint: host.saltfingerprint
         };
         this.utilSvc.acceptHost(host.hostname, saltfingerprint).then((result) => {
             this.$log.info(result);
             host.state = "ACCEPTING";
-            host.task = result;
+            host.taskid = result.data.taskid;
             var self = this;
             var callback = function() {
-                self.requestSvc.get(result).then((request) => {
-                    if (request.status === 'FAILED' || request.status === 'FAILURE') {
-                        self.$log.info('Failed to accept host in first controller' + host.hostname);
-                        host.state = "FAILED";
-                        host.task = undefined;
-                    }
-                    else if (request.status === 'SUCCESS') {
+                self.requestSvc.get(host.taskid).then((task) => {
+                    if (task.completed) {
                         self.$log.info('Accepted host in first controller ' + host.hostname);
                         host.state = "ACCEPTED";
                         host.task = undefined;
                     }
                     else {
-                        self.$log.info('Accepting host in first controller' + host.hostname);
+                        self.$log.info('Accepting host in first controller ' + host.hostname);
                         self.$timeout(callback, 5000);
                     }
                 });
@@ -67,8 +61,8 @@ export class FirstController {
         });
     }
 
-    acceptAllHosts(): void {
-        _.each(this.discoveredHosts, function(host) {
+    public acceptAllHosts(): void {
+        _.each(this.discoveredHosts, (host) => {
             if (host.state === "UNACCEPTED") {
                 this.acceptHost(host);
             }
