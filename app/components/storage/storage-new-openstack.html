@@ -8,7 +8,8 @@
                 <div class="form-group">
                     <label class="col-md-1 control-label" style="text-align: left" for="cluster">Cluster</label>
                     <div class="col-md-3">
-                        <select pf-select ng-model="storage.cluster" id="cluster" class="form-control" ng-options="storage.cluster_name for cluster in storage.clusters"></select>
+                        <select pf-select ng-model="storage.cluster" id="cluster" class="form-control" ng-options="cluster.name for cluster in storage.clusters"
+                        ng-change="storage.onClusterSelected(storage.cluster)"></select>
                     </div>
                 </div>
                 <div class="row">
@@ -18,49 +19,53 @@
                 </div>
                 <div class="row storage-group">
                     <div class="col-md-12">
-                        <div class="storage-item">
+                        <div class="storage-item" ng-repeat="openstackStorage in storage.openstackStorages">
                             <div class="header">
-                                <input type="checkbox"></input>
-                                <span class="title">Cinder</span>
+                                <input type="checkbox" ng-model="openstackStorage.selected">
+                                <span class="title">{{openstackStorage.service}}</span>
+                                </input>
                                 <span class="text-muted desc">Block Volumes</span>
                             </div>
                             <div class="storage-pool">
                                 <div class="row">
-                                    <div class="col-md-2">CINDER</div>
+                                    <div class="col-md-2">
+                                        <span class="title">Name</span>
+                                        <span class="value">{{openstackStorage.name}}</span>
+                                    </div>
                                     <div class="col-md-2">
                                         <span class="title">Type</span>
-                                        <span class="value">Standard</span>
+                                        <span class="value">{{openstackStorage.type}}</span>
                                     </div>
                                     <div class="col-md-2">
                                         <span class="title">Storage Profile</span>
-                                        <span class="value">Standard</span>
+                                        <span class="value">{{openstackStorage.storageProfile}}</span>
                                     </div>
                                     <div class="col-md-2">
                                         <span class="title">Replica</span>
-                                        <select pf-select ng-model="pool.replica" id="replica" class="form-control" ng-options="storage.replicaList"></select>
+                                        <span ng-if="!openstackStorage.edit" class="value">{{openstackStorage.replica}}</span>
+                                        <select ng-if="openstackStorage.edit" pf-select ng-model="openstackStorage.replica" id="replica"
+                                        class="replica" ng-options="replica for replica in storage.replicaList"></select>
                                     </div>
                                     <div class="col-md-2">
                                         <span class="title">Capacity</span>
+                                        <div ng-if="!openstackStorage.edit" class="value">{{openstackStorage.capacity.value}} {{openstackStorage.capacity.unit}}</div>
+                                        <div ng-if="openstackStorage.edit" class="value capacity">
+                                            <input type="number" ng-model="openstackStorage.capacity.value" class="size"></input>
+                                            <select pf-select ng-model="openstackStorage.capacity.unit" class="size" ng-options="capacityUnit for capacityUnit in storage.capacityUnits"></select>
+                                        </div>
                                     </div>
                                     <div class="col-md-1">
                                         <span class="title">Cache Tier</span>
-                                        <span class="value">None</span
+                                        <span class="value">None</span>
                                     </div>
                                     <div class="col-md-1">
-                                        <span class="fa fa-pencil"></span>
+                                        <div class="actions">
+                                            <span ng-if="!openstackStorage.edit" class="fa fa-pencil" ng-click="openstackStorage.edit=true"></span>
+                                            <span ng-if="openstackStorage.edit" class="fa fa-check" ng-click="openstackStorage.edit=false"></span>
+                                            <span ng-if="openstackStorage.edit" class="fa fa-times" ng-click="openstackStorage.edit=false"></span>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="row storage-group">
-                    <div class="col-md-12">
-                        <div class="storage-item">
-                            <div class="checkbox">
-                                <label>
-                                    <input type="checkbox">Check me out</input>
-                                </label>
                             </div>
                         </div>
                     </div>
