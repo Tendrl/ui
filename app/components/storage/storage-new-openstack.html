@@ -26,7 +26,7 @@
                                 </input>
                                 <span class="text-muted desc">Block Volumes</span>
                             </div>
-                            <div class="storage-pool">
+                            <div class="storage-pool" ng-class="{disabled: openstackStorage.selected == false}">
                                 <div class="row">
                                     <div class="col-md-2">
                                         <span class="title">Name</span>
@@ -43,8 +43,8 @@
                                     <div class="col-md-2">
                                         <span class="title">Replica</span>
                                         <span ng-show="!openstackStorage.edit" class="value">{{openstackStorage.replica}}</span>
-                                        <select ng-show="openstackStorage.edit" pf-select ng-model="openstackStorage.replica" id="replica"
-                                        class="replica-edit form-control" ng-options="replica for replica in storage.replicaList"></select>
+                                        <select ng-show="openstackStorage.edit" pf-select ng-model="openstackStorage.replica"
+                                        id="replica" class="replica-edit form-control" ng-options="replica for replica in storage.replicaList"></select>
                                     </div>
                                     <div class="col-md-2">
                                         <span class="title">Capacity</span>

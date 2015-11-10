@@ -71,7 +71,7 @@ export class OpenStackStorageController {
             storageList.push({
                 name: storage.name,
                 type: 'replicated',
-                size: storage.capacity.value,
+                size: storage.capacity.value * 1024 * 1024 * 1024,
                 options: { pgnum: '128' }
             });
         });

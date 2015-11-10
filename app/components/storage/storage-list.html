@@ -27,19 +27,19 @@
         </div>
         <div class="col-md-2 col-sm-4 set-top-margin">
             <div class="sub-heading">Cluster</div>
-            <div class="cluster_name" ng-bind="storage.cluster"></div>
+            <div class="cluster_name" ng-bind="storages.getClusterName(storage.clusterid)"></div>
+        </div>
+        <div class="col-md-2 col-sm-3 set-top-margin">
+            <div class="sub-heading">Type</div>
+            <div class="cluster_name">Standard</div>
+        </div>
+        <div class="col-md-2 col-sm-3 set-top-margin">
+            <div class="sub-heading">Storage Profile</div>
+            <div class="cluster_name">SAS</div>
         </div>
         <div class="col-md-1 col-sm-4 set-top-margin">
             <div class="sub-heading">Size</div>
-            <div class="cluster_name" ng-bind="storage.size"></div>
-        </div>
-        <div class="col-md-2 col-sm-3 set-top-margin">
-            <div class="sub-heading">OSDs</div>
-            <div class="cluster_name">128</div>
-        </div>
-        <div class="col-md-2 col-sm-3 set-top-margin">
-            <div class="sub-heading">PGs</div>
-            <div class="cluster_name" ng-bind="storage.pg_num"></div>
+            <div class="cluster_name">{{storages.getFormatedSize(storage.size)}}</div>
         </div>
         <div class="col-md-2 col-sm-2 set-top-margin">
             <div class="sub-heading">Alerts</div>
