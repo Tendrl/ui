@@ -42,16 +42,20 @@
                                     </div>
                                     <div class="col-md-2">
                                         <span class="title">Replica</span>
-                                        <span ng-if="!openstackStorage.edit" class="value">{{openstackStorage.replica}}</span>
-                                        <select ng-if="openstackStorage.edit" pf-select ng-model="openstackStorage.replica" id="replica"
-                                        class="replica" ng-options="replica for replica in storage.replicaList"></select>
+                                        <span ng-show="!openstackStorage.edit" class="value">{{openstackStorage.replica}}</span>
+                                        <select ng-show="openstackStorage.edit" pf-select ng-model="openstackStorage.replica" id="replica"
+                                        class="replica-edit form-control" ng-options="replica for replica in storage.replicaList"></select>
                                     </div>
                                     <div class="col-md-2">
                                         <span class="title">Capacity</span>
                                         <div ng-if="!openstackStorage.edit" class="value">{{openstackStorage.capacity.value}} {{openstackStorage.capacity.unit}}</div>
-                                        <div ng-if="openstackStorage.edit" class="value capacity">
-                                            <input type="number" ng-model="openstackStorage.capacity.value" class="size"></input>
-                                            <select pf-select ng-model="openstackStorage.capacity.unit" class="size" ng-options="capacityUnit for capacityUnit in storage.capacityUnits"></select>
+                                        <div ng-if="openstackStorage.edit" class="value capacity-edit">
+                                            <div class="input-group">
+                                                <input type="number" ng-model="openstackStorage.capacity.value" class="form-control"></input>
+                                                <div class="input-group-btn">
+                                                    <select pf-select ng-model="openstackStorage.capacity.unit" class="form-control size-selector" ng-options="capacityUnit for capacityUnit in storage.capacityUnits"></select>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
                                     <div class="col-md-1">

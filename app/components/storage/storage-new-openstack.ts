@@ -12,8 +12,6 @@ export class OpenStackStorageController {
     private replicaList = [2, 3, 4];
     private capacityUnits = ['GB', 'TB'];
     static $inject: Array<string> = [
-        '$scope',
-        '$interval',
         '$location',
         '$log',
         '$q',
@@ -23,12 +21,10 @@ export class OpenStackStorageController {
         'RequestTrackingService'
     ];
 
-    constructor(private scopeSvc: ng.IScope,
-        private intervalSvc: ng.IIntervalService,
-        private locationSvc: ng.ILocationService,
-        private logSvc: ng.ILogService,
+    constructor(private $location: ng.ILocationService,
+        private $log: ng.ILogService,
         private $q: ng.IQService,
-        private modal,
+        private $modal,
         private clusterSvc: ClusterService,
         private storageSvc: StorageService,
         private RequestTrackingSvc) {
@@ -65,7 +61,7 @@ export class OpenStackStorageController {
     }
 
     public cancel(): void {
-        this.locationSvc.path('/storages');
+        this.$location.path('/storages');
     }
 
     public submit(): void {
@@ -84,14 +80,19 @@ export class OpenStackStorageController {
     }
 
     private createStorages(clusterId, storageList) {
-        this.storageSvc.create(clusterId, storageList[0]).then((result) => {
-            console.log(result);
-            if (result.status === 200 || result.status === 202) {
-                this.locationSvc.path('/storages');
-            }
-            else {
-                this.logSvc.error('Unexpected response from Storages.create', result);
-            }
+        var requests = [];
+        _.each(storageList, (storage) => {
+            requests.push(this.storageSvc.create(clusterId, storage));
+        });
+        this.$q.all(requests).then((results) => {
+            var modal = ModalHelpers.SuccessfulRequest(this.$modal, {
+                title: 'Add OpenStack Storage Request is Submitted',
+                container: '.usmClientApp'
+            });
+            modal.$scope.$hide = _.wrap(modal.$scope.$hide, ($hide) => {
+                $hide();
+                this.$location.path('/storages');
+            });
         });
     }
 }
