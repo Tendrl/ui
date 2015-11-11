@@ -107,7 +107,7 @@ export class ClusterNewController {
         this.newPool.copyCountList = VolumeHelpers.getCopiesList();
         this.newPool.copyCount = VolumeHelpers.getRecomendedCopyCount();
 
-        this.serverService.getFreeHosts().then(this.freeHostCallBack);
+        this.fetchFreeHosts();
     }
 
 
@@ -130,21 +130,25 @@ export class ClusterNewController {
         });
     }
 
-    public freeHostCallBack = (freeHosts: any) => {
+    public fetchFreeHosts() {
+        this.serverService.getFreeHosts().then((freeHosts) => this.loadFreeHosts(freeHosts));
+    }
+
+    public loadFreeHosts(freeHosts: any) {
+        this.hosts = [];
+        this.availableNetworks = [];
         var subnets = new Set();
         _.each(freeHosts, (freeHost: any) => {
             var host = {
                 id: freeHost.nodeid,
                 hostname: freeHost.hostname,
                 ipaddress: freeHost.management_ip4,
-                fingerprint: "abc",
                 state: "ACCEPTED",
                 disks: freeHost.storage_disks,
                 selected: false
             };
             this.hosts.push(host);
             this.updateFingerPrint(host);
-            this.updateIPAddress(host);
             _.each(freeHost.network_info.Subnet, (network) => {
                 subnets.add(network);
             });
@@ -204,7 +208,7 @@ export class ClusterNewController {
     }
 
     public addNewHost() {
-        this.clusterHelper.addNewHost(this, this.serverService);
+        this.clusterHelper.addNewHost(this, this.serverService, this.timeoutService, this.requestService);
     }
 
     public postAddNewHost(host: any) {
