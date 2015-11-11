@@ -128,31 +128,34 @@ export class ClusterHelper     {
     /**
      * This function helps in adding a  new host with all its properties.
     */
-    public addNewHost(cluster : any, severService: ServerService)    {
+    public addNewHost(cluster : any, severService: ServerService, $timeout: ng.ITimeoutService, requestSvc: RequestService)    {
          var newHost = cluster.newHost;
          newHost.isVerifyingHost = true;
          newHost.errorMessage = "";    
          newHost.cautionMessage = "";
          var hostObject = {
              "hostname": newHost.hostname,
-             "sshfingerprint": newHost.fingerprint,
+             "sshfingerprint": newHost.sshfingerprint,
              "user": newHost.username,
              "password": newHost.password
          };
         //This called on success[promise].
-        severService.add(hostObject).then( () => {
-            var host = {
-                isMon : false,
-                hostname: newHost.hostname, 
-                username: newHost.username,
-                password: newHost.password,
-                ipaddress: newHost.ipaddress,
-                fingerprint: newHost.fingerprint
-            };
-            //alert("here success");
-            cluster.hosts.unshift(host);
-            cluster.postAddNewHost(host);
-            cluster.newHost = {};
+        severService.add(hostObject).then((result) => {
+            var taskid = result.data.taskid;
+            var callback = function() {
+                requestSvc.get(taskid).then((task) => {
+                    if (task.completed) {
+                        console.log('Added host ' + hostObject.hostname);
+                        cluster.newHost = {}
+                        cluster.fetchFreeHosts();
+                    }
+                    else {
+                        console.log('Adding host ' + hostObject.hostname);
+                        $timeout(callback, 5000);
+                    }
+                });
+            }
+            $timeout(callback, 5000);
         },
         //This a called on failure[promise].
          () => {

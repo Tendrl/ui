@@ -61,7 +61,7 @@ export class ClusterExpandController {
         this.clusterID = this.routeParamsSvc['id'];
 
         this.clusterService.get(this.clusterID).then((cluster)=>this.loadCluster(cluster));
-        this.serverService.getFreeHosts().then((freeHosts)=>this.loadFreeHosts(freeHosts));
+        this.fetchFreeHosts();
     }
 
     public loadCluster (cluster: any) {
@@ -89,20 +89,23 @@ export class ClusterExpandController {
         });
     }
 
-    public loadFreeHosts (freeHosts: any) {
+    public fetchFreeHosts() {
+        this.serverService.getFreeHosts().then((freeHosts) => this.loadFreeHosts(freeHosts));
+    }
+
+    public loadFreeHosts(freeHosts: any) {
+        this.hosts = [];
         _.each(freeHosts, (freeHost: any) => {
             var host = {
-                id: freeHost.uuid,
+                id: freeHost.nodeid,
                 hostname: freeHost.hostname,
-                ipaddress: freeHost.managementip,
-                fingerprint: "abc",
+                ipaddress: freeHost.management_ip4,
                 state: "ACCEPTED",
-                disks: freeHost.storagedisks,
+                disks: freeHost.storage_disks,
                 selected: false
             };
             this.hosts.push(host);
             this.updateFingerPrint(host);
-            this.updateIPAddress(host);
         });
     }
 
@@ -143,7 +146,7 @@ export class ClusterExpandController {
     }
 
     public addNewHost() {
-        this.clusterHelper.addNewHost(this, this.serverService);
+        this.clusterHelper.addNewHost(this, this.serverService, this.timeoutService, this.requestService);
     }
 
     public postAddNewHost(host: any) {
