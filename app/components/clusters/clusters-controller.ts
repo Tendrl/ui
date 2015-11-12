@@ -1,3 +1,5 @@
+
+import {Cluster} from '../rest/resources';
 import {ClusterService} from '../rest/clusters';
 import {MockDataProvider} from './mock-data-provider-helpers';
 import {ClusterHelper} from './cluster-helpers';
@@ -6,7 +8,6 @@ import {PoolService} from '../rest/pool';
 import {ServerService} from '../rest/server';
 
 export class ClustersController {
-    private self = this;
     public clusterList: Array<any>;
     private clusterHelper: ClusterHelper;
     
@@ -24,10 +25,10 @@ export class ClustersController {
         
     //Mock-Data incase if data not available 
     private mockDataProvider: MockDataProvider;
-     
-    //This line refresh the content every 15 second.
+
+    //Timer to refresh the data every 10 seconds
     private timer;
-        
+   
     /**
      * Here we do the dependency injection.
     */
@@ -48,11 +49,8 @@ export class ClustersController {
         });
     }
 
-    /**
-     * This function helps in loading the content of the page.
-    */
     public refresh() {
-        this.clusterSvc.getList().then((clusters) => {
+        this.clusterSvc.getList().then((clusters: Cluster[]) => {
             if (clusters.length === 0) {
                 this.$location.path('/first');
             }
@@ -60,18 +58,20 @@ export class ClustersController {
         });
     }
 
-    public loadData(clusters) {
+    /**
+     * This function helps in loading the content of the page.
+    */
+    public loadData(clusters: Cluster[]) {
         var tempClusters: Array<any> = [];
-        _.each(clusters, (cluster: any) => {
+        _.each(clusters, (cluster) => {
             var mockCluster: any = {};
             mockCluster = this.mockDataProvider.getMockCluster(cluster.name);
             var tempCluster: any = {
                 clusterid: cluster.clusterid,
                 cluster_name: cluster.name,
                 cluster_type: cluster.type,
-                storage_type: cluster.storage_type,
-                cluster_status: cluster.cluster_status,
-                used: cluster.used,
+                cluster_status: undefined,
+                used: undefined,
                 area_spline_cols: [{ id: 1, name: 'Used', color: '#39a5dc', type: 'area-spline' }],
                 area_spline_values: mockCluster.areaSplineValues,
                 gauge_values: _.random(20, 70) / 10,
@@ -90,12 +90,12 @@ export class ClustersController {
             });
 
             if (this.getClusterTypeTitle(cluster.type) === 'gluster') {
-                this.volumeService.getListByCluster(cluster.cluster_id).then((volumes) => {
+                this.volumeService.getListByCluster(cluster.clusterid).then((volumes) => {
                     tempCluster.no_of_volume_or_pools = volumes.length;
                 });
             }
             else {
-                this.poolService.getListByCluster(cluster.cluster_id).then(function(pools) {
+                this.poolService.getListByCluster(cluster.clusterid).then(function(pools) {
                     tempCluster.no_of_volume_or_pools = pools.length;
                 });
             }
@@ -122,10 +122,7 @@ export class ClustersController {
             return '#4AD170';
         }
     }
-    
-    /**
-     * These are the methods needed to access the members of the class.
-    */
+
     public getClusterTypeTitle(type: string): string {
         return this.clusterHelper.getClusterType(type).type;
     }
@@ -150,17 +147,17 @@ export class ClustersController {
      * Here we change the current path to '/clusters/expand/' where details about a particular
      * cluster can be seen. 
     */
-    public expandCluster(clusterID: any): void {
+    public expandCluster(clusterID: string): void {
         this.$location.path('/clusters/expand/' + clusterID);
     }
 
-    public enableCluster(clusterID: any): void {
+    public enableCluster(clusterID: string): void {
         this.clusterSvc.enable(clusterID).then(() => {
             this.refresh();
         });
     }
 
-    public disableCluster(clusterID: any): void {
+    public disableCluster(clusterID: string): void {
         this.clusterSvc.disable(clusterID).then(() => {
             this.refresh();
         });

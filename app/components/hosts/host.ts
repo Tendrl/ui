@@ -56,7 +56,7 @@ export class HostController {
             host.version = '';
             if (host.cluster != null) {
                 self.clusterSvc.get(host.cluster).then(function(cluster) {
-                    host.cluster_type = cluster.cluster_type;
+                    host.cluster_type = cluster.type;
                     host.version = host.cluster_type === 1 ? 'V3.7.1' : 'V9.0.1';
                 });
             }

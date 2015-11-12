@@ -57,7 +57,7 @@ export class VolumeController {
                 });
                 if (volume.cluster != null) {
                     self.clusterSvc.get(volume.cluster).then(function(cluster) {
-                        volume.cluster_type = cluster.cluster_type;
+                        volume.cluster_type = cluster.type;
                     });
                 }
             });
