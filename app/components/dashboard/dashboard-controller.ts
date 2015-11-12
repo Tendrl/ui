@@ -1,13 +1,11 @@
 import {ClusterService} from '../rest/clusters';
 import {ServerService} from '../rest/server';
-import {VolumeService} from '../rest/volume';
-import {PoolService} from '../rest/pool';
+import {StorageService} from '../rest/storage';
 
 declare var require : any;
 var numeral = require("numeral");
 
 export class DashboardController {
-    private self = this;
     private config: any;
     private clusters: Array<any>;
     private clustersWarning: Array<any>;
@@ -15,12 +13,9 @@ export class DashboardController {
     private hosts: Array<any>;
     private hostsWarning: Array<any>;
     private hostsCritical: Array<any>;
-    private volumes: Array<any>;
-    private volumesWarning: Array<any>;
-    private volumesCritical: Array<any>;
-    private pools: Array<any>;
-    private poolsWarning: Array<any>;
-    private poolsCritical: Array<any>;
+    private storages: Array<any>;
+    private storagesWarning: Array<any>;
+    private storagesCritical: Array<any>;
     private services: Array<any>;
     private servicesWarning: Array<any>;
     private servicesCritical: Array<any>;
@@ -35,8 +30,7 @@ export class DashboardController {
         '$log',
         'ClusterService',
         'ServerService',
-        'VolumeService',
-        'PoolService',
+        'StorageService'
     ];
 
     constructor(private $scope: ng.IScope,
@@ -44,8 +38,7 @@ export class DashboardController {
         private $log: ng.ILogService,
         private clusterService: ClusterService,
         private serverService: ServerService,
-        private volumeService: VolumeService,
-        private poolService: PoolService) {
+        private storageService: StorageService) {
 
          this.clusters = new Array<any>();
          this.clustersWarning = new Array<any>();
@@ -53,12 +46,9 @@ export class DashboardController {
          this.hosts = new Array<any>();
          this.hostsWarning = new Array<any>();
          this.hostsCritical = new Array<any>();
-         this.volumes = new Array<any>();
-         this.volumesWarning = new Array<any>();
-         this.volumesCritical = new Array<any>();
-         this.pools = new Array<any>();
-         this.poolsWarning = new Array<any>();
-         this.poolsCritical = new Array<any>();
+         this.storages = new Array<any>();
+         this.storagesWarning = new Array<any>();
+         this.storagesCritical = new Array<any>();
          this.services = new Array<any>();
          this.servicesWarning = new Array<any>();
          this.servicesCritical = new Array<any>();
@@ -94,19 +84,14 @@ export class DashboardController {
 
          this.serverService.getList().then((hosts) => this.updateHostData(hosts));
          this.clusterService.getList().then((clusters) => this.updateClusterData(clusters));
-         this.volumeService.getList().then((volumes) => this.updateVolumeData(volumes));
-         this.poolService.getList().then((pools) => this.updatePoolData(pools));
+         this.storageService.getList().then((storages) => this.updateStorageData(storages));
     }
 
-    //This is to fix the 'this' problem with callbacks
-    //Refer https://github.com/Microsoft/TypeScript/wiki/'this'-in-TypeScript#use-instance-functions
     public updateClusterData(clusters: any) {
-        _.each(_.range(0, 10), (index) => {
-            this.services.push({ id: index });
-        });
         if (clusters.length === 0) {
             this.$location.path('/first');
-        }else {
+        }
+        else {
             this.clusters = clusters;
             var requests = [];
             _.each(this.clusters, (cluster: any) => {
@@ -135,31 +120,6 @@ export class DashboardController {
                     bandwidth: bandwidth,
                     bandwidthFormatted: bandwidthFormatted
                 };
-
-                if(cluster.cluster_type === 1) {
-                    this.volumeService.getListByCluster(cluster.cluster_id).then(function(volumes) {
-                        cluster.volumes = volumes;
-                        cluster.volumes.push({ id: 100, usage: 75 });
-                        _.each(_.range(cluster.volumes.length, 15), function(index) {
-                            cluster.volumes.push({id: _.random(0, 100), usage: _.random(0, 70)});
-                        });
-                        _.each(_.range(cluster.volumes.length, 25), function(index) {
-                            cluster.volumes.push({id: _.random(0, 100), usage: _.random(0, 95)});
-                        });
-                    });
-                }
-                else {
-                    this.poolService.getListByCluster(cluster.cluster_id).then(function(pools) {
-                        cluster.pools = pools;
-                        cluster.pools.push({ id: 100, usage: 75 });
-                        _.each(_.range(cluster.pools.length, 15), function(index) {
-                            cluster.pools.push({id: _.random(0, 100), usage: _.random(0, 70)});
-                        });
-                        _.each(_.range(cluster.pools.length, 25), function(index) {
-                            cluster.pools.push({id: _.random(0, 100), usage: _.random(0, 95)});
-                        });
-                    });
-                }
             });
             this.calculateTotalCapacity();
         }
@@ -183,23 +143,16 @@ export class DashboardController {
     /**
      *This is the callback function called after getting volumes list. 
     */
-    public updateVolumeData(volumes: any) {
-       this.volumes = volumes;
-        _.each(this.volumes, (volume: any) => {
-            if(volume.volume_status === 1) {
-                this.volumesWarning.push(volume);
+    public updateStorageData(storages: any) {
+       this.storages = storages;
+        _.each(this.storages, (storage: any) => {
+            if(storage.status === 1) {
+                this.storagesWarning.push(storage);
             }
-            else if(volume.volume_status === 2) {
-                this.volumesCritical.push(volume);
+            else if(storage.status === 2) {
+                this.storagesCritical.push(storage);
             }
         });
-    }
-
-    /**
-     *This is the callback function called after getting pools list. 
-    */
-    public updatePoolData(pools: any) {
-       this.pools = pools;
     }
 
     public getRandomList(key: string , count: number, min: number, max: number) {

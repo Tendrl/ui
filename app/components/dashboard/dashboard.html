@@ -38,15 +38,15 @@
         <div class="col-md-3 col-sm-6 col-xs-6">
             <div class="card-pf card-pf-accented card-pf-aggregate-status card-pf-with-action" style="height: 90px;">
                 <h2 class="card-pf-title" style="height: 18px;">
-              <a href="#"><span class="fa fa-database icon"> </span><span class="card-pf-aggregate-status-count"> {{dash.volumes.length+dash.pools.length}}</span> Volumes &amp; Pools</a>
+              <a href="#"><span class="fa fa-database icon"> </span><span class="card-pf-aggregate-status-count"> {{dash.storages.length}}</span> Storages</a>
             </h2>
                 <div class="card-pf-body" style="height: 50px;">
                     <p class="card-pf-aggregate-status-notifications">
-                        <span ng-if="dash.volumesWarning.length === 0 && dash.volumesCritical.length === 0 && dash.poolsWarning.length === 0 && dash.poolsCritical.length === 0" class="card-pf-aggregate-status-notification"><a href="#"><span class="fa fa-check-circle-o ok"></span></a>
+                        <span ng-if="dash.storagesWarning.length === 0 && dash.storagesCritical.length === 0" class="card-pf-aggregate-status-notification"><a href="#"><span class="fa fa-check-circle-o ok"></span></a>
                         </span>
-                        <span ng-if="dash.volumesWarning.length > 0 || dash.poolsWarning.length > 0" class="card-pf-aggregate-status-notification"><a href="#"><span class="fa  fa-exclamation-triangle icon warning"></span>{{dash.volumesWarning.length+dash.poolsWarning.length}}</a>
+                        <span ng-if="dash.storagesWarning.length > 0" class="card-pf-aggregate-status-notification"><a href="#"><span class="fa  fa-exclamation-triangle icon warning"></span>{{dash.storagesWarning.length}}</a>
                         </span>
-                        <span ng-if="dash.volumesCritical.length > 0 || dash.poolsCritical.length > 0" class="card-pf-aggregate-status-notification"><a href="#"><span class="fa fa-times-circle-o icon critical"></span>{{dash.volumesWarning.length+dash.poolsWarning.length}}</a>
+                        <span ng-if="dash.storagesCritical.length > 0" class="card-pf-aggregate-status-notification"><a href="#"><span class="fa fa-times-circle-o icon critical"></span>{{dash.storagesCritical.length}}</a>
                         </span>
                     </p>
                 </div>
