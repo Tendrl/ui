@@ -33,5 +33,5 @@ You could set breakpoints as like how it can be done with any javascript file. T
 of firefox(39) is not be able to load the sourcemaps. You could either use chrome or download a nightly version of firefox(42).
 
 ## ToDo
-* Experiment [angular-toasty](http://invertase.github.io/angular-toasty/example/) as a replacement for angular-growl
+* Experiment [angular-toastr](https://github.com/Foxandxss/angular-toastr) as a replacement for angular-growl
 * Try out [angular-wizard](https://github.com/mgonto/angular-wizard), need support for custom templates
