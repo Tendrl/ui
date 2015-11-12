@@ -79,7 +79,7 @@ export class HostDetailController {
         this.host.name = host.node_name.split(".")[0];
         if (host.cluster != null) {
             this.clusterSvc.get(host.cluster).then( (cluster) => {
-                this.host.type = this.clusterHelper.getClusterType(cluster.cluster_type);
+                this.host.type = this.clusterHelper.getClusterType(cluster.type);
             });
         }
     }
