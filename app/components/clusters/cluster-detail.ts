@@ -7,9 +7,6 @@ import {VolumeService} from '../rest/volume';
 import {PoolService} from '../rest/pool';
 import {MockDataProvider} from './mock-data-provider-helpers';
 
-declare var require: any;
-var numeral = require("numeral");
-
 export class ClusterDetailController {
     private mockDataProvider: MockDataProvider;
     private clusterHelpers: ClusterHelper;

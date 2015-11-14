@@ -2,8 +2,6 @@
 // <reference path="./cluster-helpers.ts" />
 // <reference path="../modal/modal-helpers.ts" />
 // <reference path="../typings/node.d.ts"/>
-declare var require : any;
-var numeral = require("numeral");
 
 import {Pool} from './cluster-modals';
 import {Host} from './cluster-modals';

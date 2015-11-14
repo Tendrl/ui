@@ -4,9 +4,6 @@ import {UtilService} from '../rest/util';
 import {ClusterService} from '../rest/clusters';
 import {StorageService} from '../rest/storage';
 
-declare var require: any;
-var numeral = require("numeral");
-
 export class StorageListController {
     private list: Array<any>;
     private clusterMap = {};

@@ -3,9 +3,6 @@ import {ServerService} from '../rest/server';
 import {VolumeService} from '../rest/volume';
 import {PoolService} from '../rest/pool';
 
-declare var require : any;
-var numeral = require("numeral");
-
 export class DashboardController {
     private self = this;
     private config: any;
