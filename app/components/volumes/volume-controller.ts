@@ -5,9 +5,6 @@ import {ClusterService} from '../rest/clusters';
 import {MockDataProvider} from '../clusters/mock-data-provider-helpers';
 import {VolumeHelpers} from './volume-helpers';
 
-declare var require : any;
-var numeral = require("numeral");
-
 export class VolumeController {
     private list: Array<any>;
     private first = true;

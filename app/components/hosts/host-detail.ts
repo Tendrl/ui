@@ -5,8 +5,6 @@ import {ServerService} from '../rest/server';
 import {UtilService} from '../rest/util';
 import {RequestService} from '../rest/request';
 
-declare var require : any;
-var numeral = require("numeral");
 export class HostDetailController {
     private self = this;
     private capacity;

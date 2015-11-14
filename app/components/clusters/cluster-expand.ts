@@ -1,8 +1,5 @@
 // <reference path="../typings/tsd.d.ts" />
 
-declare var require : any;
-var numeral = require("numeral");
-
 import {OSDService} from '../rest/osd';
 import {PoolService} from '../rest/pool';
 import {UtilService} from '../rest/util';

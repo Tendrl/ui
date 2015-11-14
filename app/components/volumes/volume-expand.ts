@@ -1,8 +1,5 @@
 /// <reference path="../../../typings/tsd.d.ts" />
 
-declare var require: any;
-var numeral = require("numeral");
-
 import {VolumeService} from '../rest/volume';
 import {ClusterService} from '../rest/clusters';
 import {ServerService} from '../rest/server';

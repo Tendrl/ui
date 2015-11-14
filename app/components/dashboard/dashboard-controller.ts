@@ -2,9 +2,6 @@ import {ClusterService} from '../rest/clusters';
 import {ServerService} from '../rest/server';
 import {StorageService} from '../rest/storage';
 
-declare var require : any;
-var numeral = require("numeral");
-
 export class DashboardController {
     private config: any;
     private clusters: Array<any>;

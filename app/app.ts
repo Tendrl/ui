@@ -39,6 +39,7 @@ var d3 = require("d3");
 var c3Angular = require("c3-angular");
 var jquery = require("jquery");
 var patternfly = require("patternfly");
+var numeral = require("numeral");
 
 class USMApp {
     initialize() {
