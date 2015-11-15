@@ -4,6 +4,7 @@ import {VolumeService} from '../rest/volume';
 import {ClusterService} from '../rest/clusters';
 import {MockDataProvider} from '../clusters/mock-data-provider-helpers';
 import {VolumeHelpers} from './volume-helpers';
+import {numeral} from '../base/libs';
 
 export class VolumeController {
     private list: Array<any>;

@@ -4,6 +4,7 @@ import {ClusterService} from '../rest/clusters';
 import {ServerService} from '../rest/server';
 import {UtilService} from '../rest/util';
 import {RequestService} from '../rest/request';
+import {numeral} from '../base/libs';
 
 export class HostDetailController {
     private self = this;

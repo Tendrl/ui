@@ -6,8 +6,8 @@ import {ServerService} from '../rest/server';
 import {VolumeHelpers} from './volume-helpers';
 import * as ModalHelpers from '../modal/modal-helpers';
 import {RequestTrackingService} from '../requests/request-tracking-svc';
-
 import {Tier, SizeUnit, DisperseOption} from './volume-models';
+import {numeral} from '../base/libs';
 
 export class VolumeExpandController {
     private step = 1;

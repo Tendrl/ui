@@ -20,7 +20,7 @@ import {ClusterHelper} from './cluster-helpers';
 import * as ModalHelpers from '../modal/modal-helpers';
 import {VolumeHelpers} from '../volumes/volume-helpers';
 import {RequestTrackingService} from '../requests/request-tracking-svc';
-
+import {numeral} from '../base/libs';
 
 export class ClusterNewController {
     private step: number;
