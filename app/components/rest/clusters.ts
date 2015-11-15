@@ -29,21 +29,15 @@ export class ClusterService {
     // **@returns** a promise with the cluster capacity for the specific
     // cluster based on it's id.
     getCapacity(id) {
-        return this.serverSvc.getListByCluster(id).then((servers) =>{
-            var requests = [];
-            _.each(servers, (server) => {
-                requests.push(this.serverSvc.getDiskStorageDevices(server.node_id));
+        return this.serverSvc.getListByCluster(id).then((nodes) => {
+            var capacity = 0;
+            _.each(nodes, (node) => {
+                var size = _.reduce(node.storage_disks, function(size, device: any) {
+                    return device.Type === 'disk' ? device.Size + size : size;
+                }, 0);
+                capacity = capacity + size;
             });
-            return this.$q.all(requests).then(function(devicesList) {
-                var capacity = 0;
-                _.each(devicesList, function(devices: Array<any>) {
-                    var size = _.reduce(devices, function(size, device) {
-                        return device.size + size;
-                    }, 0);
-                    capacity = capacity + size;
-                });
-                return capacity;
-            });
+            return capacity;
         });
     }
 
