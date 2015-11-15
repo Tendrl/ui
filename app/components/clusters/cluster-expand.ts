@@ -10,6 +10,7 @@ import {RequestService} from '../rest/request';
 import {ClusterHelper} from './cluster-helpers';
 import {RequestTrackingService} from '../requests/request-tracking-svc';
 import * as ModalHelpers from '../modal/modal-helpers';
+import {numeral} from '../base/libs';
 
 export class ClusterExpandController {
     private name: any;

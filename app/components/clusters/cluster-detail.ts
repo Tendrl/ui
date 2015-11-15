@@ -6,6 +6,7 @@ import {ServerService} from '../rest/server';
 import {VolumeService} from '../rest/volume';
 import {PoolService} from '../rest/pool';
 import {MockDataProvider} from './mock-data-provider-helpers';
+import {numeral} from '../base/libs';
 
 export class ClusterDetailController {
     private mockDataProvider: MockDataProvider;

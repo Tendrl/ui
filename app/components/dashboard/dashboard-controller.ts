@@ -1,6 +1,7 @@
 import {ClusterService} from '../rest/clusters';
 import {ServerService} from '../rest/server';
 import {StorageService} from '../rest/storage';
+import {numeral} from '../base/libs';
 
 export class DashboardController {
     private config: any;
@@ -92,15 +93,15 @@ export class DashboardController {
             this.clusters = clusters;
             var requests = [];
             _.each(this.clusters, (cluster: any) => {
-                if(cluster.cluster_status === 1 || cluster.cluster_status === 2) {
+                if(cluster.status === 1 || cluster.status === 2) {
                     this.clustersWarning.push(cluster);
                 }
-                else if(cluster.cluster_status === 5) {
+                else if(cluster.status === 5) {
                     this.clustersCritical.push(cluster);
                 }
 
                 cluster.capacity = { totalGB: 0, usedGB: 0, freeGB: 0 };
-                this.clusterService.getCapacity(cluster.cluster_id).then((sizeGB) => {
+                this.clusterService.getCapacity(cluster.clusterid).then((sizeGB) => {
                     cluster.capacity.totalGB = sizeGB,
                     cluster.capacity.usedGB = cluster.used,
                     cluster.capacity.freeGB = cluster.capacity.totalGB - cluster.capacity.usedGB;

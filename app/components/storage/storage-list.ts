@@ -3,6 +3,7 @@
 import {UtilService} from '../rest/util';
 import {ClusterService} from '../rest/clusters';
 import {StorageService} from '../rest/storage';
+import {numeral} from '../base/libs';
 
 export class StorageListController {
     private list: Array<any>;

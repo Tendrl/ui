@@ -161,7 +161,7 @@
                             <table class="table table-content">
                                 <tbody>
                                     <tr ng-repeat="cluster in dash.clusters | orderBy: '-perf.iops' | limitTo: 5">
-                                        <td class="bold"> {{cluster.cluster_name}} </td>
+                                        <td class="bold"> {{cluster.name}} </td>
                                         <td> {{cluster.perf.iopsFormatted}} </td>
                                     </tr>
                                 </tbody>
@@ -183,7 +183,7 @@
                             <table class="table table-content">
                                 <tbody>
                                     <tr ng-repeat="cluster in dash.clusters | orderBy: '-perf.bandwidth' | limitTo: 5">
-                                        <td class="bold"> {{cluster.cluster_name}} </td>
+                                        <td class="bold"> {{cluster.name}} </td>
                                         <td> {{cluster.perf.bandwidthFormatted}} </td>
                                     </tr>
                                 </tbody>
@@ -206,7 +206,7 @@
                             <table class="table table-content">
                                 <tbody>
                                     <tr ng-repeat="host in dash.hosts | orderBy: '-perf.cpu' | limitTo: 5">
-                                        <td> {{host.node_name}} </td>
+                                        <td> {{host.hostname}} </td>
                                         <td> {{host.perf.cpu}}% </td>
                                     </tr>
                                 </tbody>
@@ -228,7 +228,7 @@
                             <table class="table table-content">
                                 <tbody>
                                     <tr ng-repeat="host in dash.hosts | orderBy: '-perf.memory' | limitTo: 5">
-                                        <td> {{host.node_name}} </td>
+                                        <td> {{host.hostname}} </td>
                                         <td> {{host.perf.memory}}% </td>
                                     </tr>
                                 </tbody>
