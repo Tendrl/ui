@@ -1,16 +1,17 @@
 <ul class="nav nav-tabs">
-  <li class="active"><a href="#">Events</a></li>
-  <li><a href="#">Users</a></li>
-  <li><a href="#">Roles</a></li>
+  <li class="active"><a href="#">Users</a></li>
+  <li><a href="">Roles</a></li>
+  <li><a href="" ng-click="users.configureLdap()">Settings</a></li>
 </ul>
 
   <div class="row dataTables_wrapper">
     <div class="col-md-3">
       <input type="text" class="form-control" placeholder="Search" ng-model="search">
     </div>
-    <div class="col-md-offset-6 col-md-3">
+    <div class="col-md-offset-4 col-md-5">
       <span class="pull-right"> 
-        <button class="btn btn-primary btn-lg" ng-click="users.addUser()">Add</button>
+        <button class="btn btn-primary btn-lg" ng-click="users.addUser()">Add User</button>
+        <button class="btn btn-primary btn-lg" ng-click="users.addLdapUser()">Add LDAP User</button>
         <button class="btn btn-primary btn-lg">Remove</button>
       </span>
     </div>
@@ -40,7 +41,7 @@
       <td><i class="fa fa-check">ON</i></td>
       <td ng-bind="user.Email"></td>
       <td><i class="fa fa-check">Enabled</i></td>
-      <td><button ng-click=>Edit</button></td>
+      <td><button ng-click="users.editUser(user.Username)">Edit</button></td>
       <td>
       	<div class="dropdown">
 		  <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown">
@@ -50,7 +51,7 @@
 		  <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
 		    <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Disable user</a></li>
 		    <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Disable Notification</a></li>
-		    <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Reset Password</a></li>
+		    <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Delete User</a></li>
 		  </ul>
 		</div>
       </td>
