@@ -102,7 +102,16 @@ export class RouteConfig {
 			templateUrl: 'views/admin/add-user.html',
 			controller: 'UserNewController',
 			controllerAs: 'user',
-			name: 'admin'
+		}).when('/admin/edit/:userid', {
+			templateUrl: 'views/admin/edit-user.html',
+			controller: 'UserEditController',
+			controllerAs: 'userEdit',
+		}).when('/admin/newLdap', {
+			templateUrl: 'views/admin/add-ldap-user.html',
+			controller: 'LdapUserController',
+			controllerAs: 'ldapUsers',
+		}).when('/admin/ldap', {
+			templateUrl: 'views/admin/ldap-settings.html',
 		}).otherwise({
 			redirectTo: '/'
 		});

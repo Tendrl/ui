@@ -1,7 +1,58 @@
 <ol class="breadcrumb">
-	<li><a href="#">Users</a></li>
+	<li><a href="#/admin">Users</a></li>
 	<li>Edit User</li>
 </ol>
-  <div class="page-header">
-    <h1>User : JDOE1 <span class="fa fa-trash"></h1>
+
+<h2>
+  User: {{userEdit.userId}} <i class="fa fa-trash"></i>
+</h2>
+
+<form class="form-horizontal">
+    <div class="form-group">
+    <label class="col-sm-2 col-md-2 control-label">Type</label>
+    <div class="col-sm-6 col-md-3">Internal</div>
+    <label class="col-sm-4 col-md-2">
+       Enabled <input type="checkbox" id="enabled">
+    </label>
   </div>
+  <div class="form-group">
+    <label for="usedid" class="col-sm-2 col-md-2 control-label">User Id</label>
+    <div class="col-sm-10 col-md-5">
+      <input type="text" class="form-control" id="userid" ng-model="userEdit.userId" placeholder="User Id">
+    </div>
+  </div>
+  <div class="form-group">
+    <label for="firstname" class="col-sm-2 col-md-2 control-label">First Name</label>
+    <div class="col-sm-10 col-md-5">
+      <input type="text" class="form-control" id="firstname" ng-model="userEdit.firstName" placeholder="First name">
+    </div>
+  </div>
+    <div class="form-group">
+    <label for="lastname" class="col-sm-2 col-md-2 control-label">Last Name</label>
+    <div class="col-sm-10 col-md-5">
+      <input type="text" class="form-control" id="lastname" ng-model="userEdit.lastName" placeholder="Last name">
+    </div>
+  </div>
+    <div class="form-group">
+    <label for="email" class="col-sm-2 col-md-2 control-label">Email</label>
+    <div class="col-sm-6 col-md-3">
+      <input type="email" class="form-control" id="email" ng-model="userEdit.email" placeholder="Email">
+    </div>
+    <label class="col-sm-4 col-md-2">
+      Email Notifications <input type="checkbox" id="notifications">
+    </label>
+  </div>
+    <div class="form-group">
+    <label for="password" class="col-sm-2 col-md-2 control-label">Password</label>
+    <div class="col-sm-10 col-md-5">
+      <input type="password" class="form-control" id="password" ng-model="userEdit.password"placeholder="Password">
+    </div>
+  </div>
+
+  <div class="form-group">
+    <div class="col-sm-offset-2 col-sm-10">
+      <button class="btn btn-primary" ng-click="userEdit.save()">Save</button>
+      <button class="btn btn-default" ng-click="userEdit.cancel()">Cancel</button>
+    </div>
+  </div>
+</form>

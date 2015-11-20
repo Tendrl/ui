@@ -43,9 +43,31 @@ export class UserService {
         });
     }
 
+    // **getUserByUserId**
+    // **@returns** a promise with user with userId
+    getUserByUserId(userId: string){
+        return this.rest.one('users', userId).get().then(function(user){
+            return user;
+        });
+    }
+
     // **addUser**
     // **@returns** a promise with status code
     addUser(user){
         return this.restFull.all('users').post(user);
+    }
+
+    // **editUser**
+    // **@returns** a promise with status code
+    editUser(user){
+        return this.restFull.one('users').post(user);
+    }
+
+    // **getLdapUsers**
+    // **@returns** a promise with list of users
+    getLdapUsers(){
+        return this.rest.all('externalusers').getList().then(function(users){
+            return users;
+        });
     }
 }

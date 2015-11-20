@@ -23,4 +23,16 @@ export class UserController {
     public addUser(): void {
         this.$location.path('/admin/new');
     }
+
+    public addLdapUser(): void {
+        this.$location.path('/admin/newLdap');
+    }
+
+    public editUser(userId): void {
+        this.$location.path('/admin/edit/'+userId);
+    }
+
+    public configureLdap(): void {
+        this.$location.path('/admin/ldap');
+    }
 }

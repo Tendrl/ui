@@ -22,6 +22,8 @@ import {VolumeNewController} from "./components/volumes/volume-new";
 import {VolumeExpandController} from "./components/volumes/volume-expand";
 import {UserController} from "./components/admin/user-controller";
 import {UserNewController} from "./components/admin/user-new";
+import {UserEditController} from "./components/admin/user-edit";
+import {LdapUserController} from "./components/admin/ldap-user-controller";
 
 var es6shim = require("es6-shim");
 var angular: ng.IAngularStatic = require("angular");
@@ -72,6 +74,8 @@ class USMApp {
             .controller('VolumeExpandController', VolumeExpandController)
             .controller('UserController',UserController)
             .controller('UserNewController',UserNewController)
+            .controller('UserEditController',UserEditController)
+            .controller('LdapUserController',LdapUserController)
             .service('MenuService', MenuService)
             .run( function($rootScope, $location) {
                $rootScope.$watch(function() {
