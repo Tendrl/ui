@@ -2,6 +2,7 @@
 
 import {ClusterService} from '../rest/clusters';
 import {StorageService} from '../rest/storage';
+import {RequestTrackingService} from '../requests/request-tracking-svc';
 import * as ModalHelpers from '../modal/modal-helpers';
 
 export class OpenStackStorageController {
@@ -27,7 +28,7 @@ export class OpenStackStorageController {
         private $modal,
         private clusterSvc: ClusterService,
         private storageSvc: StorageService,
-        private RequestTrackingSvc) {
+        private requestTrackingSvc: RequestTrackingService) {
         this.clusters = [];
         this.clusterSvc.getList().then((clusters) => {
             this.clusters = clusters;
@@ -86,6 +87,11 @@ export class OpenStackStorageController {
             requests.push(this.storageSvc.create(clusterId, storage));
         });
         this.$q.all(requests).then((results) => {
+            var index = 0;
+            _.each(results, (result) => {
+                this.requestTrackingSvc.add(result.data.taskid, 'Adding Storage \'' + storageList[index].name + '\'');
+                index++;
+            });
             var modal = ModalHelpers.SuccessfulRequest(this.$modal, {
                 title: 'Add OpenStack Storage Request is Submitted',
                 container: '.usmClientApp'
