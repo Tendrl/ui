@@ -51,9 +51,6 @@ export class ClustersController {
 
     public refresh() {
         this.clusterSvc.getList().then((clusters: Cluster[]) => {
-            if (clusters.length === 0) {
-                this.$location.path('/first');
-            }
             this.loadData(clusters);
         });
     }

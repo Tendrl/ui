@@ -443,19 +443,18 @@ export class ClusterNewController {
     public createCluster(cluster: any) {
         this.clusterService.create(cluster).then((result: any) => {
             if (result.status === 202) {
-                this.requestTrackingService.add(result.data, 'Creating Cluster \'' + cluster.cluster_name + '\'');
+                this.requestTrackingService.add(result.data.taskid, 'Creating Cluster \'' + cluster.name + '\'');
                 var modal = ModalHelpers.SuccessfulRequest(this.modalService, {
-                    title: 'Create Cluster Request is Successful',
+                    title: 'Create Cluster Request is Submitted',
                     container: '.usmClientApp'
                 });
                 modal.$scope.$hide = _.wrap(modal.$scope.$hide, ($hide) => {
                     $hide();
                     this.locationService.path('/clusters');
                 });
-                this.timeoutService(() => this.clusterCreateCallBack(result, cluster), 5000);
             }
             else if(result.status === 200) {
-                this.logService.info('Cluster ' + cluster.cluster_name + ' created successfully');
+                this.logService.info('Cluster ' + cluster.name + ' created successfully');
                 this.locationService.path('/clusters');
             }
             else {
