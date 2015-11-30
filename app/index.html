@@ -35,9 +35,9 @@
 			</form>
 		</li>
 		<li class="dropdown">
-			<a href="" data-template="views/base/alert-dropdown.tpl.html" class="dropdown-toggle nav-item-iconic" data-animation="am-fade-and-slide-top" bs-dropdown="">
+			<a data-toggle="dropdown" class="dropdown-toggle nav-item-iconic" href="" data-template="views/base/alert-dropdown.tpl.html"  data-animation="am-fade-and-slide-top" bs-dropdown="dropdown">
                 <i class="fa fa-bell"></i>
-                <span class="badge" style="position:relative;" ng-if="alerts.length>0">{{alerts.length}}</span>
+                <span class="badge" style="position:relative;" ng-if="request.events.length>0" ng-bind="request.events.length"></span>
             </a>
 		</li>
 		<li class="dropdown">
@@ -52,7 +52,7 @@
 			<a data-toggle="dropdown" class="dropdown-toggle nav-item-iconic" bs-dropdown="dropdown" href="" data-template="views/base/progress-dropdown.tpl.html"
 			data-animation="am-fade-and-slide-top" bs-dropdown="">
                 <i class="fa fa-flag"></i>
-                <span class="badge" style="position:relative;" ng-if="request.tasks.length>0" ng-bind="request.tasks.length"></span>
+                <span class="badge" style="position:relative;" ng-if="tasks.length>0" ng-bind="tasks.length"></span>
             </a>
 		</li>
 		<li class="dropdown user">
