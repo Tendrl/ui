@@ -144,7 +144,7 @@ export class ClusterHelper     {
             var taskid = result.data.taskid;
             var callback = function() {
                 requestSvc.get(taskid).then((task) => {
-                    if (task.completed) {
+                    if (task.Completed) {
                         console.log('Added host ' + hostObject.hostname);
                         cluster.newHost = {}
                         cluster.fetchFreeHosts();
