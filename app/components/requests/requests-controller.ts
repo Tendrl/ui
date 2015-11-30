@@ -39,6 +39,7 @@ export class RequestsController {
         this.discoveredHostsLength = 0;
         this.discoveredHosts = [];
         this.$interval(() => this.reloadDiscoveredHosts(), 5000);
+        this.$interval(() => this.reloadTasks(), 5000);
     }
 
     public reloadAlerts() {

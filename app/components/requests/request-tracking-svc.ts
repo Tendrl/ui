@@ -83,22 +83,19 @@ export class RequestTrackingService {
         this.$log.debug('Refreshing the requests in the store');
         this.getTrackedRequests().then((requests) => {
             _.each(requests, (trackedRequest: any) => {
-                this.requestSvc.get(trackedRequest.id).then((request) => {
-                    if (request.status === 'FAILED' || request.status === 'FAILURE') {
+                this.requestSvc.get(trackedRequest.id).then((task) => {
+                    if (task.status === 'FAILED') {
                         this.showError(trackedRequest.operation + ' is failed');
                         this.$log.error(trackedRequest.operation + ' is failed');
                         this.remove(trackedRequest.id);
                     }
-                    else if (request.status === 'SUCCESS') {
+                    else if (task.Completed) {
                         this.showNotification(trackedRequest.operation + ' is completed sucessfully');
                         this.$log.info(trackedRequest.operation + ' is completed sucessfully');
                         this.remove(trackedRequest.id);
                     }
-                    else if (request.status === 'STARTED') {
+                    else if (!task.Completed) {
                         this.$log.info('Request ' + trackedRequest.id + ' is in progress');
-                    }
-                    else if (request.status) {
-                        this.$log.warn('Request ' + trackedRequest.id + ' is in unknown state: ' + request.status);
                     }
                 }, (resp) => {
                     if (resp.status === 404) {
