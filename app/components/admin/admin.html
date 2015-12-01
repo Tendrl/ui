@@ -5,8 +5,9 @@
 </ul>
 
   <div class="row dataTables_wrapper">
-    <div class="col-md-3">
-      <input type="text" class="form-control" placeholder="Search" ng-model="search">
+    <div class="col-md-3" style="display:-webkit-box;">
+        <input type="text" class="form-control" placeholder="Search" ng-model="search"></input>
+        <button class="form-control btn btn-primary btn-lg fa fa-search" ng-click=""></button>
     </div>
     <div class="col-md-offset-4 col-md-5">
       <span class="pull-right"> 
@@ -19,7 +20,7 @@
   <table class="table table-striped table-bordered">
   <thead>
     <tr>
-      <th><input type="checkbox"/></th>
+      <th></th>
       <th>User ID</th>
       <th>First Name</th>
       <th>Last Name</th>
@@ -44,15 +45,21 @@
       <td><button ng-click="users.editUser(user.Username)">Edit</button></td>
       <td>
       	<div class="dropdown">
-		  <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown">
+		  <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" bs-dropdown="dropdown">
 		    More
 		    <span class="caret"></span>
 		  </button>
-		  <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
-		    <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Disable user</a></li>
-		    <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Disable Notification</a></li>
-		    <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Delete User</a></li>
-		  </ul>
+      <ul class="dropdown-menu" role="menu">
+        <li role="presentation">
+          <a role="menuitem" ng-click=""> Disable user </a>
+        </li>
+        <li role="presentation">
+          <a role="menuitem" ng-click=""> Disable Notification </a>
+        </li>
+       <li role="presentation">
+          <a role="menuitem" ng-click=""> Delete User</a>
+        </li>
+      </ul>
 		</div>
       </td>
     </tr>
