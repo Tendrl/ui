@@ -18,6 +18,7 @@ export class RequestsController {
         '$scope',
         '$interval',
         '$timeout',
+        '$location',
         '$log',
         'ServerService',
         'UtilService',
@@ -28,11 +29,12 @@ export class RequestsController {
     constructor(private $scope: any,
         private $interval: ng.IIntervalService,
         private $timeout: ng.ITimeoutService,
+        private $location: ng.ILocationService,
         private $log: ng.ILogService,
         private serverSvc: ServerService,
         private utilSvc: UtilService,
         private requestSvc: RequestService,
-        private requestTrackingService: RequestTrackingService,
+        private requestTrackingSvc: RequestTrackingService,
         private userSvc: UserService) {
         this.events = [];
         this.tasks = {};
@@ -57,11 +59,14 @@ export class RequestsController {
     }
 
     public reloadTasks() {
-        this.requestTrackingService.getTrackedRequests().then((tasks) => {
-            this.tasks = tasks;
+        this.requestTrackingSvc.getTrackedRequests().then((tasks: Array<any>) => {
+            this.tasks = _.filter(tasks, task => !task.done);
         });
     }
 
+    public viewEvents() {
+        this.$location.path('/events');
+    }
 
     public logoutUser() {
         this.userSvc.logout().then((logout) => {
@@ -109,6 +114,7 @@ export class RequestsController {
             this.$log.info(result);
             host.state = "ACCEPTING";
             host.taskid = result.data.taskid;
+            this.requestTrackingSvc.add(host.taskid, 'Accepting host \'' + host.hostname + '\'');
             var self = this;
             var callback = function() {
                 self.requestSvc.get(host.taskid).then((task) => {

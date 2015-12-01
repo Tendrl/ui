@@ -2,3 +2,4 @@
 declare function require(name: string);
 
 export import numeral = require("numeral");
+export import angular = require('angular');

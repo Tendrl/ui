@@ -1,0 +1,44 @@
+<div class="container-fluid events-page">
+    <div class="page-header">
+        <h1>Tasks</h1>
+    </div>
+    <div class="row">
+        <div class="col-md-3">
+            <input type="text" class="form-control" placeholder="Search" ng-model="search">
+        </div>
+    </div>
+    <div class="row blade event-item" ng-repeat="event in events.list | filter:search">
+        <div class="col-md-1">
+            <div class="blade-tag">
+                <div class="blade-tag-text">Ceph</div>
+            </div>
+            <div class="status-icon-col">
+                <i class="pficon-running fa-spin" ng-if="!event.Completed"></i>
+                <i class="pficon-ok" ng-if="event.Completed"></i>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="event-title-col">
+                <div class="title-text">{{event.operation}}</div>
+                <div class="event-id">{{event.Id}}</div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="event-desc-col">
+                <div class="desc-text">{{event.statusMsg}}</div>
+                <div>{{event.timestamp}}</div>
+            </div>
+        </div>
+        <div class="col-md-2">
+            <div class="event-progress-col">
+                <div class="event-steps">
+                </div>
+            </div>
+        </div>
+        <div class="col-md-1">
+            <div class="event-actions-col">
+                <button type="button" class="btn btn-primary">Details</button>
+            </div>
+        </div>
+    </div>
+</div>

@@ -112,6 +112,11 @@ export class RouteConfig {
 			controllerAs: 'ldapUsers',
 		}).when('/admin/ldap', {
 			templateUrl: 'views/admin/ldap-settings.html',
+		}).when('/events', {
+			templateUrl: 'views/events/event-list.html',
+			controller: 'EventListController',
+			controllerAs: 'events',
+			name: 'events'
 		}).otherwise({
 			redirectTo: '/'
 		});
