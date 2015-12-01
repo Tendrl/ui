@@ -1,14 +1,14 @@
 <ul class="dropdown-menu alert-dropdown"> 
 	<li class="header">
-    <i class="fa fa-bell"></i> Alerts
-    <span class="badge pull-right count">{{request.alerts.length}}</span>
+    <i class="fa fa-bell"></i> Events
+    <span class="badge pull-right count">{{request.events.length}}</span>
   </li>
 	<li>
-    <div class="content">
+    <div class="content" ng-class="request.events.length > 5 ? 'div-with-scroll': ''">
       <ul class="list-unstyled">
-      	<li class="task-item" ng-repeat="alert in request.alerts">
+      	<li class="task-item" ng-repeat="event in request.events">
           <i class="fa fa-exclamation-triangle icon warning"></i>
-          <div class="task-item-text" ng-bind="alert"> </div>
+          <div class="task-item-text"> {{event.message}} on {{event.nodeName}} </div>
         </li>
       </ul>
     <div>

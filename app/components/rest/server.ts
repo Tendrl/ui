@@ -15,6 +15,14 @@ export class ServerService {
         });
     }
 
+    // **getEvents**
+    // **@returns** a promise with all events.
+    getEvents() {
+        return this.rest.all('events').getList().then(function(events) {
+            return events;
+        });
+    }
+
     // **getList**
     // **@returns** a promise with all servers.
     getList() {

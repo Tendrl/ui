@@ -11,7 +11,7 @@ import {RequestService} from '../rest/request';
 
 export class RequestsController {
    private tasks;
-   private alerts : Array<any>;
+   private events : Array<any>;
    private discoveredHosts : Array<any>;
    private discoveredHostsLength: number;
     static $inject: Array<string> = [
@@ -34,23 +34,25 @@ export class RequestsController {
         private requestSvc: RequestService,
         private requestTrackingService: RequestTrackingService,
         private userSvc: UserService) {
-        this.alerts = [];
+        this.events = [];
         this.tasks = {};
         this.discoveredHostsLength = 0;
         this.discoveredHosts = [];
+        this.$interval(() => this.reloadEvents(), 5000);
         this.$interval(() => this.reloadDiscoveredHosts(), 5000);
         this.$interval(() => this.reloadTasks(), 5000);
     }
 
-    public reloadAlerts() {
-        this.serverSvc.getList().then((hosts) => {
-            var alerts = [];
-            _.each(hosts, (host: any) => {
-                if (host.node_status === 1) {
-                    alerts.push('Host ' + host.node_name + ' is down');
-                }
+    public reloadEvents() {
+        this.serverSvc.getEvents().then((events) => {
+            this.events = [];
+            _.each(events, (event: any) => {
+                var tempEvent = {
+                    message: event.message,
+                    nodeName: event.tag.split("/")[2]
+                };
+                this.events.push(tempEvent);
             });
-            this.alerts = alerts;
         });
     }
 
