@@ -3,6 +3,7 @@
 export class UserService {
     rest: restangular.IService;
     restFull: restangular.IService;
+    currentUser: string;
     static $inject: Array<string> = ['Restangular'];
     
     constructor(rest: restangular.ICollection) {
@@ -26,6 +27,7 @@ export class UserService {
     // **login**
     // **@returns** a promise with user login.
     login(user: { username: string, password: string }) {
+        this.currentUser = user.username;
         return this.rest.one('auth').post('login', user);
     }
 
@@ -35,6 +37,12 @@ export class UserService {
         return this.rest.one('auth').post('logout');
     }
     
+    // **getCurrentUser**
+    // **@returns** a string with userid
+    getCurrentUser(){
+        return this.currentUser;
+    }
+
     // **getUsers**
     // **@returns** a promise with list of users
     getUsers(){
@@ -61,6 +69,12 @@ export class UserService {
     // **@returns** a promise with status code
     editUser(user){
         return this.restFull.one('users').post(user);
+    }
+
+    // **SaveuserSetting**
+    // **@returns** a promise with status code
+    saveUserSetting(userId, setting){
+        return this.restFull.one('users',userId).customPUT(setting);
     }
 
     // **getLdapUsers**
