@@ -137,6 +137,10 @@ export class RequestsController {
         document.getElementById("openDiscoveredHosts").click();
     }
 
+    public mySettings(){
+        document.getElementById("mySettings").click();
+    }
+
     public acceptAllHosts() {
         _.each(this.discoveredHosts, (host: any) => {
             if (host.state === "UNACCEPTED") {
