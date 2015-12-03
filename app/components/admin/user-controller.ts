@@ -32,6 +32,14 @@ export class UserController {
         this.$location.path('/admin/edit/'+userId);
     }
 
+    public deleteUser(userId):void {
+        this.UserService.deleteUser(userId).then((result) => {
+            if(result.status === 200) {
+                this.getUsers();
+            }
+        });
+    }
+
     public configureLdap(): void {
         this.$location.path('/admin/ldap');
     }
