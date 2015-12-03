@@ -64,6 +64,14 @@ export class UserEditController {
         });
     }
 
+    public deleteUser(userId):void {
+        this.UserService.deleteUser(userId).then((result) => {
+            if(result.status === 200) {
+                this.$location.path('/admin');
+            }
+        });
+    }
+    
     public cancel(): void {
 
         this.$location.path('/admin');

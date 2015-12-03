@@ -71,6 +71,12 @@ export class UserService {
         return this.restFull.one('users',userId).customPUT(user);
     }
 
+    // **deleteUser**
+    // **@returns** a promise with status code
+    deleteUser(userId){
+        return this.restFull.one('users', userId).remove();
+    }
+
     // **SaveuserSetting**
     // **@returns** a promise with status code
     saveUserSetting(userId, setting){
