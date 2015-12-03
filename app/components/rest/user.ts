@@ -67,8 +67,8 @@ export class UserService {
 
     // **editUser**
     // **@returns** a promise with status code
-    editUser(user){
-        return this.restFull.one('users').post(user);
+    editUser(userId,user){
+        return this.restFull.one('users',userId).customPUT(user);
     }
 
     // **SaveuserSetting**

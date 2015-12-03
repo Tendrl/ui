@@ -29,7 +29,6 @@
       <th>Email</th>
       <th>Status</th>
       <th></th>
-      <th></th>
     </tr>
   </thead>
   <tbody>
@@ -42,7 +41,6 @@
       <td><i class="fa fa-check">ON</i></td>
       <td ng-bind="user.Email"></td>
       <td><i class="fa fa-check">Enabled</i></td>
-      <td><button ng-click="users.editUser(user.Username)">Edit</button></td>
       <td>
       	<div class="dropdown">
 		  <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" bs-dropdown="dropdown">
@@ -50,6 +48,9 @@
 		    <span class="caret"></span>
 		  </button>
       <ul class="dropdown-menu" role="menu">
+        <li role="presentation">
+          <a role="menuitem" ng-click="users.editUser(user.Username)"> Edit user </a>
+        </li>
         <li role="presentation">
           <a role="menuitem" ng-click=""> Disable user </a>
         </li>

@@ -57,7 +57,7 @@ export class UserEditController {
             role: "admin",
             password: this.password
         };
-        this.UserService.editUser(user.username).then((result) => {
+        this.UserService.editUser(this.userId,user).then((result) => {
             if(result.status === 200) {
                 this.$location.path('/admin');
             }
