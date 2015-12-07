@@ -23,7 +23,7 @@
   },
   "devDependencies": {
     "bower": "*",
-    "typescript": "~1.6.2",
+    "typescript": "~1.7.3",
     "requirejs": "*",
     "browserify": "*",
     "vinyl-source-stream": "*",
@@ -41,7 +41,7 @@
     "gulp-uglify": "~1.4.1",
     "vinyl-buffer": "~1.0.0",
     "gulp-if": "~2.0.0",
-    "yargs": "~3.27.0"
+    "yargs": "~3.31.0"
   },
   "browser": {
     "restangular": "./app/bower_components/restangular/dist/restangular.js",
