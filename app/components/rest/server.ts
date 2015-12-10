@@ -27,7 +27,7 @@ export class ServerService {
     // **@returns** a promise with all servers.
     getList() {
         return this.rest.all('nodes').getList().then(function(servers) {
-            return servers;
+            return _.sortBy(servers, "hostname");
         });
     }
 
@@ -136,5 +136,4 @@ export class ServerService {
             });
         });
     }
-
 }
