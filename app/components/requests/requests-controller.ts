@@ -40,21 +40,38 @@ export class RequestsController {
         this.tasks = {};
         this.discoveredHostsLength = 0;
         this.discoveredHosts = [];
-        this.$interval(() => this.reloadEvents(), 5000);
+        this.loadEvents();
         this.$interval(() => this.reloadDiscoveredHosts(), 5000);
         this.$interval(() => this.reloadTasks(), 5000);
     }
 
-    public reloadEvents() {
+    //Open WebSocket connection 
+    public openWebSocket() {
+        if ("WebSocket" in window) {
+           var ws = new WebSocket("ws://"+this.$location.host()+":8081/ws");
+           ws.onopen = function()
+           {
+              console.log("WebSocket Connection is Started!");
+           };
+           ws.onmessage = evt => {
+              if(evt.data.length > 0) {
+                this.events.unshift(JSON.parse(evt.data));
+              }
+           };
+           ws.onclose = function()
+           { 
+              console.log("WebSocket Connection is Closed!"); 
+           };
+        } else {
+           console.log("WebSocket NOT supported by your Browser!");
+        }
+    }
+
+    //First time load all events after that push event handle by web socket 
+    public loadEvents() {
         this.serverSvc.getEvents().then((events) => {
-            this.events = [];
-            _.each(events, (event: any) => {
-                var tempEvent = {
-                    message: event.message,
-                    nodeName: event.tag.split("/")[2]
-                };
-                this.events.push(tempEvent);
-            });
+            this.events = events
+            this.openWebSocket();
         });
     }
 
