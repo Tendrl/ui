@@ -68,15 +68,11 @@ export class HostController {
         return this.clusterHelper.getClusterType(type).type;
     }
 
-    public getNodeTypeTitle(node_type) {
-        if (node_type === 1)
-            return 'Monitor Host';
-        else if (node_type === 2)
-            return 'OSD Host';
-        else if (node_type === 3)
-            return 'OSD and Monitor';
+    public getNodeTypeTitle(node) {
+        if (node.options1.mon === 'Y')
+            return 'Monitor';
         else
-            return 'Gluster Host';
+            return 'OSD';
     }
 
     public getHostDonutColor(donut_value) {

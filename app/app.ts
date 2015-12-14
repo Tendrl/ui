@@ -96,6 +96,16 @@ class USMApp {
             }])
             .config(['$logProvider', function($logProvider) {
                 $logProvider.debugEnabled(true);
+            }])
+            .config(['RestangularProvider', function(RestangularProvider) {
+                RestangularProvider.addResponseInterceptor(function(data, operation, what, url, response, deferred) {
+                    if (operation === 'getList' && what === 'nodes') {
+                        _.each(data, (node: any) => {
+                            node.options1 = node.options;
+                        });
+                    }
+                    return data;
+                });
             }]);
         angular.element(document).ready(function() {
             angular.bootstrap(document, ['usm-client']);

@@ -12,7 +12,7 @@
       <div class="col-md-2 col-sm-4">
         <div class="row">
           <div class="col-md-1" ng-class="host.cluster_type===1?'vertical-line-for-gluster':'vertical-line-for-ceph'">
-            <span ng-class="host.cluster_type===1?'vertical-text-for-gluster':'vertical-text-for-ceph'" ng-bind="hosts.getClusterTypeTitle(host.cluster_type)"></span>
+            <span ng-class="host.cluster_type===1?'vertical-text-for-gluster':'vertical-text-for-ceph'">ceph</span>
           </div>
           <div class="col-md-offset-1 col-md-10 set-top-margin pull-right">
             <div>
@@ -58,12 +58,12 @@
       <div class="col-md-1 col-sm-3 set-top-margin">
          <span ng-if="host.cluster_type===2">
           <div class="sub-heading">Roles</div>
-          <div class="cluster_name" ng-bind="hosts.getNodeTypeTitle(host.node_type)"></div>
+          <div class="cluster_name" ng-bind="hosts.getNodeTypeTitle(host)"></div>
          </span>
       </div>
       <div class="col-md-2 col-sm-3 set-top-margin">
-        <span class="version">Version : </span>&nbsp;<span>{{host.version}}</span><br/>
-        <span class="version">Kernel : </span>&nbsp;<span>3.10.0-229.el7</span>
+        <span class="version">Version : </span>&nbsp;<span>0.94.3</span><br/>
+        <span class="version">Kernel : </span>&nbsp;<span>4.0.4-301.fc22.x86_64</span>
       </div>
       <div class="col-md-1 col-sm-2 set-top-margin">
         <div class="sub-heading">Alerts</div>
