@@ -45,14 +45,14 @@ export class ClusterService {
     // **@param** id - id of the cluster
     // **@returns** a promise with the request id for the operation.
     public enable(id) {
-        return this.rest.one('clusters', id).post('enable');
+        return this.rest.one('clusters', id).post('manage');
     }
 
     // **disable**
     // **@param** id - id of the cluster
     // **@returns** a promise with the request id for the operation.
     public disable(id) {
-        return this.rest.one('clusters', id).post('disable');
+        return this.rest.one('clusters', id).post('unmanage');
     }
 
     // **remove**

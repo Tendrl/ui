@@ -1,8 +1,8 @@
 <ul class="dropdown-menu  cluster-dropdown-menu" role="menu">
   <li role="presentation">
-    <a role="menuitem" ng-click="clusters.expandCluster(cluster.cluster_id)"> <i class="fa fa-plus"></i> Expand </a>
-    <a role="menuitem" ng-click="clusters.enableCluster(cluster.cluster_id)"> <i class="fa fa-check"></i> Enable </a>
-    <a role="menuitem" ng-click="clusters.disableCluster(cluster.cluster_id)"> <i class="fa fa-times"></i> Disable </a>
-    <a role="menuitem" ng-click="clusters.removeCluster(cluster.cluster_id)">  <i class="fa fa-trash"></i>  Forget </a>
+    <a role="menuitem" ng-click="clusters.expandCluster(cluster.clusterid)"> <i class="fa fa-plus"></i> Expand </a>
+    <a role="menuitem" ng-click="clusters.enableCluster(cluster.clusterid)" ng-disabled="cluster.enabled"> <i class="fa fa-check"></i> Manage </a>
+    <a role="menuitem" ng-click="clusters.disableCluster(cluster.clusterid)" ng-disabled="!cluster.enabled"> <i class="fa fa-times"></i> UnManage </a>
+    <a role="menuitem" ng-click="clusters.removeCluster(cluster.clusterid)" ng-disabled="cluster.enabled">  <i class="fa fa-trash"></i>  Forget </a>
   </li>
 </ul>

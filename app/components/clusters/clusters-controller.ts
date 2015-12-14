@@ -6,6 +6,8 @@ import {ClusterHelper} from './cluster-helpers';
 import {VolumeService} from '../rest/volume';
 import {PoolService} from '../rest/pool';
 import {ServerService} from '../rest/server';
+import {RequestService} from '../rest/request';
+import {RequestTrackingService} from '../requests/request-tracking-svc';
 
 export class ClustersController {
     public clusterList: Array<any>;
@@ -21,6 +23,8 @@ export class ClustersController {
         'ClusterService',
         'PoolService',
         'ServerService',
+        'RequestService',
+        'RequestTrackingService'
     ];
         
     //Mock-Data incase if data not available 
@@ -39,7 +43,9 @@ export class ClustersController {
         private volumeService: VolumeService,
         private clusterSvc: ClusterService,
         private poolService: PoolService,
-        private serverService: ServerService) {
+        private serverService: ServerService,
+        private requestSvc: RequestService,
+        private requestTrackingSvc: RequestTrackingService) {
         this.clusterHelper = new ClusterHelper(null, null, null, null);
         this.mockDataProvider = new MockDataProvider();
         this.timer = this.$interval(() => this.refresh(), 10000);
@@ -74,7 +80,8 @@ export class ClustersController {
                 gauge_values: _.random(20, 70) / 10,
                 no_of_hosts: 0,
                 alerts: mockCluster.alerts,
-                no_of_volumes_or_pools: 0
+                no_of_volumes_or_pools: 0,
+                enabled: cluster.enabled
             };
 
             if (tempCluster.used === 0) {
@@ -149,14 +156,18 @@ export class ClustersController {
     }
 
     public enableCluster(clusterID: string): void {
-        this.clusterSvc.enable(clusterID).then(() => {
-            this.refresh();
+        this.clusterSvc.enable(clusterID).then((result) => {
+            this.requestSvc.get(result.taskid).then((task) => {
+                this.requestTrackingSvc.add(task.id, task.name);
+            });
         });
     }
 
     public disableCluster(clusterID: string): void {
-        this.clusterSvc.disable(clusterID).then(() => {
-            this.refresh();
+        this.clusterSvc.disable(clusterID).then((result) => {
+            this.requestSvc.get(result.taskid).then((task) => {
+                this.requestTrackingSvc.add(task.id, task.name);
+            });
         });
     }
 
@@ -166,7 +177,9 @@ export class ClustersController {
     */
     public removeCluster(clusterID: any): void {
         this.clusterSvc.remove(clusterID).then((result) => {
-            this.refresh();
+            this.requestSvc.get(result.taskid).then((task) => {
+                this.requestTrackingSvc.add(task.id, task.name);
+            });
         });
     }
 }

@@ -443,7 +443,9 @@ export class ClusterNewController {
     public createCluster(cluster: any) {
         this.clusterService.create(cluster).then((result: any) => {
             if (result.status === 202) {
-                this.requestTrackingService.add(result.data.taskid, 'Creating Cluster \'' + cluster.name + '\'');
+                this.requestService.get(result.data.taskid).then((task) => {
+                    this.requestTrackingService.add(task.id, task.name);
+                });
                 var modal = ModalHelpers.SuccessfulRequest(this.modalService, {
                     title: 'Create Cluster Request is Submitted',
                     container: '.usmClientApp'

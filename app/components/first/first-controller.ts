@@ -45,7 +45,9 @@ export class FirstController {
             this.$log.info(result);
             host.state = "ACCEPTING";
             host.taskid = result.data.taskid;
-            this.requestTrackingSvc.add(host.taskid, 'Accepting host \'' + host.hostname + '\'');
+            this.requestSvc.get(host.taskid).then((task) => {
+                this.requestTrackingSvc.add(host.taskid, task.name);
+            });
             var self = this;
             var callback = function() {
                 self.requestSvc.get(host.taskid).then((task) => {

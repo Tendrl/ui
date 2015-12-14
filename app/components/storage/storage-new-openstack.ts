@@ -2,6 +2,7 @@
 
 import {ClusterService} from '../rest/clusters';
 import {StorageService} from '../rest/storage';
+import {RequestService} from '../rest/request';
 import {RequestTrackingService} from '../requests/request-tracking-svc';
 import * as ModalHelpers from '../modal/modal-helpers';
 
@@ -19,7 +20,8 @@ export class OpenStackStorageController {
         '$modal',
         'ClusterService',
         'StorageService',
-        'RequestTrackingService'
+        'RequestTrackingService',
+        'RequestService'
     ];
 
     constructor(private $location: ng.ILocationService,
@@ -28,7 +30,8 @@ export class OpenStackStorageController {
         private $modal,
         private clusterSvc: ClusterService,
         private storageSvc: StorageService,
-        private requestTrackingSvc: RequestTrackingService) {
+        private requestTrackingSvc: RequestTrackingService,
+        private requestSvc: RequestService) {
         this.clusters = [];
         this.clusterSvc.getList().then((clusters) => {
             this.clusters = clusters;
@@ -87,10 +90,10 @@ export class OpenStackStorageController {
             requests.push(this.storageSvc.create(clusterId, storage));
         });
         this.$q.all(requests).then((results) => {
-            var index = 0;
             _.each(results, (result) => {
-                this.requestTrackingSvc.add(result.data.taskid, 'Adding Storage \'' + storageList[index].name + '\'');
-                index++;
+                this.requestSvc.get(result.data.taskid).then((task) => {
+                    this.requestTrackingSvc.add(task.id, task.name);
+                });
             });
             var modal = ModalHelpers.SuccessfulRequest(this.$modal, {
                 title: 'Add OpenStack Storage Request is Submitted',
