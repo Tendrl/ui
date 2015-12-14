@@ -58,10 +58,15 @@ export class RouteConfig {
 			name: 'storages',
 			controller: 'StorageNewController',
 			controllerAs: 'storages'
-		}).when('/storages/new/openstack', {
+		}).when('/storages/new/openstack/:cluster_id', {
 			templateUrl: 'views/storage/storage-new-openstack.html',
 			name: 'storages',
 			controller: 'OpenStackStorageController',
+			controllerAs: 'storage'
+		}).when('/storages/new/object/:clusterid', {
+			templateUrl: 'views/storage/object/storage-new-object.html',
+			name: 'storages',
+			controller: 'ObjectStorageController',
 			controllerAs: 'storage'
 		}).when('/volumes', {
 			templateUrl: 'views/volumes/volumes.html',

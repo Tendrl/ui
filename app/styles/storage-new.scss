@@ -1,23 +1,92 @@
-.storage-new {
-    .header-item {
-        font-size: 17px;   
-    }
-
-    .storage-item {
-        height: 100px;
+.form-page {
+    height: 100%;
+    margin-left: -20px;
+    padding-left: 20px;
+    .form-header {
+        margin-left: -20px;
+        margin-top: -40px;
+        margin-right: -20px;
         margin-bottom: 20px;
-        cursor: pointer;
-        border: 1px solid lightgray;
-        box-shadow: 2px 2px 2px #c5c5c5;
+        height: 100px;
+        padding: 20px;
+        background-color: #F5F5F5;
+        border-bottom: 1px solid;
+        border-color: #DDD;
+    }
+    .form-body {
+        padding-top: 20px;
+    }
+    .form-footer{
+    }
+}
 
-        &:hover {
-            box-shadow: 4px 4px 4px #c5c5c5;
-        }
-
+.storage-new {
+    .storage-group {
+        padding-bottom: 20px;
+        padding-right: 20px;
+    }
+    .storage-item {
+        background-color: #F5F5F5;
+        padding-left: 5px;
+        padding-bottom: 10px;
+        margin-bottom: 20px;
         .header {
-            font-size: 17px;
-            text-align: center;
-            padding-top: 20px;     
+            font-size: 14px;
+            max-width: 300px;
+            .title {
+                margin-left: 2px;
+                text-transform: capitalize;
+            }
+            .desc {
+                margin-left: 20px;
+            }
         }
+        .disabled {
+            opacity: 0.4;
+        }
+    }
+    .storage-pool {
+        background-color: #F5F5F5;
+        border: 1px solid #DDD;
+        margin-bottom: 10px;
+        .title {
+            margin-top: 10px;
+            margin-left: 10px;
+            font-weight: 600;
+            display: block;
+        }
+        .value {
+            margin-bottom: 10px;
+            margin-left: 10px;
+            margin-right: 5px;
+            text-transform: capitalize;
+            font-size: 15px;
+            font-weight: 500;
+        }
+        .replica-edit {
+            max-width: 120px;
+            transition: none;
+        }
+        .capacity-edit {
+            max-width: 120px;
+            .size-selector {
+                min-width: 50px;
+            }
+        }
+        .actions {
+            margin-top: 15px;
+            font-size: 20px;
+            text-align: center;
+            span {
+                margin-right: 10px;
+                cursor: pointer;
+                &:hover {
+                    font-size: 22px;
+                }
+            }
+        }
+    }
+    .size-selector {
+        min-width: 50px;
     }
 }

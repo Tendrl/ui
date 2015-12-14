@@ -1,25 +1,64 @@
-<div class="container-fluid storage-new">
-    <div class="row">
-        <div class="col-md-12">
-            <div class="header-item">Add Storage</div>
-        </div>
+<div class="form-page storage-new">
+    <div class="form-header">
+        <h2 class="title">Add Storage</h2>
     </div>
-    <div class="row">
-        <div class="col-md-offset-4 col-md-4">
-            <div class="storage-item" ng-click="storages.addGenericStorage()">
-                <div class="header">
-                    <a>Add Generic Storage</a>
+    <div class="form-body">
+        <form class="form-horizontal">
+            <div class="form-group">
+                <label class="col-md-4">Where do you want to add storage?</label>
+            </div>
+            <div class="form-group">
+                <label class="col-md-2 control-label" for="cluster">Cluster</label>
+                <div class="col-md-3">
+                    <select pf-select ng-model="storages.cluster" id="cluster" class="form-control" ng-options="cluster.name for cluster in storages.clusters"></select>
                 </div>
             </div>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-md-offset-4 col-md-4">
-            <div class="storage-item" ng-click="storages.addOpenStackStorage()">
-                <div class="header">
-                    <a>Add Storage for OpenStack</a>
-                </div>
+            <div class="form-group">
+                <label class="col-md-4">What type of storage do you want to add?</label>
             </div>
-        </div>
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10">
+                    <div class="radio">
+                        <label>
+                            <input type="radio" ng-model="storages.type" name="optionsStorage" value="object"></input>
+                            <strong>Object Storage</strong>
+                        </label>
+                    </div>
+                </div>
+                <p class="col-md-offset-2 col-md-6">Use when you want to create regular RADOS object storage</p>
+            </div>
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10">
+                    <div class="radio">
+                        <label>
+                            <input type="radio" ng-model="storages.type" name="optionsStorage" value="block"></input>
+                            <strong>Block Storage</strong>
+                        </label>
+                    </div>
+                </div>
+                <p class="col-md-offset-2 col-md-6">Block(RBD) storage is recommended for tranditional applications that expect natvie(block) storage. It integrates with Kernel
+                    Virtual Machines(KVMs) and allows mounting of block storage devices from Linux or QEMU KVM clients. Data access viar Librados,
+                    RBD, and CephFS (POSIX complaint).</p>
+            </div>
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10">
+                    <div class="radio">
+                        <label>
+                            <input type="radio" ng-model="storages.type" name="optionsStorage" value="openstack"></input>
+                            <strong>OpenStack Storage</strong>
+                        </label>
+                    </div>
+                </div>
+                <p class="col-md-offset-2 col-md-6">In storage for OpenStack, data is stored as objects. This type of storage is recommended for OpenStack deployments and unstructured
+                    data. It is ideal for massive scale, when the number of objects are very large. Object metadata enables searching or mining
+                    of very large data sets. Objects can be organized using S3 buckets or Swift containers though data is stored in a flat structure.
+                    Data is primarily accessed at the application level via RESTful API, HTTP(or URL), S3, or OpenStack Swift data is also accessible
+                    via OpenStack storage services.</p>
+            </div>
+        </form>
+    </div>
+    <div class="form-footer">
+        <button type="button" class="btn btn-lg btn-primary" ng-click='storages.next()'>Next</button>
+        <button type="button" class="btn btn-lg btn-default" ng-click='storages.cancel()'>Cancel</button>
     </div>
 </div>

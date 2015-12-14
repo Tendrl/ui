@@ -1,0 +1,216 @@
+<div class="form-page storage-new">
+    <div class="form-header">
+        <h2 class="title">Add Object Storage</h2>
+    </div>
+    <div class="form-body">
+        <form class="form-horizontal" ng-show="!storage.summary">
+            <!-- General Configuration -->
+            <div class="form-group">
+                <label class="col-md-2 control-label">Pool Name</label>
+                <div class="col-md-2">
+                    <input type="text" id="poolName" class="form-control" ng-model="storage.name"></input>
+                </div>
+                <label class="col-md-2 control-label">Pools to Create</label>
+                <div class="col-md-2">
+                    <input type="number" id="poolsToCreate" class="form-control" ng-model="storage.count"></input>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-md-2 control-label" for="type">Type</label>
+                <div class="col-md-2">
+                    <select pf-select ng-model="storage.type" id="type" class="form-control" ng-options="type for type in storage.types"></select>
+                </div>
+                <label class="col-md-2 control-label">Replicas</label>
+                <div class="col-md-2">
+                    <input type="number" id="replicas" class="form-control" ng-model="storage.replicas"></input>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-md-2 control-label" for="targetPoolSize">Target Pool Size</label>
+                <div class="col-md-2">
+                    <div class="input-group">
+                        <input type="number" ng-model="storage.targetSize.value" class="form-control"></input>
+                        <div class="input-group-btn">
+                            <select pf-select ng-model="storage.targetSize.unit" class="form-control size-selector" ng-options="sizeUnit for sizeUnit in storage.sizeUnits"></select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-md-2 control-label" for="profile">Storage Profile</label>
+                <div class="col-md-2">
+                    <select pf-select ng-model="storage.profile" id="profile" class="form-control" ng-options="profile for profile in storage.profiles"></select>
+                    <p class="help-block">OSD's will be created based on the selected storage profile</p>
+                </div>
+                <div class="col-md-4">768 GB available</div>
+            </div>
+            <!-- End: General Configuration -->
+            <!-- Adavanced Configuration -->
+            <div class="form-group">
+                <div class="col-md-12">
+                    <h5>
+                        <i class="fa fa-angle-down" style="min-width:10px;" ng-show="storage.expandAdvanced"></i>
+                        <i class="fa fa-angle-right" style="min-width:10px;" ng-show="!storage.expandAdvanced"></i>
+                        <a href="" ng-click="storage.expandAdvanced=!storage.expandAdvanced">Advanced Configuration</a>
+                    </h5>
+                </div>
+                <div class="col-md-12" ng-show="storage.expandAdvanced">
+                    <div class="form-group">
+                        <label class="col-md-2 control-label">Data-at-Rest Encryption</label>
+                        <div class="col-md-2">
+                            <div class="checkbox">
+                                <label>
+                                    <input type="checkbox" ng-model="storages.dataatrest" id="dataatrest"></input>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-2 control-label">Placement Groups</label>
+                        <div class="col-md-2">
+                            <input type="number" id="placementGroups" class="form-control"></input>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- End: Adavanced Configuration -->
+            <!-- Snapshots -->
+            <div class="form-group">
+                <div class="col-md-12">
+                    <h5>
+                        <i class="fa fa-angle-down" style="min-width:10px;" ng-show="storage.expandSnapshots"></i>
+                        <i class="fa fa-angle-right" style="min-width:10px;" ng-show="!storage.expandSnapshots"></i>
+                        <a href="" ng-click="storage.expandSnapshots=!storage.expandSnapshots">Snapshots</a>
+                    </h5>
+                </div>
+                <div class="col-md-12" ng-show="storage.expandSnapshots">
+                    <div class="form-group">
+                        <label class="col-md-2 control-label">Enable Snapshots</label>
+                        <div class="col-md-10">
+                            <div class="checkbox">
+                                <label>
+                                    <input type="checkbox" ng-model="storages.snapshots" id="snapshots"></input>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-2 control-label">Schedule</label>
+                        <div class="col-md-2">
+                            <input type="number" id="snapshotSchedule" class="form-control"></input>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- End: Snapshots -->
+            <!-- Quotas -->
+            <div class="form-group">
+                <div class="col-md-12">
+                    <h5>
+                        <i class="fa fa-angle-down" style="min-width:10px;" ng-show="storage.expandQuotas"></i>
+                        <i class="fa fa-angle-right" style="min-width:10px;" ng-show="!storage.expandQuotas"></i>
+                        <a href="" ng-click="storage.expandQuotas=!storage.expandQuotas">Quotas</a>
+                    </h5>
+                </div>
+                <div class="col-md-12" ng-show="storage.expandQuotas">
+                    <div class="form-group">
+                        <label class="col-md-2 control-label">Enable Quotas</label>
+                        <div class="col-md-10">
+                            <div class="checkbox">
+                                <label>
+                                    <input type="checkbox" ng-model="storages.quotas" id="quotas"></input>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-2 control-label">Max percentage used</label>
+                        <div class="col-md-1">
+                            <div class="checkbox">
+                                <label>
+                                    <input type="checkbox" ng-model="storages.quotasMaxPercentage" id="quotasMaxPercentage"></input>
+                                </label>
+                            </div>
+                        </div>
+                        <div class="col-md-1">
+                            <input type="number" id="quotasMaxPercentageVal" class="form-control"></input>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-2 control-label">Max number of objects</label>
+                        <div class="col-md-1">
+                            <div class="checkbox">
+                                <label>
+                                    <input type="checkbox" ng-model="storages.quotasMaxObjects" id="quotasMaxObjects"></input>
+                                </label>
+                            </div>
+                        </div>
+                        <div class="col-md-1">
+                            <input type="number" id="quotasMaxObjectsVal" class="form-control"></input>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- End: Quotas -->
+        </form>
+        <div ng-show="storage.summary">
+            <strong>Pools to create on {{storage.cluster.name}}</strong>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="storage-pool" ng-repeat="pool in storage.pools">
+                        <div class="row">
+                            <div class="col-md-1">
+                                <span class="title">Name</span>
+                                <div class="value">{{pool.name}}</div>
+                            </div>
+                            <div class="col-md-1">
+                                <span class="title">Type</span>
+                                <div class="value">{{pool.type}}</div>
+                            </div>
+                            <div class="col-md-2">
+                                <span class="title">Storage Profile</span>
+                                <div class="value">{{pool.profile}}</div>
+                            </div>
+                            <div class="col-md-1">
+                                <span class="title">Replicas</span>
+                                <div class="value">{{pool.replicas}}</div>
+                            </div>
+                            <div class="col-md-1">
+                                <span class="title">Capacity</span>
+                                <div class="value">{{pool.capacity.value}}&nbsp;{{pool.capacity.unit}}</div>
+                            </div>
+                            <div class="col-md-1">
+                                <span class="title">OSDs</span>
+                                <div class="value">10
+                                    <span class="fa fa-caret-down"></span>
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <span class="title">Journal</span>
+                                <div class="value">Optmized
+                                    <span class="fa fa-caret-down"></span>
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <span class="title">Cache Tier</span>
+                                <div class="value">None
+                                    <span class="pficon  pficon-add-circle-o"></span>
+                                </div>
+                            </div>
+                            <div class="col-md-1">
+                                <div class="actions">
+                                    <span ng-if="!pool.edit" class="fa fa-pencil" ng-click="pool.edit=true"></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="form-footer">
+            <button type="button" class="btn btn-lg btn-primary" ng-click='storage.summary=true;storage.prepareSummary()' ng-if="!storage.summary">Next</button>
+            <button type="button" class="btn btn-lg btn-primary" ng-click='storage.submit()' ng-if="storage.summary">Submit</button>
+            <button type="button" class="btn btn-lg btn-default" ng-click='storage.cancel()'>Cancel</button>
+        </div>
+    </div>
+</div>
