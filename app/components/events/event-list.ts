@@ -41,24 +41,27 @@ export class EventListController {
     }
 
     public loadData(tasks: Array<any>) {
-        this.requestTrackingSvc.getTrackedRequests().then((trackedTasks: Array<any>) => {
-            var list = [];
-            _.each(tasks, (task) => {
-                if (task.ParentId === '00000000-0000-0000-0000-000000000000') {
-                    var trackedTask = _.find(trackedTasks, trackedTask => trackedTask.id === task.Id);
-                    if (trackedTask) {
-                        task.operation = trackedTask.operation;
-                    }
-                    var lastStatus = _.last<any>(task.StatusList);
-                    if (lastStatus) {
-                        task.statusMsg = lastStatus.Message;
-                        task.timestamp = lastStatus.Timestamp;
-                    }
-                    list.push(task)
+        var list = [];
+        _.each(tasks, (task) => {
+            if (task.parentid === '00000000-0000-0000-0000-000000000000') {
+                var lastStatus = _.last<any>(task.statuslist);
+                if (lastStatus) {
+                    task.statusMsg = lastStatus.Message;
+                    task.timestamp = lastStatus.Timestamp;
                 }
-            });
-            this.list = list.reverse();
+                if ((!task.completed) && task.subtasks.length > 0) {
+                    this.requestSvc.get(task.subtasks[0]).then((subtask) => {
+                        var lastStatus = _.last<any>(subtask.statuslist);
+                        if (lastStatus) {
+                            task.statusMsg = lastStatus.Message;
+                            task.timestamp = lastStatus.Timestamp;
+                        }
+                    });
+                }
+                list.push(task)
+            }
         });
+        this.list = list.reverse();
     }
 
     public viewDetails(taskId) {

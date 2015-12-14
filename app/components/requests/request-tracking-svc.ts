@@ -44,7 +44,7 @@ export class RequestTrackingService {
             this.requests.put({
                 id: id,
                 operation: operation,
-                done: false,
+                local: true,
                 timestamp: Date.now()
             }, (id) => {
                 this.$log.info('Tracking new request ' + id);
@@ -68,17 +68,6 @@ export class RequestTrackingService {
         return d.promise;
     }
 
-    public update(id, request) {
-        var d = this.$q.defer();
-        this.requests.put(request, d.resolve, d.reject);
-        d.promise.then((id) => {
-            this.$log.info('Updated request id ' + id);
-        }, (error) => {
-            this.$log.error('Error in updating request id ' + id);
-        });
-        return d.promise;
-    }
-
     public getTrackedRequests() {
         var d = this.$q.defer();
         this.requests.getAll(d.resolve, d.reject);
@@ -95,30 +84,27 @@ export class RequestTrackingService {
         this.$log.debug('Refreshing the requests in the store');
         this.getTrackedRequests().then((requests) => {
             _.each(requests, (trackedRequest: any) => {
-                if(!trackedRequest.done) {
-                    this.requestSvc.get(trackedRequest.id).then((task) => {
-                        if (task.status === 'FAILED') {
-                            this.showError(trackedRequest.operation + ' is failed');
-                            this.$log.error(trackedRequest.operation + ' is failed');
-                            this.remove(trackedRequest.id);
-                        }
-                        else if (task.completed) {
-                            this.showNotification(trackedRequest.operation + ' is completed sucessfully');
-                            this.$log.info(trackedRequest.operation + ' is completed sucessfully');
-                            trackedRequest.done = true;
-                            this.update(trackedRequest.id, trackedRequest);
-                        }
-                        else if (!task.completed) {
-                            this.$log.info('Request ' + trackedRequest.id + ' is in progress');
-                            this.update(trackedRequest.id, trackedRequest);
-                        }
-                    }, (resp) => {
-                        if (resp.status === 404) {
-                            this.$log.warn('Request ' + trackedRequest.id + ' NOT FOUND');
-                            this.remove(trackedRequest.id);
-                        }
-                    });
-                }
+                this.requestSvc.get(trackedRequest.id).then((task) => {
+                    if (task.status === 'FAILED') {
+                        this.showError(trackedRequest.operation + ' is failed');
+                        this.$log.error(trackedRequest.operation + ' is failed');
+                        this.remove(trackedRequest.id);
+                    }
+                    else if (task.completed) {
+                        this.showNotification(trackedRequest.operation + ' is completed sucessfully');
+                        this.$log.info(trackedRequest.operation + ' is completed sucessfully');
+                        this.remove(trackedRequest.id);
+                    }
+                    else if (!task.completed) {
+                        this.$log.info('Request ' + trackedRequest.id + ' is in progress');
+                    }
+                }, (resp) => {
+                    if (resp.status === 404) {
+                        this.$log.warn('Request ' + trackedRequest.id + ' NOT FOUND');
+                        this.remove(trackedRequest.id);
+                    }
+                });
+
             });
         });
         this.timeout = this.$timeout(() => this.processRequests(), this.timer);

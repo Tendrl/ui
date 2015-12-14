@@ -4,6 +4,7 @@ import {Cluster} from '../../rest/resources';
 
 import {ClusterService} from '../../rest/clusters';
 import {StorageService} from '../../rest/storage';
+import {RequestService} from '../../rest/request';
 import {RequestTrackingService} from '../../requests/request-tracking-svc';
 import * as ModalHelpers from '../../modal/modal-helpers';
 
@@ -28,7 +29,8 @@ export class ObjectStorageController {
         '$modal',
         'ClusterService',
         'StorageService',
-        'RequestTrackingService'
+        'RequestTrackingService',
+        'RequestService'
     ];
     constructor(private $routeParams: ng.route.IRouteParamsService,
         private $location: ng.ILocationService,
@@ -37,7 +39,8 @@ export class ObjectStorageController {
         private $modal,
         private clusterSvc: ClusterService,
         private storageSvc: StorageService,
-        private requestTrackingSvc: RequestTrackingService) {
+        private requestTrackingSvc: RequestTrackingService,
+        private requestSvc: RequestService) {
         let clusterId = $routeParams['clusterid'];
         this.clusterSvc.get(clusterId).then(cluster => {
             this.cluster = cluster;
@@ -57,6 +60,10 @@ export class ObjectStorageController {
         }
     }
 
+    public cancel(): void {
+        this.$location.path('/storages');
+    }
+
     public submit(): void {
         var list = [];
         for (let pool of this.pools) {
@@ -69,7 +76,20 @@ export class ObjectStorageController {
             console.log(storage);
             list.push(this.storageSvc.create(this.cluster.clusterid, storage));
         }
-        this.$q.all(list).then((result) => {
+        this.$q.all(list).then((tasks) => {
+            for (var task of tasks) {
+                this.requestSvc.get(task.data.taskid).then((result) => {
+                    this.requestTrackingSvc.add(result.id, result.name);
+                });
+            }
+        });
+        var modal = ModalHelpers.SuccessfulRequest(this.$modal, {
+            title: 'Add Object Storage Request is Submitted',
+            container: '.usmClientApp'
+        });
+        modal.$scope.$hide = _.wrap(modal.$scope.$hide, ($hide) => {
+            $hide();
+            this.$location.path('/storages');
         });
     }
 }

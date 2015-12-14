@@ -11,6 +11,9 @@ var moduleName = 'usm-client.requests';
 
 angular.module(moduleName, ['angular-growl'])
     .service('RequestTrackingService', RequestTrackingService)
-    .controller('RequestsController', RequestsController);
-    
+    .controller('RequestsController', RequestsController)
+    .config(['growlProvider', function(growlProvider) {
+        growlProvider.globalTimeToLive(7000);
+    }]);
+
 export default moduleName;

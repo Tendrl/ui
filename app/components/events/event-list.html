@@ -13,14 +13,14 @@
                 <div class="blade-tag-text">Ceph</div>
             </div>
             <div class="status-icon-col">
-                <i class="pficon-running fa-spin" ng-if="!event.Completed"></i>
-                <i class="pficon-ok" ng-if="event.Completed"></i>
+                <i class="pficon-running fa-spin" ng-if="!event.completed"></i>
+                <i class="pficon-ok" ng-if="event.completed"></i>
             </div>
         </div>
         <div class="col-md-4">
             <div class="event-title-col">
-                <div class="title-text">{{event.operation}}</div>
-                <div class="event-id">{{event.Id}}</div>
+                <div class="title-text">{{event.name}}</div>
+                <div class="event-id">{{event.id}}</div>
             </div>
         </div>
         <div class="col-md-4">
