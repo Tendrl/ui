@@ -49,7 +49,7 @@ export class FirstController {
             var self = this;
             var callback = function() {
                 self.requestSvc.get(host.taskid).then((task) => {
-                    if (task.Completed) {
+                    if (task.completed) {
                         self.$log.info('Accepted host in first controller ' + host.hostname);
                         host.state = "ACCEPTED";
                         host.task = undefined;

@@ -102,13 +102,13 @@ export class RequestTrackingService {
                             this.$log.error(trackedRequest.operation + ' is failed');
                             this.remove(trackedRequest.id);
                         }
-                        else if (task.Completed) {
+                        else if (task.completed) {
                             this.showNotification(trackedRequest.operation + ' is completed sucessfully');
                             this.$log.info(trackedRequest.operation + ' is completed sucessfully');
                             trackedRequest.done = true;
                             this.update(trackedRequest.id, trackedRequest);
                         }
-                        else if (!task.Completed) {
+                        else if (!task.completed) {
                             this.$log.info('Request ' + trackedRequest.id + ' is in progress');
                             this.update(trackedRequest.id, trackedRequest);
                         }
