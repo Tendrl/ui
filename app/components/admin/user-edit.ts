@@ -27,16 +27,15 @@ export class UserEditController {
    
     public getUserByUserId(userId):void{
         this.UserService.getUserByUserId(userId).then((user: any)=>{
-            this.userId = user.Username;
-            this.firstName = user.Username;
-            this.lastName = user.Username;
-            this.email = user.Email;
+            this.userId = user.username;
+            this.firstName = user.firstname;
+            this.lastName = user.lastname;
+            this.email = user.email;
         });
     }
 
     public saveSettings():void {
         var setting = {
-                email: this.email,
                 password: this.password
         };
         this.UserService.saveUserSetting(this.userId,setting).then((result) => {
@@ -50,14 +49,17 @@ export class UserEditController {
     }
 
     public save():void {
-        var user = {
-            username: this.userId,
+        var user: any = {
             email: this.email,
+            firstname: this.firstName,
+            lastname: this.lastName,
             groups: [],
-            role: "admin",
-            password: this.password
+            role: "admin"
         };
-        this.UserService.editUser(this.userId,user).then((result) => {
+        if(this.password && this.password.length > 0) {
+            user.password = this.password;
+        }
+        this.UserService.updateUser(this.userId,user).then((result) => {
             if(result.status === 200) {
                 this.$location.path('/admin');
             }

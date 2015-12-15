@@ -65,9 +65,9 @@ export class UserService {
         return this.restFull.all('users').post(user);
     }
 
-    // **editUser**
+    // **updateUser**
     // **@returns** a promise with status code
-    editUser(userId,user){
+    updateUser(userId,user){
         return this.restFull.one('users',userId).customPUT(user);
     }
 

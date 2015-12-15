@@ -31,12 +31,12 @@
   </thead>
   <tbody>
     <tr ng-repeat="user in users.userList">
-      <td ng-bind="user.Username"></td>
-      <td ng-bind="user.Username"></td>
-      <td>Last Name</td>
-      <td ng-bind="user.Role"></td>
+      <td ng-bind="user.username"></td>
+      <td ng-bind="user.firstname"></td>
+      <td ng-bind="user.lastname"></td>
+      <td ng-bind="user.role"></td>
       <td><i class="fa fa-check">ON</i></td>
-      <td ng-bind="user.Email"></td>
+      <td ng-bind="user.email"></td>
       <td><i class="fa fa-check">Enabled</i></td>
       <td>
       	<div class="dropdown">
@@ -46,16 +46,16 @@
 		  </button>
       <ul class="dropdown-menu" role="menu">
         <li role="presentation">
-          <a role="menuitem" ng-click="users.editUser(user.Username)"> Edit user </a>
+          <a role="menuitem" href="" ng-click="users.editUser(user.username)"> Edit user </a>
         </li>
         <li role="presentation">
-          <a role="menuitem" ng-click=""> Disable user </a>
+          <a role="menuitem" href="" ng-click=""> Disable user </a>
         </li>
         <li role="presentation">
-          <a role="menuitem" ng-click=""> Disable Notification </a>
+          <a role="menuitem" href="" ng-click=""> Disable Notification </a>
         </li>
        <li role="presentation">
-          <a role="menuitem" ng-click="users.deleteUser(user.Username)"> Delete User</a>
+          <a role="menuitem" href="" ng-click="users.deleteUser(user.username)"> Delete User</a>
         </li>
       </ul>
 		</div>

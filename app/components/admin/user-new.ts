@@ -17,11 +17,13 @@ export class UserNewController {
         private $location: ng.ILocationService,
         private UserService: UserService) {
     }
-   
+
     public save():void {
         var user = {
             username: this.userId,
             email: this.email,
+            firstname: this.firstName,
+            lastname: this.lastName,
             groups: [],
             role: "admin",
             password: this.password
@@ -32,9 +34,8 @@ export class UserNewController {
             }
         });
     }
-           
-    public cancel(): void {
 
+    public cancel(): void {
         this.$location.path('/admin');
     }
 }
