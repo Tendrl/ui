@@ -19,10 +19,12 @@ export class UserEditController {
         private UserService: UserService,
         private routeParamsSvc: ng.route.IRouteParamsService) {
         this.userId =  this.routeParamsSvc['userid'];
-        if(!this.userId){
-            this.userId = UserService.getCurrentUser();
+        if (!this.userId) {
+            this.getUserByUserId('me');
         }
-        this.getUserByUserId(this.userId);
+        else {
+            this.getUserByUserId(this.userId);
+        }
     }
    
     public getUserByUserId(userId):void{

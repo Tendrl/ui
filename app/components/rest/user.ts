@@ -40,7 +40,7 @@ export class UserService {
     // **getCurrentUser**
     // **@returns** a string with userid
     getCurrentUser(){
-        return this.currentUser;
+        return this.get('me');
     }
 
     // **getUsers**
