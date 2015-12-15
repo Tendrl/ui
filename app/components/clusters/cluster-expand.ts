@@ -50,7 +50,7 @@ export class ClusterExpandController {
         private serverService: ServerService,
         private clusterService: ClusterService,
         private requestService: RequestService,
-        private reqTrackingService: RequestTrackingService) {
+        private requestTrackingService: RequestTrackingService) {
         
         this.newHost = {};
         this.hosts = [];
@@ -64,7 +64,7 @@ export class ClusterExpandController {
 
     public loadCluster (cluster: any) {
         this.cluster = cluster;
-        this.name = cluster.cluster_name;
+        this.name = cluster.name;
         this.clusterType = this.clusterHelper.getClusterType(cluster.cluster_type);
     }
 
@@ -164,26 +164,26 @@ export class ClusterExpandController {
         _.each(this.hosts, (host: any) => {
             if (host.selected) {
                 var localHost: any = {
-                    hostname: host.hostname
+                    nodeid: host.id,
+                    nodetype: []
                 };
                 var disks = [];
                 _.each(host.disks, (disk: any) => {
-                    if (disk.Type === 'disk' && disk.Used == false) {
-                        disks.push(disk.DevName);
+                    if(disk.Type === 'disk' && disk.Used == false) {
+                        disks.push({ name: disk.DevName, fstype: 'xfs' });
                     }
                 });
                 localHost.disks = disks;
+                if(disks.length > 0) {
+                    localHost.nodetype.push('OSD');
+                }
                 if (host.isMon) {
-                    localHost.options = { mon: 'Y' };
+                    localHost.nodetype.push('MON');
                 }
                 nodes.push(localHost);
             }
         });
-
-        var cluster = {
-            nodes: nodes
-        };
-        this.expandCluster(this.clusterID, cluster);
+        this.expandCluster(this.clusterID, nodes);
     }
 
     public expandCluster(clusterId: string, cluster) {
@@ -191,6 +191,19 @@ export class ClusterExpandController {
             if (result.status === 200) {
                 this.logService.info('Cluster ' + cluster.cluster_name + ' expanded successfully');
                 this.locationService.path('/clusters');
+            }
+            else if (result.status === 202) {
+                this.requestService.get(result.data.taskid).then((task) => {
+                    this.requestTrackingService.add(task.id, task.name);
+                });
+                var modal = ModalHelpers.SuccessfulRequest(this.modalService, {
+                    title: 'Expand Cluster Request is Submitted',
+                    container: '.usmClientApp'
+                });
+                modal.$scope.$hide = _.wrap(modal.$scope.$hide, ($hide) => {
+                    $hide();
+                    this.locationService.path('/clusters');
+                });
             }
             else {
                 this.logService.error('Unexpected response from Clusters.expand:', result);
