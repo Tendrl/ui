@@ -10,7 +10,7 @@
 <form class="form-horizontal">
     <div class="form-group">
     <label class="col-sm-2 col-md-2 control-label">Type</label>
-    <div class="col-sm-6 col-md-3">Internal</div>
+    <div class="col-sm-6 col-md-3"><p class="form-control-static">Internal</p></div>
     <label class="col-sm-4 col-md-2">
        Enabled <input type="checkbox" id="enabled">
     </label>
@@ -18,19 +18,19 @@
   <div class="form-group">
     <label for="usedid" class="col-sm-2 col-md-2 control-label">User Id</label>
     <div class="col-sm-10 col-md-5">
-      <label id="userid" placeholder="User Id">{{userEdit.userId}}</label>
+      <p id="userid" class="form-control-static">{{userEdit.userId}}</p>
     </div>
   </div>
   <div class="form-group">
     <label for="firstname" class="col-sm-2 col-md-2 control-label">First Name</label>
     <div class="col-sm-10 col-md-5">
-      <input type="text" class="form-control" id="firstname" ng-model="userEdit.firstName" placeholder="First name">
+      <p id="firstName" class="form-control-static">{{userEdit.firstName}}</p>
     </div>
   </div>
     <div class="form-group">
     <label for="lastname" class="col-sm-2 col-md-2 control-label">Last Name</label>
     <div class="col-sm-10 col-md-5">
-      <input type="text" class="form-control" id="lastname" ng-model="userEdit.lastName" placeholder="Last name">
+      <p id="lastname" class="form-control-static">{{userEdit.lastName}}</p>
     </div>
   </div>
     <div class="form-group">
