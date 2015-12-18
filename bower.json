@@ -1,8 +1,0 @@
-{
-  "name": "kitoon",
-  "version": "0.0.1",
-  "dependencies": {
-    "restangular": "~1.5.1",
-    "c3-angular": "~0.6.0"
-  }
-}
