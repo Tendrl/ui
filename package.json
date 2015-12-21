@@ -20,8 +20,8 @@
     "c3": "~0.4.11-rc3",
     "jquery": "~1.11.3",
     "es6-shim": "~0.33.6",
-    "restangular": "mgonto/restangular#1.5.1",
-    "c3-angular": "jettro/c3-angular-directive#0.7.1"
+    "restangular": "git://github.com/mgonto/restangular#1.5.1",
+    "c3-angular": "git://github.com/jettro/c3-angular-directive#0.7.1"
   },
   "devDependencies": {
     "bower": "*",
