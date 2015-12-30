@@ -1,15 +1,14 @@
-SHELL=bash
+# store the current working directory
+CWD := $(shell pwd)
+PRINT_STATUS = export EC=$$?; cd $(CWD); if [ "$$EC" -eq "0" ]; then printf "SUCCESS!\n"; else exit $$EC; fi
 
-SRC := $(shell pwd)
-
-# set these only if not set with ?=
-VERSION=1.0
-RPM_REVISION=0
-RPMBUILD=$(SRC)/../rpmbuild
-
-DISTNAMEVER=kitoon_$(VERSION)
-TARGET_DIR=usr/share/skyring/webapp
-TARNAME = $(DISTNAMEVER).tar.gz
+NAME      := kitoon
+VERSION   := 0.0.2
+RELEASE   := 1
+RPMBUILD  := $(HOME)/rpmbuild
+TARDIR    := $(NAME)-$(VERSION)
+TARNAME   := $(TARDIR).tar.gz
+KITOON_DIST := ./dist
 
 build-all: build-setup build
 
@@ -24,25 +23,21 @@ build-setup:
 build:
 	gulp compile
 
-rpm:    dist-gen
-	mkdir -p $(RPMBUILD)/{SPECS,RPMS,SOURCES,BUILDROOT}
-	cp kitoon.spec $(RPMBUILD)/SPECS
-	cp $(TARNAME) $(RPMBUILD)/SOURCES
-	( \
-	cd $(RPMBUILD); \
-	rpmbuild -bb --define "_topdir $(RPMBUILD)" --define "version $(VERSION)" --define "revision $(RPM_REVISION)" --define "tarname $(TARNAME)" SPECS/kitoon.spec; \
-	)
-	@echo "------------------------------------------------------------"
-	@echo "Kitoon RPM available at directory:  $(RPMBUILD)/RPMS/noarch"
-	@echo "------------------------------------------------------------"
-
-dist-gen:
+dist: build
 	@echo "making dist tarball in $(TARNAME)"
-	@rm -fr $(TARGET_DIR)
-	@mkdir $(TARGET_DIR) -p
-	@cp -ai dist/* $(TARGET_DIR)/
-	@tar -zcf $(TARNAME) $(TARGET_DIR)
-	@rm -rf $(TARGET_DIR)
+	mkdir $(TARDIR)
+	cp -r $(KITOON_DIST)/* $(TARDIR)
+	tar -zcf $(TARDIR).tar.gz $(TARDIR);
+	rm -rf $(TARDIR)
 	@echo "------------------------------------------------"
 	@echo "tar file available at: $(TARNAME)"
 	@echo "------------------------------------------------"
+
+rpm: dist
+	mkdir -p $(RPMBUILD)/{SPECS,RPMS,SOURCES,BUILDROOT}
+	cp kitoon.spec $(RPMBUILD)/SPECS
+	cp $(TARNAME) $(RPMBUILD)/SOURCES
+	rpmbuild -ba kitoon.spec
+	@echo "------------------------------------------------------------"
+	@echo "Kitoon RPM available at directory:  $(RPMBUILD)/RPMS/noarch"
+	@echo "------------------------------------------------------------"

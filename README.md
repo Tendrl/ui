@@ -26,7 +26,16 @@ Graphical user interface for [SkyRing] (https://github.com/skyrings/skyring), a 
 
 
 ## How to build
-### Fedora 20/21/22
+
+### Building rpm package
+1. install latest versions of nodejs and rpm-build `yum install nodejs npm rpm-build`
+2. clone the repository `git clone git@github.com:skyrings/kitoon.git`
+3. `cd kitoon`
+4. run `make build-setup`
+5. run `make rpm`
+6. the generated rpm can be found in `${HOME}/rpmbuild/RPMS/noarch`
+
+### Development setup in Fedora 21/22/23
 1. install latest version of nodejs `yum install nodejs npm`
 2. install `gulp` and `tsd` gloabally - `npm install -g gulp tsd`
 3. clone the repository `git clone git@github.com:skyrings/kitoon.git`
