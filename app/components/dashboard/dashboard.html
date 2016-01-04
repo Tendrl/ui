@@ -10,7 +10,7 @@
                     <p class="card-pf-aggregate-status-notifications">
                         <span ng-if="dash.clustersWarning.length === 0 && dash.clustersCritical.length === 0" class="card-pf-aggregate-status-notification"><a href="#"><span class="fa fa-check-circle-o ok"></span></a>
                         </span>
-                        <span ng-if="dash.clustersWarning.length > 0" class="card-pf-aggregate-status-notification"><a href="#"><span class="fa  fa-exclamation-triangle icon warning"></span>{{dash.clustersWarning.length}}</a>
+                        <span ng-if="dash.clustersWarning.length > 0" class="card-pf-aggregate-status-notification"><a href="/#/clusters"><span class="fa  fa-exclamation-triangle icon warning"></span>{{dash.clustersWarning.length}}</a>
                         </span>
                         <span ng-if="dash.clustersCritical.length > 0" class="card-pf-aggregate-status-notification"><a href="#"><span class="fa fa-times-circle-o icon critical"></span>{{dash.clustersCritical.length}}</a>
                         </span>

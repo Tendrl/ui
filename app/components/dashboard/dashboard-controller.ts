@@ -93,10 +93,10 @@ export class DashboardController {
             this.clusters = clusters;
             var requests = [];
             _.each(this.clusters, (cluster: any) => {
-                if(cluster.status === 1 || cluster.status === 2) {
+                if(cluster.status === 1) {
                     this.clustersWarning.push(cluster);
                 }
-                else if(cluster.status === 5) {
+                else if(cluster.status === 2) {
                     this.clustersCritical.push(cluster);
                 }
 

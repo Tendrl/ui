@@ -73,7 +73,7 @@ export class ClustersController {
                 clusterid: cluster.clusterid,
                 cluster_name: cluster.name,
                 cluster_type: cluster.type,
-                cluster_status: undefined,
+                status: cluster.status,
                 used: undefined,
                 area_spline_cols: [{ id: 1, name: 'Used', color: '#39a5dc', type: 'area-spline' }],
                 area_spline_values: mockCluster.areaSplineValues,

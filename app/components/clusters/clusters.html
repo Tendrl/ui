@@ -23,6 +23,9 @@
           <div class="col-md-offset-1 col-md-10 set-top-margin pull-right">
             <div>
               <span class="fa fa-wrench" style="font-size: 2em;" ng-if="!cluster.enabled"></span>
+              <span class="pficon-ok" style="font-size: 2em;" ng-if="cluster.enabled && cluster.status == 0"></span>
+              <span class="pficon-warning-triangle-o" style="font-size: 2em;" ng-if="cluster.enabled && cluster.status == 1"></span>
+              <span class="pficon-error-circle-o" style="font-size: 2em;" ng-if="cluster.enabled && cluster.status == 2"></span>
               <a ng-href="#/clusters/detail/{{cluster.cluster_id}}"><span class="heading" ng-bind="cluster.cluster_name"></span></a>
             </div>
           </div>
