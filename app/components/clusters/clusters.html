@@ -109,7 +109,7 @@
         <div class="panel-body">
           <div class="row">
             <div class="col-xs-1 exclamation-margin">
-              <span ng-if="cluster.cluster_status != 4 && clusters.getStatusTitle(cluster.cluster_status) === 'Failed'">
+              <span ng-if="cluster.status == 1">
                 <i class="fa fa-2x fa-exclamation-triangle exclamation-mark warning"></i>
               </span>
             </div>

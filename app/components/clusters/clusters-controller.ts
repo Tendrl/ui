@@ -4,7 +4,7 @@ import {ClusterService} from '../rest/clusters';
 import {MockDataProvider} from './mock-data-provider-helpers';
 import {ClusterHelper} from './cluster-helpers';
 import {VolumeService} from '../rest/volume';
-import {PoolService} from '../rest/pool';
+import {StorageService} from '../rest/storage';
 import {ServerService} from '../rest/server';
 import {RequestService} from '../rest/request';
 import {RequestTrackingService} from '../requests/request-tracking-svc';
@@ -21,7 +21,7 @@ export class ClustersController {
         '$location',
         'VolumeService',
         'ClusterService',
-        'PoolService',
+        'StorageService',
         'ServerService',
         'RequestService',
         'RequestTrackingService'
@@ -42,7 +42,7 @@ export class ClustersController {
         private $location: ng.ILocationService,
         private volumeService: VolumeService,
         private clusterSvc: ClusterService,
-        private poolService: PoolService,
+        private storageSvc: StorageService,
         private serverService: ServerService,
         private requestSvc: RequestService,
         private requestTrackingSvc: RequestTrackingService) {
@@ -99,8 +99,8 @@ export class ClustersController {
                 });
             }
             else {
-                this.poolService.getListByCluster(cluster.clusterid).then(function(pools) {
-                    tempCluster.no_of_volume_or_pools = pools.length;
+                this.storageSvc.getListByCluster(cluster.clusterid).then(function(pools) {
+                    tempCluster.no_of_volumes_or_pools = pools.length;
                 });
             }
 
