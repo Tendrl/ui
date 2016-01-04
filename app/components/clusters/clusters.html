@@ -1,161 +1,177 @@
 <div class="container-fluid padding">
-  <div class="page-header page-header-bleed-right">
-    <h1>Clusters</h1>
-  </div>
-  <div class="row">
-    <div class="col-md-3">
-      <input type="text" class="form-control" placeholder="Search" ng-model="search">
+    <div class="page-header page-header-bleed-right">
+        <h1>Clusters</h1>
     </div>
-    <div class="col-md-offset-6 col-md-3">
-      <span class="pull-right"> 
-        <button class="btn btn-primary btn-lg">Import</button>
-        <button class="btn btn-primary btn-lg" ng-click="clusters.createNewCluster()">Create</button>
-      </span>
+    <div class="row"  ng-if="clusters.clusterList.length > 0">
+        <div class="col-md-3">
+            <input type="text" class="form-control" placeholder="Search" ng-model="search">
+        </div>
+        <div class="col-md-offset-6 col-md-3">
+            <span class="pull-right">
+            <button class="btn btn-primary btn-lg">Import</button>
+            <button class="btn btn-primary btn-lg" ng-click="clusters.createNewCluster()">Create</button>
+            </span>
+        </div>
     </div>
-  </div>
-  
-  <div id="desktop" class="row blade-view" ng-class="cluster.cluster_status==4 ? 'blade-view-with-opacity':'' " ng-repeat="cluster in clusters.clusterList | filter:search">
-      <div class="col-md-2 col-sm-4">
-        <div class="row">
-          <div class="col-md-1" ng-class="clusters.getClusterTypeTitle(cluster.cluster_type)==='gluster'?'vertical-line-for-gluster':'vertical-line-for-ceph'">
-            <span ng-class="clusters.getClusterTypeTitle(cluster.cluster_type)==='gluster'?'vertical-text-for-gluster':'vertical-text-for-ceph'" ng-bind="clusters.getClusterTypeTitle(cluster.cluster_type)"></span>
-          </div>
-          <div class="col-md-offset-1 col-md-10 set-top-margin pull-right">
-            <div>
-              <span class="fa fa-wrench" style="font-size: 2em;" ng-if="!cluster.enabled"></span>
-              <span class="pficon-ok" style="font-size: 2em;" ng-if="cluster.enabled && cluster.status == 0"></span>
-              <span class="pficon-warning-triangle-o" style="font-size: 2em;" ng-if="cluster.enabled && cluster.status == 1"></span>
-              <span class="pficon-error-circle-o" style="font-size: 2em;" ng-if="cluster.enabled && cluster.status == 2"></span>
-              <a ng-href="#/clusters/detail/{{cluster.cluster_id}}"><span class="heading" ng-bind="cluster.cluster_name"></span></a>
+    <center ng-if="clusters.clusterList.length == 0">
+        <div class="blank-slate-pf">
+            <div class="blank-slate-pf-icon">
+                <i class="fa fa-exclamation-circle"></i>
             </div>
-          </div>
-        </div>
-      </div>
-      <div class="col-md-1 col-sm-4 set-top-margin">
-         <div class="percentage-heading" ng-class="cluster.percent_used >= 90 ?'critical':cluster.percent_used >= 80 ?'warning':'ok'" ng-if="cluster.cluster_status != 4">{{cluster.percent_used}}%</div>
-         <div class="percentage-used" ng-if="cluster.cluster_status != 4">Used</div>
-      </div>
-      <div class="col-md-3 col-sm-4 set-top-margin">
-        <div class="disk-info-cart" ng-if="cluster.cluster_status != 4">
-          {{cluster.free_size}} GB Free <br>
-          of {{cluster.total_size}} GB Total
-        </div>
-        <!-- Adding area-spline-graph here -->
-        <div class="adjust-area-spline" ng-if="cluster.cluster_status != 4">
-          <c3chart bindto-id="cluster-areaSpline-{{$index}}" chart-columns="cluster.area_spline_cols" chart-data="cluster.area_spline_values">
-            <chart-axis>
-              <chart-axis-x show="false"> </chart-axis-x>
-              <chart-axis-y show="false"> </chart-axis-y>
-            </chart-axis>
-            <chart-points show-point="false"></chart-points>
-            <chart-legend show-legend="false"></chart-legend>
-            <chart-size chart-height="80"></chart-size>
-            <chart-tooltip show-tooltip="false"></chart-tooltip>
-          </c3chart>
-        </div>
-        <!-- End of adding area-spline-graph here -->
-        <div class="adjust-area-spline" ng-if="cluster.cluster_status == 4">
-          <div class="progress progress-striped active create-cluster-progress">
-            <div class="progress-bar" role="progressbar" aria-valuenow="70" aria-valuemin="0" aria-valuemax="100" style="width: 70%;">
-                <span>Creating</span>
+            <h1>You don't have any clusters</h1>
+            <div class="blank-slate-pf-main-action">
+                <button class="btn btn-primary btn-lg" ng-click="clusters.createNewCluster()">
+                Create Cluster
+                </button>
             </div>
-          </div>
-        </div>
-      </div>
-      <div class="col-md-2 col-sm-3 set-top-margin">
-        <!-- Adding gauge-graph here -->
-        <div class="adjust-gauge" ng-if="cluster.cluster_status != 4">
-          <c3chart bindto-id="gauge-iops-chart-{{$index}}">
-            <chart-column column-id="IOPS-{{$index}}" column-values="{{cluster.gauge_values}}" column-type="gauge" column-color="{{clusters.getClusterGaugeColor(cluster.gauge_values)}}" />
-             <chart-gauge min="0" max="10" units="{{cluster.gauge_values}}M IOPS" width="20" />
-              <chart-size chart-height="80"></chart-size>
-          </c3chart>
-        </div>
-        <!-- End of adding gauge-graph here -->
-      </div>
-      <div class="col-md-1 col-sm-3 set-top-margin">
-        <div class="sub-heading">Hosts</div>
-        <div class="sub-heading" ng-bind="cluster.no_of_hosts"></div>
-      </div>
-      <div class="col-md-1 col-sm-3 set-top-margin">
-        <div class="sub-heading">
-          <span ng-if="clusters.getClusterTypeTitle(cluster.cluster_type) === 'gluster'">Volumes</span>
-          <span ng-if="clusters.getClusterTypeTitle(cluster.cluster_type) === 'ceph'">Pools</span>
-        </div>
-        <div class="sub-heading" ng-bind="cluster.no_of_volumes_or_pools"></div>
-      </div>
-      <div class="col-md-1 col-sm-2 set-top-margin">
-        <div class="sub-heading">Alerts</div>
-        <div class="sub-heading">
-          <span ng-bind="cluster.alerts"></span>
-          <i class="fa fa-2x set-margin" ng-class="cluster.alerts>0?'fa-times-circle critical':'fa-check-circle-o ok'"></i>
-        </div>
-      </div>
-      <div class="col-md-1 col-sm-1 set-top-margin">
-        <a class="pull-right add-cursor-pointer" data-animation="am-flip-x" data-template="views/clusters/cluster-menu-dropdown.tpl.html" bs-dropdown="ellipsis">
-          <i class="fa fa-ellipsis-v fa-4x elipsis-color"></i>
-        </a>
-      </div>
-   </div>
-
-  <div id="mobile" class="panel-group row blade-view" ng-model="panels.activePanel" role="tablist" aria-multiselectable="true" bs-collapse ng-class="cluster.cluster_status==4 ? 'blade-view-with-opacity':'' " ng-repeat="cluster in clusters.clusterList | filter:search">
-    <div class="panel panel-default">
-      <div class="panel-heading" role="tab">
-        <h4 class="panel-title">
-          <a bs-collapse-toggle class="cluster-link">{{cluster.cluster_name}}</a>
-        </h4>
-      </div>
-      <div id="{{cluster.cluster_name}}" class="panel-collapse" role="tabpanel" bs-collapse-target>
-        <div class="panel-body">
-          <div class="row">
-            <div class="col-xs-1 exclamation-margin">
-              <span ng-if="cluster.status == 1">
-                <i class="fa fa-2x fa-exclamation-triangle exclamation-mark warning"></i>
-              </span>
+            <div class="blank-slate-pf-secondary-action">
+                <button class="btn btn-default">
+                Import Cluster
+                </button>
             </div>
-            <div class="col-xs-5">
-              <a ng-href="#/clusters/detail/{{cluster.cluster_id}}">
-                <span class="heading-mobile" ng-bind="cluster.cluster_name"></span>
-              </a>
+        </div>
+    </center>
+    <div id="desktop" class="row blade-view" ng-class="cluster.cluster_status==4 ? 'blade-view-with-opacity':'' " ng-repeat="cluster in clusters.clusterList | filter:search">
+        <div class="col-md-2 col-sm-4">
+            <div class="row">
+                <div class="col-md-1" ng-class="clusters.getClusterTypeTitle(cluster.cluster_type)==='gluster'?'vertical-line-for-gluster':'vertical-line-for-ceph'">
+                    <span ng-class="clusters.getClusterTypeTitle(cluster.cluster_type)==='gluster'?'vertical-text-for-gluster':'vertical-text-for-ceph'" ng-bind="clusters.getClusterTypeTitle(cluster.cluster_type)"></span>
+                </div>
+                <div class="col-md-offset-1 col-md-10 set-top-margin pull-right">
+                    <div>
+                        <span class="fa fa-wrench" style="font-size: 2em;" ng-if="!cluster.enabled"></span>
+                        <span class="pficon-ok" style="font-size: 2em;" ng-if="cluster.enabled && cluster.status == 0"></span>
+                        <span class="pficon-warning-triangle-o" style="font-size: 2em;" ng-if="cluster.enabled && cluster.status == 1"></span>
+                        <span class="pficon-error-circle-o" style="font-size: 2em;" ng-if="cluster.enabled && cluster.status == 2"></span>
+                        <a ng-href="#/clusters/detail/{{cluster.cluster_id}}"><span class="heading" ng-bind="cluster.cluster_name"></span></a>
+                    </div>
+                </div>
             </div>
-             <div class="col-xs-6 text-right">
-              <span ng-bind="clusters.getClusterTypeTitle(cluster.cluster_type)"></span>
+        </div>
+        <div class="col-md-1 col-sm-4 set-top-margin">
+            <div class="percentage-heading" ng-class="cluster.percent_used >= 90 ?'critical':cluster.percent_used >= 80 ?'warning':'ok'" ng-if="cluster.cluster_status != 4">{{cluster.percent_used}}%</div>
+            <div class="percentage-used" ng-if="cluster.cluster_status != 4">Used</div>
+        </div>
+        <div class="col-md-3 col-sm-4 set-top-margin">
+            <div class="disk-info-cart" ng-if="cluster.cluster_status != 4">
+                {{cluster.free_size}} GB Free <br>
+                of {{cluster.total_size}} GB Total
             </div>
-          </div>
-          <div  class="col-xs-3 set-top-margin text-left">
-             <div class="sub-heading text-left" ng-if="cluster.cluster_status != 4">Used</div>
-             <div  class="sub-heading text-left" ng-class="cluster.percent_used >= 90 ?'critical':cluster.percent_used >= 80 ?'warning':'ok'" ng-if="cluster.cluster_status != 4">{{cluster.percent_used}}%</div>
-          </div>
-          <div class="col-xs-3 set-top-margin">
+            <!-- Adding area-spline-graph here -->
+            <div class="adjust-area-spline" ng-if="cluster.cluster_status != 4">
+                <c3chart bindto-id="cluster-areaSpline-{{$index}}" chart-columns="cluster.area_spline_cols" chart-data="cluster.area_spline_values">
+                    <chart-axis>
+                        <chart-axis-x show="false"> </chart-axis-x>
+                        <chart-axis-y show="false"> </chart-axis-y>
+                    </chart-axis>
+                    <chart-points show-point="false"></chart-points>
+                    <chart-legend show-legend="false"></chart-legend>
+                    <chart-size chart-height="80"></chart-size>
+                    <chart-tooltip show-tooltip="false"></chart-tooltip>
+                </c3chart>
+            </div>
+            <!-- End of adding area-spline-graph here -->
+            <div class="adjust-area-spline" ng-if="cluster.cluster_status == 4">
+                <div class="progress progress-striped active create-cluster-progress">
+                    <div class="progress-bar" role="progressbar" aria-valuenow="70" aria-valuemin="0" aria-valuemax="100" style="width: 70%;">
+                        <span>Creating</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-2 col-sm-3 set-top-margin">
+            <!-- Adding gauge-graph here -->
+            <div class="adjust-gauge" ng-if="cluster.cluster_status != 4">
+                <c3chart bindto-id="gauge-iops-chart-{{$index}}">
+                    <chart-column column-id="IOPS-{{$index}}" column-values="{{cluster.gauge_values}}" column-type="gauge" column-color="{{clusters.getClusterGaugeColor(cluster.gauge_values)}}" />
+                    <chart-gauge min="0" max="10" units="{{cluster.gauge_values}}M IOPS" width="20" />
+                    <chart-size chart-height="80"></chart-size>
+                </c3chart>
+            </div>
+            <!-- End of adding gauge-graph here -->
+        </div>
+        <div class="col-md-1 col-sm-3 set-top-margin">
             <div class="sub-heading">Hosts</div>
             <div class="sub-heading" ng-bind="cluster.no_of_hosts"></div>
-          </div>
-          <div class="col-xs-3 set-top-margin">
+        </div>
+        <div class="col-md-1 col-sm-3 set-top-margin">
             <div class="sub-heading">
-              <span ng-if="clusters.getClusterTypeTitle(cluster.cluster_type) === 'Gluster'">Volumes</span>
-              <span ng-if="clusters.getClusterTypeTitle(cluster.cluster_type) === 'Ceph'">Pools</span>
+                <span ng-if="clusters.getClusterTypeTitle(cluster.cluster_type) === 'gluster'">Volumes</span>
+                <span ng-if="clusters.getClusterTypeTitle(cluster.cluster_type) === 'ceph'">Pools</span>
             </div>
             <div class="sub-heading" ng-bind="cluster.no_of_volumes_or_pools"></div>
-          </div>
-          <div class="col-xs-2 set-top-margin">
+        </div>
+        <div class="col-md-1 col-sm-2 set-top-margin">
             <div class="sub-heading">Alerts</div>
             <div class="sub-heading">
-              <span ng-bind="cluster.alerts"></span>
-              <i class="fa fa-2x set-margin" ng-class="cluster.alerts>0?'fa-times-circle critical':'fa-check-circle-o ok'"></i>
+                <span ng-bind="cluster.alerts"></span>
+                <i class="fa fa-2x set-margin" ng-class="cluster.alerts>0?'fa-times-circle critical':'fa-check-circle-o ok'"></i>
             </div>
-          </div>
-          <div class="col-xs-1 set-top-margin text-right" >
-            <div class="row" >
-              <div class="span9 row-height set-pading">
-                <a><i class="fa fa-trash-o " ng-click="remove(cluster.cluster_id)"></i></a>
-              </div>
-              <div class="span9 row-height set-pading">
-                <a><i class="fa fa-arrows-alt" ng-click="expand(cluster.cluster_id)"></i></a>
-              </div>
-            </div>
-          </div>
         </div>
-      </div>
+        <div class="col-md-1 col-sm-1 set-top-margin">
+            <a class="pull-right add-cursor-pointer" data-animation="am-flip-x" data-template="views/clusters/cluster-menu-dropdown.tpl.html" bs-dropdown="ellipsis">
+            <i class="fa fa-ellipsis-v fa-4x elipsis-color"></i>
+            </a>
+        </div>
     </div>
-  </div>
+    <div id="mobile" class="panel-group row blade-view" ng-model="panels.activePanel" role="tablist" aria-multiselectable="true" bs-collapse ng-class="cluster.cluster_status==4 ? 'blade-view-with-opacity':'' " ng-repeat="cluster in clusters.clusterList | filter:search">
+        <div class="panel panel-default">
+            <div class="panel-heading" role="tab">
+                <h4 class="panel-title">
+                    <a bs-collapse-toggle class="cluster-link">{{cluster.cluster_name}}</a>
+                </h4>
+            </div>
+            <div id="{{cluster.cluster_name}}" class="panel-collapse" role="tabpanel" bs-collapse-target>
+                <div class="panel-body">
+                    <div class="row">
+                        <div class="col-xs-1 exclamation-margin">
+                            <span ng-if="cluster.status == 1">
+                            <i class="fa fa-2x fa-exclamation-triangle exclamation-mark warning"></i>
+                            </span>
+                        </div>
+                        <div class="col-xs-5">
+                            <a ng-href="#/clusters/detail/{{cluster.cluster_id}}">
+                            <span class="heading-mobile" ng-bind="cluster.cluster_name"></span>
+                            </a>
+                        </div>
+                        <div class="col-xs-6 text-right">
+                            <span ng-bind="clusters.getClusterTypeTitle(cluster.cluster_type)"></span>
+                        </div>
+                    </div>
+                    <div  class="col-xs-3 set-top-margin text-left">
+                        <div class="sub-heading text-left" ng-if="cluster.cluster_status != 4">Used</div>
+                        <div  class="sub-heading text-left" ng-class="cluster.percent_used >= 90 ?'critical':cluster.percent_used >= 80 ?'warning':'ok'" ng-if="cluster.cluster_status != 4">{{cluster.percent_used}}%</div>
+                    </div>
+                    <div class="col-xs-3 set-top-margin">
+                        <div class="sub-heading">Hosts</div>
+                        <div class="sub-heading" ng-bind="cluster.no_of_hosts"></div>
+                    </div>
+                    <div class="col-xs-3 set-top-margin">
+                        <div class="sub-heading">
+                            <span ng-if="clusters.getClusterTypeTitle(cluster.cluster_type) === 'Gluster'">Volumes</span>
+                            <span ng-if="clusters.getClusterTypeTitle(cluster.cluster_type) === 'Ceph'">Pools</span>
+                        </div>
+                        <div class="sub-heading" ng-bind="cluster.no_of_volumes_or_pools"></div>
+                    </div>
+                    <div class="col-xs-2 set-top-margin">
+                        <div class="sub-heading">Alerts</div>
+                        <div class="sub-heading">
+                            <span ng-bind="cluster.alerts"></span>
+                            <i class="fa fa-2x set-margin" ng-class="cluster.alerts>0?'fa-times-circle critical':'fa-check-circle-o ok'"></i>
+                        </div>
+                    </div>
+                    <div class="col-xs-1 set-top-margin text-right" >
+                        <div class="row" >
+                            <div class="span9 row-height set-pading">
+                                <a><i class="fa fa-trash-o " ng-click="remove(cluster.cluster_id)"></i></a>
+                            </div>
+                            <div class="span9 row-height set-pading">
+                                <a><i class="fa fa-arrows-alt" ng-click="expand(cluster.cluster_id)"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>

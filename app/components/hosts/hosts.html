@@ -1,81 +1,87 @@
 <div class="container-fluid">
-  <div class="page-header">
-    <h1>Hosts</h1>
-  </div>
-  <div class="row">
-    <div class="col-md-3">
-      <input type="text" class="form-control" placeholder="Search" ng-model="search">
+    <div class="page-header">
+        <h1>Hosts</h1>
     </div>
-  </div>
-  
-  <div class="row blade-view" ng-repeat="host in hosts.list | filter:search">
-      <div class="col-md-2 col-sm-4">
-        <div class="row">
-          <div class="col-md-1" ng-class="host.cluster_type===1?'vertical-line-for-gluster':'vertical-line-for-ceph'">
-            <span ng-class="host.cluster_type===1?'vertical-text-for-gluster':'vertical-text-for-ceph'">ceph</span>
-          </div>
-          <div class="col-md-offset-1 col-md-10 set-top-margin pull-right">
-            <div>
-              <span class="pficon-ok" style="font-size: 2em;" ng-if="host.status === 'up'"></span>
-              <span class="pficon-error-circle-o" style="font-size: 2em;" ng-if="host.status === 'down'"></span>
-              <a ng-href="#/hosts/detail/{{host.node_id}}"><span class="host-name-heading" ng-bind="host.hostnameShort"></span></a>
-              <span class="description-for-host" ng-bind="host.management_ip4"></span>
+    <div class="row" ng-if="hosts.list.length > 0">
+        <div class="col-md-3">
+            <input type="text" class="form-control" placeholder="Search" ng-model="search">
+        </div>
+    </div>
+    <center ng-if="hosts.list.length == 0">
+        <div class="blank-slate-pf">
+            <div class="blank-slate-pf-icon">
+                <i class="fa fa-exclamation-circle"></i>
             </div>
-          </div>
+            <h1>You don't have any hosts</h1>
         </div>
-      </div>
-      <div class="col-md-2 col-sm-2 set-top-margin-for-donut">
-        <span>
-          <c3chart bindto-id="donut-cpu-chart-{{$index}}">
-              <chart-column column-id="Free" column-values="{{100-host.cpu_average}}" column-color="#CCCCCC" column-type="donut" />
-              <chart-column column-id="Using" column-values="{{host.cpu_average}}" column-color="{{hosts.getHostDonutColor(host.cpu_average)}}" column-type="donut" />
-              <chart-donut title="{{host.cpu_average}}%" width="10" />
-              <chart-legend show-legend="false" />
-              <chart-tooltip show-tooltip="false"></chart-tooltip>
-              <chart-size chart-height="100"></chart-size>
-          </c3chart>
-        </span>
-        <div class="gadget">CPU</div>
-      </div>
-      <div class="col-md-2 col-sm-2 set-top-margin-for-donut">
-        <span>
-          <c3chart bindto-id="donut-memory-chart-{{$index}}">
-              <chart-column column-id="Free" column-values="{{100-host.memory_average}}" column-color="#CCCCCC" column-type="donut" />
-              <chart-column column-id="Using" column-values="{{host.memory_average}}" column-color="{{hosts.getHostDonutColor(host.memory_average)}}" column-type="donut" />
-              <chart-donut title="{{host.memory_average}}%" width="10" />
-              <chart-legend show-legend="false" />
-              <chart-tooltip show-tooltip="false"></chart-tooltip>
-              <chart-size chart-height="100"></chart-size>
-          </c3chart>
-        </span>
-        <div class="gadget">Memory</div>
-      </div>
-      <div class="col-md-1 col-sm-3 set-top-margin">
-          <div class="sub-heading">Cluster</div>
-          <div class="cluster_name" ng-bind="host.cluster_name"></div>
-      </div>
-      <div class="col-md-1 col-sm-3 set-top-margin">
-         <span ng-if="host.cluster_type==='ceph'">
-          <div class="sub-heading">Roles</div>
-          <div class="cluster_name" ng-bind="hosts.getNodeTypeTitle(host)"></div>
-         </span>
-      </div>
-      <div class="col-md-2 col-sm-3 set-top-margin">
-        <span class="version">Version : </span>&nbsp;<span>0.94.3</span><br/>
-        <span class="version">Kernel : </span>&nbsp;<span>4.0.4-301.fc22.x86_64</span>
-      </div>
-      <div class="col-md-1 col-sm-2 set-top-margin">
-        <div class="sub-heading">Alerts</div>
-        <div class="sub-heading">
-          <span ng-bind="host.alerts"></span>
-          <i class="fa fa-2x set-margin" ng-class="host.alerts>0?'fa-times-circle critical':'fa-check-circle-o ok'"></i>
+    </center>
+    <div class="row blade-view" ng-repeat="host in hosts.list | filter:search">
+        <div class="col-md-2 col-sm-4">
+            <div class="row">
+                <div class="col-md-1" ng-class="host.cluster_type===1?'vertical-line-for-gluster':'vertical-line-for-ceph'">
+                    <span ng-class="host.cluster_type===1?'vertical-text-for-gluster':'vertical-text-for-ceph'">ceph</span>
+                </div>
+                <div class="col-md-offset-1 col-md-10 set-top-margin pull-right">
+                    <div>
+                        <span class="pficon-ok" style="font-size: 2em;" ng-if="host.status === 'up'"></span>
+                        <span class="pficon-error-circle-o" style="font-size: 2em;" ng-if="host.status === 'down'"></span>
+                        <a ng-href="#/hosts/detail/{{host.node_id}}"><span class="host-name-heading" ng-bind="host.hostnameShort"></span></a>
+                        <span class="description-for-host" ng-bind="host.management_ip4"></span>
+                    </div>
+                </div>
+            </div>
         </div>
-      </div>
-      <div class="col-md-1 col-sm-1 set-top-margin">
-        <a class="pull-right add-cursor-pointer" data-animation="am-flip-x" data-template="views/hosts/host-menu-dropdown.tpl.html" bs-dropdown="ellipsis">
-          <i class="fa fa-ellipsis-v fa-4x elipsis-color"></i>
-        </a>
-      </div>
-   </div>
+        <div class="col-md-2 col-sm-2 set-top-margin-for-donut">
+            <span>
+                <c3chart bindto-id="donut-cpu-chart-{{$index}}">
+                    <chart-column column-id="Free" column-values="{{100-host.cpu_average}}" column-color="#CCCCCC" column-type="donut" />
+                    <chart-column column-id="Using" column-values="{{host.cpu_average}}" column-color="{{hosts.getHostDonutColor(host.cpu_average)}}" column-type="donut" />
+                    <chart-donut title="{{host.cpu_average}}%" width="10" />
+                    <chart-legend show-legend="false" />
+                    <chart-tooltip show-tooltip="false"></chart-tooltip>
+                    <chart-size chart-height="100"></chart-size>
+                </c3chart>
+            </span>
+            <div class="gadget">CPU</div>
+        </div>
+        <div class="col-md-2 col-sm-2 set-top-margin-for-donut">
+            <span>
+                <c3chart bindto-id="donut-memory-chart-{{$index}}">
+                    <chart-column column-id="Free" column-values="{{100-host.memory_average}}" column-color="#CCCCCC" column-type="donut" />
+                    <chart-column column-id="Using" column-values="{{host.memory_average}}" column-color="{{hosts.getHostDonutColor(host.memory_average)}}" column-type="donut" />
+                    <chart-donut title="{{host.memory_average}}%" width="10" />
+                    <chart-legend show-legend="false" />
+                    <chart-tooltip show-tooltip="false"></chart-tooltip>
+                    <chart-size chart-height="100"></chart-size>
+                </c3chart>
+            </span>
+            <div class="gadget">Memory</div>
+        </div>
+        <div class="col-md-1 col-sm-3 set-top-margin">
+            <div class="sub-heading">Cluster</div>
+            <div class="cluster_name" ng-bind="host.cluster_name"></div>
+        </div>
+        <div class="col-md-1 col-sm-3 set-top-margin">
+            <span ng-if="host.cluster_type==='ceph'">
+                <div class="sub-heading">Roles</div>
+                <div class="cluster_name" ng-bind="hosts.getNodeTypeTitle(host)"></div>
+            </span>
+        </div>
+        <div class="col-md-2 col-sm-3 set-top-margin">
+            <span class="version">Version : </span>&nbsp;<span>0.94.3</span><br/>
+            <span class="version">Kernel : </span>&nbsp;<span>4.0.4-301.fc22.x86_64</span>
+        </div>
+        <div class="col-md-1 col-sm-2 set-top-margin">
+            <div class="sub-heading">Alerts</div>
+            <div class="sub-heading">
+                <span ng-bind="host.alerts"></span>
+                <i class="fa fa-2x set-margin" ng-class="host.alerts>0?'fa-times-circle critical':'fa-check-circle-o ok'"></i>
+            </div>
+        </div>
+        <div class="col-md-1 col-sm-1 set-top-margin">
+            <a class="pull-right add-cursor-pointer" data-animation="am-flip-x" data-template="views/hosts/host-menu-dropdown.tpl.html" bs-dropdown="ellipsis">
+            <i class="fa fa-ellipsis-v fa-4x elipsis-color"></i>
+            </a>
+        </div>
+    </div>
 </div>
-
