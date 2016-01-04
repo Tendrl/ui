@@ -16,11 +16,10 @@
           </div>
           <div class="col-md-offset-1 col-md-10 set-top-margin pull-right">
             <div>
-              <span ng-if="host.node_status === 1">
-                <i class="fa fa-2x fa-exclamation-triangle exclamation-mark warning"></i>
-              </span>
+              <span class="pficon-ok" style="font-size: 2em;" ng-if="host.status === 'up'"></span>
+              <span class="pficon-error-circle-o" style="font-size: 2em;" ng-if="host.status === 'down'"></span>
               <a ng-href="#/hosts/detail/{{host.node_id}}"><span class="host-name-heading" ng-bind="host.hostnameShort"></span></a>
-              <span class="description-for-host" ng-bind="host.ManagementIp"></span>
+              <span class="description-for-host" ng-bind="host.management_ip4"></span>
             </div>
           </div>
         </div>
@@ -56,7 +55,7 @@
           <div class="cluster_name" ng-bind="host.cluster_name"></div>
       </div>
       <div class="col-md-1 col-sm-3 set-top-margin">
-         <span ng-if="host.cluster_type===2">
+         <span ng-if="host.cluster_type==='ceph'">
           <div class="sub-heading">Roles</div>
           <div class="cluster_name" ng-bind="hosts.getNodeTypeTitle(host)"></div>
          </span>

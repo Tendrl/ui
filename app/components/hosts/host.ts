@@ -38,6 +38,7 @@ export class HostController {
         this.$scope.$on('$destroy', () => {
             this.$interval.cancel(this.timer);
         });
+        this.reloadData();
     }
 
     reloadData = () => {
@@ -49,14 +50,17 @@ export class HostController {
         _.each(hosts, function(host: any) {
             var MockHost = self.MockDataProvider.getMockHost(host.hostname);
             host.hostnameShort = host.hostname.split(".")[0];
+            host.management_ip4 = '';
+            host.status = host.status;
             host.alerts = MockHost.alerts;
             host.cpu_average = Math.round(Math.random() * 100);
             host.memory_average = Math.round(Math.random() * 100);
             host.cluster_type = 2;
             host.version = '';
-            if (host.cluster != null) {
-                self.clusterSvc.get(host.cluster).then(function(cluster) {
+            if (host.clusterid != null) {
+                self.clusterSvc.get(host.clusterid).then(function(cluster) {
                     host.cluster_type = cluster.type;
+                    host.cluster_name = cluster.name;
                     host.version = host.cluster_type === 1 ? 'V3.7.1' : 'V9.0.1';
                 });
             }
