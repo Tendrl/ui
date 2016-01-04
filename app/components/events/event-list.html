@@ -14,7 +14,8 @@
             </div>
             <div class="status-icon-col">
                 <i class="pficon-running fa-spin" ng-if="!event.completed"></i>
-                <i class="pficon-ok" ng-if="event.completed"></i>
+                <i class="pficon-ok" ng-if="event.completed && event.status == 1"></i>
+                <i class="pficon-error-circle-o" ng-if="event.completed && event.status == 2"></i>
             </div>
         </div>
         <div class="col-md-4">

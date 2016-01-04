@@ -137,9 +137,14 @@ export class RequestsController {
             var self = this;
             var callback = function() {
                 self.requestSvc.get(host.taskid).then((task) => {
-                    if (task.completed) {
+                    if (task.completed && task.status == 1) {
                         self.$log.info('Accepted host in first controller ' + host.hostname);
                         host.state = "ACCEPTED";
+                        host.task = undefined;
+                    }
+                    else if (task.completed && task.status == 2) {
+                        self.$log.info('Failed to accept host in first controller ' + host.hostname);
+                        host.state = "UNACCEPTED";
                         host.task = undefined;
                     }
                     else {

@@ -85,12 +85,12 @@ export class RequestTrackingService {
         this.getTrackedRequests().then((requests) => {
             _.each(requests, (trackedRequest: any) => {
                 this.requestSvc.get(trackedRequest.id).then((task) => {
-                    if (task.status === 'FAILED') {
+                    if (task.completed && task.status == 2) {
                         this.showError(trackedRequest.operation + ' is failed');
                         this.$log.error(trackedRequest.operation + ' is failed');
                         this.remove(trackedRequest.id);
                     }
-                    else if (task.completed) {
+                    else if (task.completed && task.status == 1) {
                         this.showNotification(trackedRequest.operation + ' is completed sucessfully');
                         this.$log.info(trackedRequest.operation + ' is completed sucessfully');
                         this.remove(trackedRequest.id);
