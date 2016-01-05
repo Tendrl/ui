@@ -21,7 +21,7 @@ build-setup:
 	tsd install
 
 build:
-	gulp compile
+	gulp compile --prod
 
 dist: build
 	@echo "making dist tarball in $(TARNAME)"
