@@ -129,8 +129,8 @@ export class DashboardController {
     public updateHostData(hosts: any) {
        this.hosts = hosts;
         _.each(this.hosts, (host: any) => {
-            if(host.node_status === 1) {
-                this.hostsWarning.push(host);
+            if(host.status === 'down') {
+                this.hostsCritical.push(host);
             }
             var cpu = _.random(70, 85);
             var memory = _.random(70, 85);
