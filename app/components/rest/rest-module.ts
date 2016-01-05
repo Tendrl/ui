@@ -2,6 +2,7 @@
 declare function require(name: string);
 
 import {ClusterService} from './clusters';
+import {StorageProfileService} from './storage-profile';
 import {StorageService} from './storage';
 import {OSDService} from './osd';
 import {PoolService} from './pool';
@@ -18,6 +19,7 @@ var moduleName = 'kitoon.rest';
 
 angular.module(moduleName, ['angular-growl'])
     .service('ClusterService', ClusterService)
+    .service('StorageProfileService', StorageProfileService)
     .service('StorageService', StorageService)
     .service('OSDService', OSDService)
     .service('PoolService', PoolService)

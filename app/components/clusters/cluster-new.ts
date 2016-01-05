@@ -148,6 +148,9 @@ export class ClusterNewController {
                 selected: false,
                 isMon: false
             };
+            host.disks = _.filter(freeHost.storage_disks, (disk: any) => {
+                return disk.Type === 'disk' && disk.Used == false;
+            });
             this.hosts.push(host);
             this.updateFingerPrint(host);
             _.each(freeHost.network_info.Subnet, (network) => {
@@ -217,6 +220,11 @@ export class ClusterNewController {
             this.selectHost(host, false);
         }
         host.isMon = selection;
+    }
+
+    public showDisks() {
+        var template = 'views/clusters/storageprofile/storage-profile-disks.html';
+        var myModal = this.modalService({ template: template, container: 'body', });
     }
 
     public sortHostsInSummary() {

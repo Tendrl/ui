@@ -82,8 +82,8 @@
         <div class="col-md-2 host-col-middle">
           {{host.ipaddress}}
         </div>
-        <div class="col-md-2 host-col-middle verified-col">
-          <span class="fa fa-lg fa-check-circle-o verified-col-icon" ng-show="host.state === 'ACCEPTED'"></span>
+        <div class="col-md-2 host-col-middle">
+          <ng-pluralize count="host.disks.length" when="{'1': '{{host.disks.length}} Disk', 'other': '{{host.disks.length}} Disks'}"></ng-pluralize>
         </div>
         <div class="col-md-1 host-col-middle">
           <div class="host-is-mon">
@@ -116,8 +116,8 @@
         <div class="col-md-2 host-col-middle">
           {{host.ipaddress}}
         </div>
-        <div class="col-md-2 host-col-middle verified-col">
-          <span class="fa fa-lg fa-check-circle-o verified-col-icon" ng-show="host.state === 'ACCEPTED'"></span>
+        <div class="col-md-2 host-col-middle">
+          <ng-pluralize count="host.disks.length" when="{'1': '{{host.disks.length}} Disk', 'other': '{{host.disks.length}} Disks'}"></ng-pluralize>
         </div>
         <div class="col-md-1 host-col-middle">
           <div class="host-is-mon">
@@ -136,12 +136,15 @@
        Available storage in selected hosts
     </span>
     <div class="row selected-hosts-storage">
-      <div class="col-md-6 available-storage">
+      <div class="col-md-12 available-storage">
         <div>
-          <i class="fa fa-database icon"></i> <span>{{cluster.getDisks().length}} Disks</span>
+          <i class="fa fa-database icon"></i>
+          <span>{{cluster.getDisks().length}} Disks</span>
+          <a ng-if="cluster.getDisks().length>0" ng-click="cluster.showDisks()" href="">(Edit)</a> 
         </div>
         <div>
-          <i class="fa fa-pie-chart"></i></i> <span>{{cluster.getDisksSize()}}</span>
+          <i class="fa fa-pie-chart"></i>
+          <span>{{cluster.getDisksSize()}}</span>
         </div>
       </div>
     </div>

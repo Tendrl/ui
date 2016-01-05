@@ -18,6 +18,7 @@ import {ClustersController} from "./components/clusters/clusters-controller";
 import {ClusterExpandController} from "./components/clusters/cluster-expand";
 import {ClusterNewController} from "./components/clusters/cluster-new";
 import {ClusterDetailController} from "./components/clusters/cluster-detail";
+import {StorageProfileDisksController} from './components/clusters/storageprofile/storage-profile-disks';
 import {VolumeController} from "./components/volumes/volume-controller";
 import {VolumeNewController} from "./components/volumes/volume-new";
 import {VolumeExpandController} from "./components/volumes/volume-expand";
@@ -25,6 +26,9 @@ import {UserController} from "./components/admin/user-controller";
 import {UserNewController} from "./components/admin/user-new";
 import {UserEditController} from "./components/admin/user-edit";
 import {LdapUserController} from "./components/admin/ldap-user-controller";
+
+import {KTDraggable} from "./components/shared/directives/kt-draggable";
+import {KTDroppable} from "./components/shared/directives/kt-droppable";
 
 var es6shim = require("es6-shim");
 var angular: ng.IAngularStatic = require("angular");
@@ -71,6 +75,7 @@ class USMApp {
             .controller('ClusterExpandController', ClusterExpandController)
             .controller('ClusterNewController', ClusterNewController)
             .controller('ClusterDetailController', ClusterDetailController)
+            .controller('StorageProfileDisksController', StorageProfileDisksController)
             .controller('VolumeController', VolumeController)
             .controller('VolumeNewController', VolumeNewController)
             .controller('VolumeExpandController', VolumeExpandController)
@@ -78,6 +83,8 @@ class USMApp {
             .controller('UserNewController',UserNewController)
             .controller('UserEditController',UserEditController)
             .controller('LdapUserController',LdapUserController)
+            .directive('ktDraggable', () => new KTDraggable())
+            .directive('ktDroppable', () => new KTDroppable())
             .service('MenuService', MenuService)
             .run( function($rootScope, $location) {
                $rootScope.$watch(function() {
