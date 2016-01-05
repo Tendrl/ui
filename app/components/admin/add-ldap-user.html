@@ -39,10 +39,10 @@ Search for existing users from the configured LDAP directory and map that user t
   <tbody>
     <tr ng-repeat="user in ldapUsers.userList">
       <td><input type="checkbox"/></td>
-      <td ng-bind="user.Username"></td>
-      <td ng-bind="user.Username"></td>
-      <td>Last Name</td>
-      <td ng-bind="user.Email"></td>
+      <td ng-bind="user.username"></td>
+      <td ng-bind="user.firstname"></td>
+      <td ng-bind="user.lastname"></td>
+      <td ng-bind="user.email"></td>
     </tr>
   </tbody>
 </table>
@@ -50,8 +50,8 @@ Search for existing users from the configured LDAP directory and map that user t
 <form class="form-horizontal">
   <div class="form-group">
     <div class="col-sm-10">
-      <button class="btn btn-primary" ng-click="user.save()">Save</button>
-      <button class="btn btn-default" ng-click="user.cancel()">Cancel</button>
+      <button class="btn btn-primary">Save</button>
+      <button class="btn btn-default" ng-click="ldapUsers.cancel()">Cancel</button>
     </div>
   </div>
 </form>

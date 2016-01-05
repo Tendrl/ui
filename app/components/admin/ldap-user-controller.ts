@@ -19,5 +19,8 @@ export class LdapUserController {
             this.userList = users;
         });
     }
-           
+
+    public cancel(){
+        this.$location.path('/admin');
+    }
 }

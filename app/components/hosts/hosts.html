@@ -25,7 +25,7 @@
                     <div>
                         <span class="pficon-ok" style="font-size: 2em;" ng-if="host.status === 'up'"></span>
                         <span class="pficon-error-circle-o" style="font-size: 2em;" ng-if="host.status === 'down'"></span>
-                        <a ng-href="#/hosts/detail/{{host.node_id}}"><span class="host-name-heading" ng-bind="host.hostnameShort"></span></a>
+                        <span class="host-name-heading" ng-bind="host.hostnameShort"></span>
                         <span class="description-for-host" ng-bind="host.management_ip4"></span>
                     </div>
                 </div>
