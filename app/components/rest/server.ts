@@ -35,7 +35,7 @@ export class ServerService {
     // **@returns** a promise with all nodes part of the cluster.
     getListByCluster(clusterId) {
         return this.rest.one('clusters', clusterId).all('nodes').getList().then(function(nodes) {
-            return nodes;
+            return _.sortBy(nodes, "hostname");
         });
     }
 
@@ -43,7 +43,7 @@ export class ServerService {
     // **@returns** a promise with all servers which are free.
     getFreeHosts() {
         return this.rest.all('nodes').getList({ state: 'free' }).then(function(servers) {
-            return servers;
+            return  _.sortBy(servers, "hostname");
         });
     }
 
@@ -55,7 +55,7 @@ export class ServerService {
             _.each(nodes, (node) => {
                  unmanagedNodes.push({ hostname: node.name, saltfingerprint: node.saltfingerprint });
             });
-            return unmanagedNodes;
+            return _.sortBy(unmanagedNodes, "hostname");
         });
     }
 
