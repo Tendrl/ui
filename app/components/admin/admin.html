@@ -7,7 +7,7 @@
   <div class="row dataTables_wrapper">
     <div class="col-md-3" style="display:-webkit-box;">
         <input type="text" class="form-control" placeholder="Search" ng-model="search"></input>
-        <button class="form-control btn btn-primary btn-lg fa fa-search" ng-click=""></button>
+        <i class="btn-lg fa fa-search"></i>
     </div>
     <div class="col-md-offset-4 col-md-5">
       <span class="pull-right"> 
@@ -30,7 +30,7 @@
     </tr>
   </thead>
   <tbody>
-    <tr ng-repeat="user in users.userList">
+    <tr ng-repeat="user in users.userList| filter:search">
       <td ng-bind="user.username"></td>
       <td ng-bind="user.firstname"></td>
       <td ng-bind="user.lastname"></td>

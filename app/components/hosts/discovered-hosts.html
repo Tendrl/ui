@@ -7,9 +7,12 @@
             </div>
             <div class="modal-body">
                 <div class="table-responsive" style="max-height:200px;overflow-y:auto;">
-                    <div>
+                    <div ng-if="first.discoveredHosts.length > 0">
                         <input type="text" ng-model="query.hostname" class="search-query" placeholder="Search">
-                        <button type="submit" class="btn" style="margin-bottom:4px;margin-left:-3px;"><i class="fa fa-search"></i></button>
+                        <i class="btn-lg fa fa-search"></i>
+                    </div>
+                    <div ng-if="first.discoveredHosts.length == 0">
+                        <i class="btn-lg fa fa-exclamation critical"></i>No discovered hosts
                     </div>
                     <table class="table">
                         <tbody>
