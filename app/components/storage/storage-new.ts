@@ -37,10 +37,10 @@ export class StorageNewController {
     }
 
     public addGenericStorage(): void {
-        this.$location.path('/storages/new/object/' + this.cluster.clusterid);
+        this.$location.path('/storage/new/object/' + this.cluster.clusterid);
     }
 
     public addOpenStackStorage(): void {
-        this.$location.path('/storages/new/openstack/' + this.cluster.clusterid);
+        this.$location.path('/storage/new/openstack/' + this.cluster.clusterid);
     }
 }

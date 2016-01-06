@@ -65,7 +65,7 @@ export class StorageListController {
     }
 
     public create() {
-        this.$location.path('/storages/new');
+        this.$location.path('/storage/new');
     }
 
     public remove(storage) {

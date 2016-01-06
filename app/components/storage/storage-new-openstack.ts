@@ -65,7 +65,7 @@ export class OpenStackStorageController {
     }
 
     public cancel(): void {
-        this.$location.path('/storages');
+        this.$location.path('/storage');
     }
 
     public submit(): void {
@@ -101,7 +101,7 @@ export class OpenStackStorageController {
             });
             modal.$scope.$hide = _.wrap(modal.$scope.$hide, ($hide) => {
                 $hide();
-                this.$location.path('/storages');
+                this.$location.path('/storage');
             });
         });
     }

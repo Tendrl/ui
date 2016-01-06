@@ -48,24 +48,24 @@ export class RouteConfig {
 			name: 'hosts',
 			controller: 'HostDetailController',
 			controllerAs: 'hostdetail'
-		}).when('/storages', {
+		}).when('/storage', {
 			templateUrl: 'views/storage/storage-list.html',
-			name: 'storages',
+			name: 'storage',
 			controller: 'StorageListController',
 			controllerAs: 'storages'
-		}).when('/storages/new', {
+		}).when('/storage/new', {
 			templateUrl: 'views/storage/storage-new.html',
-			name: 'storages',
+			name: 'storage',
 			controller: 'StorageNewController',
 			controllerAs: 'storages'
-		}).when('/storages/new/openstack/:cluster_id', {
+		}).when('/storage/new/openstack/:cluster_id', {
 			templateUrl: 'views/storage/storage-new-openstack.html',
-			name: 'storages',
+			name: 'storage',
 			controller: 'OpenStackStorageController',
 			controllerAs: 'storage'
-		}).when('/storages/new/object/:clusterid', {
+		}).when('/storage/new/object/:clusterid', {
 			templateUrl: 'views/storage/object/storage-new-object.html',
-			name: 'storages',
+			name: 'storage',
 			controller: 'ObjectStorageController',
 			controllerAs: 'storage'
 		}).when('/volumes', {

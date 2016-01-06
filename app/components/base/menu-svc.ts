@@ -22,9 +22,9 @@ export class MenuService {
             icon: 'fa-desktop',
             active: false
         },{
-            label: 'Storages',
-            id: 'storages',
-            href: '/storages',
+            label: 'Storage',
+            id: 'storage',
+            href: '/storage',
             icon: 'fa-hdd-o',
             active: false
         },{
