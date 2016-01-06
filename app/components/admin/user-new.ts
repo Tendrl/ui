@@ -7,6 +7,8 @@ export class UserNewController {
     private lastName:string;
     private email:string;
     private password:string;
+    private notificationenabled:boolean;
+    private status:boolean;
 
     static $inject: Array<string> = [
         '$location',
@@ -26,7 +28,9 @@ export class UserNewController {
             lastname: this.lastName,
             groups: [],
             role: "admin",
-            password: this.password
+            password: this.password,
+            notificationenabled: this.notificationenabled,
+            status: this.status
         };
         this.UserService.addUser(user).then((result) => {
             if(result.status === 200) {

@@ -7,6 +7,8 @@ export class UserEditController {
     private lastName:string;
     private email:string;
     private password:string;
+    private status:boolean;
+    private notificationenabled:boolean;
 
     static $inject: Array<string> = [
         '$location',
@@ -33,6 +35,8 @@ export class UserEditController {
             this.firstName = user.firstname;
             this.lastName = user.lastname;
             this.email = user.email;
+            this.status = user.status;
+            this.notificationenabled = user.notificationenabled;
         });
     }
 

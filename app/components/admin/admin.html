@@ -35,9 +35,9 @@
       <td ng-bind="user.firstname"></td>
       <td ng-bind="user.lastname"></td>
       <td ng-bind="user.role"></td>
-      <td><i class="fa fa-check">ON</i></td>
+      <td><i class="fa " ng-class="user.notificationenabled?'fa-check ok':'fa-times critical'"></i></td>
       <td ng-bind="user.email"></td>
-      <td><i class="fa fa-check">Enabled</i></td>
+      <td><i class="fa " ng-class=" user.status?'fa-check ok':'fa-times critical'"></i></td>
       <td>
       	<div class="dropdown">
 		  <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" bs-dropdown="dropdown">
@@ -49,10 +49,10 @@
           <a role="menuitem" href="" ng-click="users.editUser(user.username)"> Edit user </a>
         </li>
         <li role="presentation">
-          <a role="menuitem" href="" ng-click=""> Disable user </a>
+          <a role="menuitem" href="" ng-click="users.toggleUserStatus(user)"> Disable user </a>
         </li>
         <li role="presentation">
-          <a role="menuitem" href="" ng-click=""> Disable Notification </a>
+          <a role="menuitem" href="" ng-click="users.toggleEmailStatus(user)"> {{user.notificationenabled?'Disable':'Enable'}} Notification </a>
         </li>
        <li role="presentation">
           <a role="menuitem" href="" ng-click="users.deleteUser(user.username)"> Delete User</a>

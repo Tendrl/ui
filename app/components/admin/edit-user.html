@@ -12,7 +12,7 @@
     <label class="col-sm-2 col-md-2 control-label">Type</label>
     <div class="col-sm-6 col-md-3"><p class="form-control-static">Internal</p></div>
     <label class="col-sm-4 col-md-2">
-       Enabled <input type="checkbox" id="enabled">
+       Enabled <input type="checkbox" id="enabled" ng-model="userEdit.status">
     </label>
   </div>
   <div class="form-group">
@@ -39,7 +39,7 @@
       <input type="email" class="form-control" id="email" ng-model="userEdit.email" placeholder="Email">
     </div>
     <label class="col-sm-4 col-md-2">
-      Email Notifications <input type="checkbox" id="notifications">
+      Email Notifications <input type="checkbox" id="notifications" ng-model="userEdit.notificationenabled">
     </label>
   </div>
     <div class="form-group">

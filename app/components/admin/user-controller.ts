@@ -32,6 +32,24 @@ export class UserController {
         this.$location.path('/admin/edit/'+userId);
     }
 
+    public toggleEmailStatus(user): void {
+        user.notificationenabled = !user.notificationenabled;
+        this.UserService.updateUser(user.username,user).then((result) => {
+            if(result.status === 200) {
+                this.$location.path('/admin');
+            }
+        });
+    }
+
+    public toggleUserStatus(user): void {
+        user.status = !user.status;
+        this.UserService.updateUser(user.username,user).then((result) => {
+            if(result.status === 200) {
+                this.$location.path('/admin');
+            }
+        });
+    }
+
     public deleteUser(userId):void {
         this.UserService.deleteUser(userId).then((result) => {
             if(result.status === 200) {
