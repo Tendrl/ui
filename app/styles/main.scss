@@ -216,6 +216,7 @@ host-is-mon {
 
     .content {
         height: 250px;
+        overflow-y:auto;
     }
 
     .task-item {
