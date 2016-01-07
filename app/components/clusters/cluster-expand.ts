@@ -100,7 +100,8 @@ export class ClusterExpandController {
                 ipaddress: freeHost.management_ip4,
                 state: "ACCEPTED",
                 disks: freeHost.storage_disks,
-                selected: false
+                selected: false,
+                isMon: false
             };
             this.hosts.push(host);
             this.updateFingerPrint(host);
@@ -116,6 +117,9 @@ export class ClusterExpandController {
     public selectHost(host: any, selection: boolean) {
         host.selected = selection;
         this.countDisks();
+        if(!selection && host.isMon) {
+            host.isMon = false;
+        }
     }
 
     public getDisks(): any {
@@ -130,17 +134,31 @@ export class ClusterExpandController {
         return numeral(size).format('0.0 b');
     }
 
+    public getHostFreeDisks(host) {
+        var freeDisks = _.filter(host.disks, (disk: any) => {
+            return disk.Type === 'disk' && disk.Used == false;
+        });
+        return freeDisks;
+    }
+
     public countDisks() {
         var disks: Array<any> = [];
         _.each(this.hosts, (host) => {
             if (host.selected) {
-                var freeDisks = _.filter(host.disks, (disk: any) => {
-                    return disk.Type === 'disk' && disk.Used == false;
-                });
-                Array.prototype.push.apply(disks, freeDisks);
+                Array.prototype.push.apply(disks, this.getHostFreeDisks(host));
             }
         });
         this.disks = disks;
+    }
+
+    public selectMon(host: any, selection: boolean) {
+        host.isMon = selection;
+        if (selection) {
+            this.selectHost(host, true);
+        }
+        else if (this.getHostFreeDisks(host).length == 0) {
+            this.selectHost(host, false);
+        }
     }
 
     public addNewHost() {
