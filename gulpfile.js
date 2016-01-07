@@ -7,6 +7,7 @@ var tsc = require('gulp-typescript');
 var browserify = require('browserify');
 var source = require('vinyl-source-stream');
 var buffer = require('vinyl-buffer');
+var merge = require('merge-stream');
 var ngAnnotate = require('gulp-ng-annotate');
 var uglify = require('gulp-uglify');
 var sass = require('gulp-sass');
@@ -29,8 +30,14 @@ var path = {
 
 var config = {
 	fonts: {
-		src: ['./node_modules/patternfly/dist/fonts/*.*', './node_modules/font-awesome/fonts/*.*'],
-		dest: 'dist/fonts'
+        patternfly: {
+            src: ['./node_modules/patternfly/dist/fonts/*.*', './node_modules/font-awesome/fonts/*.*'],
+            dest: 'dist/fonts'
+        },
+        fontawesome: {
+            src: ['./node_modules/patternfly/components/font-awesome/fonts/*.*'],
+            dest: 'dist/components/font-awesome/fonts'
+        }
 	},
 	images : {
 		src: ['./app/images/*.*'],
@@ -81,8 +88,11 @@ gulp.task('css', function () {
 
 //Copy the fonts to dist/fonts
 gulp.task('fonts', function () {
-	return gulp.src(config.fonts.src)
-		.pipe(gulp.dest(config.fonts.dest));
+    var patternfly = gulp.src(config.fonts.patternfly.src)
+        .pipe(gulp.dest(config.fonts.patternfly.dest));
+    var fontawesome = gulp.src(config.fonts.fontawesome.src)
+        .pipe(gulp.dest(config.fonts.fontawesome.dest));
+    return merge(patternfly, fontawesome);
 });
 
 //Copy the images to dist/images
