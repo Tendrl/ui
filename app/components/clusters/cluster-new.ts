@@ -143,7 +143,8 @@ export class ClusterNewController {
                 ipaddress: freeHost.management_ip4,
                 state: "ACCEPTED",
                 disks: freeHost.storage_disks,
-                selected: false
+                selected: false,
+                isMon: false
             };
             this.hosts.push(host);
             this.updateFingerPrint(host);
@@ -176,19 +177,24 @@ export class ClusterNewController {
         var disks: Array<any> = [];
         _.each(this.hosts, (host) => {
             if (host.selected) {
-                var freeDisks = _.filter(host.disks, (disk: any) => {
-                    return disk.Type === 'disk' && disk.Used == false;
-                });
-                Array.prototype.push.apply(disks, freeDisks);
+                Array.prototype.push.apply(disks, this.getHostFreeDisks(host));
             }
         });
         this.disks = disks;
     }
 
+    public getHostFreeDisks(host) {
+        var freeDisks = _.filter(host.disks, (disk: any) => {
+            return disk.Type === 'disk' && disk.Used == false;
+        });
+        return freeDisks;
+    }
+
     public selectHost(host: any, selection: boolean) {
-        if (host.state === "ACCEPTED") {
-            host.selected = selection;
-            this.countDisks();
+        host.selected = selection;
+        this.countDisks();
+        if(!selection && host.isMon) {
+            host.isMon = false;
         }
     }
 
@@ -198,11 +204,18 @@ export class ClusterNewController {
         });
     }
 
-    public sortHostsInSummary() {
-        this.summaryHostsSortOrder = this.summaryHostsSortOrder === '-hostname' ? 'hostname' : '-hostname';
+    public selectMon(host: any, selection: boolean) {
+        host.isMon = selection;
+        if (selection) {
+            this.selectHost(host, true);
+        }
+        else if (this.getHostFreeDisks(host).length == 0) {
+            this.selectHost(host, false);
+        }
     }
 
-    public onClusterTypeChanged() {
+    public sortHostsInSummary() {
+        this.summaryHostsSortOrder = this.summaryHostsSortOrder === '-hostname' ? 'hostname' : '-hostname';
     }
 
     public addNewHost() {

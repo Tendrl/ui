@@ -94,8 +94,8 @@
         </div>
         <div class="col-md-1 host-col-middle">
           <div class="host-is-mon" ng-show="cluster.clusterType.ID === 2">
-            <a class="host-is-mon-link" href="" ng-click="host.isMon=!host.isMon;$event.stopPropagation()">
-              <span class="fa fa-desktop fa-lg" ng-class="host.isMon ? '': 'host-is-mon-icon'" title="Use this host as Ceph monitor"></span>
+            <a class="host-is-mon-link" href="" ng-click="cluster.selectMon(host, !host.isMon);$event.stopPropagation()">
+              <span class="fa fa-desktop fa-2x" ng-class="host.isMon ? '': 'host-is-mon-icon'" title="Use this host as Ceph monitor"></span>
             </a>
           </div>
         </div>
