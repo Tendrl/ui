@@ -24,6 +24,8 @@ import {numeral} from '../base/libs';
 
 export class ClusterNewController {
     private step: number;
+    private monCount: number;
+    private errorMessage: string;
     private summaryHostsSortOrder: any;
 
     private clusterName: any;
@@ -297,7 +299,17 @@ export class ClusterNewController {
     }
 
     public moveStep(nextStep: any) {
-        this.step = (this.step === 1 && this.clusterName === undefined) ? this.step : this.step + nextStep;
+        this.errorMessage = "";
+        if(this.step === 2 && nextStep === 1){
+            this.monCount = this.getMonCount();
+            if(this.monCount === 0){
+                this.errorMessage = " * Atleast 1 Mon needs to be selected";
+            }
+            else if(this.monCount%2 === 0){
+                this.errorMessage = " * Number of MONs cannot be odd";
+            }
+        }
+        this.step = ((this.step === 1 && this.clusterName === undefined) || (this.step === 2 && this.monCount%2 === 0 && nextStep === 1)) ? this.step : this.step + nextStep;
     }
 
     public isCancelAvailable(): boolean {
@@ -476,6 +488,16 @@ export class ClusterNewController {
                 this.logService.error('Unexpected response from Clusters.create:', result);
             }
         });
+    }
+
+    public getMonCount(){
+            var count: number=0;
+            _.each(this.hosts, (host: any) => {
+            if (host.isMon) {
+                count++;
+            }
+        });
+        return count;
     }
 
     public submit() {
