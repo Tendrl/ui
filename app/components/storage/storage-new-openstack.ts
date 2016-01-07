@@ -43,21 +43,30 @@ export class OpenStackStorageController {
     }
 
     public onClusterSelected(selecteCluster) {
+        var services = [];
         var storages = [];
-        _.each(selecteCluster.openstack_services, (service) => {
-            storages.push({
-                selected: false,
-                service: service,
-                name: service,
-                type: 'Standard',
-                storageProfile: 'SAS',
-                replica: 3,
-                capacity: { value: 10, unit: 'GB' },
-                cache: undefined,
-                edit: false
+        this.storageSvc.getListByCluster(selecteCluster.clusterid).then((pools) => {
+            _.each(selecteCluster.openstack_services, (service) => {
+                var found = _.find(pools, (pool) => pool.name === service);
+                if (!found) {
+                    services.push(service);
+                }
             });
+            _.each(services, (service) => {
+                storages.push({
+                    selected: false,
+                    service: service,
+                    name: service,
+                    type: 'Standard',
+                    storageProfile: 'SAS',
+                    replica: 3,
+                    capacity: { value: 10, unit: 'GB' },
+                    cache: undefined,
+                    edit: false
+                });
+            });
+            this.openstackStorages = storages;
         });
-        this.openstackStorages = storages;
     }
 
     public isSubmitAvailable(): boolean {
@@ -81,7 +90,9 @@ export class OpenStackStorageController {
             });
         });
         console.log(storageList);
-        this.createStorages(this.cluster.clusterid, storageList);
+        if(storageList.length > 0) {
+            this.createStorages(this.cluster.clusterid, storageList);
+        }
     }
 
     private createStorages(clusterId, storageList) {

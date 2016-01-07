@@ -26,14 +26,20 @@ export class StorageNewController {
     }
 
     public next(): void {
-        if (this.type === 'object') {
-            this.addGenericStorage();
+        if (this.cluster) {
+            if (this.type === 'object') {
+                this.addGenericStorage();
+            }
+            else if (this.type === 'block') {
+            }
+            else if (this.type === 'openstack') {
+                this.addOpenStackStorage();
+            }
         }
-        else if (this.type === 'block') {
-        }
-        else if (this.type === 'openstack') {
-            this.addOpenStackStorage();
-        }
+    }
+
+    public cancel(): void {
+        this.$location.path('/storage/');
     }
 
     public addGenericStorage(): void {
