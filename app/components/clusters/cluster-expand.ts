@@ -117,7 +117,10 @@ export class ClusterExpandController {
     public selectHost(host: any, selection: boolean) {
         host.selected = selection;
         this.countDisks();
-        if(!selection && host.isMon) {
+        if(selection) {
+            host.isMon = this.getHostFreeDisks(host).length == 0;
+        }
+        else {
             host.isMon = false;
         }
     }
@@ -152,13 +155,13 @@ export class ClusterExpandController {
     }
 
     public selectMon(host: any, selection: boolean) {
-        host.isMon = selection;
         if (selection) {
             this.selectHost(host, true);
         }
         else if (this.getHostFreeDisks(host).length == 0) {
             this.selectHost(host, false);
         }
+        host.isMon = selection;
     }
 
     public addNewHost() {

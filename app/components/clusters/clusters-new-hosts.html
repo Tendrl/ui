@@ -61,8 +61,8 @@
       </div>
     </div>
 
-    <div class="available-hosts-list">
-      <div class="row host-row" ng-repeat="host in cluster.hosts | filter:searchText" ng-click="cluster.selectHost(host, !host.selected)">
+    <div class="available-hosts-list" style="border-bottom: 2px solid gray;">
+      <div class="row host-row" ng-repeat="host in cluster.hosts | filter:{selected:true}" ng-click="cluster.selectHost(host, !host.selected)">
         <div class="col-md-1 host-col-middle host-col-select">
           <i ng-show="host.selected" class="fa fa-2x fa-check-square-o"></i>
         </div>
@@ -84,13 +84,40 @@
         </div>
         <div class="col-md-2 host-col-middle verified-col">
           <span class="fa fa-lg fa-check-circle-o verified-col-icon" ng-show="host.state === 'ACCEPTED'"></span>
-          <button class="btn btn-default" type="button" ng-show="host.state === 'UNACCEPTED' || host.state === 'ACCEPTING'" ng-click="cluster.acceptHost(host)" ng-disabled="host.state === 'ACCEPTING'">
-            <span class="fa fa-check" ng-show="host.state==='UNACCEPTED'">Accept</span>
-            <div ng-show="host.state==='ACCEPTING'">
-              <span class="fa fa-spinner fa-spin"></span>
-              Accepting
-            </div>
-          </button>
+        </div>
+        <div class="col-md-1 host-col-middle">
+          <div class="host-is-mon">
+            <a class="host-is-mon-link" href="" ng-click="cluster.selectMon(host, !host.isMon);$event.stopPropagation()">
+              <span class="fa fa-desktop fa-2x" ng-class="host.isMon ? '': 'host-is-mon-icon'" title="Use this host as Ceph monitor"></span>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="available-hosts-list">
+      <div class="row host-row" ng-repeat="host in cluster.hosts | filter:{selected: false, hostname: searchText}" ng-click="cluster.selectHost(host, !host.selected)">
+        <div class="col-md-1 host-col-middle host-col-select">
+          <i ng-show="host.selected" class="fa fa-2x fa-check-square-o"></i>
+        </div>
+        <div class="col-md-6">
+          <div class="host-details">
+            <ul class="list-unstyled">
+              <li>
+                <span> {{host.hostname}} </span>
+              </li>
+              <li>
+                <span class="fa fa-paw"> </span>
+                <span class="text-muted"> {{host.sshfingerprint}} </span>
+              </li>
+            </ul>
+          </div>
+        </div>
+        <div class="col-md-2 host-col-middle">
+          {{host.ipaddress}}
+        </div>
+        <div class="col-md-2 host-col-middle verified-col">
+          <span class="fa fa-lg fa-check-circle-o verified-col-icon" ng-show="host.state === 'ACCEPTED'"></span>
         </div>
         <div class="col-md-1 host-col-middle">
           <div class="host-is-mon">
