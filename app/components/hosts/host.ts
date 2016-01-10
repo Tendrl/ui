@@ -57,11 +57,10 @@ export class HostController {
             host.memory_average = Math.round(Math.random() * 100);
             host.cluster_type = 2;
             host.version = '';
-            if (host.clusterid != null) {
+            if (host.clusterid != null && host.clusterid !== '00000000-0000-0000-0000-000000000000') {
                 self.clusterSvc.get(host.clusterid).then(function(cluster) {
                     host.cluster_type = cluster.type;
                     host.cluster_name = cluster.name;
-                    host.version = host.cluster_type === 1 ? 'V3.7.1' : 'V9.0.1';
                 });
             }
         });
