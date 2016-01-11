@@ -34,7 +34,7 @@ export class HostController {
         private utilService: UtilService,
         private requestService: RequestService) {
         this.clusterHelper = new ClusterHelper(utilService, requestService, $log, $timeout);
-        this.timer = this.$interval(this.reloadData, 5000);
+        this.timer = this.$interval(this.reloadData, 10000);
         this.$scope.$on('$destroy', () => {
             this.$interval.cancel(this.timer);
         });

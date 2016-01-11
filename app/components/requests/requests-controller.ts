@@ -41,7 +41,7 @@ export class RequestsController {
         this.discoveredHostsLength = 0;
         this.discoveredHosts = [];
         this.loadEvents();
-        this.$interval(() => this.reloadDiscoveredHosts(), 5000);
+        this.$interval(() => this.reloadDiscoveredHosts(), 12000);
         this.$interval(() => this.reloadTasks(), 5000);
     }
 
