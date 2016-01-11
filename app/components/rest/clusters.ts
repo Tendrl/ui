@@ -25,6 +25,14 @@ export class ClusterService {
         return this.rest.all('clusters').getList<Cluster>();
     }
 
+    // **getAlerts**
+    // **@returns** a promise with all cluster's alerts.
+    getAlerts(cluster_id) {
+        return this.rest.all('events?cluster_id='+cluster_id).getList().then(function(alerts) {
+            return alerts;
+        });
+    }
+
     // **getCapacity**
     // **@returns** a promise with the cluster capacity for the specific
     // cluster based on it's id.

@@ -93,6 +93,10 @@ export class ClustersController {
                 tempCluster.no_of_hosts = nodes.length;
             });
 
+            this.clusterSvc.getAlerts(cluster.clusterid).then((alerts) => {
+                tempCluster.alerts = alerts;
+            });
+
             if (this.getClusterTypeTitle(cluster.type) === 'gluster') {
                 this.volumeService.getListByCluster(cluster.clusterid).then((volumes) => {
                     tempCluster.no_of_volume_or_pools = volumes.length;

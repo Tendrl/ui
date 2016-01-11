@@ -1,0 +1,7 @@
+<ul class="dropdown-menu  cluster-alert-dropdown-menu" role="menu">
+    <li role="presentation" ng-repeat="alert in cluster.alerts">
+      <span>
+	    <div class="task-item-text"> <i class="fa fa-exclamation-triangle icon warning"></i> {{alert.message}} on {{alert.tag.split("/")[3]}} </div>
+      </span>
+	</li>
+</ul>

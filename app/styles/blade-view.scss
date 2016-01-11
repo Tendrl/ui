@@ -126,6 +126,18 @@
 
  }
 
+ .blade-view .cluster-alert-dropdown-menu {
+    border-radius: 3px;
+    cursor: pointer;
+    font-size: 14px;
+    padding: 8px;
+    width: 240px;
+    text-align: inherit;
+    font-family: "Open Sans",Helvetica,Arial,sans-serif;
+    left: 0px !important;
+    min-width: 100px !important;
+ }
+
  .blade-view .vertical-text-for-gluster {
     color: white;
     float: left;
