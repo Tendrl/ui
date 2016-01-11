@@ -40,6 +40,7 @@ export class RequestsController {
         this.tasks = {};
         this.discoveredHostsLength = 0;
         this.discoveredHosts = [];
+        this.openWebSocket();
         this.loadEvents();
         this.$interval(() => this.reloadDiscoveredHosts(), 12000);
         this.$interval(() => this.reloadTasks(), 5000);
@@ -48,30 +49,31 @@ export class RequestsController {
     //Open WebSocket connection 
     public openWebSocket() {
         if ("WebSocket" in window) {
-           var ws = new WebSocket("ws://"+this.$location.host()+":8081/ws");
-           ws.onopen = function()
-           {
-              console.log("WebSocket Connection is Started!");
-           };
-           ws.onmessage = evt => {
-              if(evt.data.length > 0) {
-                this.events.unshift(JSON.parse(evt.data));
-              }
-           };
-           ws.onclose = function()
-           { 
-              console.log("WebSocket Connection is Closed!"); 
-           };
-        } else {
-           console.log("WebSocket NOT supported by your Browser!");
+            var ws = new WebSocket("ws://" + this.$location.host() + ":8081/ws");
+            ws.onopen = () => {
+                this.$log.info("WebSocket Connection is Started!");
+            };
+            ws.onmessage = evt => {
+                if (evt.data.length > 0) {
+                    this.events.unshift(JSON.parse(evt.data));
+                }
+            };
+            ws.onclose = () => {
+                this.$log.info("WebSocket Connection is Closed!");
+                //fall back to periodic poll
+                this.$interval(() => this.loadEvents(), 10000);
+            };
+        }
+        else {
+            this.$log.info("WebSocket is not supported by your Browser!");
+            //fall back to periodic poll
+            this.$interval(() => this.loadEvents(), 10000);
         }
     }
 
-    //First time load all events after that push event handle by web socket 
     public loadEvents() {
         this.serverSvc.getEvents().then((events) => {
             this.events = events
-            this.openWebSocket();
         });
     }
 
