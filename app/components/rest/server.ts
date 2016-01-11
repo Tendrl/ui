@@ -136,4 +136,12 @@ export class ServerService {
             });
         });
     }
+
+    public getCpuUtilization(nodeId) {
+        return this.rest.one('nodes', nodeId).one('utilization').get({ resource: 'cpu', duration: '10s' });
+    }
+
+    public getMemoryUtilization(nodeId) {
+        return this.rest.one('nodes', nodeId).one('utilization').get({ resource: 'memory', duration: '10s' });
+    }
 }

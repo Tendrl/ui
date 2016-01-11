@@ -8,6 +8,8 @@ import {RequestService} from '../rest/request';
 
 export class HostController {
     public list: Array<any>;
+    private clusters: {};
+    private hostStats: {};
     private MockDataProvider = new MockDataProvider();
     private clusterHelper: ClusterHelper;
     static $inject: Array<string> = [
@@ -34,7 +36,9 @@ export class HostController {
         private utilService: UtilService,
         private requestService: RequestService) {
         this.clusterHelper = new ClusterHelper(utilService, requestService, $log, $timeout);
-        this.timer = this.$interval(this.reloadData, 10000);
+        this.clusters = {};
+        this.hostStats = {};
+        this.timer = this.$interval(this.reloadData, 15000);
         this.$scope.$on('$destroy', () => {
             this.$interval.cancel(this.timer);
         });
@@ -53,16 +57,38 @@ export class HostController {
             host.management_ip4 = '';
             host.status = host.status;
             host.alerts = MockHost.alerts;
-            host.cpu_average = Math.round(Math.random() * 100);
-            host.memory_average = Math.round(Math.random() * 100);
+            if (self.hostStats[host.nodeid]) {
+                host.cpu_average = Math.round(Math.random() * 70);
+                host.memory_average = self.hostStats[host.nodeid].memAvg;
+            }
+            else {
+                host.cpu_average = Math.round(Math.random() * 70);
+                host.memory_average = Math.round(Math.random() * 70);
+            }
             host.cluster_type = 2;
             host.version = '';
             if (host.clusterid != null && host.clusterid !== '00000000-0000-0000-0000-000000000000') {
-                self.clusterSvc.get(host.clusterid).then(function(cluster) {
-                    host.cluster_type = cluster.type;
-                    host.cluster_name = cluster.name;
-                });
+                if (!self.clusters[host.clusterid]) {
+                    self.clusterSvc.get(host.clusterid).then(function(cluster) {
+                        host.cluster_type = cluster.type;
+                        host.cluster_name = cluster.name;
+                        self.clusters[host.clusterid] = { name: cluster.name, type: cluster.type };
+                    });
+                }
+                else {
+                    host.cluster_type = self.clusters[host.clusterid].type;
+                    host.cluster_name = self.clusters[host.clusterid].name;
+                }
             }
+            self.serverService.getMemoryUtilization(host.nodeid).then((results) => {
+                if (results != null && results !== 'null\n') {
+                    var free = results[2].values[0][1];
+                    var used = results[3].values[0][1];
+                    var total = free + used;
+                    var avg = Math.ceil((used / total) * 100);
+                    self.hostStats[host.nodeid] = { memAvg: avg };
+                }
+            });
         });
         this.list = hosts;
     }
