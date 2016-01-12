@@ -7,8 +7,11 @@ export class UserEditController {
     private lastName:string;
     private email:string;
     private password:string;
+    private confirmpassword:string;
+    private oldpassword:string;
     private status:boolean;
     private notificationenabled:boolean;
+    private errorMessage:string;
 
     static $inject: Array<string> = [
         '$location',
@@ -40,18 +43,25 @@ export class UserEditController {
         });
     }
 
-    public saveSettings():void {
-        var setting = {
-                password: this.password
-        };
-        this.UserService.saveUserSetting(this.userId,setting).then((result) => {
-            if(result.status === 200){
-
-            }
-            else{
-                alert("cannot update");
-            }
-        });
+    public saveSettings(modalHide):void {
+        this.errorMessage = "";
+        if(this.password === this.confirmpassword && this.password.length > 0) {
+            var setting = {
+                    password: this.password,
+                    oldpassword: this.oldpassword
+            };
+            this.UserService.saveUserSetting(this.userId,setting).then((result) => {
+                if(result.status === 200){
+                     modalHide();
+                }
+            }).catch((result) => {
+                if(result.status === 500){
+                    this.errorMessage = "Old password does not match!";
+                }
+            });
+        }else {
+            this.errorMessage = "Confirm password does not match!";
+        }
     }
 
     public save():void {

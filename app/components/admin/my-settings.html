@@ -59,12 +59,12 @@
                   <label for="password" class="col-sm-2 col-md-4 control-label">Confirm Password</label>
                   <div class="col-sm-10 col-md-8">
                     <input type="password" class="form-control" id="password" ng-model="userEdit.confirmpassword"placeholder="Confirm Password">
+                    <label class="error-validation-msg">{{userEdit.errorMessage}}</label>
                   </div>
                 </div>
-
                 <div class="form-group">
                   <div class="col-sm-offset-4 col-sm-10">
-                    <button class="btn btn-primary" ng-click="userEdit.saveSettings();$hide()">Save</button>
+                    <button class="btn btn-primary" ng-click="userEdit.saveSettings($hide)">Save</button>
                     <button class="btn btn-default" ng-click="$hide()">Cancel</button>
                   </div>
                 </div>
