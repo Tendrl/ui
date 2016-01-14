@@ -8,6 +8,7 @@ import {ServerService} from '../rest/server';
 import {RequestTrackingService} from './request-tracking-svc';
 import {UtilService} from '../rest/util';
 import {RequestService} from '../rest/request';
+import * as ModalHelpers from '../modal/modal-helpers';
 
 export class RequestsController {
    private tasks;
@@ -20,6 +21,7 @@ export class RequestsController {
         '$timeout',
         '$location',
         '$log',
+        '$modal',
         'ServerService',
         'UtilService',
         'RequestService',
@@ -31,6 +33,7 @@ export class RequestsController {
         private $timeout: ng.ITimeoutService,
         private $location: ng.ILocationService,
         private $log: ng.ILogService,
+        private $modal: any,
         private serverSvc: ServerService,
         private utilSvc: UtilService,
         private requestSvc: RequestService,
@@ -160,11 +163,11 @@ export class RequestsController {
     }
 
     public openDiscoveredHostsModel() {
-        document.getElementById("openDiscoveredHosts").click();
+        this.$modal({scope: this.$scope, template: 'views/hosts/discovered-hosts.html', show: true});
     }
 
     public mySettings(){
-        document.getElementById("mySettings").click();
+        this.$modal({scope: this.$scope, template: 'views/admin/my-settings.html', show: true});
     }
 
     public acceptAllHosts() {
