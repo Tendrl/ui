@@ -14,10 +14,8 @@ build-all: build-setup build
 
 build-setup:
 	sudo npm install -g gulp
-	sudo npm install -g bower
 	sudo npm install -g tsd
 	npm install
-	bower install --allow-root
 	tsd install
 
 build:
