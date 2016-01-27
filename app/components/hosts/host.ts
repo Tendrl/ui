@@ -78,7 +78,17 @@ export class HostController {
                 else {
                     host.cluster_type = self.clusters[host.clusterid].type;
                     host.cluster_name = self.clusters[host.clusterid].name;
+                    if(host.cluster_type === 1){
+                        host.cluster_type_name = "Gluster";
+                    }else if(host.cluster_type === 2){
+                        host.cluster_type_name = "Ceph";
+                    }
                 }
+            }
+            else{
+                host.cluster_type=0;
+                host.cluster_type_name="Free";
+                host.cluster_name="Unassigned";
             }
             self.serverService.getMemoryUtilization(host.nodeid).then((results) => {
                 if (results != null && results !== 'null\n') {

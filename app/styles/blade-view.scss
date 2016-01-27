@@ -27,7 +27,7 @@
     opacity: 0.3
  }
 
- .blade-view .vertical-line-for-gluster {
+ .blade-view .vertical-line-for-unassigned {
     background-color: dimgray;
     min-height: 135px;
     padding: 14px;
@@ -36,7 +36,7 @@
     border-top-left-radius: 5px;
  }
 
- .blade-view .vertical-line-for-ceph {
+ .blade-view .vertical-line-for-assigned {
     background-color: gainsboro;
     min-height: 135px;
     padding: 14px;
@@ -138,18 +138,18 @@
     min-width: 100px !important;
  }
 
- .blade-view .vertical-text-for-gluster {
+ .blade-view .vertical-text-for-unassigned {
     color: white;
     float: left;
     font-size: 16px;
     font-weight: 600;
-    margin-left: -36px;
+    margin-left: -22px;
     margin-top: 40px;
     text-transform: uppercase;
     transform: rotate(270deg);
  }
 
- .blade-view .vertical-text-for-ceph {
+ .blade-view .vertical-text-for-assigned {
     color: black;
     float: left;
     font-size: 16px;
