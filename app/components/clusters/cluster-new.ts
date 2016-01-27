@@ -158,11 +158,11 @@ export class ClusterNewController {
             });
         });
         subnets.forEach((network) => {
-            this.availableNetworks.push({ address: network, cluster: false, public: false });
+            this.availableNetworks.push({ address: network, cluster: false, access: false });
         });
         if (this.availableNetworks.length > 0) {
             this.availableNetworks[0].cluster = true;
-            this.availableNetworks[0].public = true;
+            this.availableNetworks[0].access = true;
         }
     }
 
@@ -538,12 +538,12 @@ export class ClusterNewController {
         var clusterNetwork: any = _.find(this.availableNetworks, (network) => {
             return network.cluster;
         });
-        var publicNetwork: any = _.find(this.availableNetworks, (network) => {
-            return network.public;
+        var accessNetwork: any = _.find(this.availableNetworks, (network) => {
+            return network.access;
         });
         var networks = {
             cluster: clusterNetwork.address,
-            public: publicNetwork.address
+            access: accessNetwork.address
         };
         var services = _.pluck(_.filter(this.openstackServices, (service: any) => {
             return service.selected;

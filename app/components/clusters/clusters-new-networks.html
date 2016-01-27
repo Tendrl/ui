@@ -5,14 +5,14 @@
                 <tr>
                     <td><span class="header">Detected Networks</span></td>
                     <td>Cluster Network</td>
-                    <td>Public Network</td>
+                    <td>Access Network</td>
                 </tr>
             </thead>
             <tbody>
                 <tr ng-repeat="network in cluster.availableNetworks">
                     <td>{{network.address}}</td>
                     <td><input type="checkbox" ng-model="network.cluster"></input></td>
-                    <td><input type="checkbox" ng-model="network.public"></input></td>
+                    <td><input type="checkbox" ng-model="network.access"></input></td>
                 </tr>
             </tbody>
         </table>
