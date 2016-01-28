@@ -103,4 +103,12 @@ export class ClusterService {
     expand(clusterId, cluster) {
         return this.restFull.one('clusters', clusterId).post('expand', cluster);
     }
+
+    // **getSlus**
+    // **@returns** a promise with all slus of the cluster.
+    getSlus(clusterId) {
+        return this.rest.one('clusters', clusterId).all('slus').getList().then(function(slus) {
+            return slus;
+        });
+    }
 }

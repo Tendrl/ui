@@ -1,361 +1,300 @@
-<div class="cluster-detail container-fluid cards-pf">
-    <div class="row row-cards-pf card-pf">
-        <div class="col-md-6 col-sm-6 col-xs-12">
-            <div class="border-right pad-me">
-                <div class="row">
-                    <div class="cluster-name"> {{clusterdetail.cluster.name}} </div>
-                    <div class="col-md-3">
-                        <div class="cluster-name-subline"> Generic </div>
-                        <div class="title"> Utilization </div>
-                        <div class="free-space">
-                            <span class="card-big-text">
-                                {{clusterdetail.formatSize(clusterdetail.capacity.free)}}
-                              </span> Available
-                            <br/>
-                            <span class="bold">
-                                {{clusterdetail.formatSize(clusterdetail.capacity.used)}}
-                              </span> Used
-                            <br/>
-                            <span class="bold">
-                                {{clusterdetail.formatSize(clusterdetail.capacity.total)}}
-                              </span> Total
-                        </div>
-                    </div>
-                    <div class="col-md-9">
-                        <c3chart bindto-id="cluster-donut" chart-columns="clusterdetail.capacity.legends" chart-data="clusterdetail.capacity.values">
-                            <chart-donut title="Usage" width="40"> </chart-donut>
-                            <chart-legend show-legend="true" legend-position="right"> </chart-legend>
-                            <chart-size chart-height="200"></chart-size>
-                        </c3chart>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-12">
-                        <div class="usage-trending">
-                            <div class="usage-trending-content">
-                                <c3chart bindto-id="cluster-trend" chart-columns="clusterdetail.capacity.trends.cols" chart-data="clusterdetail.capacity.trends.values">
-                                    <chart-axis>
-                                        <chart-axis-x show="false"> </chart-axis-x>
-                                        <chart-axis-y show="false"> </chart-axis-y>
-                                    </chart-axis>
-                                    <chart-points show-point="false"></chart-points>
-                                    <chart-legend show-legend="false"></chart-legend>
-                                    <chart-size chart-height="80"></chart-size>
-                                    <chart-tooltip show-tooltip="true"></chart-tooltip>
-                                </c3chart>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-6 col-sm-6 col-xs-12">
-            <div class="no-border pad-me">
-                <div class="title"> Performance </div>
-                <div class="row">
-                    <div class="col-md-3">
-                        <div class="iops-count">
-                            <span class="card-big-text">
-                                {{clusterdetail.iops.total | number : 2}}M IOPS
-                              </span>
-                            <span class="card-big-text">
-                                {{clusterdetail.iops.reads}}M
-                              </span> reads/s
-                            <span class="card-big-text">
-                                {{clusterdetail.iops.writes}}M
-                              </span> writes/s
-                        </div>
-                    </div>
-                    <div class="col-md-9">
-                        <c3chart bindto-id="gauge-iops-chart">
-                            <chart-column column-id="IOPS" column-values="{{clusterdetail.iops.total}}" column-type="gauge" column-color="{{clusterdetail.getStatusColor((clusterdetail.iops.total)/1000*100)}}" />
-                            <chart-gauge min="0" max="10" units="{{clusterdetail.iops.total | number :2}}M IOPS" width="30" />
-                            <chart-size chart-height="200"></chart-size>
-                        </c3chart>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-12">
-                        <div class="usage-trending">
-                            <div class="usage-trending-content">
-                                <c3chart bindto-id="cluster-iops-trend" chart-columns="clusterdetail.iops.trends.cols" chart-data="clusterdetail.iops.trends.values">
-                                    <chart-axis>
-                                        <chart-axis-x show="false"> </chart-axis-x>
-                                        <chart-axis-y show="false"> </chart-axis-y>
-                                    </chart-axis>
-                                    <chart-points show-point="false"></chart-points>
-                                    <chart-legend show-legend="false"></chart-legend>
-                                    <chart-size chart-height="80"></chart-size>
-                                    <chart-tooltip show-tooltip="false"></chart-tooltip>
-                                </c3chart>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+<div class="cluster-detail">
+    <div>
+        <ol class="breadcrumb custom-breadcrumb">
+            <li><a ng-href="#/clusters">Clusters</a></li>
+            <li>
+                <span class="pficon pficon-ok"></span>
+                <span class="add-cursor-pointer" data-animation="am-flip-x" data-template="views/clusters/cluster-list-menu-dropdown.tpl.html" bs-dropdown="ellipsis">
+                    {{clusterdetail.cluster.name}}  <b class="caret"></b>
+                </span>
+            </li>
+        </ol>
+        <hr>
+        <ul class="nav nav-tabs">
+            <li ng-repeat="tab in clusterdetail.tabList" ng-class="clusterdetail.isSet($index)? 'active':''">
+                <a href ng-click="clusterdetail.setTab($index)" ng-bind="tab.tabName">
+                </a>
+            </li>
+        </ul>
     </div>
 
-    <div class="row">
-        <div class="col-md-3 col-sm-6 col-xs-12">
-            <div class="card-pf graph-box">
-                <div class="card-pf-title"> CPU </div>
-                <div class="col-md-12">
-                    <c3chart bindto-id="donut-plot1-chart">
-                        <chart-column column-id="Free" column-values="{{100-clusterdetail.mockCluster.cpu.average}}" column-color="#CCCCCC" column-type="donut" />
-                        <chart-column column-id="Using" column-values="{{clusterdetail.mockCluster.cpu.average}}" column-color="{{clusterdetail.getStatusColor(clusterdetail.mockCluster.cpu.average)}}" column-type="donut" />
-                        <chart-donut title="{{clusterdetail.mockCluster.cpu.average}}%" width="10" />
-                        <chart-legend show-legend="false" />
-                        <chart-tooltip show-tooltip="false"></chart-tooltip>
-                        <chart-size chart-height="100"></chart-size>
-                    </c3chart>
-                </div>
-                <div class="col-md-12 left-content">
-                    <div class="row">
-                        <div class="col-md-12"> </div>
-                        <div class="col-md-12 bold">Past 30 Days</div>
-                        <div class="col-md-6 col-xs-6">Average</div>
-                        <div class="col-md-6 col-xs-6 bold">{{clusterdetail.mockCluster.cpu.average}} %</div>
-                        <div class="col-md-6 col-xs-6">Highest</div>
-                        <div class="col-md-6 col-xs-6 bold">{{clusterdetail.mockCluster.cpu.highest}} %</div>
-                        <div class="col-md-6 col-xs-6">Lowest</div>
-                        <div class="col-md-6 col-xs-6 bold">{{clusterdetail.mockCluster.cpu.lowest}} %</div>
+    <!-- FIRST TAB CONTENT -->
+    <div ng-show="clusterdetail.isSet(0)" class="cluster-contain container-fluid cards-pf">
+        <!-- Fisrt Big row -->
+        <div class="row">
+            <!-- Card Part -->
+            <div class="col-xs-12 col-sm-6 col-md-9" style="min-height: 896px;">
+                <!-- First row -->
+                <div class="row row-cards-pf">
+                    <div class="col-xs-12 col-sm-12 col-md-12">
+                        <div class="card-pf card-pf-aggregate-status card-pf-with-action">
+                            <div class="row">
+                                <div class="col-xs-12 col-sm-4 col-md-3">
+                                    <h2 class="card-pf-title">
+                                        <a href="#">{{clusterdetail.capacity.used}} Used</a>
+                                    </h2>
+                                    <div class="card-pf-body">
+                                        <div>
+                                            <c3chart bindto-id="donut-plot1-chart">
+                                                <chart-column column-id="Free" column-values="{{100-clusterdetail.mockCluster.cpu.average}}" column-color="#CCCCCC" column-type="donut" />
+                                                <chart-column column-id="Using" column-values="{{clusterdetail.mockCluster.cpu.average}}" column-color="{{clusterdetail.getStatusColor(clusterdetail.mockCluster.cpu.average)}}" column-type="donut" />
+                                                <chart-donut title="{{clusterdetail.mockCluster.cpu.average}}%" width="10" />
+                                                <chart-legend show-legend="false" />
+                                                <chart-tooltip show-tooltip="false"></chart-tooltip>
+                                                <chart-size chart-height="100"></chart-size>
+                                            </c3chart>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-xs-12 col-sm-8 col-md-7">
+                                    <div class="cluster-utilization">
+                                        <div class="utilization-align">Utilization by storage type</div>
+                                        <div class="progress">
+                                            <div class="progress-bar" role="progressbar" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100" style="width: 25%;" data-toggle="tooltip" title="25% Used">
+                                                <span class="sr-only">25% Used</span>
+                                            </div>
+                                            <div class="progress-bar progress-bar-remaining" role="progressbar" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100" style="width: 75%;" data-toggle="tooltip" title="75% Available">
+                                                <span class="sr-only">75% Available</span>
+                                            </div>
+                                        </div>
+                                        <div class="utilization-align">Utilization by storage profile</div>
+                                        <div class="progress">
+                                            <div class="progress-bar" role="progressbar" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100" style="width: 75%;" data-toggle="tooltip" title="75% Used">
+                                                <span class="sr-only">75% Used</span>
+                                            </div>
+                                            <div class="progress-bar progress-bar-remaining" role="progressbar" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100" style="width: 25%;" data-toggle="tooltip" title="25% Available">
+                                                <span class="sr-only">25% Available</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-3 col-sm-6 col-xs-12">
-            <div class="card-pf graph-box">
-                <div class="card-pf-title"> Memory </div>
-                <div class="col-md-12">
-                    <c3chart bindto-id="donut-plot2-chart">
-                        <chart-column column-id="Free" column-values="{{100-clusterdetail.mockCluster.memory.average}}" column-color="#CCCCCC" column-type="donut" />
-                        <chart-column column-id="Using" column-values="{{clusterdetail.mockCluster.memory.average}}" column-color="{{clusterdetail.getStatusColor(clusterdetail.mockCluster.memory.average)}}" column-type="donut" />
-                        <chart-donut title="{{clusterdetail.mockCluster.memory.average}}%" width="10" />
-                        <chart-legend show-legend="false" />
-                        <chart-tooltip show-tooltip="false"></chart-tooltip>
-                        <chart-size chart-height="100"></chart-size>
-                    </c3chart>
-                </div>
-                <div class="col-md-12 left-content">
-                    <div class="row">
-                        <div class="col-md-12"> </div>
-                        <div class="col-md-12 bold">Past 30 Days</div>
-                        <div class="col-md-6 col-xs-6">Average</div>
-                        <div class="col-md-6 col-xs-6 bold">{{clusterdetail.mockCluster.memory.average}} %</div>
-                        <div class="col-md-6 col-xs-6">Highest</div>
-                        <div class="col-md-6 col-xs-6 bold">{{clusterdetail.mockCluster.memory.highest}} %</div>
-                        <div class="col-md-6 col-xs-6">Lowest</div>
-                        <div class="col-md-6 col-xs-6 bold">{{clusterdetail.mockCluster.memory.lowest}} %</div>
+                </div><!-- First row end-->
+
+                <!-- Second row -->
+                <div class="row row-cards-pf">
+                    <div class="col-xs-12 col-sm-12 col-md-6">
+                        <div class="card-pf card-pf-aggregate-status card-pf-with-action">
+                            <h2 class="card-pf-title">
+                                <a href="#">{{clusterdetail.hosts.total}} Hosts</a>
+                            </h2>
+                            <div class="card-pf-body">
+                                <p class="card-pf-aggregate-status-notifications">
+                                    <span class="card-pf-aggregate-status-notification"><a href="#"><span class="pficon pficon-error-circle-o"></span>{{clusterdetail.hosts.critical}}</a></span>
+                                    <span class="card-pf-aggregate-status-notification"><a href="#"><span class="pficon pficon-warning-triangle-o"></span>{{clusterdetail.hosts.warning}}</a></span>
+                                    <span class="card-pf-aggregate-status-notification"><a href="#">{{clusterdetail.discoveredHostsLength}}
+                                    </a><small class="status-notification">To Accept</small></span>
+                                </p>
+                            </div>
+                        </div>
                     </div>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-3 col-sm-6 col-xs-12">
-            <div class="card-pf graph-box">
-                <div class="card-pf-title"> Management Network </div>
-                <div class="col-md-12">
-                    <c3chart bindto-id="gauge-kbps-chart">
-                        <chart-column column-id="Mbps" column-values="{{clusterdetail.mockCluster.management_network.inbound + clusterdetail.mockCluster.management_network.outbound}}" column-type="gauge" column-color="{{clusterdetail.getStatusColor((clusterdetail.mockCluster.management_network.inbound + clusterdetail.mockCluster.management_network.outbound)/100*100)}}" />
-                        <chart-gauge min="0" max="100" units="{{clusterdetail.mockCluster.management_network.inbound + clusterdetail.mockCluster.management_network.outbound}} Mbps" width="10" />
-                        <chart-tooltip show-tooltip="false"></chart-tooltip>
-                        <chart-size chart-height="100"></chart-size>
-                    </c3chart>
-                </div>
-                <div class="col-md-12">
-                    <div class="row">
-                        <div class="col-md-12"> </div>
-                        <div class="col-md-6 col-xs-6">Inbound</div>
-                        <div class="col-md-6 col-xs-6 bold">{{clusterdetail.mockCluster.management_network.inbound}} Mbps</div>
-                        <div class="col-md-6 col-xs-6">Outbound</div>
-                        <div class="col-md-6 col-xs-6 bold">{{clusterdetail.mockCluster.management_network.outbound}} Mbps</div>
+                    <div class="col-xs-12 col-sm-12 col-md-3">
+                        <div class="card-pf card-pf-aggregate-status card-pf-with-action">
+                            <h2 class="card-pf-title">
+                                <a href="#">{{clusterdetail.monitorsLength}} Monitors</a>
+                            </h2>
+                            <div class="card-pf-body">
+                                <p class="card-pf-aggregate-status-notifications">
+                                    <span class="card-pf-aggregate-status-notification"><span class="pficon pficon-ok"></span></span>
+                                </p>
+                            </div>
+                        </div>
                     </div>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-3 col-sm-6 col-xs-12">
-            <div class="card-pf graph-box">
-                <div class="card-pf-title"> Cluster network </div>
-                <div class="col-md-12">
-                    <c3chart bindto-id="gauge-kbps1-chart">
-                        <chart-column column-id="Data Rate" column-values="{{clusterdetail.mockCluster.cluster_network.inbound+clusterdetail.mockCluster.cluster_network.outbound}}" column-type="gauge" column-color="{{clusterdetail.getStatusColor((clusterdetail.mockCluster.cluster_network.inbound + clusterdetail.mockCluster.cluster_network.outbound)/100*100)}}" />
-                        <chart-gauge min="0" max="100" units="{{clusterdetail.mockCluster.cluster_network.inbound+clusterdetail.mockCluster.cluster_network.outbound}} Gbps" width="10" />
-                        <chart-tooltip show-tooltip="false"></chart-tooltip>
-                        <chart-size chart-height="100"></chart-size>
-                    </c3chart>
-                </div>
-                <div class="col-md-12 left-content">
-                    <div class="row">
-                        <div class="col-md-12"> </div>
-                        <div class="col-md-6 col-xs-6">Inbound</div>
-                        <div class="col-md-6 col-xs-6 bold">{{clusterdetail.mockCluster.cluster_network.inbound}} Gbps</div>
-                        <div class="col-md-6 col-xs-6">Outbound</div>
-                        <div class="col-md-6 col-xs-6 bold">{{clusterdetail.mockCluster.cluster_network.outbound}} Gbps</div>
+                    <div class="col-xs-12 col-sm-12 col-md-3">
+                        <div class="card-pf card-pf-aggregate-status card-pf-with-action">
+                            <h2 class="card-pf-title">
+                                <a href="#">{{clusterdetail.pgs.total}} PGs</a>
+                            </h2>
+                            <div class="card-pf-body">
+                                <p class="card-pf-aggregate-status-notifications">
+                                    <span class="card-pf-aggregate-status-notification"><a href="#"><span class="pficon pficon-error-circle-o"></span>{{clusterdetail.pgs.critical}}</a></span>
+                                    <span class="card-pf-aggregate-status-notification"><a href="#"><span class="pficon pficon-warning-triangle-o"></span>{{clusterdetail.pgs.warning}}</a></span>
+                                </p>
+                            </div>
+                        </div>
                     </div>
-                </div>
+                </div><!-- Second row end -->
+
+                <!-- Third row -->
+                <div class="row row-cards-pf">
+                    <div class="col-xs-12 col-sm-12 col-md-6">
+                        <div class="card-pf card-pf-aggregate-status card-pf-with-action">
+                            <h2 class="card-pf-title">
+                                <a href="#">{{clusterdetail.pools.total}} Pools</a>
+                            </h2>
+                            <div class="card-pf-body">
+                                <p class="card-pf-aggregate-status-notifications">
+                                    <span class="card-pf-aggregate-status-notification"><a href="#"><span class="pficon pficon-error-circle-o"></span>{{clusterdetail.pools.critical}}</a></span>
+                                    <span class="card-pf-aggregate-status-notification"><a href="#"><span class="pficon pficon-warning-triangle-o"></span>{{clusterdetail.pools.warning}}</a></span>
+                                    <span class="card-pf-aggregate-status-notification"><a href="#">1 
+                                    </a><small class="status-notification">Near Full</small></span>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xs-12 col-sm-12 col-md-3">
+                        <div class="card-pf card-pf-aggregate-status card-pf-with-action">
+                            <h2 class="card-pf-title">
+                                <a href="#">{{clusterdetail.osds.total}} OSDs</a>
+                            </h2>
+                            <div class="card-pf-body">
+                                <p class="card-pf-aggregate-status-notifications">
+                                    <span class="card-pf-aggregate-status-notification"><a href="#"><span class="pficon pficon-error-circle-o"></span>{{clusterdetail.osds.critical}}</a></span>
+                                    <span class="card-pf-aggregate-status-notification"><a href="#"><span class="pficon pficon-warning-triangle-o"></span>{{clusterdetail.osds.warning}}</a></span>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xs-12 col-sm-12 col-md-3">
+                        <div class="card-pf card-pf-aggregate-status card-pf-with-action">
+                            <h2 class="card-pf-title">
+                                <a href="#">34 Objects</a>
+                            </h2>
+                            <div class="card-pf-body">
+                                <p class="card-pf-aggregate-status-notifications">
+                                    <span class="card-pf-aggregate-status-notification"><a href="#"><span class="pficon pficon-error-circle-o"></span>12</a></span>
+                                    <span class="card-pf-aggregate-status-notification"><a href="#"><span class="pficon pficon-warning-triangle-o"></span>23</a></span>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div><!-- Third row end-->
             </div>
-        </div>
-    </div>
-    <div class="row center-content" ng-if="clusterdetail.cluster.type.type === 'Gluster'">
-        <div class="col-md-4">
-            <div class="card-pf">
-                <div class="card-pf-title">{{clusterdetail.hosts.total}} Hosts</div>
-                <div class="card-pf-body">
-                    <i class="fa fa-2x fa-check-circle-o ok" ng-if="(clusterdetail.hosts.warning + clusterdetail.hosts.critical) == 0"></i>
-                    <span ng-if="clusterdetail.hosts.warning > 0">
-                    <i class="fa fa-2x fa-exclamation-triangle warning"></i>
-                    {{clusterdetail.hosts.warning}}
-                  </span>
-                    <span ng-if="clusterdetail.hosts.critical > 0">
-                    <i class="fa fa-2x fa-times-circle-o critical"></i>
-                    {{clusterdetail.hosts.critical}}
-                  </span>
-                </div>
+
+            <!-- Utilization SideBar -->
+            <div class="col-xs-12 col-sm-6 col-md-3 sidebar-pf sidebar-pf-right" style="min-height: 896px;">
+                <div class="row row-cards-pf">
+                    <div class="col-xs-12 col-sm-12 col-md-12">
+                        <div class="card-pf">
+                            <div class="card-pf-heading">
+                                <h2 class="card-pf-title">
+                                    Open Stack
+                                </h2>
+                            </div>
+                            <div class="card-pf-body">
+                                <div class="progress-description">
+                                    Cinder
+                                </div>
+                                <div class="progress progress-label-top-right">
+                                    <div class="progress-bar progress-bar-danger" role="progressbar" aria-valuenow="95" aria-valuemin="0" aria-valuemax="100" style="width: 95%;"  data-toggle="tooltip" title="95% Used">
+                                        <span><strong>25 of 100 GB</strong> Used</span>
+                                    </div>
+                                    <div class="progress-bar progress-bar-remaining" role="progressbar" aria-valuenow="5" aria-valuemin="0" aria-valuemax="100" style="width: 5%;" data-toggle="tooltip" title="5% Available">
+                                        <span class="sr-only">5% Available</span>
+                                    </div>
+                                </div>
+                                <div class="progress-description">
+                                    Cinder Backup
+                                </div>
+                                <div class="progress progress-label-top-right">
+                                    <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100" style="width: 50%;"  data-toggle="tooltip" title="50% Used">
+                                        <span><strong>25 of 100 GB</strong> Used</span>
+                                    </div>
+                                    <div class="progress-bar progress-bar-remaining" role="progressbar" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100" style="width: 50%;" data-toggle="tooltip" title="50% Available">
+                                        <span class="sr-only">50% Available</span>
+                                    </div>
+                                </div>
+                                <div class="progress-description">
+                                    Glance
+                                </div>
+                                <div class="progress progress-label-top-right">
+                                    <div class="progress-bar progress-bar-warning" role="progressbar" aria-valuenow="70" aria-valuemin="0" aria-valuemax="100" style="width: 70%;"  data-toggle="tooltip" title="70% Used">
+                                        <span><strong>25 of 100 GB</strong> Used</span>
+                                    </div>
+                                    <div class="progress-bar progress-bar-remaining" role="progressbar" aria-valuenow="30" aria-valuemin="0" aria-valuemax="100" style="width: 30%;" data-toggle="tooltip" title="30% Available">
+                                        <span class="sr-only">30% Available</span>
+                                    </div>
+                                </div>
+                                <div class="progress-description">
+                                    Nova
+                                </div>
+                                <div class="progress progress-label-top-right">
+                                    <div class="progress-bar progress-bar-warning" role="progressbar" aria-valuenow="76.5" aria-valuemin="0" aria-valuemax="100" style="width: 76.5%;"  data-toggle="tooltip" title="76.5% Used">
+                                        <span><strong>25 of 100 GB</strong> Used</span>
+                                    </div>
+                                    <div class="progress-bar progress-bar-remaining" role="progressbar" aria-valuenow="23.5" aria-valuemin="0" aria-valuemax="100" style="width: 23.5%;" data-toggle="tooltip" title="23.5% Available">
+                                        <span class="sr-only">23.5% Available</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="card-pf">
+                            <div class="card-pf-heading">
+                                <h2 class="card-pf-title">
+                                    Most Used Pools
+                                </h2>
+                            </div>
+                            <div class="card-pf-body">
+                                <div class="progress-description">
+                                    Pool1
+                                </div>
+                                <div class="progress progress-label-top-right">
+                                    <div class="progress-bar progress-bar-danger" role="progressbar" aria-valuenow="95" aria-valuemin="0" aria-valuemax="100" style="width: 95%;"  data-toggle="tooltip" title="95% Used">
+                                        <span><strong>25 of 100 GB</strong> Used</span>
+                                    </div>
+                                    <div class="progress-bar progress-bar-remaining" role="progressbar" aria-valuenow="5" aria-valuemin="0" aria-valuemax="100" style="width: 5%;" data-toggle="tooltip" title="5% Available">
+                                        <span class="sr-only">5% Available</span>
+                                    </div>
+                                </div>
+                                <div class="progress-description">
+                                    Pool2
+                                </div>
+                                <div class="progress progress-label-top-right">
+                                    <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100" style="width: 50%;"  data-toggle="tooltip" title="50% Used">
+                                        <span><strong>25 of 100 GB</strong> Used</span>
+                                    </div>
+                                    <div class="progress-bar progress-bar-remaining" role="progressbar" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100" style="width: 50%;" data-toggle="tooltip" title="50% Available">
+                                        <span class="sr-only">50% Available</span>
+                                    </div>
+                                </div>
+                                <div class="progress-description">
+                                    Pool3
+                                </div>
+                                <div class="progress progress-label-top-right">
+                                    <div class="progress-bar progress-bar-warning" role="progressbar" aria-valuenow="70" aria-valuemin="0" aria-valuemax="100" style="width: 70%;"  data-toggle="tooltip" title="70% Used">
+                                        <span><strong>25 of 100 GB</strong> Used</span>
+                                    </div>
+                                    <div class="progress-bar progress-bar-remaining" role="progressbar" aria-valuenow="30" aria-valuemin="0" aria-valuemax="100" style="width: 30%;" data-toggle="tooltip" title="30% Available">
+                                        <span class="sr-only">30% Available</span>
+                                    </div>
+                                </div>
+                                <div class="progress-description">
+                                    Pool4
+                                </div>
+                                <div class="progress progress-label-top-right">
+                                    <div class="progress-bar progress-bar-warning" role="progressbar" aria-valuenow="76.5" aria-valuemin="0" aria-valuemax="100" style="width: 76.5%;"  data-toggle="tooltip" title="76.5% Used">
+                                        <span><strong>25 of 100 GB</strong> Used</span>
+                                    </div>
+                                    <div class="progress-bar progress-bar-remaining" role="progressbar" aria-valuenow="23.5" aria-valuemin="0" aria-valuemax="100" style="width: 23.5%;" data-toggle="tooltip" title="23.5% Available">
+                                        <span class="sr-only">23.5% Available</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div><!-- /row -->
             </div>
-        </div>
-        <div class="col-md-4">
-            <div class="card-pf">
-                <div class="card-pf-title">{{clusterdetail.volumes.total}} Volumes</div>
-                <div class="card-pf-body">
-                    <i class="fa fa-2x fa-check-circle-o ok" ng-if="(clusterdetail.volumes.warning + clusterdetail.volumes.critical) == 0"></i>
-                    <span ng-if="clusterdetail.volumes.warning > 0">
-                    <i class="fa fa-2x fa-exclamation-triangle warning"></i>
-                    {{clusterdetail.volumes.warning}}
-                  </span>
-                    <span ng-if="clusterdetail.volumes.critical > 0">
-                    <i class="fa fa-2x fa-times-circle-o critical"></i>
-                    {{clusterdetail.volumes.critical}}
-                  </span>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-4">
-            <div class="card-pf">
-                <div class="card-pf-title">{{clusterdetail.bricks.total}} Bricks</div>
-                <div class="card-pf-body">
-                    <i class="fa fa-2x fa-check-circle-o ok" ng-if="(clusterdetail.bricks.warning + clusterdetail.bricks.critical) == 0"></i>
-                    <span ng-if="clusterdetail.bricks.warning > 0">
-                    <i class="fa fa-2x fa-exclamation-triangle warning"></i>
-                    {{clusterdetail.bricks.warning}}
-                  </span>
-                    <span ng-if="clusterdetail.bricks.critical > 0">
-                    <i class="fa fa-2x fa-times-circle-o critical"></i>
-                    {{clusterdetail.bricks.critical}}
-                  </span>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="row" ng-if="clusterdetail.cluster.type.type === 'Ceph'">
-        <div class="col-md-3">
-            <div class="card-pf">
-                <div class="card-pf-title">{{clusterdetail.hosts.total}} Hosts</div>
-                <div class="card-pf-body">
-                    <i class="fa fa-2x fa-check-circle-o ok" ng-if="(clusterdetail.hosts.warning + clusterdetail.hosts.critical) == 0"></i>
-                    <span ng-if="clusterdetail.hosts.warning > 0">
-                    <i class="fa fa-2x fa-exclamation-triangle warning"></i>
-                    {{clusterdetail.hosts.warning}}
-                  </span>
-                    <span ng-if="clusterdetail.hosts.critical > 0">
-                    <i class="fa fa-2x fa-times-circle-o critical"></i>
-                    {{clusterdetail.hosts.critical}}
-                  </span>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-3">
-            <div class="card-pf">
-                <div class="card-pf-title">{{clusterdetail.pools.total}} Pools</div>
-                <div class="card-pf-body">
-                    <i class="fa fa-2x fa-check-circle-o ok" ng-if="(clusterdetail.pools.warning + clusterdetail.pools.critical) == 0"></i>
-                    <span ng-if="clusterdetail.pools.warning > 0">
-                    <i class="fa fa-2x fa-exclamation-triangle warning"></i>
-                    {{clusterdetail.pools.warning}}
-                  </span>
-                    <span ng-if="clusterdetail.pools.critical > 0">
-                    <i class="fa fa-2x fa-times-circle-o critical"></i>
-                    {{clusterdetail.pools.critical}}
-                  </span>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-3">
-            <div class="card equal-space">
-                <div class="card-pf-title">{{clusterdetail.pgs.total}} PGs</div>
-                <div class="card-pf-body">
-                    <i class="fa fa-2x fa-check-circle-o ok" ng-if="(clusterdetail.pgs.warning + clusterdetail.pgs.critical) == 0"></i>
-                    <span ng-if="clusterdetail.pgs.warning > 0">
-                    <i class="fa fa-2x fa-exclamation-triangle warning"></i>
-                    {{clusterdetail.pgs.warning}}
-                  </span>
-                    <span ng-if="clusterdetail.pgs.critical > 0">
-                    <i class="fa fa-2x fa-times-circle-o critical"></i>
-                    {{clusterdetail.pgs.critical}}
-                  </span>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-3">
-            <div class="card-pf">
-                <div class="card-pf-title">{{clusterdetail.osds.total}} OSDs</div>
-                <div class="card-pf-body">
-                    <i class="fa fa-2x fa-check-circle-o ok" ng-if="(clusterdetail.osds.warning + clusterdetail.osds.critical) == 0"></i>
-                    <span ng-if="clusterdetail.osds.warning > 0">
-                    <i class="fa fa-2x fa-exclamation-triangle warning"></i>
-                    {{clusterdetail.osds.warning}}
-                  </span>
-                    <span ng-if="clusterdetail.osds.critical > 0">
-                    <i class="fa fa-2x fa-times-circle-o critical"></i>
-                    {{clusterdetail.osds.critical}}
-                  </span>
-                </div>
-            </div>
-        </div>
+        </div><!-- End of Fisrt Big row -->
     </div>
 
-    <div class="row card-pf">
-        <div class="col-md-12" style="padding-bottom:10px;">
-            <div class="heatmap-card-pools">
-                <div class="row">
-                    <div class="col-md-3">
-                        <div class="title">Thresholds</div>
-                        <div class="legend"> <span class="fa fa-stop legend-square legend-l0"></span> &gt; 90 % </div>
-                        <div class="legend"> <span class="fa fa-stop legend-square legend-l1"></span> 80-90 % </div>
-                        <div class="legend"> <span class="fa fa-stop legend-square legend-l2"></span> 70-80 % </div>
-                        <div class="legend"> <span class="fa fa-stop legend-square legend-l3"></span> &lt; 70 % </div>
-                    </div>
-                    <div class="col-md-3">
-                        <div class="row">
-                            <div class="col-md-2">
-                                <div class="heat-map-title"> Utilization </div>
-                                <div class="heat-map">
-                                    <div class="square heat-l0" ng-class="clusterdetail.getHeatLevel(volume.utilization)" ng-repeat="volume in clusterdetail.cluster.volumes"></div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-3">
-                        <div class="row">
-                            <div class="col-md-2">
-                                <div class="heat-map-title"> Performance </div>
-                                <div class="heat-map">
-                                    <div class="square heat-l0" ng-class="clusterdetail.getHeatLevel(volume.performance)" ng-repeat="volume in clusterdetail.cluster.volumes"></div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-3">
-                        <div class="row">
-                            <div class="col-md-2">
-                                <div class="heat-map-title"> Uptime </div>
-                                <div class="heat-map">
-                                    <div class="square heat-l0" ng-class="clusterdetail.getHeatLevel(volume.uptime)" ng-repeat="volume in clusterdetail.cluster.volumes"></div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+    <!-- TODO -->
+    <!-- SECOND TAB CONTENT -->
+    <div ng-show="clusterdetail.isSet(1)">
+        Second tab
     </div>
+
+    <!-- THIRD TAB CONTENT -->
+    <div ng-show="clusterdetail.isSet(2)">
+        Third tab
+    </div>
+
+    <!-- FOURTH TAB CONTENT -->
+    <div ng-show="clusterdetail.isSet(3)">
+        Fourth tab
+    </div>
+
 </div>

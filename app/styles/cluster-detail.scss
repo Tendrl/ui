@@ -1,49 +1,32 @@
 .cluster-detail {
-    
-    margin-top: 0;
-    padding-top: 20px;
 
-    .left-align {
-        text-align: left;
-        padding-left: 40px;
+    .cluster-contain {
+        margin-top: 0;
+        padding-top: 20px;
     }
-    .center-content {
-        text-align: center;
-    }
-    .left-content {
-        text-align: left;
-    }
-    .graph-box{
-        height:260px;
-    }
-    .title{
-      font-size:16px;
-      display:block;
-      font-weight: 600;
-    }
-    .bold {
-        font-weight: bold;
-    }
-    .cluster-name {
-        font-weight: 400;
-        font-size: 22px;
-        margin-top: -10px;
-    }
-    .cluster-name-subline {
-        font-size: 17px;
-        font-weight: 400;
-        padding-bottom: 15px;
-    }
-    .legend {
-        font-weight: 600;
-        font-size: 13px !important;
-    }
-    .card-pf-title{
+
+    .card-pf-title {
         margin:10px 0px !important;
     }
-    .card-big-text {
-        display: block;
+
+    .custom-breadcrumb {
         font-size: 20px;
+    }
+
+    .add-cursor-pointer {
+       cursor: pointer;
+    }
+
+    .cluster-utilization {
+        margin-top: 2%;
+    }
+
+    .utilization-align {
+        text-align: -moz-left;
+    }
+
+    .status-notification {
+        font-size: 15px;
     }
 
 }

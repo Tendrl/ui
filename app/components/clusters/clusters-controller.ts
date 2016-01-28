@@ -70,7 +70,7 @@ export class ClustersController {
             var mockCluster: any = {};
             mockCluster = this.mockDataProvider.getMockCluster(cluster.name);
             var tempCluster: any = {
-                clusterid: cluster.clusterid,
+                cluster_id: cluster.clusterid,
                 cluster_name: cluster.name,
                 cluster_type: cluster.type,
                 status: cluster.status,

@@ -33,7 +33,7 @@ export class RouteConfig {
 			name: 'clusters',
 			controller: 'ClusterExpandController',
 			controllerAs: 'cluster'
-		}).when('/clusters/detail/:id', {
+		}).when('/clusters/:id', {
 			templateUrl: 'views/clusters/clusters-detail.html',
 			name: 'clusters',
 			controller: 'ClusterDetailController',
