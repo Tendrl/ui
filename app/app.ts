@@ -5,7 +5,6 @@ import {default as RequestsModule} from "./components/requests/module";
 import {default as RestModule} from "./components/rest/rest-module";
 import {default as HostModule} from "./components/hosts/host-module";
 import {default as StorageModule} from "./components/storage/storage-module";
-import {default as PoolModule} from "./components/pools/pool-module";
 import {default as EventModule} from "./components/events/event-module";
 import {RouteConfig} from "./components/router/route-config";
 import {MenuService} from "./components/base/menu-svc";
@@ -63,7 +62,6 @@ class USMApp {
             RestModule,
             HostModule,
             StorageModule,
-            PoolModule,
             EventModule
         ])
             .controller('LoginController', LoginController)
