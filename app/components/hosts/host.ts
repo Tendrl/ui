@@ -78,11 +78,11 @@ export class HostController {
                 else {
                     host.cluster_type = self.clusters[host.clusterid].type;
                     host.cluster_name = self.clusters[host.clusterid].name;
-                    if(host.cluster_type === 1){
-                        host.cluster_type_name = "Gluster";
-                    }else if(host.cluster_type === 2){
-                        host.cluster_type_name = "Ceph";
-                    }
+                }
+                if(host.cluster_type === 1){
+                    host.cluster_type_name = "Gluster";
+                }else if(host.cluster_type === 2){
+                    host.cluster_type_name = "Ceph";
                 }
             }
             else{
