@@ -10,7 +10,7 @@ var angular: ng.IAngularStatic = require('angular');
 
 var moduleName = 'kitoon.storage';
 
-angular.module(moduleName, [])
+angular.module(moduleName, ['rzModule'])
     .controller('StorageListController', StorageListController)
     .controller('StorageNewController', StorageNewController)
     .controller('ObjectStorageController', ObjectStorageController)

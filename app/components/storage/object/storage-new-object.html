@@ -26,23 +26,44 @@
                 </div>
             </div>
             <div class="form-group">
-                <label class="col-md-2 control-label" for="targetPoolSize">Target Pool Size</label>
-                <div class="col-md-2">
-                    <div class="input-group">
-                        <input type="number" ng-model="storage.targetSize.value" class="form-control"></input>
-                        <div class="input-group-btn">
-                            <select pf-select ng-model="storage.targetSize.unit" class="form-control size-selector" ng-options="sizeUnit for sizeUnit in storage.sizeUnits"></select>
+                <div class="col-md-12">
+                    <div class="form-horizontal">
+                        <div class="form-group">
+                            <label class="col-md-2 control-label" for="profile">Storage Profile</label>
+                            <div class="col-md-2">
+                                <select pf-select ng-model="storage.profile" id="profile" class="form-control" ng-options="profile.name for profile in storage.profiles"></select>
+                            </div>
+                            <div class="col-md-8">
+                                <p class="form-control-static">{{storage.slus.length}} OSDs</p>
+                            </div>
+                        </div>
+                        <div class="form-group" ng-if="storage.PGsFixed">
+                            <div class="col-md-offset-2 col-md-10">
+                                <p class="text-info">
+                                    <strong>Note:</strong>Pools are created based on the number of OSD's in this cluster. When the number of OSDs available is 50 or
+                                    less, a fixed number of Placement Groups will be assigned.</p>
+                            </div>
+                            <label class="col-md-2 control-label" for="profile">Placement Groups</label>
+                            <div class="col-md-2">
+                                <p class="form-control-static">{{storage.pgs}}</p>
+                            </div>
+                        </div>
+                        <div class="form-group" ng-if="!storage.PGsFixed">
+                            <div class="col-md-offset-2 col-md-10">
+                                <p class="text-info">
+                                    <strong>Note:</strong>Pools are created based on the number of OSD's in this cluster. Move the slider to optimize the pool creation
+                                    based on size and the corresponding number of Placement Groups.</p>
+                            </div>
+                            <label class="col-md-2 control-label" for="profile">Placement Groups / Optimal Pool Size</label>
+                            <div class="col-md-9">
+                                <rzslider rz-slider-model="storage.pgSlider.value" rz-slider-options="storage.pgSlider.options"></rzslider>
+                            </div>
+                            <div class="col-md-2">
+                                <p class="form-control-static">{{storage.optimalPoolSize}}</p>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
-            <div class="form-group">
-                <label class="col-md-2 control-label" for="profile">Storage Profile</label>
-                <div class="col-md-2">
-                    <select pf-select ng-model="storage.profile" id="profile" class="form-control" ng-options="profile for profile in storage.profiles"></select>
-                    <p class="help-block">OSD's will be created based on the selected storage profile</p>
-                </div>
-                <div class="col-md-4">768 GB available</div>
             </div>
             <!-- End: General Configuration -->
             <!-- Adavanced Configuration -->
@@ -169,7 +190,7 @@
                             </div>
                             <div class="col-md-2">
                                 <span class="title">Storage Profile</span>
-                                <div class="value">{{pool.profile}}</div>
+                                <div class="value">{{pool.profile.name}}</div>
                             </div>
                             <div class="col-md-1">
                                 <span class="title">Replicas</span>
@@ -177,11 +198,11 @@
                             </div>
                             <div class="col-md-1">
                                 <span class="title">Capacity</span>
-                                <div class="value">{{pool.capacity.value}}&nbsp;{{pool.capacity.unit}}</div>
+                                <div class="value">{{pool.capacity}}</div>
                             </div>
                             <div class="col-md-1">
                                 <span class="title">OSDs</span>
-                                <div class="value">10
+                                <div class="value">{{storage.slus.length}}
                                     <span class="fa fa-caret-down"></span>
                                 </div>
                             </div>

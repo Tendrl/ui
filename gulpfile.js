@@ -44,10 +44,14 @@ var config = {
 		dest: 'dist/images'
 	},
 	css: {
-		vendor: {
-			src: ['./node_modules/patternfly/dist/css/patternfly.css','./node_modules/patternfly/dist/css/patternfly-additions.css','./node_modules/angular-patternfly/styles/angular-patternfly.css'],
-			dest: 'dist/css'
-		}
+        vendor: {
+            src: [
+                './node_modules/patternfly/dist/css/patternfly.css',
+                './node_modules/patternfly/dist/css/patternfly-additions.css', './node_modules/angular-patternfly/styles/angular-patternfly.css',
+                './node_modules/angularjs-slider/dist/rzslider.css'
+            ],
+            dest: 'dist/css'
+        }
 	}
 }
 

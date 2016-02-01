@@ -48,6 +48,7 @@ var c3Angular = require("c3-angular");
 var jquery = $ = require("jquery");
 var patternfly = require("patternfly");
 var angularPatternfly = require("angular-patternfly");
+var angularSlider = require("angularjs-slider");
 
 class USMApp {
     initialize() {
