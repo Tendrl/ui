@@ -15,7 +15,7 @@
             <h1>You don't have any hosts</h1>
         </div>
     </center>
-    <div class="row blade-view" ng-repeat="host in hosts.list | filter:search">
+    <div class="row blade-view hosts" ng-repeat="host in hosts.list | filter:search">
         <div class="col-md-2 col-sm-4">
             <div class="row">
                 <div class="col-md-1" ng-class="host.cluster_type===0?'vertical-line-for-unassigned':'vertical-line-for-assigned'">
@@ -23,8 +23,10 @@
                 </div>
                 <div class="col-md-offset-1 col-md-10 set-top-margin pull-right">
                     <div>
-                        <span class="pficon-ok" style="font-size: 2em;" ng-if="host.status === 'up'"></span>
-                        <span class="pficon-error-circle-o" style="font-size: 2em;" ng-if="host.status === 'down'"></span>
+                        <span class="pficon-running fa-spin status-icon" ng-if="host.state === 1" title="Initializing..."></span>
+                        <span class="pficon-error-circle-o status-icon" ng-if="host.state === 3" title="Failed"></span>
+                        <span class="pficon-ok status-icon" ng-if="host.state === 2 && host.status === 'up'" title="Up"></span>
+                        <span class="pficon-error-circle-o status-icon"  ng-if="host.state === 2 && host.status === 'down'" title="Down"></span>
                         <span class="host-name-heading" ng-bind="host.hostnameShort"></span>
                         <span class="description-for-host" ng-bind="host.management_ip4"></span>
                     </div>
@@ -32,7 +34,7 @@
             </div>
         </div>
         <div class="col-md-2 col-sm-2 set-top-margin-for-donut">
-            <span>
+            <div ng-if="host.state === 2">
                 <c3chart bindto-id="donut-cpu-chart-{{$index}}">
                     <chart-column column-id="Free" column-values="{{100-host.cpu_average}}" column-color="#CCCCCC" column-type="donut" />
                     <chart-column column-id="Using" column-values="{{host.cpu_average}}" column-color="{{hosts.getHostDonutColor(host.cpu_average)}}" column-type="donut" />
@@ -41,11 +43,11 @@
                     <chart-tooltip show-tooltip="false"></chart-tooltip>
                     <chart-size chart-height="100"></chart-size>
                 </c3chart>
-            </span>
-            <div class="gadget">CPU</div>
+                <div class="gadget">CPU</div>
+            </div>
         </div>
         <div class="col-md-2 col-sm-2 set-top-margin-for-donut">
-            <span>
+            <div ng-if="host.state === 2">
                 <c3chart bindto-id="donut-memory-chart-{{$index}}">
                     <chart-column column-id="Free" column-values="{{100-host.memory_average}}" column-color="#CCCCCC" column-type="donut" />
                     <chart-column column-id="Using" column-values="{{host.memory_average}}" column-color="{{hosts.getHostDonutColor(host.memory_average)}}" column-type="donut" />
@@ -54,8 +56,8 @@
                     <chart-tooltip show-tooltip="false"></chart-tooltip>
                     <chart-size chart-height="100"></chart-size>
                 </c3chart>
-            </span>
-            <div class="gadget">Memory</div>
+                <div class="gadget">Memory</div>
+            </div>
         </div>
         <div class="col-md-1 col-sm-3 set-top-margin">
             <div class="sub-heading">Cluster</div>
