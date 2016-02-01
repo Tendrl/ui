@@ -33,3 +33,24 @@
     </tr>
   </tbody>
 </table>
+
+<div class="progress-description" style="padding-top:10px;">
+  <span class="count">Sub Tasks</span>
+</div>
+
+<table class="table table-striped table-bordered" ng-repeat="subtask in task.subTasks">
+  <thead>
+    <tr>
+      <th>#</th>
+      <th>Execution Steps</th>
+      <th>Result</th>
+    </tr>
+  </thead>
+  <tbody ng-repeat="step in subtask.statuslist">
+    <tr>
+      <td ng-bind="$index +1 "></td>
+      <td ng-bind="step.Message"></td>
+      <td ng-bind="step.Timestamp  | date : 'MMM d yyyy, hh:mm:ss a'"></td>
+    </tr>
+  </tbody>
+</table>

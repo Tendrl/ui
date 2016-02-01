@@ -7,6 +7,7 @@ export class TaskDetailController {
     private timer;
     private taskId: string;
     private detail: any;
+    private subTasks: Array<any>;
     static $inject: Array<string> = [
         '$scope',
         '$interval',
@@ -31,6 +32,11 @@ export class TaskDetailController {
             this.detail = task;
             if(task.completed == true){
                 this.$interval.cancel(this.timer);
+            }
+            if(task.subtasks.length >0){
+                this.requestSvc.getSubTasks(task.id).then(subtasks => {
+                    this.subTasks = subtasks;
+                });
             }
         });
     }

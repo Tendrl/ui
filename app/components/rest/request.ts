@@ -46,4 +46,11 @@ export class RequestService {
             page_size: this.pageSize
         });
     }
+    // **getSubTasks**
+    // **@returns** a promise with list of subtasks.
+    getSubTasks(id) {
+        return this.rest.one('tasks', id).getList('subtasks').then(function(task) {
+            return task;
+        });
+    }
 }
