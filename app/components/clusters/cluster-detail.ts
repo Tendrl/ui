@@ -16,7 +16,7 @@ export class ClusterDetailController {
     private pools: any;
     private pgs: any;
     private osds: any;
-    private monitorsLength: any;
+    private monitors: any;
     private tabList: Array<any>;
     private tabIndex: any;
     private discoveredHostsLength: any;
@@ -48,16 +48,16 @@ export class ClusterDetailController {
             { tabName: "OSDs" },{ tabName: "Storage Profiles" },{ tabName: "Configuration" }
         ];
         this.tabIndex = 0;
-        this.monitorsLength = 0;
         this.clusterHelpers = new ClusterHelper(null, null, null, null);
 
         this.id = this.routeParamsSvc['id'];
         this.cluster = {};
         this.capacity = { free: 25, used: 75, total: 100 };
         this.hosts = { total: 0, warning: 0, critical: 0 };
-        this.pgs = { total: 1024, warning: 0, critical: 0 };
+        this.pgs = { total: 1024, warning: 2, critical: 1 };
         this.osds = { total: 0, warning: 0, critical: 0 };
         this.pools = { total: 0, warning: 0, critical: 0 };
+        this.monitors = { total: 0, warning: 0, critical: 0 };
 
         this.serverService.getDiscoveredHosts().then((freeHosts) => {
             this.discoveredHostsLength = freeHosts.length;
@@ -79,6 +79,8 @@ export class ClusterDetailController {
     public loadCluster(cluster: any) {
         this.cluster.name = cluster.name;
         this.cluster.type = this.clusterHelpers.getClusterType(cluster.cluster_type);
+        this.cluster.status = cluster.status;
+        this.cluster.enabled = cluster.enabled;
     }
 
     public getHostStatus(hosts: any) {
@@ -95,7 +97,7 @@ export class ClusterDetailController {
     public getMonitors(nodes: any) {
         _.each(nodes, (node: any) => {
             if (node.clusterid === this.id && node.options1.mon === 'Y') {
-                this.monitorsLength++;
+                this.monitors.total++;
             }
         });
     }
