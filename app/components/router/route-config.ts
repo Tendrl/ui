@@ -122,6 +122,10 @@ export class RouteConfig {
 			controller: 'EventListController',
 			controllerAs: 'events',
 			name: 'events'
+		}).when('/tasks/:taskId', {
+			templateUrl: 'views/tasks/task-details.html',
+			controller: 'TaskDetailController',
+			controllerAs: 'task'
 		}).otherwise({
 			redirectTo: '/'
 		});

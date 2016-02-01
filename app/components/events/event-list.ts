@@ -65,6 +65,6 @@ export class EventListController {
     }
 
     public viewDetails(taskId) {
-        this.$location.path('/events/details/' + taskId);
+        this.$location.path('/tasks/' + taskId);
     }
 }
