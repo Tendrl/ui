@@ -38,7 +38,7 @@
                         <span class="pficon-warning-triangle-o" style="font-size: 2em;" ng-if="cluster.enabled && cluster.status == 1"></span>
                         <span class="pficon-error-circle-o" style="font-size: 2em;" ng-if="cluster.enabled && cluster.status == 2"></span>
                         <span class="pficon-running fa-spin" style="font-size: 2em;" ng-if="cluster.enabled && cluster.status == 3" title="Creating"></span>
-                        <a ng-href="#/clusters/{{cluster.cluster_id}}"><span class="heading" ng-bind="cluster.cluster_name"></span></a>
+                        <a ng-href="#/clusters/{{cluster.clusterid}}"><span class="heading" ng-bind="cluster.cluster_name"></span></a>
                     </div>
                 </div>
             </div>
@@ -129,7 +129,7 @@
                             </span>
                         </div>
                         <div class="col-xs-5">
-                            <a ng-href="#/clusters/{{cluster.cluster_id}}">
+                            <a ng-href="#/clusters/{{cluster.clusterid}}">
                             <span class="heading-mobile" ng-bind="cluster.cluster_name"></span>
                             </a>
                         </div>
