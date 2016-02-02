@@ -62,8 +62,6 @@ export class HostController {
                 host.cpu_average = Math.round(Math.random() * 70);
                 host.memory_average = Math.round(Math.random() * 70);
             }
-            host.cluster_type = 2;
-            host.version = '';
             if (host.clusterid != null && host.clusterid !== '00000000-0000-0000-0000-000000000000') {
                 if (!self.clusters[host.clusterid]) {
                     self.clusterSvc.get(host.clusterid).then(function(cluster) {
@@ -76,15 +74,9 @@ export class HostController {
                     host.cluster_type = self.clusters[host.clusterid].type;
                     host.cluster_name = self.clusters[host.clusterid].name;
                 }
-                if(host.cluster_type === 1){
-                    host.cluster_type_name = "Gluster";
-                }else if(host.cluster_type === 2){
-                    host.cluster_type_name = "Ceph";
-                }
             }
             else{
-                host.cluster_type=0;
-                host.cluster_type_name="Free";
+                host.cluster_type="Free";
                 host.cluster_name="Unassigned";
             }
             self.serverService.getMemoryUtilization(host.nodeid).then((results) => {
