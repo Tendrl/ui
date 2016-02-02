@@ -543,7 +543,7 @@ export class ClusterNewController {
         });
         var networks = {
             cluster: clusterNetwork.address,
-            access: accessNetwork.address
+            public: accessNetwork.address
         };
         var services = _.pluck(_.filter(this.openstackServices, (service: any) => {
             return service.selected;
