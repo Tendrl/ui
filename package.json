@@ -21,7 +21,9 @@
     "jquery": "~1.11.3",
     "es6-shim": "~0.33.6",
     "restangular": "git://github.com/mgonto/restangular#1.5.1",
-    "c3-angular": "git://github.com/jettro/c3-angular-directive#0.7.1"
+    "c3-angular": "git://github.com/jettro/c3-angular-directive#0.7.1",
+    "angular-patternfly" : "git://github.com/kamleshverma1/angular-patternfly.git#multi-data-pf-utilization-bar-chart",
+    "angular-ui-bootstrap": "^1.1.2"
   },
   "devDependencies": {
     "browserify": "~12.0.2",
@@ -52,7 +54,8 @@
     "angular-strap-tpl": "./node_modules/angular-strap/dist/angular-strap.tpl.js",
     "angular-growl": "./node_modules/angular-growl-v2/build/angular-growl.js",
     "idb-wrapper": "./node_modules/idb-wrapper/idbstore.js",
-    "patternfly": "./node_modules/patternfly/dist/js/patternfly.js"
+    "patternfly": "./node_modules/patternfly/dist/js/patternfly.js",
+    "angular-patternfly": "./node_modules/angular-patternfly/dist/angular-patternfly.js"
   },
   "browserify": {
     "transform": [
@@ -86,6 +89,18 @@
     "patternfly": {
       "depends": [
         "jquery: jQuery"
+      ]
+    },
+    "angular-patternfly": {
+      "depends": [
+        "jquery: jQuery",
+        "d3",
+        "c3: c3",
+        "patternfly",
+        "angular",
+        "angular-sanitize",
+        "angular-animate",
+        "angular-ui-bootstrap"
       ]
     }
   }

@@ -45,7 +45,7 @@ var config = {
 	},
 	css: {
 		vendor: {
-			src: ['./node_modules/patternfly/dist/css/patternfly.css','./node_modules/patternfly/dist/css/patternfly-additions.css'],
+			src: ['./node_modules/patternfly/dist/css/patternfly.css','./node_modules/patternfly/dist/css/patternfly-additions.css','./node_modules/angular-patternfly/styles/angular-patternfly.css'],
 			dest: 'dist/css'
 		}
 	}
