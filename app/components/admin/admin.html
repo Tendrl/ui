@@ -48,13 +48,13 @@
         <li role="presentation">
           <a role="menuitem" href="" ng-click="users.editUser(user.username)"> Edit user </a>
         </li>
-        <li role="presentation">
+        <li role="presentation" ng-if ="user.username!=users.currentUser.username">
           <a role="menuitem" href="" ng-click="users.toggleUserStatus(user)"> Disable user </a>
         </li>
         <li role="presentation">
           <a role="menuitem" href="" ng-click="users.toggleEmailStatus(user)"> {{user.notificationenabled?'Disable':'Enable'}} Notification </a>
         </li>
-       <li role="presentation">
+       <li role="presentation" ng-if ="user.username!=users.currentUser.username">
           <a role="menuitem" href="" ng-click="users.deleteUser(user.username)"> Delete User</a>
         </li>
       </ul>
