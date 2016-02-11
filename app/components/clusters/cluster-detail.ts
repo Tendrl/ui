@@ -16,10 +16,16 @@ export class ClusterDetailController {
     private pools: any;
     private pgs: any;
     private osds: any;
+    private objects: any;
     private monitors: any;
     private tabList: Array<any>;
     private tabIndex: any;
     private discoveredHostsLength: any;
+    private clusterUtilization: any;
+    private openStackPools: any;
+    private mostUsedPools: any;
+    private utilizationByType: any;
+    private utilizationByProfile: any;
 
     //Services that are used in this class.
     static $inject: Array<string> = [
@@ -42,6 +48,9 @@ export class ClusterDetailController {
         private serverService: ServerService,
         private storageService: StorageService) {
 
+        this.clusterUtilization = { data: {}, config: {} };
+        this.openStackPools = [];
+        this.mostUsedPools = [];
         this.clusterList = [];
         this.tabList = [
             { tabName: "Overview" },{ tabName: "CRUSH map" },{ tabName: "Pools" },{ tabName: "RBDs" },
@@ -49,21 +58,27 @@ export class ClusterDetailController {
         ];
         this.tabIndex = 0;
         this.clusterHelpers = new ClusterHelper(null, null, null, null);
-
+        this.utilizationByType = {};
+        this.utilizationByProfile = {};
         this.id = this.routeParamsSvc['id'];
         this.cluster = {};
-        this.capacity = { free: 25, used: 75, total: 100 };
+        this.capacity = {};
         this.hosts = { total: 0, warning: 0, critical: 0 };
         this.pgs = { total: 1024, warning: 2, critical: 1 };
         this.osds = { total: 0, warning: 0, critical: 0 };
+        this.objects = { total: 10243, warning: 2, critical: 1 };
         this.pools = { total: 0, warning: 0, critical: 0 };
         this.monitors = { total: 0, warning: 0, critical: 0 };
 
+        this.getUtilizationByType();
+        this.getUtilizationByProfile();
+        this.getOpenStackPools();
+        this.getMostUsedPools();
         this.serverService.getDiscoveredHosts().then((freeHosts) => {
             this.discoveredHostsLength = freeHosts.length;
         });
         this.clusterService.getList().then((clusters: Array<any>) => {
-           this.clusterList = clusters
+           this.clusterList = clusters;
         });
         this.clusterService.getSlus(this.id).then((slus: Array<any>) => {
            this.osds.total = slus.length;
@@ -72,8 +87,50 @@ export class ClusterDetailController {
            this.pools.total = storages.length;
         });
         this.clusterService.get(this.id).then((cluster) => this.loadCluster(cluster));
+        this.clusterService.getClusterUtilization(this.id).then((utilizations) => this.getClusterUtilization(utilizations));
         this.serverService.getListByCluster(this.id).then((hosts) => this.getHostStatus(hosts));
         this.serverService.getList().then((nodes) => this.getMonitors(nodes));
+
+    }
+
+    public getUtilizationByType() {
+        this.utilizationByType.title = 'Utilization by storage type';
+        this.utilizationByType.data = {
+          'total': '100',
+          'subdata' : [ { "used" : 45 , "color" : "#00558a" , "subtitle" : "Object" },
+                        { "used" : 15 , "color" : "#0071a6" , "subtitle" : "Block" },
+                        { "used" :  5 , "color" : "#00a8e1" , "subtitle" : "OpenStack" }]
+        };
+        this.utilizationByType.layout = {
+          'type': 'multidata'
+        };
+    }
+
+    public getUtilizationByProfile() {
+        this.utilizationByProfile.title = 'Utilization by storage profile';
+        this.utilizationByProfile.data = {
+          'total': '100',
+          'subdata' : [ { "used" : 30 , "color" : "#00558a" , "subtitle" : "General" },
+                        { "used" : 25 , "color" : "#0071a6" , "subtitle" : "SAS" },
+                        { "used" : 15 , "color" : "#00a8e1" , "subtitle" : "SSD" }]
+        };
+        this.utilizationByProfile.layout = {
+          'type': 'multidata'
+        };
+    }
+
+    public getOpenStackPools() {
+        this.openStackPools.push({"title":"Cinder","units":"GB","data":{"used":"25","total":"100"}});
+        this.openStackPools.push({"title":"Cinder-Backup","units":"GB","data":{"used":"75","total":"100"}});
+        this.openStackPools.push({"title":"Glance","units":"GB","data":{"used":"86","total":"100"}});
+        this.openStackPools.push({"title":"Nova","units":"GB","data":{"used":"30","total":"100"}});
+    }
+
+    public getMostUsedPools() {
+        this.mostUsedPools.push({"title":"Pool1","units":"GB","data":{"used":"85","total":"100"}});
+        this.mostUsedPools.push({"title":"Pool2","units":"GB","data":{"used":"75","total":"100"}});
+        this.mostUsedPools.push({"title":"Pool3","units":"GB","data":{"used":"95","total":"100"}});
+        this.mostUsedPools.push({"title":"Pool4","units":"GB","data":{"used":"30","total":"100"}});
     }
 
     public loadCluster(cluster: any) {
@@ -81,6 +138,34 @@ export class ClusterDetailController {
         this.cluster.type = this.clusterHelpers.getClusterType(cluster.cluster_type);
         this.cluster.status = cluster.status;
         this.cluster.enabled = cluster.enabled;
+    }
+
+    public getClusterUtilization(utilizations: Array<any>) {
+        _.each(utilizations, (utilization: any) => {
+            var label = utilization.target.split('.')[3];
+            var data  = utilization.datapoints[0][0];
+            var dataFormated = numeral(data).format('0 b');
+            if ( label === 'total_bytes') {
+                this.capacity.total = dataFormated;
+                this.clusterUtilization.data.total = data;
+            }
+            else if (label === 'total_used_bytes') {
+                this.capacity.used = dataFormated;
+                this.clusterUtilization.data.used = data;
+            }
+        });
+        this.clusterUtilization.config.chartId = "utilizationChart";
+        this.clusterUtilization.config.units = "GB";
+        this.clusterUtilization.config.thresholds = {'warning':'60','error':'90'};
+        this.clusterUtilization.config.legend = {"show":false};
+        this.clusterUtilization.config.tooltipFn = (d) => {
+              return '<span class="donut-tooltip-pf"style="white-space: nowrap;">' +
+                       numeral(d[0].value).format('0 b') + ' ' + d[0].name +
+                     '</span>';
+        };
+        this.clusterUtilization.config.centerLabelFn = () => {
+              return Math.round(100 * (this.clusterUtilization.data.used / this.clusterUtilization.data.total)) + "% Used";
+        };
     }
 
     public getHostStatus(hosts: any) {

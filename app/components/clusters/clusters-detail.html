@@ -6,12 +6,14 @@
                 <span ng-if="clusterdetail.cluster.enabled && clusterdetail.cluster.status===0" class="pficon pficon-ok"></span>
                 <span ng-if="clusterdetail.cluster.enabled && clusterdetail.cluster.status===1" class="pficon pficon-warning-triangle-o"></span>
                 <span ng-if="clusterdetail.cluster.enabled && clusterdetail.cluster.status===2" class="pficon pficon-error-circle-o"></span>
-                <span class="add-cursor-pointer" data-animation="am-flip-x" data-template="views/clusters/cluster-list-menu-dropdown.tpl.html" bs-dropdown="ellipsis">
+                <span ng-if="clusterdetail.clusterList.length > 1" class="add-cursor-pointer" data-animation="am-flip-x" data-template="views/clusters/cluster-list-menu-dropdown.tpl.html" bs-dropdown="ellipsis">
                     {{clusterdetail.cluster.name}}  <b class="caret"></b>
+                </span>
+                <span ng-if="clusterdetail.clusterList.length === 1">
+                    {{clusterdetail.cluster.name}}
                 </span>
             </li>
         </ol>
-        <hr>
         <ul class="nav nav-tabs">
             <li ng-repeat="tab in clusterdetail.tabList" ng-class="clusterdetail.isSet($index)? 'active':''">
                 <a href ng-click="clusterdetail.setTab($index)" ng-bind="tab.tabName">
@@ -34,39 +36,21 @@
                                 <div class="col-xs-12 col-sm-4 col-md-3">
                                     <h2 class="card-pf-title">
                                         <a href="#">{{clusterdetail.capacity.used}} Used</a>
+                                        <p><small>of {{clusterdetail.capacity.total}} Total</small></p>
                                     </h2>
                                     <div class="card-pf-body">
-                                        <div>
-                                            <c3chart bindto-id="donut-plot1-chart">
-                                                <chart-column column-id="Free" column-values="{{100-clusterdetail.mockCluster.cpu.average}}" column-color="#CCCCCC" column-type="donut" />
-                                                <chart-column column-id="Using" column-values="{{clusterdetail.mockCluster.cpu.average}}" column-color="{{clusterdetail.getStatusColor(clusterdetail.mockCluster.cpu.average)}}" column-type="donut" />
-                                                <chart-donut title="{{clusterdetail.mockCluster.cpu.average}}%" width="10" />
-                                                <chart-legend show-legend="false" />
-                                                <chart-tooltip show-tooltip="false"></chart-tooltip>
-                                                <chart-size chart-height="100"></chart-size>
-                                            </c3chart>
+                                        <div ng-if="clusterdetail.clusterUtilization.data.total > 0">
+                                            <div pf-donut-pct-chart config="clusterdetail.clusterUtilization.config" data="clusterdetail.clusterUtilization.data" center-label="clusterdetail.clusterUtilization.label"></div>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="col-xs-12 col-sm-8 col-md-7">
                                     <div class="cluster-utilization">
-                                        <div class="utilization-align">Utilization by storage type</div>
-                                        <div class="progress">
-                                            <div class="progress-bar" role="progressbar" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100" style="width: 25%;" data-toggle="tooltip" title="25% Used">
-                                                <span class="sr-only">25% Used</span>
-                                            </div>
-                                            <div class="progress-bar progress-bar-remaining" role="progressbar" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100" style="width: 75%;" data-toggle="tooltip" title="75% Available">
-                                                <span class="sr-only">75% Available</span>
-                                            </div>
+                                        <div class="margin-for-storage-type">
+                                            <div pf-utilization-bar-chart chart-data="clusterdetail.utilizationByType.data" chart-title="clusterdetail.utilizationByType.title" layout="clusterdetail.utilizationByType.layout"></div>
                                         </div>
-                                        <div class="utilization-align">Utilization by storage profile</div>
-                                        <div class="progress">
-                                            <div class="progress-bar" role="progressbar" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100" style="width: 75%;" data-toggle="tooltip" title="75% Used">
-                                                <span class="sr-only">75% Used</span>
-                                            </div>
-                                            <div class="progress-bar progress-bar-remaining" role="progressbar" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100" style="width: 25%;" data-toggle="tooltip" title="25% Available">
-                                                <span class="sr-only">25% Available</span>
-                                            </div>
+                                        <div class="margin-for-storage-profile">
+                                            <div pf-utilization-bar-chart chart-data="clusterdetail.utilizationByProfile.data" chart-title="clusterdetail.utilizationByProfile.title" layout="clusterdetail.utilizationByProfile.layout"></div>
                                         </div>
                                     </div>
                                 </div>
@@ -198,17 +182,27 @@
                     <div class="col-xs-12 col-sm-12 col-md-3">
                         <div class="card-pf card-pf-aggregate-status card-pf-with-action">
                             <h2 class="card-pf-title">
-                                <a href="#">34 Objects</a>
+                                <a href="#">{{clusterdetail.objects.total}} Objects</a>
                             </h2>
                             <div class="card-pf-body">
                                 <p class="card-pf-aggregate-status-notifications">
-                                    <span class="card-pf-aggregate-status-notification"><a href="#"><span class="pficon pficon-error-circle-o"></span>12</a></span>
-                                    <span class="card-pf-aggregate-status-notification"><a href="#"><span class="pficon pficon-warning-triangle-o"></span>23</a></span>
+                                    <span ng-if="clusterdetail.objects.critical>0" class="card-pf-aggregate-status-notification"><a href="#">
+                                        <span class="pficon pficon-error-circle-o"></span>
+                                        <span>{{clusterdetail.objects.critical}}</span></a>
+                                    </span>
+                                    <span ng-if="clusterdetail.objects.warning>0" class="card-pf-aggregate-status-notification"><a href="#">
+                                        <span class="pficon pficon-warning-triangle-o"></span>
+                                        <span>{{clusterdetail.objects.warning}}</span></a>
+                                    </span>
+                                    <span ng-if="clusterdetail.objects.critical===0 && clusterdetail.objects.warning===0" class="card-pf-aggregate-status-notification"><a href="#">
+                                        <span class="pficon pficon-ok"></span>
+                                    </span>
                                 </p>
                             </div>
                         </div>
                     </div>
                 </div><!-- Third row end-->
+
             </div>
 
             <!-- Utilization SideBar -->
@@ -222,49 +216,7 @@
                                 </h2>
                             </div>
                             <div class="card-pf-body">
-                                <div class="progress-description">
-                                    Cinder
-                                </div>
-                                <div class="progress progress-label-top-right">
-                                    <div class="progress-bar progress-bar-danger" role="progressbar" aria-valuenow="95" aria-valuemin="0" aria-valuemax="100" style="width: 95%;"  data-toggle="tooltip" title="95% Used">
-                                        <span><strong>25 of 100 GB</strong> Used</span>
-                                    </div>
-                                    <div class="progress-bar progress-bar-remaining" role="progressbar" aria-valuenow="5" aria-valuemin="0" aria-valuemax="100" style="width: 5%;" data-toggle="tooltip" title="5% Available">
-                                        <span class="sr-only">5% Available</span>
-                                    </div>
-                                </div>
-                                <div class="progress-description">
-                                    Cinder Backup
-                                </div>
-                                <div class="progress progress-label-top-right">
-                                    <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100" style="width: 50%;"  data-toggle="tooltip" title="50% Used">
-                                        <span><strong>25 of 100 GB</strong> Used</span>
-                                    </div>
-                                    <div class="progress-bar progress-bar-remaining" role="progressbar" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100" style="width: 50%;" data-toggle="tooltip" title="50% Available">
-                                        <span class="sr-only">50% Available</span>
-                                    </div>
-                                </div>
-                                <div class="progress-description">
-                                    Glance
-                                </div>
-                                <div class="progress progress-label-top-right">
-                                    <div class="progress-bar progress-bar-warning" role="progressbar" aria-valuenow="70" aria-valuemin="0" aria-valuemax="100" style="width: 70%;"  data-toggle="tooltip" title="70% Used">
-                                        <span><strong>25 of 100 GB</strong> Used</span>
-                                    </div>
-                                    <div class="progress-bar progress-bar-remaining" role="progressbar" aria-valuenow="30" aria-valuemin="0" aria-valuemax="100" style="width: 30%;" data-toggle="tooltip" title="30% Available">
-                                        <span class="sr-only">30% Available</span>
-                                    </div>
-                                </div>
-                                <div class="progress-description">
-                                    Nova
-                                </div>
-                                <div class="progress progress-label-top-right">
-                                    <div class="progress-bar progress-bar-warning" role="progressbar" aria-valuenow="76.5" aria-valuemin="0" aria-valuemax="100" style="width: 76.5%;"  data-toggle="tooltip" title="76.5% Used">
-                                        <span><strong>25 of 100 GB</strong> Used</span>
-                                    </div>
-                                    <div class="progress-bar progress-bar-remaining" role="progressbar" aria-valuenow="23.5" aria-valuemin="0" aria-valuemax="100" style="width: 23.5%;" data-toggle="tooltip" title="23.5% Available">
-                                        <span class="sr-only">23.5% Available</span>
-                                    </div>
+                                <div ng-repeat="data in clusterdetail.openStackPools" pf-utilization-bar-chart chart-data="data.data" chart-title="data.title" units="data.units" threshold-error="85" threshold-warning="60">
                                 </div>
                             </div>
                         </div>
@@ -276,49 +228,7 @@
                                 </h2>
                             </div>
                             <div class="card-pf-body">
-                                <div class="progress-description">
-                                    Pool1
-                                </div>
-                                <div class="progress progress-label-top-right">
-                                    <div class="progress-bar progress-bar-danger" role="progressbar" aria-valuenow="95" aria-valuemin="0" aria-valuemax="100" style="width: 95%;"  data-toggle="tooltip" title="95% Used">
-                                        <span><strong>25 of 100 GB</strong> Used</span>
-                                    </div>
-                                    <div class="progress-bar progress-bar-remaining" role="progressbar" aria-valuenow="5" aria-valuemin="0" aria-valuemax="100" style="width: 5%;" data-toggle="tooltip" title="5% Available">
-                                        <span class="sr-only">5% Available</span>
-                                    </div>
-                                </div>
-                                <div class="progress-description">
-                                    Pool2
-                                </div>
-                                <div class="progress progress-label-top-right">
-                                    <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100" style="width: 50%;"  data-toggle="tooltip" title="50% Used">
-                                        <span><strong>25 of 100 GB</strong> Used</span>
-                                    </div>
-                                    <div class="progress-bar progress-bar-remaining" role="progressbar" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100" style="width: 50%;" data-toggle="tooltip" title="50% Available">
-                                        <span class="sr-only">50% Available</span>
-                                    </div>
-                                </div>
-                                <div class="progress-description">
-                                    Pool3
-                                </div>
-                                <div class="progress progress-label-top-right">
-                                    <div class="progress-bar progress-bar-warning" role="progressbar" aria-valuenow="70" aria-valuemin="0" aria-valuemax="100" style="width: 70%;"  data-toggle="tooltip" title="70% Used">
-                                        <span><strong>25 of 100 GB</strong> Used</span>
-                                    </div>
-                                    <div class="progress-bar progress-bar-remaining" role="progressbar" aria-valuenow="30" aria-valuemin="0" aria-valuemax="100" style="width: 30%;" data-toggle="tooltip" title="30% Available">
-                                        <span class="sr-only">30% Available</span>
-                                    </div>
-                                </div>
-                                <div class="progress-description">
-                                    Pool4
-                                </div>
-                                <div class="progress progress-label-top-right">
-                                    <div class="progress-bar progress-bar-warning" role="progressbar" aria-valuenow="76.5" aria-valuemin="0" aria-valuemax="100" style="width: 76.5%;"  data-toggle="tooltip" title="76.5% Used">
-                                        <span><strong>25 of 100 GB</strong> Used</span>
-                                    </div>
-                                    <div class="progress-bar progress-bar-remaining" role="progressbar" aria-valuenow="23.5" aria-valuemin="0" aria-valuemax="100" style="width: 23.5%;" data-toggle="tooltip" title="23.5% Available">
-                                        <span class="sr-only">23.5% Available</span>
-                                    </div>
+                                <div ng-repeat="data in clusterdetail.mostUsedPools" pf-utilization-bar-chart chart-data="data.data" chart-title="data.title" units="data.units" threshold-error="85" threshold-warning="60">
                                 </div>
                             </div>
                         </div>

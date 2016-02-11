@@ -3,6 +3,11 @@
 import {Cluster} from '../rest/resources';
 import {ServerService} from '../rest/server';
 
+export interface ClusterCapacity {
+    target: string,
+    datapoints: Array<Array<string>>
+}
+
 export class ClusterService {
     rest: restangular.IService;
     restFull: restangular.IService;
@@ -109,6 +114,14 @@ export class ClusterService {
     getSlus(clusterId) {
         return this.rest.one('clusters', clusterId).all('slus').getList().then(function(slus) {
             return slus;
+        });
+    }
+
+    // **getClusterUtilization**
+    // **@returns** a promise with cluster's utilization.
+    getClusterUtilization(cluster_id) {
+        return this.rest.all('monitoring/cluster/'+cluster_id+'/utilization?resource=cluster_utilization&&duration=latest').getList<ClusterCapacity>().then(function(clustercapacities: Array<ClusterCapacity>) {
+            return clustercapacities;
         });
     }
 }
