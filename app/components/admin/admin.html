@@ -50,7 +50,7 @@
           <a role="menuitem" href="" ng-click="users.editUser(user.username)"> Edit user </a>
         </li>
         <li role="presentation" ng-if ="user.username!=users.currentUser.username">
-          <a role="menuitem" href="" ng-click="users.toggleUserStatus(user)"> Disable user </a>
+          <a role="menuitem" href="" ng-click="users.toggleUserStatus(user)"> {{user.status?'Disable':'Enable'}} user </a>
         </li>
         <li role="presentation">
           <a role="menuitem" href="" ng-click="users.toggleEmailStatus(user)"> {{user.notificationenabled?'Disable':'Enable'}} Notification </a>

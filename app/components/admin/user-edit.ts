@@ -75,6 +75,9 @@ export class UserEditController {
         if(this.password && this.password.length > 0) {
             user.password = this.password;
         }
+        user.status = this.status;
+        user.notificationenabled = this.notificationenabled;
+
         this.UserService.updateUser(this.userId,user).then((result) => {
             if(result.status === 200) {
                 this.$location.path('/admin');
