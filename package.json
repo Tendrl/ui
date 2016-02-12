@@ -55,7 +55,8 @@
     "angular-growl": "./node_modules/angular-growl-v2/build/angular-growl.js",
     "idb-wrapper": "./node_modules/idb-wrapper/idbstore.js",
     "patternfly": "./node_modules/patternfly/dist/js/patternfly.js",
-    "angular-patternfly": "./node_modules/angular-patternfly/dist/angular-patternfly.js"
+    "angular-patternfly": "./node_modules/angular-patternfly/dist/angular-patternfly.js",
+    "angular-ui-bootstrap": "./node_modules/angular-ui-bootstrap/dist/ui-bootstrap.js"
   },
   "browserify": {
     "transform": [
