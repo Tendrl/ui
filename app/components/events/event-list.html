@@ -6,6 +6,29 @@
         <div class="col-md-3">
             <input type="text" class="form-control" placeholder="Search" ng-model="search">
         </div>
+        <div class="col-md-9 pull-right" >
+            <ul class="pagination pull-right">
+                <li>
+                <a ng-click="events.paginate(events.pageNo-1)" aria-label="Previous">
+                    <span aria-hidden="true">&lsaquo;</span>
+                </a>
+                </li>
+                <li ng-show="events.pageNo > 3"><a ng-click="events.paginate(1)">1</a></li>
+                <li ng-show="events.pageNo > 4"><a> ... </a></li>
+                <li ng-show="events.pageNo > 2"><a ng-click="events.paginate(events.pageNo-2)" ng-bind="events.pageNo-2"></a></li>
+                <li ng-show="events.pageNo > 1"><a ng-click="events.paginate(events.pageNo-1)" ng-bind="events.pageNo-1"></a></li>
+                <li><a class="selected-page" ng-click="events.paginate(events.pageNo)" ng-bind="events.pageNo"></a></li>
+                <li ng-show="events.pageNo < events.totalPages"><a ng-click="events.paginate(events.pageNo+1)" ng-bind="events.pageNo+1"></a></li>
+                <li ng-show="(events.pageNo+1) < events.totalPages"><a ng-click="events.paginate(events.pageNo+2)" ng-bind="events.pageNo+2"></a></li>
+                <li ng-show="(events.pageNo+3) < events.totalPages"><a> ... </a></li>
+                <li ng-show="(events.pageNo+2) < events.totalPages"><a ng-click="events.paginate(events.totalPages)" ng-bind="events.totalPages"></a></li>
+                <li>
+                <a ng-click="events.paginate(events.pageNo+1)" aria-label="Next">
+                    <span aria-hidden="true">&rsaquo;</span>
+                </a>
+                </li>
+            </ul>
+        </div>
     </div>
     <div class="row blade event-item" ng-repeat="event in events.list | filter:search">
         <div class="col-md-1">

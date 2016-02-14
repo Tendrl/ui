@@ -8,6 +8,9 @@ import {RequestTrackingService} from '../requests/request-tracking-svc';
 export class EventListController {
     private list: Array<any>;
     private timer;
+    private pageNo = 1;
+    private pageSize = 20;
+    private totalPages = 1;
     static $inject: Array<string> = [
         '$scope',
         '$interval',
@@ -35,9 +38,17 @@ export class EventListController {
     }
 
     public refresh() {
-        this.requestSvc.getList().then(tasks => {
-            this.loadData(tasks);
+        this.requestSvc.getList(this.pageNo,this.pageSize).then((data :any) => {
+            this.totalPages = Math.ceil(data.totalcount/this.pageSize);
+            this.loadData(data.tasks);
         });
+    }
+
+    public paginate(pageNo) {
+        if(pageNo<1 || pageNo > this.totalPages)
+            return;
+        this.pageNo = pageNo;
+        this.refresh();
     }
 
     public loadData(tasks: Array<any>) {
