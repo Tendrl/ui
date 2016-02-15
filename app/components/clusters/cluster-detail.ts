@@ -64,14 +64,13 @@ export class ClusterDetailController {
         this.cluster = {};
         this.capacity = {};
         this.hosts = { total: 0, warning: 0, critical: 0 };
-        this.pgs = { total: 1024, warning: 2, critical: 1 };
+        this.pgs = { total: 0, warning: 0, critical: 0 };
         this.osds = { total: 0, warning: 0, critical: 0 };
-        this.objects = { total: 10243, warning: 2, critical: 1 };
+        this.objects = { total: 0, warning: 0, critical: 0 };
         this.pools = { total: 0, warning: 0, critical: 0 };
         this.monitors = { total: 0, warning: 0, critical: 0 };
 
         this.getUtilizationByType();
-        this.getUtilizationByProfile();
         this.getOpenStackPools();
         this.getMostUsedPools();
         this.serverService.getDiscoveredHosts().then((freeHosts) => {
@@ -83,11 +82,15 @@ export class ClusterDetailController {
         this.clusterService.getSlus(this.id).then((slus: Array<any>) => {
            this.osds.total = slus.length;
         });
+        this.clusterService.getClusterObjects(this.id).then((clusterObjects: Array<any>) => {
+           this.objects.total = clusterObjects.length;
+        });
         this.storageService.getListByCluster(this.id).then((storages: Array<any>) => {
            this.pools.total = storages.length;
         });
         this.clusterService.get(this.id).then((cluster) => this.loadCluster(cluster));
         this.clusterService.getClusterUtilization(this.id).then((utilizations) => this.getClusterUtilization(utilizations));
+        this.clusterService.getStorageProfileUtilization(this.id).then((utilizations) => this.getUtilizationByProfile(utilizations));
         this.serverService.getListByCluster(this.id).then((hosts) => this.getHostStatus(hosts));
         this.serverService.getList().then((nodes) => this.getMonitors(nodes));
 
@@ -106,16 +109,29 @@ export class ClusterDetailController {
         };
     }
 
-    public getUtilizationByProfile() {
+    public getUtilizationByProfile(utilizations: Array<any>) {
         this.utilizationByProfile.title = 'Utilization by storage profile';
-        this.utilizationByProfile.data = {
-          'total': '100',
-          'subdata' : [ { "used" : 30 , "color" : "#00558a" , "subtitle" : "General" },
-                        { "used" : 25 , "color" : "#0071a6" , "subtitle" : "SAS" },
-                        { "used" : 15 , "color" : "#00a8e1" , "subtitle" : "SSD" }]
-        };
         this.utilizationByProfile.layout = {
           'type': 'multidata'
+        };
+        var subdata = [];
+        _.each(utilizations, (utilization: any) => {
+            var label = utilization.target.split('.');
+            var usedData  = utilization.datapoints[0][0];
+            if( label[3] === 'usage_percent' ) {
+                if ( label[2] === 'storage_profile_utilization_general') {
+                    subdata.push({ "used" : usedData , "color" : "#00558a" , "subtitle" : "General" });
+                }
+                else if (label[2] === 'storage_profile_utilization_sas') {
+                    subdata.push({ "used" : usedData , "color" : "#0071a6" , "subtitle" : "SAS" });
+                }else if (label[2] === 'storage_profile_utilization_ssd') {
+                    subdata.push({ "used" : usedData , "color" : "#00a8e1" , "subtitle" : "SSD" });
+                }
+            }
+        });
+        this.utilizationByProfile.data = {
+          'total': '100',
+          'subdata' : subdata
         };
     }
 

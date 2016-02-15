@@ -124,4 +124,21 @@ export class ClusterService {
             return clustercapacities;
         });
     }
+
+    // **getStorageProfileUtilization**
+    // **@returns** a promise with Storage Profile's utilization.
+    getStorageProfileUtilization(cluster_id) {
+        return this.rest.all('monitoring/cluster/'+cluster_id+'/utilization?resource=storage_profile_utilization&duration=latest').getList().then(function(storage_profile_utilization) {
+            return storage_profile_utilization;
+        });
+    }
+
+    // **getClusterObjects**
+    // **@returns** a promise with cluster's objects.
+    getClusterObjects(cluster_id) {
+        return this.rest.all('monitoring/cluster/'+cluster_id+'/utilization?resource=no_of_object').getList().then(function(cluster_objects) {
+            return cluster_objects;
+        });
+    }
+
 }
