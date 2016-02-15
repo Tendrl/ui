@@ -90,4 +90,16 @@ export class UserService {
             return users;
         });
     }
+
+    // **getLdapUsers with page number and pageSize parameters**
+    // **@returns** a promise with list of users
+    getLdapUsersPage(searchQuery,pageNumber,pageSize){
+        return this.rest.one('externalusers').get({
+            search: searchQuery,
+            pageno: pageNumber,
+            pagesize: pageSize
+        }).then(function(users){
+            return users;
+        });
+    }
 }

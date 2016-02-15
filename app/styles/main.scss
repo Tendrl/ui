@@ -16,7 +16,8 @@
 @import 'discovered-host';
 @import 'events';
 @import 'storage-profile-disks';
-
+@import 'pagination';
+@import 'ldap-add-user';
 //---------- Guage Disable ---------
 .c3-chart-arc .c3-gauge-value
 {
