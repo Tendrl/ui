@@ -1,3 +1,16 @@
-.storage-profile-disks-dialog {
-    width: 60% !important;
+.storage-profile-disks {
+    .storage-profile-disks-dialog {
+        width: 60% !important;
+    }
+
+    .storage-profiles-header {
+        margin-bottom: 10px;
+        a {
+            text-decoration: none;
+        }
+    }
+
+    .storage-profile-new {
+        margin-bottom: 10px;
+    }
 }

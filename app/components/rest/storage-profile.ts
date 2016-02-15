@@ -38,7 +38,7 @@ export class StorageProfileService {
 
     // **Add**
     // **@returns** add a new storage profile
-    add(storageprofile: string) {
+    add(storageprofile: {}) {
         return this.restFull.all('storageprofiles').post(storageprofile);
     }
 }

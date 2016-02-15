@@ -1,4 +1,4 @@
-<div class="modal" tabindex="-1" role="dialog">
+<div class="modal storage-profile-disks" tabindex="-1" role="dialog">
     <div class="modal-dialog storage-profile-disks-dialog" ng-controller="StorageProfileDisksController as vm">
         <div class="modal-content">
             <div class="modal-header">
@@ -8,7 +8,15 @@
             <div class="modal-body cards-pf">
                 <div class="row">
                     <div class="col-md-4">
-                        <strong>Storage Profiles</strong>
+                        <div class="storage-profiles-header">
+                            <strong>Storage Profiles</strong>
+                            <a class="pf-icon fa-2x pficon-add-circle-o pull-right" href="" title="Add Profile" ng-click="vm.add=true;"></a>
+                        </div>
+                        <div class="storage-profile-new" ng-if="vm.add">
+                            <input type="text" ng-model="vm.newProfile" placeholder="Profile name"></input>
+                            <button type="button" class="btn btn-primary" ng-click="vm.addProfile(vm.newProfile)">Add</button>
+                            <button type="button" class="btn btn-default" ng-click="vm.add=false;">Cancel</button>
+                        </div>
                         <div class="list-group">
                             <a class="list-group-item" ng-class="{active: storageProfile.name === vm.selectedProfile.name}" href="" ng-repeat="storageProfile in vm.storageProfiles"
                             ng-click="vm.selectStorageProfile(storageProfile)" kt-droppable="vm.diskMoved(storageProfile, data)">
