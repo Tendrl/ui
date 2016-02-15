@@ -12,6 +12,7 @@ import {UserService} from './user';
 import {UtilService} from './util';
 import {VolumeService} from './volume';
 import {EventService} from './events';
+import {LdapService} from './ldap';
 
 var angular: ng.IAngularStatic = require('angular');
 
@@ -28,6 +29,7 @@ angular.module(moduleName, ['angular-growl'])
     .service('UserService', UserService)
     .service('UtilService', UtilService)
     .service('VolumeService', VolumeService)
-    .service('EventService', EventService);
+    .service('EventService', EventService)
+    .service('LdapService',LdapService);
 
 export default moduleName;

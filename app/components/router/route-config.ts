@@ -117,6 +117,9 @@ export class RouteConfig {
 			controllerAs: 'ldapUsers',
 		}).when('/admin/ldap', {
 			templateUrl: 'views/admin/ldap-settings.html',
+			controller: 'LdapConfigController',
+			controllerAs: 'ldap',
+			name: 'ldap'
 		}).when('/events', {
 			templateUrl: 'views/events/event-list.html',
 			controller: 'EventListController',

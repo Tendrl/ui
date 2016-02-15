@@ -26,6 +26,7 @@ import {UserNewController} from "./components/admin/user-new";
 import {UserEditController} from "./components/admin/user-edit";
 import {LdapUserController} from "./components/admin/ldap-user-controller";
 import {TaskDetailController} from "./components/tasks/task-detail-controller";
+import {LdapConfigController} from "./components/admin/ldap-config-controller";
 
 
 import {KTDraggable} from "./components/shared/directives/kt-draggable";
@@ -89,6 +90,7 @@ class USMApp {
             .directive('ktDraggable', () => new KTDraggable())
             .directive('ktDroppable', () => new KTDroppable())
             .controller('TaskDetailController',TaskDetailController)
+            .controller('LdapConfigController',LdapConfigController)
             .service('MenuService', MenuService)
             .run( function($rootScope, $location) {
                $rootScope.$watch(function() {
