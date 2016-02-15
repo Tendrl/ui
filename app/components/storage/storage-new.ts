@@ -1,7 +1,7 @@
 // <reference path="../../../typings/tsd.d.ts" />
 
 import {ClusterService} from '../rest/clusters';
-import {Cluster} from '../rest/resources';
+import {Cluster} from '../rest/clusters';
 
 export class StorageNewController {
     private clusters: Array<Cluster>;

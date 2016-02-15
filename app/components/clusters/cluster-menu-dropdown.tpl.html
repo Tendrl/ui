@@ -1,14 +1,14 @@
 <ul class="dropdown-menu  cluster-dropdown-menu" role="menu">
-    <li role="presentation">
-        <a role="menuitem" ng-click="clusters.expandCluster(cluster.clusterid)"> <i class="fa fa-plus"></i> Expand </a>
+    <li role="presentation" ng-class="{'disabled': !clusters.isExpandAvailable(cluster.state)}">
+        <a role="menuitem" ng-click="clusters.expandCluster(cluster.clusterid, cluster.state)"><i class="fa fa-plus"></i> Expand </a>
     </li>
-    <li role="presentation" ng-class="{'disabled': cluster.enabled}">
-        <a role="menuitem" ng-click="clusters.enableCluster(cluster.clusterid)" ng-disabled="cluster.enabled"><i class="fa fa-check"></i> Manage </a>
+    <li role="presentation" ng-class="{'disabled': !clusters.isManageAvailable(cluster.state)}">
+        <a role="menuitem" ng-click="clusters.enableCluster(cluster.clusterid, cluster.state)"><i class="fa fa-check"></i> Manage </a>
     </li>
-    <li role="presentation"  ng-class="{'disabled': !cluster.enabled}">
-        <a role="menuitem" ng-click="clusters.disableCluster(cluster.clusterid)" ng-disabled="!cluster.enabled"> <i class="fa fa-times"></i> UnManage </a>
+    <li role="presentation" ng-class="{'disabled': !clusters.isUnManageAvailable(cluster.state)}">
+        <a role="menuitem" ng-click="clusters.disableCluster(cluster.clusterid, cluster.state)"><i class="fa fa-times"></i> UnManage </a>
     </li>
-    <li role="presentation"  ng-class="{'disabled': cluster.enabled}">
-        <a role="menuitem" ng-click="clusters.removeCluster(cluster.clusterid)" ng-disabled="cluster.enabled">  <i class="fa fa-trash"></i>  Forget </a>
+    <li role="presentation" ng-class="{'disabled': !clusters.isForgetAvailable(cluster.state)}">
+        <a role="menuitem" ng-click="clusters.removeCluster(cluster.clusterid, cluster.state)"><i class="fa fa-trash"></i>  Forget </a>
     </li>
 </ul>

@@ -1,6 +1,6 @@
 // <reference path="../../../typings/tsd.d.ts" />
 
-import {Cluster} from '../../rest/resources';
+import {Cluster} from '../../rest/clusters';
 import {StorageProfile} from '../../rest/storage-profile';
 
 import {ClusterService} from '../../rest/clusters';

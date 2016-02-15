@@ -1,7 +1,34 @@
 /// <reference path="../../../typings/tsd.d.ts" />
 
-import {Cluster} from '../rest/resources';
 import {ServerService} from '../rest/server';
+
+export interface Cluster {
+    clusterid: string;
+    name: string;
+    compat_version: string;
+    type: string;
+    workload: string;
+    state: ClusterState;
+    status: ClusterStatus;
+    tags: Array<string>;
+    options: {};
+    openstack_services: Array<string>;
+    networks: {};
+}
+
+export enum ClusterState {
+    CREATING,   //0
+    FAILED,     //1
+    ACTIVE,     //2
+    UNMANAGED   //3
+}
+
+export enum ClusterStatus {
+    OK,         //0
+    WARNING,    //1
+    ERROR,      //2
+    UNKNOWN     //3
+}
 
 export interface ClusterCapacity {
     target: string,
