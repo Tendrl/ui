@@ -147,7 +147,7 @@ export class ClusterService {
     // **getClusterUtilization**
     // **@returns** a promise with cluster's utilization.
     getClusterUtilization(cluster_id) {
-        return this.rest.all('monitoring/cluster/'+cluster_id+'/utilization?resource=cluster_utilization&&duration=latest').getList<ClusterCapacity>().then(function(clustercapacities: Array<ClusterCapacity>) {
+        return this.rest.all('monitoring/cluster/'+cluster_id+'/utilization?resource=cluster_utilization*.*&duration=latest').getList<ClusterCapacity>().then(function(clustercapacities: Array<ClusterCapacity>) {
             return clustercapacities;
         });
     }
@@ -155,7 +155,7 @@ export class ClusterService {
     // **getStorageProfileUtilization**
     // **@returns** a promise with Storage Profile's utilization.
     getStorageProfileUtilization(cluster_id) {
-        return this.rest.all('monitoring/cluster/'+cluster_id+'/utilization?resource=storage_profile_utilization&duration=latest').getList().then(function(storage_profile_utilization) {
+        return this.rest.all('monitoring/cluster/'+cluster_id+'/utilization?resource=storage_profile_utilization*.*&duration=latest').getList().then(function(storage_profile_utilization) {
             return storage_profile_utilization;
         });
     }
@@ -163,7 +163,7 @@ export class ClusterService {
     // **getClusterObjects**
     // **@returns** a promise with cluster's objects.
     getClusterObjects(cluster_id) {
-        return this.rest.all('monitoring/cluster/'+cluster_id+'/utilization?resource=no_of_object').getList().then(function(cluster_objects) {
+        return this.rest.all('monitoring/cluster/'+cluster_id+'/utilization?resource=no_of_object&duration=latest').getList().then(function(cluster_objects) {
             return cluster_objects;
         });
     }

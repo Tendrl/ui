@@ -83,7 +83,7 @@ export class ClusterDetailController {
            this.osds.total = slus.length;
         });
         this.clusterService.getClusterObjects(this.id).then((clusterObjects: Array<any>) => {
-           this.objects.total = clusterObjects.length;
+           this.objects.total = clusterObjects[0].datapoints[0][1];
         });
         this.storageService.getListByCluster(this.id).then((storages: Array<any>) => {
            this.pools.total = storages.length;
