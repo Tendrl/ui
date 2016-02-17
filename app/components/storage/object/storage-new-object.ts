@@ -113,8 +113,8 @@ export class ObjectStorageController {
         var pgNum = this.pgs;
         if (!this.PGsFixed) {
             pgNum = Math.pow(2, this.pgSlider['value']);
-            this.targetSize = GetOptimalSizeForPGNum(pgNum, this.slus, this.replicas);
         }
+        this.targetSize = GetOptimalSizeForPGNum(pgNum, this.slus, this.replicas);
 
         for (let index = 0; index < this.count; index++) {
             let pool = {
@@ -122,7 +122,7 @@ export class ObjectStorageController {
                 type: this.type,
                 profile: this.profile,
                 replicas: this.replicas,
-                capacity: numeral(this.targetSize).format('0.0b'),
+                capacity: numeral(this.targetSize).format('0b'),
             }
             this.pools.push(angular.copy(pool));
         }
@@ -141,6 +141,9 @@ export class ObjectStorageController {
                 replicas: pool.replicas,
                 size: pool.capacity
             };
+            if (this.PGsFixed) {
+                storage['options'] = { pgnum: this.pgs.toString() };
+            }
             list.push(this.storageSvc.create(this.cluster.clusterid, storage));
         }
         this.$q.all(list).then((tasks) => {
