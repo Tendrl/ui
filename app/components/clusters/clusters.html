@@ -39,6 +39,7 @@
                         <span class="pficon-ok fa-2x" ng-if="cluster.state === 2 && cluster.status == 0" title="Ok"></span>
                         <span class="pficon-warning-triangle-o fa-2x" ng-if="cluster.state === 2 && cluster.status === 1" title="Warning"></span>
                         <span class="pficon-error-circle-o fa-2x" ng-if="cluster.state === 2 && cluster.status === 2" title="Error"></span>
+                        <span class="pficon-warning-triangle-o fa-2x" ng-if="cluster.state === 2 && cluster.status === 3" title="Unknown"></span>
                         <a ng-href="#/clusters/{{cluster.clusterid}}"><span class="heading" ng-bind="cluster.cluster_name"></span></a>
                     </div>
                 </div>
