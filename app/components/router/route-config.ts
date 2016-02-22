@@ -100,6 +100,15 @@ export class RouteConfig {
 			controller: 'EventListController',
 			controllerAs: 'events',
 			name: 'events'
+		}).when('/events/:eventId', {
+			templateUrl: 'views/events/event-details.html',
+			controller: 'EventDetailController',
+			controllerAs: 'event'
+		}).when('/tasks', {
+			templateUrl: 'views/tasks/task-list.html',
+			controller: 'TaskListController',
+			controllerAs: 'tasks',
+			name: 'tasks'
 		}).when('/tasks/:taskId', {
 			templateUrl: 'views/tasks/task-details.html',
 			controller: 'TaskDetailController',

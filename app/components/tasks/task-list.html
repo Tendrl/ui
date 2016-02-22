@@ -1,0 +1,68 @@
+<div class="container-fluid tasks-page">
+    <div class="page-header">
+        <h1>Tasks</h1>
+    </div>
+    <div class="row">
+        <div class="col-md-3">
+            <input type="text" class="form-control" placeholder="Search" ng-model="search">
+        </div>
+        <div class="col-md-9 pull-right" >
+            <ul class="pagination pull-right">
+                <li>
+                <a ng-click="tasks.paginate(tasks.pageNo-1)" aria-label="Previous">
+                    <span aria-hidden="true">&lsaquo;</span>
+                </a>
+                </li>
+                <li ng-show="tasks.pageNo > 3"><a ng-click="tasks.paginate(1)">1</a></li>
+                <li ng-show="tasks.pageNo > 4"><a> ... </a></li>
+                <li ng-show="tasks.pageNo > 2"><a ng-click="tasks.paginate(tasks.pageNo-2)" ng-bind="tasks.pageNo-2"></a></li>
+                <li ng-show="tasks.pageNo > 1"><a ng-click="tasks.paginate(tasks.pageNo-1)" ng-bind="tasks.pageNo-1"></a></li>
+                <li><a class="selected-page" ng-click="tasks.paginate(tasks.pageNo)" ng-bind="tasks.pageNo"></a></li>
+                <li ng-show="tasks.pageNo < tasks.totalPages"><a ng-click="tasks.paginate(tasks.pageNo+1)" ng-bind="tasks.pageNo+1"></a></li>
+                <li ng-show="(tasks.pageNo+1) < tasks.totalPages"><a ng-click="tasks.paginate(tasks.pageNo+2)" ng-bind="tasks.pageNo+2"></a></li>
+                <li ng-show="(tasks.pageNo+3) < tasks.totalPages"><a> ... </a></li>
+                <li ng-show="(tasks.pageNo+2) < tasks.totalPages"><a ng-click="tasks.paginate(tasks.totalPages)" ng-bind="tasks.totalPages"></a></li>
+                <li>
+                <a ng-click="tasks.paginate(tasks.pageNo+1)" aria-label="Next">
+                    <span aria-hidden="true">&rsaquo;</span>
+                </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <div class="row blade task-item" ng-repeat="task in tasks.list | filter:search">
+        <div class="col-md-1">
+            <div class="blade-tag">
+                <div class="blade-tag-text">Ceph</div>
+            </div>
+            <div class="status-icon-col">
+                <i class="pficon-running fa-spin" ng-if="!task.completed"></i>
+                <i class="pficon-ok" ng-if="task.completed && task.status == 1"></i>
+                <i class="pficon-error-circle-o" ng-if="task.completed && task.status == 2"></i>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="task-title-col">
+                <div class="title-text">{{task.name}}</div>
+                <div class="task-id">{{task.id}}</div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="task-desc-col">
+                <div class="desc-text">{{task.statusMsg}}</div>
+                <div>{{task.timestamp}}</div>
+            </div>
+        </div>
+        <div class="col-md-2">
+            <div class="task-progress-col">
+                <div class="task-steps">
+                </div>
+            </div>
+        </div>
+        <div class="col-md-1">
+            <div class="task-actions-col">
+                <button type="button" class="btn btn-primary" ng-click="tasks.viewDetails(task.id)">Details</button>
+            </div>
+        </div>
+    </div>
+</div>

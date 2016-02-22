@@ -5,7 +5,6 @@ import {default as RequestsModule} from "./components/requests/module";
 import {default as RestModule} from "./components/rest/rest-module";
 import {default as HostModule} from "./components/hosts/host-module";
 import {default as StorageModule} from "./components/storage/storage-module";
-import {default as EventModule} from "./components/events/event-module";
 import {RouteConfig} from "./components/router/route-config";
 import {MenuService} from "./components/base/menu-svc";
 import {LoginController} from "./components/login/login";
@@ -22,9 +21,11 @@ import {UserController} from "./components/admin/user-controller";
 import {UserNewController} from "./components/admin/user-new";
 import {UserEditController} from "./components/admin/user-edit";
 import {LdapUserController} from "./components/admin/ldap-user-controller";
-import {TaskDetailController} from "./components/tasks/task-detail-controller";
 import {LdapConfigController} from "./components/admin/ldap-config-controller";
-
+import {EventListController} from "./components/events/event-list";
+import {EventDetailController} from "./components/events/event-detail-controller";
+import {TaskListController} from "./components/tasks/task-list";
+import {TaskDetailController} from "./components/tasks/task-detail-controller";
 
 import {KTDraggable} from "./components/shared/directives/kt-draggable";
 import {KTDroppable} from "./components/shared/directives/kt-droppable";
@@ -67,7 +68,6 @@ class USMApp {
             RestModule,
             HostModule,
             StorageModule,
-            EventModule
         ])
             .controller('LoginController', LoginController)
             .controller('ApplicationController', ApplicationController)
@@ -85,8 +85,11 @@ class USMApp {
             .controller('LdapUserController',LdapUserController)
             .directive('ktDraggable', () => new KTDraggable())
             .directive('ktDroppable', () => new KTDroppable())
-            .controller('TaskDetailController',TaskDetailController)
             .controller('LdapConfigController',LdapConfigController)
+            .controller('EventListController',EventListController)
+            .controller('EventDetailController',EventDetailController)
+            .controller('TaskListController',TaskListController)
+            .controller('TaskDetailController',TaskDetailController)
             .service('MenuService', MenuService)
             .run( function($rootScope, $location) {
                $rootScope.$watch(function() {

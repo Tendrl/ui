@@ -1,9 +1,9 @@
 // <reference path="../../../typings/tsd.d.ts" />
 
 import {UtilService} from '../rest/util';
-import {EventService} from '../rest/events';
+import {RequestService} from '../rest/request';
 
-export class EventListController {
+export class TaskListController {
     private list: Array<any>;
     private timer;
     private pageNo = 1;
@@ -13,14 +13,13 @@ export class EventListController {
         '$scope',
         '$interval',
         '$location',
-        'EventService',
         'RequestService'
     ];
     constructor(
         private $scope: ng.IScope,
         private $interval: ng.IIntervalService,
         private $location: ng.ILocationService,
-        private eventSvc: EventService) {
+        private requestSvc: RequestService) {
         this.timer = this.$interval(() => this.refresh(), 5000);
         this.$scope.$on('$destroy', () => {
             this.$interval.cancel(this.timer);
@@ -29,7 +28,7 @@ export class EventListController {
     }
 
     public refresh() {
-        this.eventSvc.getList(this.pageNo,this.pageSize).then((data :any) => {
+        this.requestSvc.getList(this.pageNo,this.pageSize).then((data :any) => {
             this.totalPages = Math.ceil(data.totalcount/this.pageSize);
             this.loadData(data.tasks);
         });
@@ -42,22 +41,31 @@ export class EventListController {
         this.refresh();
     }
 
-    public loadData(events: Array<any>) {
+    public loadData(tasks: Array<any>) {
         var list = [];
-        _.each(events, (event) => {
-            if (event.parentid === '00000000-0000-0000-0000-000000000000') {
-                var lastStatus = _.last<any>(event.statuslist);
+        _.each(tasks, (task) => {
+            if (task.parentid === '00000000-0000-0000-0000-000000000000') {
+                var lastStatus = _.last<any>(task.statuslist);
                 if (lastStatus) {
-                    event.statusMsg = lastStatus.Message;
-                    event.timestamp = lastStatus.Timestamp;
+                    task.statusMsg = lastStatus.Message;
+                    task.timestamp = lastStatus.Timestamp;
                 }
-                list.push(event)
+                if ((!task.completed) && task.subtasks.length > 0) {
+                    this.requestSvc.get(task.subtasks[0]).then((subtask) => {
+                        var lastStatus = _.last<any>(subtask.statuslist);
+                        if (lastStatus) {
+                            task.statusMsg = lastStatus.Message;
+                            task.timestamp = lastStatus.Timestamp;
+                        }
+                    });
+                }
+                list.push(task)
             }
         });
         this.list = list.reverse();
     }
 
-    public viewDetails(eventId) {
-        this.$location.path('/events/' + eventId);
+    public viewDetails(taskId) {
+        this.$location.path('/tasks/' + taskId);
     }
 }

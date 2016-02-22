@@ -1,6 +1,6 @@
 <div class="container-fluid events-page">
     <div class="page-header">
-        <h1>Tasks</h1>
+        <h1>Events</h1>
     </div>
     <div class="row">
         <div class="col-md-3">
@@ -28,41 +28,6 @@
                 </a>
                 </li>
             </ul>
-        </div>
-    </div>
-    <div class="row blade event-item" ng-repeat="event in events.list | filter:search">
-        <div class="col-md-1">
-            <div class="blade-tag">
-                <div class="blade-tag-text">Ceph</div>
-            </div>
-            <div class="status-icon-col">
-                <i class="pficon-running fa-spin" ng-if="!event.completed"></i>
-                <i class="pficon-ok" ng-if="event.completed && event.status == 1"></i>
-                <i class="pficon-error-circle-o" ng-if="event.completed && event.status == 2"></i>
-            </div>
-        </div>
-        <div class="col-md-4">
-            <div class="event-title-col">
-                <div class="title-text">{{event.name}}</div>
-                <div class="event-id">{{event.id}}</div>
-            </div>
-        </div>
-        <div class="col-md-4">
-            <div class="event-desc-col">
-                <div class="desc-text">{{event.statusMsg}}</div>
-                <div>{{event.timestamp}}</div>
-            </div>
-        </div>
-        <div class="col-md-2">
-            <div class="event-progress-col">
-                <div class="event-steps">
-                </div>
-            </div>
-        </div>
-        <div class="col-md-1">
-            <div class="event-actions-col">
-                <button type="button" class="btn btn-primary" ng-click="events.viewDetails(event.id)">Details</button>
-            </div>
         </div>
     </div>
 </div>

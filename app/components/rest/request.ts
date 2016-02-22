@@ -1,8 +1,6 @@
 /// <reference path="../../../typings/tsd.d.ts" />
 
 export class RequestService {
-    // **Constant variable** constant variable for *pageSize*.
-    pageSize = 32;
     rest: restangular.IService;
     static $inject: Array<string> = ['Restangular'];
     constructor(rest: restangular.ICollection) {
@@ -30,25 +28,6 @@ export class RequestService {
         });
     }
 
-    // **getComplete**
-    // **@returns** a promise with most recent *pageSize* completed requests.
-    getComplete() {
-        /* jshint camelcase: false */
-        return this.rest.customGETLIST('tasks', {
-            state: 'complete',
-            page_size: this.pageSize
-        });
-    }
-
-    // **getSubmitted**
-    // **@returns** a promise with most recent *pageSize* submitted requests.
-    getSubmitted() {
-        /* jshint camelcase: false */
-        return this.rest.customGETLIST('tasks', {
-            state: 'submitted',
-            page_size: this.pageSize
-        });
-    }
     // **getSubTasks**
     // **@returns** a promise with list of subtasks.
     getSubTasks(id) {

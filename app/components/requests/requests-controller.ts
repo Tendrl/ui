@@ -86,8 +86,8 @@ export class RequestsController {
         });
     }
 
-    public viewEvents() {
-        this.$location.path('/events');
+    public viewTasks() {
+        this.$location.path('/tasks');
     }
 
     public logoutUser() {

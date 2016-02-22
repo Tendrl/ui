@@ -33,6 +33,18 @@ export class MenuService {
             href: '/admin',
             icon: 'fa-users',
             active: false
+        },{
+            label: 'Events',
+            id: 'events',
+            href: '/events',
+            icon: 'fa-cogs',
+            active: false
+        },{
+            label: 'Tasks',
+            id: 'tasks',
+            href: '/tasks',
+            icon: 'fa-flag',
+            active: false
         }];
     }
 

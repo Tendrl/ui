@@ -1,0 +1,72 @@
+ .blade {
+    width: 100%;
+    min-height: 100px;
+    margin-left: 0px !important;
+    margin-top : 20px;
+    box-shadow: 2px 2px 2px #c5c5c5;
+    border: 1px solid lightgray;
+
+    .blade-tag {
+        float: left;
+        width: 20px;
+        height: 98px;
+        margin-left: -20px;
+        padding-top: 40px;
+        background-color: lightgray;
+        .blade-tag-text {
+            font-size: 13px;
+            font-weight: 600;
+            transform: rotate(270deg);
+            text-transform: uppercase;
+        }
+    }
+ }
+
+ .tasks-page {
+     .severity-normal {
+         border: 1px solid lightgray;
+     }
+     .severity-warning {
+         border: 1px solid orange;
+     }
+     .severity-alert {
+         border: 1px solid red;
+     }
+
+     .task-item {
+         .status-icon-col {
+            margin-top: 25px;
+            margin-left: 20px;
+            font-size: 30px;
+         }
+         .task-title-col {
+             margin-top: 25px;
+             .title-text {
+                 font-size: 16px;
+             }
+             .task-id {
+                 float: left;
+             }
+         }
+         .task-desc-col {
+             margin-top: 25px;
+             .desc-text {
+                 font-size: 14px;
+             }
+         }
+         .task-progress-col {
+             margin-top: 25px;
+             .task-steps {
+                 float: right;
+             }
+         }
+         .task-actions-col {
+             margin-top: 35px;
+         }
+     }
+     .selected-page{
+         background-color: #b7b7b7;
+         background-image:none;
+         color: #FFF;
+     }
+ }

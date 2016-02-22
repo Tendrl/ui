@@ -1,0 +1,27 @@
+<h1>Event</h1>
+<h3>{{event.detail.name}}
+    <span ng-class="event.detail.status > 1 ? 'pficon-error-circle-o': 'pficon-ok')"></span>
+</h3>
+<h4>Time Submitted : {{event.detail.statuslist[0].Timestamp | date : 'MMM d yyyy, hh:mm:ss a'}} </h4>
+
+<ul class="nav nav-tabs">
+  <li class="active"><a href="#">Status</a></li>
+  <li><a href="#">Logs</a></li>
+</ul>
+
+<table class="table table-striped table-bordered">
+  <thead>
+    <tr>
+      <th>#</th>
+      <th>Execution Steps</th>
+      <th>Result</th>
+    </tr>
+  </thead>
+  <tbody ng-repeat="step in event.detail.statuslist">
+    <tr>
+      <td ng-bind="$index +1 "></td>
+      <td ng-bind="step.Message"></td>
+      <td ng-bind="step.Timestamp  | date : 'MMM d yyyy, hh:mm:ss a'"></td>
+    </tr>
+  </tbody>
+</table>
