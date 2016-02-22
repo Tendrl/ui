@@ -32,6 +32,7 @@ import {LdapConfigController} from "./components/admin/ldap-config-controller";
 import {KTDraggable} from "./components/shared/directives/kt-draggable";
 import {KTDroppable} from "./components/shared/directives/kt-droppable";
 
+/* tslint:disable */
 var es6shim = require("es6-shim");
 var angular: ng.IAngularStatic = require("angular");
 var ngRoute = require("angular-route");
@@ -50,9 +51,10 @@ var jquery = $ = require("jquery");
 var patternfly = require("patternfly");
 var angularPatternfly = require("angular-patternfly");
 var angularSlider = require("angularjs-slider");
+/* tslint:enable */
 
 class USMApp {
-    initialize() {
+    public initialize() {
         console.log('Initializing...');
         angular.module('usm-client', [
             'ngAnimate',

@@ -3,6 +3,7 @@ var gulp = require('gulp');
 var $ = require('gulp-load-plugins')();
 var debug = require('gulp-debug');
 var gulpif = require('gulp-if');
+var tslint = require('gulp-tslint');
 var tsc = require('gulp-typescript');
 var browserify = require('browserify');
 var source = require('vinyl-source-stream');
@@ -54,6 +55,12 @@ var config = {
         }
 	}
 }
+
+gulp.task('tslint', function () {
+    return gulp.src('app/*.ts')
+        .pipe(tslint())
+        .pipe(tslint.report('verbose'))
+});
 
 gulp.task('tsc', function () {
 	return gulp.src(path.tscripts)
@@ -120,7 +127,7 @@ gulp.task('inject', ['browserify', 'sass', 'css', 'html'], function () {
 });
 
 
-gulp.task('compile', ['tsc', 'browserify', 'sass', 'css', 'fonts', 'html', 'inject', 'images']);
+gulp.task('compile', ['tslint', 'tsc', 'browserify', 'sass', 'css', 'fonts', 'html', 'inject', 'images']);
 
 gulp.task('watch', function () {
 	gulp.watch(path.tscripts, ['browserify']);
