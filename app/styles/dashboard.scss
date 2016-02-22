@@ -1,48 +1,66 @@
 .dashboard {
-    padding-bottom: 10px;
-    margin-top: 0;
-    .card-pf-heading {
-        margin: 0 -20px -1px !important;
+
+    .dashboard-contain {
+        margin-top: 0;
+        padding-top: 20px;
     }
-    .table-content > tr {
-        padding-top: 0px !important;
+
+    .card-pf-title {
+        margin:10px 0px !important;
     }
-    .card-pf-body {
-        margin: 0px 0 !important;
+
+    .utilization {
+        margin-top: 2%;
     }
-    .bold {
-        font-weight: bold;
+
+    .status-notification {
+        font-size: 15px;
     }
-    .dashboard-card-capacity {
-        min-height: 470px;
-        .capacity-info {
-            text-align: center;
-            margin-top: 30px;
-            font-size: 11px;
-        }
-        .free-space-value {
-            font-size: 30px;
-            display: block;
-        }
-        .used-total-space {
-            font-size: 15px;
-            display: block;
-        }
-        .c3-chart-arcs-title {
-            font-size: 18px;
-        }
-        .usage-trending {
-            min-height: 80px;
-            border-top: 1px solid #E0E0E0;
-            font-size: 11px;
-        }
-        .usage-trending-content {
-            min-height: 60px;
-            display: block;
-        }
-        .usage-trending-footer {
-            padding-left: 10px;
-            padding-right: 10px;
+
+    .margin-for-storage-type {
+        margin-top: 6%;
+    }
+
+    .margin-for-storage-profile {
+        margin-top: 11%;
+    }
+
+    .main-contain {
+        min-height: 896px;
+    }
+
+    .custom-height {
+        min-height: 254px;
+    }
+
+    .indicator-for-clusters {
+        margin-top: 46px;
+        font-size: 14px;
+        .lost-quorum {
+            margin-top: 14px;
         }
     }
+
+    .trend-label-flat-pf {
+        display: none !important;
+    }
+
+    .system-performance {
+        color: black;
+        margin-bottom: -10px;
+        margin-left: 7px;
+        margin-top: 9px;
+    }
+
+    .time-slot {
+        color: black;
+        margin-bottom: -10px;
+        margin-left: 7px;
+        margin-top: 9px;
+    }
+
+    .add-cursor-pointer {
+        cursor: pointer;
+    }
+
 }

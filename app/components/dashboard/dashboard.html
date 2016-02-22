@@ -1,289 +1,276 @@
 <div class="dashboard">
-
-    <div class="row row-cards-pf">
-        <div class="col-md-3 col-sm-6 col-xs-6">
-            <div class="card-pf card-pf-accented card-pf-aggregate-status" style="height: 90px;">
-                <h2 class="card-pf-title" style="height: 18px;">
-              <span class="usmicon-cluster"> </span><span class="card-pf-aggregate-status-count"> {{dash.clusters.length}}</span>  Clusters
-            </h2>
-                <div class="card-pf-body" style="height: 50px;">
-                    <p class="card-pf-aggregate-status-notifications">
-                        <span ng-if="dash.clustersWarning.length === 0 && dash.clustersCritical.length === 0" class="card-pf-aggregate-status-notification"><a href="#"><span class="fa fa-check-circle-o ok"></span></a>
-                        </span>
-                        <span ng-if="dash.clustersWarning.length > 0" class="card-pf-aggregate-status-notification"><a href="/#/clusters"><span class="fa  fa-exclamation-triangle icon warning"></span>{{dash.clustersWarning.length}}</a>
-                        </span>
-                        <span ng-if="dash.clustersCritical.length > 0" class="card-pf-aggregate-status-notification"><a href="#"><span class="fa fa-times-circle-o icon critical"></span>{{dash.clustersCritical.length}}</a>
-                        </span>
-                    </p>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-3 col-sm-6 col-xs-6">
-            <div class="card-pf card-pf-accented card-pf-aggregate-status card-pf-with-action" style="height: 90px;">
-                <h2 class="card-pf-title" style="height: 18px;">
-              <a href="#"><span class="usmicon-host"> </span><span class="card-pf-aggregate-status-count"> {{dash.hosts.length}}</span> Hosts</a>
-            </h2>
-                <div class="card-pf-body" style="height: 50px;">
-                    <p class="card-pf-aggregate-status-notifications">
-                        <span ng-if="dash.hostsWarning.length === 0 && dash.hostsCritical.length === 0" class="card-pf-aggregate-status-notification"><a href="#"><span class="fa fa-check-circle-o ok"></span></a>
-                        </span>
-                        <span ng-if="dash.hostsWarning.length > 0" class="card-pf-aggregate-status-notification"><a href="#"><span class="fa  fa-exclamation-triangle icon warning"></span>{{dash.hostsWarning.length}}</a>
-                        </span>
-                        <span ng-if="dash.hostsCritical.length > 0" class="card-pf-aggregate-status-notification"><a href="/#/hosts"><span class="fa fa-times-circle-o icon critical"></span>{{dash.hostsCritical.length}}</a>
-                        </span>
-                    </p>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-3 col-sm-6 col-xs-6">
-            <div class="card-pf card-pf-accented card-pf-aggregate-status card-pf-with-action" style="height: 90px;">
-                <h2 class="card-pf-title" style="height: 18px;">
-              <a href="#"><span class="fa fa-database icon"> </span><span class="card-pf-aggregate-status-count"> {{dash.storages.length}}</span> Storage</a>
-            </h2>
-                <div class="card-pf-body" style="height: 50px;">
-                    <p class="card-pf-aggregate-status-notifications">
-                        <span ng-if="dash.storagesWarning.length === 0 && dash.storagesCritical.length === 0" class="card-pf-aggregate-status-notification"><a href="#"><span class="fa fa-check-circle-o ok"></span></a>
-                        </span>
-                        <span ng-if="dash.storagesWarning.length > 0" class="card-pf-aggregate-status-notification"><a href="#"><span class="fa  fa-exclamation-triangle icon warning"></span>{{dash.storagesWarning.length}}</a>
-                        </span>
-                        <span ng-if="dash.storagesCritical.length > 0" class="card-pf-aggregate-status-notification"><a href="#"><span class="fa fa-times-circle-o icon critical"></span>{{dash.storagesCritical.length}}</a>
-                        </span>
-                    </p>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-3 col-sm-6 col-xs-6">
-            <div class="card-pf card-pf-accented card-pf-aggregate-status" style="height: 90px;">
-                <h2 class="card-pf-title" style="height: 18px;">
-              <a href="#"><span class="usmicon-services"> </span><span class="card-pf-aggregate-status-count"> {{dash.services.length}}</span> Services</a>
-            </h2>
-                <div class="card-pf-body" style="height: 50px;">
-                    <p class="card-pf-aggregate-status-notifications">
-                        <span ng-if="dash.servicesWarning.length === 0 && dash.servicesCritical.length === 0" class="card-pf-aggregate-status-notification"><a href="#"><span class="fa fa-check-circle-o ok"></span></a>
-                        </span>
-                        <span ng-if="dash.servicesWarning.length > 0" class="card-pf-aggregate-status-notification"><a href="#"><span class="fa  fa-exclamation-triangle icon warning"></span>{{dash.servicesWarning.length}}</a>
-                        </span>
-                        <span ng-if="dash.servicesCritical.length > 0" class="card-pf-aggregate-status-notification"><a href="#"><span class="fa fa-times-circle-o icon critical"></span>{{dash.servicesCritical.length}}</a>
-                        </span>
-                    </p>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="row row-cards-pf dashboard-card-capacity">
-        <div class="col-md-6">
-            <div class="card-pf">
-                <div class="card-pf-heading">
-                    <div class="row">
-                        <div class="col-md-6">
-                            <h2 class="card-pf-title" style="height: 18px;">
-                Capacity Utilization
-            </h2>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="btn-group pull-right" role="group" style="padding-top: 15px;">
-                                <button type="button" class="btn btn-primary btn-xs" ng-class="dash.config.capacityByType ? 'btn-primary' : 'btn-default'" ng-click="dash.switchCapacityCategory(!dash.config.capacityByType)">By Type</button>
-                                <button type="button" class="btn btn-default btn-xs" ng-class="dash.config.capacityByTier ? 'btn-primary' : 'btn-default'" ng-click="dash.switchCapacityCategory(!dash.config.capacityByTier)">By Tier</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="card-pf-body" style="height:461px;">
-
-
-
-                    <div class="row">
-                        <div class="col-md-3">
-                            <div class="capacity-info">
-                                <span class="free-space-value">
-                    {{dash.totalCapacity.freeFormatted}}
-                  </span> Available
-                                <span class="used-total-space">
-                    {{dash.totalCapacity.usedFormatted}} Used
-                  </span>
-                                <span class="used-total-space">
-                    {{dash.totalCapacity.totalFormatted}} Total
-                  </span>
-                            </div>
-                        </div>
-                        <div class="col-md-9">
-                            <c3chart bindto-id="cluster-donut" chart-columns="dash.totalCapacity.legends" chart-data="dash.totalCapacity.values">
-                                <chart-donut title="Usage" width="50"></chart-donut>
-                                <chart-legend show-legend="true" legend-position="right"> </chart-legend>
-                                <chart-events on-click-data="dash.selectClusterCapacityLegend(data)"> </chart-events>
-                                <chart-size chart-height="300"></chart-size>
-                            </c3chart>
-                        </div>
-                    </div>
-
-                    <div class="row">
-                        <div class="col-md-12">
-                            <div class="usage-trending">
-                                <div class="usage-trending-content">
-                                    <c3chart bindto-id="cluster-trend" chart-columns="dash.trendCapacity.legends" chart-data="dash.trendCapacity.values">
-                                        <chart-axis>
-                                            <chart-axis-x show="false"> </chart-axis-x>
-                                            <chart-axis-y show="false"> </chart-axis-y>
-                                        </chart-axis>
-                                        <chart-points show-point="false"></chart-points>
-                                        <chart-legend show-legend="false"></chart-legend>
-                                        <chart-size chart-height="80"></chart-size>
-                                        <chart-tooltip show-tooltip="false"></chart-tooltip>
-                                    </c3chart>
-                                </div>
-                                <div class="usage-trending-footer">
-                                    <span ng-if="dash.trendCapacity.selected.isTotal">Last 30 days - Total Used</span>
-                                    <span ng-if="!dash.trendCapacity.selected.isTotal">
-                        Last 30 days - Used by {{dash.trendCapacity.selected.type}}
-                      </span>
-                                    <span class="pull-right">
-                        {{dash.trendCapacity.selected.usedFormatted}}
-                      </span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                </div>
-
-            </div>
-        </div>
-        <div class="col-md-6">
-            <div class="row">
-                <div class="col-md-6">
-                    <div class="card-pf">
-                        <div class="card-pf-heading">
-                            <h2 class="card-pf-title">
-                Top Clusters - IOPS
-              </h2>
-                        </div>
-                        <div class="card-pf-body" style="height:130px;">
-                            <table class="table table-content">
-                                <tbody>
-                                    <tr ng-repeat="cluster in dash.clusters | orderBy: '-perf.iops' | limitTo: 5">
-                                        <td class="bold"> {{cluster.name}} </td>
-                                        <td> {{cluster.perf.iopsFormatted}} </td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                        <div class="card-pf-footer">
-                            <p><a href="#">View All</a></p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-6">
-                    <div class="card-pf">
-                        <div class="card-pf-heading">
-                            <h2 class="card-pf-title">
-                Top Clusters - Bandwidth Mbps
-              </h2>
-                        </div>
-                        <div class="card-pf-body" style="height:130px;">
-                            <table class="table table-content">
-                                <tbody>
-                                    <tr ng-repeat="cluster in dash.clusters | orderBy: '-perf.bandwidth' | limitTo: 5">
-                                        <td class="bold"> {{cluster.name}} </td>
-                                        <td> {{cluster.perf.bandwidthFormatted}} </td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                        <div class="card-pf-footer">
-                            <p><a href="#">View All</a></p>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-md-6">
-                    <div class="card-pf">
-                        <div class="card-pf-heading">
-                            <h2 class="card-pf-title">
-                Top Hosts - CPU
-              </h2>
-                        </div>
-                        <div class="card-pf-body" style="height:130px;">
-                            <table class="table table-content">
-                                <tbody>
-                                    <tr ng-repeat="host in dash.hosts | orderBy: '-perf.cpu' | limitTo: 5">
-                                        <td> {{host.hostname}} </td>
-                                        <td> {{host.perf.cpu}}% </td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                        <div class="card-pf-footer">
-                            <p><a href="#">View All</a></p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-6">
-                    <div class="card-pf">
-                        <div class="card-pf-heading">
-                            <h2 class="card-pf-title">
-                Top Hosts - Memory
-              </h2>
-                        </div>
-                        <div class="card-pf-body" style="height:130px;">
-                            <table class="table table-content">
-                                <tbody>
-                                    <tr ng-repeat="host in dash.hosts | orderBy: '-perf.memory' | limitTo: 5">
-                                        <td> {{host.hostname}} </td>
-                                        <td> {{host.perf.memory}}% </td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                        <div class="card-pf-footer">
-                            <p><a href="#">View All</a></p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-
-    <div class="row row-cards-pf heatmap-card-pools">
-        <div class="col-md-12">
-            <div class="card-pf">
-                <div class="card-pf-heading">
-                    <h2 class="card-pf-title">
-                Pools and Volume Utilization
-              </h2>
-                </div>
-                <div class="card-pf-body row">
-
-                    <div class="col-md-2 legends">
-                        <div class="legend">
-                            <span class="fa fa-stop legend-square legend-l0"></span> &gt; 90 %
-                        </div>
-                        <div class="legend">
-                            <span class="fa fa-stop legend-square legend-l1"></span> 80-90 %
-                        </div>
-                        <div class="legend">
-                            <span class="fa fa-stop legend-square legend-l2"></span> 70-80 %
-                        </div>
-                        <div class="legend">
-                            <span class="fa fa-stop legend-square legend-l3"></span> &lt; 70 %
-                        </div>
-                    </div>
-                    <div class="col-md-10">
+    <!-- MAIN CONTENT -->
+    <div class="dashboard-contain container-fluid cards-pf">
+        <!-- Fisrt Big row -->
+        <div class="row">
+            <!-- Card Part -->
+            <div class="col-xs-12 col-sm-6 col-md-9">
+                <!-- First row -->
+                <div class="row row-cards-pf">
+                    <div class="col-xs-12 col-sm-12 col-md-12">
                         <div class="row">
-                            <div class="col-md-2" ng-repeat="cluster in dash.clusters">
-                                <div class="heat-map-title">
-                                    {{cluster.cluster_name}}
+                            <div class="col-xs-12 col-sm-12 col-md-3">
+                                <div class="card-pf card-pf-aggregate-status card-pf-with-action custom-height">
+                                    <h2 class="card-pf-title">
+                                        <a href="">{{dash.clusters.total}} Clusters</a>
+                                    </h2>
+                                    <div class="card-pf-body">
+                                        <p class="card-pf-aggregate-status-notifications">
+                                            <span ng-if="dash.clusters.critical>0" class="card-pf-aggregate-status-notification"><a href="">
+                                                <span class="pficon pficon-error-circle-o"></span>
+                                                <span>{{dash.clusters.critical}}</span></a>
+                                            </span>
+                                            <span ng-if="dash.clusters.warning>0" class="card-pf-aggregate-status-notification"><a href="">
+                                                <span class="pficon pficon-warning-triangle-o"></span>
+                                                <span>{{dash.clusters.warning}}</span></a>
+                                            </span>
+                                            <span ng-if="dash.clusters.critical===0 && dash.clusters.warning===0" class="card-pf-aggregate-status-notification"><a href="">
+                                                <span class="pficon pficon-ok"></span>
+                                            </span>
+                                            <!-- <div class="indicator-for-clusters">
+                                                <div class="near-full">
+                                                    <span class="pficon pficon-warning-triangle-o"></span>
+                                                    <span> 1 Near Full </span>
+                                                </div>
+                                                <div class="lost-quorum">
+                                                    <span class="pficon pficon-error-circle-o"></span>
+                                                    <span> 1 Lost Quorum </span>
+                                                </div>
+                                            </div> -->
+                                        </p>
+                                    </div>
                                 </div>
-                                <div class="heat-map">
-                                    <div class="square heat-l0" ng-class="dash.getHeatLevel(pool.usage)" ng-repeat="pool in cluster.pools"></div>
-                                    <div class="square heat-l0" ng-class="dash.getHeatLevel(volume.usage)" ng-repeat="volume in cluster.volumes"></div>
+                            </div>
+                            <div class="col-xs-12 col-sm-12 col-md-9">
+                                <div class="card-pf card-pf-aggregate-status card-pf-with-action custom-height">
+                                    <div class="row">
+                                        <div class="col-xs-12 col-sm-12 col-md-3">
+                                            <h2 class="card-pf-title">
+                                                <a href="">{{dash.capacity.used}} Used</a>
+                                                <p><small>of {{dash.capacity.total}} Total</small></p>
+                                            </h2>
+                                            <div class="card-pf-body">
+                                                <div ng-if="dash.utilization.data.total > 0">
+                                                    <div pf-donut-pct-chart config="dash.utilization.config" data="dash.utilization.data" center-label="dash.utilization.label"></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-xs-12 col-sm-12 col-md-9">
+                                            <div class="utilization">
+                                                <!-- <div class="margin-for-storage-type">
+                                                    <div pf-utilization-bar-chart chart-data="dash.utilizationByType.data" chart-title="dash.utilizationByType.title" layout="dash.utilizationByType.layout"></div>
+                                                </div> -->
+                                                <div class="margin-for-storage-profile">
+                                                    <div pf-utilization-bar-chart chart-data="dash.utilizationByProfile.data" chart-title="dash.utilizationByProfile.title" layout="dash.utilizationByProfile.layout"></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
+                </div><!-- First row end-->
 
-                </div>
+                <!-- Second row -->
+                <div class="row row-cards-pf">
+                    <div class="col-xs-12 col-sm-12 col-md-6">
+                        <div class="card-pf card-pf-aggregate-status card-pf-with-action">
+                            <h2 class="card-pf-title">
+                                <a href="">{{dash.hosts.total}} Hosts</a>
+                            </h2>
+                            <div class="card-pf-body">
+                                <p class="card-pf-aggregate-status-notifications">
+                                    <span ng-if="dash.hosts.critical>0" class="card-pf-aggregate-status-notification"><a href="">
+                                        <span class="pficon pficon-error-circle-o"></span>
+                                        <span>{{dash.hosts.critical}}</span></a>
+                                    </span>
+                                    <span ng-if="dash.hosts.warning>0" class="card-pf-aggregate-status-notification"><a href="">
+                                        <span class="pficon pficon-warning-triangle-o"></span>
+                                        <span>{{dash.hosts.warning}}</span></a>
+                                    </span>
+                                    <span ng-if="dash.hosts.critical===0 && dash.hosts.warning===0" class="card-pf-aggregate-status-notification"><a href="">
+                                        <span class="pficon pficon-ok"></span>
+                                    </span>
+                                    <span class="card-pf-aggregate-status-notification"><a href="">{{dash.discoveredHostsLength}}
+                                    </a><small class="status-notification">To Accept</small></span>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xs-12 col-sm-12 col-md-3">
+                        <div class="card-pf card-pf-aggregate-status card-pf-with-action">
+                            <h2 class="card-pf-title">
+                                <a href="">{{dash.monitors.total}} Monitors</a>
+                            </h2>
+                            <div class="card-pf-body">
+                                <p class="card-pf-aggregate-status-notifications">
+                                    <span ng-if="dash.monitors.critical>0" class="card-pf-aggregate-status-notification"><a href="">
+                                        <span class="pficon pficon-error-circle-o"></span>
+                                        <span>{{dash.monitors.critical}}</span></a>
+                                    </span>
+                                    <span ng-if="dash.monitors.warning>0" class="card-pf-aggregate-status-notification"><a href="">
+                                        <span class="pficon pficon-warning-triangle-o"></span>
+                                        <span>{{dash.monitors.warning}}</span></a>
+                                    </span>
+                                    <span ng-if="dash.monitors.critical===0 && dash.monitors.warning===0" class="card-pf-aggregate-status-notification"><a href="">
+                                        <span class="pficon pficon-ok"></span>
+                                    </span>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xs-12 col-sm-12 col-md-3">
+                        <div class="card-pf card-pf-aggregate-status card-pf-with-action">
+                            <h2 class="card-pf-title">
+                                <a href="">{{dash.pgs.total}} PGs</a>
+                            </h2>
+                            <div class="card-pf-body">
+                                <p class="card-pf-aggregate-status-notifications">
+                                    <span ng-if="dash.pgs.critical>0" class="card-pf-aggregate-status-notification"><a href="">
+                                        <span class="pficon pficon-error-circle-o"></span>
+                                        <span>{{dash.pgs.critical}}</span></a>
+                                    </span>
+                                    <span ng-if="dash.pgs.warning>0" class="card-pf-aggregate-status-notification"><a href="">
+                                        <span class="pficon pficon-warning-triangle-o"></span>
+                                        <span>{{dash.pgs.warning}}</span></a>
+                                    </span>
+                                    <span ng-if="dash.pgs.critical===0 && dash.pgs.warning===0" class="card-pf-aggregate-status-notification"><a href="">
+                                        <span class="pficon pficon-ok"></span>
+                                    </span>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div><!-- Second row end -->
+
+                <!-- Third row -->
+                <div class="row row-cards-pf">
+                    <div class="col-xs-12 col-sm-12 col-md-6">
+                        <div class="card-pf card-pf-aggregate-status card-pf-with-action">
+                            <h2 class="card-pf-title">
+                                <a href="">{{dash.pools.total}} Pools</a>
+                            </h2>
+                            <div class="card-pf-body">
+                                <p class="card-pf-aggregate-status-notifications">
+                                    <span ng-if="dash.pools.critical>0" class="card-pf-aggregate-status-notification"><a href="">
+                                        <span class="pficon-error-circle-o"></span>
+                                        <span>{{dash.pools.critical}}</span></a>
+                                    </span>
+                                    <span ng-if="dash.pools.warning>0" class="card-pf-aggregate-status-notification"><a href="">
+                                        <span class="pficon pficon-warning-triangle-o"></span>
+                                        <span>{{dash.pools.warning}}</span></a>
+                                    </span>
+                                    <span ng-if="dash.pools.critical===0 && dash.pools.warning===0" class="card-pf-aggregate-status-notification"><a href="">
+                                        <span class="pficon pficon-ok"></span>
+                                    </span>
+                                    <span class="card-pf-aggregate-status-notification"><a href="">1
+                                    </a><small class="status-notification">Near Full</small></span>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xs-12 col-sm-12 col-md-3">
+                        <div class="card-pf card-pf-aggregate-status card-pf-with-action">
+                            <h2 class="card-pf-title">
+                                <a href="">{{dash.osds.total}} OSDs</a>
+                            </h2>
+                            <div class="card-pf-body">
+                                <p class="card-pf-aggregate-status-notifications">
+                                    <span ng-if="dash.osds.critical>0" class="card-pf-aggregate-status-notification"><a href="">
+                                        <span class="pficon pficon-error-circle-o"></span>
+                                        <span>{{dash.osds.critical}}</span></a>
+                                    </span>
+                                    <span ng-if="dash.osds.warning>0" class="card-pf-aggregate-status-notification"><a href="">
+                                        <span class="pficon pficon-warning-triangle-o"></span>
+                                        <span>{{dash.osds.warning}}</span></a>
+                                    </span>
+                                    <span ng-if="dash.osds.critical===0 && dash.osds.warning===0" class="card-pf-aggregate-status-notification"><a href="">
+                                        <span class="pficon pficon-ok"></span>
+                                    </span>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xs-12 col-sm-12 col-md-3">
+                        <div class="card-pf card-pf-aggregate-status card-pf-with-action">
+                            <h2 class="card-pf-title">
+                                <a href="">{{dash.objects.total}} Objects</a>
+                            </h2>
+                            <div class="card-pf-body">
+                                <p class="card-pf-aggregate-status-notifications">
+                                    <span ng-if="dash.objects.critical>0" class="card-pf-aggregate-status-notification"><a href="">
+                                        <span class="pficon pficon-error-circle-o"></span>
+                                        <span>{{dash.objects.critical}}</span></a>
+                                    </span>
+                                    <span ng-if="dash.objects.warning>0" class="card-pf-aggregate-status-notification"><a href="">
+                                        <span class="pficon pficon-warning-triangle-o"></span>
+                                        <span>{{dash.objects.warning}}</span></a>
+                                    </span>
+                                    <span ng-if="dash.objects.critical===0 && dash.objects.warning===0" class="card-pf-aggregate-status-notification"><a href="">
+                                        <span class="pficon pficon-ok"></span>
+                                    </span>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div><!-- Third row end-->
+
+                <!-- Fourth row -->
+                <!-- <div class="row row-cards-pf">
+                    <div class="col-xs-12 col-sm-12 col-md-12">
+                        <div class="card-pf card-pf-aggregate-status card-pf-with-action">
+                            <div class="row">
+                                <div class="col-xs-12 col-sm-6 col-md-5">
+                                    <span class="pull-left system-performance">System Performance</span>
+                                </div>
+                                <div class="col-xs-12 col-sm-6 col-md-7">
+                                    <span class="pull-right time-slot">
+                                        <span class="add-cursor-pointer" data-animation="am-flip-x" data-template="views/dashboard/dashboard-time-slot-dropdown.tpl.html" bs-dropdown="ellipsis">{{dash.selectedTimeSlot.name}}<b class="caret"></b>
+                                        </span>
+                                    </span>
+                                </div>
+                            </div>
+                            <hr>
+                            <div class="row">
+                                <div class="col-xs-12 col-sm-12 col-md-5">
+                                    <div class="card-pf-body" ng-repeat="obj in dash.systemPerformance.slice(0, 2)">
+                                        <small>{{obj.title}}</small>
+                                        <div pf-trends-chart config="obj.config" chart-data="obj.data"></div>
+                                    </div>
+                                </div>
+                                <div class="col-xs-12 col-sm-12 col-md-7">
+                                    <div class="card-pf-body" ng-repeat="obj in dash.systemPerformance.slice(2, 6)">
+                                        <small>{{obj.title}}</small>
+                                        <div pf-trends-chart config="obj.config" chart-data="obj.data"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div> -->
+
             </div>
-        </div>
+
+            <!-- Utilization SideBar -->
+            <div class="col-xs-12 col-sm-6 col-md-3 sidebar-pf sidebar-pf-right" style="min-height: 896px;">
+                <div class="row row-cards-pf">
+                    <div class="col-xs-12 col-sm-12 col-md-12">
+                        <!-- <div class="card-pf">
+                            <div class="card-pf-heading">
+                                <h2 class="card-pf-title">
+                                    Most Used Pools
+                                </h2>
+                            </div>
+                            <div class="card-pf-body">
+                                <div ng-repeat="data in dash.mostUsedPools" pf-utilization-bar-chart chart-data="data.data" chart-title="data.title" units="data.units" threshold-error="85" threshold-warning="60">
+                                </div>
+                            </div>
+                        </div> -->
+                    </div>
+                </div><!-- /row -->
+            </div>
+        </div><!-- End of Fisrt Big row -->
     </div>
+
 </div>

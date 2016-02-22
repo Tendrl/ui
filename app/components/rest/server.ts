@@ -39,7 +39,7 @@ enum NodeState {
     UNMANAGED       //4
 }
 
-enum NodeStatus {
+export enum NodeStatus {
     OK,         //0
     WARN,       //1
     ERROR,      //2
@@ -58,6 +58,15 @@ export class ServerService {
         this.restFull = rest.withConfig((RestangularConfigurer) => {
             RestangularConfigurer.setBaseUrl('/api/v1/');
             RestangularConfigurer.setFullResponse(true);
+        });
+    }
+
+
+    // **getDashboardSummary**
+    // **@returns** a promise with all details of main dashboard.
+    getDashboardSummary() {
+        return this.rest.one('system/summary').get().then(function(summary) {
+            return summary;
         });
     }
 
