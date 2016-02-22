@@ -32,9 +32,6 @@ export class StorageNewController {
             }
             else if (this.type === 'block') {
             }
-            else if (this.type === 'openstack') {
-                this.addOpenStackStorage();
-            }
         }
     }
 
@@ -44,9 +41,5 @@ export class StorageNewController {
 
     public addGenericStorage(): void {
         this.$location.path('/storage/new/object/' + this.cluster.clusterid);
-    }
-
-    public addOpenStackStorage(): void {
-        this.$location.path('/storage/new/openstack/' + this.cluster.clusterid);
     }
 }
