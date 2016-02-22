@@ -31,6 +31,7 @@ export class ObjectStorageController {
     private possiblePgs = [];
     private optimalSizeList = [];
     private pgSlider = {};
+    private quota = { enabled: false, objects: { enabled: false, value: undefined }, percentage: { enabled: false, value: 75 } };
     private pools = [];
 
     static $inject: Array<string> = [
@@ -65,6 +66,7 @@ export class ObjectStorageController {
             this.PGsFixed = this.slus.length <= 50;
             if (this.PGsFixed) {
                 this.pgs = GetCephPGsForOSD(this.slus, null, null);
+                this.targetSize = GetOptimalSizeForPGNum(this.pgs, this.slus, this.replicas);
             }
             else {
                 this.possiblePgs = GetTwosPowList(128, this.slus.length * 200);
@@ -97,6 +99,10 @@ export class ObjectStorageController {
                         default:
                             return pgNum + ' PGs / ' + formatedSize;
                     }
+                },
+                onChange:(sliderId, value, highValue) => {
+                    var pgNum = Math.pow(2, value);
+                    this.targetSize = GetOptimalSizeForPGNum(pgNum, this.slus, this.replicas);
                 }
             }
         };
@@ -107,6 +113,16 @@ export class ObjectStorageController {
             this.slus = slus;
             this.pgs = GetCephPGsForOSD(slus, 100, 3);
         });
+    }
+
+
+    public getQuotaPercentageSize(percent: string): string {
+        var val = parseInt(percent) || 0;
+        return numeral((val / 100) * this.targetSize).format('0.0 b');
+    }
+
+    public getQuotaTotalSize(): string {
+        return numeral(this.targetSize).format('0.0 b');
     }
 
     public prepareSummary(): void {
@@ -122,7 +138,9 @@ export class ObjectStorageController {
                 type: this.type,
                 profile: this.profile,
                 replicas: this.replicas,
-                capacity: numeral(this.targetSize).format('0b'),
+                capacity: this.targetSize,
+                capacityFormated: numeral(this.targetSize).format('0b'),
+                quota: this.quota
             }
             this.pools.push(angular.copy(pool));
         }
@@ -139,10 +157,20 @@ export class ObjectStorageController {
                 name: pool.name,
                 type: 'replicated',
                 replicas: pool.replicas,
-                size: pool.capacity
+                size: pool.capacityFormated
             };
             if (this.PGsFixed) {
                 storage['options'] = { pgnum: this.pgs.toString() };
+            }
+            if(pool.quota.enabled) {
+                storage['quota_enabled'] = true;
+                storage['quota_params'] = {};
+                if(pool.quota.objects.enabled) {
+                    storage['quota_params'].quota_max_objects = pool.quota.objects.value.toString();
+                }
+                if(pool.quota.percentage.enabled) {
+                    storage['quota_params'].quota_max_bytes = Math.round((pool.quota.percentage.value / 100) * pool.capacity).toString();
+                }
             }
             list.push(this.storageSvc.create(this.cluster.clusterid, storage));
         }
