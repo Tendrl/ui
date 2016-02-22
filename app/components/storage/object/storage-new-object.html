@@ -5,14 +5,22 @@
     <div class="form-body">
         <form name="storage.form" class="form-horizontal" ng-if="!storage.summary" novalidate>
             <!-- General Configuration -->
-            <div class="form-group">
+            <div class="form-group" ng-class="{'has-error': storage.form.poolName.$dirty && storage.form.poolName.$error.required}">
                 <label class="col-md-2 control-label">Pool Name</label>
                 <div class="col-md-2">
-                    <input type="text" id="poolName" class="form-control" ng-model="storage.name"></input>
+                    <input type="text" id="poolName" name="poolName" class="form-control" ng-model="storage.name" required></input>
                 </div>
+                <div class="col-md-3">
+                    <span class="help-block" ng-if="storage.form.poolName.$dirty && storage.form.poolName.$error.required">Pool Name cannot be empty</span>
+                </div>
+            </div>
+            <div class="form-group" ng-class="{'has-error': storage.form.poolsToCreate.$error.min}">
                 <label class="col-md-2 control-label">Pools to Create</label>
                 <div class="col-md-2">
-                    <input type="number" id="poolsToCreate" class="form-control" ng-model="storage.count"></input>
+                    <input type="number" id="poolsToCreate" name="poolsToCreate" class="form-control" ng-model="storage.count" min="1" required></input>
+                </div>
+                <div class="col-md-3">
+                    <span class="help-block" ng-if="storage.form.poolsToCreate.$error.min">The value cannot be lesser than 1</span>
                 </div>
             </div>
             <div class="form-group">
@@ -20,9 +28,14 @@
                 <div class="col-md-2">
                     <select pf-select ng-model="storage.type" id="type" class="form-control" ng-options="type for type in storage.types"></select>
                 </div>
+            </div>
+            <div class="form-group" ng-class="{'has-error': storage.form.replicas.$error.min || storage.form.replicas.$error.max}">
                 <label class="col-md-2 control-label">Replicas</label>
                 <div class="col-md-2">
-                    <input type="number" id="replicas" class="form-control" ng-model="storage.replicas"></input>
+                    <input type="number" id="replicas" name="replicas" class="form-control" ng-model="storage.replicas" min="1" max="5" required></input>
+                </div>
+                <div class="col-md-3">
+                    <span class="help-block" ng-if="storage.form.replicas.$error.min || storage.form.replicas.$error.max">The value must be in range 1 to 5</span>
                 </div>
             </div>
             <div class="form-group">
