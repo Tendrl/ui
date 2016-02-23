@@ -18,9 +18,6 @@ import {ClusterExpandController} from "./components/clusters/cluster-expand";
 import {ClusterNewController} from "./components/clusters/cluster-new";
 import {ClusterDetailController} from "./components/clusters/cluster-detail";
 import {StorageProfileDisksController} from './components/clusters/storageprofile/storage-profile-disks';
-import {VolumeController} from "./components/volumes/volume-controller";
-import {VolumeNewController} from "./components/volumes/volume-new";
-import {VolumeExpandController} from "./components/volumes/volume-expand";
 import {UserController} from "./components/admin/user-controller";
 import {UserNewController} from "./components/admin/user-new";
 import {UserEditController} from "./components/admin/user-edit";
@@ -82,9 +79,6 @@ class USMApp {
             .controller('ClusterNewController', ClusterNewController)
             .controller('ClusterDetailController', ClusterDetailController)
             .controller('StorageProfileDisksController', StorageProfileDisksController)
-            .controller('VolumeController', VolumeController)
-            .controller('VolumeNewController', VolumeNewController)
-            .controller('VolumeExpandController', VolumeExpandController)
             .controller('UserController',UserController)
             .controller('UserNewController',UserNewController)
             .controller('UserEditController',UserEditController)

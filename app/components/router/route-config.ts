@@ -63,26 +63,6 @@ export class RouteConfig {
 			name: 'storage',
 			controller: 'ObjectStorageController',
 			controllerAs: 'storage'
-		}).when('/volumes', {
-			templateUrl: 'views/volumes/volumes.html',
-			name: 'volumes',
-			controller: 'VolumeController',
-			controllerAs: 'volumes'
-		}).when('/volumes/new', {
-			templateUrl: 'views/volumes/volumes-new.html',
-			name: 'volumes',
-			controller: 'VolumeNewController',
-			controllerAs: 'volume'
-		}).when('/volumes/expand/:id', {
-			templateUrl: 'views/volumes/volumes-expand.html',
-			name: 'volumes',
-			controller: 'VolumeExpandController',
-			controllerAs: 'volume'
-		}).when('/volumes/detail/:id', {
-			templateUrl: 'views/volumes-detail.html',
-			name: 'volumes',
-			controller: 'VolumeDetailController',
-			controllerAs: 'volumedetail'
 		}).when('/pools', {
 			templateUrl: 'views/pools/pools.html',
 			name: 'pools',
