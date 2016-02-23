@@ -26,6 +26,7 @@ import {EventListController} from "./components/events/event-list";
 import {EventDetailController} from "./components/events/event-detail-controller";
 import {TaskListController} from "./components/tasks/task-list";
 import {TaskDetailController} from "./components/tasks/task-detail-controller";
+import {EmailController} from "./components/admin/mail-settings-controller";
 
 import {KTDraggable} from "./components/shared/directives/kt-draggable";
 import {KTDroppable} from "./components/shared/directives/kt-droppable";
@@ -90,6 +91,7 @@ class USMApp {
             .controller('EventDetailController',EventDetailController)
             .controller('TaskListController',TaskListController)
             .controller('TaskDetailController',TaskDetailController)
+            .controller('EmailController',EmailController)
             .service('MenuService', MenuService)
             .run( function($rootScope, $location) {
                $rootScope.$watch(function() {

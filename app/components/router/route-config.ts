@@ -95,7 +95,11 @@ export class RouteConfig {
 			controller: 'LdapConfigController',
 			controllerAs: 'ldap',
 			name: 'ldap'
-		}).when('/events', {
+		}).when('/admin/email', {
+            templateUrl: 'views/admin/mail-settings.html',
+            controller: 'EmailController',
+            controllerAs: 'mail',
+        }).when('/events', {
 			templateUrl: 'views/events/event-list.html',
 			controller: 'EventListController',
 			controllerAs: 'events',

@@ -1,17 +1,17 @@
 <ul class="nav nav-tabs">
   <li class="active"><a href="">Users</a></li>
   <li><a href="">Roles</a></li>
-  <li><a href="" ng-click="users.configureLdap()">Settings</a></li>
+  <li><a href="#/admin/ldap">LDAP Settings</a></li>
+  <li><a href="#/admin/email">Email Settings</a></li>
 </ul>
 
   <div class="row dataTables_wrapper">
      <div class="col-md-3 form-group has-feedback user-search-feedback" style="display:-webkit-box;">
-            <input type="text" class="form-control" placeholder="Search" ng-model="search">
+            <input type="text" class="form-control" placeholder="Search" ng-model="search"></input>
             <span class="fa fa-search form-control-feedback"></span>
-            </input>
      </div>
     <div class="col-md-offset-4 col-md-5">
-      <span class="pull-right"> 
+      <span class="pull-right">
         <button class="btn btn-primary btn-lg" ng-click="users.addUser()">Add User</button>
         <button class="btn btn-primary btn-lg" ng-click="users.addLdapUser()">Add LDAP User</button>
       </span>
