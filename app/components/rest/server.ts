@@ -23,27 +23,27 @@ export interface Node {
 }
 
 enum AlarmStatus {
-    INDETERMINATE,
-    CRITICAL,
-    MAJOR,
-    MINOR,
-    WARNING,
-    CLEARED
+    INDETERMINATE,  //0
+    CRITICAL,       //1
+    MAJOR,          //2
+    MINOR,          //3
+    WARNING,        //4
+    CLEARED         //5
 }
 
 enum NodeState {
-    UNACCEPTED,
-    INITIALIZING,
-    ACTIVE,
-    FAILED,
-    UNMANAGED
+    UNACCEPTED,     //0
+    INITIALIZING,   //1
+    ACTIVE,         //2
+    FAILED,         //3
+    UNMANAGED       //4
 }
 
 enum NodeStatus {
-    OK,
-    WARN,
-    ERROR,
-    UNKNOWN
+    OK,         //0
+    WARN,       //1
+    ERROR,      //2
+    UNKNOWN     //3
 }
 
 export class ServerService {

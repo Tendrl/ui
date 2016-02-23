@@ -25,8 +25,9 @@
                     <div>
                         <span class="pficon-running fa-spin status-icon" ng-if="host.state === 1" title="Initializing..."></span>
                         <span class="pficon-error-circle-o status-icon" ng-if="host.state === 3" title="Failed"></span>
-                        <span class="pficon-ok status-icon" ng-if="host.state === 2 && host.status === 'up'" title="Up"></span>
-                        <span class="pficon-error-circle-o status-icon"  ng-if="host.state === 2 && host.status === 'down'" title="Down"></span>
+                        <span class="pficon-ok status-icon" ng-if="host.state === 2 && host.status === 0" title="Ok"></span>
+                        <span class="pficon-warning-triangle-o status-icon" ng-if="host.state === 2 && host.status === 1" title="Warning"></span>
+                        <span class="pficon-error-circle-o status-icon"  ng-if="host.state === 2 && host.status === 2" title="Error"></span>
                         <span class="host-name-heading" ng-bind="host.hostnameShort"></span>
                         <span class="description-for-host" ng-bind="host.management_ip4"></span>
                     </div>
