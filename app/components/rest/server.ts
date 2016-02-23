@@ -1,5 +1,51 @@
 /// <reference path="../../../typings/tsd.d.ts" />
 
+export interface Node {
+    almcount: number;
+    almstatus: AlarmStatus;
+    cluster_ip4: string;
+    clusterid: string;
+    cpus: any[];
+    enabled?: boolean;
+    hostname: string;
+    location: string;
+    management_ip4: string;
+    memory: {};
+    network_info: {};
+    nodeid: string;
+    options: {};
+    os: {};
+    public_ip4: string;
+    state: NodeState;
+    status: NodeStatus;
+    storage_disks: any[];
+    tags: any[]
+}
+
+enum AlarmStatus {
+    INDETERMINATE,
+    CRITICAL,
+    MAJOR,
+    MINOR,
+    WARNING,
+    CLEARED
+}
+
+enum NodeState {
+    UNACCEPTED,
+    INITIALIZING,
+    ACTIVE,
+    FAILED,
+    UNMANAGED
+}
+
+enum NodeStatus {
+    OK,
+    WARN,
+    ERROR,
+    UNKNOWN
+}
+
 export class ServerService {
     config: Array<any>;
     rest: restangular.IService;
@@ -26,7 +72,7 @@ export class ServerService {
     // **getList**
     // **@returns** a promise with all servers.
     getList() {
-        return this.rest.all('nodes').getList().then(function(servers) {
+        return this.rest.all('nodes').getList<Node>().then(function(servers) {
             return _.sortBy(servers, "hostname");
         });
     }
@@ -34,7 +80,7 @@ export class ServerService {
     // **getListByCluster**
     // **@returns** a promise with all nodes part of the cluster.
     getListByCluster(clusterId) {
-        return this.rest.one('clusters', clusterId).all('nodes').getList().then(function(nodes) {
+        return this.rest.one('clusters', clusterId).all('nodes').getList<Node>().then(function(nodes) {
             return _.sortBy(nodes, "hostname");
         });
     }
@@ -42,7 +88,7 @@ export class ServerService {
     // **getFreeHosts**
     // **@returns** a promise with all servers which are free.
     getFreeHosts() {
-        return this.rest.all('nodes').getList({ state: 'free' }).then(function(servers) {
+        return this.rest.all('nodes').getList<Node>({ state: 'free' }).then(function(servers) {
             return  _.sortBy(servers, "hostname");
         });
     }
@@ -76,7 +122,7 @@ export class ServerService {
     getByHostname(hostname) {
         return this.getList().then(function(servers) {
             return _.find(servers, function(server) {
-                return server.node_name === hostname;
+                return server.hostname === hostname;
             });
         });
     }
