@@ -98,7 +98,7 @@ export class ServerService {
     // **@returns** a promise with all servers which are free.
     getFreeHosts() {
         return this.rest.all('nodes').getList<Node>({ state: 'free' }).then(function(servers) {
-            return  _.sortBy(servers, "hostname");
+            return _.sortBy(_.filter(servers, server => server.state === NodeState.ACTIVE), "hostname");
         });
     }
 
@@ -108,7 +108,7 @@ export class ServerService {
         return this.rest.all('unmanaged_nodes').getList().then(function(nodes: Array<any>) {
             var unmanagedNodes: Array<any> = [];
             _.each(nodes, (node) => {
-                 unmanagedNodes.push({ hostname: node.name, saltfingerprint: node.saltfingerprint });
+                 unmanagedNodes.push({ hostname: node.hostname, saltfingerprint: node.saltfingerprint });
             });
             return _.sortBy(unmanagedNodes, "hostname");
         });
