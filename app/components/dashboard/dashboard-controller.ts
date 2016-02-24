@@ -77,7 +77,6 @@ export class DashboardController {
             var profiles = summary.storageprofileusage;
             var subdata = [];
             var othersProfile = { "used": 0, "total": 0};
-            othersProfile.total = profiles["general"]["total"];
             for (var profile in profiles) {
                 if (profiles.hasOwnProperty(profile)) {
                     var usedData = Math.round(100 * (profiles[profile]["used"] / profiles[profile]["total"]));
@@ -89,6 +88,7 @@ export class DashboardController {
                         subdata.push({ "used" : usedData , "color" : "#39a5dc" , "subtitle" : "SSD" });
                     }else{
                         othersProfile.used = othersProfile.used + profiles[profile]["used"];
+                        othersProfile.total = othersProfile.total + profiles[profile]["total"];
                     }
                 }
             }

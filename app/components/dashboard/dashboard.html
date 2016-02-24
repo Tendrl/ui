@@ -25,7 +25,7 @@
                                                 <span>{{dash.clusters.warning}}</span></a>
                                             </span>
                                             <span ng-if="dash.clusters.critical===0 && dash.clusters.warning===0" class="card-pf-aggregate-status-notification"><a href="">
-                                                <span class="pficon pficon-ok"></span>
+                                                <span class="pficon pficon-ok"></span></a>
                                             </span>
                                             <!-- <div class="indicator-for-clusters">
                                                 <div class="near-full">
@@ -75,7 +75,7 @@
                 <!-- Second row -->
                 <div class="row row-cards-pf">
                     <div class="col-xs-12 col-sm-12 col-md-6">
-                        <div class="card-pf card-pf-aggregate-status card-pf-with-action">
+                        <div class="card-pf card-pf-aggregate-status card-pf-with-action common-card-height">
                             <h2 class="card-pf-title">
                                 <a href="">{{dash.hosts.total}} Hosts</a>
                             </h2>
@@ -90,16 +90,18 @@
                                         <span>{{dash.hosts.warning}}</span></a>
                                     </span>
                                     <span ng-if="dash.hosts.critical===0 && dash.hosts.warning===0" class="card-pf-aggregate-status-notification"><a href="">
-                                        <span class="pficon pficon-ok"></span>
+                                        <span class="pficon pficon-ok"></span></a>
                                     </span>
-                                    <span class="card-pf-aggregate-status-notification"><a href="">{{dash.discoveredHostsLength}}
-                                    </a><small class="status-notification">To Accept</small></span>
+                                    <span ng-if="dash.hosts.unaccepted>0" class="card-pf-aggregate-status-notification"><a href="">
+                                        <span>{{dash.hosts.unaccepted}}</span>
+                                        <small class="status-notification">To Accept</small></a>
+                                    </span>
                                 </p>
                             </div>
                         </div>
                     </div>
                     <div class="col-xs-12 col-sm-12 col-md-3">
-                        <div class="card-pf card-pf-aggregate-status card-pf-with-action">
+                        <div class="card-pf card-pf-aggregate-status card-pf-with-action common-card-height">
                             <h2 class="card-pf-title">
                                 <a href="">{{dash.monitors.total}} Monitors</a>
                             </h2>
@@ -114,14 +116,14 @@
                                         <span>{{dash.monitors.warning}}</span></a>
                                     </span>
                                     <span ng-if="dash.monitors.critical===0 && dash.monitors.warning===0" class="card-pf-aggregate-status-notification"><a href="">
-                                        <span class="pficon pficon-ok"></span>
+                                        <span class="pficon pficon-ok"></span></a>
                                     </span>
                                 </p>
                             </div>
                         </div>
                     </div>
                     <div class="col-xs-12 col-sm-12 col-md-3">
-                        <div class="card-pf card-pf-aggregate-status card-pf-with-action">
+                        <div class="card-pf card-pf-aggregate-status card-pf-with-action common-card-height">
                             <h2 class="card-pf-title">
                                 <a href="">{{dash.pgs.total}} PGs</a>
                             </h2>
@@ -136,7 +138,7 @@
                                         <span>{{dash.pgs.warning}}</span></a>
                                     </span>
                                     <span ng-if="dash.pgs.critical===0 && dash.pgs.warning===0" class="card-pf-aggregate-status-notification"><a href="">
-                                        <span class="pficon pficon-ok"></span>
+                                        <span class="pficon pficon-ok"></span></a>
                                     </span>
                                 </p>
                             </div>
@@ -147,7 +149,7 @@
                 <!-- Third row -->
                 <div class="row row-cards-pf">
                     <div class="col-xs-12 col-sm-12 col-md-6">
-                        <div class="card-pf card-pf-aggregate-status card-pf-with-action">
+                        <div class="card-pf card-pf-aggregate-status card-pf-with-action common-card-height">
                             <h2 class="card-pf-title">
                                 <a href="">{{dash.pools.total}} Pools</a>
                             </h2>
@@ -162,16 +164,17 @@
                                         <span>{{dash.pools.warning}}</span></a>
                                     </span>
                                     <span ng-if="dash.pools.critical===0 && dash.pools.warning===0" class="card-pf-aggregate-status-notification"><a href="">
-                                        <span class="pficon pficon-ok"></span>
+                                        <span class="pficon pficon-ok"></span></a>
                                     </span>
-                                    <span class="card-pf-aggregate-status-notification"><a href="">1
-                                    </a><small class="status-notification">Near Full</small></span>
+                                    <span class="card-pf-aggregate-status-notification"><a href="">
+                                        1<small class="status-notification">Near Full</small></a>
+                                    </span>
                                 </p>
                             </div>
                         </div>
                     </div>
                     <div class="col-xs-12 col-sm-12 col-md-3">
-                        <div class="card-pf card-pf-aggregate-status card-pf-with-action">
+                        <div class="card-pf card-pf-aggregate-status card-pf-with-action common-card-height">
                             <h2 class="card-pf-title">
                                 <a href="">{{dash.osds.total}} OSDs</a>
                             </h2>
@@ -186,14 +189,14 @@
                                         <span>{{dash.osds.warning}}</span></a>
                                     </span>
                                     <span ng-if="dash.osds.critical===0 && dash.osds.warning===0" class="card-pf-aggregate-status-notification"><a href="">
-                                        <span class="pficon pficon-ok"></span>
+                                        <span class="pficon pficon-ok"></span></a>
                                     </span>
                                 </p>
                             </div>
                         </div>
                     </div>
                     <div class="col-xs-12 col-sm-12 col-md-3">
-                        <div class="card-pf card-pf-aggregate-status card-pf-with-action">
+                        <div class="card-pf card-pf-aggregate-status card-pf-with-action common-card-height">
                             <h2 class="card-pf-title">
                                 <a href="">{{dash.objects.total}} Objects</a>
                             </h2>
@@ -208,7 +211,7 @@
                                         <span>{{dash.objects.warning}}</span></a>
                                     </span>
                                     <span ng-if="dash.objects.critical===0 && dash.objects.warning===0" class="card-pf-aggregate-status-notification"><a href="">
-                                        <span class="pficon pficon-ok"></span>
+                                        <span class="pficon pficon-ok"></span></a>
                                     </span>
                                 </p>
                             </div>
