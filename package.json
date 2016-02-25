@@ -23,7 +23,7 @@
     "jquery": "~1.11.3",
     "lodash": "~3.10.0",
     "numeral": "~1.5.3",
-    "patternfly": "~3.0.0",
+    "patternfly": "~3.1.0",
     "restangular": "git://github.com/mgonto/restangular#1.5.1"
   },
   "devDependencies": {
