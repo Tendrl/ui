@@ -1,0 +1,11 @@
+  <div class="persistent-secondary-header">
+    <a class="fa fa-arrow-circle-o-left" href="" data-toggle="collapse-secondary-nav"></a>
+    <span>{{menu.label}}</span>
+  </div>
+    <ul class="list-group">
+    <li class="list-group-item" ng-repeat="submenu in menu.subMenus">
+      <a href="{{submenu.href}}">
+        <span class="list-group-item-value" ng-bind="submenu.title"></span>
+      </a>
+    </li>
+  </ul>

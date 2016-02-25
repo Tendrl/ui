@@ -7,43 +7,54 @@ export class MenuService {
             label: 'Dashboard',
             id: 'dashboard',
             href: '/dashboard',
-            icon: 'fa-tachometer',
+            icon: 'fa fa-dashboard',
             active: true
         }, {
             label: 'Clusters',
             id: 'clusters',
             href: '/clusters',
-            icon: 'fa-cubes',
+            icon: 'pficon pficon-cluster',
             active: false
         }, {
             label: 'Hosts',
             id: 'hosts',
             href: '/hosts',
-            icon: 'fa-desktop',
+            icon: 'pficon pficon-screen',
             active: false
         },{
             label: 'Storage',
             id: 'storage',
             href: '/storage',
-            icon: 'fa-hdd-o',
+            icon: 'pficon pficon-container-node',
             active: false
         },{
             label: 'Admin',
             id: 'admin',
             href: '/admin',
-            icon: 'fa-users',
-            active: false
-        },{
-            label: 'Events',
-            id: 'events',
-            href: '/events',
-            icon: 'fa-cogs',
-            active: false
-        },{
-            label: 'Tasks',
-            id: 'tasks',
-            href: '/tasks',
-            icon: 'fa-flag',
+            icon: 'fa fa-cog',
+            hasSubMenus: true,
+            subMenus: [
+                {
+                    title: 'Tasks',
+                    id: 'tasks',
+                    href: '#/tasks'
+                },
+                {
+                    title: 'Events',
+                    id: 'events',
+                    href: '#/events'
+                },
+                {
+                    title: 'Users',
+                    id: 'users',
+                    href: '#/admin'
+                },
+                {
+                    title: 'Ldap Settings',
+                    id: 'ldap',
+                    href: '#/admin/ldap'
+                }
+                ],
             active: false
         }];
     }

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html class="layout-pf-alt layout-pf-alt-fixed layout-pf-alt-fixed-with-footer layout-pf-alt-fixed-inner-scroll">
+<html class="layout-pf layout-pf-fixed" ng-class="currentURI === '/'?'login-pf':''">
 
     <head>
         <meta charset="utf-8">
@@ -9,20 +9,12 @@
         <meta name="viewport" content="width=device-width">
         <!-- inject:css -->
         <!-- endinject -->
-        <!-- Login page UI Hack. This will be removed once we get the ref-impl for vertication navigation from patternfly.-->
-        <style type="text/css">
-            .container-pf-alt-nav-pf-vertical-alt-login-page-hack{
-                 height:100%;
-                 padding-left:0px;
-                 overflow:hidden !important;
-             }
-        </style>
     </head>
 
     <body class="usmClientApp" ng-controller="ApplicationController" ng-class="{'cards-pf':(currentURI == '/dashboard')}">
-        <nav class="navbar navbar-pf-alt" ng-if="currentURI != '/'">
+        <nav class="navbar-pf-vertical" ng-if="currentURI != '/'">
             <div class="navbar-header">
-                <button class="navbar-toggle" type="button" href="" ng-click="expandedView = !expandedView">
+                <button class="navbar-toggle" type="button" href="">
                     <span class="sr-only">Toggle navigation</span>
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
@@ -67,23 +59,28 @@
                 </ul>
             </nav>
         </nav>
-        <nav class="nav-pf-vertical-alt" ng-if="currentURI != '/'">
-            <ul class="list-group" ng-controller="MenuController">
-                <li class="list-group-item" ng-class="{'active' : menu.active}" ng-repeat="menu in menus">
-                    <a ng-click="navigate(menu)" data-toggle="tooltip" data-placement="right"> <i class="fa" ng-class="menu.icon"></i> <span class="list-group-item-value">{{menu.label}}</span> </a>
+        <nav class="nav-pf-vertical nav-pf-vertical-with-secondary-nav" ng-if="currentURI != '/'">
+            <ul class="list-group" ng-controller="MenuController" ng-init=" $().setupVerticalNavigation(true);">
+                <li class="list-group-item" ng-repeat="menu in menus" ng-class="{'active':menu.active, 'persistent-secondary':menu.hasSubMenus}" data-target="#{{menu.label}}">
+                    <a href="#{{menu.href}}"> <span ng-class="menu.icon"></span> <span class="list-group-item-value">{{menu.label}}</span> </a>
+                    <div id="{{menu.label}}" class="nav-pf-persistent-secondary" ng-include="'views/base/sub-menu.tpl.html'" ng-if="menu.hasSubMenus"></div>
                 </li>
             </ul>
         </nav>
-        <div class="container-fluid container-cards-pf" ng-class="(currentURI == '/')?'container-pf-alt-nav-pf-vertical-alt-login-page-hack' : 'container-pf-alt-nav-pf-vertical-alt'">
+        <div class="container-fluid container-cards-pf container-pf-nav-pf-vertical container-pf-nav-pf-vertical-with-secondary" ng-if="(currentURI != '/')">
             <div class="row" style="height:100%">
                 <div class="col-md-12" style="height:100%" ng-view></div>
             </div>
         </div>
-        <footer class="container-fluid footer-pf-alt">
-            <p>&copy; 2015 Sky Ring</p>
-        </footer>
+        <div ng-if="(currentURI == '/')" ng-view>
+        </div>
         <!-- inject:js -->
         <!-- endinject -->
+        <script>
+  $(document).ready(function() {
+    $().setupVerticalNavigation(true);
+  });
+</script>
     </body>
 
 </html>
