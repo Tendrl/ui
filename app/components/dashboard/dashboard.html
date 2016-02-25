@@ -16,15 +16,11 @@
                                     </h2>
                                     <div class="card-pf-body">
                                         <p class="card-pf-aggregate-status-notifications">
-                                            <span ng-if="dash.clusters.critical>0" class="card-pf-aggregate-status-notification"><a href="">
+                                            <span ng-if="dash.clusters.error>0" class="card-pf-aggregate-status-notification"><a href="">
                                                 <span class="pficon pficon-error-circle-o"></span>
-                                                <span>{{dash.clusters.critical}}</span></a>
+                                                <span>{{dash.clusters.error}}</span></a>
                                             </span>
-                                            <span ng-if="dash.clusters.warning>0" class="card-pf-aggregate-status-notification"><a href="">
-                                                <span class="pficon pficon-warning-triangle-o"></span>
-                                                <span>{{dash.clusters.warning}}</span></a>
-                                            </span>
-                                            <span ng-if="dash.clusters.critical===0 && dash.clusters.warning===0" class="card-pf-aggregate-status-notification"><a href="">
+                                            <span ng-if="dash.clusters.error===0" class="card-pf-aggregate-status-notification"><a href="">
                                                 <span class="pficon pficon-ok"></span></a>
                                             </span>
                                             <!-- <div class="indicator-for-clusters">
@@ -81,15 +77,11 @@
                             </h2>
                             <div class="card-pf-body">
                                 <p class="card-pf-aggregate-status-notifications">
-                                    <span ng-if="dash.hosts.critical>0" class="card-pf-aggregate-status-notification"><a href="">
+                                    <span ng-if="dash.hosts.error>0" class="card-pf-aggregate-status-notification"><a href="">
                                         <span class="pficon pficon-error-circle-o"></span>
-                                        <span>{{dash.hosts.critical}}</span></a>
+                                        <span>{{dash.hosts.error}}</span></a>
                                     </span>
-                                    <span ng-if="dash.hosts.warning>0" class="card-pf-aggregate-status-notification"><a href="">
-                                        <span class="pficon pficon-warning-triangle-o"></span>
-                                        <span>{{dash.hosts.warning}}</span></a>
-                                    </span>
-                                    <span ng-if="dash.hosts.critical===0 && dash.hosts.warning===0" class="card-pf-aggregate-status-notification"><a href="">
+                                    <span ng-if="dash.hosts.error===0" class="card-pf-aggregate-status-notification"><a href="">
                                         <span class="pficon pficon-ok"></span></a>
                                     </span>
                                     <span ng-if="dash.hosts.unaccepted>0" class="card-pf-aggregate-status-notification"><a href="">
@@ -107,15 +99,11 @@
                             </h2>
                             <div class="card-pf-body">
                                 <p class="card-pf-aggregate-status-notifications">
-                                    <span ng-if="dash.monitors.critical>0" class="card-pf-aggregate-status-notification"><a href="">
+                                    <span ng-if="dash.monitors.error>0" class="card-pf-aggregate-status-notification"><a href="">
                                         <span class="pficon pficon-error-circle-o"></span>
-                                        <span>{{dash.monitors.critical}}</span></a>
+                                        <span>{{dash.monitors.error}}</span></a>
                                     </span>
-                                    <span ng-if="dash.monitors.warning>0" class="card-pf-aggregate-status-notification"><a href="">
-                                        <span class="pficon pficon-warning-triangle-o"></span>
-                                        <span>{{dash.monitors.warning}}</span></a>
-                                    </span>
-                                    <span ng-if="dash.monitors.critical===0 && dash.monitors.warning===0" class="card-pf-aggregate-status-notification"><a href="">
+                                    <span ng-if="dash.monitors.error===0" class="card-pf-aggregate-status-notification"><a href="">
                                         <span class="pficon pficon-ok"></span></a>
                                     </span>
                                 </p>
@@ -129,15 +117,11 @@
                             </h2>
                             <div class="card-pf-body">
                                 <p class="card-pf-aggregate-status-notifications">
-                                    <span ng-if="dash.pgs.critical>0" class="card-pf-aggregate-status-notification"><a href="">
+                                    <span ng-if="dash.pgs.error>0" class="card-pf-aggregate-status-notification"><a href="">
                                         <span class="pficon pficon-error-circle-o"></span>
-                                        <span>{{dash.pgs.critical}}</span></a>
+                                        <span>{{dash.pgs.error}}</span></a>
                                     </span>
-                                    <span ng-if="dash.pgs.warning>0" class="card-pf-aggregate-status-notification"><a href="">
-                                        <span class="pficon pficon-warning-triangle-o"></span>
-                                        <span>{{dash.pgs.warning}}</span></a>
-                                    </span>
-                                    <span ng-if="dash.pgs.critical===0 && dash.pgs.warning===0" class="card-pf-aggregate-status-notification"><a href="">
+                                    <span ng-if="dash.pgs.error===0" class="card-pf-aggregate-status-notification"><a href="">
                                         <span class="pficon pficon-ok"></span></a>
                                     </span>
                                 </p>
@@ -155,19 +139,12 @@
                             </h2>
                             <div class="card-pf-body">
                                 <p class="card-pf-aggregate-status-notifications">
-                                    <span ng-if="dash.pools.critical>0" class="card-pf-aggregate-status-notification"><a href="">
+                                    <span ng-if="dash.pools.down>0" class="card-pf-aggregate-status-notification"><a href="">
                                         <span class="pficon-error-circle-o"></span>
-                                        <span>{{dash.pools.critical}}</span></a>
+                                        <span>{{dash.pools.down}}</span></a>
                                     </span>
-                                    <span ng-if="dash.pools.warning>0" class="card-pf-aggregate-status-notification"><a href="">
-                                        <span class="pficon pficon-warning-triangle-o"></span>
-                                        <span>{{dash.pools.warning}}</span></a>
-                                    </span>
-                                    <span ng-if="dash.pools.critical===0 && dash.pools.warning===0" class="card-pf-aggregate-status-notification"><a href="">
+                                    <span ng-if="dash.pools.down===0" class="card-pf-aggregate-status-notification"><a href="">
                                         <span class="pficon pficon-ok"></span></a>
-                                    </span>
-                                    <span class="card-pf-aggregate-status-notification"><a href="">
-                                        1<small class="status-notification">Near Full</small></a>
                                     </span>
                                 </p>
                             </div>
@@ -180,15 +157,11 @@
                             </h2>
                             <div class="card-pf-body">
                                 <p class="card-pf-aggregate-status-notifications">
-                                    <span ng-if="dash.osds.critical>0" class="card-pf-aggregate-status-notification"><a href="">
+                                    <span ng-if="dash.osds.error>0" class="card-pf-aggregate-status-notification"><a href="">
                                         <span class="pficon pficon-error-circle-o"></span>
-                                        <span>{{dash.osds.critical}}</span></a>
+                                        <span>{{dash.osds.error}}</span></a>
                                     </span>
-                                    <span ng-if="dash.osds.warning>0" class="card-pf-aggregate-status-notification"><a href="">
-                                        <span class="pficon pficon-warning-triangle-o"></span>
-                                        <span>{{dash.osds.warning}}</span></a>
-                                    </span>
-                                    <span ng-if="dash.osds.critical===0 && dash.osds.warning===0" class="card-pf-aggregate-status-notification"><a href="">
+                                    <span ng-if="dash.osds.error===0" class="card-pf-aggregate-status-notification"><a href="">
                                         <span class="pficon pficon-ok"></span></a>
                                     </span>
                                 </p>
@@ -202,15 +175,11 @@
                             </h2>
                             <div class="card-pf-body">
                                 <p class="card-pf-aggregate-status-notifications">
-                                    <span ng-if="dash.objects.critical>0" class="card-pf-aggregate-status-notification"><a href="">
+                                    <span ng-if="dash.objects.error>0" class="card-pf-aggregate-status-notification"><a href="">
                                         <span class="pficon pficon-error-circle-o"></span>
-                                        <span>{{dash.objects.critical}}</span></a>
+                                        <span>{{dash.objects.error}}</span></a>
                                     </span>
-                                    <span ng-if="dash.objects.warning>0" class="card-pf-aggregate-status-notification"><a href="">
-                                        <span class="pficon pficon-warning-triangle-o"></span>
-                                        <span>{{dash.objects.warning}}</span></a>
-                                    </span>
-                                    <span ng-if="dash.objects.critical===0 && dash.objects.warning===0" class="card-pf-aggregate-status-notification"><a href="">
+                                    <span ng-if="dash.objects.error===0" class="card-pf-aggregate-status-notification"><a href="">
                                         <span class="pficon pficon-ok"></span></a>
                                     </span>
                                 </p>

@@ -22,6 +22,23 @@ export interface Node {
     tags: any[]
 }
 
+export interface UsageData {
+    used: number;
+    total: number;
+}
+
+export interface DashboardSummaryData {
+     name: string;
+     usage: UsageData;
+     storageprofileusage: { general?: UsageData, sas?: UsageData, ssd?: UsageData};
+     objectcnt: number;
+     storagecount: { total: number, down: number };
+     slucount: { total: number };
+     nodescount: { error: number, total: number, unaccepted: number };
+     clusterscount: { total: number, error: number };
+     providermonitoringdetails: { ceph: { monitor: number } };
+}
+
 enum AlarmStatus {
     INDETERMINATE,  //0
     CRITICAL,       //1
@@ -65,7 +82,7 @@ export class ServerService {
     // **getDashboardSummary**
     // **@returns** a promise with all details of main dashboard.
     getDashboardSummary() {
-        return this.rest.one('system/summary').get().then(function(summary) {
+        return this.rest.one('system/summary').get().then(function(summary: DashboardSummaryData) {
             return summary;
         });
     }
