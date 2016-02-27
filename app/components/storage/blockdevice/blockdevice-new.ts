@@ -1,0 +1,146 @@
+// <reference path="../../../typings/tsd.d.ts" />
+
+import {Cluster} from '../../rest/clusters';
+import {StorageProfile} from '../../rest/storage-profile';
+import {BlockDevice} from '../../rest/blockdevice';
+
+import {ClusterService} from '../../rest/clusters';
+import {StorageProfileService} from '../../rest/storage-profile';
+import {StorageService} from '../../rest/storage';
+import {BlockDeviceService} from '../../rest/blockdevice';
+import {RequestService} from '../../rest/request';
+import {RequestTrackingService} from '../../requests/request-tracking-svc';
+import * as ModalHelpers from '../../modal/modal-helpers';
+import {numeral} from '../../base/libs';
+
+export class BlockDeviceController {
+    private cluster: Cluster;
+    private deviceName: string;
+    private devicesToCreate: number = 1;
+    private targetSize = { value: 10, unit: 'GB' };
+    private sizeUnits = ['GB', 'TB'];
+    private existingPools: any[];
+    private useExistingPool = true;
+    private selectedPool: any;
+    private rbdList: any[];
+
+    static $inject: Array<string> = [
+        '$routeParams',
+        '$location',
+        '$log',
+        '$q',
+        '$modal',
+        'ClusterService',
+        'StorageService',
+        'BlockDeviceService',
+        'RequestTrackingService',
+        'RequestService'
+    ];
+    constructor(private $routeParams: ng.route.IRouteParamsService,
+        private $location: ng.ILocationService,
+        private $log: ng.ILogService,
+        private $q: ng.IQService,
+        private $modal,
+        private clusterSvc: ClusterService,
+        private storageSvc: StorageService,
+        private blockDeviceSvc: BlockDeviceService,
+        private requestTrackingSvc: RequestTrackingService,
+        private requestSvc: RequestService) {
+        let clusterId = $routeParams['clusterid'];
+        this.clusterSvc.get(clusterId).then(cluster => {
+            this.cluster = cluster;
+            return this.storageSvc.getListByCluster(this.cluster.clusterid);
+        }).then(pools => {
+            this.existingPools = pools;
+            _.each(this.existingPools, (pool) => {
+                pool.capacity = {
+                    total: numeral().unformat(pool.size),
+                    used: 0
+                };
+                pool.utilization = {};
+            });
+            if (this.existingPools.length > 0) {
+                this.selectedPool = this.existingPools[0];
+                this.processUtilization();
+                this.useExistingPool = true;
+            }
+            else {
+                this.useExistingPool = false;
+            }
+        });
+        this.rbdList = [];
+    }
+
+    public processUtilization() {
+        var devicesSize = numeral().unformat(this.targetSize.value + this.targetSize.unit) * this.devicesToCreate;
+        var inUsePercent = Math.round((this.selectedPool.capacity.used / this.selectedPool.capacity.total) * 100);
+        var toBeUsedPercent = Math.round((devicesSize / this.selectedPool.capacity.total) * 100);
+        var remainingSize = this.selectedPool.capacity.total - this.selectedPool.capacity.used - devicesSize;
+        var remainingPercent = 100 - inUsePercent - toBeUsedPercent;
+        this.selectedPool.utilization.data = {
+            'total': 100,
+            'subdata': [
+                { "used": inUsePercent, "color": "#00a8e1", "subtitle": "" },
+                { "used": toBeUsedPercent, "color": "#3F9C35", "subtitle": numeral(devicesSize).format('0.0 b') + " to be added" },
+                { "used": remainingPercent, "color": "#EDEDED", "subtitle": numeral(remainingSize).format('0.0 b') + " remaining" }
+            ]
+        };
+        this.selectedPool.utilization.layout = {
+            'type': 'multidata'
+        };
+    }
+
+    public getBlockDeviceNames(deviceName: string, count: number) {
+        var list = [];
+        if (count > 1) {
+            for (var index = 1; index <= count; index++) {
+                list.push(deviceName + index);
+            }
+        }
+        return list.join(', ');
+    }
+
+    public prepareSummary(): void {
+        for (let index = 0; index < this.devicesToCreate; index++) {
+            let rbd = {
+                name: this.deviceName + index,
+                size: this.targetSize
+            }
+            this.rbdList.push(angular.copy(rbd));
+        }
+    }
+
+    public removeBlockDevice(deviceName: string): void {
+        _.remove(this.rbdList, rbd => rbd.name === deviceName);
+    }
+
+    public cancel(): void {
+        this.$location.path('/storage');
+    }
+
+    public submit(): void {
+        var list = [];
+        _.each(this.rbdList, (rbd) => {
+            let blockdevice: BlockDevice = {
+                name: rbd.name,
+                size: rbd.size.value + rbd.size.unit
+            };
+            list.push(this.blockDeviceSvc.add(this.cluster.clusterid, this.selectedPool.storageid, blockdevice));
+        });
+        this.$q.all(list).then((tasks) => {
+            for (var task of tasks) {
+                this.requestSvc.get(task.data.taskid).then((result) => {
+                    this.requestTrackingSvc.add(result.id, result.name);
+                });
+            }
+        });
+        var modal = ModalHelpers.SuccessfulRequest(this.$modal, {
+            title: 'Add Block Storage Request is Submitted',
+            container: '.usmClientApp'
+        });
+        modal.$scope.$hide = _.wrap(modal.$scope.$hide, ($hide) => {
+            $hide();
+            this.$location.path('/storage');
+        });
+    }
+}

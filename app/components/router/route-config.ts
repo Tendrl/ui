@@ -63,6 +63,11 @@ export class RouteConfig {
 			name: 'storage',
 			controller: 'ObjectStorageController',
 			controllerAs: 'storage'
+		}).when('/storage/new/block/:clusterid', {
+			templateUrl: 'views/storage/blockdevice/blockdevice-new.html',
+			name: 'storage',
+			controller: 'BlockDeviceController',
+			controllerAs: 'storage'
 		}).when('/pools', {
 			templateUrl: 'views/pools/pools.html',
 			name: 'pools',

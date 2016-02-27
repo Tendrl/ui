@@ -1,0 +1,107 @@
+<div class="form-page storage-new">
+    <div class="form-header">
+        <h2 class="title">Add Block Storage</h2>
+    </div>
+    <div class="form-body">
+        <form name="storage.form" class="form-horizontal" ng-if="!storage.summary" novalidate>
+            <!-- General Configuration -->
+            <div class="form-group" ng-class="{'has-error': storage.form.deviceName.$dirty && storage.form.deviceName.$error.required}">
+                <label class="col-md-2 control-label">Device Name</label>
+                <div class="col-md-2">
+                    <input type="text" id="deviceName" name="deviceName" class="form-control" ng-model="storage.deviceName" required></input>
+                </div>
+                <div class="col-md-3">
+                    <span class="help-block" ng-if="storage.form.deviceName.$dirty && storage.form.deviceName.$error.required">Device Name cannot be empty</span>
+                </div>
+            </div>
+            <div class="form-group" ng-class="{'has-error': storage.form.devicesToCreate.$error.min}">
+                <label class="col-md-2 control-label">Devices to Create</label>
+                <div class="col-md-2">
+                    <input type="number" id="devicesToCreate" name="devicesToCreate" class="form-control" ng-model="storage.devicesToCreate" ng-change="storage.processUtilization()"
+                    min="1" required></input>
+                </div>
+                <div class="col-md-3" ng-if="storage.devicesToCreate > 0">{{storage.getBlockDeviceNames(storage.deviceName, storage.devicesToCreate)}}</div>
+                <div class="col-md-3">
+                    <span class="help-block" ng-if="storage.form.devicesToCreate.$error.min">The value cannot be lesser than 1</span>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-md-2 control-label" for="type">Target Size</label>
+                <div class="col-md-2">
+                    <input type="number" id="targetSizeValue" name="targetSizeValue" class="form-control" ng-model="storage.targetSize.value" ng-change="storage.processUtilization()" min="1" required></input>
+                </div>
+                <div class="col-md-2">
+                    <select pf-select ng-model="storage.targetSize.unit" id="targetSizeUnit" name="targetSizeUnit" class="form-control" ng-options="unit for unit in storage.sizeUnits" ng-change="storage.processUtilization()"></select>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-md-2 control-label">Backing Pool</label>
+                <div class="col-md-2">
+                    <div class="radio">
+                        <label>
+                            <input type="radio" ng-model="storage.useExistingPool" name="useExistingPool" ng-value="true"></input>
+                            <span>Choose existing pool</span>
+                        </label>
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="radio">
+                        <label>
+                            <input type="radio" ng-model="storage.useExistingPool" name="useExistingPool" ng-value="false"></input>
+                            <span>Create new pool</span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group" ng-if="storage.useExistingPool">
+                <div class="col-md-offset-2 col-md-2">
+                    <select pf-select ng-model="storage.selectedPool" id="existingPools" name="existingPools" class="form-control" ng-options="pool.name for pool in storage.existingPools" ng-change="storage.processUtilization()"></select>
+                </div>
+                <label class="col-md-8">{{storage.selectedPool.capacity.free}} Available</label>
+            </div>
+            <div class="form-group" ng-if="storage.useExistingPool">
+                <div class="col-md-offset-2 col-md-8">
+                    <div pf-utilization-bar-chart chart-data="storage.selectedPool.utilization.data" chart-title="storage.selectedPool.utilization.title" layout="storage.selectedPool.utilization.layout"></div>
+                </div>
+            </div>
+            <!-- End: General Configuration -->
+        </form>
+        <div ng-show="storage.summary">
+            <h4>Block devices to create on pool
+                <strong>{{storage.selectedPool.name}}</strong>
+            </h4>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="list-group list-view-pf">
+                        <div class="list-group-item list-view-pf-stacked list-view-pf-top-align" ng-repeat="rbd in storage.rbdList">
+                            <div class="list-view-pf-actions">
+                                <button class="btn btn-default" ng-click="storage.removeBlockDevice(rbd.name)">Remove</button>
+                            </div>
+                            <div class="list-view-pf-main-info">
+                                <div class="list-view-pf-body">
+                                    <div class="list-view-pf-description">
+                                        <div class="list-group-item-heading">{{rbd.name}}</div>
+                                        <div class="list-group-item-text"></div>
+                                    </div>
+                                    <div class="list-view-pf-additional-info">
+                                        <div class="list-view-pf-additional-info-item list-view-pf-additional-info-item-stacked">
+                                            <strong>{{rbd.size.value}} {{rbd.size.unit}}</strong>
+                                        </div>
+                                        <div class="list-view-pf-additional-info-item list-view-pf-additional-info-item-stacked">
+                                            <strong>Backing Pool</strong>{{storage.selectedPool.name}}</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="form-footer">
+        <button type="button" class="btn btn-lg btn-primary" ng-click='storage.summary=true;storage.prepareSummary()' ng-if="!storage.summary"
+        ng-disabled="storage.form.$invalid">Next</button>
+        <button type="button" class="btn btn-lg btn-primary" ng-click='storage.submit()' ng-if="storage.summary">Submit</button>
+        <button type="button" class="btn btn-lg btn-default" ng-click='storage.cancel()'>Cancel</button>
+    </div>
+</div>

@@ -31,6 +31,7 @@ export class StorageNewController {
                 this.addGenericStorage();
             }
             else if (this.type === 'block') {
+                this.addBlockStorage();
             }
         }
     }
@@ -41,5 +42,9 @@ export class StorageNewController {
 
     public addGenericStorage(): void {
         this.$location.path('/storage/new/object/' + this.cluster.clusterid);
+    }
+
+    public addBlockStorage(): void {
+        this.$location.path('/storage/new/block/' + this.cluster.clusterid);
     }
 }

@@ -4,6 +4,7 @@ declare function require(name: string);
 import {ClusterService} from './clusters';
 import {StorageProfileService} from './storage-profile';
 import {StorageService} from './storage';
+import {BlockDeviceService} from './blockdevice';
 import {OSDService} from './osd';
 import {PoolService} from './pool';
 import {RequestService} from './request';
@@ -23,6 +24,7 @@ angular.module(moduleName, ['angular-growl'])
     .service('ClusterService', ClusterService)
     .service('StorageProfileService', StorageProfileService)
     .service('StorageService', StorageService)
+    .service('BlockDeviceService', BlockDeviceService)
     .service('OSDService', OSDService)
     .service('PoolService', PoolService)
     .service('RequestService', RequestService)
