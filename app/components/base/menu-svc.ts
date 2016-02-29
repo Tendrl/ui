@@ -26,6 +26,19 @@ export class MenuService {
             id: 'storage',
             href: '/storage',
             icon: 'pficon pficon-container-node',
+            hasSubMenus: true,
+            subMenus: [
+                {
+                    title: 'Pools',
+                    id: 'pools',
+                    href: '#/storage'
+                },
+                {
+                    title: 'RBDs',
+                    id: 'rbds',
+                    href: '#/rbds'
+                }
+            ],
             active: false
         },{
             label: 'Admin',
