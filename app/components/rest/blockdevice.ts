@@ -1,7 +1,12 @@
 /// <reference path="../../../typings/tsd.d.ts" />
 
 export interface BlockDevice {
+    id?: string,
     name: string,
+    clusterid?: string,
+    clustername?: string,
+    storageid?: string,
+    storagename?: string,
     tags?: string[],
     size: string,
     options?: {}
@@ -33,5 +38,14 @@ export class BlockDeviceService {
     // **@returns** add a new block device
     add(clusterId: string, storageId: string, blockdevice: BlockDevice) {
         return this.restFull.one('clusters', clusterId).one('storages', storageId).all('blockdevices').post(blockdevice);
+    }
+
+    // **Remove**
+    // **@param** id - id of block device to be removed
+    // This is a **destructive** operation and will remove
+    // any data on this block device.
+    // **@returns** a promise with the request id for the operation.
+    remove(clusterId: string, storageId: string, blockDeviceId: string) {
+        return this.restFull.one('clusters', clusterId).one('storages', storageId).one('blockdevices', blockDeviceId).remove();
     }
 }

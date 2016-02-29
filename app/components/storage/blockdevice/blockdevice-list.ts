@@ -1,7 +1,11 @@
 // <reference path="../../../typings/tsd.d.ts" />
 
 import {BlockDeviceService} from '../../rest/blockdevice';
+import {BlockDevice} from '../../rest/blockdevice';
+import {RequestService} from '../../rest/request';
+import {RequestTrackingService} from '../../requests/request-tracking-svc';
 import {numeral} from '../../base/libs';
+import * as ModalHelpers from '../../modal/modal-helpers';
 
 export class BlockDeviceListController {
     private list: Array<any>;
@@ -11,13 +15,19 @@ export class BlockDeviceListController {
         '$scope',
         '$interval',
         '$location',
-        'BlockDeviceService'
+        '$modal',
+        'BlockDeviceService',
+        'RequestService',
+        'RequestTrackingService'
     ];
     constructor(
         private $scope: ng.IScope,
         private $interval: ng.IIntervalService,
         private $location: ng.ILocationService,
-        private blockDeviceSvc: BlockDeviceService) {
+        private $modal,
+        private blockDeviceSvc: BlockDeviceService,
+        private requestSvc: RequestService,
+        private requestTrackingSvc: RequestTrackingService) {
         this.timer = this.$interval(() => this.refresh(), 5000);
         this.$scope.$on('$destroy', () => {
             this.$interval.cancel(this.timer);
@@ -43,6 +53,18 @@ export class BlockDeviceListController {
         this.$location.path('/storage/new');
     }
 
-    public remove(rbd) {
+    public remove(rbd: BlockDevice) {
+        var modal = ModalHelpers.RemoveConfirmation(this.$modal, {
+        });
+        modal.$scope.$hide = _.wrap(modal.$scope.$hide, ($hide, confirmed: boolean) => {
+            if (confirmed) {
+                this.blockDeviceSvc.remove(rbd.clusterid, rbd.storageid, rbd.id).then((task) => {
+                    this.requestSvc.get(task.data.taskid).then((result) => {
+                        this.requestTrackingSvc.add(result.id, result.name);
+                    });
+                });
+            }
+            $hide();
+        });
     }
 }
