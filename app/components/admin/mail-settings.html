@@ -1,97 +1,108 @@
 <ul class="nav nav-tabs">
-  <li><a href="#/admin">Users</a></li>
-  <li><a href="">Roles</a></li>
-  <li><a href="#/admin/ldap">LDAP Settings</a></li>
-  <li class="active"><a href="">Email Settings</a></li>
+    <li><a href="#/admin">Users</a></li>
+    <li><a href="">Roles</a></li>
+    <li><a href="#/admin/ldap">LDAP Settings</a></li>
+    <li class="active"><a href="">Email Settings</a></li>
 </ul>
 
 <h2>Configure Email Server</h2>
 
-<form name= "mail.form" class="form-horizontal" novalidate>
-  <div class="form-group">
-    <label for="mailNotification" class="col-sm-2 col-md-2 control-label">Email Notifications </label>
-      <div class="col-sm-4 col-md-2">
-        <input type="checkbox" id="mailNotifications" ng-model="mail.mailNotification">
-      </div>
-  </div>
+<form name="mail.form" class="form-horizontal" novalidate>
+    <div class="form-group">
+        <label for="mailNotification" class="col-sm-2 col-md-2 control-label">Email Notifications </label>
+        <div class="col-sm-4 col-md-2">
+            <input type="checkbox" id="mailNotifications" ng-model="mail.mailNotification">
+        </div>
+    </div>
 
-  <div class="form-group" ng-class="{'has-error': mail.form.smtpServer.$error.required}">
-    <label for="outgoingmailserver" class="col-sm-2 col-md-2 control-label">Out Going MailServer</label>
-    <div class="col-sm-10 col-md-4">
-      <input type="text" name="smtpServer" class="form-control" id="outgoingmailserver" ng-model="mail.smtpServer" placeholder="Server" required>
+    <div class="form-group">
+        <label for="outgoingmailserver" class="col-sm-2 col-md-2 control-label">Out Going MailServer SMTP Address</label>
+        <div class="col-sm-10 col-md-4">
+            <input type="text" name="smtpServer" class="form-control " id="outgoingmailserver" ng-model="mail.smtpServer" placeholder="Server" required>
+        </div>
+        <div class="col-sm-10 col-md-4" ng-show="mail.form.smtpServer.$touched">
+            <span ng-if="mail.form.smtpServer.$error.required" class="error-validation-msg">MailServer cannot be empty</span>
+        </div>
+        <div class="col-sm-8">
+            <label class="col-sm-6 col-md-3">Use SSL
+                <input type="radio" name="encryption" id="useSsl" ng-model="mail.useSsl">
+            </label>
+            <label class="col-sm-6 col-md-3">Use TLS
+                <input type="radio" name="encryption" id="useTls" ng-model="mail.useTls">
+            </label>
+        </div>
     </div>
-    <div class="col-sm-10 col-md-4">
-        <span class="help-block" ng-if="mail.form.smtpServer.$error.required">MailServer cannot be empty</span>
-    </div>
-  </div>
 
-  <div class="form-group" ng-class="{'has-error': mail.form.port.$error.required}">
-    <label for="port" class="col-sm-2 col-md-2 control-label">Port</label>
-    <div class="col-sm-10 col-md-4">
-      <input type="text" name= "port" class="form-control" id="port" ng-model="mail.port" placeholder="Port" required>
+    <div class="form-group">
+        <label for="port" class="col-sm-2 col-md-2 control-label">Port</label>
+        <div class="col-sm-10 col-md-4">
+            <input type="text" name="port" class="form-control " id="port " ng-model="mail.port " placeholder="Port " required>
     </div>
-    <div class="col-sm-10 col-md-4">
-        <span class="help-block" ng-if="mail.form.port.$error.required">Port cannot be empty</span>
-    </div>
-  </div>
-
-  <div class="form-group">
-    <label for="smtpaddress" class="col-sm-2 col-md-2 control-label">SMTP Address</label>
-    <label class="col-sm-6 col-md-3">Use SSL
-      <input type="radio" name="encryption" id="useSsl" ng-model="mail.useSsl"></label>
-    <label class="col-sm-6 col-md-3">Use TLS
-      <input type="radio" name="encryption" id="useTls" ng-model="mail.useTls"></label>
-  </div>
-
-  <div class="form-group" ng-class="{'has-error': mail.form.username.$error.required}">
-    <label for="username" class="col-sm-2 col-md-2 control-label">User Name</label>
-    <div class="col-sm-10 col-md-4">
-      <input type="email" name="username" class="form-control" id="username" ng-model="mail.mailId" placeholder="User Name" required>
-    </div>
-    <div class="col-sm-10 col-md-4">
-        <span class="help-block" ng-if="mail.form.username.$error.required">Username cannot be empty</span>
+    <div class="col-sm-10 col-md-4 " ng-show="mail.form.port.$touched ">
+        <span ng-if="mail.form.port.$error.required " class="error-validation-msg ">Port cannot be empty</span>
     </div>
   </div>
 
-  <div class="form-group" ng-class="{'has-error': mail.form.password.$error.required}">
-    <label for="mailpassword" class="col-sm-2 col-md-2 control-label">Password</label>
-    <div class="col-sm-10 col-md-4">
-      <input type="password" name="password"class="form-control" id="mailpassword" ng-model="mail.password"placeholder="Password" required>
+  <div class="form-group ">
+    <label for="username " class="col-sm-2 col-md-2 control-label ">User Name</label>
+    <div class="col-sm-10 col-md-4 ">
+      <input type="email " name="username " class="form-control " id="username " ng-model="mail.mailId " placeholder="User Name " required>
     </div>
-     <div class="col-sm-10 col-md-4">
-        <span class="help-block" ng-if="mail.form.password.$error.required">Password cannot be empty</span>
-    </div>
-  </div>
-
-  <div class="form-group">
-    <label for="from" class="col-sm-2 col-md-2 control-label">From</label>
-    <div class="col-sm-10 col-md-4">
-      <input type="email" class="form-control" id="from" ng-model="mail.from" placeholder="From">
+    <div class="col-sm-10 col-md-4 " ng-show="mail.form.username.$touched ">
+        <span ng-if="mail.form.username.$error.required " class="error-validation-msg ">Username cannot be empty</span>
     </div>
   </div>
 
-  <div class="form-group">
-    <label for="subjectPrefix" class="col-sm-2 col-md-2 control-label">Subject Prefix</label>
-    <div class="col-sm-10 col-md-4">
-      <input type="text" class="form-control" id="subjectPrefix" ng-model="mail.subPrefix" placeholder="Subject Prefix">
+  <div class="form-group ">
+    <label for="mailpassword " class="col-sm-2 col-md-2 control-label ">Password</label>
+    <div class="col-sm-10 col-md-4 ">
+      <input type="password" name="password " class="form-control " id="mailpassword " ng-model="mail.password " placeholder="Password " required>
+    </div>
+     <div class="col-sm-10 col-md-4 " ng-show="mail.form.password.$touched ">
+        <span ng-if="mail.form.password.$error.required " class="error-validation-msg ">Password cannot be empty</span>
     </div>
   </div>
 
-  <div class="form-group panel panel-default panel-body">
-    <label for="recipient" class="col-sm-2 col-md-2 control-label">Test Message Recipient</label>
-    <div class="col-sm-10 col-md-4">
-      <input type="email" class="form-control" id="recipient" ng-model="mail.recipient" placeholder="Test Message Recipient"></input>
-    </div>
-    <div class="col-sm-10 col-md-4">
-      <button class="btn btn-primary" ng-click="mail.test()">Test</button>
+  <div class="form-group ">
+    <label for="from " class="col-sm-2 col-md-2 control-label ">From</label>
+    <div class="col-sm-10 col-md-4 ">
+      <input type="email " class="form-control " id="from " ng-model="mail.from " placeholder="From ">
     </div>
   </div>
 
-   <div class="form-group">
-    <div class="col-sm-offset-2 col-sm-10">
-      <button class="btn btn-primary"  ng-click="mail.save()" ng-disabled="mail.form.$invalid">Save</button>
-      <h3 ng-if="mail.errorMsg===true" class="critical">Error saving configuration !</h3>
-      <h3 ng-if="mail.errorMsg===false" class="ok fa fa-check-circle">Saved Successfully !</h3>
+  <div class="form-group ">
+    <label for="subjectPrefix " class="col-sm-2 col-md-2 control-label ">Subject Prefix</label>
+    <div class="col-sm-10 col-md-4 ">
+      <input type="text " class="form-control " id="subjectPrefix " ng-model="mail.subPrefix " placeholder="Subject Prefix ">
+    </div>
+  </div>
+
+  <div class="form-group panel panel-default panel-body ">
+    <label for="recipient " class="col-sm-2 col-md-2 control-label ">Test Message Recipient</label>
+    <div class="col-sm-10 col-md-4 ">
+      <input type="email " class="form-control " id="recipient " ng-model="mail.recipient " placeholder="Test Message Recipient "></input>
+    </div>
+    <div class="col-sm-10 col-md-4 ">
+      <button class="btn btn-primary " ng-click="mail.test() " ng-disabled="mail.form.$error.required ">
+      <i class="fa fa-spinner fa-spin " ng-if="mail.onloadTest "></i>
+      Test</button>
+    </div>
+  </div>
+
+  <div class="form-group " ng-show="mail.showNotification ">
+    <div class="col-sm-offset-2 col-md-4 ">
+        <pf-inline-notification pf-notification-type="mail.notification.type "
+                       pf-notification-header="mail.notification.header "
+                       pf-notification-message="mail.notification.message ">
+        </pf-inline-notification>
+    </div>
+  </div>
+
+   <div class="form-group ">
+    <div class="col-sm-offset-2 col-sm-10 ">
+      <button class="btn btn-primary "  ng-click="mail.save() " ng-disabled="mail.form.$error.required ">
+      <i class="fa fa-spinner fa-spin " ng-if="mail.onloadSave "></i>
+      Save</button>
     </div>
   </div>
  </form>

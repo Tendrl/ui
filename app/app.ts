@@ -68,6 +68,8 @@ class USMApp {
             'restangular',
             'patternfly.charts',
             'ui.bootstrap.datetimepicker',
+            'patternfly.notification',
+            'patternfly.form',
             RequestsModule,
             RestModule,
             HostModule,

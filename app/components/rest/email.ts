@@ -17,7 +17,9 @@ export class EmailService{
     saveMailSettings(notifier){
         return this.restFull.all('mailnotifier').customPUT(notifier);
     }
-
+    testMailSettings(notifier){
+        return this.restFull.all('testmailnotifier').post(notifier);
+    }
     getMailNotifier(){
          return this.rest.one('mailnotifier').get().then(function(notifier) {
             return notifier;
