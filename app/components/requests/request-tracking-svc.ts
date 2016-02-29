@@ -85,14 +85,19 @@ export class RequestTrackingService {
         this.getTrackedRequests().then((requests) => {
             _.each(requests, (trackedRequest: any) => {
                 this.requestSvc.get(trackedRequest.id).then((task) => {
-                    if (task.completed && task.status == 2) {
-                        this.showError(trackedRequest.operation + ' is failed');
-                        this.$log.error(trackedRequest.operation + ' is failed');
-                        this.remove(trackedRequest.id);
-                    }
-                    else if (task.completed && task.status == 1) {
-                        this.showNotification(trackedRequest.operation + ' is completed sucessfully');
-                        this.$log.info(trackedRequest.operation + ' is completed sucessfully');
+                    if (task.completed) {
+                        if (task.status === 1) {
+                            this.showNotification(trackedRequest.operation + ' is completed sucessfully');
+                            this.$log.info(trackedRequest.operation + ' is completed sucessfully');
+                        }
+                        else if (task.status === 2) {
+                            this.showError(trackedRequest.operation + ' is timed out');
+                            this.$log.error(trackedRequest.operation + ' is timed out');
+                        }
+                        else if (task.status === 3) {
+                            this.showError(trackedRequest.operation + ' is failed');
+                            this.$log.error(trackedRequest.operation + ' is failed');
+                        }
                         this.remove(trackedRequest.id);
                     }
                     else if (!task.completed) {
