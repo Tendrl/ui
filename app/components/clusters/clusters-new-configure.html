@@ -8,12 +8,13 @@
       <div ng-show="form.clusterName.$touched">
         <div ng-show="form.clusterName.$error.required" class="error-validation-msg">Cluster name is required!</div>
       </div>
-       <div class="col-md-4 col-md-offset-2">
-         <p class="text-info">
-            <label class="fa fa-exclamation-circle"></label>
-            Automatic cluster expansion will be enabled, whenever new disks or
-            host added to this cluster, it will expand automatically.
-         </p>
+    </div>
+    <div class="form-group">
+      <div class="col-md-4 col-md-offset-2">
+        <p class="text-info">
+           <label class="fa fa-exclamation-circle"></label>
+           Automatic cluster expansion will be enabled, whenever new disks or host added to this cluster, it will expand automatically.
+        </p>
       </div>
     </div>
   </form>
