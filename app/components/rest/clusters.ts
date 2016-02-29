@@ -168,4 +168,12 @@ export class ClusterService {
         });
     }
 
+    // **getClusterMemoryUtilization**
+    // **@returns** a promise with cluster's memory utilization.
+    getClusterMemoryUtilization(cluster_id, time_slot) {
+        return this.rest.all('monitoring/cluster/'+cluster_id+'/utilization?resource=memory-usage_percent*&duration='+time_slot).getList().then(function(memory_utilization) {
+            return memory_utilization;
+        });
+    }
+
 }

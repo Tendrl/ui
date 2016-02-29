@@ -26,6 +26,9 @@ export class ClusterDetailController {
     private mostUsedPools: any;
     private utilizationByType: any;
     private utilizationByProfile: any;
+    private memoryUtilization: any;
+    private timeSlots: [{name:string, value:string}];
+    private selectedTimeSlot: any;
 
     //Services that are used in this class.
     static $inject: Array<string> = [
@@ -63,12 +66,17 @@ export class ClusterDetailController {
         this.id = this.routeParamsSvc['id'];
         this.cluster = {};
         this.capacity = {};
+        this.memoryUtilization = { title: "", data: {}, config: {} };
         this.hosts = { total: 0, warning: 0, critical: 0 };
         this.pgs = { total: 0, warning: 0, critical: 0 };
         this.osds = { total: 0, warning: 0, critical: 0 };
         this.objects = { total: 0, warning: 0, critical: 0 };
         this.pools = { total: 0, warning: 0, critical: 0 };
         this.monitors = { total: 0, warning: 0, critical: 0 };
+        this.timeSlots = [{ name: "Last 1 hour", value: "-1h" },
+                         { name: "Last 2 hours", value: "-2h" },
+                         { name: "Last 24 weeks", value: "" }];
+        this.selectedTimeSlot = this.timeSlots[0];
 
         this.getUtilizationByType();
         this.getOpenStackPools();
@@ -88,12 +96,43 @@ export class ClusterDetailController {
         this.storageService.getListByCluster(this.id).then((storages: Array<any>) => {
            this.pools.total = storages.length;
         });
+        this.getMemoryUtilization(this.selectedTimeSlot);
         this.clusterService.get(this.id).then((cluster) => this.loadCluster(cluster));
         this.clusterService.getClusterUtilization(this.id).then((utilizations) => this.getClusterUtilization(utilizations));
         this.clusterService.getStorageProfileUtilization(this.id).then((utilizations) => this.getUtilizationByProfile(utilizations));
         this.serverService.getListByCluster(this.id).then((hosts) => this.getHostStatus(hosts));
         this.serverService.getList().then((nodes) => this.getMonitors(nodes));
 
+    }
+
+    public getMemoryUtilization(timeSlot: any) {
+        this.clusterService.getClusterMemoryUtilization(this.id,timeSlot.value).then((memory_utilization) => {
+            var times = [];
+            var used = [];
+            times.push("dates");
+            used.push("used");
+            var usageDataArray = memory_utilization[0].datapoints;
+            for (var index in usageDataArray) {
+              var subArray = usageDataArray[index];
+              times.push(new Date(subArray[1]));
+              used.push(Math.round(subArray[0]));
+            }
+            this.memoryUtilization = {
+                title: "Memory utilization",
+                data: {
+                      dataAvailable: true,
+                      total: 100,
+                      xData: times,
+                      yData: used
+                },
+                config: {
+                    chartId      : 'memoryUtilization',
+                    title        : 'Memory Utilization Trends',
+                    layout       : 'inline',
+                    valueType    : 'actual'
+                }
+            }
+        });
     }
 
     public getUtilizationByType() {
@@ -209,6 +248,11 @@ export class ClusterDetailController {
 
     public isSet(tabNum: any) {
         return this.tabIndex === tabNum;
+    }
+
+    public changeTimeSlot(time: any) {
+        this.selectedTimeSlot = time;
+        this.getMemoryUtilization(this.selectedTimeSlot);
     }
 
 }
