@@ -545,16 +545,12 @@ export class ClusterNewController {
             cluster: clusterNetwork.address,
             public: accessNetwork.address
         };
-        var services = _.pluck(_.filter(this.openstackServices, (service: any) => {
-            return service.selected;
-        }), 'name');
 
         var cluster = {
             name: this.clusterName,
             type: this.clusterType.type,
             nodes: nodes,
-            networks: networks,
-            openstackservices: services
+            networks: networks
         };
         this.createCluster(cluster);
     }

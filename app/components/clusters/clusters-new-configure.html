@@ -8,27 +8,12 @@
       <div ng-show="form.clusterName.$touched">
         <div ng-show="form.clusterName.$error.required" class="error-validation-msg">Cluster name is required!</div>
       </div>
-      </div>
        <div class="col-md-4 col-md-offset-2">
          <p class="text-info">
             <label class="fa fa-exclamation-circle"></label>
-            Automatic cluster expansion will be enabled, whenever new disks or 
+            Automatic cluster expansion will be enabled, whenever new disks or
             host added to this cluster, it will expand automatically.
          </p>
-      </div>
-    <div class="form-group">
-      <label class="col-md-2 control-label" for="textInput">OpenStack Services</label>
-      <div class="col-md-4">
-       <div class="btn-group" role="group">
-          <button type="button" class="btn btn-sm" ng-class="cluster.openstack ? 'btn-primary' : 'btn-default'" ng-click="cluster.openstack=true">On</button>
-          <button type="button" class="btn btn-sm" ng-class="cluster.openstack ? 'btn-default' : 'btn-primary'" ng-click="cluster.openstack=false">Off</button>
-        </div>
-        <div class="checkbox" ng-show="cluster.openstack" ng-repeat="service in cluster.openstackServices">
-          <label>
-            <input type="checkbox" name="openstack" ng-model="service.selected"></input>
-            {{service.desc}}
-          </label>
-        </div>
       </div>
     </div>
   </form>
