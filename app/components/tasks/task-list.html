@@ -3,31 +3,85 @@
         <h1>Tasks</h1>
     </div>
     <div class="row">
-        <div class="col-md-3">
-            <input type="text" class="form-control" placeholder="Search" ng-model="search">
+        <div class="col-md-2">
+            <label>Search
+                <input type="text" class="form-control" placeholder="Search text" ng-model="search">
+            </label>
         </div>
-        <div class="col-md-9 pull-right" >
+        <div class="col-md-2">
+            <label>From <i class="fa fa-calendar"></i>
+                <input class="form-control" ng-model="tasks.fromDateTimeFilter" name="date"
+                bs-datepicker type="text" data-autoclose="0" placeholder="From date" data-min-date="02/10/86" data-max-date="today">
+            </label>
+        </div>
+        <div class="col-md-2">
+            <label><i class="fa fa-clock-o"></i>
+                <input size="8" class="form-control" ng-model="tasks.fromDateTimeFilter" data-time-format="h:mm:ss a"
+                data-autoclose="1" placeholder="Time" bs-timepicker type="text">
+            </label>
+        </div>
+        <div class="col-md-2">
+            <label>To <i class="fa fa-calendar"></i>
+                <input class="form-control" ng-model="tasks.toDateTimeFilter" name="date" bs-datepicker
+                type="text" placeholder="To date" data-min-date="02/10/86" data-max-date="today">
+            </label>
+        </div>
+        <div class="col-md-2">
+            <label><i class="fa fa-clock-o"></i>
+                <input size="8" class="form-control" ng-model="tasks.toDateTimeFilter" data-time-format="h:mm:ss a"
+                data-autoclose="1" placeholder="Time" bs-timepicker type="text">
+            </label>
+        </div>
+        <div class="col-md-1">
+            <br/>
+            <button class="btn btn-default btn-lg" ng-click="tasks.refresh()">Filter</button>
+        </div>
+        <div class="col-md-1">
+            <br/>
+            <button class="btn btn-default btn-lg" ng-click="tasks.resetFilters()">Reset</button>
+        </div>
+        <div class="col-md-12 pull-right">
             <ul class="pagination pull-right">
                 <li>
-                <a ng-click="tasks.paginate(tasks.pageNo-1)" aria-label="Previous">
-                    <span aria-hidden="true">&lsaquo;</span>
-                </a>
+                    <a ng-click="tasks.paginate(tasks.pageNo-1)" aria-label="Previous">
+                        <span aria-hidden="true">&lsaquo;</span>
+                    </a>
                 </li>
                 <li ng-show="tasks.pageNo > 3"><a ng-click="tasks.paginate(1)">1</a></li>
                 <li ng-show="tasks.pageNo > 4"><a> ... </a></li>
-                <li ng-show="tasks.pageNo > 2"><a ng-click="tasks.paginate(tasks.pageNo-2)" ng-bind="tasks.pageNo-2"></a></li>
-                <li ng-show="tasks.pageNo > 1"><a ng-click="tasks.paginate(tasks.pageNo-1)" ng-bind="tasks.pageNo-1"></a></li>
-                <li><a class="selected-page" ng-click="tasks.paginate(tasks.pageNo)" ng-bind="tasks.pageNo"></a></li>
-                <li ng-show="tasks.pageNo < tasks.totalPages"><a ng-click="tasks.paginate(tasks.pageNo+1)" ng-bind="tasks.pageNo+1"></a></li>
-                <li ng-show="(tasks.pageNo+1) < tasks.totalPages"><a ng-click="tasks.paginate(tasks.pageNo+2)" ng-bind="tasks.pageNo+2"></a></li>
-                <li ng-show="(tasks.pageNo+3) < tasks.totalPages"><a> ... </a></li>
-                <li ng-show="(tasks.pageNo+2) < tasks.totalPages"><a ng-click="tasks.paginate(tasks.totalPages)" ng-bind="tasks.totalPages"></a></li>
+                <li ng-show="tasks.pageNo > 2">
+                    <a ng-click="tasks.paginate(tasks.pageNo-2)" ng-bind="tasks.pageNo-2"></a>
+                </li>
+                <li ng-show="tasks.pageNo > 1">
+                    <a ng-click="tasks.paginate(tasks.pageNo-1)" ng-bind="tasks.pageNo-1"></a>
+                </li>
                 <li>
-                <a ng-click="tasks.paginate(tasks.pageNo+1)" aria-label="Next">
-                    <span aria-hidden="true">&rsaquo;</span>
-                </a>
+                    <a class="selected-page" ng-click="tasks.paginate(tasks.pageNo)" ng-bind="tasks.pageNo"></a>
+                </li>
+                <li ng-show="tasks.pageNo < tasks.totalPages">
+                    <a ng-click="tasks.paginate(tasks.pageNo+1)" ng-bind="tasks.pageNo+1"></a>
+                </li>
+                <li ng-show="(tasks.pageNo+1) < tasks.totalPages">
+                    <a ng-click="tasks.paginate(tasks.pageNo+2)" ng-bind="tasks.pageNo+2"></a>
+                </li>
+                <li ng-show="(tasks.pageNo+3) < tasks.totalPages"><a> ... </a></li>
+                <li ng-show="(tasks.pageNo+2) < tasks.totalPages">
+                    <a ng-click="tasks.paginate(tasks.totalPages)" ng-bind="tasks.totalPages"></a>
+                </li>
+                <li>
+                    <a ng-click="tasks.paginate(tasks.pageNo+1)" aria-label="Next">
+                        <span aria-hidden="true">&rsaquo;</span>
+                    </a>
                 </li>
             </ul>
+        </div>
+        <div class="col-md-2">
+            <label>Total : {{tasks.totalCount}}</label>
+        </div>
+        <div class="col-md-2" ng-repeat="status in tasks.taskStatus">
+            <label>
+                <input type="checkbox" name="tasks.selectedStatus" value="{{status}}" ng-checked="tasks.selectedStatus.indexOf(status) > -1"
+                ng-click="tasks.toggleSelection(status)"> {{status}} </label>
         </div>
     </div>
     <div class="row blade task-item" ng-repeat="task in tasks.list | filter:search">

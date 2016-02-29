@@ -9,6 +9,11 @@ export class TaskListController {
     private pageNo = 1;
     private pageSize = 20;
     private totalPages = 1;
+    private taskStatus = ['Inprogress', 'Completed', 'Failed'];
+    private totalCount = 0;
+    private fromDateTimeFilter: string = new Date("0").toISOString();
+    private toDateTimeFilter: string = new Date().toISOString();
+    private selectedStatus = [];
     static $inject: Array<string> = [
         '$scope',
         '$interval',
@@ -28,14 +33,15 @@ export class TaskListController {
     }
 
     public refresh() {
-        this.requestSvc.getList(this.pageNo,this.pageSize).then((data :any) => {
-            this.totalPages = Math.ceil(data.totalcount/this.pageSize);
+        this.requestSvc.getList(this.pageNo, this.pageSize, this.selectedStatus, this.fromDateTimeFilter, this.toDateTimeFilter).then((data: any) => {
+            this.totalCount = data.totalcount;
+            this.totalPages = Math.ceil(data.totalcount / this.pageSize);
             this.loadData(data.tasks);
         });
     }
 
     public paginate(pageNo) {
-        if(pageNo<1 || pageNo > this.totalPages)
+        if (pageNo < 1 || pageNo > this.totalPages)
             return;
         this.pageNo = pageNo;
         this.refresh();
@@ -68,4 +74,22 @@ export class TaskListController {
     public viewDetails(taskId) {
         this.$location.path('/tasks/' + taskId);
     }
+
+    public toggleSelection(status) {
+        var idx = this.selectedStatus.indexOf(status);
+        if (idx > -1) {
+            this.selectedStatus.splice(idx, 1);
+        }
+        else {
+            this.selectedStatus.push(status);
+        }
+        this.refresh();
+    }
+
+    public resetFilters() {
+        this.fromDateTimeFilter = new Date("0").toISOString();
+        this.toDateTimeFilter = new Date().toISOString();
+        this.selectedStatus = [];
+    }
+
 }
