@@ -115,6 +115,15 @@ export class HostController {
             console.log(result);
         });
     }
-}
 
- 
+    public reinitialize(host):void{
+        var reinit = {
+            action : "reinitialize"
+        };
+        this.serverService.reinitialize(reinit, host.hostname).then((result) => {
+            if(result.status === 200){
+                this.$location.path('/hosts');
+            }
+        });
+    }
+}

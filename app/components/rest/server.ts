@@ -222,4 +222,8 @@ export class ServerService {
     public getMemoryUtilization(nodeId) {
         return this.rest.one('nodes', nodeId).one('utilization').get({ resource: 'memory', duration: '10s' });
     }
+
+    public reinitialize(reinit, hostname){
+        return this.restFull.one('nodes',hostname).all('actions').post(reinit);
+    }
 }
