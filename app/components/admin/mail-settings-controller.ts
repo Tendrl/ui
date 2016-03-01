@@ -32,10 +32,13 @@ export class EmailController {
         else if(this.useTls == true){
             this.encryption='tls';
         }
+        else {
+            this.encryption = 'ssl';
+        }
         var notifier = {
             mailnotification: this.mailNotification,
             smtpserver : this.smtpServer,
-            port : this.port,
+            port : parseInt(this.port.toString()),
             encryption : this.encryption,
             mailid : this.mailId,
             password : this.password,
