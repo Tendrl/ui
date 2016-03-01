@@ -9,8 +9,8 @@ import * as ModalHelpers from '../../modal/modal-helpers';
 
 export class BlockDeviceListController {
     private list: Array<any>;
-    private clusterMap = {};
     private timer;
+    private sizeUnits = ['GB', 'TB'];
     static $inject: Array<string> = [
         '$scope',
         '$interval',
@@ -51,6 +51,29 @@ export class BlockDeviceListController {
 
     public create() {
         this.$location.path('/storage/new');
+    }
+
+    public showResizeForm(rbd: BlockDevice) {
+        rbd['resize'] = true;
+        var sizeValue = rbd.size.substring(0, rbd.size.length - 2);
+        var sizeUnit = rbd.size.substring(rbd.size.length - 2);
+        var size = { value: parseInt(sizeValue), unit: sizeUnit };
+        rbd['targetSize'] = size;
+    }
+
+    public resize(rbd: BlockDevice) {
+        var targetSize = rbd['targetSize'];
+        var size = { size: targetSize.value.toString() + targetSize.unit };
+        this.blockDeviceSvc.resize(rbd.clusterid, rbd.storageid, rbd.id, size).then((task) => {
+            this.requestSvc.get(task.data.taskid).then((result) => {
+                this.requestTrackingSvc.add(result.id, result.name);
+            });
+        });
+        rbd['resize'] = false;
+    }
+
+    public cancelResize(rbd: BlockDevice) {
+        rbd['resize'] = false;
     }
 
     public remove(rbd: BlockDevice) {

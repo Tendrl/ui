@@ -40,6 +40,13 @@ export class BlockDeviceService {
         return this.restFull.one('clusters', clusterId).one('storages', storageId).all('blockdevices').post(blockdevice);
     }
 
+    // **Resize**
+    // **@param** blockDeviceId - id of block device to be resized
+    // **@returns** a promise with the request id for the operation.
+    resize(clusterId: string, storageId: string, blockDeviceId: string, size: { size: string }) {
+        return this.restFull.one('clusters', clusterId).one('storages', storageId).one('blockdevices', blockDeviceId).patch(size);
+    }
+
     // **Remove**
     // **@param** id - id of block device to be removed
     // This is a **destructive** operation and will remove
