@@ -8,7 +8,7 @@ import {numeral} from '../../base/libs';
 import * as ModalHelpers from '../../modal/modal-helpers';
 
 export class BlockDeviceListController {
-    private list: Array<any>;
+    private list: BlockDevice[] = [];
     private timer;
     private sizeUnits = ['GB', 'TB'];
     static $inject: Array<string> = [
@@ -41,8 +41,22 @@ export class BlockDeviceListController {
         });
     }
 
-    public loadData(blockdevices) {
-        this.list = blockdevices;
+    public loadData(blockdevices: BlockDevice[]) {
+        _.each(this.list, (blockdevice) => {
+            blockdevice['updated'] = false;
+        });
+        _.each(blockdevices, (blockdevice: BlockDevice) => {
+            var item = _.find(this.list, item => item.id === blockdevice.id);
+            if (item) {
+                item.size = blockdevice.size;
+                item['updated'] = true;
+            }
+            else {
+                blockdevice['updated'] = true;
+                this.list.push(blockdevice);
+            }
+        });
+        _.remove(this.list, blockdevice => !blockdevice['updated']);
     }
 
     public getFormatedSize(size: number): string {
