@@ -66,6 +66,11 @@ export class MenuService {
                     title: 'Ldap Settings',
                     id: 'ldap',
                     href: '#/admin/ldap'
+                },
+                {
+                    title: 'Mail Settings',
+                    id: 'mail',
+                    href: '#/admin/email'
                 }
                 ],
             active: false
