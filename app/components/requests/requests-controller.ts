@@ -9,6 +9,7 @@ import {RequestTrackingService} from './request-tracking-svc';
 import {UtilService} from '../rest/util';
 import {RequestService} from '../rest/request';
 import * as ModalHelpers from '../modal/modal-helpers';
+import {EventService} from '../rest/events';
 
 export class RequestsController {
    private tasks;
@@ -24,6 +25,7 @@ export class RequestsController {
         '$modal',
         'ServerService',
         'UtilService',
+        'EventService',
         'RequestService',
         'RequestTrackingService',
         'UserService'];
@@ -36,6 +38,7 @@ export class RequestsController {
         private $modal: any,
         private serverSvc: ServerService,
         private utilSvc: UtilService,
+        private eventsvc: EventService,
         private requestSvc: RequestService,
         private requestTrackingSvc: RequestTrackingService,
         private userSvc: UserService) {
@@ -75,8 +78,8 @@ export class RequestsController {
     }
 
     public loadEvents() {
-        this.serverSvc.getEvents().then((events) => {
-            this.events = events
+        this.eventsvc.getEvents().then((events) => {
+            this.events = events.events;
         });
     }
 

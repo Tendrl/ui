@@ -3,31 +3,121 @@
         <h1>Events</h1>
     </div>
     <div class="row">
-        <div class="col-md-3">
-            <input type="text" class="form-control" placeholder="Search" ng-model="search">
+
+
+        <div class="col-md-2">
+            <label>Search
+                <input type="text" class="form-control" placeholder="Search text" ng-model="search">
+            </label>
         </div>
-        <div class="col-md-9 pull-right" >
+        <div class="col-md-2">
+            <label>From <i class="fa fa-calendar"></i>
+                <input class="form-control" ng-model="events.fromDateTimeFilter" name="date"
+                bs-datepicker type="text" data-autoclose="0" placeholder="From date" data-min-date="02/10/86" data-max-date="today">
+            </label>
+        </div>
+        <div class="col-md-2">
+            <label><i class="fa fa-clock-o"></i>
+                <input size="8" class="form-control" ng-model="events.fromDateTimeFilter" data-time-format="h:mm:ss a"
+                data-autoclose="1" placeholder="Time" bs-timepicker type="text">
+            </label>
+        </div>
+        <div class="col-md-2">
+            <label>To <i class="fa fa-calendar"></i>
+                <input class="form-control" ng-model="events.toDateTimeFilter" name="date" bs-datepicker
+                type="text" placeholder="To date" data-min-date="02/10/86" data-max-date="today">
+            </label>
+        </div>
+        <div class="col-md-2">
+            <label><i class="fa fa-clock-o"></i>
+                <input size="8" class="form-control" ng-model="events.toDateTimeFilter" data-time-format="h:mm:ss a"
+                data-autoclose="1" placeholder="Time" bs-timepicker type="text">
+            </label>
+        </div>
+        <div class="col-md-1">
+            <br/>
+            <button class="btn btn-default btn-lg" ng-click="events.refresh()">Filter</button>
+        </div>
+        <div class="col-md-1">
+            <br/>
+            <button class="btn btn-default btn-lg" ng-click="events.resetFilters()">Reset</button>
+        </div>
+
+
+
+
+
+        <div class="col-md-9 pull-right">
             <ul class="pagination pull-right">
                 <li>
-                <a ng-click="events.paginate(events.pageNo-1)" aria-label="Previous">
-                    <span aria-hidden="true">&lsaquo;</span>
-                </a>
+                    <a ng-click="events.paginate(events.pageNo-1)" aria-label="Previous">
+                        <span aria-hidden="true">&lsaquo;</span>
+                    </a>
                 </li>
                 <li ng-show="events.pageNo > 3"><a ng-click="events.paginate(1)">1</a></li>
                 <li ng-show="events.pageNo > 4"><a> ... </a></li>
-                <li ng-show="events.pageNo > 2"><a ng-click="events.paginate(events.pageNo-2)" ng-bind="events.pageNo-2"></a></li>
-                <li ng-show="events.pageNo > 1"><a ng-click="events.paginate(events.pageNo-1)" ng-bind="events.pageNo-1"></a></li>
-                <li><a class="selected-page" ng-click="events.paginate(events.pageNo)" ng-bind="events.pageNo"></a></li>
-                <li ng-show="events.pageNo < events.totalPages"><a ng-click="events.paginate(events.pageNo+1)" ng-bind="events.pageNo+1"></a></li>
-                <li ng-show="(events.pageNo+1) < events.totalPages"><a ng-click="events.paginate(events.pageNo+2)" ng-bind="events.pageNo+2"></a></li>
-                <li ng-show="(events.pageNo+3) < events.totalPages"><a> ... </a></li>
-                <li ng-show="(events.pageNo+2) < events.totalPages"><a ng-click="events.paginate(events.totalPages)" ng-bind="events.totalPages"></a></li>
+                <li ng-show="events.pageNo > 2">
+                    <a ng-click="events.paginate(events.pageNo-2)" ng-bind="events.pageNo-2"></a>
+                </li>
+                <li ng-show="events.pageNo > 1">
+                    <a ng-click="events.paginate(events.pageNo-1)" ng-bind="events.pageNo-1"></a>
+                </li>
                 <li>
-                <a ng-click="events.paginate(events.pageNo+1)" aria-label="Next">
-                    <span aria-hidden="true">&rsaquo;</span>
-                </a>
+                    <a class="selected-page" ng-click="events.paginate(events.pageNo)" ng-bind="events.pageNo"></a>
+                </li>
+                <li ng-show="events.pageNo < events.totalPages">
+                    <a ng-click="events.paginate(events.pageNo+1)" ng-bind="events.pageNo+1"></a>
+                </li>
+                <li ng-show="(events.pageNo+1) < events.totalPages">
+                    <a ng-click="events.paginate(events.pageNo+2)" ng-bind="events.pageNo+2"></a>
+                </li>
+                <li ng-show="(events.pageNo+3) < events.totalPages"><a> ... </a></li>
+                <li ng-show="(events.pageNo+2) < events.totalPages">
+                    <a ng-click="events.paginate(events.totalPages)" ng-bind="events.totalPages"></a>
+                </li>
+                <li>
+                    <a ng-click="events.paginate(events.pageNo+1)" aria-label="Next">
+                        <span aria-hidden="true">&rsaquo;</span>
+                    </a>
                 </li>
             </ul>
+        </div>
+    </div>
+    <div class="list-group list-view-pf">
+        <div class="list-group-item" ng-repeat="event in events.list | filter:search">
+            <div class="list-view-pf-actions">
+                <button class="btn btn-default" ng-click="events.viewDetails(event.event_id)">Details</button>
+                <div class="dropdown pull-right dropdown-kebab-pf">
+                    <button class="btn btn-link dropdown-toggle" type="button" id="dropdownKebabRight" data-toggle="dropdown" aria-haspopup="true"
+                    aria-expanded="true">
+                        <span class="fa fa-ellipsis-v"></span>
+                    </button>
+                    <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownKebabRight">
+                        <li><a href="#">Mark as Read</a></li>
+                        <li><a href="#">Dismiss</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="list-view-pf-main-info">
+                <div class="list-view-pf-left">
+                    <span class="pficon-error-circle-o critical" ng-if="event.severity===1"></span>
+                    <span class="pficon-ok ok" ng-if="event.severity===5"></span>
+                    <span class="pficon-warning-triangle-o warning" ng-if="event.severity===0 || event.severity===2 || event.severity===3 || event.severity===4"></span>
+                </div>
+                <div class="list-view-pf-body">
+                    <div class="list-view-pf-description">
+                        <div class="list-group-item-heading">
+                            {{events.alarmStatus[event.severity]}}
+                        </div>
+                        <div class="list-group-item-text">
+                        {{event.timestamp}}
+                        </div>
+                    </div>
+                    <div class="list-view-pf-additional-info">
+                        {{event.message}}
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </div>

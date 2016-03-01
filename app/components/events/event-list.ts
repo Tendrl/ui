@@ -7,8 +7,17 @@ export class EventListController {
     private list: Array<any>;
     private timer;
     private pageNo = 1;
-    private pageSize = 20;
+    private pageSize = 10;
     private totalPages = 1;
+    private totalCount = 0;
+    private fromDateTimeFilter: string = new Date("0").toISOString();
+    private toDateTimeFilter: string = new Date().toISOString();
+    private alarmStatus = ["indeterminate",
+        "critical",
+        "major",
+        "minor",
+        "warning",
+        "cleared"];
     static $inject: Array<string> = [
         '$scope',
         '$interval',
@@ -29,35 +38,27 @@ export class EventListController {
     }
 
     public refresh() {
-        this.eventSvc.getList(this.pageNo,this.pageSize).then((data :any) => {
-            this.totalPages = Math.ceil(data.totalcount/this.pageSize);
-            this.loadData(data.tasks);
+        this.eventSvc.getList(this.pageNo, this.pageSize, this.fromDateTimeFilter, this.toDateTimeFilter).then((data: any) => {
+            this.totalCount = data.totalcount;
+            this.totalPages = Math.ceil(data.totalcount / this.pageSize);
+            this.list = data.events;
         });
     }
 
     public paginate(pageNo) {
-        if(pageNo<1 || pageNo > this.totalPages)
+        if (pageNo < 1 || pageNo > this.totalPages)
             return;
         this.pageNo = pageNo;
         this.refresh();
     }
 
-    public loadData(events: Array<any>) {
-        var list = [];
-        _.each(events, (event) => {
-            if (event.parentid === '00000000-0000-0000-0000-000000000000') {
-                var lastStatus = _.last<any>(event.statuslist);
-                if (lastStatus) {
-                    event.statusMsg = lastStatus.Message;
-                    event.timestamp = lastStatus.Timestamp;
-                }
-                list.push(event)
-            }
-        });
-        this.list = list.reverse();
-    }
-
     public viewDetails(eventId) {
         this.$location.path('/events/' + eventId);
+    }
+
+    public resetFilters() {
+        this.fromDateTimeFilter = new Date("0").toISOString();
+        this.toDateTimeFilter = new Date().toISOString();
+        this.refresh();
     }
 }

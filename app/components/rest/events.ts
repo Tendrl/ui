@@ -10,21 +10,31 @@ export class EventService {
     }
 
     // **getList**
-    // **@returns** a promise with list of tasks.
-    getList(pageNumber,pageSize) {
+    // **@returns** a promise with list of events.
+    getList(pageNumber,pageSize,from,to) {
         return this.rest.one('events').get({
-            pageNo: pageNumber,
-            pageSize: pageSize
-        }).then(function(tasks) {
-            return tasks;
+            pageno: pageNumber,
+            pagesize: pageSize,
+            fromdatetime:from,
+            todatetime: to
+        }).then(function(events) {
+            return events;
+        });
+    }
+
+    // **getList**
+    // **@returns** a promise with list of events.
+    getEvents() {
+        return this.rest.one('events').get().then(function(events) {
+            return events;
         });
     }
 
     // **get**
-    // **@returns** a promise with the task.
+    // **@returns** a promise with the event.
     get(id) {
-        return this.rest.one('events', id).get().then(function(task) {
-            return task;
+        return this.rest.one('events', id).get().then(function(event) {
+            return event;
         });
     }
 }

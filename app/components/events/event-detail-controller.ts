@@ -1,6 +1,6 @@
 // <reference path="../../../typings/tsd.d.ts" />
 
-import {RequestService} from '../rest/request';
+import {EventService} from '../rest/events';
 
 export class EventDetailController {
     private timer;
@@ -16,9 +16,9 @@ export class EventDetailController {
         private $scope: ng.IScope,
         private $interval: ng.IIntervalService,
         private routeParamsSvc: ng.route.IRouteParamsService,
-        private requestSvc: RequestService) {
+        private eventSvc: EventService) {
         this.eventId = this.routeParamsSvc['eventId'];
-        this.timer = this.$interval(() => this.refresh(), 5000);
+        this.timer = this.$interval(() => this.refresh(), 15000);
         this.$scope.$on('$destroy', () => {
             this.$interval.cancel(this.timer);
         });
@@ -26,11 +26,8 @@ export class EventDetailController {
     }
 
     public refresh() {
-        this.requestSvc.get(this.eventId).then(event => {
+        this.eventSvc.get(this.eventId).then(event => {
             this.detail = event;
-            if(event.completed == true){
-                this.$interval.cancel(this.timer);
-            }
         });
     }
 }

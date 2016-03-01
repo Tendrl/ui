@@ -1,8 +1,10 @@
 <h1>Event</h1>
-<h3>{{event.detail.name}}
-    <span ng-class="event.detail.status > 1 ? 'pficon-error-circle-o': 'pficon-ok')"></span>
+<h3>{{event.detail.nodename}}
+   <span class="pficon-error-circle-o critical" ng-if="event.severity===1"></span>
+                    <span class="pficon-ok ok" ng-if="event.severity===5"></span>
+                    <span class="pficon-warning-triangle-o warning" ng-if="event.severity===0 || event.severity===2 || event.severity===3 || event.severity===4"></span>
 </h3>
-<h4>Time Submitted : {{event.detail.statuslist[0].Timestamp | date : 'MMM d yyyy, hh:mm:ss a'}} </h4>
+<h4>Time Submitted : {{event.detail.Timestamp | date : 'MMM d yyyy, hh:mm:ss a'}} </h4>
 
 <ul class="nav nav-tabs">
   <li class="active"><a href="#">Status</a></li>
