@@ -30,6 +30,7 @@ import {EmailController} from "./components/admin/mail-settings-controller";
 
 import {KTDraggable} from "./components/shared/directives/kt-draggable";
 import {KTDroppable} from "./components/shared/directives/kt-droppable";
+import {StorageSizeSelector} from "./components/shared/directives/storage-size-selector";
 
 /* tslint:disable */
 var es6shim = require("es6-shim");
@@ -86,6 +87,7 @@ class USMApp {
             .controller('LdapUserController',LdapUserController)
             .directive('ktDraggable', () => new KTDraggable())
             .directive('ktDroppable', () => new KTDroppable())
+            .directive('storageSizeSelector', () => new StorageSizeSelector())
             .controller('LdapConfigController',LdapConfigController)
             .controller('EventListController',EventListController)
             .controller('EventDetailController',EventDetailController)

@@ -44,11 +44,7 @@
                             <div class="form-group">
                                 <label class="col-md-2 control-label" for="type">Target Size</label>
                                 <div class="col-md-2">
-                                    <input type="number" id="targetSizeValue" name="targetSizeValue" class="form-control" ng-model="rbd.targetSize.value" min="1"
-                                    required></input>
-                                </div>
-                                <div class="col-md-1">
-                                    <select pf-select ng-model="rbd.targetSize.unit" id="targetSizeUnit" name="targetSizeUnit" class="form-control" ng-options="unit for unit in rbds.sizeUnits"></select>
+                                    <storage-size-selector default="rbd.targetSize" on-change="rbds.updateSize(rbd, newSize)"></storage-size-selector>
                                 </div>
                                 <div class="col-md-3">
                                     <button class="btn btn-primary" ng-click="rbds.resize(rbd)">Save</button>

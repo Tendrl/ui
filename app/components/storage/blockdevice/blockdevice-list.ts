@@ -6,6 +6,7 @@ import {RequestService} from '../../rest/request';
 import {RequestTrackingService} from '../../requests/request-tracking-svc';
 import {numeral} from '../../base/libs';
 import * as ModalHelpers from '../../modal/modal-helpers';
+import {StorageSize} from '../../shared/types/storage.ts';
 
 export class BlockDeviceListController {
     private list: BlockDevice[] = [];
@@ -73,6 +74,10 @@ export class BlockDeviceListController {
         var sizeUnit = rbd.size.substring(rbd.size.length - 2);
         var size = { value: parseInt(sizeValue), unit: sizeUnit };
         rbd['targetSize'] = size;
+    }
+
+    public updateSize(rbd: BlockDevice, newSize: StorageSize) {
+        rbd['targetSize'] = newSize;
     }
 
     public resize(rbd: BlockDevice) {

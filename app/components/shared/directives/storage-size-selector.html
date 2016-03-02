@@ -1,0 +1,8 @@
+<div class="input-group">
+    <input type="number" id="storageSizeValue" name="storageSizeValue" class="form-control" ng-model="size.value" ng-change="size.update()"
+    min="1" required></input>
+    <div class="input-group-btn" style="min-width: 60px;">
+        <select pf-select ng-model="size.unit" id="storageSizeUnit" name="storageSizeUnit" class="form-control" ng-options="unit for unit in size.units"
+        ng-change="size.update()"></select>
+    </div>
+</div>
