@@ -16,29 +16,7 @@
         <div class="col-md-12">
             <div class="list-group list-view-pf">
                 <div ng-repeat="rbd in rbds.list | filter:search">
-                    <div class="list-group-item list-view-pf-stacked list-view-pf-top-align">
-                        <div class="list-view-pf-actions">
-                            <button class="btn btn-default" ng-click="rbds.showResizeForm(rbd)">Resize</button>
-                            <button class="btn btn-default" ng-click="rbds.remove(rbd)">Remove</button>
-                        </div>
-                        <div class="list-view-pf-main-info">
-                            <div class="list-view-pf-body">
-                                <div class="list-view-pf-description">
-                                    <div class="list-group-item-heading">{{rbd.name}}</div>
-                                    <div class="list-group-item-text">on
-                                        <strong>{{rbd.clustername}}</strong>
-                                    </div>
-                                </div>
-                                <div class="list-view-pf-additional-info">
-                                    <div class="list-view-pf-additional-info-item list-view-pf-additional-info-item-stacked">
-                                        <strong>{{rbd.size}}</strong>
-                                    </div>
-                                    <div class="list-view-pf-additional-info-item list-view-pf-additional-info-item-stacked">
-                                        <strong>Backing Pool</strong>{{rbd.storagename}}</div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                    <block-device-item details="rbd" remove="rbds.remove(rbd)" resize="rbds.showResizeForm(rbd)"></block-device-item>
                     <div class="list-group-item list-item-resize" ng-if="rbd.resize">
                         <form name="form" class="form-horizontal resize-form">
                             <div class="form-group">

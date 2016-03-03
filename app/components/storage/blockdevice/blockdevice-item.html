@@ -1,0 +1,23 @@
+<div class="list-group-item list-view-pf-stacked list-view-pf-top-align">
+    <div class="list-view-pf-actions">
+        <button class="btn btn-default" ng-click="vm.onResize()">Resize</button>
+        <button class="btn btn-default" ng-click="vm.onRemove()">Remove</button>
+    </div>
+    <div class="list-view-pf-main-info">
+        <div class="list-view-pf-body">
+            <div class="list-view-pf-description">
+                <div class="list-group-item-heading">{{vm.blockdevice.name}}</div>
+                <div class="list-group-item-text">on
+                    <strong>{{vm.blockdevice.clustername}}</strong>
+                </div>
+            </div>
+            <div class="list-view-pf-additional-info">
+                <div class="list-view-pf-additional-info-item list-view-pf-additional-info-item-stacked">
+                    <strong>{{vm.blockdevice.size}}</strong>
+                </div>
+                <div class="list-view-pf-additional-info-item list-view-pf-additional-info-item-stacked">
+                    <strong>Backing Pool</strong>{{vm.blockdevice.storagename}}</div>
+            </div>
+        </div>
+    </div>
+</div>
