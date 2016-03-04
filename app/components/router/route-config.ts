@@ -49,9 +49,9 @@ export class RouteConfig {
 			controller: 'HostDetailController',
 			controllerAs: 'hostdetail'
 		}).when('/storage', {
-			templateUrl: 'views/storage/storage-list.html',
+			templateUrl: 'views/storage/object/objectstorage-list.html',
 			name: 'storage',
-			controller: 'StorageListController',
+			controller: 'ObjectStorageListController',
 			controllerAs: 'storages'
 		}).when('/storage/new', {
 			templateUrl: 'views/storage/storage-new.html',
@@ -59,7 +59,7 @@ export class RouteConfig {
 			controller: 'StorageNewController',
 			controllerAs: 'storages'
 		}).when('/storage/new/object/:clusterid', {
-			templateUrl: 'views/storage/object/storage-new-object.html',
+			templateUrl: 'views/storage/object/objectstorage-new.html',
 			name: 'storage',
 			controller: 'ObjectStorageController',
 			controllerAs: 'storage'
