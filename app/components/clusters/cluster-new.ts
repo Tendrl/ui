@@ -24,7 +24,7 @@ import {numeral} from '../base/libs';
 
 export class ClusterNewController {
     private step: number;
-    private monCount: number;
+    private minMonsRequired = 3;
     private errorMessage: string;
     private summaryHostsSortOrder: any;
 
@@ -37,6 +37,7 @@ export class ClusterNewController {
 
     private newHost: any;
     private hosts: Array<any>;
+    private hostTypes: Array<string>;
     private disks: Array<any>;
     private osds: Array<any>;
 
@@ -91,6 +92,7 @@ export class ClusterNewController {
         this.pools = [];
         this.disks = [];
         this.newHost = {};
+        this.hostTypes = ["Monitor", "OSD Host", "OSD + Monitor"];
         this.availableNetworks = [];
 
         this.clusterTypes = this.clusterHelper.getClusterTypes();
@@ -100,7 +102,7 @@ export class ClusterNewController {
 
         this.newVolume.copyCount = VolumeHelpers.getRecomendedCopyCount();
         this.newVolume.copyCountList = VolumeHelpers.getCopiesList();
-        
+
         this.newVolume.sizeUnits = VolumeHelpers.getTargetSizeUnits();
         this.newVolume.sizeUnit = _.first(this.newVolume.sizeUnits);
 
@@ -146,7 +148,6 @@ export class ClusterNewController {
                 state: "ACCEPTED",
                 disks: freeHost.storage_disks,
                 selected: false,
-                isMon: false
             };
             host.disks = _.filter(freeHost.storage_disks, (disk: any) => {
                 return disk.Type === 'disk' && disk.Used == false;
@@ -165,6 +166,13 @@ export class ClusterNewController {
             this.availableNetworks[0].access = true;
         }
     }
+    public isMon(hostType: string): boolean {
+        return hostType === this.hostTypes[0] || hostType === this.hostTypes[2];
+    }
+
+    public isOsd(hostType: string): boolean {
+        return hostType === this.hostTypes[1] || hostType === this.hostTypes[2];
+    }
 
     public getDisks(): any {
         return this.disks;
@@ -181,7 +189,7 @@ export class ClusterNewController {
     public countDisks() {
         var disks: Array<any> = [];
         _.each(this.hosts, (host) => {
-            if (host.selected) {
+            if (host.selected && this.isOsd(host.hostType)) {
                 Array.prototype.push.apply(disks, this.getHostFreeDisks(host));
             }
         });
@@ -195,31 +203,44 @@ export class ClusterNewController {
         return freeDisks;
     }
 
+    public hostTypeChanged(host: any){
+        this.validateHost(host);
+        this.countDisks()
+    }
+
+    public validateHost(host: any): boolean {
+        if (host.selected) {
+            if (host.hostType === undefined) {
+                this.errorMessage = "Host '" + host.hostname + "' does not have any role attached.";
+                return false;
+            }
+            else if (this.isOsd(host.hostType) && this.getHostFreeDisks(host).length === 0) {
+                this.errorMessage = "Host '" + host.hostname + "' does not have any disk attached and it can't be added as an OSD Host.";
+                return false;
+            }
+        }
+
+        this.errorMessage = "";
+        return true;
+    }
+
     public selectHost(host: any, selection: boolean) {
         host.selected = selection;
+        if(selection && host.hostType === undefined) {
+            if(this.getHostFreeDisks(host).length === 0){
+                host.hostType = this.hostTypes[0];  //No Disk available so make this a Mon
+            }else{
+                host.hostType = this.hostTypes[1];  //There are some disks so it can be an OSD
+            }
+        }
         this.countDisks();
-        if(selection) {
-            host.isMon = this.getHostFreeDisks(host).length == 0;
-        }
-        else {
-            host.isMon = false;
-        }
+        this.validateHost(host);
     }
 
     public selectAllHosts() {
         _.each(this.hosts, (host) => {
             this.selectHost(host, true);
         });
-    }
-
-    public selectMon(host: any, selection: boolean) {
-        if (selection) {
-            this.selectHost(host, true);
-        }
-        else if (this.getHostFreeDisks(host).length == 0) {
-            this.selectHost(host, false);
-        }
-        host.isMon = selection;
     }
 
     public showDisks() {
@@ -311,16 +332,26 @@ export class ClusterNewController {
 
     public moveStep(nextStep: any) {
         this.errorMessage = "";
-        if(this.step === 2 && nextStep === 1){
-            this.monCount = this.getMonCount();
-            if(this.monCount === 0){
-                this.errorMessage = " Select atleast One Monitor ";
+        var configValid = true;
+        var monCount = 0;
+        if(this.step ===1){
+            configValid = this.clusterName !== undefined && this.clusterName.trim().length > 0;
+        }
+        else if(this.step === 2 && nextStep === 1){
+            monCount = this.getMonCount();
+            if(monCount < this.minMonsRequired){
+                this.errorMessage = " Choose atleast " + this.minMonsRequired + " monitors to continue";
+                configValid = false;
             }
-            else if(this.monCount%2 === 0){
-                this.errorMessage = " Number of MONs cannot be even";
+            else if(monCount%2 === 0){
+                this.errorMessage = " Number of Monitors cannot be even";
+                configValid = false;
+            }
+            else{
+                configValid = _.every(this.hosts, host => this.validateHost(host));
             }
         }
-        this.step = ((this.step === 1 && this.clusterName === undefined) || (this.step === 2 && this.monCount%2 === 0 && nextStep === 1)) ? this.step : this.step + nextStep;
+        this.step = configValid ? this.step + nextStep : this.step;
     }
 
     public isCancelAvailable(): boolean {
@@ -488,12 +519,8 @@ export class ClusterNewController {
                 });
                 modal.$scope.$hide = _.wrap(modal.$scope.$hide, ($hide) => {
                     $hide();
-                    this.locationService.path('/clusters');
+                    this.locationService.path('/tasks/' + result.data.taskid);
                 });
-            }
-            else if(result.status === 200) {
-                this.logService.info('Cluster ' + cluster.name + ' created successfully');
-                this.locationService.path('/clusters');
             }
             else {
                 this.logService.error('Unexpected response from Clusters.create:', result);
@@ -504,7 +531,7 @@ export class ClusterNewController {
     public getMonCount(){
             var count: number=0;
             _.each(this.hosts, (host: any) => {
-            if (host.isMon) {
+            if (host.selected && this.isMon(host.hostType)) {
                 count++;
             }
         });
@@ -520,16 +547,18 @@ export class ClusterNewController {
                     nodetype: []
                 };
                 var disks = [];
-                _.each(host.disks, (disk: any) => {
-                    if(disk.Type === 'disk' && disk.Used == false) {
-                        disks.push({ name: disk.DevName, fstype: 'xfs' });
-                    }
-                });
-                localHost.disks = disks;
-                if(disks.length > 0) {
-                    localHost.nodetype.push('OSD');
+                if (this.isOsd(host.hostType)) {
+                    _.each(host.disks, (disk: any) => {
+                        if (disk.Type === 'disk' && disk.Used === false) {
+                            disks.push({ name: disk.DevName, fstype: 'xfs' });
+                        }
+                        localHost.disks = disks;
+                        if (disks.length > 0) {
+                            localHost.nodetype.push('OSD');
+                        }
+                    });
                 }
-                if (host.isMon) {
+                if (this.isMon(host.hostType)) {
                     localHost.nodetype.push('MON');
                 }
                 nodes.push(localHost);

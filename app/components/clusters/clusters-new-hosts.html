@@ -61,46 +61,12 @@
       </div>
     </div>
 
-    <div class="available-hosts-list" style="border-bottom: 2px solid gray;">
-      <div class="row host-row" ng-repeat="host in cluster.hosts | filter:{selected:true}" ng-click="cluster.selectHost(host, !host.selected)">
-        <div class="col-md-1 host-col-middle host-col-select">
-          <i ng-show="host.selected" class="fa fa-2x fa-check-square-o"></i>
-        </div>
-        <div class="col-md-6">
-          <div class="host-details">
-            <ul class="list-unstyled">
-              <li>
-                <span> {{host.hostname}} </span>
-              </li>
-              <li>
-                <span class="fa fa-paw"> </span>
-                <span class="text-muted"> {{host.sshfingerprint}} </span>
-              </li>
-            </ul>
-          </div>
-        </div>
-        <div class="col-md-2 host-col-middle">
-          {{host.ipaddress}}
-        </div>
-        <div class="col-md-2 host-col-middle">
-          <ng-pluralize count="host.disks.length" when="{'1': '{{host.disks.length}} Disk', 'other': '{{host.disks.length}} Disks'}"></ng-pluralize>
-        </div>
-        <div class="col-md-1 host-col-middle">
-          <div class="host-is-mon">
-            <a class="host-is-mon-link" href="" ng-click="cluster.selectMon(host, !host.isMon);$event.stopPropagation()">
-              <span class="fa fa-desktop fa-2x" ng-class="host.isMon ? '': 'host-is-mon-icon'" title="Use this host as Ceph monitor"></span>
-            </a>
-          </div>
-        </div>
-      </div>
-    </div>
-
     <div class="available-hosts-list">
-      <div class="row host-row" ng-repeat="host in cluster.hosts | filter:{selected: false, hostname: searchText}" ng-click="cluster.selectHost(host, !host.selected)">
+      <div class="row host-row" ng-repeat="host in cluster.hosts | filter:{hostname: searchText}" ng-click="cluster.selectHost(host, !host.selected)">
         <div class="col-md-1 host-col-middle host-col-select">
           <i ng-show="host.selected" class="fa fa-2x fa-check-square-o"></i>
         </div>
-        <div class="col-md-6">
+        <div class="col-md-5">
           <div class="host-details">
             <ul class="list-unstyled">
               <li>
@@ -116,20 +82,17 @@
         <div class="col-md-2 host-col-middle">
           {{host.ipaddress}}
         </div>
+        <div class="col-md-2 host-col-middle host-col-hostType">
+          <select pf-select ng-model="host.hostType" id="hostTypes" name="hostTypes" class="form-control" ng-options="hostType for hostType in cluster.hostTypes" ng-click="$event.stopPropagation()" ng-change="cluster.hostTypeChanged(host)">
+          </select>
+        </div>
         <div class="col-md-2 host-col-middle">
           <ng-pluralize count="host.disks.length" when="{'1': '{{host.disks.length}} Disk', 'other': '{{host.disks.length}} Disks'}"></ng-pluralize>
-        </div>
-        <div class="col-md-1 host-col-middle">
-          <div class="host-is-mon">
-            <a class="host-is-mon-link" href="" ng-click="cluster.selectMon(host, !host.isMon);$event.stopPropagation()">
-              <span class="fa fa-desktop fa-2x" ng-class="host.isMon ? '': 'host-is-mon-icon'" title="Use this host as Ceph monitor"></span>
-            </a>
-          </div>
         </div>
       </div>
     </div>
   </div>
-  
+
   <div class="col-md-3">
     <h3>Storage Capacity</h3>
     <span class="text-muted">
