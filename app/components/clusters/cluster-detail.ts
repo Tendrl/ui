@@ -4,7 +4,13 @@ import {ClusterHelper} from './cluster-helpers';
 import {ClusterService} from '../rest/clusters';
 import {ServerService} from '../rest/server';
 import {StorageService} from '../rest/storage';
+import {BlockDeviceService} from '../rest/blockdevice';
+import {BlockDevice} from '../rest/blockdevice';
+import {StorageSize} from '../shared/types/storage';
+import * as ModalHelpers from '../modal/modal-helpers';
 import {numeral} from '../base/libs';
+import {RequestService} from '../rest/request';
+import {RequestTrackingService} from '../requests/request-tracking-svc';
 
 export class ClusterDetailController {
     private clusterHelpers: ClusterHelper;
@@ -29,27 +35,39 @@ export class ClusterDetailController {
     private memoryUtilization: any;
     private timeSlots: [{name:string, value:string}];
     private selectedTimeSlot: any;
+    private timer: ng.IPromise<any>;
+    private rbds = [];
 
     //Services that are used in this class.
     static $inject: Array<string> = [
         '$q',
         '$scope',
         '$location',
+        '$interval',
         '$log',
         '$routeParams',
+        '$modal',
         'ClusterService',
         'ServerService',
-        'StorageService'
+        'StorageService',
+        'BlockDeviceService',
+        'RequestService',
+        'RequestTrackingService'
     ];
 
     constructor(private qService: ng.IQService,
         private scopeService: ng.IScope,
         private locationService: ng.ILocationService,
+        private intervalSvc: ng.IIntervalService,
         private logService: ng.ILogService,
         private routeParamsSvc: ng.route.IRouteParamsService,
+        private modalSvc,
         private clusterService: ClusterService,
         private serverService: ServerService,
-        private storageService: StorageService) {
+        private storageService: StorageService,
+        private blockDeviceSvc: BlockDeviceService,
+        private requestSvc: RequestService,
+        private requestTrackingSvc: RequestTrackingService) {
 
         this.clusterUtilization = { data: {}, config: {} };
         this.openStackPools = [];
@@ -103,6 +121,11 @@ export class ClusterDetailController {
         this.serverService.getListByCluster(this.id).then((hosts) => this.getHostStatus(hosts));
         this.serverService.getList().then((nodes) => this.getMonitors(nodes));
 
+        this.timer = this.intervalSvc(() => this.refreshRBDs(), 5000);
+        this.scopeService.$on('$destroy', () => {
+            this.intervalSvc.cancel(this.timer);
+        });
+        this.refreshRBDs();
     }
 
     public getMemoryUtilization(timeSlot: any) {
@@ -255,4 +278,77 @@ export class ClusterDetailController {
         this.getMemoryUtilization(this.selectedTimeSlot);
     }
 
+    public refreshRBDs() {
+        this.blockDeviceSvc.getListByCluster(this.id).then(blockdevices => {
+            this.loadRBDData(blockdevices);
+        });
+    }
+
+    public loadRBDData(blockdevices: BlockDevice[]) {
+        _.each(this.rbds, (blockdevice) => {
+            blockdevice['updated'] = false;
+        });
+        _.each(blockdevices, (blockdevice: BlockDevice) => {
+            var item = _.find(this.rbds, item => item.id === blockdevice.id);
+            if (item) {
+                item.size = blockdevice.size;
+                item['updated'] = true;
+            }
+            else {
+                blockdevice['updated'] = true;
+                this.rbds.push(blockdevice);
+            }
+        });
+        _.remove(this.rbds, blockdevice => !blockdevice['updated']);
+    }
+
+    public getFormatedSize(size: number): string {
+        return numeral(size).format('0 b');
+    }
+
+    public createRBD() {
+        this.locationService.path('/storage/new');
+    }
+
+    public showRBDResizeForm(rbd: BlockDevice) {
+        rbd['resize'] = true;
+        var sizeValue = rbd.size.substring(0, rbd.size.length - 2);
+        var sizeUnit = rbd.size.substring(rbd.size.length - 2);
+        var size = { value: parseInt(sizeValue), unit: sizeUnit };
+        rbd['targetSize'] = size;
+    }
+
+    public updateRBDSize(rbd: BlockDevice, newSize: StorageSize) {
+        rbd['targetSize'] = newSize;
+    }
+
+    public resizeRBD(rbd: BlockDevice) {
+        var targetSize = rbd['targetSize'];
+        var size = { size: targetSize.value + targetSize.unit };
+        this.blockDeviceSvc.resize(rbd.clusterid, rbd.storageid, rbd.id, size).then((task) => {
+            this.requestSvc.get(task.data.taskid).then((result) => {
+                this.requestTrackingSvc.add(result.id, result.name);
+            });
+        });
+        rbd['resize'] = false;
+    }
+
+    public cancelRBDResize(rbd: BlockDevice) {
+        rbd['resize'] = false;
+    }
+
+    public removeRBD(rbd: BlockDevice) {
+        var modal = ModalHelpers.RemoveConfirmation(this.modalSvc, {
+        });
+        modal.$scope.$hide = _.wrap(modal.$scope.$hide, ($hide, confirmed: boolean) => {
+            if (confirmed) {
+                this.blockDeviceSvc.remove(rbd.clusterid, rbd.storageid, rbd.id).then((task) => {
+                    this.requestSvc.get(task.data.taskid).then((result) => {
+                        this.requestTrackingSvc.add(result.id, result.name);
+                    });
+                });
+            }
+            $hide();
+        });
+    }
 }

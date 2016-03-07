@@ -101,7 +101,7 @@
                                         <span>{{clusterdetail.monitors.warning}}</span></a>
                                     </span>
                                     <span ng-if="clusterdetail.monitors.critical===0 && clusterdetail.monitors.warning===0" class="card-pf-aggregate-status-notification"><a href="">
-                                        <span class="pficon pficon-ok"></span>
+                                        <span class="pficon pficon-ok"></span></a>
                                     </span>
                                 </p>
                             </div>
@@ -123,7 +123,7 @@
                                         <span>{{clusterdetail.pgs.warning}}</span></a>
                                     </span>
                                     <span ng-if="clusterdetail.pgs.critical===0 && clusterdetail.pgs.warning===0" class="card-pf-aggregate-status-notification"><a href="">
-                                        <span class="pficon pficon-ok"></span>
+                                        <span class="pficon pficon-ok"></span></a>
                                     </span>
                                 </p>
                             </div>
@@ -149,9 +149,9 @@
                                         <span>{{clusterdetail.pools.warning}}</span></a>
                                     </span>
                                     <span ng-if="clusterdetail.pools.critical===0 && clusterdetail.pools.warning===0" class="card-pf-aggregate-status-notification"><a href="">
-                                        <span class="pficon pficon-ok"></span>
+                                        <span class="pficon pficon-ok"></span></a>
                                     </span>
-                                    <span class="card-pf-aggregate-status-notification"><a href="">1 
+                                    <span class="card-pf-aggregate-status-notification"><a href="">1
                                     </a><small class="status-notification">Near Full</small></span>
                                 </p>
                             </div>
@@ -173,7 +173,7 @@
                                         <span>{{clusterdetail.osds.warning}}</span></a>
                                     </span>
                                     <span ng-if="clusterdetail.osds.critical===0 && clusterdetail.osds.warning===0" class="card-pf-aggregate-status-notification"><a href="">
-                                        <span class="pficon pficon-ok"></span>
+                                        <span class="pficon pficon-ok"></span></a>
                                     </span>
                                 </p>
                             </div>
@@ -195,7 +195,7 @@
                                         <span>{{clusterdetail.objects.warning}}</span></a>
                                     </span>
                                     <span ng-if="clusterdetail.objects.critical===0 && clusterdetail.objects.warning===0" class="card-pf-aggregate-status-notification"><a href="">
-                                        <span class="pficon pficon-ok"></span>
+                                        <span class="pficon pficon-ok"></span></a>
                                     </span>
                                 </p>
                             </div>
@@ -269,7 +269,6 @@
         </div><!-- End of Fisrt Big row -->
     </div>
 
-    <!-- TODO -->
     <!-- SECOND TAB CONTENT -->
     <div ng-show="clusterdetail.isSet(1)">
         Second tab
@@ -281,8 +280,7 @@
     </div>
 
     <!-- FOURTH TAB CONTENT -->
-    <div ng-show="clusterdetail.isSet(3)">
-        Fourth tab
+    <div ng-show="clusterdetail.isSet(3)" ng-include src="'views/clusters/clusters-detail-rbds.html'">
     </div>
 
 </div>
