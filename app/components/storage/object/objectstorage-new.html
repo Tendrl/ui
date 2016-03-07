@@ -205,7 +205,7 @@
                 <div class="col-md-12">
                     <div class="storage-pool" ng-repeat="pool in storage.pools">
                         <div class="row">
-                            <div class="col-md-1">
+                            <div class="col-md-2">
                                 <span class="title">Name</span>
                                 <div class="value">{{pool.name}}</div>
                             </div>
@@ -222,7 +222,7 @@
                                 <div class="value">{{pool.replicas}}</div>
                             </div>
                             <div class="col-md-1">
-                                <span class="title">Capacity</span>
+                                <span class="title">Optimized For</span>
                                 <div class="value">{{pool.capacityFormated}}</div>
                             </div>
                             <div class="col-md-1">
@@ -238,12 +238,6 @@
                                 </div>
                             </div>
                             <div class="col-md-2">
-                                <span class="title">Cache Tier</span>
-                                <div class="value">None
-                                    <span class="pficon  pficon-add-circle-o"></span>
-                                </div>
-                            </div>
-                            <div class="col-md-1">
                                 <div class="actions">
                                     <span ng-if="!pool.edit" class="fa fa-pencil" ng-click="pool.edit=true"></span>
                                 </div>
