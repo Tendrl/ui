@@ -314,10 +314,10 @@ export class ClusterNewController {
         if(this.step === 2 && nextStep === 1){
             this.monCount = this.getMonCount();
             if(this.monCount === 0){
-                this.errorMessage = " * Atleast 1 Mon needs to be selected";
+                this.errorMessage = " Select atleast One Monitor ";
             }
             else if(this.monCount%2 === 0){
-                this.errorMessage = " * Number of MONs cannot be odd";
+                this.errorMessage = " Number of MONs cannot be even";
             }
         }
         this.step = ((this.step === 1 && this.clusterName === undefined) || (this.step === 2 && this.monCount%2 === 0 && nextStep === 1)) ? this.step : this.step + nextStep;
