@@ -159,8 +159,7 @@ export class ClusterHelper     {
         },
         //This a called on failure[promise].
          () => {
-            cluster.newHost.cautionMessage = 'Authentication Error!.';
-            cluster.newHost.errorMessage = " The username and password is incorrect.";
+            cluster.newHost.errorMessage = " The username or password is incorrect.";
             cluster.newHost.isVerifyingHost = false;
         });
     }
