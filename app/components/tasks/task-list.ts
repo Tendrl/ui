@@ -9,11 +9,13 @@ export class TaskListController {
     private pageNo = 1;
     private pageSize = 20;
     private totalPages = 1;
+    private searchQuery: string;
     private taskStatus = ['Inprogress', 'Completed', 'Failed'];
     private totalCount = 0;
-    private fromDateTimeFilter: string = new Date("0").toISOString();
-    private toDateTimeFilter: string = new Date().toISOString();
+    private fromDateTimeFilter: string;
+    private toDateTimeFilter: string;
     private selectedStatus = [];
+    private filterObject = {};
     static $inject: Array<string> = [
         '$scope',
         '$interval',
@@ -33,7 +35,7 @@ export class TaskListController {
     }
 
     public refresh() {
-        this.requestSvc.getList(this.pageNo, this.pageSize, this.selectedStatus, this.fromDateTimeFilter, this.toDateTimeFilter).then((data: any) => {
+        this.requestSvc.getList(this.pageNo, this.pageSize, this.selectedStatus, this.fromDateTimeFilter, this.toDateTimeFilter, this.searchQuery).then((data: any) => {
             this.totalCount = data.totalcount;
             this.totalPages = Math.ceil(data.totalcount / this.pageSize);
             this.loadData(data.tasks);
@@ -50,23 +52,11 @@ export class TaskListController {
     public loadData(tasks: Array<any>) {
         var list = [];
         _.each(tasks, (task) => {
-            if (task.parentid === '00000000-0000-0000-0000-000000000000') {
-                var lastStatus = _.last<any>(task.statuslist);
-                if (lastStatus) {
-                    task.statusMsg = lastStatus.Message;
-                    task.timestamp = lastStatus.Timestamp;
-                }
-                if ((!task.completed) && task.subtasks.length > 0) {
-                    this.requestSvc.get(task.subtasks[0]).then((subtask) => {
-                        var lastStatus = _.last<any>(subtask.statuslist);
-                        if (lastStatus) {
-                            task.statusMsg = lastStatus.Message;
-                            task.timestamp = lastStatus.Timestamp;
-                        }
-                    });
+                var firstStatus = _.first<any>(task.statuslist);
+                if (firstStatus) {
+                    task.timestamp = firstStatus.Timestamp;
                 }
                 list.push(task)
-            }
         });
         this.list = list.reverse();
     }
@@ -83,13 +73,42 @@ export class TaskListController {
         else {
             this.selectedStatus.push(status);
         }
+        this.filterObject["status"] = this.selectedStatus;
+        this.refresh();
+    }
+
+    public applyFilter(key, value) {
+        if (value.length === 0) {
+            delete this.filterObject[key]
+        }
+        else {
+            this.filterObject[key] = value;
+        }
         this.refresh();
     }
 
     public resetFilters() {
-        this.fromDateTimeFilter = new Date("0").toISOString();
-        this.toDateTimeFilter = new Date().toISOString();
-        this.selectedStatus = [];
+        delete this.filterObject["from"];
+        delete this.filterObject["to"];
+        delete this.filterObject["search"];
+        this.filterObject["status"] = [];
+        this.fromDateTimeFilter = this.filterObject["from"];
+        this.toDateTimeFilter = this.filterObject["to"];
+        this.selectedStatus = this.filterObject["status"];
+        this.searchQuery = this.filterObject["search"];
+    }
+
+    public clearFilter(key) {
+        if (key === "status") {
+            this.filterObject[key] = [];
+        }
+        else {
+            delete this.filterObject[key];
+        }
+        this.fromDateTimeFilter = this.filterObject["from"];
+        this.toDateTimeFilter = this.filterObject["to"];
+        this.selectedStatus = this.filterObject["status"];
+        this.searchQuery = this.filterObject["search"];
     }
 
 }

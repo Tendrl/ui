@@ -11,13 +11,15 @@ export class RequestService {
 
     // **getList**
     // **@returns** a promise with list of tasks.
-    getList(pageNumber,pageSize,taskStatus,from,to) {
+    getList(pageNumber, pageSize, taskStatus, from, to, searchMessage) {
         return this.rest.one('tasks').get({
-            pageNo: pageNumber,
-            pageSize: pageSize,
+            level: 'root',
+            pageno: pageNumber,
+            pagesize: pageSize,
             state: taskStatus,
-            fromdatetime:from,
-            todatetime: to
+            fromdatetime: from,
+            todatetime: to,
+            searchmessage: searchMessage
         }).then(function(tasks) {
             return tasks;
         });

@@ -51,6 +51,7 @@ var jquery = $ = require("jquery");
 var patternfly = require("patternfly");
 var angularPatternfly = require("angular-patternfly");
 var angularSlider = require("angularjs-slider");
+var dateTimePicker = require("angular-bootstrap-datetimepicker");
 /* tslint:enable */
 
 class USMApp {
@@ -66,6 +67,7 @@ class USMApp {
             'gridshore.c3js.chart',
             'restangular',
             'patternfly.charts',
+            'ui.bootstrap.datetimepicker',
             RequestsModule,
             RestModule,
             HostModule,

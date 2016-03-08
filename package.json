@@ -1,111 +1,125 @@
 {
-  "name": "kitoon",
-  "version": "0.0.1",
-  "dependencies": {
-    "angular": "~1.4.3",
-    "angular-animate": "~1.4.3",
-    "angular-cookies": "~1.4.3",
-    "angular-growl-v2": "~0.7.5",
-    "angular-motion": "~0.4.2",
-    "angular-patternfly": "git://github.com/kamleshverma1/angular-patternfly.git#multi-data-pf-utilization-bar-chart",
-    "angular-resource": "~1.4.3",
-    "angular-route": "~1.4.3",
-    "angular-sanitize": "~1.4.3",
-    "angular-strap": "~2.3.1",
-    "angular-ui-bootstrap": "^1.1.2",
-    "angularjs-slider": "~2.8.0",
-    "c3": "~0.4.11-rc3",
-    "c3-angular": "git://github.com/jettro/c3-angular-directive#0.7.1",
-    "d3": "~3.5.6",
-    "es6-shim": "~0.33.6",
-    "font-awesome": "~4.5.0",
-    "idb-wrapper": "~1.5.0",
-    "jquery": "~1.11.3",
-    "lodash": "~3.10.0",
-    "numeral": "~1.5.3",
-    "patternfly": "~3.1.0",
-    "restangular": "git://github.com/mgonto/restangular#1.5.1"
-  },
-  "devDependencies": {
-    "browserify": "~12.0.2",
-    "browserify-shim": "~3.8.9",
-    "del": "*",
-    "gulp": "~3.9.0",
-    "gulp-concat": "~2.6.0",
-    "gulp-debug": "*",
-    "gulp-if": "~2.0.0",
-    "gulp-inject": "*",
-    "gulp-load-plugins": "*",
-    "gulp-ng-annotate": "*",
-    "gulp-sass": "*",
-    "gulp-sourcemaps": "*",
-    "gulp-tslint": "^4.3.2",
-    "gulp-typescript": "*",
-    "gulp-uglify": "~1.4.1",
-    "merge-stream": "^1.0.0",
-    "requirejs": "*",
-    "tslint": "^3.4.0",
-    "typescript": "~1.7.3",
-    "vinyl-buffer": "~1.0.0",
-    "vinyl-source-stream": "*",
-    "yargs": "~3.31.0"
-  },
-  "browser": {
-    "restangular": "./node_modules/restangular/dist/restangular.min.js",
-    "c3-angular": "./node_modules/c3-angular/c3-angular.min.js",
-    "angular-strap": "./node_modules/angular-strap/dist/angular-strap.js",
-    "angular-strap-tpl": "./node_modules/angular-strap/dist/angular-strap.tpl.js",
-    "angular-growl": "./node_modules/angular-growl-v2/build/angular-growl.js",
-    "idb-wrapper": "./node_modules/idb-wrapper/idbstore.js",
-    "patternfly": "./node_modules/patternfly/dist/js/patternfly.js",
-    "angular-patternfly": "./node_modules/angular-patternfly/dist/angular-patternfly.js",
-    "angular-ui-bootstrap": "./node_modules/angular-ui-bootstrap/dist/ui-bootstrap.js"
-  },
-  "browserify": {
-    "transform": [
-      "browserify-shim"
-    ]
-  },
-  "browserify-shim": {
-    "restangular": {
-      "depends": [
-        "angular",
-        "lodash: _"
-      ]
+    "name": "kitoon",
+    "version": "0.0.1",
+    "dependencies": {
+        "angular": "~1.4.3",
+        "angular-animate": "~1.4.3",
+        "angular-cookies": "~1.4.3",
+        "angular-growl-v2": "~0.7.5",
+        "angular-motion": "~0.4.2",
+        "angular-patternfly": "git://github.com/kamleshverma1/angular-patternfly.git#multi-data-pf-utilization-bar-chart",
+        "angular-resource": "~1.4.3",
+        "angular-route": "~1.4.3",
+        "angular-sanitize": "~1.4.3",
+        "angular-strap": "~2.3.1",
+        "angular-ui-bootstrap": "^1.1.2",
+        "angularjs-slider": "~2.8.0",
+        "c3": "~0.4.11-rc3",
+        "c3-angular": "git://github.com/jettro/c3-angular-directive#0.7.1",
+        "d3": "~3.5.6",
+        "es6-shim": "~0.33.6",
+        "font-awesome": "~4.5.0",
+        "idb-wrapper": "~1.5.0",
+        "jquery": "~1.11.3",
+        "lodash": "~3.10.0",
+        "numeral": "~1.5.3",
+        "patternfly": "~3.1.0",
+        "restangular": "git://github.com/mgonto/restangular#1.5.1",
+        "angular-bootstrap-datetimepicker": "^1.0.1",
+        "moment": "^2.11.2",
+        "bootstrap": "^3.3.6"
     },
-    "c3-angular": {
-      "depends": [
-        "angular",
-        "d3",
-        "c3: c3"
-      ]
+    "devDependencies": {
+        "browserify": "~12.0.2",
+        "browserify-shim": "~3.8.9",
+        "del": "*",
+        "gulp": "~3.9.0",
+        "gulp-concat": "~2.6.0",
+        "gulp-debug": "*",
+        "gulp-if": "~2.0.0",
+        "gulp-inject": "*",
+        "gulp-load-plugins": "*",
+        "gulp-ng-annotate": "*",
+        "gulp-sass": "*",
+        "gulp-sourcemaps": "*",
+        "gulp-tslint": "^4.3.2",
+        "gulp-typescript": "*",
+        "gulp-uglify": "~1.4.1",
+        "merge-stream": "^1.0.0",
+        "requirejs": "*",
+        "tslint": "^3.4.0",
+        "typescript": "~1.7.3",
+        "vinyl-buffer": "~1.0.0",
+        "vinyl-source-stream": "*",
+        "yargs": "~3.31.0"
     },
-    "angular-strap": {
-      "depends": [
-        "angular"
-      ]
+    "browser": {
+        "restangular": "./node_modules/restangular/dist/restangular.min.js",
+        "c3-angular": "./node_modules/c3-angular/c3-angular.min.js",
+        "angular-strap": "./node_modules/angular-strap/dist/angular-strap.js",
+        "angular-strap-tpl": "./node_modules/angular-strap/dist/angular-strap.tpl.js",
+        "angular-growl": "./node_modules/angular-growl-v2/build/angular-growl.js",
+        "idb-wrapper": "./node_modules/idb-wrapper/idbstore.js",
+        "patternfly": "./node_modules/patternfly/dist/js/patternfly.js",
+        "angular-patternfly": "./node_modules/angular-patternfly/dist/angular-patternfly.js",
+        "angular-ui-bootstrap": "./node_modules/angular-ui-bootstrap/dist/ui-bootstrap.js",
+        "angular-bootstrap-datetimepicker": "./node_modules/angular-bootstrap-datetimepicker/src/js/datetimepicker.js",
+        "angular-bootstrap-datetimepicker-tpl": ".node_modules/angular-bootstrap-datetimepicker/src/js/datetimepicker.templates.js",
+        "bootstrap": "./node_modules/bootstrap/dist/js/bootstrap.js"
     },
-    "angular-strap-tpl": {
-      "depends": [
-        "angular-strap"
-      ]
+    "browserify": {
+        "transform": [
+            "browserify-shim"
+        ]
     },
-    "patternfly": {
-      "depends": [
-        "jquery: jQuery"
-      ]
-    },
-    "angular-patternfly": {
-      "depends": [
-        "jquery: jQuery",
-        "d3",
-        "c3: c3",
-        "patternfly",
-        "angular",
-        "angular-sanitize",
-        "angular-animate",
-        "angular-ui-bootstrap"
-      ]
+    "browserify-shim": {
+        "restangular": {
+            "depends": [
+                "angular",
+                "lodash: _"
+            ]
+        },
+        "c3-angular": {
+            "depends": [
+                "angular",
+                "d3",
+                "c3: c3"
+            ]
+        },
+        "angular-strap": {
+            "depends": [
+                "angular"
+            ]
+        },
+        "angular-strap-tpl": {
+            "depends": [
+                "angular-strap"
+            ]
+        },
+        "patternfly": {
+            "depends": [
+                "jquery: jQuery"
+            ]
+        },
+        "angular-patternfly": {
+            "depends": [
+                "jquery: jQuery",
+                "d3",
+                "c3: c3",
+                "patternfly",
+                "angular",
+                "angular-sanitize",
+                "angular-animate",
+                "angular-ui-bootstrap"
+            ]
+        },
+        "angular-bootstrap-datetimepicker": {
+            "depends": [
+                "jquery: jQuery",
+                "bootstrap",
+                "angular",
+                "moment"
+            ]
+        }
     }
-  }
 }
