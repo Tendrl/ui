@@ -1,4 +1,5 @@
 import {ServerService} from '../rest/server';
+import {ClusterService} from '../rest/clusters';
 import {DashboardSummaryData} from '../rest/server';
 import {UsageData} from '../rest/server';
 import {numeral} from '../base/libs';
@@ -19,13 +20,15 @@ export class DashboardController {
         '$scope',
         '$location',
         '$log',
-        'ServerService'
+        'ServerService',
+        'ClusterService'
     ];
 
     constructor(private $scope: ng.IScope,
         private $location: ng.ILocationService,
         private $log: ng.ILogService,
-        private serverService: ServerService) {
+        private serverService: ServerService,
+        private clusterService: ClusterService) {
 
          this.utilization = { data: {}, config: {} };
          this.utilizationByProfile = {};
@@ -38,6 +41,14 @@ export class DashboardController {
          this.pools = { total: 0, down: 0 };
          this.monitors = { total: 0, error: 0 };
          this.serverService.getDashboardSummary().then((summary) => this.loadDashboardData(summary));
+         // Summary data is returned as empty if there are no clusters in the system.
+         // So here we are fetching the cluster list and redirect
+         // if no clusters are present
+         this.clusterService.getList().then((clusters) => {
+             if (clusters.length === 0) {
+                 this.$location.path('/first');
+             }
+         });
     }
 
     /**
