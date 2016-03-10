@@ -77,7 +77,7 @@
                                         <span>{{clusterdetail.hosts.warning}}</span></a>
                                     </span>
                                     <span ng-if="clusterdetail.hosts.critical===0 && clusterdetail.hosts.warning===0" class="card-pf-aggregate-status-notification"><a href="">
-                                        <span class="pficon pficon-ok"></span>
+                                        <span class="pficon pficon-ok"></span></a>
                                     </span>
                                     <span class="card-pf-aggregate-status-notification"><a href="">{{clusterdetail.discoveredHostsLength}}
                                     </a><small class="status-notification">To Accept</small></span>
@@ -269,18 +269,13 @@
         </div><!-- End of Fisrt Big row -->
     </div>
 
-    <!-- SECOND TAB CONTENT -->
-    <div ng-show="clusterdetail.isSet(1)">
-        Second tab
-    </div>
-
-    <!-- THIRD TAB CONTENT -->
-    <div ng-show="clusterdetail.isSet(2)">
-        Third tab
-    </div>
-
     <!-- FOURTH TAB CONTENT -->
     <div ng-show="clusterdetail.isSet(3)" ng-include src="'views/clusters/clusters-detail-rbds.html'">
+    </div>
+
+    <!-- FIVTH TAB CONTENT -->
+    <div ng-show="clusterdetail.isSet(4)">
+        <osd-detail cluster-id="clusterdetail.id"></osd-detail>
     </div>
 
 </div>

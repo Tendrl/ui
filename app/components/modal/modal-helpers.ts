@@ -44,6 +44,18 @@ export function RemoveConfirmation($modal, options) {
     }, options));
 }
 
+export function OsdActionConfirmation($modal, options, actionContent) {
+    options = options || {};
+    return $modal(_.extend({
+        title: 'CONFIRMATION',
+        content: actionContent,
+        container: 'body',
+        template: 'views/modal/confirmation-modal.html',
+        backdrop: 'static', // disable mouse clicks for now since I can't wrap them or supply a callback
+        keyboard: false
+    }, options));
+}
+
 export function makeOnError(modal, callback) {
     return function onError(resp) {
         modal.$scope.title = 'Unexpected Error ' + resp.status;

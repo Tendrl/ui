@@ -144,6 +144,12 @@ export class ClusterService {
         });
     }
 
+    // **slusAction**
+    // **@returns** a promise with response of the slus's action.
+    slusAction(clusterId, slusId, action) {
+        return this.restFull.one('clusters', clusterId).one('slus', slusId).patch(action);
+    }
+
     // **getClusterUtilization**
     // **@returns** a promise with cluster's utilization.
     getClusterUtilization(cluster_id) {

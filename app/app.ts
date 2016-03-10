@@ -31,6 +31,7 @@ import {EmailController} from "./components/admin/mail-settings-controller";
 import {KTDraggable} from "./components/shared/directives/kt-draggable";
 import {KTDroppable} from "./components/shared/directives/kt-droppable";
 import {StorageSizeSelector} from "./components/shared/directives/storage-size-selector";
+import {OsdDetail} from "./components/clusters/osdsdetail/osd-detail-directive";
 
 /* tslint:disable */
 var es6shim = require("es6-shim");
@@ -92,6 +93,7 @@ class USMApp {
             .directive('ktDraggable', () => new KTDraggable())
             .directive('ktDroppable', () => new KTDroppable())
             .directive('storageSizeSelector', () => new StorageSizeSelector())
+            .directive('osdDetail', () => new OsdDetail())
             .controller('LdapConfigController',LdapConfigController)
             .controller('EventListController',EventListController)
             .controller('EventDetailController',EventDetailController)
@@ -122,6 +124,10 @@ class USMApp {
                     if (operation === 'getList' && what === 'nodes') {
                         _.each(data, (node: any) => {
                             node.options1 = node.options;
+                        });
+                    }else if (operation === 'getList' && what === 'slus') {
+                        _.each(data, (slus: any) => {
+                            slus.options1 = slus.options;
                         });
                     }
                     return data;
