@@ -11,6 +11,7 @@
           <div>
             <button type="button" class="btn btn-default" ng-click='cluster.cancel()'>Cancel</button>
             <button type="button" class="btn btn-primary" ng-show='cluster.isSubmitAvailable()' ng-click='cluster.submit()'>Expand Cluster</button>
+            <label class="critical" ng-bind='cluster.errorMessage'></label>
           </div>
     </div>
   </div>
