@@ -54,6 +54,10 @@ var config = {
             ],
             dest: 'dist/css'
         }
+    },
+    templates: {
+        src: ['./node_modules/angular-bootstrap-datetimepicker/src/templates/datetimepicker.html'],
+        dest: 'dist/templates'
     }
 }
 
@@ -98,6 +102,12 @@ gulp.task('css', function () {
         .pipe(gulp.dest(config.css.vendor.dest));
 });
 
+//Copy templates to dist/templates
+gulp.task('templates', function () {
+    return gulp.src(config.templates.src)
+        .pipe(gulp.dest(config.templates.dest));
+});
+
 //Copy the fonts to dist/fonts
 gulp.task('fonts', function () {
     var patternfly = gulp.src(config.fonts.patternfly.src)
@@ -128,7 +138,7 @@ gulp.task('inject', ['browserify', 'sass', 'css', 'html'], function () {
 });
 
 
-gulp.task('compile', ['tslint', 'tsc', 'browserify', 'sass', 'css', 'fonts', 'html', 'inject', 'images']);
+gulp.task('compile', ['tslint', 'tsc', 'browserify', 'sass', 'css', 'templates', 'fonts', 'html', 'inject', 'images']);
 
 gulp.task('watch', function () {
     gulp.watch(path.tscripts, ['browserify']);
