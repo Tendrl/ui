@@ -56,6 +56,18 @@ export function OsdActionConfirmation($modal, options, actionContent) {
     }, options));
 }
 
+export function UnAcceptedHostsFound($modal, options, unacceptedHostsCount) {
+    options = options || {};
+    return $modal(_.extend({
+        title: unacceptedHostsCount + ' Unaccepted Hosts Detected',
+        content: 'For security reasons, hosts must be accpeted before they can be added to a cluster',
+        container: 'body',
+        template: 'views/modal/unaaccepted-hosts-found-modal.html',
+        backdrop: 'static', // disable mouse clicks for now since I can't wrap them or supply a callback
+        keyboard: false
+    }, options));
+}
+
 export function makeOnError(modal, callback) {
     return function onError(resp) {
         modal.$scope.title = 'Unexpected Error ' + resp.status;

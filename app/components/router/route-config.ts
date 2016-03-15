@@ -28,7 +28,11 @@ export class RouteConfig {
 			name: 'clusters',
 			controller: 'ClusterNewController',
 			controllerAs: 'cluster'
-		}).when('/clusters/expand/:id', {
+		}).when('/clusters/new/accept-hosts', {
+            templateUrl: 'views/clusters/accept-hosts.html',
+            controller: 'AcceptHostsController',
+            controllerAs: 'hosts'
+        }).when('/clusters/expand/:id', {
 			templateUrl: 'views/clusters/clusters-expand.html',
 			name: 'clusters',
 			controller: 'ClusterExpandController',

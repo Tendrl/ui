@@ -1,0 +1,68 @@
+<div class="container-fluid">
+    <div class="page-header">
+        <h1>View and Accept Hosts</h1>
+    </div>
+    <div class="form-group">
+        <p>The following hosts have been discovered. Before creating a cluster, review and accept the hosts you want to include.
+        </p>
+        <div class="row">
+            <div class="col-md-3">
+                <input type="text" class="form-control" placeholder="Search" ng-model="search">
+            </div>
+            <div class="col-md-3">
+                <label class="available-hosts-count"> {{ hosts.hostsInitialized() }} of {{ hosts.discoveredHosts.length }} hosts accepted ({{ hosts.hostsInProgress() }} in progress)</label>
+            </div>
+            <div class="col-md-offset-3 col-md-3">
+                <span class="pull-right">
+                 <button class="btn btn-default pull right" ng-disabled="hosts.discoveredHosts.length === 0" ng-click="hosts.acceptAllHosts()">Accept All</button>
+            </span>
+            </div>
+        </div>
+    </div>
+
+    <div class="list-group list-view-pf">
+        <div class="list-group-item" ng-repeat="host in hosts.discoveredHosts | filter: search">
+            <div class="list-view-pf-actions">
+                <button class="btn btn-default accept-button-margin" type="button" ng-show="host.state === 'UNACCEPTED'" ng-click="hosts.acceptHost(host);">
+                    <span class="fa fa-check"> Accept</span>
+                </button>
+                <button class="btn btn-default" ng-show="host.taskid !== undefined" ng-click="hosts.showAcceptTaskDetails(host)">Details</button>
+                <button class="btn btn-default" ng-show="host.state === 'FAILED'" ng-click="hosts.reinitialize(host)">Re-Initialize</button>
+            </div>
+            <div class="list-view-pf-main-info">
+                <div class="list-view-pf-left">
+                    <span class="pficon-running fa-spin fa-2x" ng-show="host.state === 'ACCEPTING'" title="Accepting Host"></span>
+                    <span class="pficon-running fa-spin fa-2x" ng-show="host.state === 'INITIALIZING'" title="Initializing Host"></span>
+                    <span class="pficon-error-circle-o fa-2x" ng-show="host.state === 'FAILED'" title="Failed"></span>
+                    <span class="pficon-ok fa-2x" ng-show="host.state === 'INITIALIZED'" title="Host initialization completed"></span>
+                </div>
+                <div class="list-view-pf-body">
+                    <div class="list-view-pf-description">
+                        <div class="list-group-item-text">
+                            <p>
+                                <label>{{host.hostname}} </label>
+                                <br/>{{host.fingerPrint}}</p>
+                        </div>
+                    </div>
+                    <div class="list-view-pf-additional-info">
+                        <div class="progress progress-striped active" ng-if="host.progress === 1 || host.progress === 2" style="width: 80%;">
+                            <div class="progress-bar" role="progressbar" aria-valuenow="{{host.progress}}" aria-valuemin="0" aria-valuemax="3" style="width: {{host.progress * 33}}%;">
+                                <span ng-if="host.state === 'ACCEPTING'">Accepting Host</span>
+                                <span ng-if="host.state === 'INITIALIZING'">Initializing Host</span>
+                            </div>
+                        </div>
+                        <div ng-switch on="host.state">
+                            <label ng-switch-when="FAILED">Initialization Failed: {{host.lastupdated | date:'medium'}}</label>
+                            <label ng-switch-when="INITIALIZED">Initialization completed: {{host.lastupdated | date:'medium'}}</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div>
+        <button class="btn btn-default" ng-disabled="hosts.hostsInProgress() > 0 "
+        ng-click="hosts.continue()">Continue</button>
+        <button class="btn btn-default" ng-click="hosts.cancel()">Cancel</button>
+    </div>
+</div>
