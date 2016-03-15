@@ -3,7 +3,10 @@
 import {UtilService} from '../../rest/util';
 import {ClusterService} from '../../rest/clusters';
 import {StorageService} from '../../rest/storage';
+import {RequestService} from '../../rest/request';
+import {RequestTrackingService} from '../../requests/request-tracking-svc';
 import {numeral} from '../../base/libs';
+import * as ModalHelpers from '../../modal/modal-helpers';
 
 export class ObjectStorageListController {
     private list: Array<any>;
@@ -16,8 +19,11 @@ export class ObjectStorageListController {
         '$log',
         '$timeout',
         '$q',
+        '$modal',
         'ClusterService',
-        'StorageService'
+        'StorageService',
+        'RequestService',
+        'RequestTrackingService'
     ];
     constructor(
         private $scope: ng.IScope,
@@ -26,8 +32,11 @@ export class ObjectStorageListController {
         private $log: ng.ILogService,
         private $timeout: ng.ITimeoutService,
         private $q: ng.IQService,
+        private $modal: any,
         private clusterSvc: ClusterService,
-        private storageSvc: StorageService) {
+        private storageSvc: StorageService,
+        private requestSvc: RequestService,
+        private requestTrackingSvc: RequestTrackingService) {
         this.timer = this.$interval(() => this.refresh(), 5000);
         this.$scope.$on('$destroy', () => {
             this.$interval.cancel(this.timer);
@@ -69,8 +78,17 @@ export class ObjectStorageListController {
     }
 
     public remove(storage) {
-        this.storageSvc.delete(storage.clusterid, storage.storageid).then((result) => {
-            this.refresh();
+        var modal = ModalHelpers.RemoveConfirmation(this.$modal, {
+        });
+        modal.$scope.$hide = _.wrap(modal.$scope.$hide, ($hide, confirmed: boolean) => {
+            if (confirmed) {
+                this.storageSvc.delete(storage.clusterid, storage.storageid).then((task) => {
+                    this.requestSvc.get(task.data.taskid).then((result) => {
+                        this.requestTrackingSvc.add(result.id, result.name);
+                    });
+                });
+            }
+            $hide();
         });
     }
 }

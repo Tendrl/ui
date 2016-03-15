@@ -23,6 +23,8 @@ export class ObjectStorageController {
     private types = ['Replicated', 'Erasure Coded'];
     private type = 'Replicated';
     private replicas: number = 3;
+    private ecprofiles = [{ k: 2, m: 1, text: '2+1', value: 'default' }, { k: 4, m: 2, text: '4+2', value: 'k4m2' }, { k: 6, m: 3, text: '6+3', value: 'k6m3' }, { k: 8, m: 4, text: '8+4', value: 'k8m4' }];
+    private ecprofile = this.ecprofiles[0];
     private targetSize = 0;
     private profiles: StorageProfile[];
     private profile: StorageProfile;
@@ -70,7 +72,6 @@ export class ObjectStorageController {
             }
             else {
                 this.possiblePgs = GetTwosPowList(128, this.slus.length * 200);
-                this.optimalSizeList = GetOptimalSizeForPGNumList(this.possiblePgs, this.slus, this.replicas);
                 this.preparePGSlider();
             }
         });
@@ -82,8 +83,9 @@ export class ObjectStorageController {
     }
 
     public preparePGSlider() {
+        this.optimalSizeList = GetOptimalSizeForPGNumList(this.possiblePgs, this.slus, this.getReplicaCount());
         this.pgSlider = {
-            value: 7,
+            value: 7, // 2^7 = 128. this is the min value for PGs
             options: {
                 floor: 7,
                 ceil: 7 + this.possiblePgs.length - 1,
@@ -91,7 +93,7 @@ export class ObjectStorageController {
                 showSelectionBar: true,
                 translate: (value, sliderId, label) => {
                     var pgNum = Math.pow(2, value);
-                    var size = GetOptimalSizeForPGNum(pgNum, this.slus, this.replicas);
+                    var size = GetOptimalSizeForPGNum(pgNum, this.slus, this.getReplicaCount());
                     var formatedSize = numeral(size).format('0.0 b');
                     switch (label) {
                         case 'model':
@@ -100,12 +102,31 @@ export class ObjectStorageController {
                             return pgNum + ' PGs / ' + formatedSize;
                     }
                 },
-                onChange:(sliderId, value, highValue) => {
+                onChange: (sliderId, value, highValue) => {
                     var pgNum = Math.pow(2, value);
-                    this.targetSize = GetOptimalSizeForPGNum(pgNum, this.slus, this.replicas);
+                    this.targetSize = GetOptimalSizeForPGNum(pgNum, this.slus, this.getReplicaCount());
                 }
             }
         };
+    }
+
+    // Replica count is required for Placement Groups calculations
+    // In case of EC pools, replica would be the sum of k and m
+    public getReplicaCount() {
+        if (this.type === 'Replicated') {
+            return this.replicas;
+        }
+        else {
+            return this.ecprofile.k + this.ecprofile.m;
+        }
+    }
+
+    public replicaChanged() {
+        this.preparePGSlider();
+    }
+
+    public ecProfileChanged() {
+        this.preparePGSlider();
     }
 
     public changeStorageProfile(selectedProfile: StorageProfile) {
@@ -114,7 +135,6 @@ export class ObjectStorageController {
             this.pgs = GetCephPGsForOSD(slus, 100, 3);
         });
     }
-
 
     public getQuotaPercentageSize(percent: string): string {
         var val = parseInt(percent) || 0;
@@ -138,6 +158,7 @@ export class ObjectStorageController {
                 type: this.type,
                 profile: this.profile,
                 replicas: this.replicas,
+                ecprofile: this.ecprofile,
                 capacity: this.targetSize,
                 capacityFormated: numeral(this.targetSize).format('0b'),
                 quota: this.quota
@@ -155,23 +176,33 @@ export class ObjectStorageController {
         for (let pool of this.pools) {
             let storage = {
                 name: pool.name,
-                type: 'replicated',
-                replicas: pool.replicas,
-                size: pool.capacityFormated
+                size: pool.capacityFormated,
+                options: {}
             };
-            if (this.PGsFixed) {
-                storage['options'] = { pgnum: this.pgs.toString() };
+
+            if (pool.type === 'Replicated') {
+                storage['type'] = 'replicated';
+                storage['replicas'] = pool.replicas;
             }
-            if(pool.quota.enabled) {
+            else {
+                storage['type'] = 'erasure_coded';
+                storage.options['ecprofile'] = pool.ecprofile.value;
+            }
+
+            if (this.PGsFixed) {
+                storage.options['pgnum'] = this.pgs.toString();
+            }
+            if (pool.quota.enabled) {
                 storage['quota_enabled'] = true;
                 storage['quota_params'] = {};
-                if(pool.quota.objects.enabled) {
+                if (pool.quota.objects.enabled) {
                     storage['quota_params'].quota_max_objects = pool.quota.objects.value.toString();
                 }
-                if(pool.quota.percentage.enabled) {
+                if (pool.quota.percentage.enabled) {
                     storage['quota_params'].quota_max_bytes = Math.round((pool.quota.percentage.value / 100) * pool.capacity).toString();
                 }
             }
+
             list.push(this.storageSvc.create(this.cluster.clusterid, storage));
         }
         this.$q.all(list).then((tasks) => {
