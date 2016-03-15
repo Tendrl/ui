@@ -2,51 +2,79 @@
     <div class="page-header">
         <h1>Events</h1>
     </div>
+
+    <div class="row toolbar-pf">
+        <div class="col-sm-12">
+            <form class="toolbar-pf-actions">
+
+                <div class="form-group col-sm-3 toolbar-pf-filter">
+                    <div class="input-group">
+                        <div class="input-group-btn">
+                            <button aria-expanded="false" aria-haspopup="true" data-toggle="dropdown" class="btn btn-default dropdown-toggle" type="button">
+                                {{events.searchEntity}}<span class="caret"></span></button>
+                            <ul class="dropdown-menu">
+                                <li><a ng-click="events.setSearchEntity('Cluster')">Cluster</a></li>
+                                <li><a ng-click="events.setSearchEntity('Host')">Host</a></li>
+                                <li class="divider" role="separator"></li>
+                                <li><a ng-click="events.setSearchEntity('Description')">Description</a></li>
+                            </ul>
+                        </div>
+                        <!-- /btn-group -->
+                        <input type="text" class="form-control" placeholder="Search" ng-model-options="{ debounce: 1000 }" ng-change="events.applyFilter(events.searchEntity,events.searchQuery)"
+                        ng-model="events.searchQuery"><span class="input-group-addon" ng-click="events.applyFilter('search',events.searchQuery)"><i class="fa fa-search"></i></span>
+                    </div>
+                </div>
+                <div class="form-group col-sm-3">
+                    <div class="dropdown">
+                        <a class="dropdown-toggle" id="fromDateDropdown" role="button" data-toggle="dropdown" data-target="#" href="#">
+                            <div class="input-group">
+                                <input type="text" placeholder="From" class="form-control" data-ng-model="events.fromDateTimeFilter"><span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                            </div>
+                        </a>
+                        <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
+                            <datetimepicker data-ng-model="events.fromDateTimeFilter" data-datetimepicker-config="{ dropdownSelector: '#fromDateDropdown' }"
+                            ng-change="events.applyFilter('from',events.fromDateTimeFilter)" />
+                        </ul>
+                    </div>
+                </div>
+                <div class="form-group col-sm-3">
+                    <div class="dropdown">
+                        <a class="dropdown-toggle" id="toDateDropdown" role="button" data-toggle="dropdown" data-target="#" href="#">
+                            <div class="input-group">
+                                <input type="text" placeholder="To" class="form-control" data-ng-model="events.toDateTimeFilter"><span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                            </div>
+                        </a>
+                        <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
+                            <datetimepicker data-ng-model="events.toDateTimeFilter" data-datetimepicker-config="{ dropdownSelector: '#toDateDropdown' }"
+                            ng-change="events.applyFilter('to',events.toDateTimeFilter)" />
+                        </ul>
+                    </div>
+
+                </div>
+            </form>
+            <div class="row toolbar-pf-results">
+                <div class="col-sm-12">
+                    <h5>{{events.totalCount}} Events</h5>
+                    <h5 ng-if="events.warningCount > 0"><a href class="pficon-warning-triangle-o warning" ng-click="events.applyFilter('severity','warning');events.severity='warning'"></a> {{events.warningCount}}</h5>
+                    <h5 ng-if="events.criticalCount > 0"><a href class="pficon-error-circle-o critical" ng-click="events.applyFilter('severity','critical');events.severity='critical'"></a> {{events.criticalCount}}</h5>
+                    <p>Active filters:</p>
+                    <ul class="list-inline" ng-repeat="(key, value) in events.filterObject">
+                        <li>
+                            <span class="label label-info">
+                      {{key}} : {{value | date:'medium'}}
+                      <a href="" ng-click="events.clearFilter(key)"><span class="pficon pficon-close"></span></a>
+                            </span>
+                        </li>
+                    </ul>
+                    <p><a ng-click="events.resetFilters()">Clear All Filters</a></p>
+                </div>
+                <!-- /col -->
+            </div>
+        </div>
+    </div>
+
+
     <div class="row">
-
-
-        <div class="col-md-2">
-            <label>Search
-                <input type="text" class="form-control" placeholder="Search text" ng-model="search">
-            </label>
-        </div>
-        <div class="col-md-2">
-            <label>From <i class="fa fa-calendar"></i>
-                <input class="form-control" ng-model="events.fromDateTimeFilter" name="date"
-                bs-datepicker type="text" data-autoclose="0" placeholder="From date" data-min-date="02/10/86" data-max-date="today">
-            </label>
-        </div>
-        <div class="col-md-2">
-            <label><i class="fa fa-clock-o"></i>
-                <input size="8" class="form-control" ng-model="events.fromDateTimeFilter" data-time-format="h:mm:ss a"
-                data-autoclose="1" placeholder="Time" bs-timepicker type="text">
-            </label>
-        </div>
-        <div class="col-md-2">
-            <label>To <i class="fa fa-calendar"></i>
-                <input class="form-control" ng-model="events.toDateTimeFilter" name="date" bs-datepicker
-                type="text" placeholder="To date" data-min-date="02/10/86" data-max-date="today">
-            </label>
-        </div>
-        <div class="col-md-2">
-            <label><i class="fa fa-clock-o"></i>
-                <input size="8" class="form-control" ng-model="events.toDateTimeFilter" data-time-format="h:mm:ss a"
-                data-autoclose="1" placeholder="Time" bs-timepicker type="text">
-            </label>
-        </div>
-        <div class="col-md-1">
-            <br/>
-            <button class="btn btn-default btn-lg" ng-click="events.refresh()">Filter</button>
-        </div>
-        <div class="col-md-1">
-            <br/>
-            <button class="btn btn-default btn-lg" ng-click="events.resetFilters()">Reset</button>
-        </div>
-
-
-
-
-
         <div class="col-md-9 pull-right">
             <ul class="pagination pull-right">
                 <li>
@@ -92,25 +120,21 @@
                     aria-expanded="true">
                         <span class="fa fa-ellipsis-v"></span>
                     </button>
-                    <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownKebabRight">
-                        <li><a href="#">Mark as Read</a></li>
-                        <li><a href="#">Dismiss</a></li>
-                    </ul>
                 </div>
             </div>
             <div class="list-view-pf-main-info">
                 <div class="list-view-pf-left">
-                    <span class="pficon-error-circle-o critical" ng-if="event.severity===1"></span>
-                    <span class="pficon-ok ok" ng-if="event.severity===5"></span>
-                    <span class="pficon-warning-triangle-o warning" ng-if="event.severity===0 || event.severity===2 || event.severity===3 || event.severity===4"></span>
+                    <span class="pficon pficon-error-circle-o critical " ng-if="event.severity===1 || event.severity===2"></span>
+                    <span class="pficon pficon-ok ok" ng-if="event.severity===5"></span>
+                    <span class="pficon pficon-warning-triangle-o warning" ng-if="event.severity===0  || event.severity===3 || event.severity===4"></span>
                 </div>
                 <div class="list-view-pf-body">
                     <div class="list-view-pf-description">
-                        <div class="list-group-item-heading">
+                        <div class="list-group-item-heading text-capitalize">
                             {{events.alarmStatus[event.severity]}}
                         </div>
                         <div class="list-group-item-text">
-                        {{event.timestamp}}
+                            {{event.timestamp | date:'medium'}}
                         </div>
                     </div>
                     <div class="list-view-pf-additional-info">

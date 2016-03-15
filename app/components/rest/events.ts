@@ -11,13 +11,8 @@ export class EventService {
 
     // **getList**
     // **@returns** a promise with list of events.
-    getList(pageNumber,pageSize,from,to) {
-        return this.rest.one('events').get({
-            pageno: pageNumber,
-            pagesize: pageSize,
-            fromdatetime:from,
-            todatetime: to
-        }).then(function(events) {
+    getList(requestObject) {
+        return this.rest.one('events').get(requestObject).then(function(events) {
             return events;
         });
     }
