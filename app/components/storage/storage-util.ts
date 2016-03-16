@@ -76,11 +76,3 @@ export function GetOptimalSizeForPGNum(pgs: number, osds: any[], replica: number
     var targetAllocSize = ((pgs * replica) / (TARGET_PGS_PER_OSD * osds.length)) * maxAllocSize;
     return targetAllocSize;
 }
-
-export function GetOptimalSizeForPGNumList(pgList: number[], osds: any[], replica: number): number[] {
-    var list = [];
-    _.each(pgList, (pgNum) => {
-        list.push(GetOptimalSizeForPGNum(pgNum, osds, replica));
-    });
-    return list;
-}

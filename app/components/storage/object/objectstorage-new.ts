@@ -11,7 +11,6 @@ import {RequestTrackingService} from '../../requests/request-tracking-svc';
 import * as ModalHelpers from '../../modal/modal-helpers';
 import {GetCephPGsForOSD} from '../storage-util';
 import {GetTwosPowList} from '../storage-util';
-import {GetOptimalSizeForPGNumList} from '../storage-util';
 import {GetOptimalSizeForPGNum} from '../storage-util';
 import {numeral} from '../../base/libs';
 
@@ -30,8 +29,6 @@ export class ObjectStorageController {
     private profile: StorageProfile;
     private pgs: number = 0;
     private PGsFixed = false;
-    private possiblePgs = [];
-    private optimalSizeList = [];
     private pgSlider = {};
     private quota = { enabled: false, objects: { enabled: false, value: undefined }, percentage: { enabled: false, value: 75 } };
     private pools = [];
@@ -64,14 +61,12 @@ export class ObjectStorageController {
         });
         this.clusterSvc.getSlus(clusterId).then(slus => {
             this.slus = slus;
-
             this.PGsFixed = this.slus.length <= 50;
             if (this.PGsFixed) {
                 this.pgs = GetCephPGsForOSD(this.slus, null, null);
                 this.targetSize = GetOptimalSizeForPGNum(this.pgs, this.slus, this.replicas);
             }
             else {
-                this.possiblePgs = GetTwosPowList(128, this.slus.length * 200);
                 this.preparePGSlider();
             }
         });
@@ -79,16 +74,16 @@ export class ObjectStorageController {
             this.profiles = profiles;
             this.profile = profiles[0];
         });
-
     }
 
     public preparePGSlider() {
-        this.optimalSizeList = GetOptimalSizeForPGNumList(this.possiblePgs, this.slus, this.getReplicaCount());
+        // An OSD can take upto 200 PGs. So the PGs for a pool can be between 128 and OSDs x 200
+        var possiblePgs = GetTwosPowList(128, (this.slus.length * 200) / this.getReplicaCount());
         this.pgSlider = {
             value: 7, // 2^7 = 128. this is the min value for PGs
             options: {
                 floor: 7,
-                ceil: 7 + this.possiblePgs.length - 1,
+                ceil: 7 + possiblePgs.length - 1,
                 showTicks: true,
                 showSelectionBar: true,
                 translate: (value, sliderId, label) => {
