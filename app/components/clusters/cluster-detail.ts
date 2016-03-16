@@ -227,7 +227,7 @@ export class ClusterDetailController {
                 this.capacity.total = dataFormated;
                 this.clusterUtilization.data.total = data;
             }
-            else if (label === 'total_used_bytes') {
+            else if (label === 'used_bytes') {
                 this.capacity.used = dataFormated;
                 this.clusterUtilization.data.used = data;
             }
