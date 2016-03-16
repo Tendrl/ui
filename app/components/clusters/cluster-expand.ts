@@ -186,7 +186,7 @@ export class ClusterExpandController {
         var configValid = true;
         var selectedHosts = _.filter(this.hosts, host => host.selected);
         if (selectedHosts.length === 0) {
-            this.errorMessage = " Select atleast one Host to expand the Cluster";
+            this.errorMessage = " Select at least one host to expand the Cluster";
             configValid = false;
         }
         else {

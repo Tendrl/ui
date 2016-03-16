@@ -340,7 +340,7 @@ export class ClusterNewController {
         else if(this.step === 2 && nextStep === 1){
             monCount = this.getMonCount();
             if(monCount < this.minMonsRequired){
-                this.errorMessage = " Choose atleast " + this.minMonsRequired + " monitors to continue";
+                this.errorMessage = " Choose at least " + this.minMonsRequired + " monitors to continue";
                 configValid = false;
             }
             else if(monCount%2 === 0){
