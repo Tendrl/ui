@@ -14,8 +14,8 @@ export class RequestService {
     getList(pageNumber, pageSize, taskStatus, from, to, searchMessage) {
         return this.rest.one('tasks').get({
             level: 'root',
-            pageno: pageNumber,
-            pagesize: pageSize,
+            pageNo: pageNumber,
+            pageSize: pageSize,
             state: taskStatus,
             fromdatetime: from,
             todatetime: to,
