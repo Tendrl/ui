@@ -35,6 +35,23 @@ export interface ClusterCapacity {
     datapoints: Array<Array<string>>
 }
 
+export interface SLU { // StorageLogicalUnit
+    sluid: string;
+    almcount: number;
+    almstatus: number;
+    clusterid: string;
+    name: string;
+    nodeid: string;
+    options: {};
+    state: string;
+    status: number;
+    storagedeviceid: string;
+    storagedevicesize: number;
+    storageid: string;
+    storageprofile: string;
+    type: number;
+}
+
 export class ClusterService {
     rest: restangular.IService;
     restFull: restangular.IService;
@@ -139,7 +156,7 @@ export class ClusterService {
     // **getSlus**
     // **@returns** a promise with all slus of the cluster.
     getSlus(clusterId) {
-        return this.rest.one('clusters', clusterId).all('slus').getList().then(function(slus) {
+        return this.rest.one('clusters', clusterId).all('slus').getList<SLU>().then(function(slus) {
             return slus;
         });
     }

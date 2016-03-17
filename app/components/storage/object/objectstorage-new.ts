@@ -2,6 +2,7 @@
 
 import {Cluster} from '../../rest/clusters';
 import {StorageProfile} from '../../rest/storage-profile';
+import {SLU} from '../../rest/clusters';
 
 import {ClusterService} from '../../rest/clusters';
 import {StorageProfileService} from '../../rest/storage-profile';
@@ -16,7 +17,8 @@ import {numeral} from '../../base/libs';
 
 export class ObjectStorageController {
     private cluster: Cluster;
-    private slus: any[];
+    private slus: SLU[];
+    private slusFiltered: SLU[];
     private name: string;
     private count: number = 1;
     private types = ['Replicated', 'Erasure Coded'];
@@ -59,26 +61,33 @@ export class ObjectStorageController {
         this.clusterSvc.get(clusterId).then(cluster => {
             this.cluster = cluster;
         });
-        this.clusterSvc.getSlus(clusterId).then(slus => {
+        this.clusterSvc.getSlus(clusterId).then((slus) => {
             this.slus = slus;
-            this.PGsFixed = this.slus.length <= 50;
-            if (this.PGsFixed) {
-                this.pgs = GetCephPGsForOSD(this.slus, null, null);
-                this.targetSize = GetOptimalSizeForPGNum(this.pgs, this.slus, this.replicas);
-            }
-            else {
-                this.preparePGSlider();
-            }
-        });
-        this.storageProfileSvc.getList().then((profiles) => {
-            this.profiles = profiles;
-            this.profile = profiles[0];
+            return this.storageProfileSvc.getList();
+        }).then((profiles) => {
+            // Here the storage profiles which doesn't have any OSDs will be ignored
+            var profilesWithOSDs = _.groupBy(this.slus, 'storageprofile');
+            this.profiles = _.filter(profiles, profile => profilesWithOSDs[profile.name]);
+            this.profile = this.profiles[0];
+            this.filterOSDs(this.profile.name);
         });
     }
 
+    public filterOSDs(storageprofile: string) {
+        this.slusFiltered = _.filter(this.slus, (osd: SLU) => osd.storageprofile === storageprofile);
+        this.PGsFixed = this.slusFiltered.length <= 50;
+        if (this.PGsFixed) {
+            this.pgs = GetCephPGsForOSD(this.slusFiltered, null, null);
+            this.targetSize = GetOptimalSizeForPGNum(this.pgs, this.slusFiltered, this.replicas);
+        }
+        else {
+            this.preparePGSlider();
+        }
+    }
+
     public preparePGSlider() {
-        // An OSD can take upto 200 PGs. So the PGs for a pool can be between 128 and OSDs x 200
-        var possiblePgs = GetTwosPowList(128, (this.slus.length * 200) / this.getReplicaCount());
+        // An OSD can take upto 200 PGs. So the PGs for a pool can be between 128 and OSDs x 200 / replica
+        var possiblePgs = GetTwosPowList(128, (this.slusFiltered.length * 200) / this.getReplicaCount());
         this.pgSlider = {
             value: 7, // 2^7 = 128. this is the min value for PGs
             options: {
@@ -88,7 +97,7 @@ export class ObjectStorageController {
                 showSelectionBar: true,
                 translate: (value, sliderId, label) => {
                     var pgNum = Math.pow(2, value);
-                    var size = GetOptimalSizeForPGNum(pgNum, this.slus, this.getReplicaCount());
+                    var size = GetOptimalSizeForPGNum(pgNum, this.slusFiltered, this.getReplicaCount());
                     var formatedSize = numeral(size).format('0.0 b');
                     switch (label) {
                         case 'model':
@@ -99,10 +108,12 @@ export class ObjectStorageController {
                 },
                 onChange: (sliderId, value, highValue) => {
                     var pgNum = Math.pow(2, value);
-                    this.targetSize = GetOptimalSizeForPGNum(pgNum, this.slus, this.getReplicaCount());
+                    this.targetSize = GetOptimalSizeForPGNum(pgNum, this.slusFiltered, this.getReplicaCount());
                 }
             }
         };
+        var pgNum = Math.pow(2, 7);
+        this.targetSize = GetOptimalSizeForPGNum(pgNum, this.slusFiltered, this.getReplicaCount());
     }
 
     // Replica count is required for Placement Groups calculations
@@ -125,10 +136,7 @@ export class ObjectStorageController {
     }
 
     public changeStorageProfile(selectedProfile: StorageProfile) {
-        this.clusterSvc.getSlus(this.cluster.clusterid).then(slus => {
-            this.slus = slus;
-            this.pgs = GetCephPGsForOSD(slus, 100, 3);
-        });
+        this.filterOSDs(selectedProfile.name);
     }
 
     public getQuotaPercentageSize(percent: string): string {
@@ -145,7 +153,7 @@ export class ObjectStorageController {
         if (!this.PGsFixed) {
             pgNum = Math.pow(2, this.pgSlider['value']);
         }
-        this.targetSize = GetOptimalSizeForPGNum(pgNum, this.slus, this.replicas);
+        this.targetSize = GetOptimalSizeForPGNum(pgNum, this.slusFiltered, this.replicas);
 
         for (let index = 0; index < this.count; index++) {
             let pool = {
