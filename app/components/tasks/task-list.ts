@@ -58,7 +58,7 @@ export class TaskListController {
                 }
                 list.push(task)
         });
-        this.list = list.reverse();
+        this.list = list;
     }
 
     public viewDetails(taskId) {
