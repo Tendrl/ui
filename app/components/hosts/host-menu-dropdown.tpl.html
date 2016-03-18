@@ -1,6 +1,6 @@
 <ul class="dropdown-menu cluster-dropdown-menu" role="menu">
   <li role="presentation">
     <a role="menuitem" ng-if="host.state==3" ng-click="hosts.reinitialize(host)"> Reinitialize </a>
-    <a role="menuitem" ng-click="hosts.remove(host.node_id)"> Forget </a>
+    <a role="menuitem" ng-click="hosts.removeHost(host)"> Forget</a>
   </li>
 </ul>

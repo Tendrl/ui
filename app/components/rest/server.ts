@@ -157,13 +157,6 @@ export class ServerService {
         return this.restFull.one('nodes', nodeid).one('disks', diskid).customPUT({ storageprofile: storageprofile });
     }
 
-    // **remove**
-    // **@param** id - id of server you wish to remove.
-    // **@returns** a promise with the request id for the operation.
-    remove(id) {
-        return this.rest.one('hosts', id).remove();
-    }
-
     // **getGrains**
     // **@returns** a promise with the metadata, key value pairs associated with
     // this specific server, aka grains in Salt Stack parlance.
@@ -215,7 +208,10 @@ export class ServerService {
         return this.rest.one('nodes', nodeId).one('utilization').get({ resource: 'memory', duration: '10s' });
     }
 
-    public reinitialize(reinit, hostname){
-        return this.restFull.one('nodes',hostname).all('actions').post(reinit);
+    public reinitialize(hostname){
+        return this.restFull.one('nodes',hostname).all('actions').post({action: 'reinitialize'});
+    }
+    public delete(hostname){
+        return this.restFull.one('nodes',hostname).all('actions').post({action: 'delete'});
     }
 }
