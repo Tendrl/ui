@@ -50,7 +50,8 @@
                     <ul class="list-inline" ng-repeat="(key, value) in tasks.filterObject">
                         <li>
                             <span class="label label-info" ng-if="!(key === 'status' && value.length === 0)">
-                      {{key}} : {{value | date:'medium'}}
+                      {{key}} : <span ng-if="key === 'from' || key === 'to'">{{value | date:'medium'}}</span>
+                          <span ng-if="!(key === 'from' || key === 'to')">{{value}}</span>
                       <a href="" ng-click="tasks.clearFilter(key)"><span class="pficon pficon-close"></span></a>
                             </span>
                         </li>
