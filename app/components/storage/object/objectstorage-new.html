@@ -185,7 +185,7 @@
                             </div>
                         </div>
                         <div class="col-md-2">
-                            <span>{{storage.getQuotaPercentageSize(storage.quota.percentage.value)}} of {{storage.getQuotaTotalSize()}}</span>
+                            <span>{{storage.getQuotaPercentageSize(storage.quota.percentage.value) | bytes}} of {{storage.getQuotaTotalSize() | bytes}}</span>
                         </div>
                         <div class="col-md-offset-4 col-md-5">
                             <span class="help-block" ng-if="storage.form.quotaPercentageValue.$error.min || storage.form.quotaPercentageValue.$error.max">The value must be in range 1 to 100.</span>
@@ -240,7 +240,7 @@
                             </div>
                             <div class="col-md-1">
                                 <span class="title">Optimized For</span>
-                                <div class="value">{{pool.capacityFormated}}</div>
+                                <div class="value">{{pool.capacity | bytes}}</div>
                             </div>
                             <div class="col-md-1">
                                 <span class="title">OSDs</span>
