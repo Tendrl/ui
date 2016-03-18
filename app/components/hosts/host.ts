@@ -6,7 +6,8 @@ import {ServerService} from '../rest/server';
 import {UtilService} from '../rest/util';
 import {RequestService} from '../rest/request';
 
-export class HostController {
+export class HostListController {
+    private clusterId: any;
     public list: Array<any>;
     private clusters: {};
     private hostStats: {};
@@ -46,7 +47,11 @@ export class HostController {
     }
 
     public reloadData() {
-        this.serverService.getList().then(this.updateHost);
+        if(this.clusterId === undefined) {
+            this.serverService.getList().then(this.updateHost);
+        }else {
+            this.serverService.getListByCluster(this.clusterId).then(this.updateHost);
+        }
     }
 
     updateHost = (hosts) => {

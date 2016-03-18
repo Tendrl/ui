@@ -39,9 +39,9 @@ export class RouteConfig {
 			controller: 'ClusterDetailController',
 			controllerAs: 'clusterdetail'
 		}).when('/hosts', {
-			templateUrl: 'views/hosts/hosts.html',
+			templateUrl: 'views/hosts/host-list.html',
 			name: 'hosts',
-			controller: 'HostController',
+			controller: 'HostListController',
 			controllerAs: 'hosts'
 		}).when('/hosts/detail/:id', {
 			templateUrl: 'views/hosts/hosts-detail.html',

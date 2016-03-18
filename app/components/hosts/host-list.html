@@ -4,7 +4,7 @@
     </div>
     <div class="row" ng-if="hosts.list.length > 0">
         <div class="col-md-3">
-            <input type="text" class="form-control" placeholder="Search" ng-model="search">
+            <input type="text" class="form-control" placeholder="Search" ng-model="hosts.search">
         </div>
     </div>
     <center ng-if="hosts.list.length == 0">
@@ -15,7 +15,7 @@
             <h1>You don't have any hosts</h1>
         </div>
     </center>
-    <div class="row blade-view hosts" ng-repeat="host in hosts.list | filter:search">
+    <div class="row blade-view hosts" ng-repeat="host in hosts.list | filter:hosts.search">
         <div class="col-md-2 col-sm-4">
             <div class="row">
                 <div class="col-md-1" ng-class="host.cluster_type === 'Free'?'vertical-line-for-unassigned':'vertical-line-for-assigned'">

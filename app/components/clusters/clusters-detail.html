@@ -15,15 +15,15 @@
             </li>
         </ol>
         <ul class="nav nav-tabs">
-            <li ng-repeat="tab in clusterdetail.tabList" ng-class="clusterdetail.isSet($index)? 'active':''">
-                <a href="" ng-click="clusterdetail.setTab($index)" ng-bind="tab.tabName">
+            <li ng-repeat="(key,value) in clusterdetail.tabList" ng-class="clusterdetail.isSet(value)? 'active':''">
+                <a href="" ng-click="clusterdetail.setTab(value)" ng-bind="key">
                 </a>
             </li>
         </ul>
     </div>
 
     <!-- FIRST TAB CONTENT -->
-    <div ng-show="clusterdetail.isSet(0)" class="cluster-contain container-fluid cards-pf">
+    <div ng-if="clusterdetail.isSet(clusterdetail.tabList.Overview)" class="cluster-contain container-fluid cards-pf">
         <!-- Fisrt Big row -->
         <div class="row">
             <!-- Card Part -->
@@ -269,12 +269,17 @@
         </div><!-- End of Fisrt Big row -->
     </div>
 
+     <!-- SECOND TAB CONTENT -->
+    <div ng-if="clusterdetail.isSet(clusterdetail.tabList.Hosts)">
+        <host-list cluster-id="clusterdetail.id"></host-list>
+    </div>
+
     <!-- FOURTH TAB CONTENT -->
-    <div ng-show="clusterdetail.isSet(3)" ng-include src="'views/clusters/clusters-detail-rbds.html'">
+    <div ng-if="clusterdetail.isSet(clusterdetail.tabList.RBDs)" ng-include src="'views/clusters/clusters-detail-rbds.html'">
     </div>
 
     <!-- FIVTH TAB CONTENT -->
-    <div ng-show="clusterdetail.isSet(4)">
+    <div ng-if="clusterdetail.isSet(clusterdetail.tabList.OSDs)">
         <osd-detail cluster-id="clusterdetail.id"></osd-detail>
     </div>
 

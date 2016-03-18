@@ -32,6 +32,7 @@ import {KTDraggable} from "./components/shared/directives/kt-draggable";
 import {KTDroppable} from "./components/shared/directives/kt-droppable";
 import {StorageSizeSelector} from "./components/shared/directives/storage-size-selector";
 import {OsdDetail} from "./components/clusters/osdsdetail/osd-detail-directive";
+import {HostList} from "./components/clusters/hostdetail/host-list-directive";
 
 import {BytesFilter} from './components/shared/filters/bytes';
 
@@ -96,6 +97,7 @@ class USMApp {
             .directive('ktDroppable', () => new KTDroppable())
             .directive('storageSizeSelector', () => new StorageSizeSelector())
             .directive('osdDetail', () => new OsdDetail())
+            .directive('hostList', () => new HostList())
             .filter('bytes', BytesFilter)
             .controller('LdapConfigController',LdapConfigController)
             .controller('EventListController',EventListController)

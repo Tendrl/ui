@@ -24,7 +24,7 @@ export class ClusterDetailController {
     private osds: any;
     private objects: any;
     private monitors: any;
-    private tabList: Array<any>;
+    private tabList: any;
     private tabIndex: any;
     private discoveredHostsLength: any;
     private clusterUtilization: any;
@@ -73,11 +73,16 @@ export class ClusterDetailController {
         this.openStackPools = [];
         this.mostUsedPools = [];
         this.clusterList = [];
-        this.tabList = [
-            { tabName: "Overview" },{ tabName: "CRUSH map" },{ tabName: "Pools" },{ tabName: "RBDs" },
-            { tabName: "OSDs" },{ tabName: "Storage Profiles" },{ tabName: "Configuration" }
-        ];
-        this.tabIndex = 0;
+        this.tabList = {
+            Overview: 1,
+            Hosts: 2,
+            Pools: 3,
+            RBDs: 4,
+            OSDs: 5,
+            Storage_Profiles: 6,
+            Configuration: 7
+        }
+        this.tabIndex = this.tabList.Overview;
         this.clusterHelpers = new ClusterHelper(null, null, null, null);
         this.utilizationByType = {};
         this.utilizationByProfile = {};
@@ -265,11 +270,11 @@ export class ClusterDetailController {
         });
     }
 
-    public setTab(newTab: any) {
+    public setTab(newTab: number) {
         this.tabIndex = newTab;
     }
 
-    public isSet(tabNum: any) {
+    public isSet(tabNum: number) {
         return this.tabIndex === tabNum;
     }
 
