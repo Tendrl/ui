@@ -1,132 +1,47 @@
 <div class="cluster-detail-osd">
   <div class="row">
-    <div class="col-md-3">
+    <div class="col-md-2">
       <span class="pull-left">
         <i class="filter-icon" ng-class="osddetail.isLeftSidebarShow?'fa fa-chevron-circle-left':'fa fa-chevron-circle-right'" ng-click="osddetail.isLeftSidebarShow=!osddetail.isLeftSidebarShow"></i>
       </span>
     </div>
-    <div class="col-md-6">
+    <div class="col-md-7">
       <div class="row">
-        <div class="col-md-4">
-          <span>
-            <label>Filter By:</label>
-            <select class="form-control" ng-init="osddetail.searchData = 'host'" ng-model="osddetail.searchData" ng-change="osddetail.searchByText = {}">
-              <option value="host">Host</option>
-              <option value="osd">OSD</option>
+        <div class="col-md-3">
+            <label ng-init="osddetail.groupBy='node'">Group By:</label>
+            <select class="form-control" ng-model="osddetail.groupBy" ng-change="osddetail.performGroupBy(osddetail.groupBy)">
+              <option value="node">Host</option>
               <option value="storageprofile">Storage Profile</option>
             </select>
-          </span>
         </div>
-        <div class="col-md-8">
-          <span>
-            <label class="search-by-hidden">Search By:</label>
-            <form class="search-pf has-button" role="form">
-              <div class="form-group has-clear">
-                <div class="search-pf-input-group pull-left">
-                  <label class="sr-only" for="search1">Search</label>
-                  <input ng-if="osddetail.searchData === 'host'" type="search" placeholder="Filter by host..." class="form-control" ng-model="osddetail.searchByText.options1.node" id="search1">
-                  <input ng-if="osddetail.searchData === 'osd'" type="search" placeholder="Filter by OSD Name..." class="form-control" ng-model="osddetail.searchByText.name" id="search1">
-                  <input ng-if="osddetail.searchData === 'storageprofile'" type="search" placeholder="Filter by Storage Profile..." class="form-control" ng-model="osddetail.searchByText.storageprofile" id="search1">
-                  <button style="display: none;" aria-hidden="true" class="clear" type="button"><span class="pficon pficon-close"></span></button>
+        <div class="col-md-offset-2 col-md-7">
+          <label>Filter By:</label>
+          <form ng-init="osddetail.searchBy = {name:'Host',value:'node'}">
+            <div class="form-group toolbar-pf-filter">
+                <div class="input-group">
+                    <div class="input-group-btn">
+                        <button aria-expanded="false" aria-haspopup="true" data-toggle="dropdown" class="btn btn-default dropdown-toggle" type="button">
+                            {{osddetail.searchBy.name}}<span class="caret"></span>
+                        </button>
+                        <ul class="dropdown-menu">
+                            <li><a ng-click="osddetail.searchByText={};osddetail.searchBy={name:'Host',value:'node'}">Host</a></li>
+                            <li><a ng-click="osddetail.searchByText={};osddetail.searchBy={name:'OSD',value:'name'}">OSD</a></li>
+                            <li><a ng-click="osddetail.searchByText={};osddetail.searchBy={name:'Storage Profile',value:'storageprofile'}">Storage Profile</a></li>
+                        </ul>
+                    </div>
+                    <!-- /btn-group -->
+                    <input type="text" placeholder="Filter by {{osddetail.searchBy.name}}..." class="form-control" ng-model="osddetail.searchByText[osddetail.searchBy.value]">
+                    <span class="input-group-addon">
+                      <i class="fa fa-search"></i>
+                    </span>
                 </div>
-              </div>
-            </form>
-          </span>
-        </div>
-      </div>
-    </div>
-    <div class="col-md-3">
-      <span>
-        <div>
-          <label>Show:</label>
-        </div>
-        <div class="show-inline">
-          <div>
-             <input type="radio" id="utilization" ng-change="osddetail.isUtilizationShow=true" ng-model="osddetail.showValueForOsd" value="utilization">
-             <label for="utilization">Utilization</label>
-          </div>
-          <div class="radio-button-separator">
-             <input type="radio" id="weight" ng-change="osddetail.isUtilizationShow=false" ng-model="osddetail.showValueForOsd" value="weight">
-             <label for="weight">Weight</label>
-          </div>
-        </div>
-      </span>
-    </div>
-  </div>
-  <hr>
-  <!-- Left side filter bar -->
- <nav class="left-sidebar" ng-class="osddetail.isLeftSidebarShow?'left-sidebar-expand':'left-sidebar-collapse'">
-    <div class="panel-group" role="tablist" aria-multiselectable="true" bs-collapse ng-class="osddetail.isLeftSidebarShow?'panel-group-expand':'panel-group-collapse'">
-      <div class="panel panel-default">
-        <div class="panel-heading" role="tab">
-          <h4 class="panel-title">
-            <a bs-collapse-toggle>
-              Filter by OSD Status
-            </a>
-          </h4>
-        </div>
-        <div class="panel-collapse" role="tabpanel" bs-collapse-target>
-          <div class="panel-body">
-            <div class="checkbox" ng-repeat="data in osddetail.filterList.OSDStatus">
-              <label>
-                <input type="checkbox" ng-model="osddetail.filter[$index]" ng-disabled="!data.enable"/><i class="{{data.icon}}"></i> {{data.name}}
-              </label>
             </div>
-          </div>
+          </form>
         </div>
       </div>
-      <div class="panel panel-default">
-        <div class="panel-heading" role="tab">
-          <h4 class="panel-title">
-            <a bs-collapse-toggle>
-              Filter by PG Status
-            </a>
-          </h4>
-        </div>
-        <div class="panel-collapse" role="tabpanel" bs-collapse-target>
-          <div class="panel-body">
-            <div class="checkbox" ng-repeat="filter in osddetail.filterList.PGStatus" ng-class="{'separator': filter.subdata}">
-              <label>
-                <input type="checkbox">{{filter.name}}
-              </label>
-               <div ng-if="filter.subdata" class="nested-checkbox">
-                <div class="checkbox" ng-repeat="subfilter in filter.subdata">
-                  <label>
-                    <input type="checkbox">{{subfilter.name}}
-                  </label>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="panel panel-default">
-        <div class="panel-heading" role="tab">
-          <h4 class="panel-title">
-            <a bs-collapse-toggle>
-              Filter by Utilization
-            </a>
-          </h4>
-        </div>
-        <div class="panel-collapse" role="tabpanel" bs-collapse-target>
-          <div class="panel-body">
-            <div class="checkbox" ng-repeat="filter in osddetail.filterList.Utilization">
-              <label>
-                <input type="checkbox">{{filter.name}}
-              </label>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </nav>
-  <!-- End of filter bar -->
-
-  <div class="row">
-    <div ng-class="osddetail.isLeftSidebarShow?'col-md-offset-2 col-md-7':'col-md-offset-1 col-md-8'">
       <div class="row">
         <div class="col-md-offset-6 col-md-3">
-          <div class="selected-osd-separator pull-right"><label> {{osddetail.utils.keys(osddetail.selection.allSelectedOsds).length}} OSD Selected</label></div>
+          <div class="selected-osd-separator pull-right"><label> {{osddetail.totalSelectedOSDs.length}} OSD Selected </label></div>
         </div>
         <div class="col-md-3">
           <div class="dropdown pull-right">
@@ -148,40 +63,106 @@
           </div>
         </div>
       </div>
-      <hr>
-      <div ng-class="osddetail.osdList.length > 12 ? 'div-with-scroll': ''">
+    </div>
+  </div>
+  <!-- Left side filter bar -->
+ <nav class="left-sidebar" ng-class="osddetail.isLeftSidebarShow?'left-sidebar-expand':'left-sidebar-collapse'">
+    <div class="panel-group" role="tablist" aria-multiselectable="true" bs-collapse ng-class="osddetail.isLeftSidebarShow?'panel-group-expand':'panel-group-collapse'">
+      <div class="panel panel-default">
+        <div class="panel-heading" role="tab">
+          <h4 class="panel-title">
+            <a bs-collapse-toggle ng-click="osddetail.activeFilter='osd_status'">
+              Filter by OSD Status
+            </a>
+          </h4>
+        </div>
+        <div class="panel-collapse" role="tabpanel" bs-collapse-target>
+          <div class="panel-body">
+            <div class="checkbox" ng-repeat="data in osddetail.filterList.OSDStatus">
+              <label>
+                <input type="checkbox" ng-model="data.checked" ng-disabled="!data.enabled"/><i class="{{data.icon}}"></i> {{data.name}}
+              </label>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="panel panel-default">
+        <div class="panel-heading" role="tab">
+          <h4 class="panel-title">
+            <a bs-collapse-toggle ng-click="osddetail.activeFilter='pg_status'">
+              Filter by PG Status
+            </a>
+          </h4>
+        </div>
+        <div class="panel-collapse" role="tabpanel" bs-collapse-target>
+          <div class="panel-body scroll-for-filter">
+            <div class="checkbox" ng-repeat="filter in osddetail.filterList.PGStatus">
+              <label>
+                <input type="checkbox" ng-model="filter.checked" ng-change="osddetail.isShowAllOsdByPgStatusFilter()">{{filter.name}}
+              </label>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="panel panel-default">
+        <div class="panel-heading" role="tab">
+          <h4 class="panel-title">
+            <a bs-collapse-toggle ng-click="osddetail.activeFilter='utilization'">
+              Filter by Utilization
+            </a>
+          </h4>
+        </div>
+        <div class="panel-collapse" role="tabpanel" bs-collapse-target>
+          <div class="panel-body">
+            <div class="checkbox" ng-repeat="data in osddetail.filterList.Utilization">
+              <label>
+                <input type="checkbox" ng-model="data.checked" ng-disabled="!data.enabled"/>{{data.name}}
+              </label>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </nav>
+  <!-- End of filter bar -->
+
+  <div class="row">
+    <div ng-class="osddetail.isLeftSidebarShow?'col-md-offset-2 col-md-7':'col-md-9'">
+      <div ng-class="osddetail.osdList.length > 8 ? 'div-with-scroll': ''">
+        <div ng-repeat="(key, data) in osddetail.osdListGroupBy">
+          <div class="custom-panel-heading" role="tab">
+            <h4>
+              {{key}} ({{osddetail.filteredOSD[$index].length}})
+            </h4>
+          </div>
           <div class="row">
-              <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12" ng-repeat="osd in filteredOSD=(osddetail.osdList | filter:osddetail.applyFilter | filter: osddetail.searchByText)">
-                <div class="osd-box" ng-click="osddetail.selection.activeOsd=osd" ng-class="osddetail.selection.activeOsd===osd?'selected-osd':''">
-                  <div class="osd-box-content">
-                    <div class="osd-box-osd-name">
-                      <div class="pull-right">
-                        <i ng-class="osd.status===0?'pficon pficon-ok':osd.status===1?'pficon pficon-warning-triangle-o':osd.status===2?'pficon pficon-warning-triangle-o':'fa-arrow-circle-o-down down-color'"></i>
-                      </div>
-                      <div class="checkbox">
-                        <label>
-                          <input type="checkbox" ng-change="osddetail.filterSelectedOsd(osddetail.selection.allSelectedOsds)" ng-model="osddetail.selection.allSelectedOsds[osd.sluid]"> {{osd.name}}
-                        </label>
-                      </div>
+            <div class="col-lg-3 col-md-3 col-sm-4 col-xs-12" ng-repeat="osd in osddetail.filteredOSD[$index]=(data | filter:osddetail.applyFilter | filter: osddetail.searchByText)">
+              <div class="osd-box" ng-click="osddetail.selection.activeOsd=osd" ng-class="osddetail.selection.activeOsd===osd?'selected-osd':''">
+                <div class="osd-box-content">
+                  <div class="osd-box-osd-name">
+                    <div class="pull-right">
+                      <i ng-class="osddetail.filterList.OSDStatus[osd.status].icon"></i>
                     </div>
-                    <div class="progress" ng-if="osddetail.isUtilizationShow">
-                      <div class="progress-bar" ng-class="osd.utilization.used>=95?'progress-bar-full':osd.utilization.used>=85?'progress-bar-near-full':'progress-bar-normal'" role="progressbar" aria-valuemin="0" aria-valuemax="100" ng-style="{width:osd.utilization.used+'%'}">
-                      </div>
+                    <div class="checkbox">
+                      <label>
+                        <input type="checkbox" ng-change="osddetail.maintainTotalSelectedOsds()" ng-model="osddetail.selection.allSelectedOsds[osd.sluid]"> {{osd.name}}
+                      </label>
                     </div>
-                    <div ng-if="!osddetail.isUtilizationShow">
-                      <span class="osd-box-osd-weight">
-                        <center>{{osd.weight}}</center>
-                      </span>
+                  </div>
+                  <div class="progress custom-progress">
+                    <div class="progress-bar" ng-class="osddetail.filterList.Utilization[osd.usage.status].icon" role="progressbar" aria-valuemin="0" aria-valuemax="100" ng-style="{width:osd.usage.percentused+'%'}">
                     </div>
                   </div>
                 </div>
               </div>
+            </div>
           </div>
+        </div>
       </div>
     </div>
     <div class="col-md-3">
       <div class="sidebar-nav-fixed pull-right affix right-sidebar">
-          <div class="right-sidebar-contain">
+          <div class="right-sidebar-contain" ng-if="osddetail.selection.activeOsd">
             <h2>
               <i ng-class="osddetail.filterList.OSDStatus[osddetail.selection.activeOsd.status].icon"></i>
               <label ng-bind="osddetail.selection.activeOsd.name"></label>
@@ -196,8 +177,17 @@
               <div class="detail-content"><small ng-bind="osddetail.selection.activeOsd.options1.device"></small></div>
             </div>
             <div class="selected-osd-detail">
+              <label>Utilization:</label>
+              <div class="detail-content">
+                <small>
+                  {{osddetail.selection.activeOsd.usage.used | bytes }} used of
+                  {{osddetail.selection.activeOsd.usage.total | bytes }} total
+                </small>
+              </div>
+            </div>
+            <div class="selected-osd-detail">
               <label>Host:</label>
-              <div class="detail-content"><small ng-bind="osddetail.selection.activeOsd.options1.node"></small></div>
+              <div class="detail-content"><small ng-bind="osddetail.selection.activeOsd.node"></small></div>
             </div>
             <div class="selected-osd-detail">
               <label>Storage Profile:</label>

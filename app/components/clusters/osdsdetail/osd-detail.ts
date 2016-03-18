@@ -4,17 +4,18 @@ import {ClusterService} from '../../rest/clusters';
 import {RequestService} from '../../rest/request';
 import {RequestTrackingService} from '../../requests/request-tracking-svc';
 import * as ModalHelpers from '../../modal/modal-helpers';
+import {numeral} from '../../base/libs';
 
 export class OsdDetailController {
     private id: any;
     private osdList: Array<any>;
-    private isUtilizationShow: boolean;
-    private showValueForOsd: string;
+    private osdListGroupBy: any;
     private filterList: any;
     private selection: any;
-    private filter: any;
-    private utils: any;
-    private isLeftSidebarShow; boolean;
+    private activeFilter: string;
+    private isLeftSidebarShow: boolean;
+    private filteredOSD: any;
+    private totalSelectedOSDs: Array<any>;
 
     //Services that are used in this class.
     static $inject: Array<string> = [
@@ -37,70 +38,101 @@ export class OsdDetailController {
         private requestSvc: RequestService,
         private requestTrackingSvc: RequestTrackingService) {
 
+        this.filteredOSD = {};
         this.isLeftSidebarShow = true;
         this.selection = { activeOsd: {} ,allSelectedOsds: {} };
-        this.filter = {};
-        this.utils = { keys : Object.keys };
-        this.isUtilizationShow = true;
-        this.showValueForOsd = "utilization";
+        this.activeFilter = 'osd_status';
         this.filterList = {};
+        /* Note: This filterList is tightly coupled with status(osd,utilization,pg) order. if order
+        of element will get change , it will break the filter features */
         this.filterList.OSDStatus = [
-            {name: "Up-In", icon: "pficon pficon-ok", enable: false},
-            {name: "Up-Out", icon: "pficon pficon-warning-triangle-o", enable: false},
-            {name: "Down-In", icon: "pficon pficon-warning-triangle-o", enable: false},
-            {name: "Down", icon: "fa fa-arrow-circle-o-down down-color", enable: false}
+            {name: "Up-In", icon: "pficon pficon-ok", enabled: false, checked: false},
+            {name: "Up-Out", icon: "pficon pficon-warning-triangle-o", enabled: false, checked: false},
+            {name: "Down-In", icon: "pficon pficon-warning-triangle-o", enabled: false, checked: false},
+            {name: "Down", icon: "fa fa-arrow-circle-o-down down-color", enabled: false, checked: false}
         ];
         this.filterList.PGStatus = [
-            {name: "OK", subdata: [
-                        {name: "Active"},
-                        {name: "Clean"}
-                    ]
-            },
-            {name: "Degraded", subdata: [
-                        {name: "Creating"},
-                        {name: "Replay"},
-                        {name: "Splitting"},
-                        {name: "Scrubbing"},
-                        {name: "Degraded"},
-                        {name: "Repair"},
-                        {name: "Recovery"},
-                        {name: "Backfill"},
-                        {name: "Wait_Backfill"},
-                        {name: "Remapped"}
-                    ]
-            },
-            {name: "Needs Attention", subdata: [
-                        {name: "Down"},
-                        {name: "Inconsistent"},
-                        {name: "Peering"},
-                        {name: "Incomplete"},
-                        {name: "Stale"}
-                    ]
-            }
+            {name: "active", checked: false},
+            {name: "clean", checked: false},
+            {name: "creating", checked: false},
+            {name: "replay", checked: false},
+            {name: "splitting", checked: false},
+            {name: "scrubbing", checked: false},
+            {name: "degraded", checked: false},
+            {name: "undersized", checked: false},
+            {name: "repair", checked: false},
+            {name: "recovery", checked: false},
+            {name: "backfill", checked: false},
+            {name: "remapped", checked: false},
+            {name: "down", echecked: false},
+            {name: "inconsistent", checked: false},
+            {name: "peering", checked: false},
+            {name: "incomplete", checked: false},
+            {name: "stale", checked: false},
         ];
         this.filterList.Utilization = [
-            {name: "Full (95% or more)"},
-            {name: "Near Full (85% or more)"},
-            {name: "50% - 85%"},
-            {name: "Less than 50%"}
+            {name: "Full (95% or more)", icon: "progress-bar-full", enabled: false, checked: false},
+            {name: "Near Full (85% or more)", icon: "progress-bar-near-full", enabled: false, checked: false},
+            {name: "50% - 85%", icon: "progress-bar-average", enabled: false, checked: false},
+            {name: "Less than 50%", icon: "progress-bar-normal", enabled: false, checked: false}
         ];
+        this.totalSelectedOSDs = [];
         this.getOSDs();
+        /* Here , watching the filteredOSD(filtered osd list) variable for any changes .
+        so that we can select first value as a selected OSD in UI . and if there is no
+        any element inside array, than no osd will be selected in UI. */
+        this.scopeService.$watch(() => { return this.filteredOSD; }, (newValue, oldValue) => {
+            this.maintainTotalSelectedOsds();
+            this.selection.activeOsd = null;
+            _.forOwn(this.filteredOSD, (value, key) => {
+                if ( value.length > 0 ) {
+                    this.selection.activeOsd = value[0];
+                    return false;
+                }
+            });
+        },true);
     }
 
+    /* Getting OSD list here */
     public getOSDs() {
         this.clusterService.getSlus(this.id).then((slus: Array<any>) => {
             this.osdList = slus;
             (this.osdList || []).map( (osd) => {
-                if(!this.filterList.OSDStatus[osd.status].enable) {
-                    this.filterList.OSDStatus[osd.status].enable = true;
+                var pgArray = [];
+                /* Adding the usage status for each osd , so that easily can find color code as well
+                as filter for percentused in UI */
+                osd.usage.status = (osd.usage.percentused>=95? 0 :(osd.usage.percentused>=85? 1 :(osd.usage.percentused>=50? 2 : 3 )));
+                /* By default , we have disabled all filter . and Just here we are enabling the filters
+                which are present in OSD list */
+                if(!this.filterList.OSDStatus[osd.status].enabled) {
+                    this.filterList.OSDStatus[osd.status].enabled = true;
                 }
+                if(!this.filterList.Utilization[osd.usage.status].enabled) {
+                    this.filterList.Utilization[osd.usage.status].enabled = true;
+                }
+                /* we have pg summary in object format with '+' sign . example - "pgsummary":{"active+undersized+degraded":128} .
+                Here , we want to each key after spliting with '+' sign , should be array elements
+                so that easily can apply filter  */
+                Object.keys(osd.options1.pgsummary).forEach((element) => {
+                    pgArray = pgArray.concat(element.split("+"));
+                });
+                osd.options1.pgsummary.pgarray = pgArray;
+                osd.node = osd.options1.node;
             });
-            if(this.osdList.length > 0) {
-                this.selection.activeOsd = this.osdList[0];
-            }
+            this.performGroupBy('node');
         });
     }
 
+    /* Performing Group by */
+    public performGroupBy(group_by) {
+        if(group_by === 'node') {
+            this.osdListGroupBy = _.groupBy(this.osdList, function(osd){ return osd.options1.node });
+        }else {
+            this.osdListGroupBy = _.groupBy(this.osdList, function(osd){ return osd.storageprofile });
+        }
+    }
+
+    /* Calling on osd action changed and performing actions on selected osds */
     public osdActionChange(osdAction) {
         let actionObject = (osdAction==='mark_up'?{up:true}:(osdAction==='mark_in'?{in:true}:{in:false}));
         if(osdAction === 'mark_out') {
@@ -116,16 +148,17 @@ export class OsdDetailController {
         }
     }
 
+    /* Performing the Actions on selected osds */
     public performOsdAction(actionObject) {
-        if(Object.keys(this.selection.allSelectedOsds).length === 0 ) {
+        if(this.totalSelectedOSDs.length === 0 ) {
             this.clusterService.slusAction(this.id,this.selection.activeOsd.sluid,actionObject).then((result) => {
                 this.requestSvc.get(result.data.taskid).then((task) => {
                     this.requestTrackingSvc.add(task.id, task.name);
                 });
             });
         }else {
-            _.forOwn(this.selection.allSelectedOsds, (value, key) => {
-                this.clusterService.slusAction(this.id,key,actionObject).then((result) => {
+            _.each(this.totalSelectedOSDs, (osd: any) => {
+                this.clusterService.slusAction(this.id,osd.sluid,actionObject).then((result) => {
                     this.requestSvc.get(result.data.taskid).then((task) => {
                         this.requestTrackingSvc.add(task.id, task.name);
                     });
@@ -133,24 +166,52 @@ export class OsdDetailController {
             });
         }
         this.selection.allSelectedOsds= {};
+        this.totalSelectedOSDs = [];
         this.timeoutService(() => this.getOSDs(), 10000);
     }
 
-    public filterSelectedOsd(selectedOSDs) {
-        _.forOwn(selectedOSDs, function(value, key) {
-            if (value === false) {
-                delete selectedOSDs[key];
-            }
+    /* Maintaining the total selected osds by checkbox for Action */
+    public maintainTotalSelectedOsds() {
+        this.totalSelectedOSDs = [];
+        _.forOwn(this.filteredOSD, (value, key) => {
+            _.each(value, (osd: any) => {
+                if (this.selection.allSelectedOsds[osd.sluid] === true ) {
+                    this.totalSelectedOSDs.push(osd);
+                }
+            });
         });
     }
 
-    public applyFilter =  (osd) => {
-        return this.filter[osd.status] || this.noFilter(this.filter);
+    /* Applying filter on OSD list from the ng-repeat in UI. here we have 3 set of filters based on
+    1)osd status 2)utilization 3) pg_status . and at a time only one set of filter can be applied .
+    so that why here i have if condition to check the set of filter . */
+    public applyFilter = (osd) => {
+        if(this.activeFilter === 'osd_status') {
+            return this.filterList.OSDStatus[osd.status].checked || this.isNoFilterSelected(this.filterList.OSDStatus);
+        }else if(this.activeFilter === 'utilization') {
+            return this.filterList.Utilization[osd.usage.status].checked || this.isNoFilterSelected(this.filterList.Utilization);
+        }else if(this.activeFilter === 'pg_status') {
+            if(this.isNoFilterSelected(this.filterList.PGStatus)) { return true; }
+            var result = false;
+            _.each(this.filterList.PGStatus, (element: any) => {
+                if(element.checked){
+                    if(osd.options1.pgsummary.pgarray.indexOf(element.name) === -1){
+                        return false;
+                    }else{
+                        result = true;
+                    }
+                }
+            });
+            return result;
+        }
     }
 
-    public noFilter(filterObj) {
+    /* It will return true/false based on given filter group.
+    If there is no filter applied for this , than it will return true
+    otherwise it will return false.*/
+    public isNoFilterSelected(filterObj) {
         for (var key in filterObj) {
-            if (filterObj[key]) {
+            if (filterObj[key].checked) {
                 return false;
             }
         }
