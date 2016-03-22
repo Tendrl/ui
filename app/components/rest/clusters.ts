@@ -68,6 +68,14 @@ export class ClusterService {
         });
     }
 
+    // **getClusterSummary**
+    // **@returns** a promise with all details of cluster dashboard.
+    getClusterSummary(cluster_id) {
+        return this.rest.one('clusters/'+cluster_id+'/summary').get().then(function(summary) {
+            return summary;
+        });
+    }
+
     // **getList**
     // **@returns** a promise with a list of all the clusters.
     public getList() {
@@ -167,35 +175,43 @@ export class ClusterService {
         return this.restFull.one('clusters', clusterId).one('slus', slusId).patch(action);
     }
 
-    // **getClusterUtilization**
-    // **@returns** a promise with cluster's utilization.
-    getClusterUtilization(cluster_id) {
-        return this.rest.all('monitoring/cluster/'+cluster_id+'/utilization?resource=cluster_utilization*.*&duration=latest').getList<ClusterCapacity>().then(function(clustercapacities: Array<ClusterCapacity>) {
-            return clustercapacities;
-        });
-    }
-
-    // **getStorageProfileUtilization**
-    // **@returns** a promise with Storage Profile's utilization.
-    getStorageProfileUtilization(cluster_id) {
-        return this.rest.all('monitoring/cluster/'+cluster_id+'/utilization?resource=storage_profile_utilization*.*&duration=latest').getList().then(function(storage_profile_utilization) {
-            return storage_profile_utilization;
-        });
-    }
-
-    // **getClusterObjects**
-    // **@returns** a promise with cluster's objects.
-    getClusterObjects(cluster_id) {
-        return this.rest.all('monitoring/cluster/'+cluster_id+'/utilization?resource=no_of_object&duration=latest').getList().then(function(cluster_objects) {
-            return cluster_objects;
+    // **getClusterCpuUtilization**
+    // **@returns** a promise with cluster's cpu utilization.
+    getClusterCpuUtilization(cluster_id, time_slot) {
+        return this.rest.all('monitoring/cluster/'+cluster_id+'/utilization?resource=cpu-user&duration='+time_slot).getList().then(function(cpu_utilization) {
+            return cpu_utilization;
         });
     }
 
     // **getClusterMemoryUtilization**
     // **@returns** a promise with cluster's memory utilization.
     getClusterMemoryUtilization(cluster_id, time_slot) {
-        return this.rest.all('monitoring/cluster/'+cluster_id+'/utilization?resource=memory-usage_percent*&duration='+time_slot).getList().then(function(memory_utilization) {
+        return this.rest.all('monitoring/cluster/'+cluster_id+'/utilization?resource=memory-usage_percent&duration='+time_slot).getList().then(function(memory_utilization) {
             return memory_utilization;
+        });
+    }
+
+    // **getIOPS**
+    // **@returns** a promise with disks IOPS?.
+    getIOPS(cluster_id, time_slot) {
+        return this.rest.all('monitoring/cluster/'+cluster_id+'/utilization?resource=disk-read&duration='+time_slot).getList().then(function(iops) {
+            return iops;
+        });
+    }
+
+    // **getThroughput**
+    // **@returns** a promise with network throughput.
+    getThroughput(cluster_id, time_slot) {
+        return this.rest.all('monitoring/cluster/'+cluster_id+'/utilization?resource=interface-rx&duration='+time_slot).getList().then(function(throughput) {
+            return throughput;
+        });
+    }
+
+    // **getNetworkLatency**
+    // **@returns** a promise with network latency.
+    getNetworkLatency(cluster_id, time_slot) {
+        return this.rest.all('monitoring/cluster/'+cluster_id+'/utilization?resource=network_latency&duration='+time_slot).getList().then(function(network_latency) {
+            return network_latency;
         });
     }
 

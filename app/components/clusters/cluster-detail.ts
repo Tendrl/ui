@@ -26,13 +26,11 @@ export class ClusterDetailController {
     private monitors: any;
     private tabList: any;
     private tabIndex: any;
-    private discoveredHostsLength: any;
     private clusterUtilization: any;
-    private openStackPools: any;
+    private systemUtilization: any;
     private mostUsedPools: any;
-    private utilizationByType: any;
     private utilizationByProfile: any;
-    private memoryUtilization: any;
+    private trendsCharts: any;
     private timeSlots: [{name:string, value:string}];
     private selectedTimeSlot: any;
     private timer: ng.IPromise<any>;
@@ -70,7 +68,7 @@ export class ClusterDetailController {
         private requestTrackingSvc: RequestTrackingService) {
 
         this.clusterUtilization = { data: {}, config: {} };
-        this.openStackPools = [];
+        this.systemUtilization = {cpu:{data:{},config:{}},memory:{data:{},config:{}}};
         this.mostUsedPools = [];
         this.clusterList = [];
         this.tabList = {
@@ -84,136 +82,38 @@ export class ClusterDetailController {
         }
         this.tabIndex = this.tabList.Overview;
         this.clusterHelpers = new ClusterHelper(null, null, null, null);
-        this.utilizationByType = {};
         this.utilizationByProfile = {};
         this.id = this.routeParamsSvc['id'];
         this.cluster = {};
         this.capacity = {};
-        this.memoryUtilization = { title: "", data: {}, config: {} };
-        this.hosts = { total: 0, warning: 0, critical: 0 };
-        this.pgs = { total: 0, warning: 0, critical: 0 };
-        this.osds = { total: 0, warning: 0, critical: 0 };
-        this.objects = { total: 0, warning: 0, critical: 0 };
-        this.pools = { total: 0, warning: 0, critical: 0 };
-        this.monitors = { total: 0, warning: 0, critical: 0 };
+        this.trendsCharts = {
+            cpu: {title:"",data:{},config:{}},
+            memory: {title:"",data:{},config:{}},
+            latency: {title:"",data:{},config:{}},
+            throughput: {title:"",data:{},config:{}},
+            iops: {title:"",data:{},config:{}}
+        };
+        this.hosts = { total: 0, error: 0, unaccepted: 0 };
+        this.pgs = { total: 0, error: 0 };
+        this.osds = { total: 0, error: 0 };
+        this.objects = { total: 0, error: 0 };
+        this.pools = { total: 0, down: 0 };
+        this.monitors = { total: 0, error: 0 };
         this.timeSlots = [{ name: "Last 1 hour", value: "-1h" },
                          { name: "Last 2 hours", value: "-2h" },
-                         { name: "Last 24 weeks", value: "" }];
+                         { name: "Last 24 hours", value: "" }];
         this.selectedTimeSlot = this.timeSlots[0];
-
-        this.getUtilizationByType();
-        this.getOpenStackPools();
-        this.getMostUsedPools();
-        this.serverService.getDiscoveredHosts().then((freeHosts) => {
-            this.discoveredHostsLength = freeHosts.length;
-        });
         this.clusterService.getList().then((clusters: Array<any>) => {
            this.clusterList = clusters;
         });
-        this.clusterService.getSlus(this.id).then((slus: Array<any>) => {
-           this.osds.total = slus.length;
-        });
-        this.clusterService.getClusterObjects(this.id).then((clusterObjects: Array<any>) => {
-           this.objects.total = clusterObjects[0].datapoints[0][1];
-        });
-        this.storageService.getListByCluster(this.id).then((storages: Array<any>) => {
-           this.pools.total = storages.length;
-        });
-        this.getMemoryUtilization(this.selectedTimeSlot);
         this.clusterService.get(this.id).then((cluster) => this.loadCluster(cluster));
-        this.clusterService.getClusterUtilization(this.id).then((utilizations) => this.getClusterUtilization(utilizations));
-        this.clusterService.getStorageProfileUtilization(this.id).then((utilizations) => this.getUtilizationByProfile(utilizations));
-        this.serverService.getListByCluster(this.id).then((hosts) => this.getHostStatus(hosts));
-        this.serverService.getList().then((nodes) => this.getMonitors(nodes));
-
+        this.clusterService.getClusterSummary(this.id).then((summary) => this.loadClusterSummary(summary));
+        this.changeTimeSlot(this.selectedTimeSlot);
         this.timer = this.intervalSvc(() => this.refreshRBDs(), 5000);
         this.scopeService.$on('$destroy', () => {
             this.intervalSvc.cancel(this.timer);
         });
         this.refreshRBDs();
-    }
-
-    public getMemoryUtilization(timeSlot: any) {
-        this.clusterService.getClusterMemoryUtilization(this.id,timeSlot.value).then((memory_utilization) => {
-            var times = [];
-            var used = [];
-            times.push("dates");
-            used.push("used");
-            var usageDataArray = memory_utilization[0].datapoints;
-            for (var index in usageDataArray) {
-              var subArray = usageDataArray[index];
-              times.push(new Date(subArray[1]));
-              used.push(Math.round(subArray[0]));
-            }
-            this.memoryUtilization = {
-                title: "Memory utilization",
-                data: {
-                      dataAvailable: true,
-                      total: 100,
-                      xData: times,
-                      yData: used
-                },
-                config: {
-                    chartId      : 'memoryUtilization',
-                    title        : 'Memory Utilization Trends',
-                    layout       : 'inline',
-                    valueType    : 'actual'
-                }
-            }
-        });
-    }
-
-    public getUtilizationByType() {
-        this.utilizationByType.title = 'Utilization by storage type';
-        this.utilizationByType.data = {
-          'total': '100',
-          'subdata' : [ { "used" : 45 , "color" : "#00558a" , "subtitle" : "Object" },
-                        { "used" : 15 , "color" : "#0071a6" , "subtitle" : "Block" },
-                        { "used" :  5 , "color" : "#00a8e1" , "subtitle" : "OpenStack" }]
-        };
-        this.utilizationByType.layout = {
-          'type': 'multidata'
-        };
-    }
-
-    public getUtilizationByProfile(utilizations: Array<any>) {
-        this.utilizationByProfile.title = 'Utilization by storage profile';
-        this.utilizationByProfile.layout = {
-          'type': 'multidata'
-        };
-        var subdata = [];
-        _.each(utilizations, (utilization: any) => {
-            var label = utilization.target.split('.');
-            var usedData  = utilization.datapoints[0][0];
-            if( label[3] === 'usage_percent' ) {
-                if ( label[2] === 'storage_profile_utilization_general') {
-                    subdata.push({ "used" : usedData , "color" : "#00558a" , "subtitle" : "General" });
-                }
-                else if (label[2] === 'storage_profile_utilization_sas') {
-                    subdata.push({ "used" : usedData , "color" : "#0071a6" , "subtitle" : "SAS" });
-                }else if (label[2] === 'storage_profile_utilization_ssd') {
-                    subdata.push({ "used" : usedData , "color" : "#00a8e1" , "subtitle" : "SSD" });
-                }
-            }
-        });
-        this.utilizationByProfile.data = {
-          'total': '100',
-          'subdata' : subdata
-        };
-    }
-
-    public getOpenStackPools() {
-        this.openStackPools.push({"title":"Cinder","units":"GB","data":{"used":"25","total":"100"}});
-        this.openStackPools.push({"title":"Cinder-Backup","units":"GB","data":{"used":"75","total":"100"}});
-        this.openStackPools.push({"title":"Glance","units":"GB","data":{"used":"86","total":"100"}});
-        this.openStackPools.push({"title":"Nova","units":"GB","data":{"used":"30","total":"100"}});
-    }
-
-    public getMostUsedPools() {
-        this.mostUsedPools.push({"title":"Pool1","units":"GB","data":{"used":"85","total":"100"}});
-        this.mostUsedPools.push({"title":"Pool2","units":"GB","data":{"used":"75","total":"100"}});
-        this.mostUsedPools.push({"title":"Pool3","units":"GB","data":{"used":"95","total":"100"}});
-        this.mostUsedPools.push({"title":"Pool4","units":"GB","data":{"used":"30","total":"100"}});
     }
 
     public loadCluster(cluster: any) {
@@ -223,50 +123,157 @@ export class ClusterDetailController {
         this.cluster.enabled = cluster.enabled;
     }
 
-    public getClusterUtilization(utilizations: Array<any>) {
-        _.each(utilizations, (utilization: any) => {
-            var label = utilization.target.split('.')[3];
-            var data  = utilization.datapoints[0][0];
-            var dataFormated = numeral(data).format('0 b');
-            if ( label === 'total_bytes') {
-                this.capacity.total = dataFormated;
-                this.clusterUtilization.data.total = data;
-            }
-            else if (label === 'used_bytes') {
-                this.capacity.used = dataFormated;
-                this.clusterUtilization.data.used = data;
-            }
-        });
+    public loadClusterSummary(summary) {
+        this.getClusterUtilization(summary.usage);
+        this.getUtilizationByProfile(summary.storageprofileusage);
+        this.getMostUsedPools(summary.storageusage);
+        this.objects.total = summary.objectcount.num_objects;
+        this.objects.error = summary.objectcount.num_objects_degraded;
+        this.pools = summary.storagecount
+        this.osds = summary.slucount;
+        this.hosts = summary.nodescount;
+        this.monitors.total = summary.providermonitoringdetails.ceph.monitor;
+    }
+
+    public getClusterUtilization(usage: any) {
+        this.capacity = usage;
+        this.clusterUtilization.data = usage
         this.clusterUtilization.config.chartId = "utilizationChart";
-        this.clusterUtilization.config.units = "GB";
         this.clusterUtilization.config.thresholds = {'warning':'60','error':'90'};
-        this.clusterUtilization.config.legend = {"show":false};
         this.clusterUtilization.config.tooltipFn = (d) => {
               return '<span class="donut-tooltip-pf"style="white-space: nowrap;">' +
                        numeral(d[0].value).format('0 b') + ' ' + d[0].name +
                      '</span>';
         };
         this.clusterUtilization.config.centerLabelFn = () => {
-              return Math.round(100 * (this.clusterUtilization.data.used / this.clusterUtilization.data.total)) + "% Used";
+              return Math.round(usage.percentused) + "% Used";
         };
     }
 
-    public getHostStatus(hosts: any) {
-        this.hosts.total = hosts.length;
-        var warning = 0, critical = 0;
-        _.each(hosts, (host: any) => {
-            if (host.node_status === 1) {
-                critical++;
+    public getUtilizationByProfile(profiles: any) {
+        this.utilizationByProfile.title = 'Utilization by storage profile';
+        this.utilizationByProfile.layout = {
+          'type': 'multidata'
+        };
+        var subdata = [];
+        var othersProfile = { "used": 0, "total": 0};
+        Object.keys(profiles).forEach((profile) => {
+            var usedData = Math.round(profiles[profile]["percentused"]);
+            if(profile === 'general') {
+                subdata.push({ "used" : usedData , "color" : "#004368" , "subtitle" : "General" });
+            }else if(profile === 'sas') {
+                subdata.push({ "used" : usedData , "color" : "#00659c" , "subtitle" : "SAS" });
+            }else if(profile === 'ssd') {
+                subdata.push({ "used" : usedData , "color" : "#39a5dc" , "subtitle" : "SSD" });
+            }else{
+                othersProfile.used = othersProfile.used + profiles[profile]["used"];
+                othersProfile.total = othersProfile.total + profiles[profile]["total"];
             }
         });
-        this.hosts.critical = critical;
+        var othersProfilePercent = Math.round(100 * (othersProfile.used / othersProfile.total));
+        if (othersProfilePercent > 0) {
+            subdata.push({ "used" : othersProfilePercent , "color" : "#7dc3e8" , "subtitle" : "Others" });
+        }
+        this.utilizationByProfile.data = {
+          'total': '100',
+          'subdata' : subdata
+        };
     }
 
-    public getMonitors(nodes: any) {
-        _.each(nodes, (node: any) => {
-            if (node.clusterid === this.id && node.options1.mon === 'Y') {
-                this.monitors.total++;
+    public getCpuUtilization(timeSlot: any) {
+        this.clusterService.getClusterCpuUtilization(this.id,timeSlot.value).then((cpu_utilization) => {
+            this.setGraphData(cpu_utilization,"cpu","Cpu utilization","");
+            var currentState = cpu_utilization[0].target.split(" ")[1].split(":");
+            if(currentState[0] === 'Current') {
+                this.setGraphUtilization({"total":100,"used":parseInt(currentState[1])},'cpu');
             }
+        });
+    }
+
+    public getMemoryUtilization(timeSlot: any) {
+        this.clusterService.getClusterMemoryUtilization(this.id,timeSlot.value).then((memory_utilization) => {
+            this.setGraphData(memory_utilization,"memory","Memory utilization","");
+            var currentState = memory_utilization[0].target.split(" ")[1].split(":");
+            if(currentState[0] === 'Current') {
+                this.setGraphUtilization({"total":100,"used":parseInt(currentState[1])},'memory');
+            }
+        });
+    }
+
+    public getIOPS(timeSlot: any) {
+        this.clusterService.getIOPS(this.id,timeSlot.value).then((iops) => {
+            this.setGraphData(iops,"iops","IOPS","K");
+        });
+    }
+
+    public getThroughput(timeSlot: any) {
+        this.clusterService.getThroughput(this.id,timeSlot.value).then((throughput) => {
+            this.setGraphData(throughput,"throughput","Throughput","KB/s");
+        });
+    }
+
+    public getNetworkLatency(timeSlot: any) {
+        this.clusterService.getNetworkLatency(this.id,timeSlot.value).then((network_latency) => {
+            this.setGraphData(network_latency,"latency","Latency","ms");
+        });
+    }
+
+    public setGraphUtilization(usage, value) {
+        this.systemUtilization[value].data = usage
+        this.systemUtilization[value].config.chartId = value;
+        this.systemUtilization[value].config.thresholds = {'warning':'60','error':'90'};
+        this.systemUtilization[value].config.tooltipFn = (d) => {
+              return '<span class="donut-tooltip-pf"style="white-space: nowrap;">' +
+                       numeral(d[0].value).format('0 b') + ' ' + d[0].name +
+                     '</span>';
+        };
+        this.systemUtilization[value].config.centerLabelFn = () => {
+              return Math.round(usage.used) + "% Used";
+        };
+    }
+
+
+    public setGraphData(graphArray, value, graphTitle, graphUnits) {
+        var times = [];
+        var used = [];
+        times.push("dates");
+        used.push("used");
+        var usageDataArray = graphArray[0].datapoints;
+        for (var index in usageDataArray) {
+          var subArray = usageDataArray[index];
+          times.push(new Date(subArray[1]));
+          used.push(Math.round(subArray[0]));
+        }
+        this.trendsCharts[value] = {
+            title: graphTitle,
+            data: {
+                  dataAvailable: true,
+                  total: 100,
+                  xData: times,
+                  yData: used
+            },
+            config: {
+                chartId      :  value,
+                title        :  graphTitle,
+                layout       : 'compact',
+                valueType    : 'actual',
+                units        :  graphUnits,
+            }
+        }
+    }
+
+    public changeTimeSlot(time: any) {
+        this.selectedTimeSlot = time;
+        this.getCpuUtilization(this.selectedTimeSlot);
+        this.getMemoryUtilization(this.selectedTimeSlot);
+        this.getIOPS(this.selectedTimeSlot);
+        this.getThroughput(this.selectedTimeSlot);
+        this.getNetworkLatency(this.selectedTimeSlot);
+    }
+
+    public getMostUsedPools(mostUsedPools) {
+        _.each(mostUsedPools, (pool) => {
+            this.mostUsedPools.push({"title":pool["name"],"data":pool["usage"]});
         });
     }
 
@@ -276,11 +283,6 @@ export class ClusterDetailController {
 
     public isSet(tabNum: number) {
         return this.tabIndex === tabNum;
-    }
-
-    public changeTimeSlot(time: any) {
-        this.selectedTimeSlot = time;
-        this.getMemoryUtilization(this.selectedTimeSlot);
     }
 
     public refreshRBDs() {
