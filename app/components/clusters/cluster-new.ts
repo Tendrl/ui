@@ -528,6 +528,10 @@ export class ClusterNewController {
         });
     }
 
+    public getOSDHosts() {
+        return _.filter(this.hosts, host => host.selected && this.isOsd(host.hostType));
+    }
+
     public getMonCount(){
             var count: number=0;
             _.each(this.hosts, (host: any) => {

@@ -17,7 +17,7 @@
       </div>
       <div class="step" ng-class="cluster.step == 4 ? 'step-active' : (cluster.step > 4 ? 'step-visited' : 'step-default')">
         <div class="step-line"><i class="fa fa-circle"></i></div>
-        <div class="step-text">4. Provision Storage</div>
+        <div class="step-text">4. Storage Profiles</div>
       </div>
       <div class="step" ng-class="cluster.step == 5 ? 'step-active' : (cluster.step > 5 ? 'step-visited' : 'step-default')">
         <div class="step-line step-line-last"><i class="fa fa-circle"></i></div>
@@ -40,7 +40,7 @@
         <div ng-include src="'views/clusters/clusters-new-networks.html'"> </div>
       </div>
       <div ng-switch-when="4">
-        <div ng-include src="'views/clusters/clusters-new-options.html'"> </div>
+        <div ng-include src="'views/clusters/clusters-new-storage.html'"> </div>
       </div>
       <div ng-switch-when="5">
         <div ng-include src="'views/clusters/clusters-new-summary.html'"> </div>

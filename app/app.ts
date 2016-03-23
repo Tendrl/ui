@@ -16,7 +16,6 @@ import {ClustersController} from "./components/clusters/clusters-controller";
 import {ClusterExpandController} from "./components/clusters/cluster-expand";
 import {ClusterNewController} from "./components/clusters/cluster-new";
 import {ClusterDetailController} from "./components/clusters/cluster-detail";
-import {StorageProfileDisksController} from './components/clusters/storageprofile/storage-profile-disks';
 import {UserController} from "./components/admin/user-controller";
 import {UserNewController} from "./components/admin/user-new";
 import {UserEditController} from "./components/admin/user-edit";
@@ -33,6 +32,7 @@ import {KTDroppable} from "./components/shared/directives/kt-droppable";
 import {StorageSizeSelector} from "./components/shared/directives/storage-size-selector";
 import {OsdDetail} from "./components/clusters/osdsdetail/osd-detail-directive";
 import {HostList} from "./components/clusters/hostdetail/host-list-directive";
+import {StorageProfileDisks} from './components/clusters/storageprofile/storageprofile-disks';
 
 import {BytesFilter} from './components/shared/filters/bytes';
 
@@ -88,7 +88,6 @@ class USMApp {
             .controller('ClusterExpandController', ClusterExpandController)
             .controller('ClusterNewController', ClusterNewController)
             .controller('ClusterDetailController', ClusterDetailController)
-            .controller('StorageProfileDisksController', StorageProfileDisksController)
             .controller('UserController',UserController)
             .controller('UserNewController',UserNewController)
             .controller('UserEditController',UserEditController)
@@ -98,6 +97,7 @@ class USMApp {
             .directive('storageSizeSelector', () => new StorageSizeSelector())
             .directive('osdDetail', () => new OsdDetail())
             .directive('hostList', () => new HostList())
+            .directive('storageprofileDisks', () => new StorageProfileDisks())
             .filter('bytes', BytesFilter)
             .controller('LdapConfigController',LdapConfigController)
             .controller('EventListController',EventListController)

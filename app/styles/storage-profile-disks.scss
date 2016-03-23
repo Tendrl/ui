@@ -1,10 +1,5 @@
 .storage-profile-disks {
-    .storage-profile-disks-dialog {
-        width: 60% !important;
-    }
-
     .storage-profiles-header {
-        margin-bottom: 10px;
         a {
             text-decoration: none;
         }
@@ -12,5 +7,33 @@
 
     .storage-profile-new {
         margin-bottom: 10px;
+    }
+
+    .storage-profile-list {
+        border: 1px solid lightgray;
+    }
+
+    .available-disks {
+        padding-top: 10px;
+        max-height: 300px;
+        overflow: auto;
+    }
+
+    .disk-card {
+        margin-bottom: 10px;
+        border: 1px solid lightgray;
+
+        .disk-card-body {
+            height: 50px;
+            padding: 5px;
+            word-wrap: break-word;
+        }
+
+        .disk-card-footer {
+            height: 20px;
+            padding-left: 5px;
+            border: 1px solid lightgray;
+            background-color: darkgray;
+        }
     }
 }

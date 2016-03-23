@@ -1,0 +1,43 @@
+<div class="storage-profile-disks">
+    <em>You may sort disks by dragging and dropping them between profiles</em>
+    <div class="row">
+        <div class="col-md-4">
+            <div class="storage-profiles-header">
+                <h4>
+                    Storage Profiles
+                    <a class="pf-icon pficon-add-circle-o pull-right" href="" title="Add Profile" ng-click="vm.add=true;"></a>
+                </h4>
+            </div>
+            <div class="storage-profile-new" ng-if="vm.add">
+                <input type="text" ng-model="vm.newProfile" placeholder="Profile name"></input>
+                <button type="button" class="btn btn-primary" ng-click="vm.addProfile(vm.newProfile)">Add</button>
+                <button type="button" class="btn btn-default" ng-click="vm.add=false;">Cancel</button>
+            </div>
+            <div class="list-group storage-profile-list">
+                <a class="list-group-item" ng-class="{active: storageProfile.name === vm.selectedProfile.name}" href="" ng-repeat="storageProfile in vm.storageProfiles"
+                ng-click="vm.selectStorageProfile(storageProfile)" kt-droppable="vm.diskMoved(storageProfile, data)">
+                    <h4 class="list-group-item-heading">{{storageProfile.name}}</h4>
+                    <p class="list-group-item-text">
+                        {{vm.getDisksForStorageProfile(storageProfile).length}} Disks {{vm.getStorageProfileSize(storageProfile) | bytes}}
+                    </p>
+                </a>
+            </div>
+        </div>
+        <div class="col-md-8">
+            <h4>Available Disks</h4>
+            <div class="row available-disks">
+                <div class="col-md-3" ng-repeat="storageDisk in vm.getDisksForStorageProfile(vm.selectedProfile) as disks">
+                    <div id='disk1' class="disk-card" kt-draggable="storageDisk">
+                        <div class="disk-card-body">
+                            <p>{{storageDisk.hostname}}:{{storageDisk.Name}}</p>
+                        </div>
+                        <div class="disk-card-footer">{{ storageDisk.Size | bytes }}</div>
+                    </div>
+                </div>
+            </div>
+            <span ng-if="disks.length === 0">
+                <em>No disks found for the storage profile</em>
+            </span>
+        </div>
+    </div>
+</div>

@@ -130,7 +130,7 @@ export class ServerService {
     // **get**
     // **@returns** a promise with this specific server's metadata.
     get(id) {
-        return this.rest.one('hosts', id).get().then(function(server) {
+        return this.rest.one('nodes', id).get().then(function(server) {
             return server;
         });
     }

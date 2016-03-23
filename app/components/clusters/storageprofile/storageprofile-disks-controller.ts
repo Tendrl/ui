@@ -7,6 +7,8 @@ import {StorageProfileService} from '../../rest/storage-profile';
 import {numeral} from '../../base/libs';
 
 export class StorageProfileDisksController {
+    private hosts;
+    private hostsCallback;
     private storageProfiles: StorageProfile[];
     private selectedProfile: StorageProfile;
     private add = false;
@@ -26,6 +28,9 @@ export class StorageProfileDisksController {
     }
 
     public loadData() {
+        if(!this.hosts) {
+            this.hosts = this.hostsCallback();
+        }
         this.storageProfileDisks = {};
         this.storageProfileSvc.getList().then((list) => {
             this.storageProfiles = list;
@@ -33,21 +38,13 @@ export class StorageProfileDisksController {
             for (var storageProfile of this.storageProfiles) {
                 this.storageProfileDisks[storageProfile.name] = [];
             }
-            return this.serverSvc.getList();
-        }).then((nodes) => {
-            for (var node of nodes) {
-                for (var disk of node.storage_disks) {
-                    disk.nodeid = node.nodeid;
-                    disk.hostname = node.hostname;
-                }
-            }
-            var disks = _.reduce(nodes, function(arr: any[], node) {
-                return arr.concat(node.storage_disks);
-            }, []);
-            this.storageDisks = disks;
-            for (var storageDisk of this.storageDisks) {
-                if (storageDisk.Type === 'disk' && storageDisk.StorageProfile && storageDisk.StorageProfile.length > 0) {
-                    this.storageProfileDisks[storageDisk.StorageProfile].push(storageDisk);
+            for (var host of this.hosts) {
+                for (var disk of host.disks) {
+                    if (disk.Type === 'disk' && disk.Used === false && disk.StorageProfile && disk.StorageProfile.length > 0) {
+                        disk.nodeid = host.id;
+                        disk.hostname = host.hostname.split('.')[0];
+                        this.storageProfileDisks[disk.StorageProfile].push(disk);
+                    }
                 }
             }
         });
@@ -58,28 +55,28 @@ export class StorageProfileDisksController {
     }
 
     public getDisksForStorageProfile(storageProfile: StorageProfile): any[] {
-        return this.storageProfileDisks[storageProfile.name];
+        return storageProfile && this.storageProfileDisks[storageProfile.name];
     }
 
-    public getStorageProfileSize(storageProfile: StorageProfile): string {
+    public getStorageProfileSize(storageProfile: StorageProfile): number {
         var size = _.reduce(this.storageProfileDisks[storageProfile.name], function(size, disk: any) {
             return size + disk.Size;
         }, 0)
-        return numeral(size).format('0.0 b');;
-    }
-
-    public getDiskSize(disk): string {
-        return numeral(disk.Size).format('0.0 b');
+        return size;
     }
 
     public diskMoved(storageProfile: StorageProfile, disk) {
         console.log(disk);
-        var prevProfile = disk['StorageProfile'];
-        disk['StorageProfile'] = storageProfile.name;
-        _.remove(this.storageProfileDisks[prevProfile], function(d) {
-            return disk.nodeid === d.nodeid && disk.DevName === d.DevName;
+        this.serverSvc.updateDiskStorageProfile(disk.nodeid, disk.DiskId, storageProfile.name).then(result => {
+            if (result.status === 200) {
+                var prevProfile = disk['StorageProfile'];
+                disk['StorageProfile'] = storageProfile.name;
+                _.remove(this.storageProfileDisks[prevProfile], function(d) {
+                    return disk.nodeid === d.nodeid && disk.DevName === d.DevName;
+                });
+                this.storageProfileDisks[storageProfile.name].push(disk);
+            }
         });
-        this.storageProfileDisks[storageProfile.name].push(disk);
     }
 
     public addProfile(profileName: string) {
@@ -91,19 +88,6 @@ export class StorageProfileDisksController {
         }).then((storageProfile: StorageProfile) => {
             this.storageProfiles.push(storageProfile);
             this.storageProfileDisks[profileName] = [];
-        });
-    }
-
-    public submit() {
-        var requests = [];
-        for (var storageProfile of this.storageProfiles) {
-            var disks = this.storageProfileDisks[storageProfile.name];
-            for (var disk of disks) {
-                requests.push(this.serverSvc.updateDiskStorageProfile(disk.nodeid, disk.DiskId, disk.StorageProfile));
-            }
-        }
-        this.$q.all(requests).then((results) => {
-            console.log(results);
         });
     }
 }
