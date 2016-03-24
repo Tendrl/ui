@@ -25,18 +25,19 @@ export interface Node {
 export interface UsageData {
     used: number;
     total: number;
+    percentused?: number;
 }
 
 export interface DashboardSummaryData {
      name: string;
      usage: UsageData;
      storageprofileusage: { general?: UsageData, sas?: UsageData, ssd?: UsageData};
-     objectcnt: number;
      storagecount: { total: number, down: number };
      slucount: { total: number };
      nodescount: { error: number, total: number, unaccepted: number };
      clusterscount: { total: number, error: number };
-     providermonitoringdetails: { ceph: { monitor: number } };
+     providermonitoringdetails: { ceph: { monitor: number, objects: { num_objects: number, num_objects_degraded: number } } };
+     storageusage: Array<{ name: string, usage: { total: number, used: number} }>;
 }
 
 enum AlarmStatus {
@@ -197,6 +198,46 @@ export class ServerService {
             return _.filter(devices, function(device) {
                 return device.inuse === false && device.device_type === 'disk';
             });
+        });
+    }
+
+    // **getSystemCpuUtilization**
+    // **@returns** a promise with Average CPU Utilization across all the nodes in system.
+    getSystemCpuUtilization(time_slot) {
+        return this.rest.all('monitoring/target=cactiStyle(collectd.system.cpu-user)&format=json&duration='+time_slot).getList().then(function(cpu_utilization) {
+            return cpu_utilization;
+        });
+    }
+
+    // **getSystemMemoryUtilization**
+    // **@returns** a promise with Average Memory Utilization across all the nodes in system.
+    getSystemMemoryUtilization(time_slot) {
+        return this.rest.all('monitoring/target=cactiStyle(collectd.system.memory-usage_percent)&format=json&duration='+time_slot).getList().then(function(memory_utilization) {
+            return memory_utilization;
+        });
+    }
+
+    // **getIOPS**
+    // **@returns** a promise with disks IOPS.
+    getIOPS(time_slot) {
+        return this.rest.all('monitoring/target=cactiStyle(collectd.system.disk-read_write)&format=json&duration='+time_slot).getList().then(function(iops) {
+            return iops;
+        });
+    }
+
+    // **getThroughput**
+    // **@returns** a promise with network throughput.
+    getThroughput(time_slot) {
+        return this.rest.all('monitoring/target=cactiStyle(collectd.system.interface-rx_tx)&format=json&duration='+time_slot).getList().then(function(throughput) {
+            return throughput;
+        });
+    }
+
+    // **getNetworkLatency**
+    // **@returns** a promise with network latency.
+    getNetworkLatency(time_slot) {
+        return this.rest.all('monitoring/target=cactiStyle(collectd.system.network_latency)&format=json&duration='+time_slot).getList().then(function(network_latency) {
+            return network_latency;
         });
     }
 

@@ -23,16 +23,6 @@
                                             <span ng-if="dash.clusters.error===0" class="card-pf-aggregate-status-notification"><a href="">
                                                 <span class="pficon pficon-ok"></span></a>
                                             </span>
-                                            <!-- <div class="indicator-for-clusters">
-                                                <div class="near-full">
-                                                    <span class="pficon pficon-warning-triangle-o"></span>
-                                                    <span> 1 Near Full </span>
-                                                </div>
-                                                <div class="lost-quorum">
-                                                    <span class="pficon pficon-error-circle-o"></span>
-                                                    <span> 1 Lost Quorum </span>
-                                                </div>
-                                            </div> -->
                                         </p>
                                     </div>
                                 </div>
@@ -42,8 +32,8 @@
                                     <div class="row">
                                         <div class="col-xs-12 col-sm-12 col-md-3">
                                             <h2 class="card-pf-title">
-                                                <a href="">{{dash.capacity.used}} Used</a>
-                                                <p><small>of {{dash.capacity.total}} Total</small></p>
+                                                <a href="">{{dash.capacity.used | bytes }} Used</a>
+                                                <p><small>of {{dash.capacity.total | bytes }} Total</small></p>
                                             </h2>
                                             <div class="card-pf-body">
                                                 <div ng-if="dash.utilization.data.total > 0">
@@ -53,9 +43,6 @@
                                         </div>
                                         <div class="col-xs-12 col-sm-12 col-md-9">
                                             <div class="utilization">
-                                                <!-- <div class="margin-for-storage-type">
-                                                    <div pf-utilization-bar-chart chart-data="dash.utilizationByType.data" chart-title="dash.utilizationByType.title" layout="dash.utilizationByType.layout"></div>
-                                                </div> -->
                                                 <div class="margin-for-storage-profile">
                                                     <div pf-utilization-bar-chart chart-data="dash.utilizationByProfile.data" chart-title="dash.utilizationByProfile.title" layout="dash.utilizationByProfile.layout"></div>
                                                 </div>
@@ -189,7 +176,7 @@
                 </div><!-- Third row end-->
 
                 <!-- Fourth row -->
-                <!-- <div class="row row-cards-pf">
+                <div class="row row-cards-pf">
                     <div class="col-xs-12 col-sm-12 col-md-12">
                         <div class="card-pf card-pf-aggregate-status card-pf-with-action">
                             <div class="row">
@@ -205,44 +192,62 @@
                             </div>
                             <hr>
                             <div class="row">
-                                <div class="col-xs-12 col-sm-12 col-md-5">
-                                    <div class="card-pf-body" ng-repeat="obj in dash.systemPerformance.slice(0, 2)">
-                                        <small>{{obj.title}}</small>
-                                        <div pf-trends-chart config="obj.config" chart-data="obj.data"></div>
+                                <div class="col-xs-12 col-sm-12 col-md-3">
+                                    <div class="card-pf-body">
+                                        <center><label>CPU</label></center>
+                                        <div ng-if="dash.systemUtilization.cpu.data.total > 0">
+                                            <div pf-donut-pct-chart config="dash.systemUtilization.cpu.config" data="dash.systemUtilization.cpu.data" center-label="dash.systemUtilization.cpu.label">
+                                            </div>
+                                        </div>
+                                        <div ng-if="dash.trendsCharts.cpu.data.total>0" pf-sparkline-chart config="dash.trendsCharts.cpu.config" chart-data="dash.trendsCharts.cpu.data">
+                                        </div>
                                     </div>
                                 </div>
-                                <div class="col-xs-12 col-sm-12 col-md-7">
-                                    <div class="card-pf-body" ng-repeat="obj in dash.systemPerformance.slice(2, 6)">
-                                        <small>{{obj.title}}</small>
-                                        <div pf-trends-chart config="obj.config" chart-data="obj.data"></div>
+                                <div class="col-xs-12 col-sm-12 col-md-3">
+                                    <div class="card-pf-body">
+                                        <center><label>Memory</label></center>
+                                        <div ng-if="dash.systemUtilization.memory.data.total > 0">
+                                            <div pf-donut-pct-chart config="dash.systemUtilization.memory.config" data="dash.systemUtilization.memory.data" center-label="dash.systemUtilization.memory.label">
+                                            </div>
+                                        </div>
+                                        <div ng-if="dash.trendsCharts.memory.data.total>0" pf-sparkline-chart config="dash.trendsCharts.memory.config" chart-data="dash.trendsCharts.memory.data">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-xs-12 col-sm-12 col-md-6">
+                                    <div class="card-pf-body">
+                                        <div pf-trends-chart config="dash.trendsCharts.iops.config" chart-data="dash.trendsCharts.iops.data"></div>
+                                    </div>
+                                    <div class="card-pf-body">
+                                        <div pf-trends-chart config="dash.trendsCharts.throughput.config" chart-data="dash.trendsCharts.throughput.data"></div>
+                                    </div>
+                                    <div class="card-pf-body">
+                                        <div pf-trends-chart config="dash.trendsCharts.latency.config" chart-data="dash.trendsCharts.latency.data"></div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div> -->
-
+                </div><!-- Fourth row end -->
             </div>
-
             <!-- Utilization SideBar -->
             <div class="col-xs-12 col-sm-6 col-md-3 sidebar-pf sidebar-pf-right" style="min-height: 896px;">
                 <div class="row row-cards-pf">
                     <div class="col-xs-12 col-sm-12 col-md-12">
-                        <!-- <div class="card-pf">
+                        <div class="card-pf" ng-if="dash.mostUsedPools.length>0">
                             <div class="card-pf-heading">
                                 <h2 class="card-pf-title">
                                     Most Used Pools
                                 </h2>
                             </div>
                             <div class="card-pf-body">
-                                <div ng-repeat="data in dash.mostUsedPools" pf-utilization-bar-chart chart-data="data.data" chart-title="data.title" units="data.units" threshold-error="85" threshold-warning="60">
+                                <div ng-repeat="data in dash.mostUsedPools" pf-utilization-bar-chart chart-data="data.data" chart-title="data.title" threshold-error="85" threshold-warning="60" layout=layoutInline footer-label-format='percent'>
                                 </div>
                             </div>
-                        </div> -->
+                        </div>
                     </div>
                 </div><!-- /row -->
             </div>
         </div><!-- End of Fisrt Big row -->
     </div>
-
 </div>
