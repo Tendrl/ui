@@ -19,7 +19,9 @@ export class TaskDetailController {
         private $interval: ng.IIntervalService,
         private routeParamsSvc: ng.route.IRouteParamsService,
         private requestSvc: RequestService) {
-        this.taskId = this.routeParamsSvc['taskId'];
+        if(this.taskId === undefined){
+            this.taskId = this.routeParamsSvc['taskId'];
+        }
         this.timer = this.$interval(() => this.refresh(), 5000);
         this.$scope.$on('$destroy', () => {
             this.$interval.cancel(this.timer);
