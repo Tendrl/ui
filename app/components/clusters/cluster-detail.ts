@@ -108,7 +108,6 @@ export class ClusterDetailController {
         });
         this.clusterService.get(this.id).then((cluster) => this.loadCluster(cluster));
         this.clusterService.getClusterSummary(this.id).then((summary) => this.loadClusterSummary(summary));
-        this.changeTimeSlot(this.selectedTimeSlot);
         this.timer = this.intervalSvc(() => this.refreshRBDs(), 5000);
         this.scopeService.$on('$destroy', () => {
             this.intervalSvc.cancel(this.timer);
@@ -121,6 +120,7 @@ export class ClusterDetailController {
         this.cluster.type = this.clusterHelpers.getClusterType(cluster.cluster_type);
         this.cluster.status = cluster.status;
         this.cluster.enabled = cluster.enabled;
+        this.changeTimeSlot(this.selectedTimeSlot);
     }
 
     public loadClusterSummary(summary) {
@@ -181,7 +181,7 @@ export class ClusterDetailController {
     }
 
     public getCpuUtilization(timeSlot: any) {
-        this.clusterService.getClusterCpuUtilization(this.id,timeSlot.value).then((cpu_utilization) => {
+        this.clusterService.getClusterCpuUtilization(this.cluster.name,timeSlot.value).then((cpu_utilization) => {
             this.setGraphData(cpu_utilization,"cpu","Cpu utilization","");
             var currentState = cpu_utilization[0].target.split(" ")[1].split(":");
             if(currentState[0] === 'Current') {
@@ -191,7 +191,7 @@ export class ClusterDetailController {
     }
 
     public getMemoryUtilization(timeSlot: any) {
-        this.clusterService.getClusterMemoryUtilization(this.id,timeSlot.value).then((memory_utilization) => {
+        this.clusterService.getClusterMemoryUtilization(this.cluster.name,timeSlot.value).then((memory_utilization) => {
             this.setGraphData(memory_utilization,"memory","Memory utilization","");
             var currentState = memory_utilization[0].target.split(" ")[1].split(":");
             if(currentState[0] === 'Current') {
@@ -201,19 +201,19 @@ export class ClusterDetailController {
     }
 
     public getIOPS(timeSlot: any) {
-        this.clusterService.getIOPS(this.id,timeSlot.value).then((iops) => {
+        this.clusterService.getIOPS(this.cluster.name,timeSlot.value).then((iops) => {
             this.setGraphData(iops,"iops","IOPS","K");
         });
     }
 
     public getThroughput(timeSlot: any) {
-        this.clusterService.getThroughput(this.id,timeSlot.value).then((throughput) => {
+        this.clusterService.getThroughput(this.cluster.name,timeSlot.value).then((throughput) => {
             this.setGraphData(throughput,"throughput","Throughput","KB/s");
         });
     }
 
     public getNetworkLatency(timeSlot: any) {
-        this.clusterService.getNetworkLatency(this.id,timeSlot.value).then((network_latency) => {
+        this.clusterService.getNetworkLatency(this.cluster.name,timeSlot.value).then((network_latency) => {
             this.setGraphData(network_latency,"latency","Latency","ms");
         });
     }

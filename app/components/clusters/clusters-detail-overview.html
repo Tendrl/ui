@@ -172,7 +172,7 @@
                                         <div pf-donut-pct-chart config="clusterdetail.systemUtilization.cpu.config" data="clusterdetail.systemUtilization.cpu.data" center-label="clusterdetail.systemUtilization.cpu.label">
                                         </div>
                                     </div>
-                                    <div pf-sparkline-chart config="clusterdetail.trendsCharts.cpu.config" chart-data="clusterdetail.trendsCharts.cpu.data">
+                                    <div ng-if="clusterdetail.trendsCharts.cpu.data.total>0" pf-sparkline-chart config="clusterdetail.trendsCharts.cpu.config" chart-data="clusterdetail.trendsCharts.cpu.data">
                                     </div>
                                 </div>
                             </div>
@@ -183,7 +183,7 @@
                                         <div pf-donut-pct-chart config="clusterdetail.systemUtilization.memory.config" data="clusterdetail.systemUtilization.memory.data" center-label="clusterdetail.systemUtilization.memory.label">
                                         </div>
                                     </div>
-                                    <div pf-sparkline-chart config="clusterdetail.trendsCharts.memory.config" chart-data="clusterdetail.trendsCharts.memory.data">
+                                    <div ng-if="clusterdetail.trendsCharts.memory.data.total>0" pf-sparkline-chart config="clusterdetail.trendsCharts.memory.config" chart-data="clusterdetail.trendsCharts.memory.data">
                                     </div>
                                 </div>
                             </div>
