@@ -28,6 +28,7 @@ export class KTDroppable implements ng.IDirective {
     public link($scope: ng.IScope, element: JQuery, attributes: ng.IAttributes) {
         var elem = element[0];
         elem.addEventListener('drop', (e) => {
+            e.preventDefault();
             var data = e.dataTransfer.getData("Text");
             $scope['ktDroppable']({ data: JSON.parse(data) });
         }, false);
