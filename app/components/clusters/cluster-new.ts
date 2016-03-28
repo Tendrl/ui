@@ -16,6 +16,7 @@ import {ServerService} from '../rest/server';
 import {VolumeService} from '../rest/volume';
 import {RequestService} from '../rest/request';
 import {ClusterService} from '../rest/clusters';
+import {ConfigService} from '../rest/config';
 import {ClusterHelper} from './cluster-helpers';
 import * as ModalHelpers from '../modal/modal-helpers';
 import {VolumeHelpers} from '../volumes/volume-helpers';
@@ -64,6 +65,7 @@ export class ClusterNewController {
         'UtilService',
         'RequestService',
         'RequestTrackingService',
+        'ConfigService'
     ];
     /**
      * Initializing the properties of the class ClusterNewController.
@@ -81,7 +83,8 @@ export class ClusterNewController {
         private poolService: PoolService,
         private utilService: UtilService,
         private requestService: RequestService,
-        private requestTrackingService: any) {
+        private requestTrackingService: any,
+        private configSvc: ConfigService) {
 
         this.step = 1;
         this.clusterHelper = new ClusterHelper(utilService, requestService, logService, timeoutService);
@@ -109,9 +112,13 @@ export class ClusterNewController {
         this.newPool.copyCountList = VolumeHelpers.getCopiesList();
         this.newPool.copyCount = VolumeHelpers.getRecomendedCopyCount();
 
+        this.configSvc.getConfig().then((config) => {
+            if (config.ceph_min_monitors) {
+                this.minMonsRequired = config.ceph_min_monitors;
+            }
+        });
         this.fetchFreeHosts();
     }
-
 
     public updateFingerPrint(host: any) {
         this.newHost.cautionMessage = "";

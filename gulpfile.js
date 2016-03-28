@@ -30,6 +30,10 @@ var path = {
 };
 
 var config = {
+    appconfig: {
+        src: ['./app/config/config.json'],
+        dest: 'dist/config'
+    },
     fonts: {
         patternfly: {
             src: ['./node_modules/patternfly/dist/fonts/*.*', './node_modules/font-awesome/fonts/*.*'],
@@ -108,6 +112,12 @@ gulp.task('templates', function () {
         .pipe(gulp.dest(config.templates.dest));
 });
 
+//Copy config to dist/config
+gulp.task('config', function () {
+    return gulp.src(config.appconfig.src)
+        .pipe(gulp.dest(config.appconfig.dest));
+});
+
 //Copy the fonts to dist/fonts
 gulp.task('fonts', function () {
     var patternfly = gulp.src(config.fonts.patternfly.src)
@@ -138,7 +148,7 @@ gulp.task('inject', ['browserify', 'sass', 'css', 'html'], function () {
 });
 
 
-gulp.task('compile', ['tslint', 'tsc', 'browserify', 'sass', 'css', 'templates', 'fonts', 'html', 'inject', 'images']);
+gulp.task('compile', ['tslint', 'tsc', 'browserify', 'sass', 'css', 'templates', 'config', 'fonts', 'html', 'inject', 'images']);
 
 gulp.task('watch', function () {
     gulp.watch(path.tscripts, ['browserify']);

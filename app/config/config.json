@@ -1,0 +1,3 @@
+{
+    "ceph_min_monitors": 3
+}
