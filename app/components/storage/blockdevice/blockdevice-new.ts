@@ -90,24 +90,35 @@ export class BlockDeviceController {
         };
     }
 
-    public getBlockDeviceNames(deviceName: string, count: number) {
+    public getDeviceNameList(deviceName: string, count: number) {
         var list = [];
-        if (count > 1) {
-            for (var index = 1; index <= count; index++) {
-                list.push(deviceName + index);
+        if (deviceName && deviceName.trim().length > 0) {
+            for (let index = 1; index <= count; index++) {
+                var suffix = count > 1 ? index : '';
+                list.push(deviceName + suffix);
             }
         }
-        return list.join(', ');
+        return list;
+    }
+
+    public getBlockDeviceNames(deviceName: string, count: number) {
+        if (count > 1) {
+            return this.getDeviceNameList(deviceName, count).join(', ');
+        }
+        else {
+            return null;
+        }
     }
 
     public prepareSummary(): void {
-        for (let index = 0; index < this.devicesToCreate; index++) {
+        var list = this.getDeviceNameList(this.deviceName, this.devicesToCreate);
+        _.each(list, device => {
             let rbd = {
-                name: this.deviceName + index,
+                name: device,
                 size: this.targetSize
             }
-            this.rbdList.push(angular.copy(rbd));
-        }
+            this.rbdList.push(rbd);
+        });
     }
 
     public removeBlockDevice(deviceName: string): void {
