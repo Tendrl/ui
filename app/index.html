@@ -39,7 +39,6 @@
                         data-template="views/base/discovered-hosts.tpl.html" data-animation="am-fade-and-slide-top" bs-dropdown="">
                             <i class="fa fa-desktop"></i>
                             <span class="badge" style="position:relative;" ng-if="request.discoveredHostsLength>0" ng-bind="request.discoveredHostsLength"></span>
-                            <div growl></div>
                         </a>
                     </li>
                     <li class="dropdown">
@@ -74,6 +73,7 @@
         </div>
         <div ng-if="(currentURI == '/')" ng-view>
         </div>
+        <div growl></div>
         <!-- inject:js -->
         <!-- endinject -->
         <script>
