@@ -53,10 +53,8 @@ export class RouteConfig {
 			controller: 'HostDetailController',
 			controllerAs: 'hostdetail'
 		}).when('/storage', {
-			templateUrl: 'views/storage/object/objectstorage-list.html',
-			name: 'storage',
-			controller: 'ObjectStorageListController',
-			controllerAs: 'storages'
+			templateUrl: 'views/storage/object/pools.html',
+			name: 'storage'
 		}).when('/storage/new', {
 			templateUrl: 'views/storage/storage-new.html',
 			name: 'storage',

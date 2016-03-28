@@ -31,6 +31,11 @@
         <host-list cluster-id="clusterdetail.id"></host-list>
     </div>
 
+    <!-- THIRD TAB CONTENT -->
+    <div ng-if="clusterdetail.isSet(clusterdetail.tabList.Pools)">
+        <object-storage-list cluster-id="clusterdetail.id"></object-storage-list>
+    </div>
+
     <!-- FOURTH TAB CONTENT -->
     <div ng-if="clusterdetail.isSet(clusterdetail.tabList.RBDs)" ng-include src="'views/clusters/clusters-detail-rbds.html'">
     </div>
