@@ -48,6 +48,11 @@
                             <span class="badge" style="position:relative;" ng-if="request.tasks.length>0" ng-bind="request.tasks.length"></span>
                         </a>
                     </li>
+                    <li>
+                        <a data-toggle="modal" class ="nav-item-iconic" ng-click="request.openAboutModal();">
+                            <i class="fa fa-exclamation-circle"></i>
+                        </a>
+                    </li>
                     <li class="dropdown user">
                         <a data-toggle="dropdown" class="dropdown-toggle nav-item-iconic" bs-dropdown="dropdown" href="" data-template="views/base/admin-dropdown.tpl.html"
                         data-animation="am-fade-and-slide-top">
