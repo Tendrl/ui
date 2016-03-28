@@ -19,7 +19,7 @@
 <h5 ng-if="event.detail.description.length > 0"><label>Description :</label> {{event.detail.description}} </h5>
 
 <ul class="nav nav-tabs">
-  <li class="active"><a href="#">Status</a></li>
+    <li class="active"><a href="#">Status</a></li>
 </ul>
 
 <table class="table table-striped table-bordered">
@@ -48,3 +48,18 @@
         </tr>
     </tbody>
 </table>
+
+<div class="row" ng-if="!event.detail.acked">
+    <div class="col-md-3">
+        <label>Comments</label>
+    </div>
+    <div class="col-md-12">
+        <textarea cols="100" rows="5" ng-model="event.dismissMessage" autofocus></textarea>
+    </div>
+    <div class="col-md-12">
+        <button class="btn btn-primary" type="button" ng-click="event.dismiss()">Dismiss</button>
+    </div>
+    <div class="col-md-12" ng-if="event.errorMessage">
+        <label class="critical" ng-bind="event.errorMessage">*</label>
+    </div>
+</div>

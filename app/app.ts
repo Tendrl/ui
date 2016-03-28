@@ -5,6 +5,7 @@ import {default as RequestsModule} from "./components/requests/module";
 import {default as RestModule} from "./components/rest/rest-module";
 import {default as HostModule} from "./components/hosts/host-module";
 import {default as StorageModule} from "./components/storage/storage-module";
+import {default as EventModule} from "./components/events/event-module";
 import {RouteConfig} from "./components/router/route-config";
 import {MenuService} from "./components/base/menu-svc";
 import {LoginController} from "./components/login/login";
@@ -22,8 +23,6 @@ import {UserNewController} from "./components/admin/user-new";
 import {UserEditController} from "./components/admin/user-edit";
 import {LdapUserController} from "./components/admin/ldap-user-controller";
 import {LdapConfigController} from "./components/admin/ldap-config-controller";
-import {EventListController} from "./components/events/event-list";
-import {EventDetailController} from "./components/events/event-detail-controller";
 import {TaskListController} from "./components/tasks/task-list";
 import {TaskDetailController} from "./components/tasks/task-detail-controller";
 import {TaskDetail} from "./components/tasks/task-detail";
@@ -80,6 +79,7 @@ class USMApp {
             RestModule,
             HostModule,
             StorageModule,
+            EventModule
         ])
             .controller('LoginController', LoginController)
             .controller('ApplicationController', ApplicationController)
@@ -103,8 +103,6 @@ class USMApp {
             .directive('storageprofileDisks', () => new StorageProfileDisks())
             .filter('bytes', BytesFilter)
             .controller('LdapConfigController',LdapConfigController)
-            .controller('EventListController',EventListController)
-            .controller('EventDetailController',EventDetailController)
             .controller('TaskListController',TaskListController)
             .directive("taskDetail", () => new TaskDetail())
             .controller('TaskDetailController',TaskDetailController)

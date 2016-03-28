@@ -32,4 +32,15 @@ export class EventService {
             return event;
         });
     }
+
+    // **dismiss**
+    // **@returns** a status with the dismiss event.
+    dismiss(id, comment) {
+        return this.rest.one('events', id).patch({
+                "acked": true,
+                "ackcomment": comment
+        }).then(function(status) {
+        return status;
+    });
+}
 }
