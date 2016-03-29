@@ -215,4 +215,12 @@ export class ClusterService {
         });
     }
 
+    // **getClusterConfig**
+    // **@returns** a promise with cluster configuration details.
+    getClusterConfig(clusterId) {
+        return this.rest.one('clusters/'+clusterId+'/config').get().then(function(cluster_config) {
+            return cluster_config;
+        });
+    }
+
 }

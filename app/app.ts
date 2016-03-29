@@ -34,6 +34,7 @@ import {StorageSizeSelector} from "./components/shared/directives/storage-size-s
 import {OsdDetail} from "./components/clusters/osdsdetail/osd-detail-directive";
 import {HostList} from "./components/clusters/hostdetail/host-list-directive";
 import {StorageProfileDisks} from './components/clusters/storageprofile/storageprofile-disks';
+import {ClusterConfigDetail} from "./components/clusters/configdetail/config-detail-directive";
 
 import {BytesFilter} from './components/shared/filters/bytes';
 
@@ -101,6 +102,7 @@ class USMApp {
             .directive('osdDetail', () => new OsdDetail())
             .directive('hostList', () => new HostList())
             .directive('storageprofileDisks', () => new StorageProfileDisks())
+            .directive('clusterConfigDetail', () => new ClusterConfigDetail())
             .filter('bytes', BytesFilter)
             .controller('LdapConfigController',LdapConfigController)
             .controller('TaskListController',TaskListController)

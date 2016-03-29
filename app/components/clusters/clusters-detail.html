@@ -22,28 +22,33 @@
         </ul>
     </div>
 
-    <!-- FIRST TAB CONTENT -->
+    <!-- OVERVIEW TAB CONTENT -->
     <div ng-if="clusterdetail.isSet(clusterdetail.tabList.Overview)" ng-include src="'views/clusters/clusters-detail-overview.html'" class="cluster-contain container-fluid cards-pf">
     </div>
 
-     <!-- SECOND TAB CONTENT -->
+     <!-- HOSTS TAB CONTENT -->
     <div ng-if="clusterdetail.isSet(clusterdetail.tabList.Hosts)">
         <host-list cluster-id="clusterdetail.id"></host-list>
     </div>
 
-    <!-- THIRD TAB CONTENT -->
+    <!-- POOLS TAB CONTENT -->
     <div ng-if="clusterdetail.isSet(clusterdetail.tabList.Pools)">
         <object-storage-list cluster-id="clusterdetail.id"></object-storage-list>
     </div>
 
-    <!-- FOURTH TAB CONTENT -->
+    <!-- RBDs TAB CONTENT -->
     <div ng-if="clusterdetail.isSet(clusterdetail.tabList.RBDs)">
         <block-device-list cluster-id="clusterdetail.id"></block-device-list>
     </div>
 
-    <!-- FIVTH TAB CONTENT -->
+    <!-- OSDs TAB CONTENT -->
     <div ng-if="clusterdetail.isSet(clusterdetail.tabList.OSDs)">
         <osd-detail cluster-id="clusterdetail.id"></osd-detail>
+    </div>
+
+    <!-- CONFIGURATION TAB CONTENT -->
+    <div ng-if="clusterdetail.isSet(clusterdetail.tabList.Configuration)">
+        <cluster-config-detail id="{{clusterdetail.id}}"></cluster-config-detail>
     </div>
 
 </div>
