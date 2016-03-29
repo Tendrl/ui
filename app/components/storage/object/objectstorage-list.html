@@ -2,7 +2,7 @@
     <div class="page-header">
         <h1>Pools</h1>
     </div>
-    <div class="row">
+    <div class="row form-group">
         <div class="col-md-3">
             <input type="text" class="form-control" placeholder="Search" ng-model="search">
         </div>
@@ -12,47 +12,84 @@
             </span>
         </div>
     </div>
-    <div class="row blade-view" ng-repeat="storage in storages.list | filter:search">
-        <div class="col-md-2 col-sm-4">
-            <div class="row">
-                <div class="col-md-1 vertical-line-for-assigned">
-                    <span class="vertical-text-for-assigned">ceph</span>
+    <div class="list-group list-view-pf storage-list">
+        <div class="list-group-item  list-view-pf-stacked" ng-repeat="storage in storages.list | filter:search">
+            <div class="list-view-pf-actions">
+                <div class="dropdown pull-right dropdown-kebab-pf">
+                    <button class="btn btn-link dropdown-toggle" type="button" id="dropdownKebabRight-{{$index}}" data-toggle="dropdown" aria-haspopup="true"
+                    aria-expanded="true">
+                        <span class="fa fa-ellipsis-v"></span>
+                    </button>
+                    <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownKebabRight-{{$index}}">
+                        <li><a ng-click="storages.remove(storage)">Remove</a></li>
+                        <li><a ng-click="storages.edit(storage)">Edit</a></li>
+                    </ul>
                 </div>
-                <div class="col-md-offset-1 col-md-10 set-top-margin pull-right">
-                    <div>
-                        <div class="heading" ng-bind="storage.name"></div>
+            </div>
+            <div class="list-view-pf-main-info pool-list-main-info">
+                <div class="list-view-pf-left">
+                    <label class="pficon pficon-running" ng-if="storage.status !== 0"></label>
+                    <label class="pficon pficon-ok" ng-if="storage.status === 0"></label>
+                </div>
+                <div class="list-view-pf-body">
+                    <div class="pool-list-view-description">
+                        <div>
+                            <p>
+                                <strong ng-bind="storage.name"></strong>
+                                <small> on</small>
+                                <strong ng-bind="storages.getClusterName(storage.clusterid)"></strong>
+                            </p>
+                        </div>
+                        <div class="list-group-item-text">
+                            <span ng-if="storage.type === 'erasure_coded'">Erasure Coded</span>
+                            <span ng-if="storage.type === 'replicated'">Standard</span>
+                        </div>
+                    </div>
+                    <div class="list-view-pf-additional-info">
+                        <div class="list-view-pf-additional-info-item list-view-pf-additional-info-item-donut-chart">
+                            <c3chart bindto-id="donut-pool-usage-chart-{{$index}}">
+                                <chart-column column-id="Free" column-values="{{100 - storage.usage.percentused}}" column-color="#CCCCCC" column-type="donut"
+                                />
+                                <chart-column column-id="Using" column-values="{{storage.usage.percentused}}" column-color="{{storage.usage.percentused >= 90 ? '#E35C5C' : storage.usage.percentused >= 80 ? '#FF8C1B' : '#4AD170'}}"
+                                column-type="donut" />
+                                <chart-donut title="{{storage.usage.percentused}}%" width="5" show-label="false" />
+                                <chart-legend show-legend="false"></chart-legend>
+                                <chart-size chart-height="71"></chart-size>
+                            </c3chart>
+                        </div>
+                        <div class="list-view-pf-additional-info-item list-view-pf-additional-info-item-stacked">
+                            <strong ng-bind=" storage.usage.used | bytes "></strong> of {{ storage.usage.total | bytes }}
+                            used
+                        </div>
+                        <div class="list-view-pf-additional-info-item list-view-pf-additional-info-item-stacked">
+                            <strong>Replicas</strong>{{storage.replicas }}
+                        </div>
+                        <div class="list-view-pf-additional-info-item list-view-pf-additional-info-item-stacked">
+                            <strong>OSDs</strong>{{storage.slus.length }}
+                        </div>
+                        <div class="list-view-pf-additional-info-item list-view-pf-additional-info-item-stacked">
+                            <strong>PGs</strong>{{storage.options1.pg_num }}
+                        </div>
+                        <div class="list-view-pf-additional-info-item list-view-pf-additional-info-item-stacked">
+                            <strong>Quotas</strong>
+                            <span ng-if="storage.quota_enabled">
+                                <span ng-if="storage.quota_params.quota_max_bytes !== undefined">{{storage.quota_params.quota_max_bytes/storage.usage.total*100}}%</span>
+                            <span ng-if="storage.quota_params.quota_max_objects !== undefined">, {{storage.quota_params.quota_max_objects}} objects</span>
+                            </span>
+                            <span ng-if="!storage.quota_enabled">Disabled</span>
+                        </div>
+                        <div class="list-view-pf-additional-info-item list-view-pf-additional-info-item-stacked">
+                            <strong>Alerts</strong>
+                            <p class="alert-count">
+                                <span ng-bind="storage.almcount" ng-if="storage.almcount > 0"></span>
+                                <span ng-if="storage.almstatus === 0 || storage.almstatus ===5" class="pficon pficon-ok"></span>
+                                <span ng-if="storage.almstatus === 4 || storage.almstatus ===3" class="pficon pficon-warning-triangle-o"></span>
+                                <span ng-if="storage.almstatus === 2 || storage.almstatus ===1" class="pficon pficon-error-circle-o"></span>
+                            </p>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-        <div class="col-md-2 col-sm-4 set-top-margin">
-            <div class="sub-heading">Cluster</div>
-            <div class="cluster_name" ng-bind="storages.getClusterName(storage.clusterid)"></div>
-        </div>
-        <div class="col-md-2 col-sm-3 set-top-margin">
-            <div class="sub-heading">Type</div>
-            <div class="cluster_name">{{storage.type}}</div>
-        </div>
-        <div class="col-md-2 col-sm-3 set-top-margin">
-            <div class="sub-heading">Storage Profile</div>
-            <div class="cluster_name">SAS</div>
-        </div>
-        <div class="col-md-1 col-sm-4 set-top-margin">
-            <div class="sub-heading">Size</div>
-            <div class="cluster_name">{{storage.size}}</div>
-        </div>
-        <div class="col-md-2 col-sm-2 set-top-margin">
-            <div class="sub-heading">Alerts</div>
-            <div class="sub-heading">
-                <span>0</span>
-                <i class="fa fa-2x set-margin" ng-class="storage.alerts>0?'fa-times-circle critical':'fa-check-circle-o ok'"></i>
-            </div>
-        </div>
-        <div class="col-md-1 col-sm-1 set-top-margin">
-            <a class="pull-right add-cursor-pointer" data-animation="am-flip-x" data-template="views/storage/object/objectstorage-list-actions.tpl.html"
-            bs-dropdown="ellipsis">
-          <i class="fa fa-ellipsis-v fa-4x elipsis-color"></i>
-        </a>
         </div>
     </div>
 </div>

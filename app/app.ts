@@ -136,6 +136,10 @@ class USMApp {
                         _.each(data, (slus: any) => {
                             slus.options1 = slus.options;
                         });
+                    }else if (operation === 'getList' && what === 'storages') {
+                        _.each(data, (storage: any) => {
+                            storage.options1 = storage.options;
+                        });
                     }
                     return data;
                 });
