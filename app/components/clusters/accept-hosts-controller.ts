@@ -56,7 +56,7 @@ export class AcceptHostsController {
                             }
                         });
                     }
-                    else if (task.completed && task.status === 2) {
+                    else if (task.completed && (task.status === 2 || task.status === 3)) {
                         this.$log.info('Failed to accept host ' + host.hostname + ' in Accept Hosts Controller ');
                         host.state = "FAILED";
                     }
@@ -70,7 +70,7 @@ export class AcceptHostsController {
                         host.progress = 3;
                         host.lastupdated = task.statuslist[task.statuslist.length - 1].Timestamp;
                     }
-                    else if (task.completed && task.status === 2) {
+                    else if (task.completed && (task.status === 2 || task.status === 3)) {
                         this.$log.info('Failed to initialize host ' + host.hostname + ' in Accept Hosts Controller');
                         host.state = "FAILED";
                         host.progress = 3;
