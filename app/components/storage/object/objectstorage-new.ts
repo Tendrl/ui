@@ -178,6 +178,7 @@ export class ObjectStorageController {
         for (let pool of this.pools) {
             let storage = {
                 name: pool.name,
+                profile: pool.profile.name,
                 size: numeral(pool.capacity).format('0b'),
                 options: {}
             };
