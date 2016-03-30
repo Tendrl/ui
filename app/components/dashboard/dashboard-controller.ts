@@ -66,7 +66,7 @@ export class DashboardController {
             // if no clusters are present
             this.clusterService.getList().then((clusters) => {
                 if (clusters.length === 0) {
-                    this.$location.path('/first');
+                    this.$location.path('/clusters');
                 }else {
                     this.timer = this.intervalSvc(() => this.loadDashboardData(), 10000);
                     this.scopeService.$on('$destroy', () => {
