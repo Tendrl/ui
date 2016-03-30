@@ -7,8 +7,8 @@ Version: %{pkg_version}
 Release: %{pkg_release}%{?dist}
 BuildArch: noarch
 Summary: GUI for Skyring
-License: Apache V2
-Group:   System/Filesystems
+License: ASL 2.0
+Group:   Applications/System
 Source0: %{pkg_name}-%{pkg_version}.tar.gz
 BuildRoot: %{_tmppath}/%{pkg_name}-%{pkg_version}-%{pkg_release}-buildroot
 Url: https://github.com/skyrings/kitoon
@@ -16,7 +16,7 @@ Url: https://github.com/skyrings/kitoon
 Requires: skyring
 
 %description
-Contains the JavaScript GUI content for the skyring frontend components
+Contains the JavaScript GUI content for the skyring front-end components
 (dashboard, login screens, administration screens)
 
 %prep
@@ -25,7 +25,8 @@ Contains the JavaScript GUI content for the skyring frontend components
 %install
 rm -rf $RPM_BUILD_ROOT
 install -m 755 -d $RPM_BUILD_ROOT/%{_datadir}/skyring/webapp
-cp -r ./* $RPM_BUILD_ROOT/%{_datadir}/skyring/webapp/
+cp -r ./dist/* $RPM_BUILD_ROOT/%{_datadir}/skyring/webapp/
+chmod -x $RPM_BUILD_ROOT/%{_datadir}/skyring/webapp/fonts/PatternFlyIcons-webfont.svg
 
 %clean
 echo "clean"
@@ -33,7 +34,8 @@ echo "clean"
 
 %files
 %{_datadir}/skyring/webapp/*
+%doc README.md
 
 %changelog
-* Fri Dec 04 2015 <tjeyasin@redhat.com>
+* Fri Dec 04 2015 <tjeyasin@redhat.com> 0.0.2-1
 - Initial build.

@@ -7,6 +7,7 @@ VERSION   := 0.0.2
 RELEASE   := 1
 RPMBUILD  := $(HOME)/rpmbuild
 TARDIR    := $(NAME)-$(VERSION)
+DISTDIR   := $(TARDIR)/dist
 TARNAME   := $(TARDIR).tar.gz
 KITOON_DIST := ./dist
 
@@ -23,8 +24,9 @@ build:
 
 dist: build
 	@echo "making dist tarball in $(TARNAME)"
-	mkdir $(TARDIR)
-	cp -r $(KITOON_DIST)/* $(TARDIR)
+	mkdir -p $(DISTDIR)
+	cp README.md $(TARDIR)/.
+	cp -r $(KITOON_DIST)/* $(DISTDIR)
 	tar -zcf $(TARDIR).tar.gz $(TARDIR);
 	rm -rf $(TARDIR)
 	@echo "------------------------------------------------"
