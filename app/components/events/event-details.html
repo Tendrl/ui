@@ -49,7 +49,7 @@
     </tbody>
 </table>
 
-<div class="row" ng-if="!event.detail.acked">
+<div class="row" ng-if="!event.detail.acked && event.detail.severity < 5">
     <div class="col-md-3">
         <label>Comments</label>
     </div>
