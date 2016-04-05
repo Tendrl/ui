@@ -10,7 +10,15 @@
             <div class="form-group">
                 <label class="col-md-2 control-label" for="cluster">Cluster</label>
                 <div class="col-md-3">
-                    <select pf-select ng-model="storages.cluster" id="cluster" class="form-control" ng-options="cluster.name for cluster in storages.clusters"></select>
+                    <select pf-select ng-model="storages.cluster" id="cluster" class="form-control"
+                    ng-options="cluster.name for cluster in storages.clusters" ng-change="storages.validateCluster(storages.cluster)"></select>
+                </div>
+            </div>
+            <div class="form-group" ng-if="storages.errorMessage">
+                <div class="col-md-4 col-md-offset-2">
+                    <p class="text-info">
+                    <label class="fa fa-exclamation-circle" ng-bind = "storages.errorMessage"></label>
+                    </p>
                 </div>
             </div>
             <div class="form-group">
@@ -42,7 +50,7 @@
         </form>
     </div>
     <div class="form-footer">
-        <button type="button" class="btn btn-lg btn-primary" ng-click='storages.next()'>Next</button>
+        <button type="button" class="btn btn-lg btn-primary" ng-click="storages.next()" ng-disabled="storages.errorMessage">Next</button>
         <button type="button" class="btn btn-lg btn-default" ng-click='storages.cancel()'>Cancel</button>
     </div>
 </div>

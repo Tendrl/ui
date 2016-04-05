@@ -6,6 +6,7 @@ import {Cluster} from '../rest/clusters';
 export class StorageNewController {
     private clusters: Array<Cluster>;
     private cluster: Cluster;
+    private errorMessage: string;
     private type: String;
 
     static $inject: Array<string> = [
@@ -20,9 +21,28 @@ export class StorageNewController {
             this.clusters = clusters;
             if (this.clusters.length > 0) {
                 this.cluster = this.clusters[0];
+                this.validateCluster(this.cluster);
             }
         });
         this.type = "object";
+    }
+
+    public validateCluster(cluster):void {
+        this.clusterSvc.get(cluster.clusterid).then((result) => {
+            if(result.state == 2) {
+                 return this.clusterSvc.getClusterSummary(cluster.clusterid);
+            }
+            else {
+                this.errorMessage = "Cluster is not active";
+            }
+        }).then((summary) => {
+            if(summary.slucount.total) {
+                this.errorMessage = "";
+            }
+            else {
+                this.errorMessage = "There is no OSD in the selected cluster";
+            }
+        });
     }
 
     public next(): void {
