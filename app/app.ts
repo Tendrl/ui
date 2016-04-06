@@ -17,6 +17,7 @@ import {DashboardController} from "./components/dashboard/dashboard-controller";
 import {ClustersController} from "./components/clusters/clusters-controller";
 import {ClusterExpandController} from "./components/clusters/cluster-expand";
 import {ClusterNewController} from "./components/clusters/cluster-new";
+import {ImportClusterController} from "./components/clusters/import-cluster/import-cluster";
 import {ClusterDetailController} from "./components/clusters/cluster-detail";
 import {UserController} from "./components/admin/user-controller";
 import {UserNewController} from "./components/admin/user-new";
@@ -89,6 +90,7 @@ class USMApp {
             .controller('ClusterController', ClustersController)
             .controller('ClusterExpandController', ClusterExpandController)
             .controller('ClusterNewController', ClusterNewController)
+            .controller('ImportClusterController', ImportClusterController)
             .controller('ClusterDetailController', ClusterDetailController)
             .controller('UserController',UserController)
             .controller('UserNewController',UserNewController)

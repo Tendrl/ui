@@ -37,6 +37,11 @@ export class RouteConfig {
 			name: 'clusters',
 			controller: 'ClusterExpandController',
 			controllerAs: 'cluster'
+		}).when('/clusters/import', {
+			templateUrl: 'views/clusters/import-cluster/import-cluster.html',
+			name: 'clusters',
+			controller: 'ImportClusterController',
+			controllerAs: 'cluster'
 		}).when('/clusters/:id', {
 			templateUrl: 'views/clusters/clusters-detail.html',
 			name: 'clusters',

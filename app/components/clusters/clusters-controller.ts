@@ -200,6 +200,10 @@ export class ClustersController {
         });
     }
 
+    public importCluster(): void {
+        this.$location.path("/clusters/import");
+    }
+
     public isExpandAvailable(clusterState: ClusterState) {
         return clusterState === ClusterState.ACTIVE;
     }
