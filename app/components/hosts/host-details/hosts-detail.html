@@ -1,0 +1,32 @@
+<div class="host-detail">
+    <div>
+        <ol class="breadcrumb custom-breadcrumb">
+            <li><a ng-href="#/hosts">Hosts</a></li>
+            <li>
+                <span ng-if="hostdetail.host.status===0" class="pficon pficon-ok"></span>
+                <span ng-if="hostdetail.host.status===1" class="pficon pficon-warning-triangle-o"></span>
+                <span ng-if="hostdetail.host.status===2" class="pficon pficon-error-circle-o"></span>
+                <span ng-if="hostdetail.hostList.length > 1" class="add-cursor-pointer" data-animation="am-flip-x" data-template="views/hosts/host-details/host-list-menu-dropdown.tpl.html" bs-dropdown="ellipsis">
+                    {{hostdetail.host.hostname}}  <b class="caret"></b>
+                </span>
+                <span ng-if="hostdetail.hostList.length === 1">
+                    {{hostdetail.host.hostname}}
+                </span>
+            </li>
+        </ol>
+        <ul class="nav nav-tabs">
+            <li ng-repeat="(key,value) in hostdetail.tabList" ng-class="{'active': hostdetail.isSet(value)}">
+                <a href="" ng-click="hostdetail.setTab(value)" ng-bind="key">
+                </a>
+            </li>
+        </ul>
+    </div>
+    <!-- FIRST TAB CONTENT -->
+    <div ng-if="hostdetail.isSet(hostdetail.tabList.Overview)">
+        <host-overview host-id="hostdetail.id"></host-overview>
+    </div>
+    <!-- SECOND TAB CONTENT -->
+    <div ng-if="hostdetail.isSet(hostdetail.tabList.Configuration)">
+        <host-config host-id="hostdetail.id"></host-config>
+    </div>
+</div>

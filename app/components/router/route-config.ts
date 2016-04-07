@@ -47,8 +47,8 @@ export class RouteConfig {
 			name: 'hosts',
 			controller: 'HostListController',
 			controllerAs: 'hosts'
-		}).when('/hosts/detail/:id', {
-			templateUrl: 'views/hosts/hosts-detail.html',
+		}).when('/hosts/:id', {
+			templateUrl: 'views/hosts/host-details/hosts-detail.html',
 			name: 'hosts',
 			controller: 'HostDetailController',
 			controllerAs: 'hostdetail'

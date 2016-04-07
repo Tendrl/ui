@@ -87,14 +87,8 @@ export class HostListController {
                 host.cluster_type = "Free";
                 host.cluster_name = "Unassigned";
             }
-            self.serverService.getMemoryUtilization(host.nodeid).then((results) => {
-                if (results != null && results !== 'null\n') {
-                    var free = results[2].values[0][1];
-                    var used = results[3].values[0][1];
-                    var total = free + used;
-                    var avg = Math.ceil((used / total) * 100);
-                    self.hostStats[host.nodeid] = { memAvg: avg };
-                }
+            self.serverService.getHostMemoryUtilization(host.nodeid,'').then((memory_utilization) => {
+                self.hostStats[host.nodeid] = { memAvg: host.utilizations.memoryusage.percentused };
             });
         });
         this.list = hosts;

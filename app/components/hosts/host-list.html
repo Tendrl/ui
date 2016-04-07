@@ -30,7 +30,9 @@
                         <span class="pficon-ok status-icon" ng-if="host.state === 2 && host.status === 0" title="Ok"></span>
                         <span class="pficon-warning-triangle-o status-icon" ng-if="host.state === 2 && host.status === 1" title="Warning"></span>
                         <span class="pficon-error-circle-o status-icon"  ng-if="host.state === 2 && host.status === 2" title="Error"></span>
-                        <span class="host-name-heading" ng-bind="host.hostnameShort"></span>
+                        <a href="#/hosts/{{host.nodeid}}">
+                            <span class="host-name-heading" ng-bind="host.hostnameShort"></span>
+                        </a>
                         <span class="description-for-host" ng-bind="host.management_ip4"></span>
                     </div>
                 </div>

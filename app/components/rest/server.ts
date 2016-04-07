@@ -19,7 +19,8 @@ export interface Node {
     state: NodeState;
     status: NodeStatus;
     storage_disks: any[];
-    tags: any[]
+    tags: any[];
+    utilizations: { cpupercentageusage?: number, memoryusage: UsageData, storageusage: UsageData, swapusage: UsageData };
 }
 
 export interface UsageData {
@@ -241,18 +242,84 @@ export class ServerService {
         });
     }
 
-    public getCpuUtilization(nodeId) {
-        return this.rest.one('nodes', nodeId).one('utilization').get({ resource: 'cpu', duration: '10s' });
-    }
-
-    public getMemoryUtilization(nodeId) {
-        return this.rest.one('nodes', nodeId).one('utilization').get({ resource: 'memory', duration: '10s' });
-    }
-
     public reinitialize(hostname){
         return this.restFull.one('nodes',hostname).all('actions').post({action: 'reinitialize'});
     }
+
     public delete(hostname){
         return this.restFull.one('nodes',hostname).all('actions').post({action: 'delete'});
     }
+
+    // **getHostSummary**
+    // **@returns** a promise with all details of host dashboard.
+    getHostSummary(hostId) {
+        return this.rest.one('nodes/'+ hostId +'/summary').get().then(function(host_summary) {
+            return host_summary;
+        });
+    }
+
+    // **getHostCpuUtilization**
+    // **@returns** a promise with host's cpu utilization.
+    getHostCpuUtilization(nodeid, time_slot) {
+        return this.rest.all('monitoring/node/'+nodeid+'/utilization?resource=cpu.percent-user&duration='+time_slot).getList().then(function(cpu_utilization) {
+            return cpu_utilization;
+        });
+    }
+
+    // **getHostMemoryUtilization**
+    // **@returns** a promise with host's memory utilization.
+    getHostMemoryUtilization(nodeid, time_slot) {
+        return this.rest.all('monitoring/node/'+nodeid+'/utilization?resource=memory.percent-used&duration='+time_slot).getList().then(function(memory_utilization) {
+            return memory_utilization;
+        });
+    }
+
+    // **getHostSwapUtilization**
+    // **@returns** a promise with host's swap utilization.
+    getHostSwapUtilization(nodeid, time_slot) {
+        return this.rest.all('monitoring/node/'+nodeid+'/utilization?resource=swap.percent-used&duration='+time_slot).getList().then(function(swap_utilization) {
+            return swap_utilization;
+        });
+    }
+
+    // **getHostStorageUtilization**
+    // **@returns** a promise with host's storage utilization.
+    getHostStorageUtilization(nodeid, time_slot) {
+        return this.rest.all('monitoring/node/'+nodeid+'/utilization?resource=storage_utilization.percent_bytes&duration='+time_slot).getList().then(function(storage_utilization) {
+            return storage_utilization;
+        });
+    }
+
+    // **getHostNetworkUtilization**
+    // **@returns** a promise with host's network utilization.
+    getHostNetworkUtilization(nodeid, time_slot) {
+        return this.rest.all('monitoring/node/'+nodeid+'/utilization?resource=interface-average.percent-network_utilization&duration='+time_slot).getList().then(function(network_utilization) {
+            return network_utilization;
+        });
+    }
+
+    // **getHostIOPS**
+    // **@returns** a promise with disks IOPS for host.
+    getHostIOPS(nodeid, time_slot) {
+        return this.rest.all('monitoring/node/'+nodeid+'/utilization?resource=disk-read_write&duration='+time_slot).getList().then(function(iops) {
+            return iops;
+        });
+    }
+
+    // **getHostThroughput**
+    // **@returns** a promise with network throughput for host.
+    getHostThroughput(nodeid, time_slot) {
+        return this.rest.all('monitoring/node/'+nodeid+'/utilization?resource=interface-rx_tx&duration='+time_slot).getList().then(function(throughput) {
+            return throughput;
+        });
+    }
+
+    // **getHostNetworkLatency**
+    // **@returns** a promise with network latency for host.
+    getHostNetworkLatency(nodeid, time_slot) {
+        return this.rest.all('monitoring/node/'+nodeid+'/utilization?resource=ping.ping-*&duration='+time_slot).getList().then(function(network_latency) {
+            return network_latency;
+        });
+    }
+
 }

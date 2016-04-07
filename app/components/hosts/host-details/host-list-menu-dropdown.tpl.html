@@ -1,0 +1,5 @@
+<ul class="dropdown-menu host-dropdown-menu" role="menu">
+    <li role="presentation" ng-repeat="host in hostdetail.hostList" ng-if="host.hostname !== hostdetail.host.hostname">
+        <a role="menuitem" href="#/hosts/{{host.nodeid}}">{{host.hostname}}</a>
+    </li>
+</ul>
