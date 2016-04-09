@@ -23,6 +23,7 @@ export class ClusterExpandController {
     private clusterHelper: ClusterHelper;
     private hostTypes: Array<string>;
     private errorMessage: string;
+    private selectedHosts: number;
     static $inject: Array<string> = [
         '$q',
         '$log',
@@ -54,6 +55,7 @@ export class ClusterExpandController {
         private requestTrackingService: RequestTrackingService) {
 
         this.newHost = {};
+        this.selectedHosts = 0;
         this.hosts = [];
         this.disks = [];
         this.clusterHelper = new ClusterHelper(utilService, requestService, logService, timeoutService);
@@ -112,6 +114,7 @@ export class ClusterExpandController {
     }
 
     public selectAllHosts() {
+        this.selectedHosts = 0;
         _.each(this.hosts, (host) => {
             this.selectHost(host, true);
         });
@@ -126,6 +129,8 @@ export class ClusterExpandController {
                 host.hostType = this.hostTypes[1];  //There are some disks so it can be an OSD
             }
         }
+
+        host.selected ? this.selectedHosts++ : this.selectedHosts--;
         this.countDisks();
         this.validateHost(host);
     }
@@ -142,12 +147,20 @@ export class ClusterExpandController {
         return this.disks;
     }
 
+    public getHostsDisksSize(host: any): number {
+        var size: number = 0;
+        size = _.reduce(host.disks, (size: any, disk: any) => {
+            return size + disk.Size;
+        }, 0);
+        return size;
+    }
+
     public getDisksSize(): any {
         var size: number = 0;
         size = _.reduce(this.disks, (size: any, disk: any) => {
             return size + disk.Size;
         }, 0);
-        return numeral(size).format('0.0 b');
+        return size;
     }
 
     public countDisks() {

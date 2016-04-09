@@ -50,10 +50,10 @@
 </div>
 <div class="row wizard-bottom">
   <div class="col-sm-12 col-md-12">
-    <button type="button" class="btn btn-default" ng-show='cluster.isCancelAvailable()' ng-click='cluster.cancel()'>Cancel</button>
-    <button type="button" class="btn btn-default" ng-show='!cluster.isCancelAvailable()' ng-click='cluster.moveStep(-1)'>&lt;&nbsp;&nbsp;Back</button>
+    <button type="button" class="btn btn-default" ng-show='cluster.isBackAvailable()' ng-click='cluster.moveStep(-1)'>&lt;&nbsp;&nbsp;Back</button>
     <button type="button" class="btn btn-default" ng-show='!cluster.isSubmitAvailable()' ng-click='cluster.moveStep(1)' ng-disabled=" cluster.step === 2 && cluster.deploymentType.nodeCount > cluster.filtered.length">Next&nbsp;&nbsp;&gt;</button>
     <button type="button" class="btn btn-primary" ng-show='cluster.isSubmitAvailable()' ng-click='cluster.submit()'>Create Cluster</button>
+    <button type="button" class="btn btn-default" ng-click='cluster.cancel()'>Cancel</button>
     <label class="critical" ng-bind='cluster.errorMessage'></label>
   </div><!-- /col -->
 </div> <!-- /row -->

@@ -20,15 +20,10 @@
         </form>
       </div>
       <div class="col-md-6">
+        <span class="col-md-4"><label class="available-hosts-count"> {{ cluster.selectedHosts }} of {{ cluster.hosts.length }} hosts selected</label></span>
+        <a ng-click="cluster.selectAllHosts()" href="">Select All</a>
         <div class="pull-right">
-          <span class="avaliable-hosts-count">{{cluster.hosts.length}} Hosts</span>
-          (
-            <a ng-click="cluster.acceptAllHosts()" href="">Accept All</a>
-            |
-            <a ng-click="cluster.selectAllHosts()" href="">Select All</a>
-          )
           <button class="btn btn-primary" ng-disabled="isAddRow" ng-click="isAddRow = true; cluster.newHost={}; cluster.errorMessage = ''">Add</button>
-          <button class="btn btn-default">Import</button>
         </div>
       </div>
       <div class="col-md-12">
@@ -64,7 +59,8 @@
     <div class="available-hosts-list">
       <div class="row host-row" ng-repeat="host in cluster.hosts | filter:{hostname: searchText}" ng-click="cluster.selectHost(host, !host.selected)">
         <div class="col-md-1 host-col-middle host-col-select">
-          <i ng-show="host.selected" class="fa fa-2x fa-check-square-o"></i>
+          <i ng-if="host.selected" class="fa fa-2x fa-check-square-o"></i>
+          <i ng-if="!host.selected" class="fa fa-2x fa-square-o"></i>
         </div>
         <div class="col-md-5">
           <div class="host-details">
@@ -86,8 +82,11 @@
           <select pf-select ng-model="host.hostType" id="hostTypes" name="hostTypes" class="form-control" ng-options="hostType for hostType in cluster.hostTypes" ng-click="$event.stopPropagation()" ng-change="cluster.hostTypeChanged(host)">
           </select>
         </div>
-        <div class="col-md-2 host-col-middle">
+        <div class="col-md-1 host-col-middle">
           <ng-pluralize count="host.disks.length" when="{'1': '{{host.disks.length}} Disk', 'other': '{{host.disks.length}} Disks'}"></ng-pluralize>
+        </div>
+        <div class="col-md-1 host-col-middle" ng-if="host.disks.length > 0">
+          {{cluster.getHostsDisksSize(host) | bytes}}
         </div>
       </div>
     </div>
@@ -107,7 +106,7 @@
         </div>
         <div>
           <i class="fa fa-pie-chart"></i>
-          <span>{{cluster.getDisksSize()}}</span>
+          <span>{{cluster.getDisksSize() | bytes}}</span>
         </div>
       </div>
     </div>
