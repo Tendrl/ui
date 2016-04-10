@@ -7,6 +7,7 @@ import {VolumeService} from '../rest/volume';
 import {ServerService} from '../rest/server';
 import {ClusterService} from '../rest/clusters';
 import {RequestService} from '../rest/request';
+import {ConfigService} from '../rest/config';
 import {ClusterHelper} from './cluster-helpers';
 import {RequestTrackingService} from '../requests/request-tracking-svc';
 import * as ModalHelpers from '../modal/modal-helpers';
@@ -24,6 +25,7 @@ export class ClusterExpandController {
     private hostTypes: Array<string>;
     private errorMessage: string;
     private selectedHosts: number;
+    private cephMixHostRoles: boolean = false;
     static $inject: Array<string> = [
         '$q',
         '$log',
@@ -37,7 +39,8 @@ export class ClusterExpandController {
         'ServerService',
         'ClusterService',
         'RequestService',
-        'RequestTrackingService'
+        'RequestTrackingService',
+        'ConfigService'
     ];
 
     constructor(private qService: ng.IQService,
@@ -52,7 +55,8 @@ export class ClusterExpandController {
         private serverService: ServerService,
         private clusterService: ClusterService,
         private requestService: RequestService,
-        private requestTrackingService: RequestTrackingService) {
+        private requestTrackingService: RequestTrackingService,
+        private configSvc: ConfigService) {
 
         this.newHost = {};
         this.selectedHosts = 0;
@@ -61,6 +65,11 @@ export class ClusterExpandController {
         this.clusterHelper = new ClusterHelper(utilService, requestService, logService, timeoutService);
         this.clusterID = this.routeParamsSvc['id'];
         this.hostTypes = ["Monitor", "OSD Host", "OSD + Monitor"];
+        this.configSvc.getConfig().then((config) => {
+            if (config.ceph_mix_host_roles){
+                this.cephMixHostRoles = config.ceph_mix_host_roles;
+            }
+        });
         this.clusterService.get(this.clusterID).then((cluster)=>this.loadCluster(cluster));
         this.fetchFreeHosts();
     }

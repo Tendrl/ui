@@ -50,7 +50,7 @@ export class ClusterNewController {
     private newPool: any;
     private clusterHelper: ClusterHelper;
     private selectedHosts: number;
-
+    private cephMixHostRoles: boolean = false;
     static $inject: Array<string> = [
         '$q',
         '$log',
@@ -116,6 +116,9 @@ export class ClusterNewController {
         this.configSvc.getConfig().then((config) => {
             if (config.ceph_min_monitors) {
                 this.minMonsRequired = config.ceph_min_monitors;
+            }
+            if (config.ceph_mix_host_roles){
+                this.cephMixHostRoles = config.ceph_mix_host_roles;
             }
         });
         this.fetchFreeHosts();

@@ -79,7 +79,7 @@
           {{host.ipaddress}}
         </div>
         <div class="col-md-2 host-col-middle host-col-hostType">
-          <select pf-select ng-model="host.hostType" id="hostTypes" name="hostTypes" class="form-control" ng-options="hostType for hostType in cluster.hostTypes" ng-click="$event.stopPropagation()" ng-change="cluster.hostTypeChanged(host)">
+          <select pf-select ng-model="host.hostType" id="hostTypes" name="hostTypes" class="form-control" ng-options="hostType for hostType in (cluster.cephMixHostRoles ? cluster.hostTypes : cluster.hostTypes.slice(0,2))" ng-click="$event.stopPropagation()" ng-change="cluster.hostTypeChanged(host)">
           </select>
         </div>
         <div class="col-md-1 host-col-middle">
