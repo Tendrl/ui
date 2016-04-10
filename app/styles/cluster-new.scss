@@ -54,17 +54,22 @@
     }
 }
 
-.selected-hosts-storage {
-    .box {
-        font-size: 20px;
-        margin-top: 20px;
-        height: 90px;
-        text-align: center;
-        color: white;
-        background-color: #6a7489;
-    }
-    .content {
-        padding-top:25px;
+.cluster-summary {
+    background-color: #f5f5f5;
+    padding-top: 5px;
+    padding-left: 10px;
+    padding-bottom: 5px;
+    border: 1px solid #e3e3e3;
+    margin-right: -20px;
+
+    @media (min-width: 768px) {
+        .dl-horizontal dt {
+            width: 100px;
+        }
+
+        .dl-horizontal dd {
+            margin-left: 120px;
+        }
     }
 }
 
@@ -82,11 +87,6 @@
     margin-top: 5px;
 }
 
-.cluster-summary-edit {
-    font-size: 13px;
-    margin-left: 10px;
-}
-
 .create-cluster-progress {
     margin-bottom: 0px;
     font-weight: bold;
@@ -95,12 +95,6 @@
 
 .error-msg-color {
     color: #c00;
-}
-
-.available-storage {
-    color: #8b8d8f;
-    font-size: 25px;
-    margin-top: 26px;
 }
 
 .networks {

@@ -2,7 +2,7 @@
   <form name="form" class="form-horizontal" novalidate>
     <div class="form-group">
       <label class="col-md-2 control-label" for="textInput">Name</label>
-      <div class="col-md-4">
+      <div class="col-md-6">
         <input type="text" id="textInput" name="clusterName" ng-class="form.clusterName.$error.required && form.clusterName.$touched ? 'form-control textbox-with-red-border': 'form-control'" ng-model="cluster.clusterName" autofocus required=""></input>
       </div>
       <div ng-show="form.clusterName.$touched">
@@ -10,7 +10,7 @@
       </div>
     </div>
     <div class="form-group">
-      <div class="col-md-4 col-md-offset-2">
+      <div class="col-md-6 col-md-offset-2">
         <p class="text-info">
            <label class="fa fa-exclamation-circle"></label>
            Automatic cluster expansion will be enabled, whenever new disks or host added to this cluster, it will expand automatically.

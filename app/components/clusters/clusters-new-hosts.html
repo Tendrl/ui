@@ -1,114 +1,93 @@
-<div class="row">
-  <div class="col-md-9">
+<div>
     <h3>
       Available Hosts
     </h3>
 
     <div class="row cluster-hosts-panel">
-      <div class="col-md-6">
-        <form role="form" class="search-pf has-button">
-          <div class="form-group has-clear">
-            <div class="search-pf-input-group">
-              <label for="search1" class="sr-only">Search</label>
-              <input id="search1" ng-model="searchText" type="search" class="form-control" placeholder="Search"></input>
-              <button type="button" class="clear" aria-hidden="true" style="display: none;"><span class="pficon pficon-close"></span></button>
-            </div>
-          </div>
-          <div class="form-group">
-            <button class="btn btn-default" type="button"><span class="fa fa-search"></span></button>
-          </div>
-        </form>
-      </div>
-      <div class="col-md-6">
-        <span class="col-md-4"><label class="available-hosts-count"> {{ cluster.selectedHosts }} of {{ cluster.hosts.length }} hosts selected</label></span>
-        <a ng-click="cluster.selectAllHosts()" href="">Select All</a>
-        <div class="pull-right">
-          <button class="btn btn-primary" ng-disabled="isAddRow" ng-click="isAddRow = true; cluster.newHost={}; cluster.errorMessage = ''">Add</button>
+        <div class="col-md-6">
+            <form role="form" class="search-pf has-button">
+                <div class="form-group has-clear">
+                    <div class="search-pf-input-group">
+                        <label for="search1" class="sr-only">Search</label>
+                        <input id="search1" ng-model="searchText" type="search" class="form-control" placeholder="Search"></input>
+                        <button type="button" class="clear" aria-hidden="true" style="display: none;"><span class="pficon pficon-close"></span></button>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <button class="btn btn-default" type="button"><span class="fa fa-search"></span></button>
+                </div>
+            </form>
         </div>
-      </div>
-      <div class="col-md-12">
+        <div class="col-md-6">
+            <span class="col-md-4"><label class="available-hosts-count"> {{ cluster.selectedHosts }} of {{ cluster.hosts.length }} hosts selected</label></span>
+            <a ng-click="cluster.selectAllHosts()" href="">Select All</a>
+            <div class="pull-right">
+                <button class="btn btn-primary" ng-disabled="isAddRow" ng-click="isAddRow = true; cluster.newHost={}; cluster.errorMessage = ''">Add</button>
+            </div>
+        </div>
+        <div class="col-md-12">
 
-      </div>
+        </div>
     </div>
 
     <div class="row cluster-add-host-row" ng-show="isAddRow">
-      <div class="col-md-3">
-        <input type="text" class="form-control" ng-model="cluster.newHost.hostname" placeholder="Hostname" ng-blur="cluster.updateFingerPrint(cluster.newHost)"> </input>
-      </div>
-      <div class="col-md-3">
-        <input type="text" class="form-control" ng-model="cluster.newHost.username" placeholder="Username"> </input>
-      </div>
-      <div class="col-md-3">
-         <input type="password" class="form-control" ng-model="cluster.newHost.password" placeholder="Password"> </input>
-      </div>
-      <div class="col-md-3">
-        <div class="pull-right">
-          <button class="btn btn-primary" ng-disabled="cluster.newHost.isVerifyingHost || !(cluster.newHost.hostname && cluster.newHost.username && cluster.newHost.password) || cluster.newHost.cautionMessage === 'Error!.'" ng-click="cluster.addNewHost(newHost)">
-            <i class="fa fa-spinner fa-spin" ng-show="cluster.newHost.isVerifyingHost"></i>
-            Ok
-          </button>
-          <button class="btn btn-default" ng-click="isAddRow = false;">Cancel</button>
+        <div class="col-md-3">
+            <input type="text" class="form-control" ng-model="cluster.newHost.hostname" placeholder="Hostname" ng-blur="cluster.updateFingerPrint(cluster.newHost)"> </input>
         </div>
-      </div>
-      <div ng-show="cluster.newHost.errorMessage.length>0" class="col-md-12 error-msg-color">
-       <label ng-bind="cluster.newHost.cautionMessage"></label>
-       <span ng-bind="cluster.newHost.errorMessage"></span>
-      </div>
+        <div class="col-md-3">
+            <input type="text" class="form-control" ng-model="cluster.newHost.username" placeholder="Username"> </input>
+        </div>
+        <div class="col-md-3">
+            <input type="password" class="form-control" ng-model="cluster.newHost.password" placeholder="Password"> </input>
+        </div>
+        <div class="col-md-3">
+            <div class="pull-right">
+                <button class="btn btn-primary" ng-disabled="cluster.newHost.isVerifyingHost || !(cluster.newHost.hostname && cluster.newHost.username && cluster.newHost.password) || cluster.newHost.cautionMessage === 'Error!.'"
+                ng-click="cluster.addNewHost(newHost)">
+                    <i class="fa fa-spinner fa-spin" ng-show="cluster.newHost.isVerifyingHost"></i> Ok
+                </button>
+                <button class="btn btn-default" ng-click="isAddRow = false;">Cancel</button>
+            </div>
+        </div>
+        <div ng-show="cluster.newHost.errorMessage.length>0" class="col-md-12 error-msg-color">
+            <label ng-bind="cluster.newHost.cautionMessage"></label>
+            <span ng-bind="cluster.newHost.errorMessage"></span>
+        </div>
     </div>
 
     <div class="available-hosts-list">
-      <div class="row host-row" ng-repeat="host in cluster.hosts | filter:{hostname: searchText}" ng-click="cluster.selectHost(host, !host.selected)">
-        <div class="col-md-1 host-col-middle host-col-select">
-          <i ng-if="host.selected" class="fa fa-2x fa-check-square-o"></i>
-          <i ng-if="!host.selected" class="fa fa-2x fa-square-o"></i>
+        <div class="row host-row" ng-repeat="host in cluster.hosts | filter:{hostname: searchText}" ng-click="cluster.selectHost(host, !host.selected)">
+            <div class="col-md-1 host-col-middle host-col-select">
+                <i ng-if="host.selected" class="fa fa-2x fa-check-square-o"></i>
+                <i ng-if="!host.selected" class="fa fa-2x fa-square-o"></i>
+            </div>
+            <div class="col-md-5">
+                <div class="host-details">
+                    <ul class="list-unstyled">
+                        <li>
+                            <span> {{host.hostname}} </span>
+                        </li>
+                        <li>
+                            <span class="fa fa-paw"> </span>
+                            <span class="text-muted"> {{host.sshfingerprint}} </span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="col-md-2 host-col-middle">
+                {{host.ipaddress}}
+            </div>
+            <div class="col-md-2 host-col-middle host-col-hostType">
+                <select pf-select ng-model="host.hostType" id="hostTypes" name="hostTypes" class="form-control" ng-options="hostType for hostType in (cluster.cephMixHostRoles ? cluster.hostTypes : cluster.hostTypes.slice(0,2))"
+                ng-click="$event.stopPropagation()" ng-change="cluster.hostTypeChanged(host)">
+                </select>
+            </div>
+            <div class="col-md-1 host-col-middle">
+                <ng-pluralize count="host.disks.length" when="{'1': '{{host.disks.length}} Disk', 'other': '{{host.disks.length}} Disks'}"></ng-pluralize>
+            </div>
+            <div class="col-md-1 host-col-middle" ng-if="host.disks.length > 0">
+                {{cluster.getHostsDisksSize(host) | bytes}}
+            </div>
         </div>
-        <div class="col-md-5">
-          <div class="host-details">
-            <ul class="list-unstyled">
-              <li>
-                <span> {{host.hostname}} </span>
-              </li>
-              <li>
-                <span class="fa fa-paw"> </span>
-                <span class="text-muted"> {{host.sshfingerprint}} </span>
-              </li>
-            </ul>
-          </div>
-        </div>
-        <div class="col-md-2 host-col-middle">
-          {{host.ipaddress}}
-        </div>
-        <div class="col-md-2 host-col-middle host-col-hostType">
-          <select pf-select ng-model="host.hostType" id="hostTypes" name="hostTypes" class="form-control" ng-options="hostType for hostType in (cluster.cephMixHostRoles ? cluster.hostTypes : cluster.hostTypes.slice(0,2))" ng-click="$event.stopPropagation()" ng-change="cluster.hostTypeChanged(host)">
-          </select>
-        </div>
-        <div class="col-md-1 host-col-middle">
-          <ng-pluralize count="host.disks.length" when="{'1': '{{host.disks.length}} Disk', 'other': '{{host.disks.length}} Disks'}"></ng-pluralize>
-        </div>
-        <div class="col-md-1 host-col-middle" ng-if="host.disks.length > 0">
-          {{cluster.getHostsDisksSize(host) | bytes}}
-        </div>
-      </div>
     </div>
-  </div>
-
-  <div class="col-md-3">
-    <h3>Storage Capacity</h3>
-    <span class="text-muted">
-       Available storage in selected hosts
-    </span>
-    <div class="row selected-hosts-storage">
-      <div class="col-md-12 available-storage">
-        <div>
-          <i class="fa fa-database icon"></i>
-          <span>{{cluster.getDisks().length}} Disks</span>
-          <a ng-if="cluster.getDisks().length>0" ng-click="cluster.showDisks()" href="">(Edit)</a> 
-        </div>
-        <div>
-          <i class="fa fa-pie-chart"></i>
-          <span>{{cluster.getDisksSize() | bytes}}</span>
-        </div>
-      </div>
-    </div>
-  </div>
 </div>

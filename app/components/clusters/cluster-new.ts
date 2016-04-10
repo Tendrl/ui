@@ -377,7 +377,7 @@ export class ClusterNewController {
     }
 
     public isSubmitAvailable(): boolean {
-        return this.step === 5;
+        return this.step === 4;
     }
 
     public isBackAvailable(): boolean {
