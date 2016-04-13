@@ -12,10 +12,10 @@ import * as ModalHelpers from '../modal/modal-helpers';
 import {EventService} from '../rest/events';
 
 export class RequestsController {
-   private tasks;
-   private events : Array<any>;
-   private discoveredHosts : Array<any>;
-   private discoveredHostsLength: number;
+    private tasks;
+    private events: Array<any>;
+    private discoveredHosts: Array<any>;
+    private discoveredHostsLength: number;
     static $inject: Array<string> = [
         '$scope',
         '$interval',
@@ -78,9 +78,13 @@ export class RequestsController {
     }
 
     public loadEvents() {
-        this.eventsvc.getEvents().then((events) => {
-            this.events = events.events;
-        });
+        this.eventsvc.getList(
+            {
+                "severity": ['minor', 'warning', 'indeterminate', 'critical', 'major'],
+                "acked": "false"
+            }).then((events) => {
+                this.events = events.events;
+            });
     }
 
     public reloadTasks() {
@@ -166,11 +170,11 @@ export class RequestsController {
     }
 
     public openDiscoveredHostsModel() {
-        this.$modal({scope: this.$scope, template: 'views/hosts/discovered-hosts.html', show: true});
+        this.$modal({ scope: this.$scope, template: 'views/hosts/discovered-hosts.html', show: true });
     }
 
-    public mySettings(){
-        this.$modal({scope: this.$scope, template: 'views/admin/my-settings.html', show: true});
+    public mySettings() {
+        this.$modal({ scope: this.$scope, template: 'views/admin/my-settings.html', show: true });
     }
 
     public acceptAllHosts() {

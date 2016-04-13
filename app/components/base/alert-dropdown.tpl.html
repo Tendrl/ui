@@ -7,8 +7,9 @@
     <div class="content" ng-class="request.events.length > 5 ? 'div-with-scroll': ''">
       <ul class="list-unstyled">
       	<li class="task-item" ng-repeat="event in request.events">
-          <i class="fa fa-exclamation-triangle icon warning"></i>
-          <div class="task-item-text"> {{event.message}} on {{event.tag.split("/")[3]}} </div>
+                    <span class="pficon pficon-error-circle-o critical " ng-if="event.severity===1 || event.severity===2"></span>
+                    <span class="pficon pficon-warning-triangle-o warning" ng-if="event.severity===0  || event.severity===3 || event.severity===4"></span>
+          <div class="task-item-text"><a ng-href="#/events/{{event.event_id}}">{{event.message}} </a></div>
         </li>
       </ul>
     <div>
