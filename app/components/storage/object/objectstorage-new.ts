@@ -34,6 +34,12 @@ export class ObjectStorageController {
     private pgSlider = {};
     private quota = { enabled: false, objects: { enabled: false, value: undefined }, percentage: { enabled: false, value: 75 } };
     private pools = [];
+    private summary: boolean = false;
+    //variables that bind from objctstorage-new-directive
+    private prepareRbdSummary: any;
+    private poolName: string;
+    private poolWithRbd: string;
+    private rbdList: any[];
 
     static $inject: Array<string> = [
         '$routeParams',
@@ -154,10 +160,9 @@ export class ObjectStorageController {
             pgNum = Math.pow(2, this.pgSlider['value']);
         }
         this.targetSize = GetOptimalSizeForPGNum(pgNum, this.slusFiltered, this.replicas);
-
-        for (let index = 0; index < this.count; index++) {
+        if (this.count === 1) {
             let pool = {
-                name: this.name + index,
+                name: this.name,
                 type: this.type,
                 profile: this.profile,
                 replicas: this.replicas,
@@ -166,6 +171,24 @@ export class ObjectStorageController {
                 quota: this.quota
             }
             this.pools.push(angular.copy(pool));
+        } else {
+            for (let index = 1; index <= this.count; index++) {
+                let pool = {
+                    name: this.name + index,
+                    type: this.type,
+                    profile: this.profile,
+                    replicas: this.replicas,
+                    ecprofile: this.ecprofile,
+                    capacity: this.targetSize,
+                    quota: this.quota
+                }
+                this.pools.push(angular.copy(pool));
+            }
+        }
+        this.summary = true;
+        if (this.poolWithRbd === "true") {
+            this.poolName = this.name;
+            this.prepareRbdSummary();
         }
     }
 
@@ -205,7 +228,10 @@ export class ObjectStorageController {
                     storage['quota_params'].quota_max_bytes = Math.round((pool.quota.percentage.value / 100) * pool.capacity).toString();
                 }
             }
-
+            if (this.poolWithRbd === "true") {
+                 var rbdArray = _.map(this.rbdList, (rbd) => { return {name: rbd.name, size: rbd.size.value + rbd.size.unit}});
+                 storage['blockdevices'] = rbdArray;
+            }
             list.push(this.storageSvc.create(this.cluster.clusterid, storage));
         }
         this.$q.all(list).then((tasks) => {

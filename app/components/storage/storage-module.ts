@@ -7,6 +7,8 @@ import {ObjectStorageController} from './object/objectstorage-new';
 import {BlockDeviceController} from './blockdevice/blockdevice-new';
 import {BlockDeviceList} from './blockdevice/blockdevice-list';
 import {BlockDeviceItem} from './blockdevice/blockdevice-item';
+import {ObjectStorage} from "./object/objectstorage-new-directive";
+
 
 var angular: ng.IAngularStatic = require('angular');
 
@@ -18,6 +20,7 @@ angular.module(moduleName, ['rzModule'])
     .directive('objectStorageList', () => new ObjectStorageList())
     .controller('ObjectStorageController', ObjectStorageController)
     .directive('blockDeviceList', () => new BlockDeviceList())
-    .controller('BlockDeviceController', BlockDeviceController);
+    .controller('BlockDeviceController', BlockDeviceController)
+    .directive('objectStorage', () => new ObjectStorage());
 
 export default moduleName;

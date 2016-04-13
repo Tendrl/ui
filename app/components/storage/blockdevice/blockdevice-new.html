@@ -97,8 +97,9 @@
                 </div>
             </div>
         </div>
+       <object-storage ng-if="!storage.useExistingPool" pool-with-rbd="true" prepare-rbd-summary="storage.prepareSummary()" pool-name="storage.selectedPool.name" rbd-list="storage.rbdList"></object-storage>
     </div>
-    <div class="form-footer">
+    <div class="form-footer" ng-if="storage.useExistingPool">
         <button type="button" class="btn btn-lg btn-primary" ng-click='storage.summary=true;storage.prepareSummary()' ng-if="!storage.summary"
         ng-disabled="storage.form.$invalid">Next</button>
         <button type="button" class="btn btn-lg btn-primary" ng-click='storage.submit()' ng-if="storage.summary">Submit</button>

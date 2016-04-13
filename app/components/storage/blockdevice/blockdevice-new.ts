@@ -23,6 +23,7 @@ export class BlockDeviceController {
     private useExistingPool = true;
     private selectedPool: any;
     private rbdList: any[];
+    private summary: boolean = false;
 
     static $inject: Array<string> = [
         '$routeParams',
@@ -119,6 +120,7 @@ export class BlockDeviceController {
             }
             this.rbdList.push(rbd);
         });
+        this.summary = true;
     }
 
     public removeBlockDevice(deviceName: string): void {
