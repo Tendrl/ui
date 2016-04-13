@@ -452,3 +452,24 @@ host-is-mon {
     padding: 6px;
   }
 }
+
+.listing {
+    width: 100%;
+    display: flex;
+    height: auto;
+    border-top: 1px solid #BABABA;
+    border-bottom: 1px solid #BABABA;
+    padding-top: 15px;
+    padding-bottom: 15px;
+    .content {
+        float: left;
+        width: 40%;
+    }
+    .close_icon {
+    width: 100%;
+    }
+}
+
+.listview {
+    display: block !important;
+}

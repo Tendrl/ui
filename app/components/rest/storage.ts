@@ -52,4 +52,8 @@ export class StorageService {
     delete(clusterId, storageId) {
         return this.restFull.one('clusters', clusterId).one('storages', storageId).remove();
     }
+
+    update(clusterId, storageId, pool){
+        return this.restFull.one('clusters', clusterId).one('storages', storageId).patch(pool);
+    }
 }

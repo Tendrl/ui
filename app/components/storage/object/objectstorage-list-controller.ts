@@ -14,6 +14,12 @@ export class ObjectStorageListController {
     private clusterMap = {};
     private timer;
     private clusters;
+    private capacity;
+    private editPool;
+    private maxPercentage;
+    private enable_max_percentage;
+    private enable_quota_max_objects;
+    private ecprofiles = [{ k: 2, m: 1, text: '2+1', value: 'default' }, { k: 4, m: 2, text: '4+2', value: 'k4m2' }, { k: 6, m: 3, text: '6+3', value: 'k6m3' }, { k: 8, m: 4, text: '8+4', value: 'k8m4' }];
     static $inject: Array<string> = [
         '$scope',
         '$interval',
@@ -104,5 +110,60 @@ export class ObjectStorageListController {
 
     public createCluster(): void {
         this.$location.path('/clusters/new');
+    }
+
+    public update(storage): void {
+        if(storage.name != this.editPool.name){
+            let poolName = {
+                name: this.editPool.name
+            };
+            // PoolName should be update seperately... so that need to make two different calls
+            this.storageSvc.update(storage.clusterid, storage.storageid, poolName);
+        }
+
+        let pool;
+        pool = {
+             quota_enabled : this.editPool.quota_enabled,
+             quota_params : {}
+        };
+        if(this.editPool.quota_enabled){
+            pool.quota_params.quota_max_objects = this.editPool.quota_params.quota_max_objects;
+            pool.quota_params.quota_max_bytes = Math.round((this.maxPercentage / 100) * this.capacity).toString();
+        }
+        if(storage.replicas != this.editPool.replicas || storage.quota_enabled != this.editPool.quota_enabled ||
+        storage.quota_params.quota_max_bytes != pool.quota_params.quota_max_bytes ||
+        storage.quota_params.quota_max_objects != pool.quota_params.quota_max_objects ){
+            if (storage.type === 'replicated') {
+                pool.replicas = this.editPool.replicas;
+            }
+            // PoolName should be update seperately... so that need to make two different calls*/
+            this.storageSvc.update(storage.clusterid, storage.storageid, pool);
+        }
+        else {
+            if(storage.options.ecprofile != this.editPool.options.ecprofile || storage.quota_enabled != this.editPool.quota_enabled ||
+            storage.quota_params.quota_max_bytes != pool.quota_params.quota_max_bytes ||
+            storage.quota_params.quota_max_objects != pool.quota_params.quota_max_objects  ){
+                if(storage.type === 'erasure_coded'){
+                    pool.options.ecprofile = this.editPool.options.ecprofile;
+                }
+                // PoolName should be update seperately... so that need to make two different calls*/
+                this.storageSvc.update(storage.clusterid, storage.storageid, pool);
+            }
+        }
+        this.timer = this.$interval(() => this.refresh(), 5000);
+    }
+
+    public edit(storage){
+        this.$interval.cancel(this.timer);
+        this.timer = undefined;
+        this.editPool= _.clone(storage);
+        if(this.editPool.quota_params.quota_max_bytes){
+            this.enable_max_percentage = true;
+            this.capacity = numeral().unformat(storage.size);
+            this.maxPercentage = (this.editPool.quota_params.quota_max_bytes / this.capacity) *100;
+        }
+        if(this.editPool.quota_params.quota_max_objects){
+            this.enable_quota_max_objects = true;
+        }
     }
 }
