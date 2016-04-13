@@ -15,11 +15,15 @@
         </div>
         <!--/.col-*-->
         <div class="col-sm-7 col-md-6 col-lg-5 login">
+          <div class="alert alert-danger" ng-if="login.errorMsg.length > 0">
+            <span class="pficon pficon-error-circle-o"></span>
+            <label ng-bind="login.errorMsg"></label>
+          </div>
           <form class="form-horizontal" role="form" ng-submit="login.login(user)">
             <div class="form-group">
               <label for="inputUsername" class="col-sm-2 col-md-2 control-label">Username</label>
               <div class="col-sm-10 col-md-10">
-                <input class="form-control" id="inputUsername" tabindex="1" type="text" ng-model="user.username">
+                <input class="form-control" id="inputUsername" tabindex="1" type="text" ng-model="user.username" autofocus>
               </div>
             </div>
             <div class="form-group">
@@ -27,9 +31,6 @@
               <div class="col-sm-10 col-md-10">
                 <input class="form-control" id="inputPassword" tabindex="2" type="password" ng-model="user.password">
               </div>
-            </div>
-            <div class="form-group" ng-if="login.errorMsg.length > 0">
-              <label class="col-sm-5 col-md-8 control-label red-font" ng-bind="login.errorMsg"></label>
             </div>
             <div class="form-group">
               <div class="col-xs-8 col-sm-offset-2 col-sm-6 col-md-offset-2 col-md-6">

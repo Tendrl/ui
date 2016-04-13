@@ -23,7 +23,7 @@ export class LoginController {
                 .then(() => {
                     this.$location.path('/dashboard');
                 }).catch(() => {
-                    this.errorMsg = "The username or password is incorrect!."
+                    this.errorMsg = "The username or password is incorrect."
                 });
         } else {
             this.errorMsg = "The username and password cannot be blank.";
