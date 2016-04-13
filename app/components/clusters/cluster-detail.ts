@@ -77,8 +77,7 @@ export class ClusterDetailController {
             Pools: 3,
             RBDs: 4,
             OSDs: 5,
-            Storage_Profiles: 6,
-            Configuration: 7
+            Configuration: 6
         }
         this.tabIndex = this.tabList.Overview;
         this.clusterHelpers = new ClusterHelper(null, null, null, null);
