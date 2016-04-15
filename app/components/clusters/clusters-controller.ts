@@ -14,7 +14,7 @@ import * as ModalHelpers from '../modal/modal-helpers';
 export class ClustersController {
     public clusterList: Array<any>;
     private clusterHelper: ClusterHelper;
-    
+
     //Services that are used in this class.
     static $inject: Array<string> = [
         '$q',
@@ -29,13 +29,13 @@ export class ClustersController {
         'RequestService',
         'RequestTrackingService'
     ];
-        
+
     //Mock-Data incase if data not available 
     private mockDataProvider: MockDataProvider;
 
     //Timer to refresh the data every 10 seconds
     private timer;
-   
+
     /**
      * Here we do the dependency injection.
     */
@@ -80,18 +80,50 @@ export class ClustersController {
                 state: cluster.state,
                 status: cluster.status,
                 used: undefined,
-                area_spline_cols: [{ id: 1, name: 'Used', color: '#39a5dc', type: 'area-spline' }],
-                area_spline_values: mockCluster.areaSplineValues,
-                gauge_values: _.random(20, 70) / 10,
                 no_of_hosts: 0,
                 alerts: mockCluster.alerts,
-                no_of_volumes_or_pools: 0
+                no_of_volumes_or_pools: 0,
+                trendsCharts : {title:"",data:{xData:[],yData:[]},config:{}},
             };
 
             if (tempCluster.used === 0) {
                 tempCluster.area_spline_values = [{ '1': 0 }, { '1': 0 }];
                 tempCluster.gauge_values = 0.5;
             }
+
+            this.clusterSvc.getIOPSById(cluster.clusterid, "-10min").then((iops) => {
+                var times = [];
+                var used = [];
+                times.push("dates");
+                used.push("used");
+                var usageDataArray = iops[0].datapoints;
+                for (var index in usageDataArray) {
+                    var subArray = usageDataArray[index];
+                    times.push(new Date(subArray[1]));
+                    used.push(Math.round(subArray[0]));
+                }
+                tempCluster.trendsCharts = {
+                    title: "IOPS",
+                    data: {
+                        dataAvailable: true,
+                        xData: times,
+                        yData: used
+                    },
+                    config: {
+                        chartId:cluster.name + "-iops",
+                        title: "IOPS",
+                        layout: 'compact',
+                        valueType: 'actual',
+                        units: "K",
+                    }
+                }
+            });
+
+            this.clusterSvc.getClusterSummary(cluster.clusterid).then((summary) => {
+                tempCluster.total_size = summary.usage.total;
+                tempCluster.free_size = summary.usage.total - summary.usage.used;
+                tempCluster.percent_used = summary.usage.percentused;
+            });
 
             this.serverService.getListByCluster(cluster.clusterid).then((nodes) => {
                 tempCluster.no_of_hosts = nodes.length;
@@ -111,10 +143,6 @@ export class ClustersController {
                     tempCluster.no_of_volumes_or_pools = pools.length;
                 });
             }
-
-            tempCluster.total_size = 0;
-            tempCluster.free_size = 0;
-            tempCluster.percent_used = 0;
 
             tempClusters.push(tempCluster);
         });
@@ -160,7 +188,7 @@ export class ClustersController {
                     if (confirmed) {
                         this.$location.path('/clusters/new/accept-hosts');
                     }
-                    else{
+                    else {
                         this.$location.path('/clusters/new');
                     }
                     $hide();

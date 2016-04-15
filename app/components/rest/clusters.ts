@@ -199,6 +199,14 @@ export class ClusterService {
         });
     }
 
+    // **getIOPSBy**
+    // **@returns** a promise with disks IOPS?.
+    getIOPSById(cluster_id, time_slot) {
+        return this.rest.all('monitoring/cluster/'+cluster_id+'/utilization?resource=disk-read_write&duration='+time_slot).getList().then(function(iops) {
+            return iops;
+        });
+    }
+
     // **getThroughput**
     // **@returns** a promise with network throughput.
     getThroughput(cluster_name, time_slot) {
