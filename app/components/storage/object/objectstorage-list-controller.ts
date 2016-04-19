@@ -13,6 +13,7 @@ export class ObjectStorageListController {
     private list: Array<any>;
     private clusterMap = {};
     private timer;
+    private clusters;
     static $inject: Array<string> = [
         '$scope',
         '$interval',
@@ -43,6 +44,9 @@ export class ObjectStorageListController {
             this.$interval.cancel(this.timer);
         });
         this.refresh();
+        this.clusterSvc.getList().then(clusterlist => {
+            this.clusters = clusterlist;
+        });
     }
 
     public refresh() {
@@ -96,5 +100,9 @@ export class ObjectStorageListController {
             }
             $hide();
         });
+    }
+
+    public createCluster(): void {
+        this.$location.path('/clusters/new');
     }
 }
