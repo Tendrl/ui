@@ -32,6 +32,8 @@ export class ClusterNewController {
     private clusterName: any;
     private clusterTypes: Array<Cluster>;
     private clusterType: Cluster;
+    private journalSize = { value: 5, unit: 'GB' };
+    private sizeUnits = ['MB', 'GB'];
 
     private openstack = false;
     private openstackServices: Array<OpenstackService>;
@@ -372,7 +374,7 @@ export class ClusterNewController {
         var configValid = true;
         var monCount = 0;
         if(this.step ===1){
-            configValid = this.clusterName !== undefined && this.clusterName.trim().length > 0;
+            configValid = this.clusterName !== undefined && this.clusterName.trim().length > 0 && this.journalSize.value > 0;
         }
         else if(this.step === 2 && nextStep === 1){
             monCount = this.getMonCount();
@@ -614,6 +616,7 @@ export class ClusterNewController {
         var cluster = {
             name: this.clusterName,
             type: this.clusterType.type,
+            journalSize: this.journalSize.value + this.journalSize.unit,
             nodes: nodes,
             networks: networks
         };

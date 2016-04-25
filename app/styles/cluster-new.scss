@@ -1,6 +1,16 @@
 //@import 'compass/css3/box-shadow';
 @import 'modules/usm_colors';
 
+.cluster-configuration {
+    .journal-size-value{
+        width: 55px;
+    }
+    .journal-size-unit{
+        min-width: 60px;
+        float: right;
+        margin-left: 2px
+    }
+}
 .cluster-hosts-panel {
     &:after {
         display: block;

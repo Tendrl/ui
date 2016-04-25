@@ -1,4 +1,4 @@
-<div>
+<div class="cluster-configuration">
   <form name="form" class="form-horizontal" novalidate>
     <div class="form-group">
       <label class="col-md-2 control-label" for="textInput">Name</label>
@@ -7,6 +7,21 @@
       </div>
       <div ng-show="form.clusterName.$touched">
         <div ng-show="form.clusterName.$error.required" class="error-validation-msg">Cluster name is required!</div>
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="col-md-2 control-label" for="journalSizeValue">Journal Size</label>
+      <div class="col-md-3">
+        <div class="input-group">
+          <input type="number" id="journalSizeValue" name="journalSizeValue" ng-model="cluster.journalSize.value" min="1" max="1024" required class="journal-size-value">
+          <div class="input-group-btn journal-size-unit">
+            <select pf-select="" ng-model="cluster.journalSize.unit" id="journalSizeUnit" name="journalSizeUnit" class="form-control"
+              ng-options="unit for unit in cluster.sizeUnits"></select>
+          </div>
+        </div>
+      </div>
+      <div ng-show="!form.journalSizeValue.$valid">
+        <div ng-show="form.journalSizeValue.$error.min" class="error-validation-msg">Journal Size is not valid!</div>
       </div>
     </div>
     <div class="form-group">
