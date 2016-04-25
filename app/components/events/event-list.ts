@@ -42,6 +42,25 @@ export class EventListController {
         private $location: ng.ILocationService,
         private modalSvc,
         private eventSvc: EventService) {
+        var queryParams = $location.search();
+        if (Object.keys(queryParams).length > 0) {
+            if (queryParams['searchmessage'] !== undefined) {
+                this.searchQuery = queryParams['searchmessage'];
+                this.searchEntity = "description";
+            }
+            else if (queryParams['nodename'] !== undefined) {
+                this.searchQuery = queryParams['nodename'];
+                this.searchEntity = "host";
+            }
+            else if (queryParams['clustername'] !== undefined) {
+                this.searchQuery = queryParams['clustername'];
+                this.searchEntity = "cluster";
+            }
+                this.applyFilter(this.searchEntity, this.searchQuery);
+                this.applyFilter('severity', 'warning');
+                this.applyFilter('severity', 'critical');
+                this.severity = 'notok';
+        }
         this.timer = this.$interval(() => this.refresh(), 5000);
         this.$scope.$on('$destroy', () => {
             this.$interval.cancel(this.timer);
@@ -54,6 +73,9 @@ export class EventListController {
             this.severityLevel = this.criticalEvents;
         } else if (this.severity === 'warning') {
             this.severityLevel = this.warningEvents;
+        } else if (this.severity === 'notok') {
+            this.severityLevel = this.criticalEvents;
+            this.severityLevel.concat(this.warningEvents);
         } else {
             this.severityLevel = [];
         }
@@ -65,11 +87,11 @@ export class EventListController {
             todatetime: this.toDateTimeFilter,
             severity: this.severityLevel
         };
-        if (this.searchEntity === 'Cluster') {
+        if (this.searchEntity.toLowerCase() === 'cluster') {
             this.requestObject['clustername'] = this.searchQuery;
-        } else if (this.searchEntity === 'Host') {
+        } else if (this.searchEntity.toLowerCase() === 'host') {
             this.requestObject['nodename'] = this.searchQuery;
-        } else if (this.searchEntity === 'Description') {
+        } else if (this.searchEntity.toLowerCase() === 'description') {
             this.requestObject['searchmessage'] = this.searchQuery;
         }
 
@@ -78,6 +100,7 @@ export class EventListController {
             this.totalPages = Math.ceil(data.totalcount / this.pageSize);
             this.list = data.events;
         });
+        this.requestObject['pageno'] = 1;
         this.requestObject['severity'] = this.criticalEvents;
         this.eventSvc.getList(this.requestObject).then((data: any) => {
             this.criticalCount = data.totalcount;
@@ -121,16 +144,16 @@ export class EventListController {
         delete this.filterObject[key];
         this.fromDateTimeFilter = this.filterObject["from"];
         this.toDateTimeFilter = this.filterObject["to"];
-        this.searchQuery = this.filterObject["search"];
+        this.searchQuery = this.filterObject[this.searchEntity];
         this.severity = this.filterObject["severity"];
     }
 
     public setSearchEntity(entity) {
         this.searchQuery = "";
         this.searchEntity = entity;
-        delete this.filterObject['Cluster'];
-        delete this.filterObject['Host'];
-        delete this.filterObject['Description'];
+        delete this.filterObject['cluster'];
+        delete this.filterObject['host'];
+        delete this.filterObject['description'];
     }
 
     public dismiss(eventId) {

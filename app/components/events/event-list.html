@@ -10,7 +10,7 @@
                 <div class="form-group col-sm-3 toolbar-pf-filter">
                     <div class="input-group">
                         <div class="input-group-btn">
-                            <button aria-expanded="false" aria-haspopup="true" data-toggle="dropdown" class="btn btn-default dropdown-toggle" type="button">
+                            <button aria-expanded="false" aria-haspopup="true" data-toggle="dropdown" class="btn btn-default dropdown-toggle text-capitalize" type="button">
                                 {{events.searchEntity}}<span class="caret"></span></button>
                             <ul class="dropdown-menu">
                                 <li><a ng-click="events.setSearchEntity('Cluster')">Cluster</a></li>
@@ -49,7 +49,6 @@
                             ng-change="events.applyFilter('to',events.toDateTimeFilter)" />
                         </ul>
                     </div>
-
                 </div>
             </form>
             <div class="row toolbar-pf-results">
