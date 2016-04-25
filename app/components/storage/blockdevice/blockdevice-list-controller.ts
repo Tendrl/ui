@@ -1,7 +1,8 @@
-// <reference path="../../../typings/tsd.d.ts" />
+// <reference path="../../../../typings/tsd.d.ts" />
 
 import {BlockDeviceService} from '../../rest/blockdevice';
 import {BlockDevice} from '../../rest/blockdevice';
+import {ClusterService} from '../../rest/clusters';
 import {RequestService} from '../../rest/request';
 import {RequestTrackingService} from '../../requests/request-tracking-svc';
 import {numeral} from '../../base/libs';
@@ -12,12 +13,14 @@ export class BlockDeviceListController {
     private clusterId: string;
     private list: BlockDevice[] = [];
     private timer;
+    private clusters;
     private sizeUnits = ['GB', 'TB'];
     static $inject: Array<string> = [
         '$scope',
         '$interval',
         '$location',
         '$modal',
+        'ClusterService',
         'BlockDeviceService',
         'RequestService',
         'RequestTrackingService'
@@ -27,6 +30,7 @@ export class BlockDeviceListController {
         private $interval: ng.IIntervalService,
         private $location: ng.ILocationService,
         private $modal,
+        private clusterSvc: ClusterService,
         private blockDeviceSvc: BlockDeviceService,
         private requestSvc: RequestService,
         private requestTrackingSvc: RequestTrackingService) {
@@ -35,6 +39,9 @@ export class BlockDeviceListController {
             this.$interval.cancel(this.timer);
         });
         this.refresh();
+        this.clusterSvc.getList().then(clusterlist => {
+            this.clusters = clusterlist;
+        });
     }
 
     public refresh() {
@@ -116,5 +123,9 @@ export class BlockDeviceListController {
             }
             $hide();
         });
+    }
+
+    public createCluster(): void {
+        this.$location.path('/clusters/new');
     }
 }

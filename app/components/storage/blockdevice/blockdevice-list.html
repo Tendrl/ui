@@ -2,7 +2,7 @@
     <div class="page-header">
         <h1>RBDs</h1>
     </div>
-    <div class="row">
+    <div class="row" ng-if = "rbds.list.length > 0">
         <div class="col-md-3">
             <input type="text" class="form-control" placeholder="Search" ng-model="search">
         </div>
@@ -12,6 +12,36 @@
             </span>
         </div>
     </div>
+    <center ng-if="rbds.clusters.length > 0 && rbds.list.length == 0">
+        <div class="blank-slate-pf">
+            <div class="blank-slate-pf-icon">
+                <i class="fa fa-database"></i>
+            </div>
+            <h1>Add Block Storage</h1>
+            <p> There are no RBDs currently defined. Click Add Storage to create RADOS Block Devices.</p>
+            <div class="blank-slate-pf-main-action">
+                <button class="btn btn-primary btn-lg" ng-click="rbds.create()">
+                Add Storage
+                </button>
+            </div>
+        </div>
+    </center>
+    <center ng-if="rbds.clusters.length == 0">
+         <div class="blank-slate-pf">
+            <div class="blank-slate-pf-icon">
+                <i class="fa fa-database"></i>
+            </div>
+            <h1>Add Block Storage</h1>
+            <p> There are currently no Ceph clusters defined. Block Storage must be added to an existing cluster.</p>
+            <p> Start by creating or importing a cluster.</p>
+            <p> You may return here to add block devices after the cluster is created.</p>
+            <div class="blank-slate-pf-main-action">
+                <button class="btn btn-primary btn-lg" ng-click="rbds.createCluster()">
+                Create Cluster
+                </button>
+            </div>
+        </div>
+    </center>
     <div class="row">
         <div class="col-md-12">
             <div class="list-group list-view-pf">
