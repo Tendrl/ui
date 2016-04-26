@@ -1,41 +1,35 @@
 <div class="modal" tabindex="-1" role="dialog">
     <div class="modal-dialog">
         <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" ng-click="$hide()">&times;</button>
-                <h4 class="fa fa-exclamation-circle modal-title"> About</h4>
-            </div>
-            <div class="modal-body">
-                <h2><label ng-bind= "request.about.ProductName"></label></h2>
-                <div class="row">
-                    <dl>
-                        <dt class="col-md-5">Version</dt>
-                        <span class="col-md-5 col-md-push-1">
-                            <dd ng-bind="request.about.ProductVersion"></dd>
-                        </span>
-                    </dl>
-                    <dl ng-repeat="(key, value) in request.about.StorageProviderDetails">
-                        <dt class="col-md-5"> {{key}} Provider Version</dt>
-                        <span class="col-md-5 col-md-push-1">
-                           <dd ng-bind="value"></dd>
-                        </span>
-                    </dl>
-                    <dl>
-                        <dt class="col-md-5">Database</dt>
-                        <span class="col-md-5 col-md-push-1">
-                            <dd ng-bind="request.about.DbSoftware"></dd>
-                        </span>
-                    </dl>
-                    <dl>
-                        <dt class="col-md-5">Database Version</dt>
-                        <span class="col-md-5 col-md-push-1">
-                            <dd ng-bind="request.about.DbSoftwareVersion"></dd>
-                        </span>
-                    </dl>
+            <div class="about">
+                 <button type="button" class="btnclose pficon pficon-close" ng-click="$hide()"></button>
+                <div class="image">
+                    <img src="images/about.png" alt="">
                 </div>
-            </div>
-            <div class="modal-footer">
-                <label for="copyright" ng-bind="request.about.copyright"></label>
+                <div class="aboutContent">
+                    <div class= "aboutTitle">
+                        <label>tendrl</label>
+                    </div>
+                    <div>
+                        <span class="aboutLabel">Version:  </span>&nbsp;
+                        <span class="aboutText" ng-bind="request.about.ProductVersion"></span>
+                    </div>
+                    <div ng-repeat="(key, value) in request.about.StorageProviderDetails">
+                        <span class="aboutLabel">Provider:  </span>&nbsp;
+                        <span class="aboutText" ng-bind="key"></span>&emsp;
+                        <span class="aboutLabel">Version:  </span>&nbsp;
+                        <span class="aboutText" ng-bind="value"></span>
+                    </div>
+                    <div>
+                        <span class="aboutLabel">Database:  </span>&nbsp;
+                        <span class="aboutText" ng-bind="request.about.DbSoftware"></span>&emsp;
+                        <span class="aboutLabel">Version:  </span>&nbsp;
+                        <span class="aboutText" ng-bind="request.about.DbSoftwareVersion"></span>
+                    </div>
+                    <div class= "tradeMark">
+                        Trademark & Copyright
+                    </div>
+                </div>
             </div>
         </div>
     </div>

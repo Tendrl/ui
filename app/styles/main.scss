@@ -477,3 +477,60 @@ host-is-mon {
 .storage-header{
     border-bottom: 1px solid #eeeeee;
 }
+
+.about {
+    position: relative;
+    width: 600px;
+    height: auto;
+    background-color: #292e34;
+
+    .image{
+        position: absolute;
+        bottom: 0;
+        right: 0;
+    }
+
+    .aboutContent{
+        color: white;
+        padding: 72px;
+        font-family:  "Open Sans";
+
+        .aboutTitle{
+            padding-bottom: 30px;
+            font-weight: lighter;
+            font-size:  22px;
+        }
+
+        .aboutLabel{
+            font-weight: bold;
+        }
+
+        .aboutText{
+            font-weight: normal;
+        }
+    }
+
+    .tradeMark{
+        padding-top: 30px;
+        font-weight:  normal;
+        font-size: 10px;
+    }
+
+    .logo{
+        position: absolute;
+        padding-bottom: 17px;
+        padding-right: 17px;
+        bottom: 0;
+        right: 0;
+    }
+
+    .btnclose{
+        padding-top: 17px;
+        padding-right: 17px;
+        color: white;
+        border: 0;
+        cursor: pointer;
+        float: right;
+        background-color: #292e34;
+    }
+}
