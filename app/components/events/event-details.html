@@ -7,16 +7,6 @@
 <h4><label>Time Submitted :</label> {{event.detail.timestamp | date : 'MMM d yyyy, hh:mm:ss a'}} </h4>
 <h4><label>Message :</label> {{event.detail.message}} </h4>
 <h4 ng-if="event.detail.cluster_name.length > 0"><label>Cluster :</label> {{event.detail.cluster_name}}</h4>
-<h4><label>Tags :</label></h4>
-<ul class="list-inline" ng-repeat="(key, value) in event.detail.tags">
-    <li>
-        <span class="label label-info">
-            {{key}} : {{value}}
-        </span>
-    </li>
-</ul>
-
-<h5 ng-if="event.detail.description.length > 0"><label>Description :</label> {{event.detail.description}} </h5>
 
 <ul class="nav nav-tabs">
     <li class="active"><a>Status</a></li>
@@ -33,7 +23,7 @@
     <tbody>
         <tr>
             <td>Created</td>
-            <td>--</td>
+            <td>{{event.detail.context.split(":")[0]}}</td>
             <td ng-bind="event.detail.timestamp | date : 'MMM d yyyy, hh:mm:ss a'"></td>
         </tr>
         <tr ng-if="event.detail.ackedbyuser.length > 0">
