@@ -5,6 +5,7 @@ import {UsageData} from '../rest/server';
 import {numeral} from '../base/libs';
 
 export class DashboardController {
+    private summary: any;
     private clusters: any;
     private hosts: any;
     private pools: any;
@@ -82,6 +83,7 @@ export class DashboardController {
     */
     public loadDashboardData() {
         this.serverService.getDashboardSummary().then((summary) => {
+            this.summary = summary;
             this.formatlUtilizationData(summary.usage);
             this.formatlUtilizationByProfileData(summary.storageprofileusage);
             this.getMostUsedPools(summary.storageusage);
@@ -92,8 +94,8 @@ export class DashboardController {
             this.clusters = summary.clusterscount;
             this.pools = summary.storagecount;
             this.monitors.total = summary.providermonitoringdetails.ceph.monitor;
+            this.changeTimeSlot(this.selectedTimeSlot);
         });
-        this.changeTimeSlot(this.selectedTimeSlot);
     }
 
     /**
@@ -156,24 +158,19 @@ export class DashboardController {
 
     public getCpuUtilization(timeSlot: any) {
         this.serverService.getSystemCpuUtilization(timeSlot.value).then((cpu_utilization) => {
-            this.drawGraphs(cpu_utilization,"cpu","Cpu utilization");
+            this.drawGraphs(cpu_utilization,"cpu","Cpu utilization",this.summary.utilizations.cpupercentageusage);
         });
     }
 
     public getMemoryUtilization(timeSlot: any) {
         this.serverService.getSystemMemoryUtilization(timeSlot.value).then((memory_utilization) => {
-            this.drawGraphs(memory_utilization,"memory","Memory utilization");
+            this.drawGraphs(memory_utilization,"memory","Memory utilization",this.summary.utilizations.memoryusage.percentused);
         });
     }
 
-    public drawGraphs(graphArray, graphName, graphTitle) {
+    public drawGraphs(graphArray, graphName, graphTitle, graphUsage) {
         this.setGraphData(graphArray,graphName,graphTitle,"%");
-        /* sample response : "target": "collectd.system.cpu-user Current:1.01 Max:17.30 Min:0.20 ".
-        formatting the currentState :- taking first value from  array , and splitting target's key string based on space and than at the last splitting this array based on ':'. now will have currentState in splitted array */
-        var currentState = graphArray[0].target.split(" ")[1].split(":");
-        if(currentState[0] === 'Current') {
-            this.setGraphUtilization({"total":100,"used":parseInt(currentState[1])}, graphName);
-        }
+        this.setGraphUtilization({"total":100,"used":graphUsage}, graphName);
     }
 
     public getIOPS(timeSlot: any) {

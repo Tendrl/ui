@@ -213,7 +213,7 @@ export class ServerService {
     // **getSystemCpuUtilization**
     // **@returns** a promise with Average CPU Utilization across all the nodes in system.
     getSystemCpuUtilization(time_slot) {
-        return this.rest.all('monitoring/target=cactiStyle(collectd.system.cpu-user)&format=json&duration='+time_slot).getList().then(function(cpu_utilization) {
+        return this.rest.all('monitoring/system/utilization?resource=cpu-user&duration='+time_slot).getList().then(function(cpu_utilization) {
             return cpu_utilization;
         });
     }
@@ -221,7 +221,7 @@ export class ServerService {
     // **getSystemMemoryUtilization**
     // **@returns** a promise with Average Memory Utilization across all the nodes in system.
     getSystemMemoryUtilization(time_slot) {
-        return this.rest.all('monitoring/target=cactiStyle(collectd.system.memory-usage_percent)&format=json&duration='+time_slot).getList().then(function(memory_utilization) {
+        return this.rest.all('monitoring/system/utilization?resource=memory-usage_percent&duration='+time_slot).getList().then(function(memory_utilization) {
             return memory_utilization;
         });
     }
@@ -229,7 +229,7 @@ export class ServerService {
     // **getIOPS**
     // **@returns** a promise with disks IOPS.
     getIOPS(time_slot) {
-        return this.rest.all('monitoring/target=cactiStyle(collectd.system.disk-read_write)&format=json&duration='+time_slot).getList().then(function(iops) {
+        return this.rest.all('monitoring/system/utilization?resource=disk-read_write&duration='+time_slot).getList().then(function(iops) {
             return iops;
         });
     }
@@ -237,7 +237,7 @@ export class ServerService {
     // **getThroughput**
     // **@returns** a promise with network throughput.
     getThroughput(time_slot) {
-        return this.rest.all('monitoring/target=cactiStyle(collectd.system.interface-rx_tx)&format=json&duration='+time_slot).getList().then(function(throughput) {
+        return this.rest.all('monitoring/system/utilization?resource=interface-rx_tx&duration='+time_slot).getList().then(function(throughput) {
             return throughput;
         });
     }
@@ -245,7 +245,7 @@ export class ServerService {
     // **getNetworkLatency**
     // **@returns** a promise with network latency.
     getNetworkLatency(time_slot) {
-        return this.rest.all('monitoring/target=cactiStyle(collectd.system.network_latency)&format=json&duration='+time_slot).getList().then(function(network_latency) {
+        return this.rest.all('monitoring/system/utilization?resource=network_latency&duration='+time_slot).getList().then(function(network_latency) {
             return network_latency;
         });
     }
