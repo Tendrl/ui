@@ -179,24 +179,24 @@ export class ClusterService {
 
     // **getClusterCpuUtilization**
     // **@returns** a promise with cluster's cpu utilization.
-    getClusterCpuUtilization(cluster_name, time_slot) {
-        return this.rest.all('monitoring/target=cactiStyle(collectd.'+cluster_name+'.cpu-user)&format=json&duration='+time_slot).getList().then(function(cpu_utilization) {
+    getClusterCpuUtilization(clusterId, time_slot) {
+        return this.rest.all('monitoring/cluster/'+clusterId+'/utilization?resource=cpu-user&duration='+time_slot).getList().then(function(cpu_utilization) {
             return cpu_utilization;
         });
     }
 
     // **getClusterMemoryUtilization**
     // **@returns** a promise with cluster's memory utilization.
-    getClusterMemoryUtilization(cluster_name, time_slot) {
-        return this.rest.all('monitoring/target=cactiStyle(collectd.'+cluster_name+'.memory-usage_percent)&format=json&duration='+time_slot).getList().then(function(memory_utilization) {
+    getClusterMemoryUtilization(clusterId, time_slot) {
+        return this.rest.all('monitoring/cluster/'+clusterId+'/utilization?resource=memory-usage_percent&duration='+time_slot).getList().then(function(memory_utilization) {
             return memory_utilization;
         });
     }
 
     // **getIOPS**
     // **@returns** a promise with disks IOPS?.
-    getIOPS(cluster_name, time_slot) {
-        return this.rest.all('monitoring/target=cactiStyle(collectd.'+cluster_name+'.disk-read_write)&format=json&duration='+time_slot).getList().then(function(iops) {
+    getIOPS(clusterId, time_slot) {
+        return this.rest.all('monitoring/cluster/'+clusterId+'/utilization?resource=disk-read_write&duration='+time_slot).getList().then(function(iops) {
             return iops;
         });
     }
@@ -211,16 +211,16 @@ export class ClusterService {
 
     // **getThroughput**
     // **@returns** a promise with network throughput.
-    getThroughput(cluster_name, time_slot) {
-        return this.rest.all('monitoring/target=cactiStyle(collectd.'+cluster_name+'.interface-rx_tx)&format=json&duration='+time_slot).getList().then(function(throughput) {
+    getThroughput(clusterId, time_slot) {
+        return this.rest.all('monitoring/cluster/'+clusterId+'/utilization?resource=interface-rx_tx&duration='+time_slot).getList().then(function(throughput) {
             return throughput;
         });
     }
 
     // **getNetworkLatency**
     // **@returns** a promise with network latency.
-    getNetworkLatency(cluster_name, time_slot) {
-        return this.rest.all('monitoring/target=cactiStyle(collectd.'+cluster_name+'.network_latency)&format=json&duration='+time_slot).getList().then(function(network_latency) {
+    getNetworkLatency(clusterId, time_slot) {
+        return this.rest.all('monitoring/cluster/'+clusterId+'/utilization?resource=network_latency&duration='+time_slot).getList().then(function(network_latency) {
             return network_latency;
         });
     }

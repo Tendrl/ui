@@ -18,6 +18,7 @@ export class ClusterDetailController {
     private cluster: any;
     private capacity: any;
     private id: any;
+    private utilizations: any;
     private hosts: any;
     private pools: any;
     private pgs: any;
@@ -92,6 +93,7 @@ export class ClusterDetailController {
             throughput: {title:"",data:{},config:{}},
             iops: {title:"",data:{},config:{}}
         };
+        this.utilizations = {};
         this.hosts = { total: 0, error: 0, unaccepted: 0 };
         this.pgs = { total: 0, error: 0 };
         this.osds = { total: 0, error: 0 };
@@ -123,6 +125,7 @@ export class ClusterDetailController {
     }
 
     public loadClusterSummary(summary) {
+        this.utilizations = summary.utilizations;
         this.getClusterUtilization(summary.usage);
         this.getUtilizationByProfile(summary.storageprofileusage);
         this.getMostUsedPools(summary.storageusage);
@@ -180,39 +183,33 @@ export class ClusterDetailController {
     }
 
     public getCpuUtilization(timeSlot: any) {
-        this.clusterService.getClusterCpuUtilization(this.cluster.name,timeSlot.value).then((cpu_utilization) => {
+        this.clusterService.getClusterCpuUtilization(this.id,timeSlot.value).then((cpu_utilization) => {
             this.setGraphData(cpu_utilization,"cpu","Cpu utilization","");
-            var currentState = cpu_utilization[0].target.split(" ")[1].split(":");
-            if(currentState[0] === 'Current') {
-                this.setGraphUtilization({"total":100,"used":parseInt(currentState[1])},'cpu');
-            }
+            this.setGraphUtilization({"total":100,"used":this.utilizations.cpupercentageusage},'cpu');
         });
     }
 
     public getMemoryUtilization(timeSlot: any) {
-        this.clusterService.getClusterMemoryUtilization(this.cluster.name,timeSlot.value).then((memory_utilization) => {
+        this.clusterService.getClusterMemoryUtilization(this.id,timeSlot.value).then((memory_utilization) => {
             this.setGraphData(memory_utilization,"memory","Memory utilization","");
-            var currentState = memory_utilization[0].target.split(" ")[1].split(":");
-            if(currentState[0] === 'Current') {
-                this.setGraphUtilization({"total":100,"used":parseInt(currentState[1])},'memory');
-            }
+            this.setGraphUtilization({"total":100,"used":this.utilizations.memoryusage.percentused},'memory');
         });
     }
 
     public getIOPS(timeSlot: any) {
-        this.clusterService.getIOPS(this.cluster.name,timeSlot.value).then((iops) => {
+        this.clusterService.getIOPS(this.id,timeSlot.value).then((iops) => {
             this.setGraphData(iops,"iops","IOPS","K");
         });
     }
 
     public getThroughput(timeSlot: any) {
-        this.clusterService.getThroughput(this.cluster.name,timeSlot.value).then((throughput) => {
+        this.clusterService.getThroughput(this.id,timeSlot.value).then((throughput) => {
             this.setGraphData(throughput,"throughput","Throughput","KB/s");
         });
     }
 
     public getNetworkLatency(timeSlot: any) {
-        this.clusterService.getNetworkLatency(this.cluster.name,timeSlot.value).then((network_latency) => {
+        this.clusterService.getNetworkLatency(this.id,timeSlot.value).then((network_latency) => {
             this.setGraphData(network_latency,"latency","Latency","ms");
         });
     }
