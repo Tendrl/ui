@@ -330,4 +330,12 @@ export class ServerService {
         });
     }
 
+    // **getNodeSlus**
+    // **@returns** a promise with all slus of the node.
+    getNodeSlus(nodeId) {
+        return this.rest.one('nodes', nodeId).all('slus').getList<any>().then(function(slus) {
+            return slus;
+        });
+    }
+
 }

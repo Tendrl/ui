@@ -10,7 +10,11 @@
  * An AngularJS directive for showing the details of osds in cluster.
  *
  * @example
- * <osd-detail clusterId="clusterid"></osd-detail>
+ * for Cluster's osd detail
+ * <osd-detail entity-id="clusterid" entity-type="Cluster"></osd-detail>
+ *
+ * for Host's osd detail
+ * <osd-detail entity-id="hostid" entity-type="Host"></osd-detail>
  *
 */
 
@@ -19,7 +23,8 @@ import {OsdDetailController} from './osd-detail';
 export class OsdDetail implements ng.IDirective {
     restrict: string = "E";
     scope = {
-        id: '=clusterId'
+        id: '=entityId',
+        type: '@entityType'
     };
     controllerAs: string = 'osddetail';
     bindToController: boolean = true;

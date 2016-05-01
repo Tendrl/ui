@@ -1,5 +1,6 @@
 // <reference path="../typings/tsd.d.ts" />
 
+import {ServerService} from '../../rest/server';
 import {ClusterService} from '../../rest/clusters';
 import {RequestService} from '../../rest/request';
 import {RequestTrackingService} from '../../requests/request-tracking-svc';
@@ -8,6 +9,7 @@ import {numeral} from '../../base/libs';
 
 export class OsdDetailController {
     private id: any;
+    private type: any;
     private osdList: Array<any>;
     private osdListGroupBy: any;
     private filterList: any;
@@ -16,6 +18,8 @@ export class OsdDetailController {
     private isLeftSidebarShow: boolean;
     private filteredOSD: any;
     private totalSelectedOSDs: Array<any>;
+    private storageProfileArray: Array<any>;
+    private selectByStorageProfile: any;
 
     //Services that are used in this class.
     static $inject: Array<string> = [
@@ -24,6 +28,7 @@ export class OsdDetailController {
         '$scope',
         '$timeout',
         '$log',
+        'ServerService',
         'ClusterService',
         'RequestService',
         'RequestTrackingService'
@@ -34,6 +39,7 @@ export class OsdDetailController {
         private scopeService: ng.IScope,
         private timeoutService: ng.ITimeoutService,
         private logService: ng.ILogService,
+        private serverService: ServerService,
         private clusterService: ClusterService,
         private requestSvc: RequestService,
         private requestTrackingSvc: RequestTrackingService) {
@@ -76,6 +82,13 @@ export class OsdDetailController {
             {name: "50% - 85%", icon: "progress-bar-average", enabled: false, checked: false},
             {name: "Less than 50%", icon: "progress-bar-normal", enabled: false, checked: false}
         ];
+        this.storageProfileArray = [
+            {'name': 'All', 'value': ''},
+            {'name': 'General', 'value': 'general'},
+            {'name': 'SAS', 'value': 'sas'},
+            {'name': 'SSD', 'value': 'ssd'}
+        ];
+        this.selectByStorageProfile = { storageprofile: '' };
         this.totalSelectedOSDs = [];
         this.getOSDs();
         /* Here , watching the filteredOSD(filtered osd list) variable for any changes .
@@ -95,31 +108,41 @@ export class OsdDetailController {
 
     /* Getting OSD list here */
     public getOSDs() {
-        this.clusterService.getSlus(this.id).then((slus: Array<any>) => {
-            this.osdList = slus;
-            (this.osdList || []).map( (osd) => {
-                var pgArray = [];
-                /* Adding the usage status for each osd , so that easily can find color code as well
-                as filter for percentused in UI */
-                osd.usage.status = (osd.usage.percentused>=95? 0 :(osd.usage.percentused>=85? 1 :(osd.usage.percentused>=50? 2 : 3 )));
-                /* By default , we have disabled all filter . and Just here we are enabling the filters
-                which are present in OSD list */
-                if(!this.filterList.OSDStatus[osd.status].enabled) {
-                    this.filterList.OSDStatus[osd.status].enabled = true;
-                }
-                if(!this.filterList.Utilization[osd.usage.status].enabled) {
-                    this.filterList.Utilization[osd.usage.status].enabled = true;
-                }
-                /* we have pg summary in object format with '+' sign . example - "pgsummary":{"active+undersized+degraded":128} .
-                Here , we want to each key after spliting with '+' sign , should be array elements
-                so that easily can apply filter  */
-                Object.keys(osd.options1.pgsummary).forEach((element) => {
-                    pgArray = pgArray.concat(element.split("+"));
-                });
-                osd.options1.pgsummary.pgarray = pgArray;
-                osd.node = osd.options1.node;
+        if( this.type === 'Cluster' ) {
+            this.clusterService.getSlus(this.id).then((slus: Array<any>) => {
+                this.settingUpOsds(slus);
+                this.performGroupBy('node');
             });
-            this.performGroupBy('node');
+        } else {
+            this.serverService.getNodeSlus(this.id).then((slus: Array<any>) => {
+                this.settingUpOsds(slus);
+            });
+        }
+    }
+
+    public settingUpOsds(slus: Array<any>) {
+        this.osdList = slus;
+        (this.osdList || []).map( (osd) => {
+            var pgArray = [];
+            /* Adding the usage status for each osd , so that easily can find color code as well
+            as filter for percentused in UI */
+            osd.usage.status = (osd.usage.percentused>=95? 0 :(osd.usage.percentused>=85? 1 :(osd.usage.percentused>=50? 2 : 3 )));
+            /* By default , we have disabled all filter . and Just here we are enabling the filters
+            which are present in OSD list */
+            if(!this.filterList.OSDStatus[osd.status].enabled) {
+                this.filterList.OSDStatus[osd.status].enabled = true;
+            }
+            if(!this.filterList.Utilization[osd.usage.status].enabled) {
+                this.filterList.Utilization[osd.usage.status].enabled = true;
+            }
+            /* we have pg summary in object format with '+' sign . example - "pgsummary":{"active+undersized+degraded":128} .
+            Here , we want to each key after spliting with '+' sign , should be array elements
+            so that easily can apply filter  */
+            Object.keys(osd.options1.pgsummary).forEach((element) => {
+                pgArray = pgArray.concat(element.split("+"));
+            });
+            osd.options1.pgsummary.pgarray = pgArray;
+            osd.node = osd.options1.node;
         });
     }
 

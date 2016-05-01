@@ -29,4 +29,9 @@
     <div ng-if="hostdetail.isSet(hostdetail.tabList.Configuration)">
         <host-config host-id="hostdetail.id"></host-config>
     </div>
+    <!-- THIRD TAB CONTENT -->
+    <div ng-if="hostdetail.isSet(hostdetail.tabList.OSDs)">
+        <osd-detail entity-id="hostdetail.id" entity-type="Host"></osd-detail>
+    </div>
+
 </div>

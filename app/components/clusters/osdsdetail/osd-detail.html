@@ -8,15 +8,23 @@
     <div class="col-md-7">
       <div class="row">
         <div class="col-md-3">
+          <span ng-if="osddetail.type === 'Cluster'">
             <label ng-init="osddetail.groupBy='node'">Group By:</label>
             <select class="form-control" ng-model="osddetail.groupBy" ng-change="osddetail.performGroupBy(osddetail.groupBy)">
               <option value="node">Host</option>
               <option value="storageprofile">Storage Profile</option>
             </select>
+          </span>
+          <span ng-if="osddetail.type === 'Host'">
+            <label>Storage Profile:</label>
+            <select class="form-control" ng-model="osddetail.selectByStorageProfile.storageprofile"
+              ng-options="profile.value as profile.name for profile in osddetail.storageProfileArray">
+            </select>
+          </span>
         </div>
         <div class="col-md-offset-2 col-md-7">
           <label>Filter By:</label>
-          <form ng-init="osddetail.searchBy = {name:'Host',value:'node'}">
+          <form ng-if="osddetail.type === 'Cluster'" ng-init="osddetail.searchBy = {name:'Host',value:'node'}">
             <div class="form-group toolbar-pf-filter">
                 <div class="input-group">
                     <div class="input-group-btn">
@@ -31,6 +39,22 @@
                     </div>
                     <!-- /btn-group -->
                     <input type="text" placeholder="Filter by {{osddetail.searchBy.name}}..." class="form-control" ng-model="osddetail.searchByText[osddetail.searchBy.value]">
+                    <span class="input-group-addon">
+                      <i class="fa fa-search"></i>
+                    </span>
+                </div>
+            </div>
+          </form>
+          <form ng-if="osddetail.type === 'Host'">
+            <div class="form-group toolbar-pf-filter">
+                <div class="input-group">
+                    <div class="input-group-btn">
+                        <button aria-expanded="false" aria-haspopup="true" data-toggle="dropdown" class="btn btn-default dropdown-toggle" type="button">
+                            OSD Name
+                        </button>
+                    </div>
+                    <!-- /btn-group -->
+                    <input type="text" placeholder="Filter by OSD Name..." class="form-control" ng-model="osddetail.searchByText.name">
                     <span class="input-group-addon">
                       <i class="fa fa-search"></i>
                     </span>
@@ -129,7 +153,8 @@
   <div class="row">
     <div ng-class="osddetail.isLeftSidebarShow?'col-md-offset-2 col-md-7':'col-md-9'">
       <div ng-class="osddetail.osdList.length > 8 ? 'div-with-scroll': ''">
-        <div ng-repeat="(key, data) in osddetail.osdListGroupBy">
+
+        <div ng-if="osddetail.type === 'Cluster'" ng-repeat="(key, data) in osddetail.osdListGroupBy">
           <div class="custom-panel-heading" role="tab">
             <h4>
               {{key}} ({{osddetail.filteredOSD[$index].length}})
@@ -158,6 +183,30 @@
             </div>
           </div>
         </div>
+
+        <div class="row" ng-if="osddetail.type === 'Host'">
+          <div class="col-lg-3 col-md-3 col-sm-4 col-xs-12" ng-repeat="osd in osddetail.filteredOSD[$index]=(osddetail.osdList | filter:osddetail.applyFilter | filter: osddetail.searchByText | filter: osddetail.selectByStorageProfile )">
+            <div class="osd-box" ng-click="osddetail.selection.activeOsd=osd" ng-class="osddetail.selection.activeOsd===osd?'selected-osd':''">
+              <div class="osd-box-content">
+                <div class="osd-box-osd-name">
+                  <div class="pull-right">
+                    <i ng-class="osddetail.filterList.OSDStatus[osd.status].icon"></i>
+                  </div>
+                  <div class="checkbox">
+                    <label>
+                      <input type="checkbox" ng-change="osddetail.maintainTotalSelectedOsds()" ng-model="osddetail.selection.allSelectedOsds[osd.sluid]"> {{osd.name}}
+                    </label>
+                  </div>
+                </div>
+                <div class="progress custom-progress">
+                  <div class="progress-bar" ng-class="osddetail.filterList.Utilization[osd.usage.status].icon" role="progressbar" aria-valuemin="0" aria-valuemax="100" ng-style="{width:osd.usage.percentused+'%'}">
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
       </div>
     </div>
     <div class="col-md-3">
