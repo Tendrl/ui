@@ -81,8 +81,8 @@
         <div class="col-md-1 col-sm-2 set-top-margin">
             <div class="sub-heading">Alerts</div>
             <div class="sub-heading">
-                <span ng-bind="host.alerts"></span>
-                <i class="fa fa-2x set-margin" ng-class="host.alerts>0?'fa-times-circle critical':'fa-check-circle-o ok'"></i>
+                <a ng-href="#/events?nodename={{host.hostname}}" ng-if="(host.almwarncount + host.almcritcount)>0">{{host.almwarncount + host.almcritcount}}</a>
+                <span class="set-margin pficon" ng-class="(host.almwarncount + host.almcritcount)>0? ((host.almcritcount > 0)?'pficon-error-circle-o' : 'pficon-warning-triangle-o' ):'pficon-ok'"></span>
             </div>
         </div>
         <div class="col-md-1 col-sm-1 set-top-margin">

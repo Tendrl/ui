@@ -81,7 +81,8 @@ export class ClustersController {
                 status: cluster.status,
                 used: undefined,
                 no_of_hosts: 0,
-                alerts: mockCluster.alerts,
+                almwarncount: cluster.almwarncount,
+                almcritcount: cluster.almcritcount,
                 no_of_volumes_or_pools: 0,
                 trendsCharts : {title:"",data:{xData:[],yData:[]},config:{}},
             };

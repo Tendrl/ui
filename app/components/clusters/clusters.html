@@ -77,7 +77,7 @@
                                 </c3chart>
                             </div>
                             <div class="list-view-pf-additional-info-item list-view-pf-additional-info-item-stacked" ng-if="cluster.state !== 0">
-                                <strong ng-bind=" cluster.free_size | bytes "></strong> of {{ cluster.total_size | bytes
+                                <strong ng-bind=" cluster.total_size - cluster.free_size | bytes "></strong> of {{ cluster.total_size | bytes
                                 }} used
                             </div>
 
@@ -98,13 +98,13 @@
                             <strong ng-bind="cluster.no_of_volumes_or_pools"></strong> Pools
                         </div>
                         <div class="list-view-pf-additional-info-item">
-                            <span ng-class="cluster.alerts.length>0?'pficon pficon-error-circle-o':'pficon pficon-ok'"></span>
-                            <strong ng-bind="cluster.alerts.length"></strong> Alerts
+                            <span class="pficon" ng-class="(cluster.almwarncount + cluster.almcritcount)>0? ((cluster.almcritcount > 0)?'pficon-error-circle-o' : 'pficon-warning-triangle-o' ):'pficon-ok'"></span>
+                            <a ng-href="#/events?clustername={{cluster.cluster_name}}" ng-if="(cluster.almwarncount + cluster.almcritcount) > 0"><strong>{{cluster.almwarncount + cluster.almcritcount}}  Alerts</strong></a>
+                            <strong ng-if="(cluster.almwarncount + cluster.almcritcount) < 1">0 Alerts</strong>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-
 </div>

@@ -14,6 +14,8 @@ export interface Cluster {
     options: {};
     openstack_services: Array<string>;
     networks: {};
+    almwarncount: number;
+    almcritcount: number;
 }
 
 export enum ClusterState {

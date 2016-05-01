@@ -111,10 +111,8 @@
                         <div class="list-view-pf-additional-info-item list-view-pf-additional-info-item-stacked">
                             <strong>Alerts</strong>
                             <p class="alert-count">
-                                <span ng-bind="storage.almcount" ng-if="storage.almcount > 0"></span>
-                                <span ng-if="storage.almstatus === 0 || storage.almstatus ===5" class="pficon pficon-ok"></span>
-                                <span ng-if="storage.almstatus === 4 || storage.almstatus ===3" class="pficon pficon-warning-triangle-o"></span>
-                                <span ng-if="storage.almstatus === 2 || storage.almstatus ===1" class="pficon pficon-error-circle-o"></span>
+                                <a ng-href="#/events?searchmessage={{storage.name}} on {{storages.getClusterName(storage.clusterid)}}"  ng-if="(storage.almwarncount + storage.almcritcount) > 0">{{storage.almwarncount + storage.almcritcount}}</a>
+                                <span class="pficon" ng-class="(storage.almwarncount + storage.almcritcount)>0? ((storage.almcritcount > 0)?'pficon-error-circle-o' : 'pficon-warning-triangle-o' ):'pficon-ok'"></span>
                             </p>
                         </div>
                     </div>

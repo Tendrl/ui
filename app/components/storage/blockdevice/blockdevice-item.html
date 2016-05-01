@@ -17,6 +17,13 @@
                 </div>
                 <div class="list-view-pf-additional-info-item list-view-pf-additional-info-item-stacked">
                     <strong>Backing Pool</strong>{{vm.blockdevice.storagename}}</div>
+                <div class="list-view-pf-additional-info-item list-view-pf-additional-info-item-stacked">
+                    <strong>Alerts</strong>
+                    <p class="alert-count">
+                        <a ng-href="#/events?searchmessage={{storage.name}} on {{storages.getClusterName(storage.clusterid)}}">{{storage.almwarncount + storage.almcritcount}}</a>
+                        <span class="pficon" ng-class="(storage.almwarncount + storage.almcritcount)>0? ((storage.almcritcount > 0)?'pficon-error-circle-o' : 'pficon-warning-triangle-o' ):'pficon-ok'"></span>
+                    </p>
+                </div>
             </div>
         </div>
     </div>
