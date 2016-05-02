@@ -1,8 +1,12 @@
 <div class="container-fluid blockdevice-list">
+    <ol class="breadcrumb">
+        <li><a href="#/storage">Storage</a></li>
+        <li>RBDs</li>
+    </ol>
     <div class="page-header">
         <h1>RBDs</h1>
     </div>
-    <div class="row" ng-if = "rbds.list.length > 0">
+    <div class="row form-group" ng-if = "rbds.list.length > 0">
         <div class="col-md-3">
             <input type="text" class="form-control" placeholder="Search" ng-model="search">
         </div>
