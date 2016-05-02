@@ -124,28 +124,7 @@ export class HostListController {
         this.serverService.reinitialize(host.hostname);
     }
 
-    /**
-    * First check if there is any unaccepted host found and show a dailog to accept all the available hosts.
-    * Here we change the current path to '/clusters/new' where new clusters can be created
-    * with the help of the UI provided.
-    */
     public createNewCluster(): void {
-        this.serverService.getDiscoveredHosts().then(freeHosts => {
-            if (freeHosts.length > 0) {
-                var modal = ModalHelpers.UnAcceptedHostsFound(this.$modal, {}, freeHosts.length);
-                modal.$scope.$hide = _.wrap(modal.$scope.$hide, ($hide, confirmed: boolean) => {
-                    if (confirmed) {
-                        this.$location.path('/clusters/new/accept-hosts');
-                    }
-                    else {
-                        this.$location.path('/clusters/new');
-                    }
-                    $hide();
-                });
-            }
-            else {
-                this.$location.path('/clusters/new');
-            }
-        });
+        this.$location.path('/clusters/new');
     }
 }

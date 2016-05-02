@@ -115,22 +115,27 @@ export class ClusterNewController {
         this.newPool.copyCountList = VolumeHelpers.getCopiesList();
         this.newPool.copyCount = VolumeHelpers.getRecomendedCopyCount();
 
-        this.serverService.getDiscoveredHosts().then(freeHosts => {
-            if (freeHosts.length > 0) {
-                var modal = ModalHelpers.UnAcceptedHostsFound(this.modalService, {}, freeHosts.length);
-                modal.$scope.$hide = _.wrap(modal.$scope.$hide, ($hide, confirmed: boolean) => {
-                    if (confirmed) {
-                        this.locationService.path('/clusters/new/accept-hosts');
-                    }
-                    $hide();
+        var queryParams = locationService.search();
+        if (Object.keys(queryParams).length > 0 && queryParams['hostsaccepted'] === "true") {
+            this.fetchFreeHosts();
+        }
+        else{
+            this.serverService.getDiscoveredHosts().then(freeHosts => {
+                if (freeHosts.length > 0) {
+                    var modal = ModalHelpers.UnAcceptedHostsFound(this.modalService, {}, freeHosts.length);
+                    modal.$scope.$hide = _.wrap(modal.$scope.$hide, ($hide, confirmed: boolean) => {
+                        if (confirmed) {
+                            this.locationService.path('/clusters/new/accept-hosts');
+                        }
+                        $hide();
+                        this.fetchFreeHosts();
+                    });
+                }
+                else {
                     this.fetchFreeHosts();
-                });
-            }
-            else {
-                this.fetchFreeHosts();
-            }
-        });
-
+                }
+            });
+        }
         this.configSvc.getConfig().then((config) => {
             if (config.ceph_min_monitors) {
                 this.minMonsRequired = config.ceph_min_monitors;
@@ -402,7 +407,7 @@ export class ClusterNewController {
     }
 
     public cancel() {
-        this.locationService.path('/clusters');
+        this.locationService.path('/clusters').search({});
     }
 
     public glusterCallBack(requests: any, volumes: any) {

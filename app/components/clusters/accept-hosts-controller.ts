@@ -112,8 +112,8 @@ export class AcceptHostsController {
             template: 'views/modal/task-details-popup.html',
             backdrop: 'static', // disable mouse clicks for now since I can't wrap them or supply a callback
             keyboard: false,
-            controller: function(){
-                  this.taskId = taskId;
+            controller: function() {
+                this.taskId = taskId;
             },
             controllerAs: 'tasks'
         });
@@ -141,7 +141,13 @@ export class AcceptHostsController {
     }
 
     public continue() {
-        this.$location.path('/clusters/new');
+        var queryParams = this.$location.search();
+        this.$location.search({});
+        if (Object.keys(queryParams).length > 0 && queryParams['expandcluster'] !== undefined) {
+            this.$location.path('/clusters/expand/' + queryParams['expandcluster']).search('hostsaccepted', 'true');
+        } else {
+            this.$location.path('/clusters/new').search('hostsaccepted', 'true');
+        }
     }
 
     public cancel() {

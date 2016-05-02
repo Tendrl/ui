@@ -66,15 +66,35 @@ export class ClusterExpandController {
         this.clusterID = this.routeParamsSvc['id'];
         this.hostTypes = ["Monitor", "OSD Host", "OSD + Monitor"];
         this.configSvc.getConfig().then((config) => {
-            if (config.ceph_mix_host_roles){
+            if (config.ceph_mix_host_roles) {
                 this.cephMixHostRoles = config.ceph_mix_host_roles;
             }
         });
-        this.clusterService.get(this.clusterID).then((cluster)=>this.loadCluster(cluster));
-        this.fetchFreeHosts();
+        this.clusterService.get(this.clusterID).then((cluster) => this.loadCluster(cluster));
+        var queryParams = locationService.search();
+        if (Object.keys(queryParams).length > 0 && queryParams['hostsaccepted'] === "true") {
+            this.fetchFreeHosts();
+        }
+        else {
+            this.serverService.getDiscoveredHosts().then(freeHosts => {
+                if (freeHosts.length > 0) {
+                    var modal = ModalHelpers.UnAcceptedHostsFound(this.modalService, {}, freeHosts.length);
+                    modal.$scope.$hide = _.wrap(modal.$scope.$hide, ($hide, confirmed: boolean) => {
+                        if (confirmed) {
+                            this.locationService.path('/clusters/new/accept-hosts').search('expandcluster',this.clusterID);
+                        }
+                        $hide();
+                        this.fetchFreeHosts();
+                    });
+                }
+                else {
+                    this.fetchFreeHosts();
+                }
+            });
+        }
     }
 
-    public loadCluster (cluster: any) {
+    public loadCluster(cluster: any) {
         this.cluster = cluster;
         this.name = cluster.name;
         this.clusterType = this.clusterHelper.getClusterType(cluster.cluster_type);
@@ -131,10 +151,10 @@ export class ClusterExpandController {
 
     public selectHost(host: any, selection: boolean) {
         host.selected = selection;
-        if(selection && host.hostType === undefined) {
-            if(host.disks.length === 0){
+        if (selection && host.hostType === undefined) {
+            if (host.disks.length === 0) {
                 host.hostType = this.hostTypes[0];  //No Disk available so make this a Mon
-            }else{
+            } else {
                 host.hostType = this.hostTypes[1];  //There are some disks so it can be an OSD
             }
         }
@@ -182,7 +202,7 @@ export class ClusterExpandController {
         this.disks = disks;
     }
 
-    public hostTypeChanged(host: any){
+    public hostTypeChanged(host: any) {
         this.validateHost(host);
         this.countDisks()
     }
