@@ -33,11 +33,11 @@
                         <span class="fa fa-ellipsis-v"></span>
                     </button>
                     <ul aria-labelledby="dropdownKebabRight" class="dropdown-menu dropdown-menu-right" ng-if="cluster.state !== 4">
-                        <li ng-if="!clusters.isExpandAvailable(cluster.state)"><a ng-click="clusters.expandCluster(cluster.clusterid, cluster.state)"><i class="fa fa-plus"></i> Expand</a></li>
-                        <li ng-if="!clusters.isManageAvailable(cluster.state)"><a ng-click="clusters.enableCluster(cluster.clusterid, cluster.state)"><i class="fa fa-check"></i> Manage</a></li>
-                        <li ng-if="!clusters.isUnManageAvailable(cluster.state)"><a ng-click="clusters.disableCluster(cluster.clusterid, cluster.state)"><i class="fa fa-times"></i> UnManage</a></li>
+                        <li ng-if="clusters.isExpandAvailable(cluster.state)"><a ng-click="clusters.expandCluster(cluster.clusterid, cluster.state)"><i class="fa fa-plus"></i> Expand</a></li>
+                        <li ng-if="clusters.isManageAvailable(cluster.state)"><a ng-click="clusters.enableCluster(cluster.clusterid, cluster.state)"><i class="fa fa-check"></i> Manage</a></li>
+                        <li ng-if="clusters.isUnManageAvailable(cluster.state)"><a ng-click="clusters.disableCluster(cluster.clusterid, cluster.state)"><i class="fa fa-times"></i> UnManage</a></li>
                         <li class="divider" role="separator"></li>
-                        <li ng-if="!clusters.isForgetAvailable(cluster.state)"><a ng-click="clusters.removeCluster(cluster.clusterid, cluster.state)"><i class="fa fa-trash"></i> Forget</a></li>
+                        <li ng-if="clusters.isForgetAvailable(cluster.state)"><a ng-click="clusters.removeCluster(cluster.clusterid, cluster.state)"><i class="fa fa-trash"></i> Forget</a></li>
                     </ul>
                 </div>
             </div>
