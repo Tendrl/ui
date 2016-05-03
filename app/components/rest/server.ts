@@ -20,7 +20,7 @@ export interface Node {
     status: NodeStatus;
     storage_disks: any[];
     tags: any[];
-    utilizations: { cpupercentageusage?: number, memoryusage: UsageData, storageusage: UsageData, swapusage: UsageData };
+    utilizations: { cpupercentageusage?: number, memoryusage: UsageData, storageusage: UsageData, swapusage: UsageData, networkusage: UsageData };
 }
 
 export interface UsageData {

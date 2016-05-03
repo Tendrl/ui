@@ -77,7 +77,7 @@ export class HostOverviewController {
 
     public getNetworkUtilization(timeSlot: any) {
         this.serverService.getHostNetworkUtilization(this.host.nodeid,timeSlot.value).then((network_utilization) => {
-            this.setGraphData(network_utilization,"network","Network utilization","%");
+            this.drawGraphs(network_utilization,"network","Network utilization","%",this.host.utilizations.networkusage.percentused);
         });
     }
 
