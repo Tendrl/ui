@@ -1,5 +1,4 @@
 
-import {MockDataProvider} from '../clusters/mock-data-provider-helpers';
 import {ClusterHelper} from '../clusters/cluster-helpers';
 import {ClusterService} from '../rest/clusters';
 import {ServerService} from '../rest/server';
@@ -12,7 +11,6 @@ export class HostListController {
     public list: Array<any>;
     private clusters: {};
     private hostStats: {};
-    private MockDataProvider = new MockDataProvider();
     private clusterHelper: ClusterHelper;
     static $inject: Array<string> = [
         '$scope',

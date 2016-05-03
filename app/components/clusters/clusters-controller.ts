@@ -2,7 +2,6 @@
 import {Cluster} from '../rest/clusters';
 import {ClusterState} from '../rest/clusters';
 import {ClusterService} from '../rest/clusters';
-import {MockDataProvider} from './mock-data-provider-helpers';
 import {ClusterHelper} from './cluster-helpers';
 import {VolumeService} from '../rest/volume';
 import {StorageService} from '../rest/storage';
@@ -30,9 +29,6 @@ export class ClustersController {
         'RequestTrackingService'
     ];
 
-    //Mock-Data incase if data not available 
-    private mockDataProvider: MockDataProvider;
-
     //Timer to refresh the data every 10 seconds
     private timer;
 
@@ -51,7 +47,6 @@ export class ClustersController {
         private requestSvc: RequestService,
         private requestTrackingSvc: RequestTrackingService) {
         this.clusterHelper = new ClusterHelper(null, null, null, null);
-        this.mockDataProvider = new MockDataProvider();
         this.timer = this.$interval(() => this.refresh(), 10000);
         this.refresh();
         this.$scope.$on('$destroy', () => {
@@ -71,8 +66,6 @@ export class ClustersController {
     public loadData(clusters: Cluster[]) {
         var tempClusters: Array<any> = [];
         _.each(clusters, (cluster) => {
-            var mockCluster: any = {};
-            mockCluster = this.mockDataProvider.getMockCluster(cluster.name);
             var tempCluster: any = {
                 clusterid: cluster.clusterid,
                 cluster_name: cluster.name,

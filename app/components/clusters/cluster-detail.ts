@@ -86,12 +86,14 @@ export class ClusterDetailController {
         this.id = this.routeParamsSvc['id'];
         this.cluster = {};
         this.capacity = {};
+        /* For handling error in console: "url or json or rows or columns is required."
+        we should initialize 'data' key with :{xData:[],yData:[]}. */
         this.trendsCharts = {
-            cpu: {title:"",data:{},config:{}},
-            memory: {title:"",data:{},config:{}},
-            latency: {title:"",data:{},config:{}},
-            throughput: {title:"",data:{},config:{}},
-            iops: {title:"",data:{},config:{}}
+            cpu: {title:"",data:{xData:[],yData:[]},config:{}},
+            memory: {title:"",data:{xData:[],yData:[]},config:{}},
+            latency: {title:"",data:{xData:[],yData:[]},config:{}},
+            throughput: {title:"",data:{xData:[],yData:[]},config:{}},
+            iops: {title:"",data:{xData:[],yData:[]},config:{}}
         };
         this.utilizations = {};
         this.hosts = { total: 0, error: 0, unaccepted: 0 };
@@ -121,7 +123,6 @@ export class ClusterDetailController {
         this.cluster.type = this.clusterHelpers.getClusterType(cluster.cluster_type);
         this.cluster.status = cluster.status;
         this.cluster.enabled = cluster.enabled;
-        this.changeTimeSlot(this.selectedTimeSlot);
     }
 
     public loadClusterSummary(summary) {
@@ -134,7 +135,16 @@ export class ClusterDetailController {
         this.pools = summary.storagecount
         this.osds = summary.slucount;
         this.hosts = summary.nodescount;
-        this.monitors.total = summary.providermonitoringdetails.ceph.monitor;
+        /* Need to check whether "summary.providermonitoringdetails" is empty
+        object or not . because might be sometime it can be empty object */
+        if(summary.providermonitoringdetails.ceph) {
+            this.monitors.total = summary.providermonitoringdetails.ceph.monitor;
+        }
+        /* In "changeTimeSlot" function calling cpu and memory utilization api
+        and that need "this.utilizations" data . so first we have this data from
+        api . than only will call this "changeTimeSlot" function. so that we will
+        have accurate data */
+        this.changeTimeSlot(this.selectedTimeSlot);
     }
 
     public getClusterUtilization(usage: any) {
