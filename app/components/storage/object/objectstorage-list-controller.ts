@@ -112,6 +112,15 @@ export class ObjectStorageListController {
         this.$location.path('/clusters/new');
     }
 
+    public isupdateNeed(storage,updatedStorage){
+        if(storage.options.ecprofile != this.editPool.options.ecprofile ||
+        storage.replicas != this.editPool.replicas || storage.quota_enabled != updatedStorage.quota_enabled ||
+        storage.quota_params.quota_max_bytes != updatedStorage.quota_params.quota_max_bytes ||
+        storage.quota_params.quota_max_objects != updatedStorage.quota_params.quota_max_objects ){
+            return true;
+        }
+    }
+
     public update(storage): void {
         if(storage.name != this.editPool.name){
             let poolName = {
@@ -126,30 +135,24 @@ export class ObjectStorageListController {
              quota_enabled : this.editPool.quota_enabled,
              quota_params : {}
         };
-        if(this.editPool.quota_enabled){
-            pool.quota_params.quota_max_objects = this.editPool.quota_params.quota_max_objects;
-            pool.quota_params.quota_max_bytes = Math.round((this.maxPercentage / 100) * this.capacity).toString();
-        }
-        if(storage.replicas != this.editPool.replicas || storage.quota_enabled != this.editPool.quota_enabled ||
-        storage.quota_params.quota_max_bytes != pool.quota_params.quota_max_bytes ||
-        storage.quota_params.quota_max_objects != pool.quota_params.quota_max_objects ){
-            if (storage.type === 'replicated') {
-                pool.replicas = this.editPool.replicas;
+        if(this.editPool.quota_enabled) {
+            if(this.enable_quota_max_objects){
+                pool.quota_params.quota_max_objects = this.editPool.quota_params.quota_max_objects;
             }
-            // PoolName should be update seperately... so that need to make two different calls*/
-            this.storageSvc.update(storage.clusterid, storage.storageid, pool);
+            if(this.enable_max_percentage) {
+                pool.quota_params.quota_max_bytes = Math.round((this.maxPercentage / 100) * this.capacity).toString();
+            }
         }
-        else {
-            if(storage.options.ecprofile != this.editPool.options.ecprofile || storage.quota_enabled != this.editPool.quota_enabled ||
-            storage.quota_params.quota_max_bytes != pool.quota_params.quota_max_bytes ||
-            storage.quota_params.quota_max_objects != pool.quota_params.quota_max_objects  ){
-                if(storage.type === 'erasure_coded'){
-                    pool.options.ecprofile = this.editPool.options.ecprofile;
-                }
+        if(storage.type === 'erasure_coded') {
+            pool.options.ecprofile = this.editPool.options.ecprofile;
+        }
+        else if (storage.type === 'replicated') {
+            pool.replicas = this.editPool.replicas;
+        }
+        if(this.isupdateNeed(storage, pool)){
                 // PoolName should be update seperately... so that need to make two different calls*/
                 this.storageSvc.update(storage.clusterid, storage.storageid, pool);
-            }
-        }
+         }
         this.timer = this.$interval(() => this.refresh(), 5000);
     }
 
