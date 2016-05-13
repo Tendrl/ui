@@ -62,7 +62,12 @@ export class RequestsController {
     //Open WebSocket connection 
     public openWebSocket() {
         if ("WebSocket" in window) {
-            var ws = new WebSocket("ws://" + this.$location.host() + ":8081/ws");
+            var ws;
+            if (this.$location.protocol() === "https") {
+                ws = new WebSocket("wss://" + this.$location.host() + ":8081/ws");
+            } else {
+                ws = new WebSocket("ws://" + this.$location.host() + ":8081/ws");
+            }
             ws.onopen = () => {
                 this.$log.info("WebSocket Connection is Started!");
             };
