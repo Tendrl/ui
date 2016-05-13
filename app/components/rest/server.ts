@@ -33,13 +33,14 @@ export interface UsageData {
 export interface DashboardSummaryData {
      name: string;
      usage: UsageData;
-     storageprofileusage: { general?: UsageData, sas?: UsageData, ssd?: UsageData};
-     storagecount: { total: number, down: number };
-     slucount: { total: number };
-     nodescount: { error: number, total: number, unaccepted: number };
-     clusterscount: { total: number, error: number };
+     storageprofileusage: { general?: { isNearFull: boolean, utilization: UsageData }, sas?: { isNearFull: boolean, utilization: UsageData }, ssd?: { isNearFull: boolean, utilization: UsageData } };
+     storagecount: { criticalAlerts: number, down: number, total:number };
+     slucount: { criticalAlerts: number, down: number, error: number, nearfull: number, total: number };
+     nodescount: { criticalAlerts: number, error: number, total: number, unaccepted: number };
+     clusterscount: { criticalAlerts: number, error: number, nearfull: number, total: number };
      providermonitoringdetails: { ceph: { monitor: number, objects: { num_objects: number, num_objects_degraded: number } } };
-     storageusage: Array<{ name: string, usage: { total: number, used: number} }>;
+     storageusage: Array<{ name: string, usage: UsageData }>;
+     utilizations: { cpupercentageusage: number, memoryusage: UsageData };
 }
 
 enum AlarmStatus {
@@ -87,6 +88,14 @@ export class ServerService {
     getDashboardSummary() {
         return this.rest.one('system/summary').get().then(function(summary: DashboardSummaryData) {
             return summary;
+        });
+    }
+
+    // **getFilteredList**
+    // **@returns** a promise with all servers with query string.
+    getFilteredList(queryString) {
+        return this.rest.all('nodes?' + queryString).getList<Node>().then(function(servers) {
+            return _.sortBy(servers, "hostname");
         });
     }
 
@@ -208,6 +217,14 @@ export class ServerService {
             return _.filter(devices, function(device) {
                 return device.inuse === false && device.device_type === 'disk';
             });
+        });
+    }
+
+    // **getSystemOverallUtilization**
+    // **@returns** a promise with Overall Utilization across all the nodes in system.
+    getSystemOverallUtilization() {
+        return this.rest.all('monitoring/system/utilization?resource=system_utilization.percent_bytes').getList().then(function(overall_utilization) {
+            return overall_utilization;
         });
     }
 

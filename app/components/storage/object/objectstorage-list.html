@@ -10,7 +10,25 @@
         <div class="col-md-3">
             <input type="text" class="form-control" placeholder="Search" ng-model="search">
         </div>
-        <div class="col-md-offset-6 col-md-3">
+        <div class="col-md-6">
+            <ul>
+                <span class="list-inline" ng-repeat="(key, value) in storages.paramsObject">
+                    <li ng-if="storages.isArray(value)" ng-repeat="subdata in value">
+                        <span class="label label-info">
+                        {{key}} : {{subdata}}
+                         <a href="" ng-click="storages.clearSearchQuery(key,$index)"><span class="pficon pficon-close cross-button"></span></a>
+                        </span>
+                    </li>
+                    <li ng-if="!storages.isArray(value)">
+                        <span class="label label-info">
+                        {{key}} : {{value}}
+                         <a href="" ng-click="storages.clearSearchQuery(key,null)"><span class="pficon pficon-close cross-button"></span></a>
+                        </span>
+                    </li>
+                </span>
+            </ul>
+        </div>
+        <div class="col-md-3">
             <span class="pull-right">
                 <button class="btn btn-primary btn-lg" ng-click="storages.create()">Add Storage</button>
             </span>

@@ -13,6 +13,8 @@ import * as ModalHelpers from '../modal/modal-helpers';
 export class ClustersController {
     public clusterList: Array<any>;
     private clusterHelper: ClusterHelper;
+    private searchQuery: string;
+    private paramsObject: any;
 
     //Services that are used in this class.
     static $inject: Array<string> = [
@@ -46,6 +48,10 @@ export class ClustersController {
         private serverService: ServerService,
         private requestSvc: RequestService,
         private requestTrackingSvc: RequestTrackingService) {
+        this.paramsObject = $location.search();
+        if (Object.keys(this.paramsObject).length > 0) {
+            this.updateSearchQuery(this.paramsObject);
+        }
         this.clusterHelper = new ClusterHelper(null, null, null, null);
         this.timer = this.$interval(() => this.refresh(), 10000);
         this.refresh();
@@ -54,10 +60,56 @@ export class ClustersController {
         });
     }
 
-    public refresh() {
-        this.clusterSvc.getList().then((clusters: Cluster[]) => {
-            this.loadData(clusters);
+    public isArray(data): Boolean {
+        return data instanceof Array;
+    }
+
+    public updateSearchQuery(paramsObject: any) {
+        this.searchQuery = '';
+        /*  paramsObject can have 3 case : -
+                1) { status: [error,warning] , tab: <OSD,HOST,etc> }
+                2) { tab: <OSD,HOST,etc> }
+                3) { status: [error,warning] }
+            and searchQuery will be like this : -
+            /api/<ver>/clusters?status=ok&status=warning&tab=<HOST/OSD/etc>
+        */
+        Object.keys(paramsObject).forEach((value: any) => {
+            let joinedStr = "";
+            if(paramsObject[value] instanceof Array) {
+                var queryArray = paramsObject[value].map(function(status) {
+                  return value + '=' + status;
+                })
+                joinedStr = queryArray.join('&');
+            }else {
+                joinedStr = value + "=" + paramsObject[value];
+            }
+            if ( this.searchQuery !== '' ) {
+                this.searchQuery += "&"
+            }
+            this.searchQuery += joinedStr;
         });
+    }
+
+    public refresh() {
+        if(this.searchQuery === '') {
+            this.clusterSvc.getList().then((clusters: Cluster[]) => {
+                this.loadData(clusters);
+            });
+        }else {
+            this.clusterSvc.getFilteredList(this.searchQuery).then((clusters: Cluster[]) => {
+                this.loadData(clusters);
+            });
+        }
+    }
+
+    public clearSearchQuery(key, itemIndex) {
+        if(itemIndex === null) {
+            delete this.paramsObject[key];
+        }else {
+            this.paramsObject[key].splice(itemIndex, 1);
+        }
+        this.updateSearchQuery(this.paramsObject);
+        this.refresh();
     }
 
     /**

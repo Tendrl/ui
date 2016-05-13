@@ -12,6 +12,8 @@ export class HostListController {
     private clusters: {};
     private hostStats: {};
     private clusterHelper: ClusterHelper;
+    private searchQuery: string;
+    private paramsObject: any;
     static $inject: Array<string> = [
         '$scope',
         '$interval',
@@ -37,6 +39,10 @@ export class HostListController {
         private serverService: ServerService,
         private utilService: UtilService,
         private requestService: RequestService) {
+        this.paramsObject = $location.search();
+        if (Object.keys(this.paramsObject).length > 0) {
+            this.updateSearchQuery(this.paramsObject);
+        }
         this.clusterHelper = new ClusterHelper(utilService, requestService, $log, $timeout);
         this.clusters = {};
         this.hostStats = {};
@@ -47,9 +53,53 @@ export class HostListController {
         this.reloadData();
     }
 
+    public isArray(data): Boolean {
+        return data instanceof Array;
+    }
+
+    public updateSearchQuery(paramsObject: any) {
+        this.searchQuery = '';
+        /*  paramsObject can have 3 case : -
+                1) { status: [error,warning] , tab: <OSD,HOST,etc> }
+                2) { tab: <OSD,HOST,etc> }
+                3) { status: [error,warning] }
+            and searchQuery will be like this : -
+            /api/<ver>/clusters?status=ok&status=warning&tab=<HOST/OSD/etc>
+        */
+        Object.keys(paramsObject).forEach((value: any) => {
+            let joinedStr = "";
+            if(paramsObject[value] instanceof Array) {
+                var queryArray = paramsObject[value].map(function(status) {
+                  return value + '=' + status;
+                })
+                joinedStr = queryArray.join('&');
+            }else {
+                joinedStr = value + "=" + paramsObject[value];
+            }
+            if ( this.searchQuery !== '' ) {
+                this.searchQuery += "&"
+            }
+            this.searchQuery += joinedStr;
+        });
+    }
+
+    public clearSearchQuery(key, itemIndex) {
+        if(itemIndex === null) {
+            delete this.paramsObject[key];
+        }else {
+            this.paramsObject[key].splice(itemIndex, 1);
+        }
+        this.updateSearchQuery(this.paramsObject);
+        this.reloadData();
+    }
+
     public reloadData() {
         if(this.clusterId === undefined) {
-            this.serverService.getList().then(this.updateHost);
+            if(this.searchQuery === '') {
+                this.serverService.getList().then(this.updateHost);
+            }else {
+                this.serverService.getFilteredList(this.searchQuery).then(this.updateHost);
+            }
         }else {
             this.serverService.getListByCluster(this.clusterId).then(this.updateHost);
         }

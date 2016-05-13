@@ -78,6 +78,12 @@ export class ClusterService {
         });
     }
 
+    // **getFilteredList**
+    // **@returns** a promise with a list of all the clusters with query string.
+    public getFilteredList(queryString) {
+        return this.rest.all('clusters?' + queryString).getList<Cluster>();
+    }
+
     // **getList**
     // **@returns** a promise with a list of all the clusters.
     public getList() {

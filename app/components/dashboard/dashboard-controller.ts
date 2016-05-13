@@ -22,6 +22,7 @@ export class DashboardController {
     private timeSlots: [{name:string, value:string}];
     private selectedTimeSlot: any;
     private timer: ng.IPromise<any>;
+    private nearFullStorageProfileArray: Array<any>;
 
     static $inject: Array<string> = [
         '$scope',
@@ -43,20 +44,22 @@ export class DashboardController {
             this.systemUtilization = {cpu:{data:{},config:{}},memory:{data:{},config:{}}};
             this.utilizationByProfile = {};
             this.mostUsedPools = [];
+            this.nearFullStorageProfileArray = [];
             this.capacity = {};
-            this.clusters = { total: 0, error: 0 };
-            this.hosts = { total: 0, error: 0, unaccepted: 0 };
+            this.clusters = { criticalAlerts: 0, error: 0, nearfull: 0, total: 0 };
+            this.hosts = { criticalAlerts: 0, error: 0, total: 0, unaccepted: 0 };
             this.pgs = { total: 0, error: 0 };
-            this.osds = { total: 0, error: 0 };
-            this.objects = { total: 0, error: 0 };
-            this.pools = { total: 0, down: 0 };
-            this.monitors = { total: 0, error: 0 };
+            this.osds = { criticalAlerts: 0, down: 0, error: 0, nearfull: 0, total: 0 };
+            this.objects = { criticalAlerts: 0, total: 0 };
+            this.pools = { criticalAlerts: 0, down: 0, total: 0 };
+            this.monitors = { criticalAlerts: 0, down: 0, total: 0 };
             this.trendsCharts = {
-                cpu: {title:"",data:{},config:{}},
-                memory: {title:"",data:{},config:{}},
-                iops: {title:"",data:{},config:{}},
-                throughput: {title:"",data:{},config:{}},
-                latency: {title:"",data:{},config:{}}
+                overall: {title:"",data:{xData:[],yData:[]},config:{}},
+                cpu: {title:"",data:{xData:[],yData:[]},config:{}},
+                memory: {title:"",data:{xData:[],yData:[]},config:{}},
+                iops: {title:"",data:{xData:[],yData:[]},config:{}},
+                throughput: {title:"",data:{xData:[],yData:[]},config:{}},
+                latency: {title:"",data:{xData:[],yData:[]},config:{}}
             };
             this.timeSlots = [{ name: "Last 1 hour", value: "-1h" },
                          { name: "Last 2 hours", value: "-2h" },
@@ -84,24 +87,36 @@ export class DashboardController {
     public loadDashboardData() {
         this.serverService.getDashboardSummary().then((summary) => {
             this.summary = summary;
-            this.formatlUtilizationData(summary.usage);
-            this.formatlUtilizationByProfileData(summary.storageprofileusage);
+            this.formatUtilizationData(summary.usage);
+            this.formatUtilizationByProfileData(summary.storageprofileusage);
             this.getMostUsedPools(summary.storageusage);
-            this.objects.total = summary.providermonitoringdetails.ceph.objects.num_objects;
-            this.objects.error = summary.providermonitoringdetails.ceph.objects.num_objects_degraded;
-            this.osds.total = summary.slucount.total;
+            this.osds = summary.slucount;
             this.hosts = summary.nodescount;
             this.clusters = summary.clusterscount;
             this.pools = summary.storagecount;
-            this.monitors.total = summary.providermonitoringdetails.ceph.monitor;
+            if(summary.providermonitoringdetails.ceph) {
+                this.monitors = summary.providermonitoringdetails.ceph.monitor;
+                this.objects.total = summary.providermonitoringdetails.ceph.objects.num_objects;
+                this.objects.criticalAlerts = summary.providermonitoringdetails.ceph.objects.num_objects_degraded;
+            }
             this.changeTimeSlot(this.selectedTimeSlot);
+        });
+        this.getOverallUtilization();
+    }
+
+    /**
+     *This is for overall utilization trend chart.
+    */
+    public getOverallUtilization() {
+        this.serverService.getSystemOverallUtilization().then((overall_utilization) => {
+            this.setGraphData(overall_utilization,"overall","Overall","%");
         });
     }
 
     /**
      *This is the helper function for format the overall utilization data.
     */
-    public formatlUtilizationData(usage: UsageData) {
+    public formatUtilizationData(usage: UsageData) {
         this.capacity = usage;
         this.utilization.data = usage
         this.utilization.config.chartId = "utilizationChart";
@@ -119,7 +134,8 @@ export class DashboardController {
     /**
      *This is the helper function for format the utilization by profile data.
     */
-    public formatlUtilizationByProfileData(profiles: any) {
+    public formatUtilizationByProfileData(profiles: any) {
+        this.nearFullStorageProfileArray = [];
         this.utilizationByProfile.title = 'Utilization by storage profile';
         this.utilizationByProfile.layout = {
           'type': 'multidata'
@@ -127,7 +143,8 @@ export class DashboardController {
         var subdata = [];
         var othersProfile: UsageData = { "used": 0, "total": 0};
         Object.keys(profiles).forEach((profile) => {
-            var usedData = Math.round(profiles[profile]["percentused"]);
+            var usedData = Math.round(profiles[profile]["utilization"]["percentused"]);
+            this.nearFullStorageProfileArray.push({name:profile,isNearFull:profiles[profile]["isNearFull"]})
             if(profile === 'general') {
                 subdata.push({ "used" : usedData , "color" : "#004368" , "subtitle" : "General" });
             }else if(profile === 'sas') {
@@ -135,8 +152,8 @@ export class DashboardController {
             }else if(profile === 'ssd') {
                 subdata.push({ "used" : usedData , "color" : "#39a5dc" , "subtitle" : "SSD" });
             }else{
-                othersProfile.used = othersProfile.used + profiles[profile]["used"];
-                othersProfile.total = othersProfile.total + profiles[profile]["total"];
+                othersProfile.used = othersProfile.used + profiles[profile]["utilization"]["used"];
+                othersProfile.total = othersProfile.total + profiles[profile]["utilization"]["total"];
             }
         });
         var othersProfilePercent = Math.round(100 * (othersProfile.used / othersProfile.total));

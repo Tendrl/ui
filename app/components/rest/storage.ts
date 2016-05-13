@@ -14,6 +14,13 @@ export class StorageService {
         });
     }
 
+    // **getFilteredList**
+    // **@returns** a promise with all storages with query string.
+    getFilteredList(queryString) {
+        return this.rest.all('storages?' + queryString).getList().then(function(storages) {
+            return storages;
+        });
+    }
 
     // **getList**
     // **@returns** a promise with all storages.

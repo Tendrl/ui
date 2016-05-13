@@ -6,6 +6,24 @@
         <div class="col-md-3">
             <input type="text" class="form-control" placeholder="Search" ng-model="hosts.search">
         </div>
+        <div class="col-md-6">
+            <ul>
+                <span class="list-inline" ng-repeat="(key, value) in hosts.paramsObject">
+                    <li ng-if="hosts.isArray(value)" ng-repeat="subdata in value">
+                        <span class="label label-info">
+                        {{key}} : {{subdata}}
+                         <a href="" ng-click="hosts.clearSearchQuery(key,$index)"><span class="pficon pficon-close cross-button"></span></a>
+                        </span>
+                    </li>
+                    <li ng-if="!hosts.isArray(value)">
+                        <span class="label label-info">
+                        {{key}} : {{value}}
+                         <a href="" ng-click="hosts.clearSearchQuery(key,null)"><span class="pficon pficon-close cross-button"></span></a>
+                        </span>
+                    </li>
+                </span>
+            </ul>
+        </div>
     </div>
     <center ng-if="hosts.list.length == 0">
         <div class="blank-slate-pf">

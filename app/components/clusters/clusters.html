@@ -6,7 +6,25 @@
         <div class="col-md-3">
             <input type="text" class="form-control" placeholder="Search" ng-model="search">
         </div>
-        <div class="col-md-offset-6 col-md-3">
+        <div class="col-md-6">
+            <ul>
+                <span class="list-inline" ng-repeat="(key, value) in clusters.paramsObject">
+                    <li ng-if="clusters.isArray(value)" ng-repeat="subdata in value">
+                        <span class="label label-info">
+                        {{key}} : {{subdata}}
+                         <a href="" ng-click="clusters.clearSearchQuery(key,$index)"><span class="pficon pficon-close cross-button"></span></a>
+                        </span>
+                    </li>
+                    <li ng-if="!clusters.isArray(value)">
+                        <span class="label label-info">
+                        {{key}} : {{value}}
+                         <a href="" ng-click="clusters.clearSearchQuery(key,null)"><span class="pficon pficon-close cross-button"></span></a>
+                        </span>
+                    </li>
+                </span>
+            </ul>
+        </div>
+        <div class="col-md-3">
             <span class="pull-right">
             <button class="btn btn-primary btn-lg" ng-click="clusters.createNewCluster()">Create</button>
             <button class="btn btn-default btn-lg" ng-click="clusters.importCluster()">Import</button>

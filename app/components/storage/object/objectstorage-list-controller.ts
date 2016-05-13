@@ -20,6 +20,8 @@ export class ObjectStorageListController {
     private enable_max_percentage;
     private enable_quota_max_objects;
     private ecprofiles = [{ k: 2, m: 1, text: '2+1', value: 'default' }, { k: 4, m: 2, text: '4+2', value: 'k4m2' }, { k: 6, m: 3, text: '6+3', value: 'k6m3' }, { k: 8, m: 4, text: '8+4', value: 'k8m4' }];
+    private searchQuery: string;
+    private paramsObject: any;
     static $inject: Array<string> = [
         '$scope',
         '$interval',
@@ -45,6 +47,10 @@ export class ObjectStorageListController {
         private storageSvc: StorageService,
         private requestSvc: RequestService,
         private requestTrackingSvc: RequestTrackingService) {
+        this.paramsObject = $location.search();
+        if (Object.keys(this.paramsObject).length > 0) {
+            this.updateSearchQuery(this.paramsObject);
+        }
         this.timer = this.$interval(() => this.refresh(), 5000);
         this.$scope.$on('$destroy', () => {
             this.$interval.cancel(this.timer);
@@ -53,6 +59,46 @@ export class ObjectStorageListController {
         this.clusterSvc.getList().then(clusterlist => {
             this.clusters = clusterlist;
         });
+    }
+
+    public isArray(data): Boolean {
+        return data instanceof Array;
+    }
+
+    public updateSearchQuery(paramsObject: any) {
+        this.searchQuery = '';
+        /*  paramsObject can have 3 case : -
+                1) { status: [error,warning] , tab: <OSD,HOST,etc> }
+                2) { tab: <OSD,HOST,etc> }
+                3) { status: [error,warning] }
+            and searchQuery will be like this : -
+            /api/<ver>/clusters?status=ok&status=warning&tab=<HOST/OSD/etc>
+        */
+        Object.keys(paramsObject).forEach((value: any) => {
+            let joinedStr = "";
+            if(paramsObject[value] instanceof Array) {
+                var queryArray = paramsObject[value].map(function(status) {
+                  return value + '=' + status;
+                })
+                joinedStr = queryArray.join('&');
+            }else {
+                joinedStr = value + "=" + paramsObject[value];
+            }
+            if ( this.searchQuery !== '' ) {
+                this.searchQuery += "&"
+            }
+            this.searchQuery += joinedStr;
+        });
+    }
+
+    public clearSearchQuery(key, itemIndex) {
+        if(itemIndex === null) {
+            delete this.paramsObject[key];
+        }else {
+            this.paramsObject[key].splice(itemIndex, 1);
+        }
+        this.updateSearchQuery(this.paramsObject);
+        this.refresh();
     }
 
     public refresh() {
@@ -74,7 +120,11 @@ export class ObjectStorageListController {
                 _.each(clusters, (cluster) => {
                     this.clusterMap[cluster.clusterid] = cluster;
                 });
-                return this.storageSvc.getList();
+                if(this.searchQuery === '') {
+                    return this.storageSvc.getList();
+                }else {
+                    return this.storageSvc.getFilteredList(this.searchQuery);
+                }
             }).then(list => {
                 this.loadData(list);
             });
