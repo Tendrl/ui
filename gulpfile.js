@@ -95,7 +95,7 @@ gulp.task('sass', function () {
     return gulp.src(path.styles)
         .pipe($.sourcemaps.init())
         .pipe(sass())
-        .pipe($.concat('app.css'))
+        .pipe($.concat('tendrl.css'))
         .pipe($.sourcemaps.write('.'))
         .pipe(gulp.dest(path.dist + '/css'));
 });

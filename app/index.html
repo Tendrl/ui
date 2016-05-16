@@ -1,32 +1,32 @@
 <!DOCTYPE html>
 <html class="layout-pf layout-pf-fixed" ng-class="currentURI === '/'?'login-pf':''">
 
-    <head>
-        <meta charset="utf-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <title>Sky Rings</title>
-        <meta name="description" content="">
-        <meta name="viewport" content="width=device-width">
-        <!-- inject:css -->
-        <!-- endinject -->
-    </head>
-
-    <body class="usmClientApp" ng-controller="ApplicationController" ng-class="{'cards-pf':(currentURI == '/dashboard')}">
-        <nav class="navbar-pf-vertical" ng-if="currentURI != '/'">
-            <div class="navbar-header">
-                <button class="navbar-toggle" type="button" href="">
-                    <span class="sr-only">Toggle navigation</span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                <a class="navbar-brand" href="/" style="padding-top:15px; font-size:20px;">
-                    <i class="fa fa-skyatlas"></i>
-                    Sky Ring
-                </a>
-            </div>
-            <nav class="collapse navbar-collapse">
-                <ul class="nav navbar-nav navbar-right navbar-iconic" ng-controller="RequestsController as request">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <link rel="icon" type="image/png" href="images/favicon.png" sizes="32x32" />
+    <title>tendrl</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width">
+    <!-- inject:css -->
+    <!-- endinject -->
+</head>
+<body class="usmClientApp" ng-controller="ApplicationController" ng-class="{'cards-pf':(currentURI == '/dashboard')}">
+    <nav class="navbar-pf-vertical" ng-if="currentURI === '/'"></nav>
+    <nav class="navbar-pf-vertical" ng-if="currentURI !== '/'">
+        <div class="navbar-header">
+            <button class="navbar-toggle" type="button" href="">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="#/dashboard" style="padding-top:15px; font-size:20px;">
+                <img class="nav-brand-name brand-name-img" src="images/name.png" alt="tendrl | Unified Storage Manager"/>
+            </a>
+        </div>
+        <nav class="collapse navbar-collapse">
+                            <ul class="nav navbar-nav navbar-right navbar-iconic" ng-controller="RequestsController as request">
                     <li class="dropdown">
                         <a data-toggle="dropdown" class="dropdown-toggle nav-item-iconic" href="" data-template="views/base/alert-dropdown.tpl.html"
                         data-animation="am-fade-and-slide-top" bs-dropdown="dropdown" title="Events">
@@ -60,31 +60,34 @@
                         </a>
                     </li>
                 </ul>
-            </nav>
         </nav>
-        <nav class="nav-pf-vertical nav-pf-vertical-with-secondary-nav" ng-if="currentURI != '/'">
-            <ul class="list-group" ng-controller="MenuController" ng-init=" $().setupVerticalNavigation(true);">
-                <li class="list-group-item" ng-repeat="menu in menus" ng-class="{'active':menu.active, 'persistent-secondary':menu.hasSubMenus}" data-target="#{{menu.label}}">
-                    <a href="#{{menu.href}}"> <span ng-class="menu.icon"></span> <span class="list-group-item-value">{{menu.label}}</span> </a>
-                    <div id="{{menu.label}}" class="nav-pf-persistent-secondary" ng-include="'views/base/sub-menu.tpl.html'" ng-if="menu.hasSubMenus"></div>
-                </li>
-            </ul>
-        </nav>
-        <div class="container-fluid container-cards-pf container-pf-nav-pf-vertical container-pf-nav-pf-vertical-with-secondary" ng-if="(currentURI != '/')">
-            <div class="row" style="height:100%">
-                <div class="col-md-12" style="height:100%" ng-view></div>
-            </div>
+    </nav>
+    <nav class="nav-pf-vertical nav-pf-vertical-with-secondary-nav" ng-if="currentURI != '/'">
+        <ul class="list-group" ng-controller="MenuController" ng-init=" $().setupVerticalNavigation(true);">
+            <li class="list-group-item" ng-repeat="menu in menus" ng-class="{'active':menu.active, 'persistent-secondary':menu.hasSubMenus}"
+            data-target="#{{menu.label}}">
+                <a href="#{{menu.href}}"> <span ng-class="menu.icon"></span> <span class="list-group-item-value">{{menu.label}}</span> </a>
+                <div id="{{menu.label}}" class="nav-pf-persistent-secondary" ng-include="'views/base/sub-menu.tpl.html'" ng-if="menu.hasSubMenus"></div>
+            </li>
+        </ul>
+    </nav>
+    <div class="container-fluid container-cards-pf container-pf-nav-pf-vertical container-pf-nav-pf-vertical-with-secondary"
+    ng-if="(currentURI !== '/')">
+        <div class="row" style="height:100%">
+            <div class="col-md-12" style="height:100%" ng-view></div>
         </div>
-        <div ng-if="(currentURI == '/')" ng-view>
-        </div>
-        <div growl></div>
-        <!-- inject:js -->
-        <!-- endinject -->
-        <script>
-  $(document).ready(function() {
+    </div>
+    <div ng-if="(currentURI === '/')" ng-view>
+    </div>
+    <div growl></div>
+    <!-- inject:js -->
+    <!-- endinject -->
+    <script>
+        $(document).ready(function() {
     $().setupVerticalNavigation(true);
   });
-</script>
-    </body>
+
+    </script>
+</body>
 
 </html>
