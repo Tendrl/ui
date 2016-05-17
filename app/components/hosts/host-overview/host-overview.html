@@ -38,7 +38,7 @@
                         </div>
                     </div>
                     <div class="col-xs-12 col-sm-12 col-md-4">
-                        <div class="card-pf card-pf-aggregate-status card-pf-with-action custom-height">
+                        <div ng-if="hostoverview.isOsd" class="card-pf card-pf-aggregate-status card-pf-with-action custom-height">
                             <h2 class="card-pf-title">
                                 <a href="">{{hostoverview.summary.storage_logical_units.TotalSLU}} OSDs</a>
                             </h2>

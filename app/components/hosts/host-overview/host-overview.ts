@@ -10,6 +10,7 @@ export class HostOverviewController {
     private initialTime: any;
     private donutCharts: any;
     private trendCharts: any;
+    private isOsd: Boolean;
 
     //Services that are used in this class.
     static $inject: Array<string> = [
@@ -17,6 +18,7 @@ export class HostOverviewController {
     ];
 
     constructor(private serverService: ServerService) {
+            this.isOsd = false;
             this.summary = {};
             this.initialTime = { name: "Last 1 hour", value: "-1h" };
             this.donutCharts = {
@@ -38,6 +40,9 @@ export class HostOverviewController {
             };
             this.serverService.get(this.id).then((host:any) => {
                 this.host = host;
+                if(this.host.roles.indexOf('OSD') > -1) {
+                    this.isOsd = true;
+                }
                 this.getHostSummary(host.nodeid);
                 this.changeTimeSlotForUtilization(this.initialTime);
                 this.changeTimeSlotForPerformance(this.initialTime);

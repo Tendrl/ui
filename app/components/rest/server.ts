@@ -1,6 +1,7 @@
 /// <reference path="../../../typings/tsd.d.ts" />
 
 export interface Node {
+    roles: Array<string>;
     almcount: number;
     almstatus: AlarmStatus;
     cluster_ip4: string;
