@@ -29,35 +29,34 @@
                 <ul class="nav navbar-nav navbar-right navbar-iconic" ng-controller="RequestsController as request">
                     <li class="dropdown">
                         <a data-toggle="dropdown" class="dropdown-toggle nav-item-iconic" href="" data-template="views/base/alert-dropdown.tpl.html"
-                        data-animation="am-fade-and-slide-top" bs-dropdown="dropdown">
+                        data-animation="am-fade-and-slide-top" bs-dropdown="dropdown" title="Events">
                             <i class="fa fa-bell"></i>
                             <span class="badge" style="position:relative;" ng-if="request.events.length>0" ng-bind="request.events.length"></span>
                         </a>
                     </li>
                     <li class="dropdown">
                         <a data-toggle="dropdown" class="dropdown-toggle nav-item-iconic" bs-dropdown="dropdown" href="" ng-click="request.getDiscoveredHosts();"
-                        data-template="views/base/discovered-hosts.tpl.html" data-animation="am-fade-and-slide-top" bs-dropdown="">
-                            <i class="fa fa-desktop"></i>
+                        data-template="views/base/discovered-hosts.tpl.html" data-animation="am-fade-and-slide-top" bs-dropdown="" title="Discovered Hosts">
+                            <i class="pficon pficon-container-node"></i>
                             <span class="badge" style="position:relative;" ng-if="request.discoveredHostsLength>0" ng-bind="request.discoveredHostsLength"></span>
                         </a>
                     </li>
                     <li class="dropdown">
                         <a data-toggle="dropdown" class="dropdown-toggle nav-item-iconic" bs-dropdown="dropdown" href="" data-template="views/base/progress-dropdown.tpl.html"
-                        data-animation="am-fade-and-slide-top" bs-dropdown="">
-                            <i class="fa fa-flag"></i>
+                        data-animation="am-fade-and-slide-top" bs-dropdown="" title="Tasks">
+                            <i class="pficon pficon-flag"></i>
                             <span class="badge" style="position:relative;" ng-if="request.tasks.length>0" ng-bind="request.tasks.length"></span>
                         </a>
                     </li>
-                    <li>
-                        <a data-toggle="modal" class ="nav-item-iconic" ng-click="request.openAboutModal();">
-                            <i class="fa fa-exclamation-circle"></i>
+                    <li class="dropdown">
+                        <a data-toggle="modal" class ="nav-item-iconic" ng-click="request.openAboutModal();" title="About">
+                            <i class="pficon pficon-help"></i>
                         </a>
                     </li>
                     <li class="dropdown user">
                         <a data-toggle="dropdown" class="dropdown-toggle nav-item-iconic" bs-dropdown="dropdown" href="" data-template="views/base/admin-dropdown.tpl.html"
-                        data-animation="am-fade-and-slide-top">
-                            <i class="fa fa-user"></i>
-                            <span class="caret"></span>
+                        data-animation="am-fade-and-slide-top" title="User">
+                            <i class="pficon pficon-user"></i>
                         </a>
                     </li>
                 </ul>
