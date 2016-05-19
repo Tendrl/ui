@@ -9,7 +9,7 @@
                         <div class="row">
                             <div class="col-xs-12 col-sm-4 col-md-3">
                                 <h2 class="card-pf-title">
-                                    <a href="">{{clusterdetail.capacity.used | bytes }} Used</a>
+                                    {{clusterdetail.capacity.used | bytes }} Used
                                     <p><small>of {{clusterdetail.capacity.total | bytes}} Total</small></p>
                                 </h2>
                                 <div class="card-pf-body">
@@ -20,8 +20,24 @@
                             </div>
                             <div class="col-xs-12 col-sm-8 col-md-7">
                                 <div class="cluster-utilization">
-                                    <div class="margin-for-storage-profile">
-                                        <div pf-utilization-bar-chart chart-data="clusterdetail.utilizationByProfile.data" chart-title="clusterdetail.utilizationByProfile.title" layout="clusterdetail.utilizationByProfile.layout"></div>
+                                    <div class="row margin-for-storage-profile">
+                                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                            <div pf-utilization-bar-chart chart-data="clusterdetail.utilizationByProfile.data" chart-title="clusterdetail.utilizationByProfile.title" layout="clusterdetail.utilizationByProfile.layout">
+                                            </div>
+                                        </div>
+                                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" ng-if="clusterdetail.nearFullStorageProfileArray.length>0">
+                                            <span class="pull-left" ng-repeat="profile in clusterdetail.nearFullStorageProfileArray">
+                                                <a href="" title="Near Full">
+                                                    <span class="text-capitalize pficon pficon-warning-triangle-o" ng-if="profile.isNearFull">
+                                                        {{profile.name}}
+                                                    </span>
+                                                </a>
+                                            </span>
+                                        </div>
+                                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                            <div ng-if="clusterdetail.trendsCharts.overall.data.total>0" pf-sparkline-chart config="clusterdetail.trendsCharts.overall.config" chart-data="clusterdetail.trendsCharts.overall.data">
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -35,36 +51,24 @@
                 <div class="col-xs-12 col-sm-12 col-md-6">
                     <div class="card-pf card-pf-aggregate-status card-pf-with-action">
                         <h2 class="card-pf-title">
-                            <a href="">{{clusterdetail.hosts.total}} Hosts</a>
+                            {{clusterdetail.hosts.total}} Hosts
                         </h2>
                         <div class="card-pf-body">
                             <p class="card-pf-aggregate-status-notifications">
-                                <span ng-if="clusterdetail.hosts.error>0" class="card-pf-aggregate-status-notification"><a href="">
-                                    <span class="pficon pficon-error-circle-o"></span>
+                                <span ng-if="clusterdetail.hosts.error>0" class="card-pf-aggregate-status-notification"><a ng-href="#/clusters/{{clusterdetail.id}}?status=error&status=warning&role=OSD&tab=Hosts" title="{{clusterdetail.hosts.error}} hosts down">
+                                    <span class="fa fa-arrow-circle-o-down"></span>
                                     <span>{{clusterdetail.hosts.error}}</span></a>
                                 </span>
-                                <span ng-if="clusterdetail.hosts.error===0" class="card-pf-aggregate-status-notification"><a href="">
+                                <span ng-if="clusterdetail.hosts.criticalAlerts>0" class="card-pf-aggregate-status-notification"><a href="#/clusters/{{clusterdetail.id}}?alarmstatus=critical&alarmstatus=major&role=OSD&tab=Hosts" title="{{clusterdetail.hosts.criticalAlerts}} active alerts">
+                                    <span class="pficon pficon-warning-triangle-o"></span>
+                                    <span>{{clusterdetail.hosts.criticalAlerts}}</span></a>
+                                </span>
+                                <span ng-if="clusterdetail.hosts.error===0 && clusterdetail.hosts.criticalAlerts===0" class="card-pf-aggregate-status-notification"><a href="">
                                     <span class="pficon pficon-ok"></span></a>
                                 </span>
-                                <span class="card-pf-aggregate-status-notification" ng-if="clusterdetail.hosts.unaccepted>0"><a href="">{{clusterdetail.hosts.unaccepted}}
-                                </a><small class="status-notification">To Accept</small></span>
-                            </p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-xs-12 col-sm-12 col-md-3">
-                    <div class="card-pf card-pf-aggregate-status card-pf-with-action">
-                        <h2 class="card-pf-title">
-                            <a href="">{{clusterdetail.monitors.total}} Monitors</a>
-                        </h2>
-                        <div class="card-pf-body">
-                            <p class="card-pf-aggregate-status-notifications">
-                                <span ng-if="clusterdetail.monitors.error>0" class="card-pf-aggregate-status-notification"><a href="">
-                                    <span class="pficon pficon-error-circle-o"></span>
-                                    <span>{{clusterdetail.monitors.error}}</span></a>
-                                </span>
-                                <span ng-if="clusterdetail.monitors.error===0" class="card-pf-aggregate-status-notification"><a href="">
-                                    <span class="pficon pficon-ok"></span></a>
+                                <span ng-if="clusterdetail.hosts.unaccepted>0" class="card-pf-aggregate-status-notification"><a href="#/first" title="{{clusterdetail.hosts.unaccepted}} hosts discovered">
+                                    <span class="pficon pficon-add-circle-o"></span>
+                                    <span>{{clusterdetail.hosts.unaccepted}} To Accept</span></a>
                                 </span>
                             </p>
                         </div>
@@ -73,13 +77,35 @@
                 <div class="col-xs-12 col-sm-12 col-md-3">
                     <div class="card-pf card-pf-aggregate-status card-pf-with-action">
                         <h2 class="card-pf-title">
-                            <a href="">{{clusterdetail.pgs.total}} PGs</a>
+                            {{clusterdetail.monitors.total}} Monitors
                         </h2>
                         <div class="card-pf-body">
                             <p class="card-pf-aggregate-status-notifications">
-                                <span ng-if="clusterdetail.pgs.error>0" class="card-pf-aggregate-status-notification"><a href="">
+                                <span ng-if="clusterdetail.monitors.down>0" class="card-pf-aggregate-status-notification"><a href="#/clusters/{{clusterdetail.id}}?status=error&status=warning&role=MON&tab=Hosts" title="{{clusterdetail.monitors.down}} monitors down">
+                                    <span class="fa fa-arrow-circle-o-down"></span>
+                                    <span>{{clusterdetail.monitors.down}}</span></a>
+                                </span>
+                                <span ng-if="clusterdetail.monitors.criticalAlerts>0" class="card-pf-aggregate-status-notification"><a href="#/clusters/{{clusterdetail.id}}?alarmstatus=critical&alarmstatus=major&role=MON&tab=Hosts" title="{{clusterdetail.monitors.criticalAlerts}} active alerts">
+                                    <span class="pficon pficon-warning-triangle-o"></span>
+                                    <span>{{clusterdetail.monitors.criticalAlerts}}</span></a>
+                                </span>
+                                <span ng-if="clusterdetail.monitors.down===0 && clusterdetail.monitors.criticalAlerts===0" class="card-pf-aggregate-status-notification"><a href="">
+                                    <span class="pficon pficon-ok"></span></a>
+                                </span>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xs-12 col-sm-12 col-md-3">
+                    <div class="card-pf card-pf-aggregate-status card-pf-with-action">
+                        <h2 class="card-pf-title">
+                            {{clusterdetail.pgs.total}} PGs
+                        </h2>
+                        <div class="card-pf-body">
+                            <p class="card-pf-aggregate-status-notifications">
+                                <span ng-if="clusterdetail.pgs.error>0" class="card-pf-aggregate-status-notification">
                                     <span class="pficon pficon-error-circle-o"></span>
-                                    <span>{{clusterdetail.pgs.error}}</span></a>
+                                    <span>{{clusterdetail.pgs.error}}</span>
                                 </span>
                                 <span ng-if="clusterdetail.pgs.error===0" class="card-pf-aggregate-status-notification"><a href="">
                                     <span class="pficon pficon-ok"></span></a>
@@ -95,15 +121,19 @@
                 <div class="col-xs-12 col-sm-12 col-md-6">
                     <div class="card-pf card-pf-aggregate-status card-pf-with-action">
                         <h2 class="card-pf-title">
-                            <a href="">{{clusterdetail.pools.total}} Pools</a>
+                            {{clusterdetail.pools.total}} Pools
                         </h2>
                         <div class="card-pf-body">
                             <p class="card-pf-aggregate-status-notifications">
-                                <span ng-if="clusterdetail.pools.down>0" class="card-pf-aggregate-status-notification"><a href="">
-                                    <span class="pficon-error-circle-o"></span>
+                                <span ng-if="clusterdetail.pools.down>0" class="card-pf-aggregate-status-notification"><a href="#/clusters/{{clusterdetail.id}}?status=error&status=warning&tab=Pools" title="{{clusterdetail.pools.down}} pools down">
+                                    <span class="fa fa-arrow-circle-o-down"></span>
                                     <span>{{clusterdetail.pools.down}}</span></a>
                                 </span>
-                                <span ng-if="clusterdetail.pools.down===0" class="card-pf-aggregate-status-notification"><a href="">
+                                <span ng-if="clusterdetail.pools.criticalAlerts>0" class="card-pf-aggregate-status-notification"><a href="#/clusters/{{clusterdetail.id}}?alarmstatus=critical&alarmstatus=major&tab=Pools" title="{{clusterdetail.pools.criticalAlerts}} active alerts">
+                                    <span class="pficon pficon-warning-triangle-o"></span>
+                                    <span>{{clusterdetail.pools.criticalAlerts}}</span></a>
+                                </span>
+                                <span ng-if="clusterdetail.pools.down===0 && clusterdetail.pools.criticalAlerts===0" class="card-pf-aggregate-status-notification"><a href="">
                                     <span class="pficon pficon-ok"></span></a>
                                 </span>
                             </p>
@@ -113,15 +143,23 @@
                 <div class="col-xs-12 col-sm-12 col-md-3">
                     <div class="card-pf card-pf-aggregate-status card-pf-with-action">
                         <h2 class="card-pf-title">
-                            <a href="">{{clusterdetail.osds.total}} OSDs</a>
+                            {{clusterdetail.osds.total}} OSDs
                         </h2>
                         <div class="card-pf-body">
                             <p class="card-pf-aggregate-status-notifications">
-                                <span ng-if="clusterdetail.osds.error>0" class="card-pf-aggregate-status-notification"><a href="">
-                                    <span class="pficon pficon-error-circle-o"></span>
-                                    <span>{{clusterdetail.osds.error}}</span></a>
+                                <span ng-if="clusterdetail.osds.down>0" class="card-pf-aggregate-status-notification"><a href="#/clusters/{{clusterdetail.id}}?active_filter=osd_status&filter_name=Down-In&filter_name=Down&tab=OSDs" title="{{clusterdetail.osds.down}} OSDs down">
+                                    <span class="fa fa-arrow-circle-o-down"></span>
+                                    <span>{{clusterdetail.osds.down}}</span></a>
                                 </span>
-                                <span ng-if="clusterdetail.osds.error===0" class="card-pf-aggregate-status-notification"><a href="">
+                                <span ng-if="clusterdetail.osds.nearfull>0" class="card-pf-aggregate-status-notification"><a href="#/clusters/{{clusterdetail.id}}?active_filter=utilization&filter_name=Full&tab=OSDs" title="{{clusterdetail.osds.nearfull}} OSDs full or near full">
+                                    <span class="pficon pficon-info"></span>
+                                    <span>{{clusterdetail.osds.nearfull}}</span></a>
+                                </span>
+                                <span ng-if="clusterdetail.osds.criticalAlerts>0" class="card-pf-aggregate-status-notification"><a href="#/clusters/{{clusterdetail.id}}?active_filter=osd_status&filter_name=Up-Out&filter_name=Down-In&filter_name=Down&tab=OSDs" title="{{clusterdetail.osds.criticalAlerts}} active alerts">
+                                    <span class="pficon pficon-warning-triangle-o"></span>
+                                    <span>{{clusterdetail.osds.criticalAlerts}}</span></a>
+                                </span>
+                                <span ng-if="clusterdetail.osds.down===0 && clusterdetail.osds.nearfull===0 && clusterdetail.osds.criticalAlerts===0" class="card-pf-aggregate-status-notification"><a href="">
                                     <span class="pficon pficon-ok"></span></a>
                                 </span>
                             </p>
@@ -131,15 +169,15 @@
                 <div class="col-xs-12 col-sm-12 col-md-3">
                     <div class="card-pf card-pf-aggregate-status card-pf-with-action">
                         <h2 class="card-pf-title">
-                            <a href="">{{clusterdetail.objects.total}} Objects</a>
+                            {{clusterdetail.objects.total}} Objects
                         </h2>
                         <div class="card-pf-body">
                             <p class="card-pf-aggregate-status-notifications">
-                                <span ng-if="clusterdetail.objects.error>0" class="card-pf-aggregate-status-notification"><a href="">
-                                    <span class="pficon pficon-error-circle-o"></span>
-                                    <span>{{clusterdetail.objects.error}}</span></a>
+                                <span ng-if="clusterdetail.objects.criticalAlerts>0" class="card-pf-aggregate-status-notification">
+                                    <span class="pficon pficon-warning-triangle-o"></span>
+                                    <span>{{clusterdetail.objects.criticalAlerts}}</span>
                                 </span>
-                                <span ng-if="clusterdetail.objects.error===0" class="card-pf-aggregate-status-notification"><a href="">
+                                <span ng-if="clusterdetail.objects.criticalAlerts===0" class="card-pf-aggregate-status-notification"><a href="">
                                     <span class="pficon pficon-ok"></span></a>
                                 </span>
                             </p>

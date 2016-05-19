@@ -41,6 +41,9 @@ export class HostListController {
         private requestService: RequestService) {
         this.paramsObject = $location.search();
         if (Object.keys(this.paramsObject).length > 0) {
+            if("tab" in this.paramsObject) {
+                delete this.paramsObject.tab;
+            }
             this.updateSearchQuery(this.paramsObject);
         }
         this.clusterHelper = new ClusterHelper(utilService, requestService, $log, $timeout);
@@ -101,7 +104,11 @@ export class HostListController {
                 this.serverService.getFilteredList(this.searchQuery).then(this.updateHost);
             }
         }else {
-            this.serverService.getListByCluster(this.clusterId).then(this.updateHost);
+            if(this.searchQuery === '') {
+                this.serverService.getListByCluster(this.clusterId).then(this.updateHost);
+            }else {
+                this.serverService.getFilteredListByCluster(this.clusterId, this.searchQuery).then(this.updateHost);
+            }
         }
     }
 

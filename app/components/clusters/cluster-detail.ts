@@ -36,6 +36,8 @@ export class ClusterDetailController {
     private selectedTimeSlot: any;
     private timer: ng.IPromise<any>;
     private rbds = [];
+    private nearFullStorageProfileArray: Array<any>;
+    private paramsObject: any;
 
     //Services that are used in this class.
     static $inject: Array<string> = [
@@ -68,6 +70,7 @@ export class ClusterDetailController {
         private requestSvc: RequestService,
         private requestTrackingSvc: RequestTrackingService) {
 
+        this.nearFullStorageProfileArray = [];
         this.clusterUtilization = { data: {}, config: {} };
         this.systemUtilization = {cpu:{data:{},config:{}},memory:{data:{},config:{}}};
         this.mostUsedPools = [];
@@ -81,6 +84,10 @@ export class ClusterDetailController {
             Configuration: 6
         }
         this.tabIndex = this.tabList.Overview;
+        this.paramsObject = locationService.search();
+        if (this.paramsObject.tab !== undefined) {
+            this.tabIndex = this.tabList[this.paramsObject.tab];
+        }
         this.clusterHelpers = new ClusterHelper(null, null, null, null);
         this.utilizationByProfile = {};
         this.id = this.routeParamsSvc['id'];
@@ -89,6 +96,7 @@ export class ClusterDetailController {
         /* For handling error in console: "url or json or rows or columns is required."
         we should initialize 'data' key with :{xData:[],yData:[]}. */
         this.trendsCharts = {
+            overall: {title:"",data:{xData:[],yData:[]},config:{}},
             cpu: {title:"",data:{xData:[],yData:[]},config:{}},
             memory: {title:"",data:{xData:[],yData:[]},config:{}},
             latency: {title:"",data:{xData:[],yData:[]},config:{}},
@@ -96,12 +104,12 @@ export class ClusterDetailController {
             iops: {title:"",data:{xData:[],yData:[]},config:{}}
         };
         this.utilizations = {};
-        this.hosts = { total: 0, error: 0, unaccepted: 0 };
+        this.hosts = { criticalAlerts: 0, error: 0, total: 0, unaccepted: 0 };
         this.pgs = { total: 0, error: 0 };
-        this.osds = { total: 0, error: 0 };
-        this.objects = { total: 0, error: 0 };
-        this.pools = { total: 0, down: 0 };
-        this.monitors = { total: 0, error: 0 };
+        this.osds = { criticalAlerts: 0, down: 0, error: 0, nearfull: 0, total: 0 };
+        this.objects = { total: 0, criticalAlerts: 0 };
+        this.pools = { criticalAlerts: 0, down: 0, total: 0 };
+        this.monitors = { criticalAlerts: 0, down: 0, total: 0 };
         this.timeSlots = [{ name: "Last 1 hour", value: "-1h" },
                          { name: "Last 2 hours", value: "-2h" },
                          { name: "Last 24 hours", value: "" }];
@@ -109,6 +117,7 @@ export class ClusterDetailController {
         this.clusterService.getList().then((clusters: Array<any>) => {
            this.clusterList = clusters;
         });
+        this.getOverallUtilization();
         this.clusterService.get(this.id).then((cluster) => this.loadCluster(cluster));
         this.clusterService.getClusterSummary(this.id).then((summary) => this.loadClusterSummary(summary));
         this.timer = this.intervalSvc(() => this.refreshRBDs(), 5000);
@@ -131,14 +140,14 @@ export class ClusterDetailController {
         this.getUtilizationByProfile(summary.storageprofileusage);
         this.getMostUsedPools(summary.storageusage);
         this.objects.total = summary.objectcount.num_objects;
-        this.objects.error = summary.objectcount.num_objects_degraded;
+        this.objects.criticalAlerts = summary.objectcount.num_objects_degraded;
         this.pools = summary.storagecount
         this.osds = summary.slucount;
         this.hosts = summary.nodescount;
         /* Need to check whether "summary.providermonitoringdetails" is empty
         object or not . because might be sometime it can be empty object */
         if(summary.providermonitoringdetails.ceph) {
-            this.monitors.total = summary.providermonitoringdetails.ceph.monitor;
+            this.monitors = summary.providermonitoringdetails.ceph.monitor;
         }
         /* In "changeTimeSlot" function calling cpu and memory utilization api
         and that need "this.utilizations" data . so first we have this data from
@@ -163,6 +172,7 @@ export class ClusterDetailController {
     }
 
     public getUtilizationByProfile(profiles: any) {
+        this.nearFullStorageProfileArray = [];
         this.utilizationByProfile.title = 'Utilization by storage profile';
         this.utilizationByProfile.layout = {
           'type': 'multidata'
@@ -170,7 +180,8 @@ export class ClusterDetailController {
         var subdata = [];
         var othersProfile = { "used": 0, "total": 0};
         Object.keys(profiles).forEach((profile) => {
-            var usedData = Math.round(profiles[profile]["percentused"]);
+            var usedData = Math.round(profiles[profile]["Utilization"]["percentused"]);
+            this.nearFullStorageProfileArray.push({name:profile,isNearFull:profiles[profile]["IsFull"]})
             if(profile === 'general') {
                 subdata.push({ "used" : usedData , "color" : "#004368" , "subtitle" : "General" });
             }else if(profile === 'sas') {
@@ -178,8 +189,8 @@ export class ClusterDetailController {
             }else if(profile === 'ssd') {
                 subdata.push({ "used" : usedData , "color" : "#39a5dc" , "subtitle" : "SSD" });
             }else{
-                othersProfile.used = othersProfile.used + profiles[profile]["used"];
-                othersProfile.total = othersProfile.total + profiles[profile]["total"];
+                othersProfile.used = othersProfile.used + profiles[profile]["Utilization"]["used"];
+                othersProfile.total = othersProfile.total + profiles[profile]["Utilization"]["total"];
             }
         });
         var othersProfilePercent = Math.round(100 * (othersProfile.used / othersProfile.total));
@@ -190,6 +201,12 @@ export class ClusterDetailController {
           'total': '100',
           'subdata' : subdata
         };
+    }
+
+    public getOverallUtilization() {
+        this.clusterService.getClusterOverallUtilization(this.id).then((overall_utilization) => {
+            this.setGraphData(overall_utilization,"overall","Overall","%");
+        });
     }
 
     public getCpuUtilization(timeSlot: any) {
@@ -284,6 +301,7 @@ export class ClusterDetailController {
     }
 
     public setTab(newTab: number) {
+        this.locationService.search({});
         this.tabIndex = newTab;
     }
 

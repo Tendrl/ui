@@ -49,6 +49,9 @@ export class ObjectStorageListController {
         private requestTrackingSvc: RequestTrackingService) {
         this.paramsObject = $location.search();
         if (Object.keys(this.paramsObject).length > 0) {
+            if("tab" in this.paramsObject) {
+                delete this.paramsObject.tab;
+            }
             this.updateSearchQuery(this.paramsObject);
         }
         this.timer = this.$interval(() => this.refresh(), 5000);
@@ -109,7 +112,11 @@ export class ObjectStorageListController {
             // cluster name
             this.clusterSvc.get(this.clusterId).then((cluster) => {
                 this.clusterMap[cluster.clusterid] = cluster;
-                return this.storageSvc.getListByCluster(this.clusterId);
+                if(this.searchQuery === '') {
+                    return this.storageSvc.getListByCluster(this.clusterId);
+                }else {
+                    return this.storageSvc.getFilteredListByCluster(this.clusterId, this.searchQuery);
+                }
             }).then(list => {
                 this.loadData(list);
             });

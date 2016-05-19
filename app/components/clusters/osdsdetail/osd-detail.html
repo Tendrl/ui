@@ -100,7 +100,7 @@
             </a>
           </h4>
         </div>
-        <div class="panel-collapse" role="tabpanel" bs-collapse-target>
+        <div class="panel-collapse" ng-class="osddetail.activeFilter==='osd_status'? 'in': 'collapse'" role="tabpanel" bs-collapse-target>
           <div class="panel-body">
             <div class="checkbox" ng-repeat="data in osddetail.filterList.OSDStatus">
               <label>
@@ -118,7 +118,7 @@
             </a>
           </h4>
         </div>
-        <div class="panel-collapse" role="tabpanel" bs-collapse-target>
+        <div class="panel-collapse" ng-class="osddetail.activeFilter==='pg_status'? 'in': 'collapse'" role="tabpanel" bs-collapse-target>
           <div class="panel-body scroll-for-filter">
             <div class="checkbox" ng-repeat="filter in osddetail.filterList.PGStatus">
               <label>
@@ -136,7 +136,7 @@
             </a>
           </h4>
         </div>
-        <div class="panel-collapse" role="tabpanel" bs-collapse-target>
+        <div class="panel-collapse" ng-class="osddetail.activeFilter==='utilization'? 'in': 'collapse'" role="tabpanel" bs-collapse-target>
           <div class="panel-body">
             <div class="checkbox" ng-repeat="data in osddetail.filterList.Utilization">
               <label>

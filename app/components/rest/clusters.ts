@@ -183,6 +183,14 @@ export class ClusterService {
         return this.restFull.one('clusters', clusterId).one('slus', slusId).patch(action);
     }
 
+    // **getClusterOverallUtilization**
+    // **@returns** a promise with Overall Utilization across all the nodes in system.
+    getClusterOverallUtilization(clusterId) {
+        return this.rest.all('monitoring/cluster/'+clusterId+'/utilization?resource=cluster_utilization.percent-used').getList().then(function(overall_utilization) {
+            return overall_utilization;
+        });
+    }
+
     // **getClusterCpuUtilization**
     // **@returns** a promise with cluster's cpu utilization.
     getClusterCpuUtilization(clusterId, time_slot) {

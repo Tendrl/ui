@@ -38,6 +38,14 @@ export class StorageService {
         });
     }
 
+    // **getFilteredListByCluster**
+    // **@returns** a promise  with all storages of the cluster with query string.
+    getFilteredListByCluster(clusterId, queryString) {
+        return this.rest.one('clusters', clusterId).all('storages?'+queryString).getList().then(function(storages) {
+            return storages;
+        });
+    }
+
     // **get**
     // **@returns** a promise with storage metadata.
     get(clusterId, storageId) {

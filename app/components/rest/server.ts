@@ -115,6 +115,14 @@ export class ServerService {
         });
     }
 
+    // **getFilteredListByCluster**
+    // **@returns** a promise with all nodes part of the cluster with query string.
+    getFilteredListByCluster(clusterId, queryString) {
+        return this.rest.one('clusters', clusterId).all('nodes?'+queryString).getList<Node>().then(function(nodes) {
+            return _.sortBy(nodes, "hostname");
+        });
+    }
+
     // **getFreeHosts**
     // **@returns** a promise with all servers which are free.
     getFreeHosts() {
