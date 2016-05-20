@@ -1,11 +1,9 @@
-<div class="container-fluid">
+<div class="hosts container-fluid">
     <div class="page-header">
-        <h1>Hosts</h1>
-    </div>
-    <div class="row" ng-if="hosts.list.length > 0">
-        <div class="col-md-3">
+        <div class="col-md-3 pull-right" ng-if="hosts.list.length > 0">
             <input type="text" class="form-control" placeholder="Search" ng-model="hosts.search">
         </div>
+        <h1>Hosts</h1>
         <div class="col-md-6">
             <ul>
                 <span class="list-inline" ng-repeat="(key, value) in hosts.paramsObject">
@@ -35,78 +33,93 @@
             <p>If you have already cluster created and still do not see hosts, make sure the hosts are configured correctly.</p>
         </div>
     </center>
-    <div class="row blade-view hosts" ng-repeat="host in hosts.list | filter:hosts.search">
-        <div class="col-md-2 col-sm-4">
-            <div class="row">
-                <div class="col-md-1" ng-class="host.cluster_type === 'Free'?'vertical-line-for-unassigned':'vertical-line-for-assigned'">
-                    <span ng-class="host.cluster_type === 'Free'?'vertical-text-for-unassigned':'vertical-text-for-assigned'" ng-bind="host.cluster_type"></span>
+
+    <div class="list-group list-view-pf" ng-repeat="host in hosts.list | filter:hosts.search">
+        <div class="list-group-item">
+            <div class="list-view-pf-actions">
+                <div class="dropdown pull-right dropdown-kebab-pf">
+                    <button
+                        aria-expanded="false" aria-haspopup="true"
+                        data-toggle="dropdown" type="button"
+                        id="dropdownKebabRight" class="btn btn-link dropdown-toggle">
+                        <span class="fa fa-ellipsis-v"></span>
+                    </button>
+                    <ul aria-labelledby="dropdownKebabRight" class="dropdown-menu dropdown-menu-right">
+                        <li ng-if="host.state == 3">
+                            <a ng-click="hosts.reinitialize(host)">
+                                <i class="fa fa-repeat"></i> Reinitialize
+                            </a>
+                        </li>
+                        <li ng-if="host.clusterid === '00000000-0000-0000-0000-000000000000'">
+                            <a ng-click="hosts.removeHost(host)">
+                                <i class="fa fa-trash"></i> Forget
+                            </a>
+                        </li>
+                    </ul>
                 </div>
-                <div class="col-md-offset-1 col-md-10 set-top-margin pull-right">
-                    <div>
-                        <span class="pficon-running fa-spin status-icon" ng-if="host.state === 1" title="Initializing..."></span>
-                        <span class="pficon-error-circle-o status-icon" ng-if="host.state === 3" title="Failed"></span>
-                        <span class="pficon-ok status-icon" ng-if="host.state === 2 && host.status === 0" title="Ok"></span>
-                        <span class="pficon-warning-triangle-o status-icon" ng-if="host.state === 2 && host.status === 1" title="Warning"></span>
-                        <span class="pficon-error-circle-o status-icon"  ng-if="host.state === 2 && host.status === 2" title="Error"></span>
-                        <a href="#/hosts/{{host.nodeid}}">
-                            <span class="host-name-heading" ng-bind="host.hostnameShort"></span>
-                        </a>
-                        <span class="description-for-host" ng-bind="host.management_ip4"></span>
+            </div>
+            <div class="list-view-pf-main-info">
+                <div class="list-view-pf-left">
+                    <span class="pficon-running fa-spin fa-2x" ng-if="host.state === 1" title="Initializing..."></span>
+                    <span class="pficon-error-circle-o fa-2x" ng-if="host.state === 3" title="Failed"></span>
+                    <span class="pficon-warning-triangle-o fa-2x" ng-if="host.state === 2 && host.status === 1" title="Warning"></span>
+                    <span class="pficon-ok fa-2x" ng-if="host.state === 2 && host.status === 0" title="Ok"></span>
+                    <span class="pficon-error-circle-o fa-2x" ng-if="host.state === 2 && host.status === 2" title="Error"></span>
+                </div>
+                <div class="list-view-pf-body">
+                    <div class="list-view-pf-additional-info">
+                        <div class="list-group-item-heading">
+                            <a ng-href="#/hosts/{{host.nodeid}}" ng-bind="host.hostname"></a>
+                        </div>
+                        <div class="list-view-pf-additional-info-item list-view-pf-additional-info-item-donut-chart" ng-if="host.state == 2">
+                            <c3chart bindto-id="donut-storage-usage-chart-{{$index}}">
+                                <chart-column column-id="Free" column-values="{{100 - host.utilizations.storageusage.percentused}}" column-color="#CCCCCC" column-type="donut"
+                                />
+                                <chart-column column-id="Using" column-values="{{host.utilizations.storageusage.percentused}}" column-color="{{host.utilizations.storageusage.percentused >= 90 ? '#E35C5C' : host.utilizations.storageusage.percentused >= 80 ? '#FF8C1B' : '#4AD170'}}"
+                                column-type="donut" />
+                                <chart-donut title="{{host.utilizations.storageusage.percentused}}%" width="8" show-label="false" />
+                                <chart-legend show-legend="false"></chart-legend>
+                                <chart-size chart-height="80"></chart-size>
+                            </c3chart>
+                            <div>Storage</div>
+                        </div>
+                        <div class="list-view-pf-additional-info-item list-view-pf-additional-info-item-donut-chart" ng-if="host.state == 2">
+                            <c3chart bindto-id="donut-cpu-usage-chart-{{$index}}">
+                                <chart-column column-id="Free" column-values="{{100 - host.utilizations.cpupercentageusage}}" column-color="#CCCCCC" column-type="donut"
+                                />
+                                <chart-column column-id="Using" column-values="{{host.utilizations.cpupercentageusage}}" column-color="{{host.utilizations.cpupercentageusage >= 90 ? '#E35C5C' : host.utilizations.cpupercentageusage >= 80 ? '#FF8C1B' : '#4AD170'}}"
+                                column-type="donut" />
+                                <chart-donut title="{{host.utilizations.cpupercentageusage}}%" width="8" show-label="false" />
+                                <chart-legend show-legend="false"></chart-legend>
+                                <chart-size chart-height="80"></chart-size>
+                            </c3chart>
+                            <div>CPU</div>
+                        </div>
+                        <div class="list-view-pf-additional-info-item list-view-pf-additional-info-item-donut-chart" ng-if="host.state == 2">
+                            <c3chart bindto-id="donut-memory-usage-chart-{{$index}}">
+                                <chart-column column-id="Free" column-values="{{100 - host.utilizations.memoryusage.percentused}}" column-color="#CCCCCC" column-type="donut"
+                                />
+                                <chart-column column-id="Using" column-values="{{host.utilizations.memoryusage.percentused}}" column-color="{{host.utilizations.memoryusage.percentused >= 90 ? '#E35C5C' : host.utilizations.memoryusage.percentused >= 80 ? '#FF8C1B' : '#4AD170'}}"
+                                column-type="donut" />
+                                <chart-donut title="{{host.utilizations.memoryusage.percentused}}%" width="8" show-label="false" />
+                                <chart-legend show-legend="false"></chart-legend>
+                                <chart-size chart-height="80"></chart-size>
+                            </c3chart>
+                            <div>Memory</div>
+                        </div>
+                        <div class="list-view-pf-additional-info-item">
+                            Cluster <strong ng-bind="host.cluster_name"></strong>
+                        </div>
+                        <div class="list-view-pf-additional-info-item">
+                            Role <strong ng-bind="hosts.getNodeTypeTitle(host)"></strong>
+                        </div>
+                        <div class="list-view-pf-additional-info-item">
+                            <span ng-class="host.alerts.length > 0 ? 'pficon pficon-error-circle-o' : 'pficon pficon-ok'"></span>
+                            <span ng-bind="(host.alerts.length || 'No') + ' Alert(s)'"></span>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-        <div class="col-md-2 col-sm-2 set-top-margin-for-donut">
-            <div ng-if="host.state === 2">
-                <c3chart bindto-id="donut-cpu-chart-{{$index}}">
-                    <chart-column column-id="Free" column-values="{{100-host.cpu_average}}" column-color="#CCCCCC" column-type="donut" />
-                    <chart-column column-id="Using" column-values="{{host.cpu_average}}" column-color="{{hosts.getHostDonutColor(host.cpu_average)}}" column-type="donut" />
-                    <chart-donut title="{{host.cpu_average}}%" width="10" />
-                    <chart-legend show-legend="false" />
-                    <chart-tooltip show-tooltip="false"></chart-tooltip>
-                    <chart-size chart-height="100"></chart-size>
-                </c3chart>
-                <div class="gadget">CPU</div>
-            </div>
-        </div>
-        <div class="col-md-2 col-sm-2 set-top-margin-for-donut">
-            <div ng-if="host.state === 2">
-                <c3chart bindto-id="donut-memory-chart-{{$index}}">
-                    <chart-column column-id="Free" column-values="{{100-host.memory_average}}" column-color="#CCCCCC" column-type="donut" />
-                    <chart-column column-id="Using" column-values="{{host.memory_average}}" column-color="{{hosts.getHostDonutColor(host.memory_average)}}" column-type="donut" />
-                    <chart-donut title="{{host.memory_average}}%" width="10" />
-                    <chart-legend show-legend="false" />
-                    <chart-tooltip show-tooltip="false"></chart-tooltip>
-                    <chart-size chart-height="100"></chart-size>
-                </c3chart>
-                <div class="gadget">Memory</div>
-            </div>
-        </div>
-        <div class="col-md-1 col-sm-3 set-top-margin">
-            <div class="sub-heading">Cluster</div>
-            <div class="cluster_name" ng-bind="host.cluster_name"></div>
-        </div>
-        <div class="col-md-1 col-sm-3 set-top-margin">
-            <span ng-if="host.cluster_type==='ceph'">
-                <div class="sub-heading">Roles</div>
-                <div class="cluster_name" ng-bind="hosts.getNodeTypeTitle(host)"></div>
-            </span>
-        </div>
-        <div class="col-md-2 col-sm-3 set-top-margin">
-            <span class="version">OS : </span>&nbsp;<span>{{host.os.Name}} {{host.os.OSVersion}}</span><br/>
-            <span class="version">Kernel : </span>&nbsp;<span>{{host.os.KernelVersion}}</span>
-        </div>
-        <div class="col-md-1 col-sm-2 set-top-margin">
-            <div class="sub-heading">Alerts</div>
-            <div class="sub-heading">
-                <a ng-href="#/events?nodename={{host.hostname}}" ng-if="(host.almwarncount + host.almcritcount)>0">{{host.almwarncount + host.almcritcount}}</a>
-                <span class="set-margin pficon" ng-class="(host.almwarncount + host.almcritcount)>0? ((host.almcritcount > 0)?'pficon-error-circle-o' : 'pficon-warning-triangle-o' ):'pficon-ok'"></span>
-            </div>
-        </div>
-        <div class="col-md-1 col-sm-1 set-top-margin">
-            <a class="pull-right add-cursor-pointer" data-animation="am-flip-x" data-template="views/hosts/host-menu-dropdown.tpl.html" bs-dropdown="ellipsis">
-            <i class="fa fa-ellipsis-v fa-4x elipsis-color"></i>
-            </a>
         </div>
     </div>
 </div>

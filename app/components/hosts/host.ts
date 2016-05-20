@@ -46,7 +46,7 @@ export class HostListController {
         this.clusterHelper = new ClusterHelper(utilService, requestService, $log, $timeout);
         this.clusters = {};
         this.hostStats = {};
-        this.timer = this.$interval(() => this.reloadData(), 7000);
+        this.timer = this.$interval(() => this.reloadData(), 60000);
         this.$scope.$on('$destroy', () => {
             this.$interval.cancel(this.timer);
         });
@@ -108,7 +108,6 @@ export class HostListController {
     updateHost = (hosts) => {
         var self = this;
         _.each(hosts, function(host: any) {
-            host.hostnameShort = host.hostname.split(".")[0];
             host.alerts = 0;
             if (self.hostStats[host.nodeid]) {
                 host.cpu_average = Math.round(Math.random() * 70);

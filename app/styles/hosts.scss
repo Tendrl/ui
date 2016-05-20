@@ -1,5 +1,21 @@
 .hosts {
-    .status-icon {
-        font-size: 2em;
+    .list-view-pf-additional-info {
+        float: none;
+        width: 100%;
+        margin: auto 1rem;
+        justify-content: space-between;
+    }
+    .list-view-pf .list-group-item-heading {
+        flex: 0 0 auto;
+    }
+    .list-view-pf-additional-info-item {
+        flex-direction: column;
+    }
+    .list-view-pf-additional-info-item strong {
+        margin: auto 5px;
+    }
+    .focus {
+        font-weight: 600;
+        font-size: 2rem;
     }
 }
