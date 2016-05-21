@@ -43,19 +43,19 @@ export class MenuService {
         },{
             label: 'Admin',
             id: 'admin',
-            href: '/admin',
+            href: '/events',
             icon: 'fa fa-cog',
             hasSubMenus: true,
             subMenus: [
                 {
-                    title: 'Tasks',
-                    id: 'tasks',
-                    href: '#/tasks'
-                },
-                {
                     title: 'Events',
                     id: 'events',
                     href: '#/events'
+                },
+                {
+                    title: 'Tasks',
+                    id: 'tasks',
+                    href: '#/tasks'
                 },
                 {
                     title: 'Users',

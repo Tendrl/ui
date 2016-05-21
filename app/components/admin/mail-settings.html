@@ -2,37 +2,33 @@
     <li><a href="#/admin">Admin</a></li>
     <li>Email Settings</li>
 </ol>
-<ul class="nav nav-tabs">
-    <li><a href="#/admin">Users</a></li>
-    <li><a href="">Roles</a></li>
-    <li><a href="#/admin/ldap">LDAP Settings</a></li>
-    <li class="active"><a href="">Email Settings</a></li>
-</ul>
 
-<h2>Configure Email Server</h2>
+<h2>Configure Mail Server</h2>
 
 <form name="mail.form" class="form-horizontal" novalidate>
     <div class="form-group">
         <label for="mailNotification" class="col-sm-2 col-md-2 control-label">Email Notifications </label>
         <div class="col-sm-4 col-md-2">
             <input type="checkbox" id="mailNotifications" ng-model="mail.mailNotification">
+            <label ng-if="!mail.mailNotification">Disabled</label>
+            <label ng-if="mail.mailNotification">Enabled</label>
         </div>
     </div>
 
     <div class="form-group">
-        <label for="outgoingmailserver" class="col-sm-2 col-md-2 control-label">Out Going MailServer SMTP Address</label>
+        <label for="outgoingmailserver" class="col-sm-2 col-md-2 control-label">Outgoing MailServer SMTP Address</label>
         <div class="col-sm-10 col-md-4">
             <input type="text" name="smtpServer" class="form-control " id="outgoingmailserver" ng-model="mail.smtpServer" placeholder="Server" required>
         </div>
         <div class="col-sm-10 col-md-4" ng-show="mail.form.smtpServer.$touched">
             <span ng-if="mail.form.smtpServer.$error.required" class="error-validation-msg">MailServer cannot be empty</span>
         </div>
-        <div class="col-sm-8">
-            <label class="col-sm-6 col-md-3">Use SSL
-                <input type="radio" name="encryption" id="useSsl" ng-model="mail.useSsl">
+        <div class="col-sm-12 col-md-12">
+            <label class="col-md-offset-2 col-sm-offset-2 col-sm-3 col-md-2">
+                <input type="radio" name="encryption" id="useSsl" ng-model="mail.useSsl"> Use SSL
             </label>
-            <label class="col-sm-6 col-md-3">Use TLS
-                <input type="radio" name="encryption" id="useTls" ng-model="mail.useTls">
+            <label class="col-sm-2 col-md-2">
+                <input type="radio" name="encryption" id="useTls" ng-model="mail.useTls"> Use TLS
             </label>
         </div>
     </div>
@@ -40,7 +36,7 @@
     <div class="form-group">
         <label for="port" class="col-sm-2 col-md-2 control-label">Port</label>
         <div class="col-sm-10 col-md-4">
-            <input type="text" name="port" class="form-control " id="port " ng-model="mail.port " placeholder="Port " required>
+            <input type="text" name="port" class="form-control " id="port " ng-model="mail.port " placeholder="587" required>
     </div>
     <div class="col-sm-10 col-md-4 " ng-show="mail.form.port.$touched ">
         <span ng-if="mail.form.port.$error.required " class="error-validation-msg ">Port cannot be empty</span>
@@ -81,7 +77,7 @@
     </div>
   </div>
 
-  <div class="form-group panel panel-default panel-body ">
+  <div class="form-group panel panel-default panel-body no-left-pad">
     <label for="recipient " class="col-sm-2 col-md-2 control-label ">Test Message Recipient</label>
     <div class="col-sm-10 col-md-4 ">
       <input type="email " class="form-control " id="recipient " ng-model="mail.recipient " placeholder="Test Message Recipient "></input>
