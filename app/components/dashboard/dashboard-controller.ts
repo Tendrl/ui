@@ -72,7 +72,7 @@ export class DashboardController {
                 if (clusters.length === 0) {
                     this.$location.path('/clusters');
                 }else {
-                    this.timer = this.intervalSvc(() => this.loadDashboardData(), 10000);
+                    this.timer = this.intervalSvc(() => this.loadDashboardData(), 120 * 1000 );
                     this.scopeService.$on('$destroy', () => {
                         this.intervalSvc.cancel(this.timer);
                     });
