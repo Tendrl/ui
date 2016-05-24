@@ -4,9 +4,7 @@ export class EmailController {
     private mailNotification: boolean;
     private smtpServer: string;
     private port: number;
-    private useSsl: boolean;
-    private useTls: boolean;
-    private encryption: string;
+    private encryption: string = 'ssl';
     private mailId: string;
     private password: string;
     private from: string;
@@ -34,15 +32,6 @@ export class EmailController {
 
     public save(): void {
         this.onloadSave = true;
-        if (this.useSsl === true) {
-            this.encryption = 'ssl';
-        }
-        else if (this.useTls === true) {
-            this.encryption = 'tls';
-        }
-        else {
-            this.encryption = 'ssl';
-        }
         var notifier = {
             mailnotification: this.mailNotification,
             smtpserver : this.smtpServer,
@@ -77,16 +66,10 @@ export class EmailController {
 
     public test(): void {
         this.onloadTest = true;
-        if (this.useSsl === true) {
-            this.encryption = 'ssl';
-        }
-        else if (this.useTls === true) {
-            this.encryption = 'tls';
-        }
         var notifier = {
             mailnotification: this.mailNotification,
             smtpserver: this.smtpServer,
-            port: this.port,
+            port: parseInt(this.port.toString()),
             encryption: this.encryption,
             mailid: this.mailId,
             password: this.password,
