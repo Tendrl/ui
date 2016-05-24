@@ -33,7 +33,7 @@ export interface UsageData {
 export interface DashboardSummaryData {
      name: string;
      usage: UsageData;
-     storageprofileusage: { general?: { isNearFull: boolean, utilization: UsageData }, sas?: { isNearFull: boolean, utilization: UsageData }, ssd?: { isNearFull: boolean, utilization: UsageData } };
+     storageprofileusage: { general?: { isFull:boolean, isNearFull: boolean, utilization: UsageData }, sas?: { isFull:boolean, isNearFull: boolean, utilization: UsageData }, ssd?: { isFull:boolean, isNearFull: boolean, utilization: UsageData } };
      storagecount: { criticalAlerts: number, down: number, total:number };
      slucount: { criticalAlerts: number, down: number, error: number, nearfull: number, total: number };
      nodescount: { criticalAlerts: number, error: number, total: number, unaccepted: number };
@@ -41,6 +41,7 @@ export interface DashboardSummaryData {
      providermonitoringdetails: { ceph: { monitor: { criticalAlerts: number, down: number, total: number }, objects: { num_objects: number, num_objects_degraded: number }, pgnum: { total: number, error: number, warning: number } } };
      storageusage: Array<{ name: string, usage: UsageData }>;
      utilizations: { cpupercentageusage: number, memoryusage: UsageData };
+     monitoringplugins: { storage_profile_utilization: { name: string, enable: boolean, configs: Array<{ category: string, type: string, value: number }> } };
 }
 
 enum AlarmStatus {

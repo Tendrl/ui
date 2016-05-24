@@ -4,72 +4,55 @@
         <!-- Fisrt Big row -->
         <div class="row">
             <!-- Card Part -->
-            <div class="col-xs-12 col-sm-6 col-md-9">
-                <!-- First row -->
+            <div class="col-xs-12 col-sm-12 col-md-12">
                 <div class="row row-cards-pf">
-                    <div class="col-xs-12 col-sm-12 col-md-12">
-                        <div class="row">
-                            <div class="col-xs-12 col-sm-12 col-md-3">
-                                <div class="card-pf card-pf-aggregate-status card-pf-with-action custom-height">
+                    <div class="col-xs-12 col-sm-12 col-md-3">
+                        <div class="card-pf card-pf-aggregate-status card-pf-with-action custom-height">
+                            <h2 class="card-pf-title">
+                                {{dash.clusters.total}} Clusters
+                            </h2>
+                            <div class="card-pf-body">
+                                <p class="card-pf-aggregate-status-notifications">
+                                    <span ng-if="dash.clusters.error>0" class="card-pf-aggregate-status-notification"><a href="#/clusters?status=error&status=warning" title="{{dash.clusters.error}} clusters need attention">
+                                        <span class="pficon pficon-error-circle-o"></span>
+                                        <span>{{dash.clusters.error}}</span></a>
+                                    </span>
+                                    <span ng-if="dash.clusters.nearfull>0" class="card-pf-aggregate-status-notification"><a href="#/clusters?near_full=true" title="{{dash.clusters.nearfull}} clusters full or near full">
+                                        <span class="pficon pficon-info"></span>
+                                        <span>{{dash.clusters.nearfull}}</span></a>
+                                    </span>
+                                    <span ng-if="dash.clusters.criticalAlerts>0" class="card-pf-aggregate-status-notification"><a href="#/clusters?alarmstatus=critical&alarmstatus=major" title="{{dash.clusters.criticalAlerts}} active alerts">
+                                        <span class="pficon pficon-warning-triangle-o"></span>
+                                        <span>{{dash.clusters.criticalAlerts}}</span></a>
+                                    </span>
+                                    <span ng-if="dash.clusters.error===0 && dash.clusters.nearfull===0 && dash.clusters.criticalAlerts===0" class="card-pf-aggregate-status-notification"><a href="">
+                                        <span class="pficon pficon-ok"></span></a>
+                                    </span>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xs-12 col-sm-12 col-md-5">
+                        <div class="card-pf card-pf-aggregate-status card-pf-with-action custom-height">
+                            <div class="row">
+                                <div class="col-xs-12 col-sm-12 col-md-3">
                                     <h2 class="card-pf-title">
-                                        {{dash.clusters.total}} Clusters
+                                        <a href="">{{dash.capacity.used | bytes }} Used</a>
+                                        <p><small>of {{dash.capacity.total | bytes }} Total</small></p>
                                     </h2>
                                     <div class="card-pf-body">
-                                        <p class="card-pf-aggregate-status-notifications">
-                                            <span ng-if="dash.clusters.error>0" class="card-pf-aggregate-status-notification"><a href="#/clusters?status=error&status=warning" title="{{dash.clusters.error}} clusters need attention">
-                                                <span class="pficon pficon-error-circle-o"></span>
-                                                <span>{{dash.clusters.error}}</span></a>
-                                            </span>
-                                            <span ng-if="dash.clusters.nearfull>0" class="card-pf-aggregate-status-notification"><a href="#/clusters?near_full=true" title="{{dash.clusters.nearfull}} clusters full or near full">
-                                                <span class="pficon pficon-info"></span>
-                                                <span>{{dash.clusters.nearfull}}</span></a>
-                                            </span>
-                                            <span ng-if="dash.clusters.criticalAlerts>0" class="card-pf-aggregate-status-notification"><a href="#/clusters?alarmstatus=critical&alarmstatus=major" title="{{dash.clusters.criticalAlerts}} active alerts">
-                                                <span class="pficon pficon-warning-triangle-o"></span>
-                                                <span>{{dash.clusters.criticalAlerts}}</span></a>
-                                            </span>
-                                            <span ng-if="dash.clusters.error===0 && dash.clusters.nearfull===0 && dash.clusters.criticalAlerts===0" class="card-pf-aggregate-status-notification"><a href="">
-                                                <span class="pficon pficon-ok"></span></a>
-                                            </span>
-                                        </p>
+                                        <div ng-if="dash.utilization.data.total > 0">
+                                            <div pf-donut-pct-chart config="dash.utilization.config" data="dash.utilization.data" center-label="dash.utilization.label"></div>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="col-xs-12 col-sm-12 col-md-9">
-                                <div class="card-pf card-pf-aggregate-status card-pf-with-action custom-height">
-                                    <div class="row">
-                                        <div class="col-xs-12 col-sm-12 col-md-3">
-                                            <h2 class="card-pf-title">
-                                                <a href="">{{dash.capacity.used | bytes }} Used</a>
-                                                <p><small>of {{dash.capacity.total | bytes }} Total</small></p>
-                                            </h2>
-                                            <div class="card-pf-body">
-                                                <div ng-if="dash.utilization.data.total > 0">
-                                                    <div pf-donut-pct-chart config="dash.utilization.config" data="dash.utilization.data" center-label="dash.utilization.label"></div>
+                                <div class="col-xs-12 col-sm-12 col-md-9">
+                                    <div class="utilization">
+                                        <div class="row margin-for-storage-profile">
+                                            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                                <div ng-if="dash.trendsCharts.overall.data.total>0" pf-sparkline-chart config="dash.trendsCharts.overall.config" chart-data="dash.trendsCharts.overall.data">
                                                 </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-xs-12 col-sm-12 col-md-9">
-                                            <div class="utilization">
-                                                <div class="row margin-for-storage-profile">
-                                                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                                                        <div pf-utilization-bar-chart chart-data="dash.utilizationByProfile.data" chart-title="dash.utilizationByProfile.title" layout="dash.utilizationByProfile.layout">
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" ng-if="dash.nearFullStorageProfileArray.length>0">
-                                                        <span class="pull-left" ng-repeat="profile in dash.nearFullStorageProfileArray">
-                                                            <a href="" title="Near Full">
-                                                                <span class="text-capitalize pficon pficon-warning-triangle-o" ng-if="profile.isNearFull">
-                                                                    {{profile.name}}
-                                                                </span>
-                                                            </a>
-                                                        </span>
-                                                    </div>
-                                                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                                                        <div ng-if="dash.trendsCharts.overall.data.total>0" pf-sparkline-chart config="dash.trendsCharts.overall.config" chart-data="dash.trendsCharts.overall.data">
-                                                        </div>
-                                                    </div>
-                                                </div>
+                                                <div>Last 24 hours</div>
                                             </div>
                                         </div>
                                     </div>
@@ -77,8 +60,29 @@
                             </div>
                         </div>
                     </div>
-                </div><!-- First row end-->
+                    <div class="col-xs-12 col-sm-12 col-md-4">
+                        <div class="row">
+                            <div class="col-xs-12 col-sm-12 col-md-12">
+                                <div class="card-pf">
+                                    <div class="card-pf-heading">
+                                        <h2 class="card-pf-title">
+                                            Most Used Storage Profiles
+                                        </h2>
+                                    </div>
+                                    <div class="card-pf-body">
+                                        <div ng-repeat="profile in dash.utilizationByProfile.profiles" pf-utilization-bar-chart
+                                        chart-data="profile.usage" chart-title="profile.subtitle"
+                                         threshold-error="dash.utilizationByProfile.threshold.critical" threshold-warning="dash.utilizationByProfile.threshold.warning" footer-label-format='percent'>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div><!-- /row -->
+                    </div>
+                </div>
+            </div>
 
+            <div class="col-xs-12 col-sm-6 col-md-9">
                 <!-- Second row -->
                 <div class="row row-cards-pf">
                     <div class="col-xs-12 col-sm-12 col-md-6">
@@ -278,6 +282,7 @@
                     </div>
                 </div><!-- Fourth row end -->
             </div>
+
             <!-- Utilization SideBar -->
             <div class="col-xs-12 col-sm-6 col-md-3 sidebar-pf sidebar-pf-right" style="min-height: 896px;">
                 <div class="row row-cards-pf">

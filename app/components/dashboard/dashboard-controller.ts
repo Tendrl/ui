@@ -22,7 +22,6 @@ export class DashboardController {
     private timeSlots: [{name:string, value:string}];
     private selectedTimeSlot: any;
     private timer: ng.IPromise<any>;
-    private nearFullStorageProfileArray: Array<any>;
 
     static $inject: Array<string> = [
         '$scope',
@@ -44,7 +43,6 @@ export class DashboardController {
             this.systemUtilization = {cpu:{data:{},config:{}},memory:{data:{},config:{}}};
             this.utilizationByProfile = {};
             this.mostUsedPools = [];
-            this.nearFullStorageProfileArray = [];
             this.capacity = {};
             this.clusters = { criticalAlerts: 0, error: 0, nearfull: 0, total: 0 };
             this.hosts = { criticalAlerts: 0, error: 0, total: 0, unaccepted: 0 };
@@ -88,7 +86,7 @@ export class DashboardController {
         this.serverService.getDashboardSummary().then((summary) => {
             this.summary = summary;
             this.formatUtilizationData(summary.usage);
-            this.formatUtilizationByProfileData(summary.storageprofileusage);
+            this.formatUtilizationByProfileData(summary.storageprofileusage, summary.monitoringplugins);
             this.getMostUsedPools(summary.storageusage);
             this.osds = summary.slucount;
             this.hosts = summary.nodescount;
@@ -135,36 +133,25 @@ export class DashboardController {
     /**
      *This is the helper function for format the utilization by profile data.
     */
-    public formatUtilizationByProfileData(profiles: any) {
-        this.nearFullStorageProfileArray = [];
-        this.utilizationByProfile.title = 'Utilization by storage profile';
-        this.utilizationByProfile.layout = {
-          'type': 'multidata'
-        };
-        var subdata = [];
+    public formatUtilizationByProfileData(profiles: any, monitoringplugins: any) {
+        this.utilizationByProfile.threshold = {};
+        monitoringplugins.storage_profile_utilization.configs.forEach((config: any) => {
+            this.utilizationByProfile.threshold[config.type] = config.value
+        });
+        this.utilizationByProfile.profiles = [];
         var othersProfile: UsageData = { "used": 0, "total": 0};
         Object.keys(profiles).forEach((profile) => {
-            var usedData = Math.round(profiles[profile]["utilization"]["percentused"]);
-            this.nearFullStorageProfileArray.push({name:profile,isNearFull:profiles[profile]["isNearFull"]})
-            if(profile === 'general') {
-                subdata.push({ "used" : usedData , "color" : "#004368" , "subtitle" : "General" });
-            }else if(profile === 'sas') {
-                subdata.push({ "used" : usedData , "color" : "#00659c" , "subtitle" : "SAS" });
-            }else if(profile === 'ssd') {
-                subdata.push({ "used" : usedData , "color" : "#39a5dc" , "subtitle" : "SSD" });
-            }else{
+            var usedData: any = profiles[profile]["utilization"];
+            if(profile === 'general' || profile === 'sas' || profile === 'ssd') {
+                this.utilizationByProfile.profiles.push({ "usage":usedData, "subtitle":profile });
+            }else {
                 othersProfile.used = othersProfile.used + profiles[profile]["utilization"]["used"];
                 othersProfile.total = othersProfile.total + profiles[profile]["utilization"]["total"];
             }
         });
-        var othersProfilePercent = Math.round(100 * (othersProfile.used / othersProfile.total));
-        if (othersProfilePercent > 0) {
-            subdata.push({ "used" : othersProfilePercent , "color" : "#7dc3e8" , "subtitle" : "Others" });
+        if (othersProfile.total > 0) {
+            this.utilizationByProfile.profiles.push({ "usage" : { "total": othersProfile.total, "used": othersProfile.used } , "subtitle" : "Others" });
         }
-        this.utilizationByProfile.data = {
-          'total': '100',
-          'subdata' : subdata
-        };
     }
 
     public getMostUsedPools(storageUsage) {

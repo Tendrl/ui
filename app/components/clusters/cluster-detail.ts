@@ -36,7 +36,6 @@ export class ClusterDetailController {
     private selectedTimeSlot: any;
     private timer: ng.IPromise<any>;
     private rbds = [];
-    private nearFullStorageProfileArray: Array<any>;
     private paramsObject: any;
 
     //Services that are used in this class.
@@ -70,7 +69,6 @@ export class ClusterDetailController {
         private requestSvc: RequestService,
         private requestTrackingSvc: RequestTrackingService) {
 
-        this.nearFullStorageProfileArray = [];
         this.clusterUtilization = { data: {}, config: {} };
         this.systemUtilization = {cpu:{data:{},config:{}},memory:{data:{},config:{}}};
         this.mostUsedPools = [];
@@ -137,7 +135,7 @@ export class ClusterDetailController {
     public loadClusterSummary(summary) {
         this.utilizations = summary.utilizations;
         this.getClusterUtilization(summary.usage);
-        this.getUtilizationByProfile(summary.storageprofileusage);
+        this.getUtilizationByProfile(summary.storageprofileusage, summary.monitoringplugins);
         this.getMostUsedPools(summary.storageusage);
         this.objects.total = summary.objectcount.num_objects;
         this.objects.criticalAlerts = summary.objectcount.num_objects_degraded;
@@ -172,36 +170,28 @@ export class ClusterDetailController {
         };
     }
 
-    public getUtilizationByProfile(profiles: any) {
-        this.nearFullStorageProfileArray = [];
-        this.utilizationByProfile.title = 'Utilization by storage profile';
-        this.utilizationByProfile.layout = {
-          'type': 'multidata'
-        };
-        var subdata = [];
+    public getUtilizationByProfile(profiles: any, monitoringplugins: any) {
+        this.utilizationByProfile.threshold = {};
+        let storageUtilizationThreshold  = _.find(monitoringplugins, function(element: any) {
+                return element.name === 'storage_utilization';
+        })
+        storageUtilizationThreshold.configs.forEach((config: any) => {
+            this.utilizationByProfile.threshold[config.type] = config.value
+        });
+        this.utilizationByProfile.profiles = [];
         var othersProfile = { "used": 0, "total": 0};
         Object.keys(profiles).forEach((profile) => {
-            var usedData = Math.round(profiles[profile]["Utilization"]["percentused"]);
-            this.nearFullStorageProfileArray.push({name:profile,isNearFull:profiles[profile]["IsFull"]})
-            if(profile === 'general') {
-                subdata.push({ "used" : usedData , "color" : "#004368" , "subtitle" : "General" });
-            }else if(profile === 'sas') {
-                subdata.push({ "used" : usedData , "color" : "#00659c" , "subtitle" : "SAS" });
-            }else if(profile === 'ssd') {
-                subdata.push({ "used" : usedData , "color" : "#39a5dc" , "subtitle" : "SSD" });
-            }else{
+            var usedData = profiles[profile]["Utilization"];
+            if(profile === 'general' || profile === 'sas' || profile === 'ssd') {
+                this.utilizationByProfile.profiles.push({ "usage": usedData, "subtitle": profile });
+            }else {
                 othersProfile.used = othersProfile.used + profiles[profile]["Utilization"]["used"];
                 othersProfile.total = othersProfile.total + profiles[profile]["Utilization"]["total"];
             }
         });
-        var othersProfilePercent = Math.round(100 * (othersProfile.used / othersProfile.total));
-        if (othersProfilePercent > 0) {
-            subdata.push({ "used" : othersProfilePercent , "color" : "#7dc3e8" , "subtitle" : "Others" });
+        if (othersProfile.total > 0) {
+            this.utilizationByProfile.profiles.push({ "usage" : { "total": othersProfile.total, "used": othersProfile.used } , "subtitle" : "Others" });
         }
-        this.utilizationByProfile.data = {
-          'total': '100',
-          'subdata' : subdata
-        };
     }
 
     public getOverallUtilization() {
