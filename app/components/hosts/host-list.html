@@ -73,11 +73,11 @@
                         </div>
                         <div class="list-view-pf-additional-info-item list-view-pf-additional-info-item-donut-chart" ng-if="host.state == 2">
                             <c3chart bindto-id="donut-storage-usage-chart-{{$index}}">
-                                <chart-column column-id="Free" column-values="{{100 - host.utilizations.storageusage.percentused}}" column-color="#CCCCCC" column-type="donut"
+                                <chart-column column-id="Free" column-values="{{100 - host.utilizations.storageusage.percentused | number:1}}" column-color="#CCCCCC" column-type="donut"
                                 />
-                                <chart-column column-id="Using" column-values="{{host.utilizations.storageusage.percentused}}" column-color="{{host.utilizations.storageusage.percentused >= 90 ? '#E35C5C' : host.utilizations.storageusage.percentused >= 80 ? '#FF8C1B' : '#4AD170'}}"
+                                <chart-column column-id="Using" column-values="{{host.utilizations.storageusage.percentused | number:1}}" column-color="{{host.utilizations.storageusage.percentused >= 90 ? '#E35C5C' : host.utilizations.storageusage.percentused >= 80 ? '#FF8C1B' : '#4AD170'}}"
                                 column-type="donut" />
-                                <chart-donut title="{{host.utilizations.storageusage.percentused}}%" width="8" show-label="false" />
+                                <chart-donut title="{{host.utilizations.storageusage.percentused | number:1}}%" width="8" show-label="false" />
                                 <chart-legend show-legend="false"></chart-legend>
                                 <chart-size chart-height="80"></chart-size>
                             </c3chart>
@@ -85,11 +85,11 @@
                         </div>
                         <div class="list-view-pf-additional-info-item list-view-pf-additional-info-item-donut-chart" ng-if="host.state == 2">
                             <c3chart bindto-id="donut-cpu-usage-chart-{{$index}}">
-                                <chart-column column-id="Free" column-values="{{100 - host.utilizations.cpupercentageusage}}" column-color="#CCCCCC" column-type="donut"
+                                <chart-column column-id="Free" column-values="{{100 - host.utilizations.cpupercentageusage | number:1}}" column-color="#CCCCCC" column-type="donut"
                                 />
-                                <chart-column column-id="Using" column-values="{{host.utilizations.cpupercentageusage}}" column-color="{{host.utilizations.cpupercentageusage >= 90 ? '#E35C5C' : host.utilizations.cpupercentageusage >= 80 ? '#FF8C1B' : '#4AD170'}}"
+                                <chart-column column-id="Using" column-values="{{host.utilizations.cpupercentageusage | number:1}}" column-color="{{host.utilizations.cpupercentageusage >= 90 ? '#E35C5C' : host.utilizations.cpupercentageusage >= 80 ? '#FF8C1B' : '#4AD170'}}"
                                 column-type="donut" />
-                                <chart-donut title="{{host.utilizations.cpupercentageusage}}%" width="8" show-label="false" />
+                                <chart-donut title="{{host.utilizations.cpupercentageusage | number:1}}%" width="8" show-label="false" />
                                 <chart-legend show-legend="false"></chart-legend>
                                 <chart-size chart-height="80"></chart-size>
                             </c3chart>
@@ -97,11 +97,11 @@
                         </div>
                         <div class="list-view-pf-additional-info-item list-view-pf-additional-info-item-donut-chart" ng-if="host.state == 2">
                             <c3chart bindto-id="donut-memory-usage-chart-{{$index}}">
-                                <chart-column column-id="Free" column-values="{{100 - host.utilizations.memoryusage.percentused}}" column-color="#CCCCCC" column-type="donut"
+                                <chart-column column-id="Free" column-values="{{100 - host.utilizations.memoryusage.percentused | number:1}}" column-color="#CCCCCC" column-type="donut"
                                 />
-                                <chart-column column-id="Using" column-values="{{host.utilizations.memoryusage.percentused}}" column-color="{{host.utilizations.memoryusage.percentused >= 90 ? '#E35C5C' : host.utilizations.memoryusage.percentused >= 80 ? '#FF8C1B' : '#4AD170'}}"
+                                <chart-column column-id="Using" column-values="{{host.utilizations.memoryusage.percentused | number:1}}" column-color="{{host.utilizations.memoryusage.percentused >= 90 ? '#E35C5C' : host.utilizations.memoryusage.percentused >= 80 ? '#FF8C1B' : '#4AD170'}}"
                                 column-type="donut" />
-                                <chart-donut title="{{host.utilizations.memoryusage.percentused}}%" width="8" show-label="false" />
+                                <chart-donut title="{{host.utilizations.memoryusage.percentused | number:1}}%" width="8" show-label="false" />
                                 <chart-legend show-legend="false"></chart-legend>
                                 <chart-size chart-height="80"></chart-size>
                             </c3chart>

@@ -85,11 +85,11 @@
                             </div>
                             <div class="list-view-pf-additional-info-item list-view-pf-additional-info-item-donut-chart" ng-if="cluster.state !== 0">
                                 <c3chart bindto-id="donut-pool-usage-chart-{{$index}}">
-                                    <chart-column column-id="Free" column-values="{{100 - cluster.percent_used}}" column-color="#CCCCCC" column-type="donut"
+                                    <chart-column column-id="Free" column-values="{{100 - cluster.percent_used | number:1}}" column-color="#CCCCCC" column-type="donut"
                                     />
-                                    <chart-column column-id="Using" column-values="{{cluster.percent_used}}" column-color="{{cluster.percent_used >= 90 ? '#E35C5C' : cluster.percent_used >= 80 ? '#FF8C1B' : '#4AD170'}}"
+                                    <chart-column column-id="Using" column-values="{{cluster.percent_used | number:1}}" column-color="{{cluster.percent_used >= 90 ? '#E35C5C' : cluster.percent_used >= 80 ? '#FF8C1B' : '#4AD170'}}"
                                     column-type="donut" />
-                                    <chart-donut title="{{cluster.percent_used}}%" width="5" show-label="false" />
+                                    <chart-donut title="{{cluster.percent_used | number:1}}%" width="5" show-label="false" />
                                     <chart-legend show-legend="false"></chart-legend>
                                     <chart-size chart-height="50"></chart-size>
                                 </c3chart>

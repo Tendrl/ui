@@ -100,11 +100,11 @@
                     <div class="list-view-pf-additional-info">
                         <div class="list-view-pf-additional-info-item list-view-pf-additional-info-item-donut-chart">
                             <c3chart bindto-id="donut-pool-usage-chart-{{$index}}">
-                                <chart-column column-id="Free" column-values="{{100 - storage.usage.percentused}}" column-color="#CCCCCC" column-type="donut"
+                                <chart-column column-id="Free" column-values="{{100 - storage.usage.percentused | number:1}}" column-color="#CCCCCC" column-type="donut"
                                 />
-                                <chart-column column-id="Using" column-values="{{storage.usage.percentused}}" column-color="{{storage.usage.percentused >= 90 ? '#E35C5C' : storage.usage.percentused >= 80 ? '#FF8C1B' : '#4AD170'}}"
+                                <chart-column column-id="Using" column-values="{{storage.usage.percentused | number:1}}" column-color="{{storage.usage.percentused >= 90 ? '#E35C5C' : storage.usage.percentused >= 80 ? '#FF8C1B' : '#4AD170'}}"
                                 column-type="donut" />
-                                <chart-donut title="{{storage.usage.percentused}}%" width="5" show-label="false" />
+                                <chart-donut title="{{storage.usage.percentused | number:1}}%" width="5" show-label="false" />
                                 <chart-legend show-legend="false"></chart-legend>
                                 <chart-size chart-height="71"></chart-size>
                             </c3chart>
