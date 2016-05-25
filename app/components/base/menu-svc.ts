@@ -63,7 +63,7 @@ export class MenuService {
                     href: '#/admin'
                 },
                 {
-                    title: 'Ldap Settings',
+                    title: 'LDAP/AD Settings',
                     id: 'ldap',
                     href: '#/admin/ldap'
                 },
