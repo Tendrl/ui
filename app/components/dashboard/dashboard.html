@@ -140,7 +140,11 @@
                                         <span class="pficon pficon-error-circle-o"></span>
                                         <span>{{dash.pgs.error}}</span>
                                     </span>
-                                    <span ng-if="dash.pgs.error===0" class="card-pf-aggregate-status-notification"><a href="">
+                                    <span ng-if="dash.pgs.warning>0" class="card-pf-aggregate-status-notification">
+                                        <span class="pficon pficon-warning-triangle-o"></span>
+                                        <span>{{dash.pgs.warning}}</span>
+                                    </span>
+                                    <span ng-if="dash.pgs.error===0 && dash.pgs.warning===0" class="card-pf-aggregate-status-notification"><a href="">
                                         <span class="pficon pficon-ok"></span></a>
                                     </span>
                                 </p>

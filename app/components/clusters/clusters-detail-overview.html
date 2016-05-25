@@ -107,7 +107,11 @@
                                     <span class="pficon pficon-error-circle-o"></span>
                                     <span>{{clusterdetail.pgs.error}}</span>
                                 </span>
-                                <span ng-if="clusterdetail.pgs.error===0" class="card-pf-aggregate-status-notification"><a href="">
+                                <span ng-if="clusterdetail.pgs.warning>0" class="card-pf-aggregate-status-notification">
+                                    <span class="pficon pficon-warning-triangle-o"></span>
+                                    <span>{{clusterdetail.pgs.warning}}</span>
+                                </span>
+                                <span ng-if="clusterdetail.pgs.error===0 && clusterdetail.pgs.warning===0" class="card-pf-aggregate-status-notification"><a href="">
                                     <span class="pficon pficon-ok"></span></a>
                                 </span>
                             </p>

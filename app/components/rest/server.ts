@@ -38,7 +38,7 @@ export interface DashboardSummaryData {
      slucount: { criticalAlerts: number, down: number, error: number, nearfull: number, total: number };
      nodescount: { criticalAlerts: number, error: number, total: number, unaccepted: number };
      clusterscount: { criticalAlerts: number, error: number, nearfull: number, total: number };
-     providermonitoringdetails: { ceph: { monitor: number, objects: { num_objects: number, num_objects_degraded: number } } };
+     providermonitoringdetails: { ceph: { monitor: { criticalAlerts: number, down: number, total: number }, objects: { num_objects: number, num_objects_degraded: number }, pgnum: { total: number, error: number, warning: number } } };
      storageusage: Array<{ name: string, usage: UsageData }>;
      utilizations: { cpupercentageusage: number, memoryusage: UsageData };
 }

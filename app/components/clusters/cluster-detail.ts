@@ -105,7 +105,7 @@ export class ClusterDetailController {
         };
         this.utilizations = {};
         this.hosts = { criticalAlerts: 0, error: 0, total: 0, unaccepted: 0 };
-        this.pgs = { total: 0, error: 0 };
+        this.pgs = { total: 0, error: 0, warning: 0 };
         this.osds = { criticalAlerts: 0, down: 0, error: 0, nearfull: 0, total: 0 };
         this.objects = { total: 0, criticalAlerts: 0 };
         this.pools = { criticalAlerts: 0, down: 0, total: 0 };
@@ -148,6 +148,7 @@ export class ClusterDetailController {
         object or not . because might be sometime it can be empty object */
         if(summary.providermonitoringdetails.ceph) {
             this.monitors = summary.providermonitoringdetails.ceph.monitor;
+            this.pgs = summary.providermonitoringdetails.ceph.pgnum;
         }
         /* In "changeTimeSlot" function calling cpu and memory utilization api
         and that need "this.utilizations" data . so first we have this data from
