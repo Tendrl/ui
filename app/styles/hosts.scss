@@ -14,6 +14,9 @@
     .list-view-pf-additional-info-item strong {
         margin: auto 5px;
     }
+    .list-view-pf-additional-info-item.deflex {
+        flex-basis: 10%;
+    }
     .focus {
         font-weight: 600;
         font-size: 2rem;

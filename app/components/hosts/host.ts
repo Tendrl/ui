@@ -153,10 +153,10 @@ export class HostListController {
     }
 
     public getNodeTypeTitle(node) {
-        if (node.options1.mon === 'Y')
+        if (node.options.mon === 'Y')
             return 'Monitor';
         else
-            return 'OSD';
+            return 'OSD Host';
     }
 
     public getHostDonutColor(donut_value) {
