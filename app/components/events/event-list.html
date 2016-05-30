@@ -27,27 +27,27 @@
                     </div>
                 </div>
                 <div class="form-group col-sm-3">
-                    <div class="dropdown">
-                        <a class="dropdown-toggle" id="fromDateDropdown" role="button" data-toggle="dropdown" data-target="#" href="#">
+                    <div class="dropdown" ng-class="fromdateselector?'open':''">
+                        <a class="dropdown-toggle" id="fromDateDropdown" role="button" data-toggle="dropdown" ng-click="fromdateselector=!fromdateselector">
                             <div class="input-group">
-                                <input type="text" placeholder="From" class="form-control" data-ng-model="events.fromDateTimeFilter"><span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                                <input type="text" placeholder="From" class="form-control" data-ng-model="events.fromDateTimeFilter" ng-blur="fromdateselector=false"><span class="input-group-addon"><i class="fa fa-calendar"></i></span>
                             </div>
                         </a>
                         <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
-                            <datetimepicker data-ng-model="events.fromDateTimeFilter" data-datetimepicker-config="{ dropdownSelector: '#fromDateDropdown' }"
+                            <datetimepicker data-ng-model="events.fromDateTimeFilter" data-on-set-time="fromdateselector=false"
                             ng-change="events.applyFilter('from',events.fromDateTimeFilter)" />
                         </ul>
                     </div>
                 </div>
                 <div class="form-group col-sm-3">
-                    <div class="dropdown">
-                        <a class="dropdown-toggle" id="toDateDropdown" role="button" data-toggle="dropdown" data-target="#" href="#">
+                    <div class="dropdown" ng-class="todateselector?'open':''">
+                        <a class="dropdown-toggle" id="toDateDropdown" role="button" data-toggle="dropdown" ng-click="todateselector=!todateselector">
                             <div class="input-group">
-                                <input type="text" placeholder="To" class="form-control" data-ng-model="events.toDateTimeFilter"><span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                                <input type="text" placeholder="To" class="form-control" data-ng-model="events.toDateTimeFilter" ng-blur="todateselector=false"><span class="input-group-addon"><i class="fa fa-calendar"></i></span>
                             </div>
                         </a>
                         <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
-                            <datetimepicker data-ng-model="events.toDateTimeFilter" data-datetimepicker-config="{ dropdownSelector: '#toDateDropdown' }"
+                            <datetimepicker data-ng-model="events.toDateTimeFilter" data-on-set-time="todateselector=false"
                             ng-change="events.applyFilter('to',events.toDateTimeFilter)" />
                         </ul>
                     </div>
@@ -55,7 +55,7 @@
                 <div class="form-group col-sm-3">
                     <label><input type="radio" name="active" ng-model="events.statusFilter" value="active" checked ng-change="events.applyFilter('status','active')"> Active </label>
                     <label><input type="radio" name="active" ng-model="events.statusFilter" value="dismissed" ng-change="events.applyFilter('status','dismissed')"> Dismissed </label>
-                    <label><input type="radio" name="active" ng-model="events.statusFilter" value="both" ng-change="events.applyFilter('status','active , dismissed')"> Both </label>
+                    <label><input type="radio" name="active" ng-model="events.statusFilter" value="both" ng-change="events.applyFilter('status','active , dismissed')"> All </label>
                 </div>
             </form>
             <div class="row toolbar-pf-results">

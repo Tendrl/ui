@@ -14,28 +14,28 @@
                         <input type="text" class="form-control" placeholder="Search" ng-model-options="{ debounce: 1000 }" ng-change="tasks.applyFilter('search',tasks.searchQuery)" ng-model="tasks.searchQuery"><span class="input-group-addon" ng-click="tasks.applyFilter('search',tasks.searchQuery)"><i class="fa fa-search"></i></span>
                     </div>
                 </div>
-                <div class="form-group col-sm-4">
-                    <div class="dropdown">
-                        <a class="dropdown-toggle" id="fromDateDropdown" role="button" data-toggle="dropdown" data-target="#" href="#">
+                <div class="form-group col-sm-3">
+                    <div class="dropdown" ng-class="fromdateselector?'open':''">
+                        <a class="dropdown-toggle" id="fromDateDropdown" role="button" data-toggle="dropdown" ng-click="fromdateselector=!fromdateselector">
                             <div class="input-group">
-                                <input type="text" placeholder="From" class="form-control" data-ng-model="tasks.fromDateTimeFilter"><span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                                <input type="text" placeholder="From" class="form-control" data-ng-model="tasks.fromDateTimeFilter" ng-blur="fromdateselector=false"><span class="input-group-addon"><i class="fa fa-calendar"></i></span>
                             </div>
                         </a>
                         <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
-                            <datetimepicker data-ng-model="tasks.fromDateTimeFilter" data-datetimepicker-config="{ dropdownSelector: '#fromDateDropdown' }"
+                            <datetimepicker data-ng-model="tasks.fromDateTimeFilter" data-on-set-time="fromdateselector=false"
                             ng-change="tasks.applyFilter('from',tasks.fromDateTimeFilter)" />
                         </ul>
                     </div>
                 </div>
-                <div class="form-group col-sm-4">
-                    <div class="dropdown">
-                        <a class="dropdown-toggle" id="toDateDropdown" role="button" data-toggle="dropdown" data-target="#" href="#">
+                <div class="form-group col-sm-3">
+                    <div class="dropdown" ng-class="todateselector?'open':''">
+                        <a class="dropdown-toggle" id="toDateDropdown" role="button" data-toggle="dropdown" ng-click="todateselector=!todateselector">
                             <div class="input-group">
-                                <input type="text" placeholder="To" class="form-control" data-ng-model="tasks.toDateTimeFilter"><span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                                <input type="text" placeholder="To" class="form-control" data-ng-model="tasks.toDateTimeFilter" ng-blur="todateselector=false"><span class="input-group-addon"><i class="fa fa-calendar"></i></span>
                             </div>
                         </a>
                         <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
-                            <datetimepicker data-ng-model="tasks.toDateTimeFilter" data-datetimepicker-config="{ dropdownSelector: '#toDateDropdown' }"
+                            <datetimepicker data-ng-model="tasks.toDateTimeFilter" data-on-set-time="todateselector=false"
                             ng-change="tasks.applyFilter('to',tasks.toDateTimeFilter)" />
                         </ul>
                     </div>
