@@ -1,11 +1,12 @@
 <div class="cluster-detail-osd">
+  <span class="pull-left">
+      <a href="" ng-click="osddetail.isLeftSidebarShow=!osddetail.isLeftSidebarShow">
+        <span ng-if="osddetail.isLeftSidebarShow"> Hide Sidebar </span>
+        <span ng-if="!osddetail.isLeftSidebarShow"> Show Sidebar </span>
+      </a>
+  </span>
   <div class="row">
-    <div class="col-md-2">
-      <span class="pull-left">
-        <i class="filter-icon" ng-class="osddetail.isLeftSidebarShow?'fa fa-chevron-circle-left':'fa fa-chevron-circle-right'" ng-click="osddetail.isLeftSidebarShow=!osddetail.isLeftSidebarShow"></i>
-      </span>
-    </div>
-    <div class="col-md-7">
+    <div ng-class="osddetail.isLeftSidebarShow?'col-md-offset-2 col-md-7':'col-md-9'">
       <div class="row">
         <div class="col-md-3">
           <span ng-if="osddetail.type === 'Cluster'">
@@ -64,10 +65,8 @@
         </div>
       </div>
       <div class="row">
-        <div class="col-md-offset-6 col-md-3">
-          <div class="selected-osd-separator pull-right"><label> {{osddetail.totalSelectedOSDs.length}} OSD Selected </label></div>
-        </div>
-        <div class="col-md-3">
+        <div class="col-md-offset-9 col-md-3">
+          <label> {{osddetail.totalSelectedOSDs.length}} OSD Selected </label>
           <div class="dropdown pull-right">
             <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" bs-dropdown="dropdown">
               Action
@@ -149,7 +148,7 @@
     </div>
   </nav>
   <!-- End of filter bar -->
-
+  <hr>
   <div class="row">
     <div ng-class="osddetail.isLeftSidebarShow?'col-md-offset-2 col-md-7':'col-md-9'">
       <div ng-class="osddetail.osdList.length > 8 ? 'div-with-scroll': ''">
@@ -241,6 +240,27 @@
             <div class="selected-osd-detail">
               <label>Storage Profile:</label>
               <div class="detail-content"><small ng-bind="osddetail.selection.activeOsd.storageprofile"></small></div>
+            </div>
+            <div class="selected-osd-detail">
+              <i class="fa fa-angle-down" ng-show="osddetail.expandJournal"></i>
+              <i class="fa fa-angle-right" ng-show="!osddetail.expandJournal"></i>
+              <a href="" ng-click="osddetail.expandJournal=!osddetail.expandJournal">
+                <label>Journal on {{osddetail.selection.activeOsd.name}}</label>
+              </a>
+              <div ng-if="osddetail.expandJournal">
+                <div class="selected-osd-detail">
+                  <label>Device Path:</label>
+                  <div class="detail-content"><small ng-bind="osddetail.selection.activeOsd.options1.journal.journaldisk"></small></div>
+                </div>
+                <div class="selected-osd-detail">
+                  <label>Capacity:</label>
+                  <div class="detail-content"><small ng-bind="osddetail.selection.activeOsd.options1.journal.size | bytes "></small></div>
+                </div>
+                <div class="selected-osd-detail">
+                  <label>Storage Profile:</label>
+                  <div class="detail-content"><small ng-bind="osddetail.selection.activeOsd.storageprofile"></small></div>
+                </div>
+              </div>
             </div>
           </div>
       </div>

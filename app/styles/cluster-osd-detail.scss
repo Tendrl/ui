@@ -11,15 +11,9 @@
     }
 
     .scroll-for-filter {
-        height: 147px;
+        height: 325px;
         overflow: scroll;
         overflow-x: hidden;
-    }
-
-    .filter-icon {
-        cursor: pointer;
-        font-size: 22px;
-        margin-left: -20px;
     }
 
     .search-by-hidden {
@@ -74,17 +68,10 @@
         .left-sidebar-expand {
             display: none;
         }
-        .filter-icon {
-            display: none;
-        }
     }
 
     .separator {
         margin-top: 15px !important;
-    }
-
-    .selected-osd-separator {
-        margin-right: 20px !important;
     }
 
     .selected-osd-detail {
