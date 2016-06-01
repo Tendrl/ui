@@ -21,8 +21,8 @@ export class ObjectStorageController {
     private slusFiltered: SLU[];
     private name: string;
     private count: number = 1;
-    private types = ['Replicated', 'Erasure Coded'];
-    private type = 'Replicated';
+    private types = ['Standard', 'Erasure Coded'];
+    private type = 'Standard';
     private replicas: number = 3;
     private ecprofiles = [{ k: 2, m: 1, text: '2+1', value: 'default' }, { k: 4, m: 2, text: '4+2', value: 'k4m2' }, { k: 6, m: 3, text: '6+3', value: 'k6m3' }, { k: 8, m: 4, text: '8+4', value: 'k8m4' }];
     private ecprofile = this.ecprofiles[0];
@@ -125,7 +125,7 @@ export class ObjectStorageController {
     // Replica count is required for Placement Groups calculations
     // In case of EC pools, replica would be the sum of k and m
     public getReplicaCount() {
-        if (this.type === 'Replicated') {
+        if (this.type === 'Standard') {
             return this.replicas;
         }
         else {
@@ -206,8 +206,8 @@ export class ObjectStorageController {
                 options: {}
             };
 
-            if (pool.type === 'Replicated') {
-                storage['type'] = 'replicated';
+            if (pool.type === 'Standard') {
+                storage['type'] = 'Standard';
                 storage['replicas'] = pool.replicas;
             }
             else {
