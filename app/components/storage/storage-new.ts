@@ -8,6 +8,7 @@ export class StorageNewController {
     private cluster: Cluster;
     private errorMessage: string;
     private type: String;
+    private paramsObject: any;
 
     static $inject: Array<string> = [
         '$location',
@@ -25,6 +26,12 @@ export class StorageNewController {
             }
         });
         this.type = "object";
+        this.paramsObject = $location.search();
+        if (this.paramsObject.type !== undefined) {
+            if(this.paramsObject.type === 'block') {
+                this.type = this.paramsObject.type;
+            }
+        }
     }
 
     public validateCluster(cluster):void {

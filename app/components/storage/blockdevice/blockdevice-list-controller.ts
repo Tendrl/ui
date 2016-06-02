@@ -80,7 +80,7 @@ export class BlockDeviceListController {
     }
 
     public create() {
-        this.$location.path('/storage/new');
+        this.$location.path('/storage/new').search({type: 'block'});
     }
 
     public showResizeForm(rbd: BlockDevice) {
