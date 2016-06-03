@@ -17,13 +17,14 @@ export class BlockDeviceController {
     private cluster: Cluster;
     private deviceName: string;
     private devicesToCreate: number = 1;
-    private targetSize = { value: 10, unit: 'GB' };
+    private targetSize = { value: 1, unit: 'GB' };
     private sizeUnits = ['GB', 'TB'];
     private existingPools: any[];
     private useExistingPool = true;
     private selectedPool: any;
     private rbdList: any[];
     private summary: boolean = false;
+    private devicesSize: number;
 
     static $inject: Array<string> = [
         '$routeParams',
@@ -47,6 +48,7 @@ export class BlockDeviceController {
         private blockDeviceSvc: BlockDeviceService,
         private requestTrackingSvc: RequestTrackingService,
         private requestSvc: RequestService) {
+        this.devicesSize = 0;
         let clusterId = $routeParams['clusterid'];
         this.clusterSvc.get(clusterId).then(cluster => {
             this.cluster = cluster;
@@ -73,22 +75,18 @@ export class BlockDeviceController {
     }
 
     public processUtilization() {
-        var devicesSize = numeral().unformat(this.targetSize.value + this.targetSize.unit) * this.devicesToCreate;
-        var inUsePercent = Math.round((this.selectedPool.capacity.used / this.selectedPool.capacity.total) * 100);
-        var toBeUsedPercent = Math.round((devicesSize / this.selectedPool.capacity.total) * 100);
-        var remainingSize = this.selectedPool.capacity.total - this.selectedPool.capacity.used - devicesSize;
-        var remainingPercent = 100 - inUsePercent - toBeUsedPercent;
-        this.selectedPool.utilization.data = {
-            'total': 100,
-            'subdata': [
+        this.devicesSize = numeral().unformat(this.targetSize.value + this.targetSize.unit) * this.devicesToCreate;
+        if( this.devicesSize <= this.selectedPool.capacity.total ) {
+            var inUsePercent = Math.round((this.selectedPool.capacity.used / this.selectedPool.capacity.total) * 100);
+            var toBeUsedPercent = Math.round((this.devicesSize / this.selectedPool.capacity.total) * 100);
+            var remainingSize = this.selectedPool.capacity.total - this.selectedPool.capacity.used - this.devicesSize;
+            var remainingPercent = 100 - inUsePercent - toBeUsedPercent;
+            this.selectedPool.utilization.data = [
                 { "used": inUsePercent, "color": "#00a8e1", "subtitle": "" },
-                { "used": toBeUsedPercent, "color": "#3F9C35", "subtitle": numeral(devicesSize).format('0.0 b') + " to be added" },
+                { "used": toBeUsedPercent, "color": "#3F9C35", "subtitle": numeral(this.devicesSize).format('0.0 b') + " to be added" },
                 { "used": remainingPercent, "color": "#EDEDED", "subtitle": numeral(remainingSize).format('0.0 b') + " remaining" }
             ]
-        };
-        this.selectedPool.utilization.layout = {
-            'type': 'multidata'
-        };
+        }
     }
 
     public getDeviceNameList(deviceName: string, count: number) {

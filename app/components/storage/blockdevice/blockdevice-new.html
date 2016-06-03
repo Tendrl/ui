@@ -32,10 +32,10 @@
             </div>
             <div class="form-group">
                 <label class="col-md-2 control-label" for="type">Target Size</label>
-                <div class="col-md-2">
+                <div class="col-md-1">
                     <input type="number" id="targetSizeValue" name="targetSizeValue" class="form-control" ng-model="storage.targetSize.value" ng-change="storage.processUtilization()" min="1" required></input>
                 </div>
-                <div class="col-md-2">
+                <div class="col-md-1">
                     <select pf-select ng-model="storage.targetSize.unit" id="targetSizeUnit" name="targetSizeUnit" class="form-control" ng-options="unit for unit in storage.sizeUnits" ng-change="storage.processUtilization()"></select>
                 </div>
             </div>
@@ -62,11 +62,19 @@
                 <div class="col-md-offset-2 col-md-2">
                     <select pf-select ng-model="storage.selectedPool" id="existingPools" name="existingPools" class="form-control" ng-options="pool.name for pool in storage.existingPools" ng-change="storage.processUtilization()"></select>
                 </div>
-                <label class="col-md-8">{{storage.selectedPool.capacity.free}} Available</label>
+                <label class="col-md-8">{{ (storage.selectedPool.capacity.total - storage.selectedPool.capacity.used) | bytes }} Available</label>
             </div>
             <div class="form-group" ng-if="storage.useExistingPool">
                 <div class="col-md-offset-2 col-md-8">
-                    <div pf-utilization-bar-chart chart-data="storage.selectedPool.utilization.data" chart-title="storage.selectedPool.utilization.title" layout="storage.selectedPool.utilization.layout"></div>
+                    <div class="progress">
+                      <div ng-repeat="profile in storage.selectedPool.utilization.data" class="progress-bar tooltipped" role="progressbar" ng-style="{'width': profile.used + '%', 'background-color': profile.color }">
+                        <span data-ttip="{{profile.subtitle}}">
+                        </span>
+                      </div>
+                    </div>
+                    <span class="help-block" ng-if="storage.devicesSize > storage.selectedPool.capacity.total">
+                        Total target size should be less than available size
+                    </span>
                 </div>
             </div>
             <!-- End: General Configuration -->
