@@ -9,12 +9,12 @@
     <div class="row toolbar-pf">
         <div class="col-sm-12">
             <form class="toolbar-pf-actions">
-                <div class="form-group col-sm-3 toolbar-pf-filter">
+                <div class="form-group col-sm-4 toolbar-pf-filter">
                     <div class="input-group">
                         <input type="text" class="form-control" placeholder="Search" ng-model-options="{ debounce: 1000 }" ng-change="tasks.applyFilter('search',tasks.searchQuery)" ng-model="tasks.searchQuery"><span class="input-group-addon" ng-click="tasks.applyFilter('search',tasks.searchQuery)"><i class="fa fa-search"></i></span>
                     </div>
                 </div>
-                <div class="form-group col-sm-3">
+                <div class="form-group col-sm-4">
                     <div class="dropdown">
                         <a class="dropdown-toggle" id="fromDateDropdown" role="button" data-toggle="dropdown" data-target="#" href="#">
                             <div class="input-group">
@@ -27,7 +27,7 @@
                         </ul>
                     </div>
                 </div>
-                <div class="form-group col-sm-3">
+                <div class="form-group col-sm-4">
                     <div class="dropdown">
                         <a class="dropdown-toggle" id="toDateDropdown" role="button" data-toggle="dropdown" data-target="#" href="#">
                             <div class="input-group">
@@ -39,9 +39,8 @@
                             ng-change="tasks.applyFilter('to',tasks.toDateTimeFilter)" />
                         </ul>
                     </div>
-
                 </div>
-                <div class="form-group col-sm-3">
+                <div class="form-group col-sm-12"><br/><label>Show: </label>
                     <label ng-repeat="status in tasks.taskStatus">
                         <input type="checkbox" name="tasks.selectedStatus" value="{{status}}" ng-checked="tasks.selectedStatus.indexOf(status) > -1"
                         ng-click="tasks.toggleSelection(status)"> {{status}} &nbsp;</label>
@@ -104,32 +103,25 @@
     </div>
 
     <div class="list-group list-view-pf">
-        <div class="list-group-item" ng-repeat="task in tasks.list" id="#{{task.id}}">
-            <div class="list-view-pf-actions">
-                <button class="btn btn-default" ng-click="tasks.viewDetails(task.id)">Details</button>
-            </div>
+        <div class="list-group-item" ng-repeat="task in tasks.list">
             <div class="list-view-pf-main-info">
                 <div class="list-view-pf-left">
-                    <label class="pficon-running fa-spin" ng-if="!task.completed"></label>
-                    <label class="pficon-ok" ng-if="task.completed && task.status == 1"></label>
-                    <label class="pficon-error-circle-o" ng-if="task.completed && (task.status === 2 || task.status === 3)"></label>
+                    <label class="pficon pficon-running fa-spin" ng-if="!task.completed"></label>
+                    <label class="pficon pficon-ok" ng-if="task.completed && task.status == 1"></label>
+                    <label class="pficon pficon-error-circle-o" ng-if="task.completed && (task.status === 2 || task.status === 3)"></label>
                 </div>
                 <div class="list-view-pf-body">
-                    <div class="list-view-pf-description">
-                        <div class="list-group-item-text">
-                            <p><label>{{task.name}} </label><br/>{{task.id}}</p>
-                        </div>
-
-                    </div>
-
-                    <div class="list-view-pf-additional-info">
+                    <div class="list-view-pf-additional-info justify-equal-space-around">
                         <div class="list-view-pf-additional-info-item">
-                            <p><label>Start time</label><br/>{{task.timestamp | date:'medium'}}</p>
+                            <label><a ng-href="#/tasks/{{task.id}}">{{task.name}}</a></label>
+                        </div>
+                        <div class="list-view-pf-additional-info-item">
+                            <p><label>Started</label><br/>{{task.timestamp | date:'medium'}}</p>
                         </div>
                         <div class="list-view-pf-additional-info-item">
                         </div>
                         <div class="list-view-pf-additional-info-item">
-                            <p><label>Last update time</label><br/>{{task.lastupdated | date:'medium'}}</p>
+                            <p><label>Last updated</label><br/>{{task.lastupdated | date:'medium'}}</p>
                         </div>
                     </div>
 
