@@ -84,7 +84,8 @@
                     <label class="pficon pficon-ok" ng-if="storage.status === 0"></label>
                 </div>
                 <div class="list-view-pf-body">
-                    <div class="pool-list-view-description">
+                    <div class="list-view-pf-additional-info justify-equal-space-around">
+                    <div class="list-view-pf-additional-info-item list-view-pf-additional-info-item-stacked">
                         <div>
                             <p>
                                 <strong ng-bind="storage.name"></strong>
@@ -97,7 +98,7 @@
                             <span ng-if="storage.type === 'replicated'">Standard</span>
                         </div>
                     </div>
-                    <div class="list-view-pf-additional-info">
+
                         <div class="list-view-pf-additional-info-item list-view-pf-additional-info-item-donut-chart">
                             <c3chart bindto-id="donut-pool-usage-chart-{{$index}}">
                                 <chart-column column-id="Free" column-values="{{100 - storage.usage.percentused | number:1}}" column-color="#CCCCCC" column-type="donut"
@@ -108,8 +109,6 @@
                                 <chart-legend show-legend="false"></chart-legend>
                                 <chart-size chart-height="71"></chart-size>
                             </c3chart>
-                        </div>
-                        <div class="list-view-pf-additional-info-item list-view-pf-additional-info-item-stacked">
                             <strong ng-bind=" storage.usage.used | bytes "></strong> of {{ storage.usage.total | bytes }}
                             used
                         </div>
@@ -142,30 +141,30 @@
             </div>
             <div class="listing"  ng-show="storage.storageid==storages.editPool.storageid">
                 <form class="form-horizontal close_icon">
-                    <div class = "content">
+                    <div class = "content-thirty">
                         <div class="form-group">
-                            <label class="col-md-6 control-label">Pool Name</label>
-                            <div class="col-md-6">
+                            <label class="col-md-5 control-label">Pool Name</label>
+                            <div class="col-md-5">
                                 <input type= "text" id="poolName" class="form-control" ng-model= "storages.editPool.name"></input>
                             </div>
                         </div>
                         <div class="form-group" ng-show="storages.editPool.type === 'erasure_coded'">
-                            <label class="col-md-6 control-label">EC profile</label>
-                            <div class="col-md-6" >
+                            <label class="col-md-5 control-label">EC profile</label>
+                            <div class="col-md-5" >
                                 <select pf-select ng-model="storages.editPool.options.ecprofile" id="ecprofile" class="form-control"
                                 ng-options="ecprofile.value for ecprofile in storages.ecprofiles"></select>
                             </div>
                         </div>
                         <div class="form-group" ng-show="storages.editPool.type === 'replicated'">
-                            <label class="col-md-6 control-label">Replicas</label>
-                            <div class="col-md-6" >
+                            <label class="col-md-5 control-label">Replicas</label>
+                            <div class="col-md-5" >
                                 <input type="number" id="replicas" class="form-control" ng-model = "storages.editPool.replicas" min="1" max="5" required></input>
                             </div>
                         </div>
                     </div>
-                    <div class = "content">
+                    <div class = "content-sixty">
                         <div class="form-group">
-                            <div class="col-md-offset-2 col-md-5">
+                            <div class="col-md-5">
                                 <div class="checkbox">
                                     <label>
                                         <input type="checkbox" id="quotas" ng-model="storages.editPool.quota_enabled">Enable Quotas</input>
@@ -174,7 +173,7 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            <div class="col-md-offset-2 col-md-5">
+                            <div class="col-md-5">
                                 <div class="checkbox">
                                     <label>
                                         <input type="checkbox" id="quotaMaxPercentage" ng-model="storages.enable_max_percentage"
@@ -191,7 +190,7 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            <div class="col-md-offset-2 col-md-5">
+                            <div class="col-md-5">
                                 <div class="checkbox">
                                     <label>
                                         <input type="checkbox" id="quotaMaxObjects" ng-model="storages.enable_quota_max_objects"
@@ -206,11 +205,11 @@
                             </div>
                         </div>
                     </div>
-                    <div class= "close">
-                        <div class="pficon pficon-save" ng-click="storages.update(storage)" data-toggle="tooltip" title="save">
-                        </div>
-                        <div class="pficon pficon-close" ng-click="storages.editPool.storageid=undefined" data-toggle= "tooltip" title="close">
-                        </div>
+                    <div>
+                        <span class="fa fa-2x fa-check" ng-click="storages.update(storage)" data-toggle="tooltip" title="save">
+                        </span>&nbsp;&nbsp;
+                        <span class="pficon fa-2x pficon-close" ng-click="storages.editPool.storageid=undefined" data-toggle= "tooltip" title="close">
+                        </span>
                     </div>
                 </form>
             </div>

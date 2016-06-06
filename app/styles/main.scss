@@ -447,9 +447,13 @@ host-is-mon {
     border-bottom: 1px solid #BABABA;
     padding-top: 15px;
     padding-bottom: 15px;
-    .content {
+    .content-thirty {
         float: left;
-        width: 40%;
+        width: 30%;
+    }
+    .content-sixty {
+        float: left;
+        width: 60%;
     }
     .close_icon {
     width: 100%;
@@ -474,4 +478,7 @@ host-is-mon {
 }
 .no-left-pad{
     padding-left:0px;
+}
+.justify-equal-space-around{
+    justify-content: space-around;
 }
