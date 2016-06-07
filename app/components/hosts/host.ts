@@ -153,7 +153,7 @@ export class HostListController {
     }
 
     public getNodeTypeTitle(node) {
-        if (node.options.mon === 'Y')
+        if (node.options1.mon === 'Y')
             return 'Monitor';
         else
             return 'OSD Host';

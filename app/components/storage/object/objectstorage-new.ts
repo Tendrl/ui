@@ -207,7 +207,7 @@ export class ObjectStorageController {
             };
 
             if (pool.type === 'Standard') {
-                storage['type'] = 'Standard';
+                storage['type'] = 'replicated';
                 storage['replicas'] = pool.replicas;
             }
             else {

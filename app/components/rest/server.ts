@@ -95,7 +95,12 @@ export class ServerService {
     // **getFilteredList**
     // **@returns** a promise with all servers with query string.
     getFilteredList(queryString) {
-        return this.rest.all('nodes?' + queryString).getList<Node>().then(function(servers) {
+        if(queryString != undefined){
+            queryString = "?" + queryString;
+        }else{
+            queryString = "";
+        }
+        return this.rest.all('nodes' + queryString).getList<Node>().then(function(servers) {
             return _.sortBy(servers, "hostname");
         });
     }
@@ -119,7 +124,12 @@ export class ServerService {
     // **getFilteredListByCluster**
     // **@returns** a promise with all nodes part of the cluster with query string.
     getFilteredListByCluster(clusterId, queryString) {
-        return this.rest.one('clusters', clusterId).all('nodes?'+queryString).getList<Node>().then(function(nodes) {
+        if(queryString != undefined){
+            queryString = "?" + queryString;
+        }else{
+            queryString = "";
+        }
+        return this.rest.one('clusters', clusterId).all('nodes'+queryString).getList<Node>().then(function(nodes) {
             return _.sortBy(nodes, "hostname");
         });
     }
