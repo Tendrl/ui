@@ -17,7 +17,12 @@ export class StorageService {
     // **getFilteredList**
     // **@returns** a promise with all storages with query string.
     getFilteredList(queryString) {
-        return this.rest.all('storages?' + queryString).getList().then(function(storages) {
+        if(queryString !== undefined){
+             queryString = '?'+queryString;
+        }else {
+             queryString = '';
+        }
+        return this.rest.all('storages' + queryString).getList().then(function(storages) {
             return storages;
         });
     }
@@ -41,7 +46,12 @@ export class StorageService {
     // **getFilteredListByCluster**
     // **@returns** a promise  with all storages of the cluster with query string.
     getFilteredListByCluster(clusterId, queryString) {
-        return this.rest.one('clusters', clusterId).all('storages?'+queryString).getList().then(function(storages) {
+        if(queryString !== undefined){
+             queryString = '?'+queryString;
+        }else {
+             queryString = '';
+        }
+        return this.rest.one('clusters', clusterId).all('storages'+queryString).getList().then(function(storages) {
             return storages;
         });
     }
