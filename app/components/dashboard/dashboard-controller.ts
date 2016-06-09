@@ -157,7 +157,7 @@ export class DashboardController {
     public getMostUsedPools(storageUsage) {
         this.mostUsedPools = [];
         _.each(storageUsage, (pool) => {
-            this.mostUsedPools.push({"title":pool["name"],"data":pool["usage"]});
+            this.mostUsedPools.push({"title":pool["name"],"data": {total: 100, used: pool["usage"]["percentused"]}});
         });
     }
 

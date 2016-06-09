@@ -10,7 +10,7 @@
     }
 
     .utilization {
-        margin-top: 2%;
+        margin-top: 111px;
     }
 
     .status-notification {
@@ -30,7 +30,7 @@
     }
 
     .custom-height {
-        min-height: 254px;
+        min-height: 316px;
     }
 
     .indicator-for-clusters {
@@ -67,4 +67,21 @@
         min-height: 110px;
     }
 
+    .dashboard-contain .progress-bar {
+        line-height : 37px;
+    }
+
+    .dashboard-contain .progress-description {
+        margin-bottom : -1px;
+    }
+
+    .cluster-info {
+        margin-top: 70px;
+    }
+
+    .cluster-size-label {
+        font-size: smaller;
+    }
+
 }
+
