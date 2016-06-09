@@ -40,11 +40,11 @@
                 <div class="dropdown pull-right dropdown-kebab-pf">
                     <button
                         aria-expanded="false" aria-haspopup="true"
-                        data-toggle="dropdown" type="button"
+                        bs-dropdown="dropdown" type="button"
                         id="dropdownKebabRight" class="btn btn-link dropdown-toggle">
                         <span class="fa fa-ellipsis-v"></span>
                     </button>
-                    <ul aria-labelledby="dropdownKebabRight" class="dropdown-menu dropdown-menu-right">
+                    <ul aria-labelledby="dropdownKebabRight" role="menu" class="dropdown-menu dropdown-menu-right">
                         <li ng-if="host.state == 3">
                             <a ng-click="hosts.reinitialize(host)">
                                 <i class="fa fa-repeat"></i> Reinitialize

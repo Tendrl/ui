@@ -47,10 +47,10 @@
         <div class="list-group-item">
             <div class="list-view-pf-actions">
                 <div class="dropdown pull-right dropdown-kebab-pf">
-                    <button aria-expanded="false" aria-haspopup="true" data-toggle="dropdown" id="dropdownKebabRight" type="button" class="btn btn-link dropdown-toggle">
+                    <button aria-expanded="false" aria-haspopup="true" bs-dropdown="dropdown" id="dropdownKebabRight" type="button" class="btn btn-link dropdown-toggle">
                         <span class="fa fa-ellipsis-v"></span>
                     </button>
-                    <ul aria-labelledby="dropdownKebabRight" class="dropdown-menu dropdown-menu-right" ng-if="cluster.state !== 4">
+                    <ul aria-labelledby="dropdownKebabRight" role="menu" class="dropdown-menu dropdown-menu-right" ng-if="cluster.state !== 4">
                         <li ng-if="clusters.isExpandAvailable(cluster.state)"><a ng-click="clusters.expandCluster(cluster.clusterid, cluster.state)"><i class="fa fa-plus"></i> Expand</a></li>
                         <li ng-if="clusters.isManageAvailable(cluster.state)"><a ng-click="clusters.enableCluster(cluster.clusterid, cluster.state)"><i class="fa fa-check"></i> Manage</a></li>
                         <li ng-if="clusters.isUnManageAvailable(cluster.state)"><a ng-click="clusters.disableCluster(cluster.clusterid, cluster.state)"><i class="fa fa-times"></i> UnManage</a></li>

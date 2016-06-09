@@ -28,8 +28,8 @@
           <form ng-if="osddetail.type === 'Cluster'" ng-init="osddetail.searchBy = {name:'Host',value:'node'}">
             <div class="form-group toolbar-pf-filter">
                 <div class="input-group">
-                    <div class="input-group-btn">
-                        <button aria-expanded="false" aria-haspopup="true" data-toggle="dropdown" class="btn btn-default dropdown-toggle" type="button">
+                    <div class="input-group-btn dropdown">
+                        <button aria-expanded="false" aria-haspopup="true" bs-dropdown="dropdown" class="btn btn-default dropdown-toggle" type="button">
                             {{osddetail.searchBy.name}}<span class="caret"></span>
                         </button>
                         <ul class="dropdown-menu">
@@ -49,8 +49,8 @@
           <form ng-if="osddetail.type === 'Host'">
             <div class="form-group toolbar-pf-filter">
                 <div class="input-group">
-                    <div class="input-group-btn">
-                        <button aria-expanded="false" aria-haspopup="true" data-toggle="dropdown" class="btn btn-default dropdown-toggle" type="button">
+                    <div class="input-group-btn dropdown">
+                        <button aria-expanded="false" aria-haspopup="true" bs-dropdown="dropdown" class="btn btn-default dropdown-toggle" type="button">
                             OSD Name
                         </button>
                     </div>
