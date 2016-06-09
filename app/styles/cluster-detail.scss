@@ -19,7 +19,7 @@
     }
 
     .cluster-utilization {
-        margin-top: 2%;
+        margin-top: 44px;
     }
 
     .utilization-align {
@@ -51,6 +51,18 @@
     }
 
     .custom-height {
-        min-height: 254px;
+        min-height: 316px;
+    }
+
+    .cluster-overview-detail .progress-bar {
+        line-height : 37px;
+    }
+
+    .cluster-overview-detail .progress-description {
+        margin-bottom : -1px;
+    }
+
+    .cluster-size-label {
+        font-size: smaller;
     }
 }

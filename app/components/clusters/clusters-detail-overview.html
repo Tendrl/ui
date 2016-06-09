@@ -1,65 +1,56 @@
 <div class="cluster-overview-detail">
     <div class="row">
-        <div class="col-xs-12 col-sm-6 col-md-12">
-            <div class="row">
-                <div class="col-xs-12 col-sm-12 col-md-12">
-                    <div class="row row-cards-pf">
-                        <div class="col-xs-12 col-sm-6 col-md-3">
-                            <div class="card-pf card-pf-aggregate-status card-pf-with-action custom-height">
+        <!-- Card Part -->
+        <div class="col-xs-12 col-sm-6 col-md-9">
+            <div class="row row-cards-pf">
+                <div class="col-xs-12 col-sm-12 col-md-6">
+                    <div class="card-pf card-pf-aggregate-status card-pf-with-action custom-height">
+                        <div class="row">
+                            <div class="col-md-6">
                                 <h2 class="card-pf-title">
-                                    {{clusterdetail.capacity.used | bytes }} Used
-                                    <p><small>of {{clusterdetail.capacity.total | bytes}} Total</small></p>
+                                    <label>Utilization</label>
+                                    <p><small class="cluster-size-label"><label>{{clusterdetail.capacity.used | bytes }} Used </label> of {{clusterdetail.capacity.total | bytes}} Total</small></p>
                                 </h2>
+                                <hr>
                                 <div class="card-pf-body">
                                     <div ng-if="clusterdetail.clusterUtilization.data.total > 0">
                                         <div pf-donut-pct-chart config="clusterdetail.clusterUtilization.config" data="clusterdetail.clusterUtilization.data" center-label="clusterdetail.clusterUtilization.label"></div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="col-xs-12 col-sm-6 col-md-5">
-                            <div class="card-pf card-pf-aggregate-status card-pf-with-action custom-height">
-                                <div class="cluster-utilization">
-                                    <div class="row margin-for-storage-profile">
-                                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                                            <div ng-if="clusterdetail.trendsCharts.overall.data.total>0" pf-sparkline-chart config="clusterdetail.trendsCharts.overall.config" chart-data="clusterdetail.trendsCharts.overall.data">
-                                            </div>
-                                            <div>Last 24 hours</div>
+                            <div class="col-md-6 cluster-utilization">
+                                <div class="row margin-for-storage-profile">
+                                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                        <div ng-if="clusterdetail.trendsCharts.overall.data.total>0" pf-sparkline-chart config="clusterdetail.trendsCharts.overall.config" chart-data="clusterdetail.trendsCharts.overall.data">
                                         </div>
-
+                                        <div class="pull-left" ng-if="clusterdetail.trendsCharts.overall.data.total>0">Last 24 hours</div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        <div class="col-xs-12 col-sm-6 col-md-4">
-                            <div class="row">
-                                <div class="col-xs-12 col-sm-12 col-md-12">
-                                    <div class="card-pf">
-                                        <div class="card-pf-heading">
-                                            <h2 class="card-pf-title">
-                                                Most Used Storage Profiles
-                                            </h2>
-                                        </div>
-                                        <div class="card-pf-body">
-                                            <div ng-repeat="profile in clusterdetail.utilizationByProfile.profiles"
-                                            pf-utilization-bar-chart chart-data="profile.usage" chart-title="profile.subtitle"
-                                            threshold-error="clusterdetail.utilizationByProfile.threshold.critical" threshold-warning="clusterdetail.utilizationByProfile.threshold.warning"
-                                            footer-label-format='percent'>
-                                            </div>
-                                        </div>
+                    </div>
+                </div>
+                <div class="col-xs-12 col-sm-12 col-md-6">
+                    <div class="row">
+                        <div class="col-xs-12 col-sm-12 col-md-12">
+                            <div class="card-pf custom-height">
+                                <div class="card-pf-heading">
+                                    <h2 class="card-pf-title">
+                                        Most Used Storage Profiles
+                                    </h2>
+                                </div>
+                                <div class="card-pf-body">
+                                    <div ng-repeat="profile in clusterdetail.utilizationByProfile.profiles"
+                                    pf-utilization-bar-chart chart-data="profile.usage" chart-title="profile.subtitle"
+                                    threshold-error="clusterdetail.utilizationByProfile.threshold.critical" threshold-warning="clusterdetail.utilizationByProfile.threshold.warning"
+                                    footer-label-format='percent'>
                                     </div>
                                 </div>
-                            </div><!-- /row -->
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
-    </div>
-
-    <div class="row">
-        <!-- Card Part -->
-        <div class="col-xs-12 col-sm-6 col-md-9">
             <!-- Second row -->
             <div class="row row-cards-pf">
                 <div class="col-xs-12 col-sm-12 col-md-6">
@@ -170,7 +161,7 @@
                                     <span>{{clusterdetail.osds.down}}</span></a>
                                 </span>
                                 <span ng-if="clusterdetail.osds.nearfull>0" class="card-pf-aggregate-status-notification"><a href="#/clusters/{{clusterdetail.id}}?active_filter=utilization&filter_name=Full&tab=OSDs" title="{{clusterdetail.osds.nearfull}} OSDs full or near full">
-                                    <span class="pficon pficon-info"></span>
+                                    <span class="pficon pficon-resources-almost-full"></span>
                                     <span>{{clusterdetail.osds.nearfull}}</span></a>
                                 </span>
                                 <span ng-if="clusterdetail.osds.criticalAlerts>0" class="card-pf-aggregate-status-notification"><a href="#/clusters/{{clusterdetail.id}}?active_filter=osd_status&filter_name=Up-Out&filter_name=Down-In&filter_name=Down&tab=OSDs" title="{{clusterdetail.osds.criticalAlerts}} active alerts">
@@ -261,8 +252,8 @@
         </div>
 
         <!-- Utilization SideBar -->
-        <div class="col-xs-12 col-sm-6 col-md-3 sidebar-pf sidebar-pf-right">
-            <div class="row row-cards-pf">
+        <div class="col-xs-12 col-sm-6 col-md-3">
+            <div class="row">
                 <div class="col-xs-12 col-sm-12 col-md-12">
                     <div class="card-pf" ng-if="clusterdetail.mostUsedPools.length>0">
                         <div class="card-pf-heading">
