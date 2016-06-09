@@ -58,7 +58,7 @@ export class HostOverviewController {
 
     public getCpuUtilization(timeSlot: any) {
         this.serverService.getHostCpuUtilization(this.host.nodeid,timeSlot.value).then((cpu_utilization) => {
-            this.drawGraphs(cpu_utilization,"cpu","Cpu utilization","%",this.host.utilizations.cpupercentageusage);
+            this.drawGraphs(cpu_utilization,"cpu","Cpu utilization","%",this.host.utilizations.cpuusage.percentused);
         });
     }
 
