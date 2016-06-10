@@ -5,10 +5,10 @@
             <div class="col-xs-12 col-sm-6 col-md-12" style="min-height: 896px;">
                 <!-- First row -->
                 <div class="row row-cards-pf">
-                    <div class="col-xs-12 col-sm-12 col-md-4">
+                    <div class="col-xs-12 col-sm-12 col-md-6">
                         <div class="card-pf card-pf-aggregate-status card-pf-with-action custom-height">
                             <h2 class="card-pf-title">
-                                <a href="">Host Summary</a>
+                                Host Summary
                             </h2>
                             <div class="card-pf-body">
                                 <p class="card-pf-aggregate-status-notifications">
@@ -37,10 +37,10 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-xs-12 col-sm-12 col-md-4">
-                        <div ng-if="hostoverview.isOsd" class="card-pf card-pf-aggregate-status card-pf-with-action custom-height">
+                    <div ng-if="hostoverview.isOsd" class="col-xs-12 col-sm-12 col-md-3">
+                        <div class="card-pf card-pf-aggregate-status card-pf-with-action custom-height">
                             <h2 class="card-pf-title">
-                                <a href="">{{hostoverview.summary.storage_logical_units.TotalSLU}} OSDs</a>
+                                {{hostoverview.summary.storage_logical_units.TotalSLU}} OSDs
                             </h2>
                             <div class="card-pf-body">
                                 <p class="card-pf-aggregate-status-notifications">
@@ -59,7 +59,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-xs-12 col-sm-12 col-md-4">
+                    <div class="col-xs-12 col-sm-12" ng-class="hostoverview.isOsd?'col-md-3':'col-md-6'">
                         <div class="card-pf card-pf-aggregate-status card-pf-with-action custom-height">
                             <h2 class="card-pf-title">
                                 {{hostoverview.summary.servicedetails.slu.down + hostoverview.summary.servicedetails.slu.up }} Storage Services
@@ -98,18 +98,21 @@
                                 <div class="col-xs-12 col-sm-6 col-md-3">
                                     <div class="card-pf-body">
                                         <div class="row">
-                                            <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+                                            <div class="col-xs-12 col-sm-12 col-md-7 col-lg-7">
                                                 <div ng-if="hostoverview.donutCharts.cpu.data.total > 0">
                                                     <div pf-donut-pct-chart config="hostoverview.donutCharts.cpu.config" data="hostoverview.donutCharts.cpu.data" center-label="hostoverview.donutCharts.cpu.label">
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
-                                                <div>
+                                            <div class="col-xs-12 col-sm-12 col-md-5 col-lg-5">
+                                                <div class="utilization-data-block">
                                                     <center>
-                                                        <label>CPU</label>
-                                                        <div>
-                                                            <small>{{hostoverview.host.utilizations.cpuusage.percentused | number : 1}}% Used</small>
+                                                        <strong>CPU</strong>
+                                                        <div class="used-data-block">
+                                                            {{hostoverview.host.utilizations.cpuusage.percentused | number : 1}}%
+                                                        </div>
+                                                         <div class="total-data-block">
+                                                           Used
                                                         </div>
                                                     </center>
                                                 </div>
@@ -122,18 +125,21 @@
                                 <div class="col-xs-12 col-sm-6 col-md-3">
                                     <div class="card-pf-body">
                                         <div class="row">
-                                            <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+                                            <div class="col-xs-12 col-sm-12 col-md-7 col-lg-7">
                                                 <div ng-if="hostoverview.donutCharts.memory.data.total > 0">
                                                     <div pf-donut-pct-chart config="hostoverview.donutCharts.memory.config" data="hostoverview.donutCharts.memory.data" center-label="hostoverview.donutCharts.memory.label">
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
-                                                <div>
+                                            <div class="col-xs-12 col-sm-12 col-md-5 col-lg-5">
+                                                <div class="utilization-data-block">
                                                     <center>
-                                                        <label>Memory</label>
-                                                        <div>
-                                                            <small>{{hostoverview.host.utilizations.memoryusage.used | bytes}} of {{hostoverview.host.utilizations.memoryusage.total | bytes}}</small>
+                                                        <strong>Memory</strong>
+                                                        <div class="used-data-block">
+                                                            {{hostoverview.host.utilizations.memoryusage.used | bytes}}
+                                                        </div>
+                                                         <div class="total-data-block">
+                                                           of {{hostoverview.host.utilizations.memoryusage.total | bytes}}
                                                         </div>
                                                     </center>
                                                 </div>
@@ -146,18 +152,21 @@
                                 <div class="col-xs-12 col-sm-6 col-md-3">
                                     <div class="card-pf-body">
                                         <div class="row">
-                                            <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+                                            <div class="col-xs-12 col-sm-12 col-md-7 col-lg-7">
                                                 <div ng-if="hostoverview.donutCharts.swap.data.total > 0">
                                                     <div pf-donut-pct-chart config="hostoverview.donutCharts.swap.config" data="hostoverview.donutCharts.swap.data" center-label="hostoverview.donutCharts.swap.label">
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
-                                                <div>
+                                            <div class="col-xs-12 col-sm-12 col-md-5 col-lg-5">
+                                                <div class="utilization-data-block">
                                                     <center>
-                                                        <label>Swap</label>
-                                                        <div>
-                                                            <small>{{hostoverview.host.utilizations.swapusage.used | bytes}} of {{hostoverview.host.utilizations.swapusage.total | bytes}}</small>
+                                                        <strong>Swap</strong>
+                                                        <div class="used-data-block">
+                                                            {{hostoverview.host.utilizations.swapusage.used | bytes}}
+                                                        </div>
+                                                         <div class="total-data-block">
+                                                           of {{hostoverview.host.utilizations.swapusage.total | bytes}}
                                                         </div>
                                                     </center>
                                                 </div>
@@ -170,18 +179,21 @@
                                 <div class="col-xs-12 col-sm-6 col-md-3">
                                     <div class="card-pf-body">
                                         <div class="row">
-                                            <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+                                            <div class="col-xs-12 col-sm-12 col-md-7 col-lg-7">
                                                 <div ng-if="hostoverview.donutCharts.storage.data.total > 0">
                                                     <div pf-donut-pct-chart config="hostoverview.donutCharts.storage.config" data="hostoverview.donutCharts.storage.data" center-label="hostoverview.donutCharts.storage.label">
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
-                                                <div>
+                                            <div class="col-xs-12 col-sm-12 col-md-5 col-lg-5">
+                                                <div class="utilization-data-block">
                                                     <center>
-                                                        <label>Storage</label>
-                                                        <div>
-                                                            <small>{{hostoverview.host.utilizations.storageusage.used | bytes}} of {{hostoverview.host.utilizations.storageusage.total | bytes}}</small>
+                                                        <strong>Storage</strong>
+                                                        <div class="used-data-block">
+                                                            {{hostoverview.host.utilizations.storageusage.used|bytes}}
+                                                        </div>
+                                                         <div class="total-data-block">
+                                                           of {{hostoverview.host.utilizations.storageusage.total | bytes}}
                                                         </div>
                                                     </center>
                                                 </div>
@@ -214,18 +226,21 @@
                                 <div class="col-xs-12 col-sm-12 col-md-6">
                                     <div class="card-pf-body">
                                         <div class="row">
-                                            <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+                                            <div class="col-xs-12 col-sm-12 col-md-7 col-lg-7">
                                                 <div ng-if="hostoverview.donutCharts.network.data.total > 0">
                                                     <div pf-donut-pct-chart config="hostoverview.donutCharts.network.config" data="hostoverview.donutCharts.network.data" center-label="hostoverview.donutCharts.network.label">
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
-                                                <div>
+                                            <div class="col-xs-12 col-sm-12 col-md-5 col-lg-5">
+                                                <div class="utilization-data-block">
                                                     <center>
-                                                        <label>Utilization</label>
-                                                        <div>
-                                                            <small>{{hostoverview.host.utilizations.networkusage.used | bytes}} of {{hostoverview.host.utilizations.networkusage.total | bytes}}</small>
+                                                        <strong>Utilization</strong>
+                                                        <div class="used-data-block">
+                                                            {{hostoverview.host.utilizations.networkusage.used|bytes}}
+                                                        </div>
+                                                         <div class="total-data-block">
+                                                           of {{hostoverview.host.utilizations.networkusage.total | bytes}}
                                                         </div>
                                                     </center>
                                                 </div>

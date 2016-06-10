@@ -34,7 +34,7 @@
     }
 
     .network-detail {
-        margin-top: 1%;
+        margin-top: 26px;
         font-size: 15px;
         .network-detail-padding {
             padding: 6%;
@@ -42,6 +42,19 @@
         .ip-address-detail {
             margin-top: -12px;
         }
+    }
+
+    .utilization-data-block {
+        margin-top: 48px;
+        margin-left: -40px;
+    }
+
+    .utilization-data-block .used-data-block {
+        font-size: large;
+    }
+
+    .utilization-data-block .total-data-block {
+        font-size: smaller;
     }
 
 }
