@@ -1,17 +1,34 @@
 <div class="list-group-item list-view-pf-stacked list-view-pf-top-align">
     <div class="list-view-pf-actions">
-        <button class="btn btn-default" ng-click="vm.onResize()">Resize</button>
-        <button class="btn btn-default" ng-click="vm.onRemove()">Remove</button>
+        <div class="dropdown pull-right dropdown-kebab-pf">
+            <button
+                aria-expanded="false" aria-haspopup="true"
+                bs-dropdown="dropdown" type="button"
+                id="dropdownKebabRight" class="btn btn-link dropdown-toggle">
+                <span class="fa fa-ellipsis-v"></span>
+            </button>
+            <ul aria-labelledby="dropdownKebabRight" role="menu" class="dropdown-menu dropdown-menu-right">
+                <li>
+                    <a ng-click="vm.onResize()">
+                        Resize
+                    </a>
+                </li>
+                <li>
+                    <a ng-click="vm.onRemove()">
+                        Remove
+                    </a>
+                </li>
+            </ul>
+        </div>
     </div>
     <div class="list-view-pf-main-info">
         <div class="list-view-pf-body">
-            <div class="list-view-pf-description">
-                <div class="list-group-item-heading">{{vm.blockdevice.name}}</div>
-                <div class="list-group-item-text">on
-                    <strong>{{vm.blockdevice.clustername}}</strong>
+            <div class="list-view-pf-additional-info justify-equal-space-around">
+                <div class="list-view-pf-additional-info-item">
+                    <div class="list-group-item-text"><label>{{vm.blockdevice.name}}</label> on
+                        <label>{{vm.blockdevice.clustername}}</label>
+                    </div>
                 </div>
-            </div>
-            <div class="list-view-pf-additional-info">
                 <div class="list-view-pf-additional-info-item list-view-pf-additional-info-item-stacked">
                     <strong>{{vm.blockdevice.size}}</strong>
                 </div>

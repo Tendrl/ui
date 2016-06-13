@@ -109,8 +109,10 @@
                                 <chart-legend show-legend="false"></chart-legend>
                                 <chart-size chart-height="71"></chart-size>
                             </c3chart>
+                            <div>
                             <strong ng-bind=" storage.usage.used | bytes "></strong> of {{ storage.usage.total | bytes }}
                             used
+                            </div>
                         </div>
                         <div class="list-view-pf-additional-info-item list-view-pf-additional-info-item-stacked">
                             <strong>Replicas</strong>{{storage.replicas }}
