@@ -64,14 +64,21 @@ export class StorageNewController {
     }
 
     public cancel(): void {
-        this.$location.path('/storage/');
+        if (this.type === 'object') {
+            this.$location.path('/storage/');
+        }
+        else if (this.type === 'block') {
+            this.$location.path('/rbds/');
+        }
     }
 
     public addGenericStorage(): void {
+        this.$location.search({});
         this.$location.path('/storage/new/object/' + this.cluster.clusterid);
     }
 
     public addBlockStorage(): void {
+        this.$location.search({});
         this.$location.path('/storage/new/block/' + this.cluster.clusterid);
     }
 }

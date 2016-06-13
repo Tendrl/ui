@@ -126,7 +126,7 @@ export class BlockDeviceController {
     }
 
     public cancel(): void {
-        this.$location.path('/storage');
+        this.$location.path('/rbds/');
     }
 
     public submit(): void {
@@ -151,7 +151,7 @@ export class BlockDeviceController {
         });
         modal.$scope.$hide = _.wrap(modal.$scope.$hide, ($hide) => {
             $hide();
-            this.$location.path('/storage');
+            this.$location.path('/rbds/');
         });
     }
 }
