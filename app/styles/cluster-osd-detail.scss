@@ -2,14 +2,6 @@
 
     margin-top: 15px;
 
-    .div-with-scroll {
-        height: 100vh;
-        overflow: scroll;
-        overflow-x: hidden;
-        padding: 15px;
-        margin-top: 15px;
-    }
-
     .scroll-for-filter {
         height: 325px;
         overflow: scroll;
@@ -95,6 +87,8 @@
 
     .right-sidebar {
         border-left: 1px solid #000000;
+        margin-left: 43px;
+        margin-top: -120px;
     }
 
     .right-sidebar-contain {
