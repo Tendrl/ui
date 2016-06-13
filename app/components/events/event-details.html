@@ -1,4 +1,9 @@
-<h1>Event Details : {{event.detail.name}}
+<ol class="breadcrumb">
+    <li><a href="#/admin">Admin</a></li>
+    <li><a href="#/events">Events</a></li>
+    <li>Details</li>
+</ol>
+<h1>{{event.detail.name}}
     <span class="pficon-error-circle-o critical" ng-if="event.detail.severity===1"></span>
     <span class="pficon-ok ok" ng-if="event.detail.severity===5"></span>
     <span class="pficon-warning-triangle-o warning" ng-if="event.detail.severity===0 || event.detail.severity===2 || event.severity===3 || event.severity===4"></span>
