@@ -62,17 +62,17 @@
                     <div class="col-xs-12 col-sm-12" ng-class="hostoverview.isOsd?'col-md-3':'col-md-6'">
                         <div class="card-pf card-pf-aggregate-status card-pf-with-action custom-height">
                             <h2 class="card-pf-title">
-                                {{hostoverview.summary.servicedetails.slu.down + hostoverview.summary.servicedetails.slu.up }} Storage Services
+                                {{hostoverview.summary.servicedetails.up.length + hostoverview.summary.servicedetails.down.length }} Storage Services
                             </h2>
                             <div class="card-pf-body">
-                                <p ng-if="hostoverview.summary.servicedetails.slu" class="card-pf-aggregate-status-notifications">
-                                    <span class="card-pf-aggregate-status-notification">
+                                <p class="card-pf-aggregate-status-notifications">
+                                    <span ng-if="hostoverview.summary.servicedetails.up" class="card-pf-aggregate-status-notification">
                                         <span class="pficon pficon-ok"></span>
-                                        <span>{{hostoverview.summary.servicedetails.slu.up}}</span>
+                                        <span>{{hostoverview.summary.servicedetails.up.length}}</span>
                                     </span>
-                                    <span class="card-pf-aggregate-status-notification">
+                                    <span ng-if="hostoverview.summary.servicedetails.down" class="card-pf-aggregate-status-notification">
                                         <span class="fa fa-arrow-circle-o-down"></span>
-                                        <span>{{hostoverview.summary.servicedetails.slu.down}}</span>
+                                        <span>{{hostoverview.summary.servicedetails.down.length}}</span>
                                     </span>
                                 </p>
                             </div>
