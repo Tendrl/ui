@@ -58,8 +58,7 @@ export class EventListController {
                 this.searchEntity = "cluster";
             }
                 this.applyFilter(this.searchEntity, this.searchQuery);
-                this.applyFilter('severity', 'warning');
-                this.applyFilter('severity', 'critical');
+                this.applyFilter('severity', 'critical & warning');
                 this.severity = 'notok';
         }
         this.timer = this.$interval(() => this.refresh(), 5000);
@@ -77,7 +76,7 @@ export class EventListController {
             this.severityLevel = this.warningEvents;
         } else if (this.severity === 'notok') {
             this.severityLevel = this.criticalEvents;
-            this.severityLevel.concat(this.warningEvents);
+            this.severityLevel = this.severityLevel.concat(this.warningEvents);
         } else {
             this.severityLevel = [];
         }
