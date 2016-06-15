@@ -6,7 +6,7 @@
         <input type="text" id="textInput" name="clusterName" ng-class="form.clusterName.$error.required && form.clusterName.$touched ? 'form-control textbox-with-red-border': 'form-control'" ng-model="cluster.clusterName" autofocus required=""></input>
       </div>
       <div ng-show="form.clusterName.$touched">
-        <div ng-show="form.clusterName.$error.required" class="error-validation-msg">Cluster name is required!</div>
+        <div ng-show="form.clusterName.$error.required" class="error-validation-msg">Cluster name is required</div>
       </div>
     </div>
     <div class="form-group">
@@ -21,7 +21,7 @@
         </div>
       </div>
       <div ng-show="!form.journalSizeValue.$valid">
-        <div ng-show="form.journalSizeValue.$error.min" class="error-validation-msg">Journal Size is not valid!</div>
+        <div ng-show="form.journalSizeValue.$error.min" class="error-validation-msg">Journal Size is not valid</div>
       </div>
     </div>
     <div class="form-group">
