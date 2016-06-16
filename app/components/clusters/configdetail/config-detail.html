@@ -70,8 +70,8 @@
       <tbody>
         <tr ng-repeat="data in configdetail.configData.notification_list.notifications">
           <td><div class="text-capitalize">{{data.name.split('_').join(' ')}}</div></td>
-          <td ng-if="data.enabled">Yes</td>
-          <td ng-if="!data.enabled">No</td>
+          <td ng-if="data.enabled">Enabled</td>
+          <td ng-if="!data.enabled">Disabled</td>
         </tr>
       </tbody>
     </table>
