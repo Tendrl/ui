@@ -54,13 +54,16 @@ export class BlockDeviceController {
             this.cluster = cluster;
             return this.storageSvc.getListByCluster(this.cluster.clusterid);
         }).then(pools => {
-            this.existingPools = pools;
-            _.each(this.existingPools, (pool) => {
+            this.existingPools = [];
+            _.each(pools, (pool) => {
                 pool.capacity = {
                     total: numeral().unformat(pool.size),
                     used: 0
                 };
                 pool.utilization = {};
+                if(pool.type === 'replicated') {
+                    this.existingPools.push(pool);
+                }
             });
             if (this.existingPools.length > 0) {
                 this.selectedPool = this.existingPools[0];
