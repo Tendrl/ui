@@ -238,7 +238,7 @@ export class ClusterDetailController {
         this.systemUtilization[value].config.thresholds = {'warning':'60','error':'90'};
         this.systemUtilization[value].config.tooltipFn = (d) => {
               return '<span class="donut-tooltip-pf"style="white-space: nowrap;">' +
-                       numeral(d[0].value).format('0 b') + ' ' + d[0].name +
+                       Math.round((d[0].value * 100)/usage.total) + '% ' + d[0].name +
                      '</span>';
         };
         this.systemUtilization[value].config.centerLabelFn = () => {
