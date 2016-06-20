@@ -130,6 +130,9 @@ export class ClustersController {
                 almcritcount: cluster.almcritcount,
                 no_of_volumes_or_pools: 0,
                 trendsCharts : {title:"",data:{xData:[],yData:[]},config:{}},
+                total_size: 0,
+                free_size: 0,
+                percent_used: 0
             };
 
             if (tempCluster.used === 0) {
@@ -146,7 +149,7 @@ export class ClustersController {
                 for (var index in usageDataArray) {
                     var subArray = usageDataArray[index];
                     times.push(new Date(subArray[1]));
-                    used.push(Math.round(subArray[0]));
+                    used.push(subArray[0].toFixed(1));
                 }
                 tempCluster.trendsCharts = {
                     title: "IOPS",

@@ -166,7 +166,7 @@ export class ClusterDetailController {
                      '</span>';
         };
         this.clusterUtilization.config.centerLabelFn = () => {
-              return Math.round(usage.percentused) + "% Used";
+              return usage.percentused.toFixed(1) + "% Used";
         };
     }
 
@@ -238,11 +238,11 @@ export class ClusterDetailController {
         this.systemUtilization[value].config.thresholds = {'warning':'60','error':'90'};
         this.systemUtilization[value].config.tooltipFn = (d) => {
               return '<span class="donut-tooltip-pf"style="white-space: nowrap;">' +
-                       Math.round((d[0].value * 100)/usage.total) + '% ' + d[0].name +
+                       ((d[0].value * 100)/usage.total).toFixed(1) + '% ' + d[0].name +
                      '</span>';
         };
         this.systemUtilization[value].config.centerLabelFn = () => {
-              return Math.round(usage.used) + "% Used";
+              return usage.used.toFixed(1) + "% Used";
         };
     }
 
@@ -256,7 +256,7 @@ export class ClusterDetailController {
         for (var index in usageDataArray) {
           var subArray = usageDataArray[index];
           times.push(new Date(subArray[1]));
-          used.push(Math.round(subArray[0]));
+          used.push(subArray[0].toFixed(1));
         }
         this.trendsCharts[value] = {
             title: graphTitle,

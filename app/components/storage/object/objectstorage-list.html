@@ -107,7 +107,8 @@
                                 column-type="donut" />
                                 <chart-donut title="{{storage.usage.percentused | number:1}}%" width="5" show-label="false" />
                                 <chart-legend show-legend="false"></chart-legend>
-                                <chart-size chart-height="71"></chart-size>
+                                <chart-size chart-height="80"></chart-size>
+                                <chart-tooltip show-tooltip="false"></chart-tooltip>
                             </c3chart>
                             <div>
                             <strong ng-bind=" storage.usage.used | bytes "></strong> of {{ storage.usage.total | bytes }}

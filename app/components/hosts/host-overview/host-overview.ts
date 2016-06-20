@@ -115,11 +115,11 @@ export class HostOverviewController {
         this.donutCharts[graphName].config.thresholds = {'warning':'60','error':'90'};
         this.donutCharts[graphName].config.tooltipFn = (d) => {
               return '<span class="donut-tooltip-pf"style="white-space: nowrap;">' +
-                       Math.round((d[0].value * 100)/usage.total) + '% ' + d[0].name +
+                       ((d[0].value * 100)/usage.total).toFixed(1) + '% ' + d[0].name +
                      '</span>';
         };
         this.donutCharts[graphName].config.centerLabelFn = () => {
-              return Math.round(usage.used) + "%";
+              return usage.used.toFixed(1) + "%";
         };
     }
 
@@ -132,7 +132,7 @@ export class HostOverviewController {
         for (var index in usageDataArray) {
           var subArray = usageDataArray[index];
           times.push(new Date(subArray[1]));
-          used.push(Math.round(subArray[0]));
+          used.push(subArray[0].toFixed(1));
         }
         this.trendCharts[graphName] = {
             title: graphTitle,
