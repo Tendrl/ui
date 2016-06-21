@@ -17,6 +17,10 @@
           <td ng-bind="configdetail.configData.cluster_configs.osd_pool_default_size"></td>
         </tr>
         <tr>
+          <td>Minimum Replicas</td>
+          <td ng-bind="configdetail.configData.cluster_configs.osd_pool_default_min_size"></td>
+        </tr>
+        <tr>
           <td>Keyring file Path</td>
           <td ng-bind="(configdetail.configData.cluster_configs.keyring).split(',')[0]"></td>
         </tr>
@@ -55,6 +59,10 @@
         <tr>
           <td>OSD Max Scrubs</td>
           <td ng-bind="configdetail.configData.cluster_configs.osd_max_scrubs"></td>
+        </tr>
+        <tr>
+          <td>Polling Interval</td>
+          <td ng-bind="configdetail.configData.monitoringinterval"></td>
         </tr>
       </tbody>
     </table>
