@@ -103,7 +103,7 @@
                             <c3chart bindto-id="donut-pool-usage-chart-{{$index}}">
                                 <chart-column column-id="Free" column-values="{{100 - storage.usage.percentused | number:1}}" column-color="#CCCCCC" column-type="donut"
                                 />
-                                <chart-column column-id="Using" column-values="{{storage.usage.percentused | number:1}}" column-color="{{storage.usage.percentused >= 90 ? '#E35C5C' : storage.usage.percentused >= 80 ? '#FF8C1B' : '#4AD170'}}"
+                                <chart-column column-id="Using" column-values="{{storage.usage.percentused | number:1}}" column-color="{{storage.usage.percentused >= 90 ? '#CC0000' : storage.usage.percentused >= 80 ? '#EC7A08' : '#3F9C35'}}"
                                 column-type="donut" />
                                 <chart-donut title="{{storage.usage.percentused | number:1}}%" width="5" show-label="false" />
                                 <chart-legend show-legend="false"></chart-legend>

@@ -75,9 +75,9 @@
                             <c3chart bindto-id="donut-storage-usage-chart-{{$index}}">
                                 <chart-column column-id="Free" column-values="{{100 - host.utilizations.storageusage.percentused | number:1}}" column-color="#CCCCCC" column-type="donut"
                                 />
-                                <chart-column column-id="Using" column-values="{{host.utilizations.storageusage.percentused | number:1}}" column-color="{{host.utilizations.storageusage.percentused >= 90 ? '#E35C5C' : host.utilizations.storageusage.percentused >= 80 ? '#FF8C1B' : '#4AD170'}}"
+                                <chart-column column-id="Using" column-values="{{host.utilizations.storageusage.percentused | number:1}}" column-color="{{host.utilizations.storageusage.percentused >= 90 ? '#CC0000' : host.utilizations.storageusage.percentused >= 80 ? '#EC7A08' : '#3F9C35'}}"
                                 column-type="donut" />
-                                <chart-donut title="{{host.utilizations.storageusage.percentused | number:1}}%" width="8" show-label="false" />
+                                <chart-donut title="{{host.utilizations.storageusage.percentused | number:1}}%" width="5" show-label="false" />
                                 <chart-legend show-legend="false"></chart-legend>
                                 <chart-size chart-height="80"></chart-size>
                                 <chart-tooltip show-tooltip="false"></chart-tooltip>
@@ -88,9 +88,9 @@
                             <c3chart bindto-id="donut-cpu-usage-chart-{{$index}}">
                                 <chart-column column-id="Free" column-values="{{100 - host.utilizations.cpupercentageusage | number:1}}" column-color="#CCCCCC" column-type="donut"
                                 />
-                                <chart-column column-id="Using" column-values="{{host.utilizations.cpuusage.percentused | number:1}}" column-color="{{host.utilizations.cpuusage.percentused >= 90 ? '#E35C5C' : host.utilizations.cpuusage.percentused >= 80 ? '#FF8C1B' : '#4AD170'}}"
+                                <chart-column column-id="Using" column-values="{{host.utilizations.cpuusage.percentused | number:1}}" column-color="{{host.utilizations.cpuusage.percentused >= 90 ? '#CC0000' : host.utilizations.cpuusage.percentused >= 80 ? '#EC7A08' : '#3F9C35'}}"
                                 column-type="donut" />
-                                <chart-donut title="{{host.utilizations.cpuusage.percentused | number:1}}%" width="8" show-label="false" />
+                                <chart-donut title="{{host.utilizations.cpuusage.percentused | number:1}}%" width="5" show-label="false" />
                                 <chart-legend show-legend="false"></chart-legend>
                                 <chart-size chart-height="80"></chart-size>
                                 <chart-tooltip show-tooltip="false"></chart-tooltip>
@@ -101,9 +101,9 @@
                             <c3chart bindto-id="donut-memory-usage-chart-{{$index}}">
                                 <chart-column column-id="Free" column-values="{{100 - host.utilizations.memoryusage.percentused | number:1}}" column-color="#CCCCCC" column-type="donut"
                                 />
-                                <chart-column column-id="Using" column-values="{{host.utilizations.memoryusage.percentused | number:1}}" column-color="{{host.utilizations.memoryusage.percentused >= 90 ? '#E35C5C' : host.utilizations.memoryusage.percentused >= 80 ? '#FF8C1B' : '#4AD170'}}"
+                                <chart-column column-id="Using" column-values="{{host.utilizations.memoryusage.percentused | number:1}}" column-color="{{host.utilizations.memoryusage.percentused >= 90 ? '#CC0000' : host.utilizations.memoryusage.percentused >= 80 ? '#EC7A08' : '#3F9C35'}}"
                                 column-type="donut" />
-                                <chart-donut title="{{host.utilizations.memoryusage.percentused | number:1}}%" width="8" show-label="false" />
+                                <chart-donut title="{{host.utilizations.memoryusage.percentused | number:1}}%" width="5" show-label="false" />
                                 <chart-legend show-legend="false"></chart-legend>
                                 <chart-size chart-height="80"></chart-size>
                                 <chart-tooltip show-tooltip="false"></chart-tooltip>

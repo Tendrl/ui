@@ -39,113 +39,29 @@
 }
 
 .ok {
-  color: #4AD170;
+  color: #3F9C35;
 }
 .critical {
-   color: #E35C5C;
+   color: #CC0000;
  }
 .warning {
-   color: #FF8C1B;
+   color: #EC7A08;
  }
 
 .no-left-padding{
     padding-left:0px !important;
 }
 
-.panel-clusters {
-    padding: 0px;
-}
-.selected-hosts-list {
-    padding-top:10px;
-}
-
-.selected-hosts-list li {
-    padding: 5px;
-}
-
-.selected-hosts-list a {
-    text-decoration: none;
-    cursor: pointer;
-    margin-top: 5px;
-}
-
-.add-hosts-modal-dialog {
-    width: 800px;
-}
-
-.table-hosts-to-add {
-    border: 1px solid #dddddd;
-}
-
-.cluster-new-hosts-action {
-    font-size: 20px;
-}
-
-.host-details-th {
-    margin-left: 17px;
-}
-
-.add-host-control {
-    border: 1px solid #BABABA;
-    padding: 2px 6px;
-    margin-right: 5px;
-
-    &:focus {
-        border-color: #66AFE9;
-        box-shadow: 0px 1px 1px rgba(0, 0, 0, 0.075) inset, 0px 0px 8px rgba(102, 175, 233, 0.6);
-    }
-}
-
-host-is-mon {
-    padding-top: 5px;
-}
-
-.host-is-mon-icon {
-    opacity: 0.2;
-}
-
-.host-is-mon-link {
-    outline: 0;
-    color: #333;
-
-    &:active, &:focus {
-        outline: 0;
-        color: #333;
-    }
-}
-
-.first {
-    margin-top: 15%;
-    margin-left: 40%;
-}
-
-.cluster-summary-host-header-text {
-    margin-right: 12px;
-}
-
-.cluster-summary-host-header {
-    cursor: pointer;
-    color: $usmcolor;
-}
-
 .error-validation-msg {
-    color: red;
+    color:#CC0000;
 }
 
 .textbox-with-red-border {
-    border: 1px solid red;
+    border: 1px solid #cc0000;
 }
 
 .form-size-selector {
     width: 55px !important;
-}
-
-.task-icon {
-    font-size: 12px;
-}
-
-.task-icon-count {
-    border-radius: 10px;
 }
 
 .progress-dropdown {
@@ -221,7 +137,7 @@ host-is-mon {
     }
 
     .count {
-        background-color: #E35C5C;
+        background-color: #cc0000;
     }
 
     .content {
@@ -243,31 +159,6 @@ host-is-mon {
     }
 }
 
-.pic-height {
-    line-height:175px;
-}
-.position {
-    position:relative;
-}
-
-.notification-text {
-    top: 1px;
-    left: 16px;
-    position: absolute;
-    font-size: 9px;
-    font-weight: 700;
-    border: solid 1px #000;
-    background-color: #E35C5C;
-    color: #fff;
-    width: 15px;
-    height: 13px;
-    border-radius: 5px;
-}
-
-.pic-align  {
-    text-align: center;
-}
-
 .margin-top-for-discovered-hosts {
     background-color: #f5f5f5;
     border: 1px solid #e3e3e3;
@@ -278,131 +169,17 @@ host-is-mon {
     text-align: center;
 }
 
-.adjust_button {
-    margin-top: -14px;
-}
-
 .div-with-scroll {
     height: 218px;
     overflow: scroll;
     overflow-x: hidden;
 }
 
-.adjust-check-icon  {
-    margin-left : 5px;
-}
-
 .left-check-icon  {
     margin-left : 45px;
-    color:green;
+    color:#3F9C35;
 }
 
-.elipsis-color {
-    color : #bbb;
-}
- 
-@media only screen and (max-width:768px){
-    #percentage {
-        margin-top:35px;
-    }
-
-    #desktop    {
-        display : none;
-    }
-
-    .blade-view {
-        min-height:0px;
-    }
-
-    .blade-view .set-top-margin {
-        margin-top:10px;
-    } 
-
-    .cluster-link    {
-        display:block;
-        width:700px;
-    }
-
-    .heading-mobile {
-        font-size: 18px;
-        font-weight: 600;
-    }
-    .row-height {
-        height: 25px;
-    }
-
-    .set-padding{
-        padding-right:2px;
-    }
-
-    .exclamation-margin {
-        margin-top:9px;
-    }
-}
-
-@media only screen and (min-width:769px){
-    #mobile   {
-        display : none;
-    }
-}
-/* ---  dashboard heatmap ---*/
-.heatmap-card-pools {
-    .legends {
-        padding-top: 20px;
-    }
-    .legend {
-        font-size: 11px;
-        display: block;
-        padding-bottom: 10px;
-    }
-    .legend-square {
-        padding-right: 10px;
-    }
-    .legend-l0 {
-        color: #cc0000;
-    }
-    .legend-l1 {
-        color: #EC7A08;
-    }
-    .legend-l2 {
-        color: #F9D67A;
-    }
-    .legend-l3 {
-        color: #d4f0fa;
-    }
-    .heat-map-title {
-        display: block;
-        font-size: 13px;
-        font-weight: bold;
-        padding-bottom: 5px;
-    }
-    .heat-map {
-        height: 160px;
-        width: 160px;
-    }
-    .heat-l0 {
-        background-color: #cc0000;
-    }
-    .heat-l1 {
-        background-color: #EC7A08;
-    }
-    .heat-l2 {
-        background-color: #F9D67A;
-    }
-    .heat-l3 {
-        background-color: #d4f0fa;
-    }
-    .square {
-        float: left;
-        position: relative;
-        width: 18.5%;
-        padding-bottom: 18.5%;
-        margin: 0.7%;
-        background-position: center center;
-        background-repeat: no-repeat;
-        background-size: cover;
-    }
-}
 .user-search-feedback span {
     top: 7px;
     right: 22px;

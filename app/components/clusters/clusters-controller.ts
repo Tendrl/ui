@@ -204,11 +204,11 @@ export class ClustersController {
     public getClusterGaugeColor(gaugeValue: number): string {
         gaugeValue = gaugeValue * 10;
         if (gaugeValue >= 90) {
-            return '#E35C5C';
+            return '#CC0000';
         } else if (gaugeValue >= 80) {
-            return '#FF8C1B';
+            return '#EC7A08';
         } else {
-            return '#4AD170';
+            return '#3F9C35';
         }
     }
 

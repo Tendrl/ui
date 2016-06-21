@@ -160,9 +160,9 @@ export class HostListController {
     }
 
     public getHostDonutColor(donut_value) {
-        if (donut_value >= 90) return '#E35C5C';
-        if (donut_value >= 80) return '#FF8C1B';
-        else return '#4AD170';
+        if (donut_value >= 90) return '#CC0000';
+        if (donut_value >= 80) return '#EC7A08';
+        else return '#3F9C35';
     }
 
     public removeHost(host): void {
