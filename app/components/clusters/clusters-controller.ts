@@ -132,7 +132,8 @@ export class ClustersController {
                 trendsCharts : {title:"",data:{xData:[],yData:[]},config:{}},
                 total_size: 0,
                 free_size: 0,
-                percent_used: 0
+                percent_used: 0,
+                iops:0
             };
 
             if (tempCluster.used === 0) {
@@ -141,31 +142,7 @@ export class ClustersController {
             }
 
             this.clusterSvc.getIOPSById(cluster.clusterid, "-10min").then((iops) => {
-                var times = [];
-                var used = [];
-                times.push("dates");
-                used.push("used");
-                var usageDataArray = iops[0].datapoints;
-                for (var index in usageDataArray) {
-                    var subArray = usageDataArray[index];
-                    times.push(new Date(subArray[1]));
-                    used.push(subArray[0].toFixed(1));
-                }
-                tempCluster.trendsCharts = {
-                    title: "IOPS",
-                    data: {
-                        dataAvailable: true,
-                        xData: times,
-                        yData: used
-                    },
-                    config: {
-                        chartId:cluster.name + "-iops",
-                        title: "IOPS",
-                        layout: 'compact',
-                        valueType: 'actual',
-                        units: "K",
-                    }
-                }
+                tempCluster.iops = iops[0].datapoints[0][0];
             });
 
             this.clusterSvc.getClusterSummary(cluster.clusterid).then((summary) => {

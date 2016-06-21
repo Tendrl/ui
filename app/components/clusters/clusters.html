@@ -1,4 +1,4 @@
-<div class="container-fluid padding">
+<div class="container-fluid padding clusters">
     <div class="page-header page-header-bleed-right">
         <h1>Clusters</h1>
     </div>
@@ -71,11 +71,10 @@
                     <span class="pficon-warning-triangle-o fa-2x" ng-if="cluster.state === 2 && cluster.status === 3" title="Unknown"></span>
                 </div>
                 <div class="list-view-pf-body">
-                    <div class="list-view-pf-description">
-                        <div class="list-group-item-heading">
-                            <a ng-href="#/clusters/{{cluster.clusterid}}" ng-bind="cluster.cluster_name"></a>
+                    <div class="list-view-pf-additional-info justify-equal-space-around">
+                        <div class="list-view-pf-additional-info-item">
+                            <strong><a ng-href="#/clusters/{{cluster.clusterid}}" ng-bind="cluster.cluster_name"></a></strong>
                         </div>
-                        <div class="list-view-pf-additional-info">
                             <div class="list-view-pf-additional-info-item" ng-if="cluster.state === 0">
                                 <div class="progress progress-striped active">
                                     <div class="progress-bar" role="progressbar" aria-valuenow="70" aria-valuemin="0" aria-valuemax="100" style="width: 70%;">
@@ -83,7 +82,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="list-view-pf-additional-info-item list-view-pf-additional-info-item-donut-chart" ng-if="cluster.state !== 0">
+                            <div class="list-view-pf-additional-info-item" ng-if="cluster.state !== 0">
                                 <c3chart bindto-id="donut-pool-usage-chart-{{$index}}" ng-if="cluster.total_size>0">
                                     <chart-column column-id="Free" column-values="{{100 - cluster.percent_used | number:1}}" column-color="#CCCCCC" column-type="donut"
                                     />
@@ -94,34 +93,26 @@
                                     <chart-size chart-height="80"></chart-size>
                                     <chart-tooltip show-tooltip="false"></chart-tooltip>
                                 </c3chart>
-                            </div>
-                            <div class="list-view-pf-additional-info-item list-view-pf-additional-info-item-stacked" ng-if="cluster.state !== 0">
+                                <div ng-class="{'overlap-donut-left' : (cluster.percent_used > 0)}">
                                 <strong ng-bind=" cluster.total_size - cluster.free_size | bytes "></strong> of {{ cluster.total_size | bytes
-                                }} used
+                                }} used</div>
                             </div>
-
-                        </div>
-                    </div>
-                    <div class="list-view-pf-additional-info">
-                        <div class="list-view-pf-additional-info-item" style="width:150px;">
-                            <div class="list-view-pf-additional-info-item" ng-if="cluster.state !== 0">
-                                    <div pf-trends-chart config="cluster.trendsCharts.config" chart-data="cluster.trendsCharts.data" chart-height="50"></div>
-                            </div>
+                        <div class="list-view-pf-additional-info-item">
+                            <strong ng-bind="cluster.iops | bytes"></strong> IOPS
                         </div>
                         <div class="list-view-pf-additional-info-item">
                             <span class="pficon pficon-container-node"></span>
-                            <strong ng-bind="cluster.no_of_hosts"></strong> Hosts
+                            <strong><a ng-href="#/clusters/{{cluster.clusterid}}?tab=Hosts" ng-bind="cluster.no_of_hosts"></a></strong> Hosts
                         </div>
                         <div class="list-view-pf-additional-info-item">
                             <span class="fa  fa-database"></span>
-                            <strong ng-bind="cluster.no_of_volumes_or_pools"></strong> Pools
+                            <strong><a ng-href="#/clusters/{{cluster.clusterid}}?tab=Pools" ng-bind="cluster.no_of_volumes_or_pools"></a></strong> Pools
                         </div>
                         <div class="list-view-pf-additional-info-item">
                             <span class="pficon" ng-class="(cluster.almwarncount + cluster.almcritcount)>0? ((cluster.almcritcount > 0)?'pficon-error-circle-o' : 'pficon-warning-triangle-o' ):'pficon-ok'"></span>
-                            <a ng-href="#/events?clustername={{cluster.cluster_name}}" ng-if="(cluster.almwarncount + cluster.almcritcount) > 0"><strong>{{cluster.almwarncount + cluster.almcritcount}}  Alerts</strong></a>
+                            <a ng-href="#/events?clustername={{cluster.cluster_name}}" ng-if="(cluster.almwarncount + cluster.almcritcount) > 0"><strong>{{cluster.almwarncount + cluster.almcritcount}}</strong></a> Alerts
                             <strong ng-if="(cluster.almwarncount + cluster.almcritcount) < 1">0 Alerts</strong>
                         </div>
-                    </div>
                 </div>
             </div>
         </div>

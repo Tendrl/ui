@@ -83,7 +83,7 @@ export class ClusterDetailController {
         }
         this.tabIndex = this.tabList.Overview;
         this.paramsObject = locationService.search();
-        if (this.paramsObject.tab !== undefined) {
+        if (this.paramsObject.tab !== undefined && this.tabList[this.paramsObject.tab]!== undefined ) {
             this.tabIndex = this.tabList[this.paramsObject.tab];
         }
         this.clusterHelpers = new ClusterHelper(null, null, null, null);
