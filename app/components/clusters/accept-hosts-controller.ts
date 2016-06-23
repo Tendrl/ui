@@ -8,6 +8,8 @@ import {RequestTrackingService} from '../requests/request-tracking-svc';
 export class AcceptHostsController {
     private discoveredHosts: Array<any>;
     private hostsBeingAccepted: Array<any>;
+    private expandcluster:string;
+    private from:string;
     private timer;
     static $inject: Array<string> = ['$location', '$scope', '$interval', '$log', '$timeout', '$modal', 'ServerService', 'RequestService', 'UtilService', 'RequestTrackingService'];
     constructor(
@@ -21,6 +23,9 @@ export class AcceptHostsController {
         private requestSvc: RequestService,
         private utilSvc: UtilService,
         private requestTrackingSvc: RequestTrackingService) {
+        var queryParams = this.$location.search();
+        this.expandcluster = queryParams['expandcluster'];
+        this.from = queryParams['from'];
         this.discoveredHosts = [];
         this.hostsBeingAccepted = [];
         this.timer = this.$interval(() => this.refreshHostsStatus(), 5000);
@@ -141,16 +146,20 @@ export class AcceptHostsController {
     }
 
     public continue() {
-        var queryParams = this.$location.search();
         this.$location.search({});
-        if (Object.keys(queryParams).length > 0 && queryParams['expandcluster'] !== undefined) {
-            this.$location.path('/clusters/expand/' + queryParams['expandcluster']).search('hostsaccepted', 'true');
+        if (this.expandcluster !== undefined) {
+            this.$location.path('/clusters/expand/' + this.expandcluster).search('hostsaccepted', 'true');
         } else {
             this.$location.path('/clusters/new').search('hostsaccepted', 'true');
         }
     }
 
     public cancel() {
-        this.$location.path('/clusters');
+        this.$location.search({});
+        if (this.from !== undefined) {
+            this.$location.path(this.from);
+        } else {
+            this.$location.path('/clusters');
+        }
     }
 }

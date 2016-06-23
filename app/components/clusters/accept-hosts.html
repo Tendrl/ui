@@ -62,7 +62,7 @@
     </div>
     <div>
         <button class="btn btn-default" ng-disabled="hosts.hostsInProgress() > 0 "
-        ng-click="hosts.continue()">Continue</button>
+        ng-click="hosts.continue()" ng-if="hosts.from === undefined">Continue</button>
         <button class="btn btn-default" ng-click="hosts.cancel()">Cancel</button>
     </div>
 </div>

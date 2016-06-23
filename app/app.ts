@@ -11,7 +11,6 @@ import {MenuService} from "./components/base/menu-svc";
 import {LoginController} from "./components/login/login";
 import {ApplicationController} from "./components/base/application-controller";
 import {MenuController} from "./components/base/menu-controller";
-import {FirstController} from "./components/first/first-controller";
 import {AcceptHostsController} from "./components/clusters/accept-hosts-controller";
 import {DashboardController} from "./components/dashboard/dashboard-controller";
 import {ClustersController} from "./components/clusters/clusters-controller";
@@ -85,7 +84,6 @@ class USMApp {
             .controller('LoginController', LoginController)
             .controller('ApplicationController', ApplicationController)
             .controller('MenuController', MenuController)
-            .controller('FirstController', FirstController)
             .controller('DashboardController', DashboardController)
             .controller('ClusterController', ClustersController)
             .controller('ClusterExpandController', ClusterExpandController)

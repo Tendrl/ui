@@ -35,8 +35,7 @@
                         </a>
                     </li>
                     <li class="dropdown">
-                        <a data-toggle="dropdown" class="dropdown-toggle nav-item-iconic" bs-dropdown="dropdown" href="" ng-click="request.getDiscoveredHosts();"
-                        data-template="views/base/discovered-hosts.tpl.html" data-animation="am-fade-and-slide-top" bs-dropdown="" title="Discovered Hosts">
+                        <a class="nav-item-iconic" ng-href="/#/clusters/new/accept-hosts?from={{currentURI}}" title="Host Discovery">
                             <i class="pficon pficon-container-node"></i>
                             <span class="badge" style="position:relative;" ng-if="request.discoveredHostsLength>0" ng-bind="request.discoveredHostsLength"></span>
                         </a>
