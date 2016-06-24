@@ -74,6 +74,9 @@ export class RequestsController {
             ws.onmessage = evt => {
                 if (evt.data.length > 0) {
                     this.events.unshift(JSON.parse(evt.data));
+                this.events =  _.filter(this.events, function(obj){
+                   return obj["severity"] < 5;
+                });
                 }
             };
             ws.onclose = () => {
@@ -95,7 +98,7 @@ export class RequestsController {
                 "severity": ['minor', 'warning', 'indeterminate', 'critical', 'major'],
                 "acked": "false"
             }).then((events) => {
-                this.events = events.events;
+                this.events = _.uniq(events.events, 'event_id');
             });
     }
 
