@@ -99,7 +99,7 @@
                         </div>
                     </div>
 
-                        <div class="list-view-pf-additional-info-item list-view-pf-additional-info-item-donut-chart">
+                        <div class="list-view-pf-additional-info-item">
                             <c3chart bindto-id="donut-pool-usage-chart-{{$index}}">
                                 <chart-column column-id="Free" column-values="{{100 - storage.usage.percentused | number:1}}" column-color="#CCCCCC" column-type="donut"
                                 />
@@ -110,7 +110,7 @@
                                 <chart-size chart-height="80"></chart-size>
                                 <chart-tooltip show-tooltip="false"></chart-tooltip>
                             </c3chart>
-                            <div>
+                            <div ng-class="{'overlap-donut-left' : (storage.usage.total > 0)}">
                             <strong ng-bind=" storage.usage.used | bytes "></strong> of {{ storage.usage.total | bytes }}
                             used
                             </div>
@@ -209,10 +209,10 @@
                         </div>
                     </div>
                     <div>
-                        <span class="fa fa-2x fa-check" ng-click="storages.update(storage)" data-toggle="tooltip" title="save">
-                        </span>&nbsp;&nbsp;
-                        <span class="pficon fa-2x pficon-close" ng-click="storages.editPool.storageid=undefined" data-toggle= "tooltip" title="close">
-                        </span>
+                        <a class="fa fa-2x fa-check" ng-click="storages.update(storage);storages.editPool.storageid=undefined;" data-toggle="tooltip" title="save">
+                        </a>&nbsp;&nbsp;
+                        <a class="pficon fa-2x pficon-close" ng-click="storages.editPool.storageid=undefined" data-toggle= "tooltip" title="close">
+                        </a>
                     </div>
                 </form>
             </div>

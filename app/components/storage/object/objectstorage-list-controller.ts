@@ -33,7 +33,8 @@ export class ObjectStorageListController {
         'ClusterService',
         'StorageService',
         'RequestService',
-        'RequestTrackingService'
+        'RequestTrackingService',
+        'growl'
     ];
     constructor(
         private $scope: ng.IScope,
@@ -46,7 +47,8 @@ export class ObjectStorageListController {
         private clusterSvc: ClusterService,
         private storageSvc: StorageService,
         private requestSvc: RequestService,
-        private requestTrackingSvc: RequestTrackingService) {
+        private requestTrackingSvc: RequestTrackingService,
+        private growl: any) {
         this.paramsObject = $location.search();
         if (Object.keys(this.paramsObject).length > 0) {
             if("tab" in this.paramsObject) {
@@ -54,7 +56,7 @@ export class ObjectStorageListController {
             }
             this.updateSearchQuery(this.paramsObject);
         }
-        this.timer = this.$interval(() => this.refresh(), 5000);
+        this.timer = this.$interval(() => this.refresh(), 60000);
         this.$scope.$on('$destroy', () => {
             this.$interval.cancel(this.timer);
         });
@@ -179,12 +181,15 @@ export class ObjectStorageListController {
     }
 
     public update(storage): void {
+        this.growl.success(storage.name + " update initiated");
         if(storage.name != this.editPool.name){
             let poolName = {
                 name: this.editPool.name
             };
             // PoolName should be update seperately... so that need to make two different calls
-            this.storageSvc.update(storage.clusterid, storage.storageid, poolName);
+            this.storageSvc.update(storage.clusterid, storage.storageid, poolName).catch(error => {
+            this.growl.error("Cannot update pool "+storage.name);
+            });
         }
 
         let pool;
@@ -208,9 +213,11 @@ export class ObjectStorageListController {
         }
         if(this.isupdateNeed(storage, pool)){
                 // PoolName should be update seperately... so that need to make two different calls*/
-                this.storageSvc.update(storage.clusterid, storage.storageid, pool);
+                this.storageSvc.update(storage.clusterid, storage.storageid, pool).catch(error => {
+            this.growl.error("Cannot update pool "+storage.name);
+            });
          }
-        this.timer = this.$interval(() => this.refresh(), 5000);
+        this.timer = this.$interval(() => this.refresh(), 60000);
     }
 
     public edit(storage){
