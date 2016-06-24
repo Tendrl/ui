@@ -127,8 +127,9 @@
                         <div class="list-view-pf-additional-info-item list-view-pf-additional-info-item-stacked">
                             <strong>Quotas</strong>
                             <span ng-if="storage.quota_enabled">
-                                <span ng-if="storage.quota_params.quota_max_bytes !== undefined">{{storage.quota_params.quota_max_bytes/storage.usage.total*100}}%</span>
-                            <span ng-if="storage.quota_params.quota_max_objects !== undefined">, {{storage.quota_params.quota_max_objects}} objects</span>
+                                <span ng-if="storage.quota_params.quota_max_bytes !== undefined">{{storage.quota_params.quota_max_bytes | bytes}}</span>
+                                <span ng-if="storage.quota_params.quota_max_bytes !== undefined && storage.quota_params.quota_max_objects !== undefined">, </span>
+                            <span ng-if="storage.quota_params.quota_max_objects !== undefined">{{storage.quota_params.quota_max_objects}} objects</span>
                             </span>
                             <span ng-if="!storage.quota_enabled">Disabled</span>
                         </div>
