@@ -3,9 +3,11 @@
         <ol class="breadcrumb custom-breadcrumb">
             <li><a ng-href="#/clusters">Clusters</a></li>
             <li>
-                <span ng-if="clusterdetail.cluster.status===0" class="pficon pficon-ok"></span>
-                <span ng-if="clusterdetail.cluster.status===1" class="pficon pficon-warning-triangle-o"></span>
-                <span ng-if="clusterdetail.cluster.status===2" class="pficon pficon-error-circle-o"></span>
+                <a href="" title="Last Synced: {{clusterdetail.cluster.updatedate | date : 'MMM d yyyy, hh:mm:ss a' }}">
+                    <span ng-if="clusterdetail.cluster.status===0" class="pficon pficon-ok"></span>
+                    <span ng-if="clusterdetail.cluster.status===1" class="pficon pficon-warning-triangle-o"></span>
+                    <span ng-if="clusterdetail.cluster.status===2" class="pficon pficon-error-circle-o"></span>
+                </a>
                 <span ng-if="clusterdetail.clusterList.length > 1" class="add-cursor-pointer" data-animation="am-flip-x" data-template="views/clusters/cluster-list-menu-dropdown.tpl.html" bs-dropdown="ellipsis">
                     {{clusterdetail.cluster.name}}  <b class="caret"></b>
                 </span>

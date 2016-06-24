@@ -10,7 +10,8 @@
                             <h2 class="card-pf-title">
                                 Host Summary
                             </h2>
-                            <div class="card-pf-body">
+                            <center><i ng-if="hostoverview.isLoading.summaryData" class="fa fa-spinner fa-pulse fa-3x fa-fw"></i></center>
+                            <div ng-if="!hostoverview.isLoading.summaryData" class="card-pf-body">
                                 <p class="card-pf-aggregate-status-notifications">
                                     <div class="col-xs-3 col-sm-3 col-md-3">
                                         <label>Host Role</label>
@@ -40,10 +41,11 @@
                     <div ng-if="hostoverview.isOsd" class="col-xs-12 col-sm-12 col-md-3">
                         <div class="card-pf card-pf-aggregate-status card-pf-with-action custom-height">
                             <h2 class="card-pf-title">
-                                {{hostoverview.summary.storage_logical_units.TotalSLU}} OSDs
+                                <span ng-if="!hostoverview.isLoading.summaryData">{{hostoverview.summary.storage_logical_units.TotalSLU}}</span> OSDs
                             </h2>
                             <div class="card-pf-body">
-                                <p class="card-pf-aggregate-status-notifications">
+                                <center><i ng-if="hostoverview.isLoading.summaryData" class="fa fa-spinner fa-pulse fa-3x fa-fw"></i></center>
+                                <p ng-if="!hostoverview.isLoading.summaryData" class="card-pf-aggregate-status-notifications">
                                     <span ng-if="hostoverview.summary.storage_logical_units.ErrorSLU>0" class="card-pf-aggregate-status-notification"><a href="">
                                         <span class="pficon pficon-error-circle-o"></span>
                                         <span>{{hostoverview.summary.storage_logical_units.ErrorSLU}}</span></a>
@@ -62,10 +64,11 @@
                     <div class="col-xs-12 col-sm-12" ng-class="hostoverview.isOsd?'col-md-3':'col-md-6'">
                         <div class="card-pf card-pf-aggregate-status card-pf-with-action custom-height">
                             <h2 class="card-pf-title">
-                                {{hostoverview.summary.servicedetails.up.length + hostoverview.summary.servicedetails.down.length }} Storage Services
+                                <span ng-if="!hostoverview.isLoading.summaryData">{{hostoverview.summary.servicedetails.up.length + hostoverview.summary.servicedetails.down.length }}</span> Storage Services
                             </h2>
                             <div class="card-pf-body">
-                                <p class="card-pf-aggregate-status-notifications">
+                                <center><i ng-if="hostoverview.isLoading.summaryData" class="fa fa-spinner fa-pulse fa-3x fa-fw"></i></center>
+                                <p ng-if="!hostoverview.isLoading.summaryData" class="card-pf-aggregate-status-notifications">
                                     <span ng-if="hostoverview.summary.servicedetails.up && hostoverview.summary.servicedetails.up.length > 0" class="card-pf-aggregate-status-notification" title="{{hostoverview.summary.servicedetails.up.join()}}">
                                         <span class="pficon pficon-ok"></span>
                                         <span>{{hostoverview.summary.servicedetails.up.length}}</span>
@@ -96,7 +99,8 @@
                             <hr>
                             <div class="row">
                                 <div class="col-xs-12 col-sm-6 col-md-3">
-                                    <div class="card-pf-body">
+                                    <center><i ng-if="hostoverview.isLoading.donutChartsData || hostoverview.isLoading.trendsChartsData" class="fa fa-spinner fa-pulse fa-3x fa-fw"></i></center>
+                                    <div ng-if="!hostoverview.isLoading.donutChartsData && !hostoverview.isLoading.trendsChartsData" class="card-pf-body">
                                         <div class="row">
                                             <div class="col-xs-12 col-sm-12 col-md-7 col-lg-7">
                                                 <div ng-if="hostoverview.donutCharts.cpu.data.total > 0">
@@ -123,7 +127,8 @@
                                     </div>
                                 </div>
                                 <div class="col-xs-12 col-sm-6 col-md-3">
-                                    <div class="card-pf-body">
+                                    <center><i ng-if="hostoverview.isLoading.donutChartsData || hostoverview.isLoading.trendsChartsData" class="fa fa-spinner fa-pulse fa-3x fa-fw"></i></center>
+                                    <div ng-if="!hostoverview.isLoading.donutChartsData && !hostoverview.isLoading.trendsChartsData" class="card-pf-body">
                                         <div class="row">
                                             <div class="col-xs-12 col-sm-12 col-md-7 col-lg-7">
                                                 <div ng-if="hostoverview.donutCharts.memory.data.total > 0">
@@ -150,7 +155,8 @@
                                     </div>
                                 </div>
                                 <div class="col-xs-12 col-sm-6 col-md-3">
-                                    <div class="card-pf-body">
+                                    <center><i ng-if="hostoverview.isLoading.donutChartsData || hostoverview.isLoading.trendsChartsData" class="fa fa-spinner fa-pulse fa-3x fa-fw"></i></center>
+                                    <div ng-if="!hostoverview.isLoading.donutChartsData && !hostoverview.isLoading.trendsChartsData" class="card-pf-body">
                                         <div class="row">
                                             <div class="col-xs-12 col-sm-12 col-md-7 col-lg-7">
                                                 <div ng-if="hostoverview.donutCharts.swap.data.total > 0">
@@ -177,7 +183,8 @@
                                     </div>
                                 </div>
                                 <div class="col-xs-12 col-sm-6 col-md-3">
-                                    <div class="card-pf-body">
+                                    <center><i ng-if="hostoverview.isLoading.donutChartsData || hostoverview.isLoading.trendsChartsData" class="fa fa-spinner fa-pulse fa-3x fa-fw"></i></center>
+                                    <div ng-if="!hostoverview.isLoading.donutChartsData && !hostoverview.isLoading.trendsChartsData" class="card-pf-body">
                                         <div class="row">
                                             <div class="col-xs-12 col-sm-12 col-md-7 col-lg-7">
                                                 <div ng-if="hostoverview.donutCharts.storage.data.total > 0">
@@ -224,7 +231,8 @@
                             <hr>
                             <div class="row">
                                 <div class="col-xs-12 col-sm-12 col-md-6">
-                                    <div class="card-pf-body">
+                                    <center><i ng-if="hostoverview.isLoading.donutChartsData || hostoverview.isLoading.trendsChartsData" class="fa fa-spinner fa-pulse fa-3x fa-fw"></i></center>
+                                    <div ng-if="!hostoverview.isLoading.donutChartsData && !hostoverview.isLoading.trendsChartsData" class="card-pf-body">
                                         <div class="row">
                                             <div class="col-xs-12 col-sm-12 col-md-7 col-lg-7">
                                                 <div ng-if="hostoverview.donutCharts.network.data.total > 0">
@@ -252,7 +260,8 @@
                                 </div>
                                 <div class="col-xs-12 col-sm-12 col-md-6">
                                     <div class="card-pf-body">
-                                        <div class="network-detail">
+                                        <center><i ng-if="hostoverview.isLoading.summaryData" class="fa fa-spinner fa-pulse fa-3x fa-fw"></i></center>
+                                        <div ng-if="!hostoverview.isLoading.summaryData" class="network-detail">
                                             <div class="network-detail-padding">
                                                 <span class="pficon pficon-ok"></span>
                                                 <label>Cluster Network </label>
@@ -289,13 +298,16 @@
                             <div class="row">
                                 <div class="col-xs-12 col-sm-12 col-md-12">
                                     <div class="card-pf-body">
-                                        <div pf-trends-chart config="hostoverview.trendCharts.iops.config" chart-data="hostoverview.trendCharts.iops.data"></div>
+                                        <center><i ng-if="hostoverview.isLoading.trendsChartsData" class="fa fa-spinner fa-pulse fa-3x fa-fw"></i></center>
+                                        <div ng-if="!hostoverview.isLoading.trendsChartsData" pf-trends-chart config="hostoverview.trendCharts.iops.config" chart-data="hostoverview.trendCharts.iops.data"></div>
                                     </div>
                                     <div class="card-pf-body">
-                                        <div pf-trends-chart config="hostoverview.trendCharts.throughput.config" chart-data="hostoverview.trendCharts.throughput.data"></div>
+                                        <center><i ng-if="hostoverview.isLoading.trendsChartsData" class="fa fa-spinner fa-pulse fa-3x fa-fw"></i></center>
+                                        <div ng-if="!hostoverview.isLoading.trendsChartsData" pf-trends-chart config="hostoverview.trendCharts.throughput.config" chart-data="hostoverview.trendCharts.throughput.data"></div>
                                     </div>
                                     <div class="card-pf-body">
-                                        <div pf-trends-chart config="hostoverview.trendCharts.latency.config" chart-data="hostoverview.trendCharts.latency.data"></div>
+                                        <center><i ng-if="hostoverview.isLoading.trendsChartsData" class="fa fa-spinner fa-pulse fa-3x fa-fw"></i></center>
+                                        <div ng-if="!hostoverview.isLoading.trendsChartsData" pf-trends-chart config="hostoverview.trendCharts.latency.config" chart-data="hostoverview.trendCharts.latency.data"></div>
                                     </div>
                                 </div>
                             </div>

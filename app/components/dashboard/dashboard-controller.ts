@@ -22,6 +22,7 @@ export class DashboardController {
     private timeSlots: [{name:string, value:string}];
     private selectedTimeSlot: any;
     private timer: ng.IPromise<any>;
+    private isLoading: any;
 
     static $inject: Array<string> = [
         '$scope',
@@ -39,6 +40,7 @@ export class DashboardController {
         private serverService: ServerService,
         private clusterService: ClusterService) {
 
+            this.isLoading = { summaryData: true, utilizationData: true, trendsChartsData: true };
             this.utilization = { data: {}, config: {} };
             this.systemUtilization = {cpu:{data:{},config:{}},memory:{data:{},config:{}}};
             this.utilizationByProfile = {};
@@ -99,6 +101,7 @@ export class DashboardController {
                 this.pgs = summary.providermonitoringdetails.ceph.pgnum;
             }
             this.changeTimeSlot(this.selectedTimeSlot);
+            this.isLoading.summaryData = false;
         });
         this.getOverallUtilization();
     }
@@ -128,6 +131,7 @@ export class DashboardController {
                        numeral(d[0].value).format('0 b') + ' ' + d[0].name +
                      '</span>';
         };
+        this.isLoading.utilizationData = false;
     }
 
     /**
@@ -216,6 +220,7 @@ export class DashboardController {
         times.push("dates");
         used.push("used");
         var usageDataArray = graphArray[0].datapoints;
+        var isDataAvailable = (usageDataArray.length > 0 ? true : false);
         for (var index in usageDataArray) {
           var subArray = usageDataArray[index];
           times.push(new Date(subArray[1]));
@@ -224,7 +229,7 @@ export class DashboardController {
         this.trendsCharts[graphName] = {
             title: graphTitle,
             data: {
-                  dataAvailable: true,
+                  dataAvailable: isDataAvailable,
                   total: 100,
                   xData: times,
                   yData: used
@@ -242,6 +247,7 @@ export class DashboardController {
                                 }
             }
         }
+        this.isLoading.trendsChartsData = false;
     }
 
     public changeTimeSlot(time: any) {

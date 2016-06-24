@@ -3,9 +3,11 @@
         <ol class="breadcrumb custom-breadcrumb">
             <li><a ng-href="#/hosts">Hosts</a></li>
             <li>
-                <span ng-if="hostdetail.host.status===0" class="pficon pficon-ok"></span>
-                <span ng-if="hostdetail.host.status===1" class="pficon pficon-warning-triangle-o"></span>
-                <span ng-if="hostdetail.host.status===2" class="pficon pficon-error-circle-o"></span>
+                <a href="" title="Last Synced: {{hostdetail.host.utilizations.networkusage.updatedat | date : 'MMM d yyyy, hh:mm:ss a' }}">
+                    <span ng-if="hostdetail.host.status===0" class="pficon pficon-ok"></span>
+                    <span ng-if="hostdetail.host.status===1" class="pficon pficon-warning-triangle-o"></span>
+                    <span ng-if="hostdetail.host.status===2" class="pficon pficon-error-circle-o"></span>
+                </a>
                 <span ng-if="hostdetail.hostList.length > 1" class="add-cursor-pointer" data-animation="am-flip-x" data-template="views/hosts/host-details/host-list-menu-dropdown.tpl.html" bs-dropdown="ellipsis">
                     {{hostdetail.host.hostname}}  <b class="caret"></b>
                 </span>

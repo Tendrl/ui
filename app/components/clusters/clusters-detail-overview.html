@@ -9,11 +9,12 @@
                             <div class="col-md-6">
                                 <h2 class="card-pf-title">
                                     <label>Utilization</label>
-                                    <p><small class="cluster-size-label"><label>{{clusterdetail.capacity.used | bytes }} Used </label> of {{clusterdetail.capacity.total | bytes}} Total</small></p>
+                                    <p ng-if="!clusterdetail.isLoading.clusterUtilizationData"><small class="cluster-size-label"><label>{{clusterdetail.capacity.used | bytes }} Used </label> of {{clusterdetail.capacity.total | bytes}} Total</small></p>
                                 </h2>
                                 <hr>
                                 <div class="card-pf-body">
-                                    <div ng-if="clusterdetail.clusterUtilization.data.total > 0">
+                                    <center><i ng-if="clusterdetail.isLoading.clusterUtilizationData" class="fa fa-spinner fa-pulse fa-3x fa-fw"></i></center>
+                                    <div ng-if="!clusterdetail.isLoading.clusterUtilizationData">
                                         <div pf-donut-pct-chart config="clusterdetail.clusterUtilization.config" data="clusterdetail.clusterUtilization.data" center-label="clusterdetail.clusterUtilization.label"></div>
                                     </div>
                                 </div>
@@ -21,9 +22,12 @@
                             <div class="col-md-6 cluster-utilization">
                                 <div class="row margin-for-storage-profile">
                                     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                                        <div ng-if="clusterdetail.trendsCharts.overall.data.total>0" pf-sparkline-chart config="clusterdetail.trendsCharts.overall.config" chart-data="clusterdetail.trendsCharts.overall.data">
+                                        <center><i ng-if="clusterdetail.isLoading.trendsChartsData" class="fa fa-spinner fa-pulse fa-3x fa-fw"></i></center>
+                                        <div ng-if="!clusterdetail.isLoading.trendsChartsData">
+                                            <div ng-if="clusterdetail.trendsCharts.overall.data.total>0" pf-sparkline-chart config="clusterdetail.trendsCharts.overall.config" chart-data="clusterdetail.trendsCharts.overall.data">
+                                            </div>
+                                            <div class="pull-left" ng-if="clusterdetail.trendsCharts.overall.data.total>0">Last 24 hours</div>
                                         </div>
-                                        <div class="pull-left" ng-if="clusterdetail.trendsCharts.overall.data.total>0">Last 24 hours</div>
                                     </div>
                                 </div>
                             </div>
@@ -40,7 +44,8 @@
                                     </h2>
                                 </div>
                                 <div class="card-pf-body">
-                                    <div ng-repeat="profile in clusterdetail.utilizationByProfile.profiles"
+                                    <center><i ng-if="clusterdetail.isLoading.summaryData" class="fa fa-spinner fa-pulse fa-3x fa-fw"></i></center>
+                                    <div ng-if="!clusterdetail.isLoading.summaryData" ng-repeat="profile in clusterdetail.utilizationByProfile.profiles"
                                     pf-utilization-bar-chart chart-data="profile.usage" chart-title="profile.subtitle"
                                     threshold-error="clusterdetail.utilizationByProfile.threshold.critical" threshold-warning="clusterdetail.utilizationByProfile.threshold.warning"
                                     footer-label-format='percent'>
@@ -56,10 +61,11 @@
                 <div class="col-xs-12 col-sm-12 col-md-6">
                     <div class="card-pf card-pf-aggregate-status card-pf-with-action">
                         <h2 class="card-pf-title">
-                            {{clusterdetail.hosts.total}} Hosts
+                            <span ng-if="!clusterdetail.isLoading.summaryData">{{clusterdetail.hosts.total}}</span> Hosts
                         </h2>
                         <div class="card-pf-body">
-                            <p class="card-pf-aggregate-status-notifications">
+                            <center><i ng-if="clusterdetail.isLoading.summaryData" class="fa fa-spinner fa-pulse fa-3x fa-fw"></i></center>
+                            <p ng-if="!clusterdetail.isLoading.summaryData" class="card-pf-aggregate-status-notifications">
                                 <span ng-if="clusterdetail.hosts.error>0" class="card-pf-aggregate-status-notification"><a ng-href="#/clusters/{{clusterdetail.id}}?status=error&status=warning&role=OSD&tab=Hosts" title="{{clusterdetail.hosts.error}} hosts down">
                                     <span class="fa fa-arrow-circle-o-down"></span>
                                     <span>{{clusterdetail.hosts.error}}</span></a>
@@ -82,10 +88,11 @@
                 <div class="col-xs-12 col-sm-12 col-md-3">
                     <div class="card-pf card-pf-aggregate-status card-pf-with-action">
                         <h2 class="card-pf-title">
-                            {{clusterdetail.monitors.total}} Monitors
+                            <span ng-if="!clusterdetail.isLoading.summaryData">{{clusterdetail.monitors.total}}</span> Monitors
                         </h2>
                         <div class="card-pf-body">
-                            <p class="card-pf-aggregate-status-notifications">
+                            <center><i ng-if="clusterdetail.isLoading.summaryData" class="fa fa-spinner fa-pulse fa-3x fa-fw"></i></center>
+                            <p ng-if="!clusterdetail.isLoading.summaryData" class="card-pf-aggregate-status-notifications">
                                 <span ng-if="clusterdetail.monitors.down>0" class="card-pf-aggregate-status-notification"><a href="#/clusters/{{clusterdetail.id}}?status=error&status=warning&role=MON&tab=Hosts" title="{{clusterdetail.monitors.down}} monitors down">
                                     <span class="fa fa-arrow-circle-o-down"></span>
                                     <span>{{clusterdetail.monitors.down}}</span></a>
@@ -104,10 +111,11 @@
                 <div class="col-xs-12 col-sm-12 col-md-3">
                     <div class="card-pf card-pf-aggregate-status card-pf-with-action">
                         <h2 class="card-pf-title">
-                            {{clusterdetail.pgs.total}} PGs
+                            <span ng-if="!clusterdetail.isLoading.summaryData">{{clusterdetail.pgs.total}}</span> PGs
                         </h2>
                         <div class="card-pf-body">
-                            <p class="card-pf-aggregate-status-notifications">
+                            <center><i ng-if="clusterdetail.isLoading.summaryData" class="fa fa-spinner fa-pulse fa-3x fa-fw"></i></center>
+                            <p ng-if="!clusterdetail.isLoading.summaryData" class="card-pf-aggregate-status-notifications">
                                 <span ng-if="clusterdetail.pgs.error>0" class="card-pf-aggregate-status-notification">
                                     <span class="pficon pficon-error-circle-o"></span>
                                     <span>{{clusterdetail.pgs.error}}</span>
@@ -130,10 +138,11 @@
                 <div class="col-xs-12 col-sm-12 col-md-6">
                     <div class="card-pf card-pf-aggregate-status card-pf-with-action">
                         <h2 class="card-pf-title">
-                            {{clusterdetail.pools.total}} Pools
+                            <span ng-if="!clusterdetail.isLoading.summaryData">{{clusterdetail.pools.total}}</span> Pools
                         </h2>
                         <div class="card-pf-body">
-                            <p class="card-pf-aggregate-status-notifications">
+                            <center><i ng-if="clusterdetail.isLoading.summaryData" class="fa fa-spinner fa-pulse fa-3x fa-fw"></i></center>
+                            <p ng-if="!clusterdetail.isLoading.summaryData" class="card-pf-aggregate-status-notifications">
                                 <span ng-if="clusterdetail.pools.down>0" class="card-pf-aggregate-status-notification"><a href="#/clusters/{{clusterdetail.id}}?status=error&status=warning&tab=Pools" title="{{clusterdetail.pools.down}} pools down">
                                     <span class="fa fa-arrow-circle-o-down"></span>
                                     <span>{{clusterdetail.pools.down}}</span></a>
@@ -152,10 +161,11 @@
                 <div class="col-xs-12 col-sm-12 col-md-3">
                     <div class="card-pf card-pf-aggregate-status card-pf-with-action">
                         <h2 class="card-pf-title">
-                            {{clusterdetail.osds.total}} OSDs
+                            <span ng-if="!clusterdetail.isLoading.summaryData">{{clusterdetail.osds.total}}</span> OSDs
                         </h2>
                         <div class="card-pf-body">
-                            <p class="card-pf-aggregate-status-notifications">
+                            <center><i ng-if="clusterdetail.isLoading.summaryData" class="fa fa-spinner fa-pulse fa-3x fa-fw"></i></center>
+                            <p ng-if="!clusterdetail.isLoading.summaryData" class="card-pf-aggregate-status-notifications">
                                 <span ng-if="clusterdetail.osds.down>0" class="card-pf-aggregate-status-notification"><a href="#/clusters/{{clusterdetail.id}}?active_filter=osd_status&filter_name=Down-In&filter_name=Down&tab=OSDs" title="{{clusterdetail.osds.down}} OSDs down">
                                     <span class="fa fa-arrow-circle-o-down"></span>
                                     <span>{{clusterdetail.osds.down}}</span></a>
@@ -178,10 +188,11 @@
                 <div class="col-xs-12 col-sm-12 col-md-3">
                     <div class="card-pf card-pf-aggregate-status card-pf-with-action">
                         <h2 class="card-pf-title">
-                            {{clusterdetail.objects.total}} Objects
+                            <span ng-if="!clusterdetail.isLoading.summaryData">{{clusterdetail.objects.total}}</span> Objects
                         </h2>
                         <div class="card-pf-body">
-                            <p class="card-pf-aggregate-status-notifications">
+                            <center><i ng-if="clusterdetail.isLoading.summaryData" class="fa fa-spinner fa-pulse fa-3x fa-fw"></i></center>
+                            <p ng-if="!clusterdetail.isLoading.summaryData" class="card-pf-aggregate-status-notifications">
                                 <span ng-if="clusterdetail.objects.criticalAlerts>0" class="card-pf-aggregate-status-notification">
                                     <span class="pficon pficon-warning-triangle-o"></span>
                                     <span>{{clusterdetail.objects.criticalAlerts}}</span>
@@ -219,7 +230,8 @@
                                         <div pf-donut-pct-chart config="clusterdetail.systemUtilization.cpu.config" data="clusterdetail.systemUtilization.cpu.data" center-label="clusterdetail.systemUtilization.cpu.label">
                                         </div>
                                     </div>
-                                    <div ng-if="clusterdetail.trendsCharts.cpu.data.total>0" pf-sparkline-chart config="clusterdetail.trendsCharts.cpu.config" chart-data="clusterdetail.trendsCharts.cpu.data">
+                                    <center><i ng-if="clusterdetail.isLoading.trendsChartsData" class="fa fa-spinner fa-pulse fa-3x fa-fw"></i></center>
+                                    <div ng-if="!clusterdetail.isLoading.trendsChartsData" pf-sparkline-chart config="clusterdetail.trendsCharts.cpu.config" chart-data="clusterdetail.trendsCharts.cpu.data">
                                     </div>
                                 </div>
                             </div>
@@ -230,19 +242,23 @@
                                         <div pf-donut-pct-chart config="clusterdetail.systemUtilization.memory.config" data="clusterdetail.systemUtilization.memory.data" center-label="clusterdetail.systemUtilization.memory.label">
                                         </div>
                                     </div>
-                                    <div ng-if="clusterdetail.trendsCharts.memory.data.total>0" pf-sparkline-chart config="clusterdetail.trendsCharts.memory.config" chart-data="clusterdetail.trendsCharts.memory.data">
+                                    <center><i ng-if="clusterdetail.isLoading.trendsChartsData" class="fa fa-spinner fa-pulse fa-3x fa-fw"></i></center>
+                                    <div ng-if="!clusterdetail.isLoading.trendsChartsData" pf-sparkline-chart config="clusterdetail.trendsCharts.memory.config" chart-data="clusterdetail.trendsCharts.memory.data">
                                     </div>
                                 </div>
                             </div>
                             <div class="col-xs-12 col-sm-12 col-md-6">
                                 <div class="card-pf-body">
-                                    <div pf-trends-chart config="clusterdetail.trendsCharts.iops.config" chart-data="clusterdetail.trendsCharts.iops.data"></div>
+                                    <center><i ng-if="clusterdetail.isLoading.trendsChartsData" class="fa fa-spinner fa-pulse fa-3x fa-fw"></i></center>
+                                    <div ng-if="!clusterdetail.isLoading.trendsChartsData" pf-trends-chart config="clusterdetail.trendsCharts.iops.config" chart-data="clusterdetail.trendsCharts.iops.data"></div>
                                 </div>
                                 <div class="card-pf-body">
-                                    <div pf-trends-chart config="clusterdetail.trendsCharts.throughput.config" chart-data="clusterdetail.trendsCharts.throughput.data"></div>
+                                    <center><i ng-if="clusterdetail.isLoading.trendsChartsData" class="fa fa-spinner fa-pulse fa-3x fa-fw"></i></center>
+                                    <div ng-if="!clusterdetail.isLoading.trendsChartsData" pf-trends-chart config="clusterdetail.trendsCharts.throughput.config" chart-data="clusterdetail.trendsCharts.throughput.data"></div>
                                 </div>
                                 <div class="card-pf-body">
-                                    <div pf-trends-chart config="clusterdetail.trendsCharts.latency.config" chart-data="clusterdetail.trendsCharts.latency.data"></div>
+                                    <center><i ng-if="clusterdetail.isLoading.trendsChartsData" class="fa fa-spinner fa-pulse fa-3x fa-fw"></i></center>
+                                    <div ng-if="!clusterdetail.isLoading.trendsChartsData" pf-trends-chart config="clusterdetail.trendsCharts.latency.config" chart-data="clusterdetail.trendsCharts.latency.data"></div>
                                 </div>
                             </div>
                         </div>

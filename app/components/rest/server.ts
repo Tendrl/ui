@@ -28,6 +28,7 @@ export interface UsageData {
     used: number;
     total: number;
     percentused?: number;
+    updatedat?: any;
 }
 
 export interface DashboardSummaryData {

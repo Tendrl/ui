@@ -33,6 +33,7 @@ export class HostDetailController {
                 if(this.host.roles.indexOf('OSD') > -1) {
                     this.tabList.OSDs = 3
                 }
+                this.host.utilizations.networkusage.updatedat = new Date(this.host.utilizations.networkusage.updatedat.replace(/-/g,"/").split('.')[0]);
             });
     }
 

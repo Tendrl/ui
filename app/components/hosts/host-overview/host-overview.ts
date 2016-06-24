@@ -11,6 +11,7 @@ export class HostOverviewController {
     private donutCharts: any;
     private trendCharts: any;
     private isOsd: Boolean;
+    private isLoading: any;
 
     //Services that are used in this class.
     static $inject: Array<string> = [
@@ -18,6 +19,7 @@ export class HostOverviewController {
     ];
 
     constructor(private serverService: ServerService) {
+            this.isLoading = { summaryData: true, donutChartsData: true, trendsChartsData: true };
             this.isOsd = false;
             this.summary = {};
             this.initialTime = { name: "Last 1 hour", value: "-1h" };
@@ -53,6 +55,7 @@ export class HostOverviewController {
     public getHostSummary(nodeid: string) {
         this.serverService.getHostSummary(nodeid).then((summary) => {
             this.summary = summary;
+            this.isLoading.summaryData = false;
         });
     }
 
@@ -121,6 +124,7 @@ export class HostOverviewController {
         this.donutCharts[graphName].config.centerLabelFn = () => {
               return usage.used.toFixed(1) + "%";
         };
+        this.isLoading.donutChartsData = false;
     }
 
     public setGraphData(graphArray, graphName, graphTitle, graphUnits) {
@@ -129,6 +133,7 @@ export class HostOverviewController {
         times.push("dates");
         used.push("used");
         var usageDataArray = graphArray[0].datapoints;
+        var isDataAvailable = (usageDataArray.length > 0 ? true : false);
         for (var index in usageDataArray) {
           var subArray = usageDataArray[index];
           times.push(new Date(subArray[1]));
@@ -137,7 +142,7 @@ export class HostOverviewController {
         this.trendCharts[graphName] = {
             title: graphTitle,
             data: {
-                  dataAvailable: true,
+                  dataAvailable: isDataAvailable,
                   total: 100,
                   xData: times,
                   yData: used
@@ -155,6 +160,7 @@ export class HostOverviewController {
                                 }
             }
         }
+        this.isLoading.trendsChartsData = false;
     }
 
     public changeTimeSlotForUtilization(time: any) {
