@@ -60,10 +60,6 @@
           <td>OSD Max Scrubs</td>
           <td ng-bind="configdetail.configData.cluster_configs.osd_max_scrubs"></td>
         </tr>
-        <tr>
-          <td>Polling Interval</td>
-          <td ng-bind="configdetail.configData.monitoringinterval"></td>
-        </tr>
       </tbody>
     </table>
   </div>
@@ -103,5 +99,6 @@
         </tr>
       </tbody>
     </table>
+    <label>Polling Interval</label>: {{configdetail.configData.monitoringinterval/60}} Minutes
   </div>
 </div>

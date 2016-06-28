@@ -13,7 +13,7 @@
       <label class="col-md-2 control-label" for="journalSizeValue">Journal Size</label>
       <div class="col-md-3">
         <div class="input-group">
-          <input type="number" id="journalSizeValue" name="journalSizeValue" ng-model="cluster.journalSize.value" min="1" max="1024" required class="journal-size-value">
+          <input type="number" id="journalSizeValue" name="journalSizeValue" ng-model="cluster.journalSize.value" min="1" max="10240" required class="journal-size-value">
           <div class="input-group-btn journal-size-unit">
             <select pf-select="" ng-model="cluster.journalSize.unit" id="journalSizeUnit" name="journalSizeUnit" class="form-control"
               ng-options="unit for unit in cluster.sizeUnits"></select>
@@ -21,7 +21,7 @@
         </div>
       </div>
       <div ng-show="!form.journalSizeValue.$valid">
-        <div ng-show="form.journalSizeValue.$error.min" class="error-validation-msg">Journal Size is not valid</div>
+        <div ng-show="form.journalSizeValue.$error.min || form.journalSizeValue.$error.max" class="error-validation-msg">Invalid journal size. Specify a journal size value between 1 and 10240.</div>
       </div>
     </div>
     <div class="form-group">
