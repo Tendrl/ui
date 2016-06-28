@@ -127,7 +127,7 @@
                         <div class="list-view-pf-additional-info-item list-view-pf-additional-info-item-stacked">
                             <strong>Quotas</strong>
                             <span ng-if="storage.quota_enabled">
-                                <span ng-if="storage.quota_params.quota_max_bytes !== undefined">{{storage.quota_params.quota_max_bytes | bytes}}</span>
+                                <span ng-if="storage.quota_params.quota_max_bytes !== undefined">{{(storage.quota_params.quota_max_bytes / storage.usage.total *100)|number:0}} %</span>
                                 <span ng-if="storage.quota_params.quota_max_bytes !== undefined && storage.quota_params.quota_max_objects !== undefined">, </span>
                             <span ng-if="storage.quota_params.quota_max_objects !== undefined">{{storage.quota_params.quota_max_objects}} objects</span>
                             </span>
@@ -188,7 +188,7 @@
                             <div class= "col-md-3">
                                  <div class="input-group">
                                     <input type="number" id="quotaPercentageValue" class="form-control"
-                                    ng-model="storages.maxPercentage" ng-disabled="!storages.enable_max_percentage" min= "1" max="100" ></input>
+                                    ng-model="storages.maxPercentage" ng-disabled="!storages.enable_max_percentage || !storages.editPool.quota_enabled" min= "1" max="100" ></input>
                                     <span class="input-group-addon">%</span>
                                  </div>
                             </div>
@@ -205,14 +205,14 @@
                             <div class ="col-md-3">
                                     <input type="number" id="quotasMaxObjectsValue" class="form-control"
                                     ng-model="storages.editPool.quota_params.quota_max_objects"
-                                    ng-disabled="!storages.enable_quota_max_objects" min="1" ></input>
+                                    ng-disabled="!storages.enable_quota_max_objects || !storages.editPool.quota_enabled" min="1" ></input>
                             </div>
                         </div>
                     </div>
                     <div>
-                        <a class="fa fa-2x fa-check" ng-click="storages.update(storage);storages.editPool.storageid=undefined;" data-toggle="tooltip" title="save">
+                        <a class="fa fa-2x fa-check cursor-pointer" ng-click="storages.update(storage);storages.editPool.storageid=undefined;" data-toggle="tooltip" title="save">
                         </a>&nbsp;&nbsp;
-                        <a class="pficon fa-2x pficon-close" ng-click="storages.editPool.storageid=undefined" data-toggle= "tooltip" title="close">
+                        <a class="pficon fa-2x pficon-close cursor-pointer" ng-click="storages.editPool.storageid=undefined" data-toggle= "tooltip" title="close">
                         </a>
                     </div>
                 </form>

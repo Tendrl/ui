@@ -51,7 +51,7 @@ export class ObjectStorageListController {
         private growl: any) {
         this.paramsObject = $location.search();
         if (Object.keys(this.paramsObject).length > 0) {
-            if("tab" in this.paramsObject) {
+            if ("tab" in this.paramsObject) {
                 delete this.paramsObject.tab;
             }
             this.updateSearchQuery(this.paramsObject);
@@ -81,15 +81,15 @@ export class ObjectStorageListController {
         */
         Object.keys(paramsObject).forEach((value: any) => {
             let joinedStr = "";
-            if(paramsObject[value] instanceof Array) {
+            if (paramsObject[value] instanceof Array) {
                 var queryArray = paramsObject[value].map(function(status) {
-                  return value + '=' + status;
+                    return value + '=' + status;
                 })
                 joinedStr = queryArray.join('&');
-            }else {
+            } else {
                 joinedStr = value + "=" + paramsObject[value];
             }
-            if ( this.searchQuery !== '' ) {
+            if (this.searchQuery !== '') {
                 this.searchQuery += "&"
             }
             this.searchQuery += joinedStr;
@@ -97,9 +97,9 @@ export class ObjectStorageListController {
     }
 
     public clearSearchQuery(key, itemIndex) {
-        if(itemIndex === null) {
+        if (itemIndex === null) {
             delete this.paramsObject[key];
-        }else {
+        } else {
             this.paramsObject[key].splice(itemIndex, 1);
         }
         this.updateSearchQuery(this.paramsObject);
@@ -114,9 +114,9 @@ export class ObjectStorageListController {
             // cluster name
             this.clusterSvc.get(this.clusterId).then((cluster) => {
                 this.clusterMap[cluster.clusterid] = cluster;
-                if(this.searchQuery === '') {
+                if (this.searchQuery === '') {
                     return this.storageSvc.getListByCluster(this.clusterId);
-                }else {
+                } else {
                     return this.storageSvc.getFilteredListByCluster(this.clusterId, this.searchQuery);
                 }
             }).then(list => {
@@ -129,9 +129,9 @@ export class ObjectStorageListController {
                 _.each(clusters, (cluster) => {
                     this.clusterMap[cluster.clusterid] = cluster;
                 });
-                if(this.searchQuery === '') {
+                if (this.searchQuery === '') {
                     return this.storageSvc.getList();
-                }else {
+                } else {
                     return this.storageSvc.getFilteredList(this.searchQuery);
                 }
             }).then(list => {
@@ -171,65 +171,82 @@ export class ObjectStorageListController {
         this.$location.path('/clusters/new');
     }
 
-    public isupdateNeed(storage,updatedStorage){
-        if(storage.options.ecprofile != this.editPool.options.ecprofile ||
-        storage.replicas != this.editPool.replicas || storage.quota_enabled != updatedStorage.quota_enabled ||
-        storage.quota_params.quota_max_bytes != updatedStorage.quota_params.quota_max_bytes ||
-        storage.quota_params.quota_max_objects != updatedStorage.quota_params.quota_max_objects ){
+    public isupdateNeed(storage, updatedStorage) {
+        if (storage.options.ecprofile != this.editPool.options.ecprofile ||
+            storage.replicas != this.editPool.replicas || storage.quota_enabled != updatedStorage.quota_enabled ||
+            storage.quota_params.quota_max_bytes != updatedStorage.quota_params.quota_max_bytes ||
+            storage.quota_params.quota_max_objects != updatedStorage.quota_params.quota_max_objects) {
             return true;
         }
     }
 
     public update(storage): void {
-        this.growl.success(storage.name + " update initiated");
-        if(storage.name != this.editPool.name){
-            let poolName = {
-                name: this.editPool.name
-            };
-            // PoolName should be update seperately... so that need to make two different calls
-            this.storageSvc.update(storage.clusterid, storage.storageid, poolName).catch(error => {
-            this.growl.error("Cannot update pool "+storage.name);
-            });
-        }
-
         let pool;
         pool = {
-             quota_enabled : this.editPool.quota_enabled,
-             quota_params : {}
-        };
-        if(this.editPool.quota_enabled) {
-            if(this.enable_quota_max_objects){
-                pool.quota_params.quota_max_objects = this.editPool.quota_params.quota_max_objects;
+            quota_enabled: false,
+            quota_params: {
+                quota_max_bytes: "0",
+                quota_max_objects: "0"
             }
-            if(this.enable_max_percentage) {
-                pool.quota_params.quota_max_bytes = Math.round((this.maxPercentage / 100) * this.capacity).toString();
+        };
+        pool.quota_enabled = this.editPool.quota_enabled;
+        if (this.editPool.quota_enabled) {
+            if (this.enable_quota_max_objects) {
+                pool.quota_params.quota_max_objects = this.editPool.quota_params.quota_max_objects.toString();
+            }
+            if (this.enable_max_percentage) {
+                pool.quota_params.quota_max_bytes = Math.round((this.maxPercentage / 100) * this.editPool.usage.total).toString();
             }
         }
-        if(storage.type === 'erasure_coded') {
+        if (storage.type === 'erasure_coded') {
             pool.options.ecprofile = this.editPool.options.ecprofile;
         }
         else if (storage.type === 'replicated') {
             pool.replicas = this.editPool.replicas;
         }
-        if(this.isupdateNeed(storage, pool)){
-                // PoolName should be update seperately... so that need to make two different calls*/
-                this.storageSvc.update(storage.clusterid, storage.storageid, pool).catch(error => {
-            this.growl.error("Cannot update pool "+storage.name);
-            });
-         }
+        if (this.isupdateNeed(storage, pool)) {
+            // PoolName should be update seperately... so that need to make two different calls*/
+            this.storageSvc.update(storage.clusterid, storage.storageid, pool)
+                .catch(error => {
+                    this.growl.error("Cannot update pool" + storage.name);
+                })
+                .then(success => {
+                    if(!this.updateName(storage)){
+                        this.growl.success(storage.name + " update initiated");
+                    }
+                });
+        } else {
+            this.updateName(storage);
+        }
         this.timer = this.$interval(() => this.refresh(), 60000);
     }
 
-    public edit(storage){
+    public updateName(storage) {
+        if (storage.name != this.editPool.name) {
+            let poolName = {
+                name: this.editPool.name
+            };
+            // PoolName should be update seperately... so that need to make two different calls
+            this.storageSvc.update(storage.clusterid, storage.storageid, poolName).catch(error => {
+                this.growl.error("Cannot update pool name " + storage.name);
+            }).then(success => {
+                this.growl.success(storage.name + " update initiated");
+            });
+            return true;
+        } else {
+            return false;
+        }
+    }
+    public edit(storage) {
         this.$interval.cancel(this.timer);
         this.timer = undefined;
-        this.editPool= _.clone(storage);
-        if(this.editPool.quota_params.quota_max_bytes){
+        this.editPool = _.cloneDeep(storage);
+        if (this.editPool.quota_params.quota_max_bytes) {
             this.enable_max_percentage = true;
-            this.capacity = numeral().unformat(storage.size);
-            this.maxPercentage = (this.editPool.quota_params.quota_max_bytes / this.capacity) *100;
+            this.maxPercentage = Math.round((this.editPool.quota_params.quota_max_bytes / this.editPool.usage.total) * 100);
         }
-        if(this.editPool.quota_params.quota_max_objects){
+        if (this.editPool.quota_params.quota_max_objects) {
+            this.editPool.quota_params.quota_max_objects = parseInt(this.editPool.quota_params.quota_max_objects, 10);
             this.enable_quota_max_objects = true;
         }
     }
