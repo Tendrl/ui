@@ -3,9 +3,9 @@
     <li>Details</li>
 </ol>
 <h1>{{event.detail.name}}
-    <span class="pficon-error-circle-o critical" ng-if="event.detail.severity===1"></span>
-    <span class="pficon-ok ok" ng-if="event.detail.severity===5"></span>
-    <span class="pficon-warning-triangle-o warning" ng-if="event.detail.severity===0 || event.detail.severity===2 || event.severity===3 || event.severity===4"></span>
+    <span class="pficon pficon-error-circle-o critical " ng-if="event.detail.severity===1 || event.detail.severity===2"></span>
+    <span class="pficon pficon-info info ok" ng-if="event.detail.severity===5"></span>
+    <span class="pficon pficon-warning-triangle-o warning" ng-if="event.detail.severity===0  || event.detail.severity===3 || event.detail.severity===4"></span>
 </h1>
 <h4 ng-if="event.detail.nodename.length > 0"><label>Host :</label> {{event.detail.nodename}}</h4>
 <h4><label>Time Submitted :</label> {{event.detail.timestamp | date : 'MMM d yyyy, hh:mm:ss a'}} </h4>
