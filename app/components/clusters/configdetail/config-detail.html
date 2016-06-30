@@ -21,16 +21,8 @@
           <td ng-bind="configdetail.configData.cluster_configs.osd_pool_default_min_size"></td>
         </tr>
         <tr>
-          <td>Keyring file Path</td>
-          <td ng-bind="(configdetail.configData.cluster_configs.keyring).split(',')[0]"></td>
-        </tr>
-        <tr>
           <td>Bind to IPv6</td>
           <td ng-bind="configdetail.configData.cluster_configs.ms_bind_ipv6"></td>
-        </tr>
-        <tr>
-          <td>Default Log File</td>
-          <td ng-bind="configdetail.configData.cluster_configs.log_file"></td>
         </tr>
         <tr>
           <td>OSD down-Out interval</td>
@@ -43,14 +35,6 @@
         <tr>
           <td>Default Journal Size</td>
           <td ng-bind="configdetail.configData.cluster_configs.osd_journal_size | bytes "></td>
-        </tr>
-        <tr>
-          <td>Default Journal Path</td>
-          <td ng-bind="configdetail.configData.cluster_configs.osd_journal"></td>
-        </tr>
-        <tr>
-          <td>Default OSD Data Path</td>
-          <td ng-bind="configdetail.configData.cluster_configs.osd_data"></td>
         </tr>
         <tr>
           <td>OSD Max Backfills</td>

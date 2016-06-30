@@ -40,7 +40,8 @@
                     <select pf-select ng-model="storage.ecprofile" id="ecprofile" name="ecprofile" class="form-control" ng-options="ecprofile.text for ecprofile in storage.ecprofiles" ng-change="storage.ecProfileChanged(storage.ecprofile)"></select>
                 </div>
                 <div class="col-md-3">
-                    <em>{{storage.ecprofile.k}} Chuncks of data; can loose up to {{storage.ecprofile.m}} hosts</em>
+                    <em>{{storage.ecprofile.k}} Chunks of data; can loose up to {{storage.ecprofile.m}} <ng-pluralize count="storage.ecprofile.m" when="{'1': 'host', 'other': 'hosts'}"></ng-pluralize>
+                    </em>
                 </div>
             </div>
             <div class="form-group">

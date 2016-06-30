@@ -69,7 +69,8 @@
                 <div class="list-view-pf-body">
                     <div class="list-view-pf-additional-info">
                         <div class="list-group-item-heading">
-                            <a ng-href="#/hosts/{{host.nodeid}}" ng-bind="host.hostname"></a>
+                            <a ng-if="host.state === 2 && host.cluster_name !== 'Unassigned'" ng-href="#/hosts/{{host.nodeid}}" ng-bind="host.hostname"></a>
+                            <p ng-if="host.state !== 2 || host.cluster_name === 'Unassigned'" ng-bind="host.hostname"></p>
                         </div>
                         <div class="list-view-pf-additional-info-item list-view-pf-additional-info-item-donut-chart" ng-if="host.state == 2">
                             <c3chart bindto-id="donut-storage-usage-chart-{{$index}}">
