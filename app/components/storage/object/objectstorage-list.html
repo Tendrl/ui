@@ -152,13 +152,6 @@
                                 <input type= "text" id="poolName" class="form-control" ng-model= "storages.editPool.name"></input>
                             </div>
                         </div>
-                        <div class="form-group" ng-show="storages.editPool.type === 'erasure_coded'">
-                            <label class="col-md-5 control-label">EC profile</label>
-                            <div class="col-md-5" >
-                                <select pf-select ng-model="storages.editPool.options.ecprofile" id="ecprofile" class="form-control"
-                                ng-options="ecprofile.value for ecprofile in storages.ecprofiles"></select>
-                            </div>
-                        </div>
                         <div class="form-group" ng-show="storages.editPool.type === 'replicated'">
                             <label class="col-md-5 control-label">Replicas</label>
                             <div class="col-md-5" >

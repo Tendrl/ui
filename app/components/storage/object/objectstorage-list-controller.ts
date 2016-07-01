@@ -19,7 +19,6 @@ export class ObjectStorageListController {
     private maxPercentage;
     private enable_max_percentage;
     private enable_quota_max_objects;
-    private ecprofiles = [{ k: 2, m: 1, text: '2+1', value: 'default' }, { k: 4, m: 2, text: '4+2', value: 'k4m2' }, { k: 6, m: 3, text: '6+3', value: 'k6m3' }, { k: 8, m: 4, text: '8+4', value: 'k8m4' }];
     private searchQuery: string;
     private paramsObject: any;
     static $inject: Array<string> = [
@@ -172,10 +171,9 @@ export class ObjectStorageListController {
     }
 
     public isupdateNeed(storage, updatedStorage) {
-        if (storage.options.ecprofile != this.editPool.options.ecprofile ||
-            storage.replicas != this.editPool.replicas || storage.quota_enabled != updatedStorage.quota_enabled ||
-            storage.quota_params.quota_max_bytes != updatedStorage.quota_params.quota_max_bytes ||
-            storage.quota_params.quota_max_objects != updatedStorage.quota_params.quota_max_objects) {
+        if (storage.replicas !== this.editPool.replicas || storage.quota_enabled !== updatedStorage.quota_enabled ||
+            storage.quota_params.quota_max_bytes !== updatedStorage.quota_params.quota_max_bytes ||
+            storage.quota_params.quota_max_objects !== updatedStorage.quota_params.quota_max_objects) {
             return true;
         }
     }
@@ -198,10 +196,7 @@ export class ObjectStorageListController {
                 pool.quota_params.quota_max_bytes = Math.round((this.maxPercentage / 100) * this.editPool.usage.total).toString();
             }
         }
-        if (storage.type === 'erasure_coded') {
-            pool.options.ecprofile = this.editPool.options.ecprofile;
-        }
-        else if (storage.type === 'replicated') {
+        if (storage.type === 'replicated') {
             pool.replicas = this.editPool.replicas;
         }
         if (this.isupdateNeed(storage, pool)) {
@@ -226,7 +221,6 @@ export class ObjectStorageListController {
             let poolName = {
                 name: this.editPool.name
             };
-            // PoolName should be update seperately... so that need to make two different calls
             this.storageSvc.update(storage.clusterid, storage.storageid, poolName).catch(error => {
                 this.growl.error("Cannot update pool name " + storage.name);
             }).then(success => {
