@@ -1,5 +1,5 @@
 %define pkg_name kitoon
-%define pkg_version 0.0.43
+%define pkg_version 0.0.44
 %define pkg_release 1
 
 Name: %{pkg_name}
