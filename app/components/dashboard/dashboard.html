@@ -100,11 +100,11 @@
                             <div class="card-pf-body">
                                 <center><i ng-if="dash.isLoading.summaryData" class="fa fa-spinner fa-pulse fa-3x fa-fw"></i></center>
                                 <p ng-if="!dash.isLoading.summaryData" class="card-pf-aggregate-status-notifications">
-                                    <span ng-if="dash.hosts.error>0" class="card-pf-aggregate-status-notification"><a href="#/hosts?status=error&status=warning&role=OSD" title="{{dash.hosts.error}} hosts down">
+                                    <span ng-if="dash.hosts.error>0" class="card-pf-aggregate-status-notification"><a href="#/hosts?status=error&status=warning" title="{{dash.hosts.error}} hosts down">
                                         <span class="fa fa-arrow-circle-o-down"></span>
                                         <span>{{dash.hosts.error}}</span></a>
                                     </span>
-                                    <span ng-if="dash.hosts.criticalAlerts>0" class="card-pf-aggregate-status-notification"><a href="#/hosts?alarmstatus=critical&alarmstatus=major&role=OSD" title="{{dash.hosts.criticalAlerts}} active alerts">
+                                    <span ng-if="dash.hosts.criticalAlerts>0" class="card-pf-aggregate-status-notification"><a href="#/hosts?alarmstatus=critical&alarmstatus=major" title="{{dash.hosts.criticalAlerts}} active alerts">
                                         <span class="pficon pficon-warning-triangle-o"></span>
                                         <span>{{dash.hosts.criticalAlerts}}</span></a>
                                     </span>

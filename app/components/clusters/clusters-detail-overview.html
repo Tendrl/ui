@@ -66,11 +66,11 @@
                         <div class="card-pf-body">
                             <center><i ng-if="clusterdetail.isLoading.summaryData" class="fa fa-spinner fa-pulse fa-3x fa-fw"></i></center>
                             <p ng-if="!clusterdetail.isLoading.summaryData" class="card-pf-aggregate-status-notifications">
-                                <span ng-if="clusterdetail.hosts.error>0" class="card-pf-aggregate-status-notification"><a ng-href="#/clusters/{{clusterdetail.id}}?status=error&status=warning&role=OSD&tab=Hosts" title="{{clusterdetail.hosts.error}} hosts down">
+                                <span ng-if="clusterdetail.hosts.error>0" class="card-pf-aggregate-status-notification"><a ng-href="#/clusters/{{clusterdetail.id}}?status=error&status=warning&tab=Hosts" title="{{clusterdetail.hosts.error}} hosts down">
                                     <span class="fa fa-arrow-circle-o-down"></span>
                                     <span>{{clusterdetail.hosts.error}}</span></a>
                                 </span>
-                                <span ng-if="clusterdetail.hosts.criticalAlerts>0" class="card-pf-aggregate-status-notification"><a href="#/clusters/{{clusterdetail.id}}?alarmstatus=critical&alarmstatus=major&role=OSD&tab=Hosts" title="{{clusterdetail.hosts.criticalAlerts}} active alerts">
+                                <span ng-if="clusterdetail.hosts.criticalAlerts>0" class="card-pf-aggregate-status-notification"><a href="#/clusters/{{clusterdetail.id}}?alarmstatus=critical&alarmstatus=major&tab=Hosts" title="{{clusterdetail.hosts.criticalAlerts}} active alerts">
                                     <span class="pficon pficon-warning-triangle-o"></span>
                                     <span>{{clusterdetail.hosts.criticalAlerts}}</span></a>
                                 </span>
