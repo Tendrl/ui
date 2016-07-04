@@ -36,6 +36,7 @@ export class EventService {
     // **dismiss**
     // **@returns** a status with the dismiss event.
     dismiss(id, comment) {
+        comment = "Dismissed: "+comment;
         return this.rest.one('events', id).patch({
                 "acked": true,
                 "ackcomment": comment
