@@ -24,9 +24,9 @@
                                     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
                                         <center><i ng-if="clusterdetail.isLoading.trendsChartsData" class="fa fa-spinner fa-pulse fa-3x fa-fw"></i></center>
                                         <div ng-if="!clusterdetail.isLoading.trendsChartsData">
-                                            <div ng-if="clusterdetail.trendsCharts.overall.data.total>0" pf-sparkline-chart config="clusterdetail.trendsCharts.overall.config" chart-data="clusterdetail.trendsCharts.overall.data">
+                                            <div ng-if="clusterdetail.trendsCharts.overall.data.total>0" pf-trends-chart config="clusterdetail.trendsCharts.overall.config" chart-data="clusterdetail.trendsCharts.overall.data">
                                             </div>
-                                            <div class="pull-left" ng-if="clusterdetail.trendsCharts.overall.data.total>0">Last 24 hours</div>
+                                            <div class="pull-left" ng-if="clusterdetail.trendsCharts.overall.data.dataAvailable">Last 24 hours</div>
                                         </div>
                                     </div>
                                 </div>
@@ -231,7 +231,7 @@
                                         </div>
                                     </div>
                                     <center><i ng-if="clusterdetail.isLoading.trendsChartsData" class="fa fa-spinner fa-pulse fa-3x fa-fw"></i></center>
-                                    <div ng-if="!clusterdetail.isLoading.trendsChartsData" pf-sparkline-chart config="clusterdetail.trendsCharts.cpu.config" chart-data="clusterdetail.trendsCharts.cpu.data">
+                                    <div ng-if="!clusterdetail.isLoading.trendsChartsData" pf-trends-chart config="clusterdetail.trendsCharts.cpu.config" chart-data="clusterdetail.trendsCharts.cpu.data">
                                     </div>
                                 </div>
                             </div>
@@ -243,7 +243,7 @@
                                         </div>
                                     </div>
                                     <center><i ng-if="clusterdetail.isLoading.trendsChartsData" class="fa fa-spinner fa-pulse fa-3x fa-fw"></i></center>
-                                    <div ng-if="!clusterdetail.isLoading.trendsChartsData" pf-sparkline-chart config="clusterdetail.trendsCharts.memory.config" chart-data="clusterdetail.trendsCharts.memory.data">
+                                    <div ng-if="!clusterdetail.isLoading.trendsChartsData" pf-trends-chart config="clusterdetail.trendsCharts.memory.config" chart-data="clusterdetail.trendsCharts.memory.data">
                                     </div>
                                 </div>
                             </div>

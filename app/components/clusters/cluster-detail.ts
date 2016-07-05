@@ -201,39 +201,39 @@ export class ClusterDetailController {
 
     public getOverallUtilization() {
         this.clusterService.getClusterOverallUtilization(this.id).then((overall_utilization) => {
-            this.setGraphData(overall_utilization,"overall","Overall","%");
+            this.setGraphData(overall_utilization,"overall","","%","large");
         });
     }
 
     public getCpuUtilization(timeSlot: any) {
+        this.setGraphUtilization({"total":100,"used":this.utilizations.cpupercentageusage},'cpu');
         this.clusterService.getClusterCpuUtilization(this.id,timeSlot.value).then((cpu_utilization) => {
-            this.setGraphData(cpu_utilization,"cpu","Cpu utilization","");
-            this.setGraphUtilization({"total":100,"used":this.utilizations.cpupercentageusage},'cpu');
+            this.setGraphData(cpu_utilization,"cpu","","%","large");
         });
     }
 
     public getMemoryUtilization(timeSlot: any) {
+        this.setGraphUtilization({"total":100,"used":this.utilizations.memoryusage.percentused},'memory');
         this.clusterService.getClusterMemoryUtilization(this.id,timeSlot.value).then((memory_utilization) => {
-            this.setGraphData(memory_utilization,"memory","Memory utilization","");
-            this.setGraphUtilization({"total":100,"used":this.utilizations.memoryusage.percentused},'memory');
+            this.setGraphData(memory_utilization,"memory","","%","large");
         });
     }
 
     public getIOPS(timeSlot: any) {
         this.clusterService.getIOPS(this.id,timeSlot.value).then((iops) => {
-            this.setGraphData(iops,"iops","IOPS","K");
+            this.setGraphData(iops,"iops","IOPS","K","compact");
         });
     }
 
     public getThroughput(timeSlot: any) {
         this.clusterService.getThroughput(this.id,timeSlot.value).then((throughput) => {
-            this.setGraphData(throughput,"throughput","Throughput","KB/s");
+            this.setGraphData(throughput,"throughput","Throughput","KB/s","compact");
         });
     }
 
     public getNetworkLatency(timeSlot: any) {
         this.clusterService.getNetworkLatency(this.id,timeSlot.value).then((network_latency) => {
-            this.setGraphData(network_latency,"latency","Latency","ms");
+            this.setGraphData(network_latency,"latency","Latency","ms","compact");
         });
     }
 
@@ -252,7 +252,7 @@ export class ClusterDetailController {
     }
 
 
-    public setGraphData(graphArray, value, graphTitle, graphUnits) {
+    public setGraphData(graphArray, value, graphTitle, graphUnits, graphLayout) {
         var times = [];
         var used = [];
         times.push("dates");
@@ -275,7 +275,7 @@ export class ClusterDetailController {
             config: {
                 chartId      :  value,
                 title        :  graphTitle,
-                layout       : 'compact',
+                layout       :  graphLayout,
                 valueType    : 'actual',
                 units        :  graphUnits,
             }

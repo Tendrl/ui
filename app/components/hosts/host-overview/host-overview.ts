@@ -60,56 +60,56 @@ export class HostOverviewController {
     }
 
     public getCpuUtilization(timeSlot: any) {
+        this.setGraphUtilization({"total":100,"used": this.host.utilizations.cpuusage.percentused}, "cpu");
         this.serverService.getHostCpuUtilization(this.host.nodeid,timeSlot.value).then((cpu_utilization) => {
-            this.drawGraphs(cpu_utilization,"cpu","Cpu utilization","%",this.host.utilizations.cpuusage.percentused);
+            this.setGraphData(cpu_utilization,"cpu","","%","large");
         });
     }
 
     public getMemoryUtilization(timeSlot: any) {
+        this.setGraphUtilization({"total":100,"used": this.host.utilizations.memoryusage.percentused}, "memory");
         this.serverService.getHostMemoryUtilization(this.host.nodeid,timeSlot.value).then((memory_utilization) => {
-            this.drawGraphs(memory_utilization,"memory","Memory utilization","%",this.host.utilizations.memoryusage.percentused);
+            this.setGraphData(memory_utilization,"memory","","%","large");
         });
     }
 
     public getSwapUtilization(timeSlot: any) {
+        this.setGraphUtilization({"total":100,"used": this.host.utilizations.swapusage.percentused}, "swap");
         this.serverService.getHostSwapUtilization(this.host.nodeid,timeSlot.value).then((swap_utilization) => {
-            this.drawGraphs(swap_utilization,"swap","Swap utilization","%",this.host.utilizations.swapusage.percentused);
+            this.setGraphData(swap_utilization,"swap","","%","large");
         });
     }
 
     public getStorageUtilization(timeSlot: any) {
+        this.setGraphUtilization({"total":100,"used": this.host.utilizations.storageusage.percentused}, "storage");
         this.serverService.getHostStorageUtilization(this.host.nodeid,timeSlot.value).then((storage_utilization) => {
-            this.drawGraphs(storage_utilization,"storage","Storage utilization","%",this.host.utilizations.storageusage.percentused);
+            this.setGraphData(storage_utilization,"storage","","%","large");
         });
     }
 
     public getNetworkUtilization(timeSlot: any) {
+        this.setGraphUtilization({"total":100,"used": this.host.utilizations.networkusage.percentused}, "network");
         this.serverService.getHostNetworkUtilization(this.host.nodeid,timeSlot.value).then((network_utilization) => {
-            this.drawGraphs(network_utilization,"network","Network utilization","%",this.host.utilizations.networkusage.percentused);
+            this.setGraphData(network_utilization,"network","","%","large");
         });
     }
 
     public getDiskIOPS(timeSlot: any) {
         this.serverService.getHostIOPS(this.host.nodeid,timeSlot.value).then((iops) => {
-            this.setGraphData(iops,"iops","IOPS","K");
+            this.setGraphData(iops,"iops","IOPS","K","compact");
         });
     }
 
     public getThroughput(timeSlot: any) {
         this.serverService.getHostThroughput(this.host.nodeid,timeSlot.value).then((throughput) => {
-            this.setGraphData(throughput,"throughput","Network Throughput","KB/s");
+            this.setGraphData(throughput,"throughput","Network Throughput","KB/s","compact");
         });
     }
 
     public getNetworkLatency(timeSlot: any) {
         this.serverService.getHostNetworkLatency(this.host.nodeid,timeSlot.value).then((network_latency) => {
-            this.setGraphData(network_latency,"latency","Network Latency","ms");
+            this.setGraphData(network_latency,"latency","Network Latency","ms","compact");
         });
-    }
-
-    public drawGraphs(graphArray, graphName, graphTitle, graphUnits, graphUsage) {
-        this.setGraphData(graphArray,graphName,graphTitle,graphUnits);
-        this.setGraphUtilization({"total":100,"used":graphUsage}, graphName);
     }
 
     public setGraphUtilization(usage, graphName) {
@@ -127,7 +127,7 @@ export class HostOverviewController {
         this.isLoading.donutChartsData = false;
     }
 
-    public setGraphData(graphArray, graphName, graphTitle, graphUnits) {
+    public setGraphData(graphArray, graphName, graphTitle, graphUnits, graphLayout) {
         var times = [];
         var used = [];
         times.push("dates");
@@ -150,7 +150,7 @@ export class HostOverviewController {
             config: {
                 chartId      :  graphName,
                 title        :  graphTitle,
-                layout       : 'compact',
+                layout       :  graphLayout,
                 valueType    : 'actual',
                 units        :  graphUnits,
                 tooltipFn    :  function(d) {

@@ -55,9 +55,9 @@
                                             <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
                                                 <center><i ng-if="dash.isLoading.trendsChartsData" class="fa fa-spinner fa-pulse fa-3x fa-fw"></i></center>
                                                 <div ng-if="!dash.isLoading.trendsChartsData">
-                                                    <div ng-if="dash.trendsCharts.overall.data.total>0" pf-sparkline-chart config="dash.trendsCharts.overall.config" chart-data="dash.trendsCharts.overall.data">
+                                                    <div ng-if="dash.trendsCharts.overall.data.total>0" pf-trends-chart config="dash.trendsCharts.overall.config" chart-data="dash.trendsCharts.overall.data">
                                                     </div>
-                                                    <div ng-if="dash.trendsCharts.overall.data.total>0" class="pull-left">Last 24 hours</div>
+                                                    <div ng-if="dash.trendsCharts.overall.data.dataAvailable" class="pull-left">Last 24 hours</div>
                                                 </div>
                                             </div>
                                         </div>
@@ -265,7 +265,7 @@
                                             </div>
                                         </div>
                                         <center><i ng-if="dash.isLoading.trendsChartsData" class="fa fa-spinner fa-pulse fa-3x fa-fw"></i></center>
-                                        <div ng-if="!dash.isLoading.trendsChartsData" pf-sparkline-chart config="dash.trendsCharts.cpu.config" chart-data="dash.trendsCharts.cpu.data">
+                                        <div ng-if="!dash.isLoading.trendsChartsData" pf-trends-chart config="dash.trendsCharts.cpu.config" chart-data="dash.trendsCharts.cpu.data">
                                         </div>
                                     </div>
                                 </div>
@@ -277,7 +277,7 @@
                                             </div>
                                         </div>
                                         <center><i ng-if="dash.isLoading.trendsChartsData" class="fa fa-spinner fa-pulse fa-3x fa-fw"></i></center>
-                                        <div ng-if="!dash.isLoading.trendsChartsData" pf-sparkline-chart config="dash.trendsCharts.memory.config" chart-data="dash.trendsCharts.memory.data">
+                                        <div ng-if="!dash.isLoading.trendsChartsData" pf-trends-chart config="dash.trendsCharts.memory.config" chart-data="dash.trendsCharts.memory.data">
                                         </div>
                                     </div>
                                 </div>

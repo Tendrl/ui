@@ -111,7 +111,7 @@ export class DashboardController {
     */
     public getOverallUtilization() {
         this.serverService.getSystemOverallUtilization().then((overall_utilization) => {
-            this.setGraphData(overall_utilization,"overall","Overall","%");
+            this.setGraphData(overall_utilization,"overall","","%","large");
         });
     }
 
@@ -166,37 +166,34 @@ export class DashboardController {
     }
 
     public getCpuUtilization(timeSlot: any) {
+        this.setGraphUtilization({"total":100,"used":this.summary.utilizations.cpupercentageusage}, "cpu");
         this.serverService.getSystemCpuUtilization(timeSlot.value).then((cpu_utilization) => {
-            this.drawGraphs(cpu_utilization,"cpu","Cpu utilization",this.summary.utilizations.cpupercentageusage);
+            this.setGraphData(cpu_utilization,"cpu","","%","large");
         });
     }
 
     public getMemoryUtilization(timeSlot: any) {
+        this.setGraphUtilization({"total":100,"used":this.summary.utilizations.memoryusage.percentused}, "memory");
         this.serverService.getSystemMemoryUtilization(timeSlot.value).then((memory_utilization) => {
-            this.drawGraphs(memory_utilization,"memory","Memory utilization",this.summary.utilizations.memoryusage.percentused);
+            this.setGraphData(memory_utilization,"memory","","%","large");
         });
-    }
-
-    public drawGraphs(graphArray, graphName, graphTitle, graphUsage) {
-        this.setGraphData(graphArray,graphName,graphTitle,"%");
-        this.setGraphUtilization({"total":100,"used":graphUsage}, graphName);
     }
 
     public getIOPS(timeSlot: any) {
         this.serverService.getIOPS(timeSlot.value).then((iops) => {
-            this.setGraphData(iops,"iops","IOPS","K");
+            this.setGraphData(iops,"iops","IOPS","K","compact");
         });
     }
 
     public getThroughput(timeSlot: any) {
         this.serverService.getThroughput(timeSlot.value).then((throughput) => {
-            this.setGraphData(throughput,"throughput","Throughput","KB/s");
+            this.setGraphData(throughput,"throughput","Throughput","KB/s","compact");
         });
     }
 
     public getNetworkLatency(timeSlot: any) {
         this.serverService.getNetworkLatency(timeSlot.value).then((network_latency) => {
-            this.setGraphData(network_latency,"latency","Latency","ms");
+            this.setGraphData(network_latency,"latency","Latency","ms","compact");
         });
     }
 
@@ -214,7 +211,7 @@ export class DashboardController {
         };
     }
 
-    public setGraphData(graphArray, graphName, graphTitle, graphUnits) {
+    public setGraphData(graphArray, graphName, graphTitle, graphUnits, graphLayout) {
         var times = [];
         var used = [];
         times.push("dates");
@@ -237,7 +234,7 @@ export class DashboardController {
             config: {
                 chartId      :  graphName,
                 title        :  graphTitle,
-                layout       : 'compact',
+                layout       :  graphLayout,
                 valueType    : 'actual',
                 units        :  graphUnits,
                 tooltipFn    :  function(d) {
