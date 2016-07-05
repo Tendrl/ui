@@ -4,19 +4,20 @@
         <div class="col-xs-12 col-sm-6 col-md-9">
             <div class="row row-cards-pf">
                 <div class="col-xs-12 col-sm-12 col-md-6">
-                    <div class="card-pf card-pf-aggregate-status card-pf-with-action custom-height">
+                    <div class="card-pf card-pf-with-action custom-height">
+                        <div class="row card-pf-heading">
+                            <h2 class="card-pf-title">
+                                Utilization
+                            </h2>
+                        </div>
                         <div class="row">
                             <div class="col-md-6">
-                                <h2 class="card-pf-title">
-                                    <label>Utilization</label>
-                                    <p ng-if="!clusterdetail.isLoading.clusterUtilizationData"><small class="cluster-size-label"><label>{{clusterdetail.capacity.used | bytes }} Used </label> of {{clusterdetail.capacity.total | bytes}} Total</small></p>
-                                </h2>
-                                <hr>
                                 <div class="card-pf-body">
                                     <center><i ng-if="clusterdetail.isLoading.clusterUtilizationData" class="fa fa-spinner fa-pulse fa-3x fa-fw"></i></center>
                                     <div ng-if="!clusterdetail.isLoading.clusterUtilizationData">
                                         <div pf-donut-pct-chart config="clusterdetail.clusterUtilization.config" data="clusterdetail.clusterUtilization.data" center-label="clusterdetail.clusterUtilization.label"></div>
                                     </div>
+                                    <p ng-if="!clusterdetail.isLoading.clusterUtilizationData"><small class="cluster-size-label"><label>{{clusterdetail.capacity.used | bytes }}</label> of {{clusterdetail.capacity.total | bytes}} Used</small></p>
                                 </div>
                             </div>
                             <div class="col-md-6 cluster-utilization">

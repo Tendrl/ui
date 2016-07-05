@@ -34,35 +34,34 @@
                         </div>
                     </div>
                     <div class="col-xs-12 col-sm-12 col-md-5">
-                        <div class="card-pf card-pf-aggregate-status card-pf-with-action custom-height">
-                            <div class="row">
-                                <div class="col-xs-12 col-sm-12 col-md-5">
-                                    <h2 class="card-pf-title">
-                                        Utilization
-                                        <p ng-if="!dash.isLoading.utilizationData"><small class="cluster-size-label"><label>{{dash.capacity.used | bytes }} Used</label> of {{dash.capacity.total | bytes }} Total</small></p>
-                                    </h2>
-                                    <hr>
-                                    <div class="card-pf-body">
-                                        <center><i ng-if="dash.isLoading.utilizationData" class="fa fa-spinner fa-pulse fa-3x fa-fw"></i></center>
-                                        <div ng-if="!dash.isLoading.utilizationData">
-                                            <div pf-donut-pct-chart config="dash.utilization.config" data="dash.utilization.data" center-label="dash.utilization.label"></div>
-                                        </div>
-                                    </div>
+                        <div class="card-pf card-pf-with-action custom-height">
+                            <div class="row card-pf-heading">
+                                <h2 class="card-pf-title">
+                                    Utilization
+                                </h2>
                                 </div>
-                                <div class="col-xs-12 col-sm-12 col-md-6">
-                                    <div class="utilization">
-                                        <div class="row margin-for-storage-profile">
-                                            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                                                <center><i ng-if="dash.isLoading.trendsChartsData" class="fa fa-spinner fa-pulse fa-3x fa-fw"></i></center>
-                                                <div ng-if="!dash.isLoading.trendsChartsData">
-                                                    <div ng-if="dash.trendsCharts.overall.data.total>0" pf-trends-chart config="dash.trendsCharts.overall.config" chart-data="dash.trendsCharts.overall.data">
+                                <div class="row">
+                                    <div class="col-xs-12 col-sm-12 col-md-5">
+                                            <center><i ng-if="dash.isLoading.utilizationData" class="fa fa-spinner fa-pulse fa-3x fa-fw"></i></center>
+                                            <div ng-if="!dash.isLoading.utilizationData">
+                                                <div pf-donut-pct-chart config="dash.utilization.config" data="dash.utilization.data" center-label="dash.utilization.label"></div>
+                                            </div>
+                                            <p ng-if="!dash.isLoading.utilizationData"><small class="cluster-size-label"><label>{{dash.capacity.used | bytes }}</label> of {{dash.capacity.total | bytes }} used</small></p>
+                                    </div>
+                                    <div class="col-xs-12 col-sm-12 col-md-6">
+                                        <div class="utilization">
+                                            <div class="row margin-for-storage-profile">
+                                                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                                    <center><i ng-if="dash.isLoading.trendsChartsData" class="fa fa-spinner fa-pulse fa-3x fa-fw"></i></center>
+                                                    <div ng-if="!dash.isLoading.trendsChartsData">
+                                                        <div ng-if="dash.trendsCharts.overall.data.total>0" pf-sparkline-chart config="dash.trendsCharts.overall.config" chart-data="dash.trendsCharts.overall.data">
+                                                        </div>
+                                                        <div ng-if="dash.trendsCharts.overall.data.total>0" class="pull-left">Last 24 hours</div>
                                                     </div>
-                                                    <div ng-if="dash.trendsCharts.overall.data.dataAvailable" class="pull-left">Last 24 hours</div>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
                             </div>
                         </div>
                     </div>
@@ -113,7 +112,7 @@
                                     </span>
                                     <span ng-if="dash.hosts.unaccepted>0" class="card-pf-aggregate-status-notification"><a href="#/first" title="{{dash.hosts.unaccepted}} hosts discovered">
                                         <span class="pficon pficon-add-circle-o"></span>
-                                        <span>{{dash.hosts.unaccepted}} To Accept</span></a>
+                                        <span>{{dash.hosts.unaccepted}}</span></a>
                                     </span>
                                 </p>
                             </div>

@@ -5,10 +5,6 @@
         padding-top: 10px;
     }
 
-    .card-pf-title {
-        margin:10px 0px !important;
-    }
-
     .utilization {
         margin-top: 111px;
     }
@@ -81,6 +77,10 @@
 
     .cluster-size-label {
         font-size: smaller;
+    }
+
+    .c3-chart-arcs-title{
+    font-size:1.8em;
     }
 
 }
