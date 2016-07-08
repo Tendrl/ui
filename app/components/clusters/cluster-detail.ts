@@ -281,6 +281,11 @@ export class ClusterDetailController {
                 layout       :  graphLayout,
                 valueType    : 'actual',
                 units        :  graphUnits,
+                tooltipFn    :  function(d) {
+                                    return  '<span class="donut-tooltip-pf">' +
+                                              d[0].value + ' ' + graphUnits +
+                                            '</span>';
+                                }
             }
         }
         this.isLoading.trendsChartsData = false;
