@@ -57,8 +57,8 @@ export class BlockDeviceController {
             this.existingPools = [];
             _.each(pools, (pool) => {
                 pool.capacity = {
-                    total: numeral().unformat(pool.size),
-                    used: 0
+                    total: pool.usage.total,
+                    used: pool.usage.used
                 };
                 pool.utilization = {};
                 if(pool.type === 'replicated') {
