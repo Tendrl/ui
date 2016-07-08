@@ -110,7 +110,7 @@
                         </div>
                         <div class="list-view-pf-additional-info-item">
                             <span class="pficon" ng-class="(cluster.almwarncount + cluster.almcritcount)>0? ((cluster.almcritcount > 0)?'pficon-error-circle-o' : 'pficon-warning-triangle-o' ):'pficon-ok'"></span>
-                            <a ng-href="#/events?clustername={{cluster.cluster_name}}" ng-if="(cluster.almwarncount + cluster.almcritcount) > 0"><strong>{{cluster.almwarncount + cluster.almcritcount}}</strong></a> Alerts
+                            <a ng-href="#/events?clustername={{cluster.cluster_name}}" ng-if="(cluster.almwarncount + cluster.almcritcount) > 0"><strong>{{cluster.almwarncount + cluster.almcritcount}} </strong>Alerts</a>
                             <strong ng-if="(cluster.almwarncount + cluster.almcritcount) < 1">0 Alerts</strong>
                         </div>
                 </div>
