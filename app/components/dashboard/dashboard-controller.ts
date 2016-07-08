@@ -216,12 +216,15 @@ export class DashboardController {
         var used = [];
         times.push("dates");
         used.push("used");
-        var usageDataArray = graphArray[0].datapoints;
-        var isDataAvailable = (usageDataArray.length > 0 ? true : false);
-        for (var index in usageDataArray) {
-          var subArray = usageDataArray[index];
-          times.push(new Date(subArray[1]));
-          used.push(subArray[0].toFixed(1));
+        var isDataAvailable: boolean = false;
+        if(graphArray.length !== 0 ) {
+            var usageDataArray = graphArray[0].datapoints;
+            isDataAvailable = (usageDataArray.length > 0 ? true : false);
+            for (var index in usageDataArray) {
+              var subArray = usageDataArray[index];
+              times.push(new Date(subArray[1]));
+              used.push(subArray[0].toFixed(1));
+            }
         }
         this.trendsCharts[graphName] = {
             title: graphTitle,
