@@ -34,7 +34,7 @@ export interface UsageData {
 export interface DashboardSummaryData {
      name: string;
      usage: UsageData;
-     storageprofileusage: { general?: { isFull:boolean, isNearFull: boolean, utilization: UsageData }, sas?: { isFull:boolean, isNearFull: boolean, utilization: UsageData }, ssd?: { isFull:boolean, isNearFull: boolean, utilization: UsageData } };
+     storageprofileusage: { default?: { isFull:boolean, isNearFull: boolean, utilization: UsageData }, sas?: { isFull:boolean, isNearFull: boolean, utilization: UsageData }, ssd?: { isFull:boolean, isNearFull: boolean, utilization: UsageData } };
      storagecount: { criticalAlerts: number, down: number, total:number };
      slucount: { criticalAlerts: number, down: number, error: number, nearfull: number, total: number };
      nodescount: { criticalAlerts: number, error: number, total: number, unaccepted: number };

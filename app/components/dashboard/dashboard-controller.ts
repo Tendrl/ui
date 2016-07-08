@@ -146,7 +146,7 @@ export class DashboardController {
         var othersProfile: UsageData = { "used": 0, "total": 0};
         Object.keys(profiles).forEach((profile) => {
             var usedData: any = profiles[profile]["utilization"];
-            if(profile === 'general' || profile === 'sas' || profile === 'ssd') {
+            if(profile === 'default' || profile === 'sas' || profile === 'ssd') {
                 this.utilizationByProfile.profiles.push({ "usage":usedData, "subtitle":profile });
             }else {
                 othersProfile.used = othersProfile.used + profiles[profile]["utilization"]["used"];

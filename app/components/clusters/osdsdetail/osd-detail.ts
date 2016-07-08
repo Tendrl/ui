@@ -87,7 +87,7 @@ export class OsdDetailController {
         ];
         this.storageProfileArray = [
             {'name': 'All', 'value': ''},
-            {'name': 'General', 'value': 'general'},
+            {'name': 'Default', 'value': 'default'},
             {'name': 'SAS', 'value': 'sas'},
             {'name': 'SSD', 'value': 'ssd'}
         ];
