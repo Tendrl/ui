@@ -38,7 +38,6 @@ export class AcceptHostsController {
                     hostname: discoverdHost.hostname,
                     fingerPrint: discoverdHost.saltfingerprint,
                     state: "UNACCEPTED",
-                    progress: 0
                 };
                 this.discoveredHosts.push(host);
             })
@@ -57,7 +56,6 @@ export class AcceptHostsController {
                                 host.taskid = data.tasks[0].id;
                                 this.$log.info('Accepted host ' + host.hostname + ' in Accept Hosts Controller ');
                                 host.state = "INITIALIZING";
-                                host.progress = 2;
                             }
                         });
                     }
@@ -72,13 +70,11 @@ export class AcceptHostsController {
                     if (task.completed && task.status === 1) {
                         this.$log.info('Initialized host ' + host.hostname + ' in Accept Hosts Controller ');
                         host.state = "INITIALIZED";
-                        host.progress = 3;
                         host.lastupdated = task.statuslist[task.statuslist.length - 1].Timestamp;
                     }
                     else if (task.completed && (task.status === 2 || task.status === 3)) {
                         this.$log.info('Failed to initialize host ' + host.hostname + ' in Accept Hosts Controller');
                         host.state = "FAILED";
-                        host.progress = 3;
                         host.lastupdated = task.statuslist[task.statuslist.length - 1].Timestamp;
                     }
                 });
@@ -103,7 +99,6 @@ export class AcceptHostsController {
             this.$log.info(result);
             this.hostsBeingAccepted.push(host);
             host.state = "ACCEPTING";
-            host.progress = 1;
             host.taskid = result.data.taskid;
         });
     }

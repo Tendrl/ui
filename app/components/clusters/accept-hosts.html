@@ -45,13 +45,9 @@
                         </div>
                     </div>
                     <div class="list-view-pf-additional-info">
-                        <div class="progress progress-striped active" ng-if="host.progress === 1 || host.progress === 2" style="width: 80%;">
-                            <div class="progress-bar" role="progressbar" aria-valuenow="{{host.progress}}" aria-valuemin="0" aria-valuemax="3" style="width: {{host.progress * 33}}%;">
-                                <span ng-if="host.state === 'ACCEPTING'">Accepting Host</span>
-                                <span ng-if="host.state === 'INITIALIZING'">Initializing Host</span>
-                            </div>
-                        </div>
                         <div ng-switch on="host.state">
+                            <label ng-switch-when="ACCEPTING">Accepting Host</label>
+                            <label ng-switch-when="INITIALIZING">Initializing Host</label>
                             <label ng-switch-when="FAILED">Initialization Failed: {{host.lastupdated | date:'medium'}}</label>
                             <label ng-switch-when="INITIALIZED">Initialization completed: {{host.lastupdated | date:'medium'}}</label>
                         </div>
