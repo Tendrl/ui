@@ -19,6 +19,7 @@ export class ObjectStorageListController {
     private maxPercentage;
     private enable_max_percentage;
     private enable_quota_max_objects;
+    private ecprofiles = [];
     private searchQuery: string;
     private paramsObject: any;
     static $inject: Array<string> = [
@@ -48,6 +49,10 @@ export class ObjectStorageListController {
         private requestSvc: RequestService,
         private requestTrackingSvc: RequestTrackingService,
         private growl: any) {
+        this.ecprofiles['default'] = '2+1';
+        this.ecprofiles['k4m2'] = '4+2';
+        this.ecprofiles['k6m3'] = '6+3';
+        this.ecprofiles['k8m4'] = '8+4';
         this.paramsObject = $location.search();
         if (Object.keys(this.paramsObject).length > 0) {
             if ("tab" in this.paramsObject) {

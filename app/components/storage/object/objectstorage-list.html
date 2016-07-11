@@ -85,13 +85,11 @@
                 </div>
                 <div class="list-view-pf-body">
                     <div class="list-view-pf-additional-info justify-equal-space-around">
-                    <div class="list-view-pf-additional-info-item list-view-pf-additional-info-item-stacked">
-                        <div>
-                            <p>
+                    <div class="list-view-pf-additional-info-item list-view-pf-additional-info-item-stacked poolNameBox">
+                        <div class="list-group-item-text">
                                 <strong ng-bind="storage.name"></strong>
                                 <small> on</small>
                                 <strong ng-bind="storages.getClusterName(storage.clusterid)"></strong>
-                            </p>
                         </div>
                         <div class="list-group-item-text">
                             <span ng-if="storage.type === 'erasure_coded'">Erasure Coded</span>
@@ -115,8 +113,11 @@
                             used
                             </div>
                         </div>
-                        <div class="list-view-pf-additional-info-item list-view-pf-additional-info-item-stacked">
+                        <div class="list-view-pf-additional-info-item list-view-pf-additional-info-item-stacked" ng-if="storage.type === 'replicated'">
                             <strong>Replicas</strong>{{storage.replicas }}
+                        </div>
+                        <div class="list-view-pf-additional-info-item list-view-pf-additional-info-item-stacked" ng-if="storage.type === 'erasure_coded'">
+                            <strong>EC profile</strong>{{storages.ecprofiles[storage.options1.ecprofile]}}
                         </div>
                         <div class="list-view-pf-additional-info-item list-view-pf-additional-info-item-stacked">
                             <strong>OSDs</strong>{{storage.slus.length }}
