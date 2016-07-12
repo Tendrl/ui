@@ -124,7 +124,7 @@ export class DashboardController {
         this.utilization.config.chartId = "utilizationChart";
         this.utilization.config.thresholds = {'warning':'60','error':'90'};
         this.utilization.config.centerLabelFn = () => {
-              return usage.percentused.toFixed(1) + "% Used";
+              return ((usage.used * 100)/usage.total).toFixed(1) + "% Used";
         };
         this.utilization.config.tooltipFn = (d) => {
               return '<span class="donut-tooltip-pf"style="white-space: nowrap;">' +
@@ -166,14 +166,15 @@ export class DashboardController {
     }
 
     public getCpuUtilization(timeSlot: any) {
-        this.setGraphUtilization({"total":100,"used":this.summary.utilizations.cpupercentageusage}, "cpu");
+        var total = this.summary.utilizations.cpupercentageusage > 0 ? 100 : 0;
+        this.setGraphUtilization({"total":total,"used":this.summary.utilizations.cpupercentageusage}, "cpu");
         this.serverService.getSystemCpuUtilization(timeSlot.value).then((cpu_utilization) => {
             this.setGraphData(cpu_utilization,"cpu","","%","large");
         });
     }
 
     public getMemoryUtilization(timeSlot: any) {
-        this.setGraphUtilization({"total":100,"used":this.summary.utilizations.memoryusage.percentused}, "memory");
+        this.setGraphUtilization({"total":this.summary.utilizations.memoryusage.total,"used":this.summary.utilizations.memoryusage.used}, "memory");
         this.serverService.getSystemMemoryUtilization(timeSlot.value).then((memory_utilization) => {
             this.setGraphData(memory_utilization,"memory","","%","large");
         });
@@ -207,7 +208,7 @@ export class DashboardController {
                      '</span>';
         };
         this.systemUtilization[graphName].config.centerLabelFn = () => {
-              return usage.used.toFixed(1) + "% Used";
+              return ((usage.used * 100)/usage.total).toFixed(1) + "% Used";
         };
     }
 

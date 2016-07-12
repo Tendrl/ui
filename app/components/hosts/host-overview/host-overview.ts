@@ -60,35 +60,36 @@ export class HostOverviewController {
     }
 
     public getCpuUtilization(timeSlot: any) {
-        this.setGraphUtilization({"total":100,"used": this.host.utilizations.cpuusage.percentused}, "cpu");
+        var total = this.host.utilizations.cpuusage.percentused > 0 ? 100 : 0;
+        this.setGraphUtilization({"total":total,"used": this.host.utilizations.cpuusage.percentused}, "cpu");
         this.serverService.getHostCpuUtilization(this.host.nodeid,timeSlot.value).then((cpu_utilization) => {
             this.setGraphData(cpu_utilization,"cpu","","%","large");
         });
     }
 
     public getMemoryUtilization(timeSlot: any) {
-        this.setGraphUtilization({"total":100,"used": this.host.utilizations.memoryusage.percentused}, "memory");
+        this.setGraphUtilization({"total":this.host.utilizations.memoryusage.total,"used": this.host.utilizations.memoryusage.used}, "memory");
         this.serverService.getHostMemoryUtilization(this.host.nodeid,timeSlot.value).then((memory_utilization) => {
             this.setGraphData(memory_utilization,"memory","","%","large");
         });
     }
 
     public getSwapUtilization(timeSlot: any) {
-        this.setGraphUtilization({"total":100,"used": this.host.utilizations.swapusage.percentused}, "swap");
+        this.setGraphUtilization({"total":this.host.utilizations.swapusage.total,"used": this.host.utilizations.swapusage.used}, "swap");
         this.serverService.getHostSwapUtilization(this.host.nodeid,timeSlot.value).then((swap_utilization) => {
             this.setGraphData(swap_utilization,"swap","","%","large");
         });
     }
 
     public getStorageUtilization(timeSlot: any) {
-        this.setGraphUtilization({"total":100,"used": this.host.utilizations.storageusage.percentused}, "storage");
+        this.setGraphUtilization({"total":this.host.utilizations.storageusage.total,"used": this.host.utilizations.storageusage.used}, "storage");
         this.serverService.getHostStorageUtilization(this.host.nodeid,timeSlot.value).then((storage_utilization) => {
             this.setGraphData(storage_utilization,"storage","","%","large");
         });
     }
 
     public getNetworkUtilization(timeSlot: any) {
-        this.setGraphUtilization({"total":100,"used": this.host.utilizations.networkusage.percentused}, "network");
+        this.setGraphUtilization({"total":this.host.utilizations.networkusage.total,"used": this.host.utilizations.networkusage.used}, "network");
         this.serverService.getHostNetworkUtilization(this.host.nodeid,timeSlot.value).then((network_utilization) => {
             this.setGraphData(network_utilization,"network","","%","large");
         });
@@ -122,7 +123,7 @@ export class HostOverviewController {
                      '</span>';
         };
         this.donutCharts[graphName].config.centerLabelFn = () => {
-              return usage.used.toFixed(1) + "%";
+              return ((usage.used * 100)/usage.total).toFixed(1) + "%";
         };
         this.isLoading.donutChartsData = false;
     }

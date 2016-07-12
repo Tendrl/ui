@@ -15,9 +15,16 @@
                                 <div class="card-pf-body">
                                     <center><i ng-if="clusterdetail.isLoading.clusterUtilizationData" class="fa fa-spinner fa-pulse fa-3x fa-fw"></i></center>
                                     <div ng-if="!clusterdetail.isLoading.clusterUtilizationData">
-                                        <div pf-donut-pct-chart config="clusterdetail.clusterUtilization.config" data="clusterdetail.clusterUtilization.data" center-label="clusterdetail.clusterUtilization.label"></div>
+                                        <div ng-if="clusterdetail.clusterUtilization.data.total === 0" class="empty-chart-content no-data-available">
+                                            <span class="pficon pficon-info"></span>
+                                            <span>No data available</span>
+                                        </div>
+                                        <div ng-if="clusterdetail.clusterUtilization.data.total > 0">
+                                            <div pf-donut-pct-chart config="clusterdetail.clusterUtilization.config" data="clusterdetail.clusterUtilization.data" center-label="clusterdetail.clusterUtilization.label">
+                                            </div>
+                                            <p><small class="cluster-size-label"><label>{{clusterdetail.capacity.used | bytes }}</label> of {{clusterdetail.capacity.total | bytes}} Used</small></p>
+                                        </div>
                                     </div>
-                                    <p ng-if="!clusterdetail.isLoading.clusterUtilizationData"><small class="cluster-size-label"><label>{{clusterdetail.capacity.used | bytes }}</label> of {{clusterdetail.capacity.total | bytes}} Used</small></p>
                                 </div>
                             </div>
                             <div class="col-md-6 cluster-utilization">
@@ -227,6 +234,12 @@
                             <div class="col-xs-12 col-sm-12 col-md-3">
                                 <div class="card-pf-body">
                                     <center><label>CPU</label></center>
+                                    <div ng-if="clusterdetail.systemUtilization.cpu.data.total === 0">
+                                        <div class="empty-chart-content no-data-available">
+                                            <span class="pficon pficon-info"></span>
+                                            <span>No data available</span>
+                                        </div>
+                                    </div>
                                     <div ng-if="clusterdetail.systemUtilization.cpu.data.total > 0">
                                         <div pf-donut-pct-chart config="clusterdetail.systemUtilization.cpu.config" data="clusterdetail.systemUtilization.cpu.data" center-label="clusterdetail.systemUtilization.cpu.label">
                                         </div>
@@ -239,6 +252,12 @@
                             <div class="col-xs-12 col-sm-12 col-md-3">
                                 <div class="card-pf-body">
                                     <center><label>Memory</label></center>
+                                    <div ng-if="clusterdetail.systemUtilization.memory.data.total === 0">
+                                        <div class="empty-chart-content no-data-available">
+                                            <span class="pficon pficon-info"></span>
+                                            <span>No data available</span>
+                                        </div>
+                                    </div>
                                     <div ng-if="clusterdetail.systemUtilization.memory.data.total > 0">
                                         <div pf-donut-pct-chart config="clusterdetail.systemUtilization.memory.config" data="clusterdetail.systemUtilization.memory.data" center-label="clusterdetail.systemUtilization.memory.label">
                                         </div>

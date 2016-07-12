@@ -170,7 +170,7 @@ export class ClusterDetailController {
                      '</span>';
         };
         this.clusterUtilization.config.centerLabelFn = () => {
-              return usage.percentused.toFixed(1) + "% Used";
+              return ((usage.used * 100)/usage.total).toFixed(1) + "% Used";
         };
         this.isLoading.clusterUtilizationData = false;
     }
@@ -206,14 +206,15 @@ export class ClusterDetailController {
     }
 
     public getCpuUtilization(timeSlot: any) {
-        this.setGraphUtilization({"total":100,"used":this.utilizations.cpupercentageusage},'cpu');
+        var total = this.utilizations.cpupercentageusage > 0 ? 100 : 0;
+        this.setGraphUtilization({"total":total,"used":this.utilizations.cpupercentageusage},'cpu');
         this.clusterService.getClusterCpuUtilization(this.id,timeSlot.value).then((cpu_utilization) => {
             this.setGraphData(cpu_utilization,"cpu","","%","large");
         });
     }
 
     public getMemoryUtilization(timeSlot: any) {
-        this.setGraphUtilization({"total":100,"used":this.utilizations.memoryusage.percentused},'memory');
+        this.setGraphUtilization({"total":this.utilizations.memoryusage.total,"used":this.utilizations.memoryusage.used},'memory');
         this.clusterService.getClusterMemoryUtilization(this.id,timeSlot.value).then((memory_utilization) => {
             this.setGraphData(memory_utilization,"memory","","%","large");
         });
@@ -247,7 +248,7 @@ export class ClusterDetailController {
                      '</span>';
         };
         this.systemUtilization[value].config.centerLabelFn = () => {
-              return usage.used.toFixed(1) + "% Used";
+              return ((usage.used * 100)/usage.total).toFixed(1) + "% Used";
         };
     }
 

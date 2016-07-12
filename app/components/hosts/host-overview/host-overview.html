@@ -101,11 +101,18 @@
                                 <div class="col-xs-12 col-sm-6 col-md-3">
                                     <center><i ng-if="hostoverview.isLoading.donutChartsData || hostoverview.isLoading.trendsChartsData" class="fa fa-spinner fa-pulse fa-3x fa-fw"></i></center>
                                     <div ng-if="!hostoverview.isLoading.donutChartsData && !hostoverview.isLoading.trendsChartsData" class="card-pf-body">
-                                        <div class="row">
+                                        <div class="row" ng-if="hostoverview.donutCharts.cpu.data.total === 0">
+                                            <center>
+                                                <strong>CPU</strong>
+                                                <div class="empty-chart-content no-data-available">
+                                                    <span class="pficon pficon-info"></span>
+                                                    <span>No data available</span>
+                                                </div>
+                                            </center>
+                                        </div>
+                                        <div class="row" ng-if="hostoverview.donutCharts.cpu.data.total > 0">
                                             <div class="col-xs-12 col-sm-12 col-md-7 col-lg-7">
-                                                <div ng-if="hostoverview.donutCharts.cpu.data.total > 0">
-                                                    <div pf-donut-pct-chart config="hostoverview.donutCharts.cpu.config" data="hostoverview.donutCharts.cpu.data" center-label="hostoverview.donutCharts.cpu.label">
-                                                    </div>
+                                                <div pf-donut-pct-chart config="hostoverview.donutCharts.cpu.config" data="hostoverview.donutCharts.cpu.data" center-label="hostoverview.donutCharts.cpu.label">
                                                 </div>
                                             </div>
                                             <div class="col-xs-12 col-sm-12 col-md-5 col-lg-5">
@@ -129,11 +136,18 @@
                                 <div class="col-xs-12 col-sm-6 col-md-3">
                                     <center><i ng-if="hostoverview.isLoading.donutChartsData || hostoverview.isLoading.trendsChartsData" class="fa fa-spinner fa-pulse fa-3x fa-fw"></i></center>
                                     <div ng-if="!hostoverview.isLoading.donutChartsData && !hostoverview.isLoading.trendsChartsData" class="card-pf-body">
-                                        <div class="row">
+                                        <div class="row" ng-if="hostoverview.donutCharts.memory.data.total === 0">
+                                            <center>
+                                                <strong>Memory</strong>
+                                                <div class="empty-chart-content no-data-available">
+                                                    <span class="pficon pficon-info"></span>
+                                                    <span>No data available</span>
+                                                </div>
+                                            </center>
+                                        </div>
+                                        <div class="row" ng-if="hostoverview.donutCharts.memory.data.total > 0">
                                             <div class="col-xs-12 col-sm-12 col-md-7 col-lg-7">
-                                                <div ng-if="hostoverview.donutCharts.memory.data.total > 0">
-                                                    <div pf-donut-pct-chart config="hostoverview.donutCharts.memory.config" data="hostoverview.donutCharts.memory.data" center-label="hostoverview.donutCharts.memory.label">
-                                                    </div>
+                                                <div pf-donut-pct-chart config="hostoverview.donutCharts.memory.config" data="hostoverview.donutCharts.memory.data" center-label="hostoverview.donutCharts.memory.label">
                                                 </div>
                                             </div>
                                             <div class="col-xs-12 col-sm-12 col-md-5 col-lg-5">
@@ -157,11 +171,18 @@
                                 <div class="col-xs-12 col-sm-6 col-md-3">
                                     <center><i ng-if="hostoverview.isLoading.donutChartsData || hostoverview.isLoading.trendsChartsData" class="fa fa-spinner fa-pulse fa-3x fa-fw"></i></center>
                                     <div ng-if="!hostoverview.isLoading.donutChartsData && !hostoverview.isLoading.trendsChartsData" class="card-pf-body">
-                                        <div class="row">
+                                        <div class="row" ng-if="hostoverview.donutCharts.swap.data.total === 0">
+                                            <center>
+                                                <strong>Swap</strong>
+                                                <div class="empty-chart-content no-data-available">
+                                                    <span class="pficon pficon-info"></span>
+                                                    <span>No data available</span>
+                                                </div>
+                                            </center>
+                                        </div>
+                                        <div class="row" ng-if="hostoverview.donutCharts.swap.data.total > 0">
                                             <div class="col-xs-12 col-sm-12 col-md-7 col-lg-7">
-                                                <div ng-if="hostoverview.donutCharts.swap.data.total > 0">
-                                                    <div pf-donut-pct-chart config="hostoverview.donutCharts.swap.config" data="hostoverview.donutCharts.swap.data" center-label="hostoverview.donutCharts.swap.label">
-                                                    </div>
+                                                <div pf-donut-pct-chart config="hostoverview.donutCharts.swap.config" data="hostoverview.donutCharts.swap.data" center-label="hostoverview.donutCharts.swap.label">
                                                 </div>
                                             </div>
                                             <div class="col-xs-12 col-sm-12 col-md-5 col-lg-5">
@@ -185,11 +206,18 @@
                                 <div class="col-xs-12 col-sm-6 col-md-3">
                                     <center><i ng-if="hostoverview.isLoading.donutChartsData || hostoverview.isLoading.trendsChartsData" class="fa fa-spinner fa-pulse fa-3x fa-fw"></i></center>
                                     <div ng-if="!hostoverview.isLoading.donutChartsData && !hostoverview.isLoading.trendsChartsData" class="card-pf-body">
-                                        <div class="row">
+                                        <div class="row" ng-if="hostoverview.donutCharts.storage.data.total === 0">
+                                            <center>
+                                                <strong>Storage</strong>
+                                                <div class="empty-chart-content no-data-available">
+                                                    <span class="pficon pficon-info"></span>
+                                                    <span>No data available</span>
+                                                </div>
+                                            </center>
+                                        </div>
+                                        <div class="row" ng-if="hostoverview.donutCharts.storage.data.total > 0">
                                             <div class="col-xs-12 col-sm-12 col-md-7 col-lg-7">
-                                                <div ng-if="hostoverview.donutCharts.storage.data.total > 0">
-                                                    <div pf-donut-pct-chart config="hostoverview.donutCharts.storage.config" data="hostoverview.donutCharts.storage.data" center-label="hostoverview.donutCharts.storage.label">
-                                                    </div>
+                                                <div pf-donut-pct-chart config="hostoverview.donutCharts.storage.config" data="hostoverview.donutCharts.storage.data" center-label="hostoverview.donutCharts.storage.label">
                                                 </div>
                                             </div>
                                             <div class="col-xs-12 col-sm-12 col-md-5 col-lg-5">
@@ -233,11 +261,18 @@
                                 <div class="col-xs-12 col-sm-12 col-md-6">
                                     <center><i ng-if="hostoverview.isLoading.donutChartsData || hostoverview.isLoading.trendsChartsData" class="fa fa-spinner fa-pulse fa-3x fa-fw"></i></center>
                                     <div ng-if="!hostoverview.isLoading.donutChartsData && !hostoverview.isLoading.trendsChartsData" class="card-pf-body">
-                                        <div class="row">
+                                        <div class="row" ng-if="hostoverview.donutCharts.network.data.total === 0">
+                                            <center>
+                                                <strong>Utilization</strong>
+                                                <div class="empty-chart-content no-data-available">
+                                                    <span class="pficon pficon-info"></span>
+                                                    <span>No data available</span>
+                                                </div>
+                                            </center>
+                                        </div>
+                                        <div class="row" ng-if="hostoverview.donutCharts.network.data.total > 0">
                                             <div class="col-xs-12 col-sm-12 col-md-7 col-lg-7">
-                                                <div ng-if="hostoverview.donutCharts.network.data.total > 0">
-                                                    <div pf-donut-pct-chart config="hostoverview.donutCharts.network.config" data="hostoverview.donutCharts.network.data" center-label="hostoverview.donutCharts.network.label">
-                                                    </div>
+                                                <div pf-donut-pct-chart config="hostoverview.donutCharts.network.config" data="hostoverview.donutCharts.network.data" center-label="hostoverview.donutCharts.network.label">
                                                 </div>
                                             </div>
                                             <div class="col-xs-12 col-sm-12 col-md-5 col-lg-5">
