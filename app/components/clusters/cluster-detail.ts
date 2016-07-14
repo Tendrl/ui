@@ -186,12 +186,12 @@ export class ClusterDetailController {
         this.utilizationByProfile.profiles = [];
         var othersProfile = { "used": 0, "total": 0};
         Object.keys(profiles).forEach((profile) => {
-            var usedData = profiles[profile]["utilization"];
+            var usedData = profiles[profile]["Utilization"];
             if(profile === 'default' || profile === 'sas' || profile === 'ssd') {
                 this.utilizationByProfile.profiles.push({ "usage": usedData, "subtitle": profile });
             }else {
-                othersProfile.used = othersProfile.used + profiles[profile]["utilization"]["used"];
-                othersProfile.total = othersProfile.total + profiles[profile]["utilization"]["total"];
+                othersProfile.used = othersProfile.used + profiles[profile]["Utilization"]["used"];
+                othersProfile.total = othersProfile.total + profiles[profile]["Utilization"]["total"];
             }
         });
         if (othersProfile.total > 0) {
