@@ -15,15 +15,6 @@
 .nav-pf-vertical > .list-group > .list-group-item:hover > a .pficon {
   color: #fff;
 }
-.nav-pf-vertical > .list-group > .list-group-item.active > a:before {
-  background: $usmcolor;
-}
-.list-group-item.active,
-.list-group-item.active:hover,
-.list-group-item.active:focus {
-  background-color: $usmcolor;
-  border-color: $usmcolor;
-}
 .persistent-secondary-header > a,
 .persistent-secondary-header > a:hover{
     color: #fff;
