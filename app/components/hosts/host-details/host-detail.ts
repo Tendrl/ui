@@ -26,7 +26,9 @@ export class HostDetailController {
             this.activeTab = this.tabList.Overview;
             this.id = this.routeParamsSvc['id'];
             this.serverService.getList().then((hosts: Array<any>) => {
-                this.hostList = hosts;
+                this.hostList = _.filter(hosts, (host) => {
+                    return host.state === 2; /* Only Active host will list down in drop-down list*/
+                });
                 this.host = _.find(hosts, (host) => {
                     return host.nodeid === this.id;
                 });

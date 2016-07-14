@@ -38,7 +38,7 @@
         <div class="list-group-item">
             <div class="list-view-pf-actions">
                 <div class="dropdown pull-right dropdown-kebab-pf">
-                    <button
+                    <button ng-if="host.state !== 2 || host.cluster_name === 'Unassigned'"
                         aria-expanded="false" aria-haspopup="true"
                         bs-dropdown="dropdown" type="button"
                         id="dropdownKebabRight" class="btn btn-link dropdown-toggle">
@@ -50,7 +50,7 @@
                                 <i class="fa fa-repeat"></i> Reinitialize
                             </a>
                         </li>
-                        <li ng-if="host.clusterid === '00000000-0000-0000-0000-000000000000'">
+                        <li>
                             <a ng-click="hosts.removeHost(host)">
                                 <i class="fa fa-trash"></i> Forget
                             </a>
@@ -118,8 +118,9 @@
                             Role <strong ng-bind="hosts.getNodeTypeTitle(host)"></strong>
                         </div>
                         <div class="list-view-pf-additional-info-item deflex">
-                            <span ng-class="(host.almwarncount + host.almcritcount) > 0 ? 'pficon pficon-error-circle-o' : 'pficon pficon-ok'"></span>
-                            <span ng-bind="((host.almwarncount + host.almcritcount) || 'No') + ' Alert(s)'"></span>
+                            <span class="pficon" ng-class="(host.almwarncount + host.almcritcount)>0? ((host.almcritcount > 0)? 'pficon-error-circle-o' : 'pficon-warning-triangle-o' ):'pficon-ok'"></span>
+                            <a ng-href="#/events?nodename={{host.hostname}}" ng-if="(host.almwarncount + host.almcritcount) > 0"><strong>{{host.almwarncount + host.almcritcount}} </strong>Alerts</a>
+                            <strong ng-if="(host.almwarncount + host.almcritcount) === 0">0 Alerts</strong>
                         </div>
                     </div>
                 </div>
