@@ -12,7 +12,6 @@ export class ConfigDetailController {
     ];
 
     constructor(private clusterService: ClusterService) {
-        this.configData = {};
         this.clusterService.getClusterConfig(this.id).then((cluster_config: any) => {
             this.configData = cluster_config;
         });
