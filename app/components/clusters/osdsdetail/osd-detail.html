@@ -215,10 +215,8 @@
             <h2>
               <i ng-class="osddetail.filterList.OSDStatus[osddetail.selection.activeOsd.status].icon"></i>
               <label ng-bind="osddetail.selection.activeOsd.name"></label>
-              <span>
-                <button ng-if="osddetail.selection.activeOsd.type === 1" class="btn btn-success">Data</button>
-                <button ng-if="osddetail.selection.activeOsd.type === 2" class="btn btn-success">Journal</button>
-              </span>
+              <span ng-if="osddetail.selection.activeOsd.type === 1" class="badge">Data</span>
+              <span ng-if="osddetail.selection.activeOsd.type === 2" class="badge">Journal</span>
             </h2>
             <hr>
             <div class="selected-osd-detail">
