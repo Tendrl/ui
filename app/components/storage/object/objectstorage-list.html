@@ -85,7 +85,7 @@
                 </div>
                 <div class="list-view-pf-body">
                     <div class="list-view-pf-additional-info justify-equal-space-around">
-                    <div class="list-view-pf-additional-info-item list-view-pf-additional-info-item-stacked poolNameBox">
+                    <div class="list-view-pf-additional-info-item list-view-pf-additional-info-item-stacked pool-name-box">
                         <div class="list-group-item-text">
                                 <strong ng-bind="storage.name"></strong>
                                 <small> on</small>
@@ -108,7 +108,7 @@
                                 <chart-size chart-height="80"></chart-size>
                                 <chart-tooltip show-tooltip="false"></chart-tooltip>
                             </c3chart>
-                            <div ng-class="{'overlap-donut-left' : (storage.usage.total > 0)}">
+                            <div>
                             <strong ng-bind=" storage.usage.used | bytes "></strong> of {{ storage.usage.total | bytes }}
                             used
                             </div>
@@ -125,7 +125,7 @@
                         <div class="list-view-pf-additional-info-item list-view-pf-additional-info-item-stacked">
                             <strong>PGs</strong>{{storage.options1.pg_num }}
                         </div>
-                        <div class="list-view-pf-additional-info-item list-view-pf-additional-info-item-stacked">
+                        <div class="list-view-pf-additional-info-item list-view-pf-additional-info-item-stacked pool-name-box">
                             <strong>Quotas</strong>
                             <span ng-if="storage.quota_enabled">
                                 <span ng-if="storage.quota_params.quota_max_bytes !== undefined">{{(storage.quota_params.quota_max_bytes / storage.usage.total *100)|number:0}} %</span>
