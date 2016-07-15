@@ -12,7 +12,7 @@
                                 <span ng-if="!dash.isLoading.summaryData">{{dash.clusters.total}}</span> Clusters
                             </h2>
                             <div class="card-pf-body cluster-info">
-                                <i ng-if="dash.isLoading.summaryData" class="fa fa-spinner fa-pulse fa-3x fa-fw"></i>
+                                <div ng-if="dash.isLoading.summaryData" class="spinner"></div>
                                 <p ng-if="!dash.isLoading.summaryData" class="card-pf-aggregate-status-notifications">
                                     <span ng-if="dash.clusters.error>0" class="card-pf-aggregate-status-notification"><a href="#/clusters?status=error&status=warning" title="{{dash.clusters.error}} clusters need attention">
                                         <span class="pficon pficon-error-circle-o"></span>
@@ -42,7 +42,7 @@
                                 </div>
                                 <div class="row">
                                     <div class="col-xs-12 col-sm-12 col-md-5">
-                                        <center><i ng-if="dash.isLoading.utilizationData" class="fa fa-spinner fa-pulse fa-3x fa-fw"></i></center>
+                                        <center><div ng-if="dash.isLoading.utilizationData" class="spinner"></div></center>
                                         <div ng-if="!dash.isLoading.utilizationData">
                                             <div ng-if="dash.utilization.data.total === 0" class="empty-chart-content no-data-available">
                                                 <span class="pficon pficon-info"></span>
@@ -59,7 +59,7 @@
                                         <div class="utilization">
                                             <div class="row margin-for-storage-profile">
                                                 <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                                                    <center><i ng-if="dash.isLoading.trendsChartsData" class="fa fa-spinner fa-pulse fa-3x fa-fw"></i></center>
+                                                    <center><div ng-if="dash.isLoading.trendsChartsData" class="spinner"></div></center>
                                                     <div ng-if="!dash.isLoading.trendsChartsData">
                                                         <div ng-if="dash.trendsCharts.overall.data.total>0" pf-trends-chart config="dash.trendsCharts.overall.config" chart-data="dash.trendsCharts.overall.data">
                                                         </div>
@@ -82,7 +82,7 @@
                                         </h2>
                                     </div>
                                     <div class="card-pf-body">
-                                        <center><i ng-if="dash.isLoading.summaryData" class="fa fa-spinner fa-pulse fa-3x fa-fw"></i></center>
+                                        <center><div ng-if="dash.isLoading.summaryData" class="spinner"></div></center>
                                         <div ng-if="!dash.isLoading.summaryData" ng-repeat="profile in dash.utilizationByProfile.profiles" pf-utilization-bar-chart
                                         chart-data="profile.usage" chart-title="profile.subtitle"
                                          threshold-error="dash.utilizationByProfile.threshold.critical" threshold-warning="dash.utilizationByProfile.threshold.warning" footer-label-format='percent'>
@@ -104,7 +104,7 @@
                                 <span ng-if="!dash.isLoading.summaryData">{{dash.hosts.total}}</span> Hosts
                             </h2>
                             <div class="card-pf-body">
-                                <center><i ng-if="dash.isLoading.summaryData" class="fa fa-spinner fa-pulse fa-3x fa-fw"></i></center>
+                                <center><div ng-if="dash.isLoading.summaryData" class="spinner"></div></center>
                                 <p ng-if="!dash.isLoading.summaryData" class="card-pf-aggregate-status-notifications">
                                     <span ng-if="dash.hosts.error>0" class="card-pf-aggregate-status-notification"><a href="#/hosts?status=error&status=warning" title="{{dash.hosts.error}} hosts down">
                                         <span class="fa fa-arrow-circle-o-down"></span>
@@ -131,7 +131,7 @@
                                 <span ng-if="!dash.isLoading.summaryData">{{dash.monitors.total}}</span> Monitors
                             </h2>
                             <div class="card-pf-body">
-                                <center><i ng-if="dash.isLoading.summaryData" class="fa fa-spinner fa-pulse fa-3x fa-fw"></i></center>
+                                <center><div ng-if="dash.isLoading.summaryData" class="spinner"></div></center>
                                 <p ng-if="!dash.isLoading.summaryData" class="card-pf-aggregate-status-notifications">
                                     <span ng-if="dash.monitors.down>0" class="card-pf-aggregate-status-notification"><a href="#/hosts?status=error&status=warning&role=MON" title="{{dash.monitors.down}} monitors down">
                                         <span class="fa fa-arrow-circle-o-down"></span>
@@ -154,7 +154,7 @@
                                 <span ng-if="!dash.isLoading.summaryData">{{dash.pgs.total}}</span> PGs
                             </h2>
                             <div class="card-pf-body">
-                                <center><i ng-if="dash.isLoading.summaryData" class="fa fa-spinner fa-pulse fa-3x fa-fw"></i></center>
+                                <center><div ng-if="dash.isLoading.summaryData" class="spinner"></div></center>
                                 <p ng-if="!dash.isLoading.summaryData" class="card-pf-aggregate-status-notifications">
                                     <span ng-if="dash.pgs.error>0" class="card-pf-aggregate-status-notification">
                                         <span class="pficon pficon-error-circle-o"></span>
@@ -181,7 +181,7 @@
                                 <span ng-if="!dash.isLoading.summaryData">{{dash.pools.total}}</span> Pools
                             </h2>
                             <div class="card-pf-body">
-                                <center><i ng-if="dash.isLoading.summaryData" class="fa fa-spinner fa-pulse fa-3x fa-fw"></i></center>
+                                <center><div ng-if="dash.isLoading.summaryData" class="spinner"></div></center>
                                 <p ng-if="!dash.isLoading.summaryData" class="card-pf-aggregate-status-notifications">
                                     <span ng-if="dash.pools.down>0" class="card-pf-aggregate-status-notification"><a href="#/storage?status=error&status=warning" title="{{dash.pools.down}} pools down">
                                         <span class="fa fa-arrow-circle-o-down"></span>
@@ -204,7 +204,7 @@
                                 <span ng-if="!dash.isLoading.summaryData">{{dash.osds.total}}</span> OSDs
                             </h2>
                             <div class="card-pf-body">
-                                <center><i ng-if="dash.isLoading.summaryData" class="fa fa-spinner fa-pulse fa-3x fa-fw"></i></center>
+                                <center><div ng-if="dash.isLoading.summaryData" class="spinner"></div></center>
                                 <p ng-if="!dash.isLoading.summaryData" class="card-pf-aggregate-status-notifications">
                                     <span ng-if="dash.osds.down>0" class="card-pf-aggregate-status-notification"><a href="#/clusters?slu_status=down" title="{{dash.osds.down}} OSDs down">
                                         <span class="fa fa-arrow-circle-o-down"></span>
@@ -231,7 +231,7 @@
                                 <span ng-if="!dash.isLoading.summaryData">{{dash.objects.total}}</span> Objects
                             </h2>
                             <div class="card-pf-body">
-                                <center><i ng-if="dash.isLoading.summaryData" class="fa fa-spinner fa-pulse fa-3x fa-fw"></i></center>
+                                <center><div ng-if="dash.isLoading.summaryData" class="spinner"></div></center>
                                 <p ng-if="!dash.isLoading.summaryData" class="card-pf-aggregate-status-notifications">
                                     <span ng-if="dash.objects.criticalAlerts>0" class="card-pf-aggregate-status-notification">
                                         <span class="pficon pficon-warning-triangle-o"></span>
@@ -274,7 +274,7 @@
                                             <div pf-donut-pct-chart config="dash.systemUtilization.cpu.config" data="dash.systemUtilization.cpu.data" center-label="dash.systemUtilization.cpu.label">
                                             </div>
                                         </div>
-                                        <center><i ng-if="dash.isLoading.trendsChartsData" class="fa fa-spinner fa-pulse fa-3x fa-fw"></i></center>
+                                        <center><div ng-if="dash.isLoading.trendsChartsData" class="spinner"></div></center>
                                         <div ng-if="!dash.isLoading.trendsChartsData" pf-trends-chart config="dash.trendsCharts.cpu.config" chart-data="dash.trendsCharts.cpu.data">
                                         </div>
                                     </div>
@@ -290,22 +290,22 @@
                                             <div pf-donut-pct-chart config="dash.systemUtilization.memory.config" data="dash.systemUtilization.memory.data" center-label="dash.systemUtilization.memory.label">
                                             </div>
                                         </div>
-                                        <center><i ng-if="dash.isLoading.trendsChartsData" class="fa fa-spinner fa-pulse fa-3x fa-fw"></i></center>
+                                        <center><div ng-if="dash.isLoading.trendsChartsData" class="spinner"></div></center>
                                         <div ng-if="!dash.isLoading.trendsChartsData" pf-trends-chart config="dash.trendsCharts.memory.config" chart-data="dash.trendsCharts.memory.data">
                                         </div>
                                     </div>
                                 </div>
                                 <div class="col-xs-12 col-sm-12 col-md-6">
                                     <div class="card-pf-body">
-                                        <center><i ng-if="dash.isLoading.trendsChartsData" class="fa fa-spinner fa-pulse fa-3x fa-fw"></i></center>
+                                        <center><div ng-if="dash.isLoading.trendsChartsData" class="spinner"></div></center>
                                         <div ng-if="!dash.isLoading.trendsChartsData" pf-trends-chart config="dash.trendsCharts.iops.config" chart-data="dash.trendsCharts.iops.data"></div>
                                     </div>
                                     <div class="card-pf-body">
-                                        <center><i ng-if="dash.isLoading.trendsChartsData" class="fa fa-spinner fa-pulse fa-3x fa-fw"></i></center>
+                                        <center><div ng-if="dash.isLoading.trendsChartsData" class="spinner"></div></center>
                                         <div ng-if="!dash.isLoading.trendsChartsData" pf-trends-chart config="dash.trendsCharts.throughput.config" chart-data="dash.trendsCharts.throughput.data"></div>
                                     </div>
                                     <div class="card-pf-body">
-                                        <center><i ng-if="dash.isLoading.trendsChartsData" class="fa fa-spinner fa-pulse fa-3x fa-fw"></i></center>
+                                        <center><div ng-if="dash.isLoading.trendsChartsData" class="spinner"></div></center>
                                         <div ng-if="!dash.isLoading.trendsChartsData" pf-trends-chart config="dash.trendsCharts.latency.config" chart-data="dash.trendsCharts.latency.data"></div>
                                     </div>
                                 </div>
