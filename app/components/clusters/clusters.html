@@ -86,7 +86,7 @@
                                 <c3chart bindto-id="donut-pool-usage-chart-{{$index}}" ng-if="cluster.total_size>0">
                                     <chart-column column-id="Free" column-values="{{100 - cluster.percent_used | number:1}}" column-color="#CCCCCC" column-type="donut"
                                     />
-                                    <chart-column column-id="Using" column-values="{{cluster.percent_used | number:1}}" column-color="{{cluster.percent_used >= 90 ? '#CC0000' : cluster.percent_used >= 80 ? '#EC7A08' : '#3F9C35'}}"
+                                    <chart-column column-id="Using" column-values="{{cluster.percent_used | number:1}}" column-color="{{cluster.percent_used >= 90 ? '#CC0000' : cluster.percent_used >= 75 ? '#EC7A08' : '#3F9C35'}}"
                                     column-type="donut" />
                                     <chart-donut title="{{cluster.percent_used | number:1}}%" width="5" show-label="false" />
                                     <chart-legend show-legend="false"></chart-legend>
