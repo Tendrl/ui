@@ -72,7 +72,7 @@ export class RouteConfig {
 			controllerAs: 'storage'
 		}).when('/rbds', {
 			templateUrl: 'views/storage/blockdevice/blockdevices.html',
-			name: 'blockdevices'
+			name: 'storage'
 		}).when('/storage/new/block/:clusterid', {
 			templateUrl: 'views/storage/blockdevice/blockdevice-new.html',
 			name: 'storage',
@@ -80,7 +80,7 @@ export class RouteConfig {
 			controllerAs: 'storage'
 		}).when('/pools', {
 			templateUrl: 'views/pools/pools.html',
-			name: 'pools',
+			name: 'storage',
 			controller: 'PoolController',
 			controllerAs: 'pools'
 		}).when('/pools/new', {
@@ -109,16 +109,17 @@ export class RouteConfig {
 			templateUrl: 'views/admin/ldap-settings.html',
 			controller: 'LdapConfigController',
 			controllerAs: 'ldap',
-			name: 'ldap'
+			name: 'admin'
 		}).when('/admin/email', {
             templateUrl: 'views/admin/mail-settings.html',
             controller: 'EmailController',
             controllerAs: 'mail',
+            name: 'admin'
         }).when('/events', {
 			templateUrl: 'views/events/event-list.html',
 			controller: 'EventListController',
 			controllerAs: 'events',
-			name: 'events'
+			name: 'admin'
 		}).when('/events/:eventId', {
 			templateUrl: 'views/events/event-details.html',
 			controller: 'EventDetailController',
@@ -127,7 +128,7 @@ export class RouteConfig {
 			templateUrl: 'views/tasks/task-list.html',
 			controller: 'TaskListController',
 			controllerAs: 'tasks',
-			name: 'tasks'
+			name: 'admin'
 		}).when('/tasks/:taskId', {
 			templateUrl: 'views/tasks/task-details.html',
 			controller: 'TaskDetailController',

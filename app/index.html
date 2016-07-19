@@ -62,11 +62,23 @@
         </nav>
     </nav>
     <nav class="nav-pf-vertical nav-pf-vertical-with-secondary-nav" ng-if="currentURI != '/'">
-        <ul class="list-group" ng-controller="MenuController" ng-init=" $().setupVerticalNavigation(true);">
+        <ul class="list-group" ng-controller="MenuController">
             <li class="list-group-item" ng-repeat="menu in menus" ng-class="{'active':menu.active, 'persistent-secondary':menu.hasSubMenus}"
             data-target="#{{menu.label}}">
                 <a href="#{{menu.href}}"> <span ng-class="menu.icon"></span> <span class="list-group-item-value">{{menu.label}}</span> </a>
-                <div id="{{menu.label}}" class="nav-pf-persistent-secondary" ng-include="'views/base/sub-menu.tpl.html'" ng-if="menu.hasSubMenus"></div>
+                <div id="{{menu.label}}" class="nav-pf-persistent-secondary" ng-if="menu.hasSubMenus">
+                    <div class="persistent-secondary-header">
+                        <a class="secondary-collapse-toggle-pf cursor-pointer" data-toggle="collapse-secondary-nav"></a>
+                        <span>{{menu.label}}</span>
+                    </div>
+                    <ul class="list-group">
+                        <li class="list-group-item" ng-repeat="submenu in menu.subMenus" ng-class="{'active':submenu.active}">
+                            <a href="{{submenu.href}}">
+                                <span class="list-group-item-value" ng-bind="submenu.title"></span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
             </li>
         </ul>
     </nav>
@@ -81,12 +93,6 @@
     <div growl></div>
     <!-- inject:js -->
     <!-- endinject -->
-    <script>
-        $(document).ready(function() {
-    $().setupVerticalNavigation(true);
-  });
-
-    </script>
 </body>
 
 </html>

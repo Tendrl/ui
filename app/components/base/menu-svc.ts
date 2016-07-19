@@ -31,7 +31,8 @@ export class MenuService {
                 {
                     title: 'Pools',
                     id: 'pools',
-                    href: '#/storage'
+                    href: '#/storage',
+                    active: true
                 },
                 {
                     title: 'RBDs',
@@ -50,7 +51,8 @@ export class MenuService {
                 {
                     title: 'Events',
                     id: 'events',
-                    href: '#/events'
+                    href: '#/events',
+                    active: true
                 },
                 {
                     title: 'Tasks',

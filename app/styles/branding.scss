@@ -7,15 +7,3 @@
 .navbar-pf-vertical {
   border-top: 2px solid $usmcolor;
 }
-.nav-pf-vertical > .list-group > .list-group-item.active > a .fa,
-.nav-pf-vertical > .list-group > .list-group-item:hover > a .fa,
-.nav-pf-vertical > .list-group > .list-group-item.active > a .glyphicon,
-.nav-pf-vertical > .list-group > .list-group-item:hover > a .glyphicon,
-.nav-pf-vertical > .list-group > .list-group-item.active > a .pficon,
-.nav-pf-vertical > .list-group > .list-group-item:hover > a .pficon {
-  color: #fff;
-}
-.persistent-secondary-header > a,
-.persistent-secondary-header > a:hover{
-    color: #fff;
-}

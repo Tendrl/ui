@@ -14,6 +14,13 @@ export class MenuController {
         $scope.navigate = function(menu, parentMenu) {
             $location.path(menu.href)
         }
+        var deregisterfn = $rootScope.$on("$viewContentLoaded", function() {
+            var temp: any = $();
+            setTimeout(function() {
+               temp.setupVerticalNavigation(true);
+            }, 0);
+            deregisterfn();
+        });
         $rootScope.$on("$routeChangeSuccess", (event, current, prev) => {
             MenuService.setActive(current.name)
         });
