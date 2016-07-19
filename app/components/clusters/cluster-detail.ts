@@ -178,7 +178,7 @@ export class ClusterDetailController {
     public getUtilizationByProfile(profiles: any, monitoringplugins: any) {
         this.utilizationByProfile.threshold = {};
         let storageUtilizationThreshold  = _.find(monitoringplugins, function(element: any) {
-                return element.name === 'storage_utilization';
+                return element.name === 'storage_profile_utilization';
         })
         storageUtilizationThreshold.configs.forEach((config: any) => {
             this.utilizationByProfile.threshold[config.type] = config.value
