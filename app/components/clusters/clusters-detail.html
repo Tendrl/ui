@@ -3,7 +3,7 @@
         <ol class="breadcrumb custom-breadcrumb">
             <li><a ng-href="#/clusters">Clusters</a></li>
             <li>
-                <a href="" title="Last Synced: {{clusterdetail.cluster.updatedate | date : 'MMM d yyyy, hh:mm:ss a' }}">
+                <a href="" title=" {{clusterdetail.status[clusterdetail.cluster.status]}} &#10; Last Synced: {{clusterdetail.cluster.updatedate | date : 'MMM d yyyy, hh:mm:ss a' }}">
                     <span ng-if="clusterdetail.cluster.status===0" class="pficon pficon-ok"></span>
                     <span ng-if="clusterdetail.cluster.status===1" class="pficon pficon-warning-triangle-o"></span>
                     <span ng-if="clusterdetail.cluster.status===2" class="pficon pficon-error-circle-o"></span>

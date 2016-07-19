@@ -16,6 +16,7 @@ export class ClusterDetailController {
     private clusterHelpers: ClusterHelper;
     private clusterList: Array<any>;
     private cluster: any;
+    private status: Array<string>;
     private capacity: any;
     private id: any;
     private utilizations: any;
@@ -70,6 +71,7 @@ export class ClusterDetailController {
         private requestSvc: RequestService,
         private requestTrackingSvc: RequestTrackingService) {
 
+        this.status = ["Active", "Warning", "Error", "Unknown"];
         this.isLoading = { summaryData: true, clusterUtilizationData: true, trendsChartsData: true };
         this.clusterUtilization = { data: {}, config: {} };
         this.systemUtilization = {cpu:{data:{},config:{}},memory:{data:{},config:{}}};
