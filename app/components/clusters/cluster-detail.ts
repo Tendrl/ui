@@ -119,11 +119,14 @@ export class ClusterDetailController {
         });
         this.getOverallUtilization();
         this.clusterService.get(this.id).then((cluster) => this.loadCluster(cluster));
-        this.clusterService.getClusterSummary(this.id).then((summary) => this.loadClusterSummary(summary));
-        this.timer = this.intervalSvc(() => this.refreshRBDs(), 5000);
+        this.timer = this.intervalSvc(() => {
+            this.loadClusterSummary();
+            this.refreshRBDs();
+        }, 120 * 1000);
         this.scopeService.$on('$destroy', () => {
             this.intervalSvc.cancel(this.timer);
         });
+        this.loadClusterSummary();
         this.refreshRBDs();
     }
 
@@ -135,28 +138,30 @@ export class ClusterDetailController {
         this.cluster.updatedate = new Date(cluster.usage.updatedat.replace(/-/g,"/").split('.')[0]);
     }
 
-    public loadClusterSummary(summary) {
-        this.utilizations = summary.utilizations;
-        this.getClusterUtilization(summary.usage);
-        this.getUtilizationByProfile(summary.storageprofileusage, summary.monitoringplugins);
-        this.getMostUsedPools(summary.storageusage);
-        this.objects.total = summary.objectcount.num_objects;
-        this.objects.criticalAlerts = summary.objectcount.num_objects_degraded;
-        this.pools = summary.storagecount
-        this.osds = summary.slucount;
-        this.hosts = summary.nodescount;
-        /* Need to check whether "summary.providermonitoringdetails" is empty
-        object or not . because might be sometime it can be empty object */
-        if(summary.providermonitoringdetails.ceph) {
-            this.monitors = summary.providermonitoringdetails.ceph.monitor;
-            this.pgs = summary.providermonitoringdetails.ceph.pgnum;
-        }
-        /* In "changeTimeSlot" function calling cpu and memory utilization api
-        and that need "this.utilizations" data . so first we have this data from
-        api . than only will call this "changeTimeSlot" function. so that we will
-        have accurate data */
-        this.changeTimeSlot(this.selectedTimeSlot);
-        this.isLoading.summaryData = false;
+    public loadClusterSummary() {
+        this.clusterService.getClusterSummary(this.id).then((summary) => {
+            this.utilizations = summary.utilizations;
+            this.getClusterUtilization(summary.usage);
+            this.getUtilizationByProfile(summary.storageprofileusage, summary.monitoringplugins);
+            this.getMostUsedPools(summary.storageusage);
+            this.objects.total = summary.objectcount.num_objects;
+            this.objects.criticalAlerts = summary.objectcount.num_objects_degraded;
+            this.pools = summary.storagecount
+            this.osds = summary.slucount;
+            this.hosts = summary.nodescount;
+            /* Need to check whether "summary.providermonitoringdetails" is empty
+            object or not . because might be sometime it can be empty object */
+            if(summary.providermonitoringdetails.ceph) {
+                this.monitors = summary.providermonitoringdetails.ceph.monitor;
+                this.pgs = summary.providermonitoringdetails.ceph.pgnum;
+            }
+            /* In "changeTimeSlot" function calling cpu and memory utilization api
+            and that need "this.utilizations" data . so first we have this data from
+            api . than only will call this "changeTimeSlot" function. so that we will
+            have accurate data */
+            this.changeTimeSlot(this.selectedTimeSlot);
+            this.isLoading.summaryData = false;
+        });
     }
 
     public getClusterUtilization(usage: any) {
@@ -302,6 +307,7 @@ export class ClusterDetailController {
     }
 
     public getMostUsedPools(mostUsedPools) {
+        this.mostUsedPools = [];
         _.each(mostUsedPools, (pool) => {
             this.mostUsedPools.push({"title":pool["name"],"data": {total: 100, used: pool["usage"]["percentused"]}});
         });

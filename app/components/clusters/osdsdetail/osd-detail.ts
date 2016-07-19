@@ -21,6 +21,7 @@ export class OsdDetailController {
     private storageProfileArray: Array<any>;
     private selectByStorageProfile: any;
     private paramsObject: any;
+    private timer: ng.IPromise<any>;
 
     //Services that are used in this class.
     static $inject: Array<string> = [
@@ -30,6 +31,7 @@ export class OsdDetailController {
         '$scope',
         '$timeout',
         '$log',
+        '$interval',
         'ServerService',
         'ClusterService',
         'RequestService',
@@ -42,6 +44,7 @@ export class OsdDetailController {
         private scopeService: ng.IScope,
         private timeoutService: ng.ITimeoutService,
         private logService: ng.ILogService,
+        private intervalSvc: ng.IIntervalService,
         private serverService: ServerService,
         private clusterService: ClusterService,
         private requestSvc: RequestService,
@@ -93,6 +96,10 @@ export class OsdDetailController {
         ];
         this.selectByStorageProfile = { storageprofile: '' };
         this.totalSelectedOSDs = [];
+        this.timer = this.intervalSvc(() => this.getOSDs(), 120 * 1000 );
+        this.scopeService.$on('$destroy', () => {
+            this.intervalSvc.cancel(this.timer);
+        });
         this.getOSDs();
         this.paramsObject = locationService.search();
         if (Object.keys(this.paramsObject).length > 0) {
