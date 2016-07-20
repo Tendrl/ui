@@ -21,7 +21,7 @@ export class ObjectStorageController {
     private slusFiltered: SLU[];
     private name: string;
     private count: number = 1;
-    private types = ['Standard', 'Erasure Coded'];
+    private types = ['Standard'];
     private type = 'Standard';
     private replicas: number = 3;
     private ecprofiles = [{ k: 2, m: 1, text: '2+1', value: 'default' }, { k: 4, m: 2, text: '4+2', value: 'k4m2' }, { k: 6, m: 3, text: '6+3', value: 'k6m3' }, { k: 8, m: 4, text: '8+4', value: 'k8m4' }];
@@ -63,6 +63,9 @@ export class ObjectStorageController {
         private storageSvc: StorageService,
         private requestTrackingSvc: RequestTrackingService,
         private requestSvc: RequestService) {
+        if(this.poolWithRbd !== "true") {
+            this.types.push('Erasure Coded');
+        }
         let clusterId = $routeParams['clusterid'];
         this.clusterSvc.get(clusterId).then(cluster => {
             this.cluster = cluster;
