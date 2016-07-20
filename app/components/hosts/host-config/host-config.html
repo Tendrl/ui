@@ -31,11 +31,11 @@
         </tr>
         <tr>
           <td><strong>Physical Memory</strong></td>
-          <td ng-bind="hostconfig.host.memory.TotalSize | bytes "></td>
+          <td ng-bind="hostconfig.host.memory.TotalSize.toUpperCase() | bytes "></td>
         </tr>
         <tr>
           <td><strong>Swap Size</strong></td>
-          <td ng-bind="hostconfig.host.memory.SwapTotal | bytes "></td>
+          <td ng-bind="hostconfig.host.memory.SwapTotal.toUpperCase() | bytes "></td>
         </tr>
         <tr>
           <td><strong>SE Linux Mode</strong></td>

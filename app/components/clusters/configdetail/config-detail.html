@@ -27,15 +27,15 @@
         </tr>
         <tr>
           <td>OSD down-Out interval</td>
-          <td ng-bind="configdetail.configData.cluster_configs.mon_osd_down_out_interval"></td>
+          <td ng-bind="configdetail.configData.cluster_configs.mon_osd_down_out_interval + ' s'"></td>
         </tr>
         <tr>
           <td>OSD Report Timeout</td>
-          <td ng-bind="configdetail.configData.cluster_configs.mon_osd_report_timeout"></td>
+          <td ng-bind="configdetail.configData.cluster_configs.mon_osd_report_timeout + ' s'"></td>
         </tr>
         <tr>
           <td>Default Journal Size</td>
-          <td ng-bind="configdetail.configData.cluster_configs.osd_journal_size | bytes "></td>
+          <td ng-bind="configdetail.configData.cluster_configs.osd_journal_size+'MB' | bytes "></td>
         </tr>
         <tr>
           <td>OSD Max Backfills</td>
