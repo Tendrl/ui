@@ -73,7 +73,10 @@
                 <div class="list-view-pf-body">
                     <div class="list-view-pf-additional-info justify-equal-space-around">
                         <div class="list-view-pf-additional-info-item">
-                            <strong><a ng-href="#/clusters/{{cluster.clusterid}}" ng-bind="cluster.cluster_name"></a></strong>
+                            <strong>
+                                <a ng-if="cluster.state === 2" ng-href="#/clusters/{{cluster.clusterid}}" ng-bind="cluster.cluster_name"></a>
+                                <p ng-if="cluster.state !== 2" ng-bind="cluster.cluster_name"></p>
+                            </strong>
                         </div>
                             <div class="list-view-pf-additional-info-item" ng-if="cluster.state === 0">
                                 <div class="progress progress-striped active">
@@ -102,11 +105,17 @@
                         </div>
                         <div class="list-view-pf-additional-info-item">
                             <span class="pficon pficon-container-node"></span>
-                            <strong><a ng-href="#/clusters/{{cluster.clusterid}}?tab=Hosts" ng-bind="cluster.no_of_hosts"></a></strong> Hosts
+                            <strong>
+                                <a ng-if="cluster.state === 2" ng-href="#/clusters/{{cluster.clusterid}}?tab=Hosts" ng-bind="cluster.no_of_hosts"></a>
+                                <p ng-if="cluster.state !== 2" ng-bind="cluster.no_of_hosts"></p>
+                            </strong> Hosts
                         </div>
                         <div class="list-view-pf-additional-info-item">
                             <span class="fa  fa-database"></span>
-                            <strong><a ng-href="#/clusters/{{cluster.clusterid}}?tab=Pools" ng-bind="cluster.no_of_volumes_or_pools"></a></strong> Pools
+                            <strong>
+                                <a ng-if="cluster.state === 2" ng-href="#/clusters/{{cluster.clusterid}}?tab=Pools" ng-bind="cluster.no_of_volumes_or_pools"></a>
+                                <p ng-if="cluster.state !== 2" ng-bind="cluster.no_of_volumes_or_pools"></p>
+                            </strong> Pools
                         </div>
                         <div class="list-view-pf-additional-info-item">
                             <span class="pficon" ng-class="(cluster.almwarncount + cluster.almcritcount)>0? ((cluster.almcritcount > 0)?'pficon-error-circle-o' : 'pficon-warning-triangle-o' ):'pficon-ok'"></span>
