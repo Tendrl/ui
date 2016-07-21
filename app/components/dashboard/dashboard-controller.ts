@@ -166,15 +166,22 @@ export class DashboardController {
     }
 
     public getCpuUtilization(timeSlot: any) {
-        var total = this.summary.utilizations.cpupercentageusage > 0 ? 100 : 0;
-        this.setGraphUtilization({"total":total,"used":this.summary.utilizations.cpupercentageusage}, "cpu");
+        var usage: any = {"total": 0,"used": 0};
+        if(this.summary.utilizations.cpupercentageusage !== undefined && this.summary.utilizations.cpupercentageusage > 0) {
+            usage = { "total":100, "used": this.summary.utilizations.cpupercentageusage }
+        }
+        this.setGraphUtilization(usage, "cpu");
         this.serverService.getSystemCpuUtilization(timeSlot.value).then((cpu_utilization) => {
             this.setGraphData(cpu_utilization,"cpu","","%","large");
         });
     }
 
     public getMemoryUtilization(timeSlot: any) {
-        this.setGraphUtilization({"total":this.summary.utilizations.memoryusage.total,"used":this.summary.utilizations.memoryusage.used}, "memory");
+        var usage: any = {"total": 0,"used": 0};
+        if(this.summary.utilizations.memoryusage !== undefined) {
+            usage = { "total":this.summary.utilizations.memoryusage.total, "used": this.summary.utilizations.memoryusage.used }
+        }
+        this.setGraphUtilization(usage, "memory");
         this.serverService.getSystemMemoryUtilization(timeSlot.value).then((memory_utilization) => {
             this.setGraphData(memory_utilization,"memory","","%","large");
         });
