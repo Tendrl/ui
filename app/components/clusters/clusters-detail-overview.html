@@ -87,7 +87,7 @@
                                 <span ng-if="clusterdetail.hosts.error===0 && clusterdetail.hosts.criticalAlerts===0" class="card-pf-aggregate-status-notification">
                                     <span class="pficon pficon-ok"></span>
                                 </span>
-                                <span ng-if="clusterdetail.hosts.unaccepted>0" class="card-pf-aggregate-status-notification"><a href="#/first" title="{{clusterdetail.hosts.unaccepted}} hosts discovered">
+                                <span ng-if="clusterdetail.hosts.unaccepted>0" class="card-pf-aggregate-status-notification"><a ng-href="/#/clusters/new/accept-hosts?from={{currentURI}}" title="{{clusterdetail.hosts.unaccepted}} hosts discovered">
                                     <span class="pficon pficon-add-circle-o"></span>
                                     <span>{{clusterdetail.hosts.unaccepted}}</span></a>
                                 </span>
