@@ -49,7 +49,9 @@
                                                 <span>No data available</span>
                                             </div>
                                             <div ng-if="dash.utilization.data.total>0">
-                                                <div pf-donut-pct-chart config="dash.utilization.config" data="dash.utilization.data" center-label="dash.utilization.label">
+                                                <div pf-donut-pct-chart-fixed>
+                                                    <div pf-donut-pct-chart config="dash.utilization.config" data="dash.utilization.data" center-label="dash.utilization.label">
+                                                    </div>
                                                 </div>
                                                 <p><small class="cluster-size-label"><label>{{dash.capacity.used | bytes }}</label> of {{dash.capacity.total | bytes }} used</small></p>
                                             </div>
@@ -271,7 +273,9 @@
                                             <span>No data available</span>
                                         </div>
                                         <div ng-if="dash.systemUtilization.cpu.data.total > 0">
-                                            <div pf-donut-pct-chart config="dash.systemUtilization.cpu.config" data="dash.systemUtilization.cpu.data" center-label="dash.systemUtilization.cpu.label">
+                                            <div pf-donut-pct-chart-fixed>
+                                                <div pf-donut-pct-chart config="dash.systemUtilization.cpu.config" data="dash.systemUtilization.cpu.data" center-label="dash.systemUtilization.cpu.label">
+                                                </div>
                                             </div>
                                         </div>
                                         <center><div ng-if="dash.isLoading.trendsChartsData" class="spinner"></div></center>
@@ -287,7 +291,9 @@
                                             <span>No data available</span>
                                         </div>
                                         <div ng-if="dash.systemUtilization.memory.data.total > 0">
-                                            <div pf-donut-pct-chart config="dash.systemUtilization.memory.config" data="dash.systemUtilization.memory.data" center-label="dash.systemUtilization.memory.label">
+                                            <div pf-donut-pct-chart-fixed>
+                                                <div pf-donut-pct-chart config="dash.systemUtilization.memory.config" data="dash.systemUtilization.memory.data" center-label="dash.systemUtilization.memory.label">
+                                                </div>
                                             </div>
                                         </div>
                                         <center><div ng-if="dash.isLoading.trendsChartsData" class="spinner"></div></center>

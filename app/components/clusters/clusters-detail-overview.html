@@ -20,7 +20,9 @@
                                             <span>No data available</span>
                                         </div>
                                         <div ng-if="clusterdetail.clusterUtilization.data.total > 0">
-                                            <div pf-donut-pct-chart config="clusterdetail.clusterUtilization.config" data="clusterdetail.clusterUtilization.data" center-label="clusterdetail.clusterUtilization.label">
+                                            <div pf-donut-pct-chart-fixed>
+                                                <div pf-donut-pct-chart config="clusterdetail.clusterUtilization.config" data="clusterdetail.clusterUtilization.data" center-label="clusterdetail.clusterUtilization.label">
+                                                </div>
                                             </div>
                                             <p><small class="cluster-size-label"><label>{{clusterdetail.capacity.used | bytes }}</label> of {{clusterdetail.capacity.total | bytes}} Used</small></p>
                                         </div>
@@ -241,7 +243,9 @@
                                         </div>
                                     </div>
                                     <div ng-if="clusterdetail.systemUtilization.cpu.data.total > 0">
-                                        <div pf-donut-pct-chart config="clusterdetail.systemUtilization.cpu.config" data="clusterdetail.systemUtilization.cpu.data" center-label="clusterdetail.systemUtilization.cpu.label">
+                                        <div pf-donut-pct-chart-fixed>
+                                            <div pf-donut-pct-chart config="clusterdetail.systemUtilization.cpu.config" data="clusterdetail.systemUtilization.cpu.data" center-label="clusterdetail.systemUtilization.cpu.label">
+                                            </div>
                                         </div>
                                     </div>
                                     <center><div ng-if="clusterdetail.isLoading.trendsChartsData" class="spinner"></div></center>
@@ -259,7 +263,9 @@
                                         </div>
                                     </div>
                                     <div ng-if="clusterdetail.systemUtilization.memory.data.total > 0">
-                                        <div pf-donut-pct-chart config="clusterdetail.systemUtilization.memory.config" data="clusterdetail.systemUtilization.memory.data" center-label="clusterdetail.systemUtilization.memory.label">
+                                        <div pf-donut-pct-chart-fixed>
+                                            <div pf-donut-pct-chart config="clusterdetail.systemUtilization.memory.config" data="clusterdetail.systemUtilization.memory.data" center-label="clusterdetail.systemUtilization.memory.label">
+                                            </div>
                                         </div>
                                     </div>
                                     <center><div ng-if="clusterdetail.isLoading.trendsChartsData" class="spinner"></div></center>

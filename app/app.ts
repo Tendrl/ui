@@ -29,6 +29,7 @@ import {TaskDetail} from "./components/tasks/task-detail";
 import {EmailController} from "./components/admin/mail-settings-controller";
 import {KTDraggable} from "./components/shared/directives/kt-draggable";
 import {KTDroppable} from "./components/shared/directives/kt-droppable";
+import {PfDonutPctChartFixed} from "./components/shared/directives/pf-donut-pct-chart-fixed";
 import {StorageSizeSelector} from "./components/shared/directives/storage-size-selector";
 import {OsdDetail} from "./components/clusters/osdsdetail/osd-detail-directive";
 import {HostList} from "./components/clusters/hostdetail/host-list-directive";
@@ -97,6 +98,7 @@ class USMApp {
             .controller('LdapUserController',LdapUserController)
             .directive('ktDraggable', () => new KTDraggable())
             .directive('ktDroppable', () => new KTDroppable())
+            .directive('pfDonutPctChartFixed',['$timeout',($timeout:ng.ITimeoutService) => new PfDonutPctChartFixed($timeout)])
             .directive('storageSizeSelector', () => new StorageSizeSelector())
             .directive('osdDetail', () => new OsdDetail())
             .directive('hostList', () => new HostList())
