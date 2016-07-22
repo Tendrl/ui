@@ -12,6 +12,7 @@ export class OsdDetailController {
     private type: any;
     private osdList: Array<any>;
     private osdListGroupBy: any;
+    private groupBy: string;
     private filterList: any;
     private selection: any;
     private activeFilter: string;
@@ -100,6 +101,7 @@ export class OsdDetailController {
         this.scopeService.$on('$destroy', () => {
             this.intervalSvc.cancel(this.timer);
         });
+        this.groupBy = 'node';
         this.getOSDs();
         this.paramsObject = locationService.search();
         if (Object.keys(this.paramsObject).length > 0) {
@@ -138,7 +140,7 @@ export class OsdDetailController {
         if( this.type === 'Cluster' ) {
             this.clusterService.getSlus(this.id).then((slus: Array<any>) => {
                 this.settingUpOsds(slus);
-                this.performGroupBy('node');
+                this.performGroupBy();
             });
         } else {
             this.serverService.getNodeSlus(this.id).then((slus: Array<any>) => {
@@ -174,8 +176,8 @@ export class OsdDetailController {
     }
 
     /* Performing Group by */
-    public performGroupBy(group_by) {
-        if(group_by === 'node') {
+    public performGroupBy() {
+        if(this.groupBy === 'node') {
             this.osdListGroupBy = _.groupBy(this.osdList, function(osd){ return osd.options1.node });
         }else {
             this.osdListGroupBy = _.groupBy(this.osdList, function(osd){ return osd.storageprofile });
