@@ -290,11 +290,3 @@
 .cursor-pointer{
     cursor:pointer;
 }
-.list-group-item.active,
-.list-group-item.active:hover,
-.list-group-item.active:focus {
-  z-index: 2;
-  color: #fff;
-  background-color: transparent;
-  border-color: transparent;
-}
