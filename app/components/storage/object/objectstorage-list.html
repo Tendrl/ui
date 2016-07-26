@@ -87,7 +87,7 @@
                     <div class="list-view-pf-additional-info justify-equal-space-around">
                     <div class="list-view-pf-additional-info-item list-view-pf-additional-info-item-stacked pool-name-box">
                         <div class="list-group-item-text">
-                                <strong ng-bind="storage.name"></strong>
+                                <strong class="wrap-break-line" ng-bind="storage.name"></strong>
                                 <small> on</small>
                                 <strong ng-bind="storages.getClusterName(storage.clusterid)"></strong>
                         </div>
@@ -108,7 +108,7 @@
                                 <chart-size chart-height="80"></chart-size>
                                 <chart-tooltip show-tooltip="false"></chart-tooltip>
                             </c3chart>
-                            <div>
+                            <div class="size-wrap">
                             <strong ng-bind=" storage.usage.used | bytes "></strong> of {{ storage.usage.total | bytes }}
                             used
                             </div>
