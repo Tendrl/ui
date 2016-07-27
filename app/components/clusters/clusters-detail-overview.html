@@ -126,15 +126,15 @@
                         <div class="card-pf-body">
                             <center><div ng-if="clusterdetail.isLoading.summaryData" class="spinner"></div></center>
                             <p ng-if="!clusterdetail.isLoading.summaryData" class="card-pf-aggregate-status-notifications">
-                                <span ng-if="clusterdetail.pgs.error>0" class="card-pf-aggregate-status-notification">
+                                <span ng-if="clusterdetail.pgs.error>0" class="card-pf-aggregate-status-notification" ng-attr-title="There are {{clusterdetail.pgs.error}} Placement Groups that are in an error state that require your attention.  Please refer to Red Hat Ceph Storage documentation on troubleshooting placement groups.">
                                     <span class="pficon pficon-error-circle-o"></span>
                                     <span>{{clusterdetail.pgs.error}}</span>
                                 </span>
-                                <span ng-if="clusterdetail.pgs.warning>0" class="card-pf-aggregate-status-notification">
+                                <span ng-if="clusterdetail.pgs.warning>0" class="card-pf-aggregate-status-notification" ng-attr-title="There are {{clusterdetail.pgs.warning}} Placement Groups that are degraded.  Ceph is currently working to resolve any inconsistencies it finds (if possible).  Ceph will replay, split, scrub, repair, recover, backfill, and remap placement groups as applicable.  No actions needed.">
                                     <span class="pficon pficon-warning-triangle-o"></span>
                                     <span>{{clusterdetail.pgs.warning}}</span>
                                 </span>
-                                <span ng-if="clusterdetail.pgs.error===0 && clusterdetail.pgs.warning===0" class="card-pf-aggregate-status-notification">
+                                <span ng-if="clusterdetail.pgs.error===0 && clusterdetail.pgs.warning===0" class="card-pf-aggregate-status-notification" title="All Placement Groups are clean and OK.">
                                     <span class="pficon pficon-ok"></span>
                                 </span>
                             </p>
