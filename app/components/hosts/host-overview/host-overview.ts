@@ -122,13 +122,13 @@ export class HostOverviewController {
 
     public getThroughput(timeSlot: any) {
         this.serverService.getHostThroughput(this.host.nodeid,timeSlot.value).then((throughput) => {
-            this.setGraphData(throughput,"throughput","Network Throughput","KB/s","compact");
+            this.setGraphData(throughput,"throughput","Throughput","KB/s","compact");
         });
     }
 
     public getNetworkLatency(timeSlot: any) {
         this.serverService.getHostNetworkLatency(this.host.nodeid,timeSlot.value).then((network_latency) => {
-            this.setGraphData(network_latency,"latency","Network Latency","ms","compact");
+            this.setGraphData(network_latency,"latency","Latency","ms","compact");
         });
     }
 
