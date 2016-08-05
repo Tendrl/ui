@@ -144,6 +144,12 @@ export class OsdDetailController {
             });
         } else {
             this.serverService.getNodeSlus(this.id).then((slus: Array<any>) => {
+                /* Adding all possible storage profiles in drop down */
+                var newStorageProfiles = _.pluck(slus, 'storageprofile');
+                newStorageProfiles.forEach((profile) => {
+                    this.storageProfileArray.push({'name': profile, 'value': profile});
+                });
+                this.storageProfileArray = _.uniq(this.storageProfileArray, 'value')
                 this.settingUpOsds(slus);
             });
         }
