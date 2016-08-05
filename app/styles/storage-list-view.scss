@@ -17,7 +17,8 @@
         word-wrap: break-word;
         overflow-wrap: break-word;
     }
-    .size-wrap{
-        width:100px;
+    .wrap-flex-column{
+        flex-direction: column;
     }
+
 }

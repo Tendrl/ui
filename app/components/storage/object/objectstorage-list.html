@@ -97,7 +97,7 @@
                         </div>
                     </div>
 
-                        <div class="list-view-pf-additional-info-item">
+                        <div class="list-view-pf-additional-info-item list-view-pf-additional-info-item-donut-chart wrap-flex-column">
                             <c3chart bindto-id="donut-pool-usage-chart-{{$index}}">
                                 <chart-column column-id="Free" column-values="{{100 - storage.usage.percentused | number:1}}" column-color="#CCCCCC" column-type="donut"
                                 />
@@ -108,10 +108,7 @@
                                 <chart-size chart-height="80"></chart-size>
                                 <chart-tooltip show-tooltip="false"></chart-tooltip>
                             </c3chart>
-                            <div class="size-wrap">
-                            <strong ng-bind=" storage.usage.used | bytes "></strong> of {{ storage.usage.total | bytes }}
-                            used
-                            </div>
+                            <div><label>Utilization</label></div>
                         </div>
                         <div class="list-view-pf-additional-info-item list-view-pf-additional-info-item-stacked" ng-if="storage.type === 'replicated'">
                             <strong>Replicas</strong>{{storage.replicas }}
