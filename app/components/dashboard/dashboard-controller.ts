@@ -167,7 +167,7 @@ export class DashboardController {
 
     public getCpuUtilization(timeSlot: any) {
         var usage: any = {"total": 0,"used": 0};
-        if(this.summary.utilizations.cpupercentageusage !== undefined && this.summary.utilizations.cpupercentageusage > 0) {
+        if(this.summary.utilizations.cpupercentageusage !== undefined) {
             usage = { "total":100, "used": this.summary.utilizations.cpupercentageusage }
         }
         this.setGraphUtilization(usage, "cpu");

@@ -214,7 +214,7 @@ export class ClusterDetailController {
 
     public getCpuUtilization(timeSlot: any) {
         var usage: any = {"total": 0,"used": 0};
-        if(this.utilizations.cpupercentageusage !== undefined && this.utilizations.cpupercentageusage > 0) {
+        if(this.utilizations.cpupercentageusage !== undefined) {
             usage = { "total":100, "used": this.utilizations.cpupercentageusage }
         }
         this.setGraphUtilization(usage,'cpu');

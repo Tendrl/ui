@@ -61,7 +61,7 @@ export class HostOverviewController {
 
     public getCpuUtilization(timeSlot: any) {
         var usage: any = {"total": 0,"used": 0};
-        if(this.host.utilizations.cpuusage !== undefined && this.host.utilizations.cpuusage.percentused > 0) {
+        if(this.host.utilizations.cpuusage !== undefined) {
             usage = { "total":100, "used": this.host.utilizations.cpuusage.used }
         }
         this.setGraphUtilization(usage, "cpu");
