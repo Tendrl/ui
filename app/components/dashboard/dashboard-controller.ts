@@ -195,7 +195,7 @@ export class DashboardController {
 
     public getThroughput(timeSlot: any) {
         this.serverService.getThroughput(timeSlot.value).then((throughput) => {
-            this.setGraphData(throughput,"throughput","Throughput","KB/s","compact");
+            this.setGraphData(throughput,"throughput","Throughput","B/s","compact");
         });
     }
 

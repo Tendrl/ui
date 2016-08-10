@@ -242,7 +242,7 @@ export class ClusterDetailController {
 
     public getThroughput(timeSlot: any) {
         this.clusterService.getThroughput(this.id,timeSlot.value).then((throughput) => {
-            this.setGraphData(throughput,"throughput","Throughput","KB/s","compact");
+            this.setGraphData(throughput,"throughput","Throughput","B/s","compact");
         });
     }
 

@@ -122,7 +122,7 @@ export class HostOverviewController {
 
     public getThroughput(timeSlot: any) {
         this.serverService.getHostThroughput(this.host.nodeid,timeSlot.value).then((throughput) => {
-            this.setGraphData(throughput,"throughput","Network Throughput","KB/s","compact");
+            this.setGraphData(throughput,"throughput","Network Throughput","B/s","compact");
         });
     }
 
