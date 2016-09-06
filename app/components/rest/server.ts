@@ -251,7 +251,7 @@ export class ServerService {
     // **getSystemCpuUtilization**
     // **@returns** a promise with Average CPU Utilization across all the nodes in system.
     getSystemCpuUtilization(time_slot) {
-        return this.rest.all('monitoring/system/utilization?resource=cpu-user&duration='+time_slot).getList().then(function(cpu_utilization) {
+        return this.rest.all('monitoring/system/utilization?resource=cpu-user-cpu-system&duration='+time_slot).getList().then(function(cpu_utilization) {
             return cpu_utilization;
         });
     }
@@ -307,7 +307,7 @@ export class ServerService {
     // **getHostCpuUtilization**
     // **@returns** a promise with host's cpu utilization.
     getHostCpuUtilization(nodeid, time_slot) {
-        return this.rest.all('monitoring/node/'+nodeid+'/utilization?resource=cpu.percent-user&duration='+time_slot).getList().then(function(cpu_utilization) {
+        return this.rest.all('monitoring/node/'+nodeid+'/utilization?resource=cpu-user-cpu-system&duration='+time_slot).getList().then(function(cpu_utilization) {
             return cpu_utilization;
         });
     }

@@ -194,7 +194,7 @@ export class ClusterService {
     // **getClusterCpuUtilization**
     // **@returns** a promise with cluster's cpu utilization.
     getClusterCpuUtilization(clusterId, time_slot) {
-        return this.rest.all('monitoring/cluster/'+clusterId+'/utilization?resource=cpu-user&duration='+time_slot).getList().then(function(cpu_utilization) {
+        return this.rest.all('monitoring/cluster/'+clusterId+'/utilization?resource=cpu-user-cpu-system&duration='+time_slot).getList().then(function(cpu_utilization) {
             return cpu_utilization;
         });
     }
