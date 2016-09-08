@@ -5,9 +5,11 @@ const TARGET_PGS_PER_OSD = 200;
 /*
 * Deriving PG from Target Size
 *
-* If 5 OSDs, PG = 128
-* If 5-10 OSDs, PG = 128
-* If 10-50 OSDs, PG = 128
+* If 0-5 OSDs, PG = 128
+* If 5-10 OSDs, PG = 512
+* If 10-20 OSDs, PG = 1024
+* If 20-30 OSDs, PG = 2048
+* If 30-40 OSDs, PG = 3072
 * If >50 OSDs, use calculations below
 *
 * PG = (Target_PGs_per_OSD * Total_no_of_OSDs * Percent_Data) / Replica
@@ -21,11 +23,20 @@ const TARGET_PGS_PER_OSD = 200;
 */
 
 export function GetCephPGsForOSD(osds: Array<any>, targetAllocSize: number, replica: number) {
-    if (osds.length < 5) {
+    if (osds.length <= 5) {
         return 128;
     }
-    else if (osds.length < 10) {
+    else if (osds.length <= 10) {
         return 512;
+    }
+    else if (osds.length <= 20) {
+        return 1024;
+    }
+    else if (osds.length <= 30) {
+        return 2048;
+    }
+    else if (osds.length <= 40) {
+        return 3072;
     }
     else if (osds.length <= 50) {
         return 4096;
