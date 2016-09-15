@@ -73,7 +73,7 @@
                             <p ng-if="host.state !== 2 || host.cluster_name === 'Unassigned'" ng-bind="host.hostname"></p>
                         </div>
                         <div class="list-view-pf-additional-info-item list-view-pf-additional-info-item-donut-chart" ng-if="host.state == 2">
-                            <c3chart bindto-id="donut-storage-usage-chart-{{$index}}">
+                            <c3chart bindto-id="donut-storage-usage-chart-{{$index}}" sort-data="null">
                                 <chart-column column-id="Free" column-values="{{100 - host.utilizations.storageusage.percentused | number:1}}" column-color="#CCCCCC" column-type="donut"
                                 />
                                 <chart-column column-id="Using" column-values="{{host.utilizations.storageusage.percentused | number:1}}" column-color="{{host.utilizations.storageusage.percentused >= 90 ? '#CC0000' : host.utilizations.storageusage.percentused >= 75 ? '#EC7A08' : '#3F9C35'}}"
@@ -86,7 +86,7 @@
                             <div>Storage</div>
                         </div>
                         <div class="list-view-pf-additional-info-item list-view-pf-additional-info-item-donut-chart" ng-if="host.state == 2">
-                            <c3chart bindto-id="donut-cpu-usage-chart-{{$index}}">
+                            <c3chart bindto-id="donut-cpu-usage-chart-{{$index}}" sort-data="null">
                                 <chart-column column-id="Free" column-values="{{100 - host.utilizations.cpuusage.percentused | number:1}}" column-color="#CCCCCC" column-type="donut"
                                 />
                                 <chart-column column-id="Using" column-values="{{host.utilizations.cpuusage.percentused | number:1}}" column-color="{{host.utilizations.cpuusage.percentused >= 90 ? '#CC0000' : host.utilizations.cpuusage.percentused >= 80 ? '#EC7A08' : '#3F9C35'}}"
@@ -99,7 +99,7 @@
                             <div>CPU</div>
                         </div>
                         <div class="list-view-pf-additional-info-item list-view-pf-additional-info-item-donut-chart" ng-if="host.state == 2">
-                            <c3chart bindto-id="donut-memory-usage-chart-{{$index}}">
+                            <c3chart bindto-id="donut-memory-usage-chart-{{$index}}" sort-data="null">
                                 <chart-column column-id="Free" column-values="{{100 - host.utilizations.memoryusage.percentused | number:1}}" column-color="#CCCCCC" column-type="donut"
                                 />
                                 <chart-column column-id="Using" column-values="{{host.utilizations.memoryusage.percentused | number:1}}" column-color="{{host.utilizations.memoryusage.percentused >= 90 ? '#CC0000' : host.utilizations.memoryusage.percentused >= 80 ? '#EC7A08' : '#3F9C35'}}"

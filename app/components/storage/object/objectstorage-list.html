@@ -98,7 +98,7 @@
                     </div>
 
                         <div class="list-view-pf-additional-info-item list-view-pf-additional-info-item-donut-chart wrap-flex-column">
-                            <c3chart bindto-id="donut-pool-usage-chart-{{$index}}">
+                            <c3chart bindto-id="donut-pool-usage-chart-{{$index}}" sort-data="null">
                                 <chart-column column-id="Free" column-values="{{100 - storage.usage.percentused | number:1}}" column-color="#CCCCCC" column-type="donut"
                                 />
                                 <chart-column column-id="Using" column-values="{{storage.usage.percentused | number:1}}" column-color="{{storage.usage.percentused >= 90 ? '#CC0000' : storage.usage.percentused >= 75 ? '#EC7A08' : '#3F9C35'}}"
