@@ -1,5 +1,5 @@
 <ul class="dropdown-menu  cluster-dropdown-menu" role="menu">
-    <li role="presentation" ng-repeat="time in timeslot.duration.timeSlots" ng-if="time.name !== timeslot.duration.selectedTimeSlot.name">
-        <a role="menuitem" ng-click="timeslot.duration.selectedTimeSlot = time; timeslot.timeSlotChanged({ time: timeslot.duration.selectedTimeSlot })"> <i class="fa fa-check"></i> {{time.name}} </a>
+    <li role="presentation" ng-repeat="time in timeslot.duration.timeSlots">
+        <a role="menuitem" ng-click="timeslot.duration.selectedTimeSlot = time; timeslot.timeSlotChanged({ time: timeslot.duration.selectedTimeSlot })"> <i class="fa fa-fw" ng-class="{ 'fa-check': time.name === timeslot.duration.selectedTimeSlot.name }"></i> {{time.name}} </a>
     </li>
 </ul>
