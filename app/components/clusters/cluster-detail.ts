@@ -237,7 +237,7 @@ export class ClusterDetailController {
 
     public getIOPS(timeSlot: any) {
         this.clusterService.getIOPS(this.id,timeSlot.value).then((iops) => {
-            this.setGraphData(iops,"iops","IOPS","K","compact");
+            this.setGraphData(iops,"iops","IOPS","","compact");
         });
     }
 

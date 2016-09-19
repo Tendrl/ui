@@ -189,7 +189,7 @@ export class DashboardController {
 
     public getIOPS(timeSlot: any) {
         this.serverService.getIOPS(timeSlot.value).then((iops) => {
-            this.setGraphData(iops,"iops","IOPS","K","compact");
+            this.setGraphData(iops,"iops","IOPS","","compact");
         });
     }
 

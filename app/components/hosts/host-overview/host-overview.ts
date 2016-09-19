@@ -62,7 +62,7 @@ export class HostOverviewController {
     public getCpuUtilization(timeSlot: any) {
         var usage: any = {"total": 0,"used": 0};
         if(this.host.utilizations.cpuusage !== undefined) {
-            usage = { "total":100, "used": this.host.utilizations.cpuusage.used }
+            usage = { "total":100, "used": this.host.utilizations.cpuusage.percentused }
         }
         this.setGraphUtilization(usage, "cpu");
         this.serverService.getHostCpuUtilization(this.host.nodeid,timeSlot.value).then((cpu_utilization) => {
@@ -116,7 +116,7 @@ export class HostOverviewController {
 
     public getDiskIOPS(timeSlot: any) {
         this.serverService.getHostIOPS(this.host.nodeid,timeSlot.value).then((iops) => {
-            this.setGraphData(iops,"iops","IOPS","K","compact");
+            this.setGraphData(iops,"iops","IOPS","","compact");
         });
     }
 
