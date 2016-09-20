@@ -14,6 +14,7 @@
                 <span ng-if="clusterdetail.clusterList.length === 1">
                     {{clusterdetail.cluster.name}}
                 </span>
+                <small class="text-muted" ng-if="clusterdetail.cluster.autoexpand === false"> (*auto expansion disabled)</small>
             </li>
         </ol>
         <ul class="nav nav-tabs">

@@ -138,6 +138,7 @@ export class ClusterDetailController {
         this.cluster.status = cluster.status;
         this.cluster.enabled = cluster.enabled;
         this.cluster.updatedate = new Date(cluster.usage.updatedat.replace(/-/g,"/").split('.')[0]);
+        this.cluster.autoexpand = cluster.autoexpand;
     }
 
     public loadClusterSummary() {
