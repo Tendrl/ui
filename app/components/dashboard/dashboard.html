@@ -208,9 +208,9 @@
                             <div class="card-pf-body">
                                 <center><div ng-if="dash.isLoading.summaryData" class="spinner"></div></center>
                                 <p ng-if="!dash.isLoading.summaryData" class="card-pf-aggregate-status-notifications">
-                                    <span ng-if="dash.osds.down>0" class="card-pf-aggregate-status-notification"><a href="#/clusters?slu_status=down" title="{{dash.osds.down}} OSDs down">
+                                    <span ng-if="dash.osds.error>0" class="card-pf-aggregate-status-notification"><a href="#/clusters?slu_status=down" title="{{dash.osds.error}} OSDs down">
                                         <span class="fa fa-arrow-circle-o-down"></span>
-                                        <span>{{dash.osds.down}}</span></a>
+                                        <span>{{dash.osds.error}}</span></a>
                                     </span>
                                     <span ng-if="dash.osds.nearfull>0" class="card-pf-aggregate-status-notification"><a href="#/clusters?slu_near_full=true" title="{{dash.osds.nearfull}} OSDs full or near full">
                                         <span class="pficon pficon-resources-almost-full"></span>
@@ -220,7 +220,7 @@
                                         <span class="pficon pficon-warning-triangle-o"></span>
                                         <span>{{dash.osds.criticalAlerts}}</span></a>
                                     </span>
-                                    <span ng-if="dash.osds.down===0 && dash.osds.nearfull===0 && dash.osds.criticalAlerts===0" class="card-pf-aggregate-status-notification">
+                                    <span ng-if="dash.osds.error===0 && dash.osds.nearfull===0 && dash.osds.criticalAlerts===0" class="card-pf-aggregate-status-notification">
                                         <span class="pficon pficon-ok"></span>
                                     </span>
                                 </p>

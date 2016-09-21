@@ -176,9 +176,9 @@
                         <div class="card-pf-body">
                             <center><div ng-if="clusterdetail.isLoading.summaryData" class="spinner"></div></center>
                             <p ng-if="!clusterdetail.isLoading.summaryData" class="card-pf-aggregate-status-notifications">
-                                <span ng-if="clusterdetail.osds.down>0" class="card-pf-aggregate-status-notification"><a href="#/clusters/{{clusterdetail.id}}?active_filter=osd_status&filter_name=Down-In&filter_name=Down&tab=OSDs" title="{{clusterdetail.osds.down}} OSDs down">
+                                <span ng-if="clusterdetail.osds.error>0" class="card-pf-aggregate-status-notification"><a href="#/clusters/{{clusterdetail.id}}?active_filter=osd_status&filter_name=Down-In&filter_name=Down&tab=OSDs" title="{{clusterdetail.osds.error}} OSDs down">
                                     <span class="fa fa-arrow-circle-o-down"></span>
-                                    <span>{{clusterdetail.osds.down}}</span></a>
+                                    <span>{{clusterdetail.osds.error}}</span></a>
                                 </span>
                                 <span ng-if="clusterdetail.osds.nearfull>0" class="card-pf-aggregate-status-notification"><a href="#/clusters/{{clusterdetail.id}}?active_filter=utilization&filter_name=Full&tab=OSDs" title="{{clusterdetail.osds.nearfull}} OSDs full or near full">
                                     <span class="pficon pficon-resources-almost-full"></span>
@@ -188,7 +188,7 @@
                                     <span class="pficon pficon-warning-triangle-o"></span>
                                     <span>{{clusterdetail.osds.criticalAlerts}}</span></a>
                                 </span>
-                                <span ng-if="clusterdetail.osds.down===0 && clusterdetail.osds.nearfull===0 && clusterdetail.osds.criticalAlerts===0" class="card-pf-aggregate-status-notification">
+                                <span ng-if="clusterdetail.osds.error===0 && clusterdetail.osds.nearfull===0 && clusterdetail.osds.criticalAlerts===0" class="card-pf-aggregate-status-notification">
                                     <span class="pficon pficon-ok"></span>
                                 </span>
                             </p>
