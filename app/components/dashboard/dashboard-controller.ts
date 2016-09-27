@@ -49,7 +49,7 @@ export class DashboardController {
             this.clusters = { criticalAlerts: 0, error: 0, nearfull: 0, total: 0 };
             this.hosts = { criticalAlerts: 0, error: 0, total: 0, unaccepted: 0 };
             this.pgs = { total: 0, error: 0, warning: 0 };
-            this.osds = { criticalAlerts: 0, down: 0, error: 0, nearfull: 0, total: 0 };
+            this.osds = { criticalAlerts: 0, error: 0, nearfull: 0, total: 0 };
             this.objects = { criticalAlerts: 0, total: 0 };
             this.pools = { criticalAlerts: 0, down: 0, total: 0 };
             this.monitors = { criticalAlerts: 0, down: 0, total: 0 };

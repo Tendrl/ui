@@ -108,7 +108,7 @@ export class ClusterDetailController {
         this.utilizations = {};
         this.hosts = { criticalAlerts: 0, error: 0, total: 0, unaccepted: 0 };
         this.pgs = { total: 0, error: 0, warning: 0 };
-        this.osds = { criticalAlerts: 0, down: 0, error: 0, nearfull: 0, total: 0 };
+        this.osds = { criticalAlerts: 0, error: 0, nearfull: 0, total: 0 };
         this.objects = { total: 0, criticalAlerts: 0 };
         this.pools = { criticalAlerts: 0, down: 0, total: 0 };
         this.monitors = { criticalAlerts: 0, down: 0, total: 0 };
