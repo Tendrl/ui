@@ -28,7 +28,7 @@
             <div class="form-group" ng-class="{'has-error': storage.form.replicas.$error.min || storage.form.replicas.$error.max}" ng-if="storage.type === 'Standard'">
                 <label class="col-md-2 control-label">Replicas</label>
                 <div class="col-md-2">
-                    <input type="number" id="replicas" name="replicas" class="form-control" ng-model="storage.replicas" ng-change="storage.replicaChanged(storage.replicas)" min="1" max="5" required></input>
+                    <input type="number" id="replicas" name="replicas" class="form-control" ng-model="storage.replicas" min="1" max="5" required></input>
                 </div>
                 <div class="col-md-3">
                     <span class="help-block" ng-if="storage.form.replicas.$error.min || storage.form.replicas.$error.max">The value must be in range 1 to 5</span>
@@ -37,7 +37,7 @@
             <div class="form-group" ng-if="storage.type === 'Erasure Coded'">
                 <label class="col-md-2 control-label">EC Profile</label>
                 <div class="col-md-2">
-                    <select pf-select ng-model="storage.ecprofile" id="ecprofile" name="ecprofile" class="form-control" ng-options="ecprofile.text for ecprofile in storage.ecprofiles" ng-change="storage.ecProfileChanged(storage.ecprofile)"></select>
+                    <select pf-select ng-model="storage.ecprofile" id="ecprofile" name="ecprofile" class="form-control" ng-options="ecprofile.text for ecprofile in storage.ecprofiles"></select>
                 </div>
                 <div class="col-md-3">
                     <em>{{storage.ecprofile.k}} Chunks of data; can loose up to {{storage.ecprofile.m}} <ng-pluralize count="storage.ecprofile.m" when="{'1': 'host', 'other': 'hosts'}"></ng-pluralize>
@@ -56,33 +56,20 @@
                                 <p class="form-control-static">{{storage.slusFiltered.length}} OSDs</p>
                             </div>
                         </div>
-                        <div class="form-group" ng-if="storage.PGsFixed">
+                        <div class="form-group" ng-class="{'has-error': storage.form.pgs.$error.min}">
                             <div class="col-md-offset-2 col-md-10">
                                 <p class="text-info">
-                                    <strong>Note:</strong>&nbsp;Pools are created based on the number of OSD's in this cluster.
-                                    When the number of OSDs available is 50 or less, a fixed number of Placement Groups will
-                                    be assigned.</p>
+                                    <strong>Note:</strong>&nbsp;Be aware that the PG count per pool value is critical for cluster performance and stability. Please visit the Ceph PGs per Pool Calc tool to better understand what value should be used.</p>
                             </div>
                             <label class="col-md-2 control-label" for="profile">Placement Groups</label>
                             <div class="col-md-2">
-                                <p class="form-control-static">{{storage.pgs}}</p>
+                                <input type="number" id="pgs" name="pgs" class="form-control" ng-model="storage.pgs" min="0" required></input>
+                            </div>
+                            <div class="col-md-3">
+                                <span class="help-block" ng-if="storage.form.pgs.$error.min">The value cannot be less than 0</span>
                             </div>
                         </div>
-                        <div class="form-group" ng-if="!storage.PGsFixed">
-                            <div class="col-md-offset-2 col-md-10">
-                                <p class="text-info">
-                                    <strong>Note:</strong>Pools are created based on the number of OSD's in this cluster.
-                                    Move the slider to optimize the pool creation based on size and the corresponding number
-                                    of Placement Groups.</p>
-                            </div>
-                            <label class="col-md-2 control-label" for="profile">Placement Groups / Optimal Pool Size</label>
-                            <div class="col-md-9">
-                                <rzslider rz-slider-model="storage.pgSlider.value" rz-slider-options="storage.pgSlider.options"></rzslider>
-                            </div>
-                            <div class="col-md-2">
-                                <p class="form-control-static">{{storage.optimalPoolSize}}</p>
-                            </div>
-                        </div>
+
                     </div>
                 </div>
             </div>

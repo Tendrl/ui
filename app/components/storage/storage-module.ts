@@ -14,7 +14,7 @@ var angular: ng.IAngularStatic = require('angular');
 
 var moduleName = 'kitoon.storage';
 
-angular.module(moduleName, ['rzModule'])
+angular.module(moduleName,[])
     .directive('blockDeviceItem', () => new BlockDeviceItem())
     .controller('StorageNewController', StorageNewController)
     .directive('objectStorageList', () => new ObjectStorageList())

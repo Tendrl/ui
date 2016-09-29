@@ -30,8 +30,6 @@ export class ObjectStorageController {
     private profiles: StorageProfile[];
     private profile: StorageProfile;
     private pgs: number = 0;
-    private PGsFixed = false;
-    private pgSlider = {};
     private quota = { enabled: false, objects: { enabled: false, value: undefined }, percentage: { enabled: false, value: 75 } };
     private pools = [];
     private summary: boolean = false;
@@ -84,47 +82,8 @@ export class ObjectStorageController {
 
     public filterOSDs(storageprofile: string) {
         this.slusFiltered = _.filter(this.slus, (osd: SLU) => osd.storageprofile === storageprofile);
-        this.PGsFixed = this.slusFiltered.length <= 50;
-        if (this.PGsFixed) {
-            this.pgs = GetCephPGsForOSD(this.slusFiltered, null, null);
-            this.targetSize = GetOptimalSizeForPGNum(this.pgs, this.slusFiltered, this.replicas);
-        }
-        else {
-            this.preparePGSlider();
-        }
+        this.targetSize = GetOptimalSizeForPGNum(this.pgs, this.slusFiltered, this.getReplicaCount());
     }
-
-    public preparePGSlider() {
-        // An OSD can take upto 200 PGs. So the PGs for a pool can be between 128 and OSDs x 200 / replica
-        var possiblePgs = GetTwosPowList(128, (this.slusFiltered.length * 200) / this.getReplicaCount());
-        this.pgSlider = {
-            value: 7, // 2^7 = 128. this is the min value for PGs
-            options: {
-                floor: 7,
-                ceil: 7 + possiblePgs.length - 1,
-                showTicks: true,
-                showSelectionBar: true,
-                translate: (value, sliderId, label) => {
-                    var pgNum = Math.pow(2, value);
-                    var size = GetOptimalSizeForPGNum(pgNum, this.slusFiltered, this.getReplicaCount());
-                    var formatedSize = numeral(size).format('0.0 b');
-                    switch (label) {
-                        case 'model':
-                            return '<b>' + pgNum + ' PGs / ' + formatedSize + '</b>';
-                        default:
-                            return pgNum + ' PGs / ' + formatedSize;
-                    }
-                },
-                onChange: (sliderId, value, highValue) => {
-                    var pgNum = Math.pow(2, value);
-                    this.targetSize = GetOptimalSizeForPGNum(pgNum, this.slusFiltered, this.getReplicaCount());
-                }
-            }
-        };
-        var pgNum = Math.pow(2, 7);
-        this.targetSize = GetOptimalSizeForPGNum(pgNum, this.slusFiltered, this.getReplicaCount());
-    }
-
     // Replica count is required for Placement Groups calculations
     // In case of EC pools, replica would be the sum of k and m
     public getReplicaCount() {
@@ -134,14 +93,6 @@ export class ObjectStorageController {
         else {
             return this.ecprofile.k + this.ecprofile.m;
         }
-    }
-
-    public replicaChanged() {
-        this.preparePGSlider();
-    }
-
-    public ecProfileChanged() {
-        this.preparePGSlider();
     }
 
     public changeStorageProfile(selectedProfile: StorageProfile) {
@@ -158,11 +109,8 @@ export class ObjectStorageController {
     }
 
     public prepareSummary(): void {
-        var pgNum = this.pgs;
-        if (!this.PGsFixed) {
-            pgNum = Math.pow(2, this.pgSlider['value']);
-        }
-        this.targetSize = GetOptimalSizeForPGNum(pgNum, this.slusFiltered, this.replicas);
+      var pgNum = this.pgs;
+        this.targetSize = GetOptimalSizeForPGNum(pgNum, this.slusFiltered, this.getReplicaCount());
         if (this.count === 1) {
             let pool = {
                 name: this.name,
@@ -217,10 +165,7 @@ export class ObjectStorageController {
                 storage['type'] = 'erasure_coded';
                 storage.options['ecprofile'] = pool.ecprofile.value;
             }
-
-            if (this.PGsFixed) {
-                storage.options['pgnum'] = this.pgs.toString();
-            }
+            storage.options['pgnum'] = this.pgs.toString();
             if (pool.quota.enabled) {
                 storage['quota_enabled'] = true;
                 storage['quota_params'] = {};
