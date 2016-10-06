@@ -29,7 +29,7 @@ export class ObjectStorageController {
     private targetSize = 0;
     private profiles: StorageProfile[];
     private profile: StorageProfile;
-    private pgs: number = 0;
+    private pgs: number;
     private quota = { enabled: false, objects: { enabled: false, value: undefined }, percentage: { enabled: false, value: 75 } };
     private pools = [];
     private summary: boolean = false;

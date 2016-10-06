@@ -56,17 +56,17 @@
                                 <p class="form-control-static">{{storage.slusFiltered.length}} OSDs</p>
                             </div>
                         </div>
-                        <div class="form-group" ng-class="{'has-error': storage.form.pgs.$error.min}">
+                        <div class="form-group" ng-class="{'has-error': storage.form.pgs.$dirty && (storage.form.pgs.$error.min || storage.form.pgs.$error.required || storage.form.pgs.$error.number)}">
                             <div class="col-md-offset-2 col-md-10">
-                                <p class="text-info">
-                                    <strong>Note:</strong>&nbsp;Be aware that the PG count per pool value is critical for cluster performance and stability. Please visit the Ceph PGs per Pool Calc tool to better understand what value should be used.</p>
+                                <p>
+                                    <strong>Note:</strong>&nbsp;Be aware that the PG count per pool value is critical for cluster performance and stability. Please visit the <a href="http://ceph.com/pgcalc/" target="_blank">Ceph PGs per Pool Calc tool</a> to better understand what value should be used.</p>
                             </div>
                             <label class="col-md-2 control-label" for="profile">Placement Groups</label>
                             <div class="col-md-2">
-                                <input type="number" id="pgs" name="pgs" class="form-control" ng-model="storage.pgs" min="0" required></input>
+                                <input type="number" id="pgs" name="pgs" class="form-control" ng-model="storage.pgs" min="1" required></input>
                             </div>
                             <div class="col-md-3">
-                                <span class="help-block" ng-if="storage.form.pgs.$error.min">The value cannot be less than 0</span>
+                                <span class="help-block" ng-if="storage.form.pgs.$dirty && (storage.form.pgs.$error.min||storage.form.pgs.$error.required||storage.form.pgs.$error.number)">valid number of PG count expected</span>
                             </div>
                         </div>
 

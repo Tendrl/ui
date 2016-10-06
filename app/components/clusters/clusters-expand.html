@@ -9,7 +9,7 @@
     <div class="col-sm-12 col-md-12">
       <div ng-include src="'views/clusters/clusters-new-hosts.html'"></div>
           <p class="text-info"><span class="pficon-warning-triangle-o"></span>
-            Ceph cluster expansion requires data movement between OSDs and can cause significant client IO performance impact if proper adjustments are not made.  Please contact Red Hat support for help with the recommended changes.</p>
+            Ceph cluster expansion requires data movement between OSDs and can cause significant client IO performance impact if proper adjustments are not made.</p>
             <label><input type="checkbox" id="iunderstandrisk" ng-model="cluster.understand"/> I understand the risk</label>
           <div>
             <button type="button" class="btn btn-default" ng-click='cluster.cancel()'>Cancel</button>
