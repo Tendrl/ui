@@ -4,9 +4,7 @@ export class RequestService {
     rest: restangular.IService;
     static $inject: Array<string> = ['Restangular'];
     constructor(rest: restangular.ICollection) {
-        this.rest = rest.withConfig((RestangularConfigurer) => {
-            RestangularConfigurer.setBaseUrl('/api/v1/');
-        });
+        this.rest = rest;
     }
 
     // **getList**

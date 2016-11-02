@@ -6,11 +6,8 @@ export class OSDService {
     restFull: restangular.IService;
     static $inject: Array<string> = ['Restangular'];
     constructor(rest:restangular.ICollection) {
-       this.rest = rest.withConfig((RestangularConfigurer) => {
-            RestangularConfigurer.setBaseUrl('/api/v1/ceph/');
-        });
+        this.rest = rest;
         this.restFull = rest.withConfig((RestangularConfigurer) => {
-            RestangularConfigurer.setBaseUrl('/api/v1/ceph/');
             RestangularConfigurer.setFullResponse(true);
         });
     }
