@@ -1,5 +1,0 @@
-{
-    "ceph_min_monitors": 3,
-    "ceph_mix_host_roles": true,
-    "copyright": "Copyright 2015–2016 tendral"
-}
