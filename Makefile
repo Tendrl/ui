@@ -2,7 +2,7 @@
 CWD := $(shell pwd)
 PRINT_STATUS = export EC=$$?; cd $(CWD); if [ "$$EC" -eq "0" ]; then printf "SUCCESS!\n"; else exit $$EC; fi
 
-NAME      := kitoon
+NAME      := tendrl-frontend
 VERSION   := 0.0.60
 RELEASE   := 1
 RPMBUILD  := $(HOME)/rpmbuild
@@ -29,15 +29,15 @@ dist: build
 	cp -r $(KITOON_DIST)/* $(DISTDIR)
 	tar -zcf $(TARDIR).tar.gz $(TARDIR);
 	rm -rf $(TARDIR)
-	@echo "------------------------------------------------"
-	@echo "tar file available at: $(TARNAME)"
-	@echo "------------------------------------------------"
+	@echo "--------------------------------------------------"
+	@echo "TAR file is now available at: $(TARNAME)"
+	@echo "--------------------------------------------------"
 
 rpm: dist
 	mkdir -p $(RPMBUILD)/{SPECS,RPMS,SOURCES,BUILDROOT}
 	cp kitoon.spec $(RPMBUILD)/SPECS
 	cp $(TARNAME) $(RPMBUILD)/SOURCES
 	rpmbuild -ba kitoon.spec
-	@echo "------------------------------------------------------------"
-	@echo "Kitoon RPM available at directory:  $(RPMBUILD)/RPMS/noarch"
-	@echo "------------------------------------------------------------"
+	@echo "--------------------------------------------------"
+	@echo "RPM file is now available at: $(RPMBUILD)/RPMS/noarch"
+	@echo "--------------------------------------------------"

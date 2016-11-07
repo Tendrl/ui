@@ -5,4 +5,4 @@ node_modules
 typings
 
 # tar
-kitoon-*.tar.gz
+*.tar.gz
