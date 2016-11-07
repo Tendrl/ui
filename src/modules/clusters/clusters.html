@@ -1,0 +1,24 @@
+<div class="cluster-container">
+    
+    <div class="cluster-breadcrumb">
+        <a class="pull-left breadcrumbs-lbl">Clusters1</a>
+        
+        <div ng-show="clusterVm.clusterList" class="pull-left cluster-name-section">
+            <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+            <span ng-show="clusterVm.selectedCluster.status === 'HEALTH_OK'" class="glyphicon glyphicon-ok-circle active-status" aria-hidden="true"></span>
+            <span ng-show="clusterVm.selectedCluster.status !== 'HEALTH_OK'" class="glyphicon glyphicon-download inactive-status" aria-hidden="true"></span>
+            <span class="breadcrumbs-lbl">{{clusterVm.selectedCluster.name}}</span>
+            <span class="glyphicon glyphicon-chevron-down" aria-hidden="true" ng-click="clusterVm.showClusterList()"></span>
+            <select ng-show="clusterVm.showList" ng-model="clusterVm.selectedCluster" ng-options="cluster.name for cluster in clusterVm.clusterList" class="cluster-dropdown" ng-change="clusterVm.hideClusterList()">
+            </select>
+        </div>
+        <div class="horizontal-line"></div>
+    </div>
+
+    <div class="row">
+        <ul class="nav nav-tabs">
+            <li role="presentation" ng-class="{active: clusterVm.activeTab === 1}" ng-click="clusterVm.setTab(1)"><a>Volume</a></li>
+        </ul>
+    </div>
+    
+</div>

@@ -1,0 +1,32 @@
+{
+  "info":{
+    "type":"get",
+    "url":"/cluster/:cluster_id/volume/:volume_id/info",
+    "method":"GET"
+  },
+  "create":{
+    "type":"create",
+    "url":"/cluster/:cluster_id/volume/create",
+    "method":"POST"
+  },
+  "start":{
+    "type":"action",
+    "url":"/cluster/:cluster_id/volume/:volume_id/start",
+    "method":"PUT"
+  },
+  "stop":{
+    "type":"action",
+    "url":"/cluster/:cluster_id/volume/:volume_id/stop",
+    "method":"PUT"
+  },
+  "remove_brick":{
+    "type":"action",
+    "url":"/cluster/:cluster_id/volume/:volume_id/remove_brick",
+    "method":"DELETE"
+  },
+  "replace_brick":{
+    "type":"action",
+    "url":"/cluster/:cluster_id/volume/:volume_id/replace_brick",
+    "method":"PUT"
+  }
+}

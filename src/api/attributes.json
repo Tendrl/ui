@@ -1,0 +1,50 @@
+{
+    "volname":{
+        "type":"String",
+        "name": "Name"
+    },
+  "stripe_count":{
+    "type":"Integer",
+    "name": "Stripe Count"
+  },
+  "replica_count":{
+    "type":"Integer",
+    "name": "Replica Count"
+  },
+  "disperse_count":{
+    "type":"Integer",
+    "name": "Disperse Count"
+  },
+  "redundancy_count":{
+    "type":"Integer",
+    "name": "Redundancy Count"
+  },
+  "transport":{
+    "type":"String",
+    "name": "Transport"
+  },
+  "brickdetails":{
+    "type":"List",
+    "name": "Brick Details"
+  },
+  "force":{
+    "type":"Boolean",
+    "name": "Force"
+  },
+  "directory":{
+    "type":"String",
+    "name": "Directory"
+  },
+  "bitrot":{
+    "type":"Boolean",
+    "name": "Bitrot"
+  },
+  "scrub-frequency":{
+    "type":"Integer",
+    "name": "Scrub Frequency"
+  },
+  "scrub-throttle":{
+    "type":"Integer",
+    "name": "Scrub Throttle"
+  }
+}
