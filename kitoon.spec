@@ -1,4 +1,4 @@
-%define pkg_name tendrl-frontend
+%define pkg_name tendrl_frontend
 %define pkg_version 0.0.60
 %define pkg_release 1
 
