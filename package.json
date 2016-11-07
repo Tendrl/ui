@@ -1,5 +1,6 @@
 {
-    "name": "kitoon",
+  "name": "Tendrl",
+  "description": "Tendrl Console",
     "version": "0.0.1",
     "dependencies": {
         "angular": "~1.5.2",
@@ -25,98 +26,77 @@
         "numeral": "~1.5.3",
         "patternfly": "~3.4.0",
         "restangular": "git://github.com/mgonto/restangular#1.5.1",
-        "angular-bootstrap-datetimepicker": "^1.0.1",
-        "moment": "^2.11.2"
+        "moment": "^2.11.2",
+        "angular-ui-router": "0.2.13"
     },
     "devDependencies": {
-        "browserify": "~12.0.2",
-        "browserify-shim": "~3.8.9",
+        "angular-mocks": "^1.5.8",
+        "autoprefixer-core": "^5.1.7",
+        "chai": "^3.2.0",
         "del": "*",
+        "glob": "^4.3.2",
         "gulp": "~3.9.0",
         "gulp-concat": "~2.6.0",
+        "gulp-cssimport": "^1.3.1",
         "gulp-debug": "*",
+        "gulp-eslint": "^1.0.0",
+        "gulp-gzip": "0.0.8",
         "gulp-if": "~2.0.0",
+        "gulp-ignore": "^1.2.1",
         "gulp-inject": "^3.0.0",
         "gulp-load-plugins": "*",
-        "gulp-ng-annotate": "*",
+        "gulp-ng-annotate": "^1.1.0",
+        "gulp-postcss": "^4.0.3",
+        "gulp-rename": "^1.2.0",
         "gulp-sass": "*",
         "gulp-sourcemaps": "*",
-        "gulp-tslint": "^4.3.2",
-        "gulp-typescript": "~2.13.5",
+        "gulp-tar": "~1.3.2",
         "gulp-uglify": "~1.4.1",
-        "merge-stream": "^1.0.0",
+        "gulp-minify-css": "^0.5.1",
+        "gulp-util": "~3.0.2",
+        "karma": "0.13.19",
+        "karma-chai": "~0.1.0",
+        "karma-coverage": "^0.2.6",
+        "karma-mocha": "~0.1.9",
+        "karma-mocha-reporter": "~0.3.1",
+        "karma-ng-html2js-preprocessor": "^0.1.2",
+        "karma-phantomjs-launcher": "^0.1.4",
+        "karma-sinon": "^1.0.4",
+        "merge-stream": "^0.1.7",
+        "mkdirp": "^0.5.1",
+        "mocha": "^2.3.0",
+        "request": "~2.51.0",
         "requirejs": "*",
-        "tslint": "^3.4.0",
-        "typescript": "~1.7.3",
+        "run-sequence": "^1.0.2",
+        "sinon": "^1.16.1",
+        "through2": "^0.6.3",
+        "underscore": "^1.8.3",
+        "vinyl": "^0.4.6",
         "vinyl-buffer": "~1.0.0",
         "vinyl-source-stream": "*",
         "yargs": "~3.31.0"
     },
-    "browser": {
-        "restangular": "./node_modules/restangular/dist/restangular.min.js",
-        "c3-angular": "./node_modules/c3-angular/c3-angular.min.js",
-        "angular-strap": "./node_modules/angular-strap/dist/angular-strap.js",
-        "angular-strap-tpl": "./node_modules/angular-strap/dist/angular-strap.tpl.js",
-        "angular-growl": "./node_modules/angular-growl-v2/build/angular-growl.js",
-        "idb-wrapper": "./node_modules/idb-wrapper/idbstore.js",
-        "patternfly": "./node_modules/patternfly/dist/js/patternfly.js",
-        "angular-patternfly": "./node_modules/angular-patternfly/dist/angular-patternfly.js",
-        "angular-ui-bootstrap": "./node_modules/angular-ui-bootstrap/dist/ui-bootstrap-tpls.js",
-        "angular-bootstrap-datetimepicker": "./node_modules/angular-bootstrap-datetimepicker/src/js/datetimepicker.js",
-        "angular-bootstrap-datetimepicker-tpl": ".node_modules/angular-bootstrap-datetimepicker/src/js/datetimepicker.templates.js"    },
-    "browserify": {
-        "transform": [
-            "browserify-shim"
-        ]
-    },
-    "browserify-shim": {
-        "restangular": {
-            "depends": [
-                "angular",
-                "lodash: _"
-            ]
+    "TendrlProps": {
+        "preloads": [],
+        "resources": {
+            "../node_modules/patternfly/dist/fonts/*.*": "fonts/",
+            "../node_modules/font-awesome/fonts/*.*": "fonts/",
+            "../node_modules/patternfly/components/font-awesome/fonts/*.*": "dist/components/font-awesome/fonts"
         },
-        "c3-angular": {
-            "depends": [
-                "angular",
-                "d3: d3",
-                "c3: c3"
-            ]
-        },
-        "angular-strap": {
-            "depends": [
-                "angular"
-            ]
-        },
-        "angular-strap-tpl": {
-            "depends": [
-                "angular-strap"
-            ]
-        },
-        "patternfly": {
-            "depends": [
-                "jquery: jQuery",
-                "bootstrap-tooltip"
-            ]
-        },
-        "angular-patternfly": {
-            "depends": [
-                "d3: d3",
-                "c3: c3",
-                "jquery: jQuery",
-                "patternfly",
-                "angular",
-                "angular-sanitize",
-                "angular-animate",
-                "angular-ui-bootstrap"
-            ]
-        },
-        "angular-bootstrap-datetimepicker": {
-            "depends": [
-                "jquery: jQuery",
-                "angular",
-                "moment"
-            ]
-        }
+        "targetBrowsers": [
+            "last 2 version"
+        ],
+        "cssMain": "commons/scss/main.scss",
+        "jsFiles": [
+            "commons/js/index.js",
+            "commons/**/*.js",
+            "modules/**/*.js"
+        ],
+        "htmlFiles": [
+            "index.html"
+        ],
+        "config": "config/config.json",
+        "buildDestination": "./dist/",
+        "archiveExtension": ".tgz"
     }
 }

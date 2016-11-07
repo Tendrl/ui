@@ -1,0 +1,39 @@
+.cluster-container {
+    .cluster-breadcrumb {
+        padding: 8px 15px;
+        
+        & .glyphicon {
+            padding: 0 5px 0 5px;
+            font-size: 17px;
+        }
+        
+        & .breadcrumbs-lbl {
+            font-size: 22px;
+        }
+        
+        .active-status {
+            color: $color-islamic-green;
+        }
+        
+        .inactive-status {
+            color: $color-red;
+        }
+
+        .cluster-name-section {
+            position: relative;
+
+            .cluster-dropdown {
+                position: absolute;
+                margin: -5px 0 0 120px;
+                background-color: $color-white;
+            }
+        }
+    }
+    
+    .horizontal-line {
+        height: 2px;
+        width: 100%;
+        background-color: $color-dark-gray;
+        margin: 35px 0 10px 0;
+    }
+}

@@ -1,8 +1,4 @@
-app/**/*.js
-app/**/*.js.map
 dist
 node_modules
-typings
-
-# tar
-kitoon-*.tar.gz
+coverage
+*.tgz

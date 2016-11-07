@@ -1,0 +1,15 @@
+{
+    "data": [{
+        "name": "Gluster1",
+        "value": "Gluster1",
+        "status": "active"
+    }, {
+        "name": "Gluster2",
+        "value": "Gluster2",
+        "status": "failed"
+    }, {
+        "name": "Gluster3",
+        "value": "Gluster3",
+        "status": "active"
+    }]
+}
