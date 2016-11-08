@@ -11,19 +11,20 @@ DISTDIR   := $(TARDIR)/dist
 TARNAME   := $(TARDIR).tar.gz
 APP_DIST  := ./dist
 
-build-all: build-setup build
+build-all: setup build build-tar
 
-build-setup:
+setup:
 	sudo npm install -g gulp
 	npm install
 
 build:
 	gulp release
 
-dist: build
+build-tar: build
 	@echo "making dist tarball in $(TARNAME)"
 	mkdir -p $(DISTDIR)
-	cp README.md $(TARDIR)/.
+	mkdir -p $(TARDIR)/docs
+	cp -r ./docs/* $(TARDIR)/docs/.
 	cp -r $(APP_DIST)/* $(DISTDIR)
 	tar -zcf $(TARDIR).tar.gz $(TARDIR);
 	rm -rf $(TARDIR)
@@ -31,7 +32,7 @@ dist: build
 	@echo "TAR file is now available at: $(TARNAME)"
 	@echo "--------------------------------------------------"
 
-rpm: dist
+build-rpm: build-tar
 	mkdir -p $(RPMBUILD)/{SPECS,RPMS,SOURCES,BUILDROOT}
 	cp tendrl-frontend.spec $(RPMBUILD)/SPECS
 	cp $(TARNAME) $(RPMBUILD)/SOURCES

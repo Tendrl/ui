@@ -3,8 +3,6 @@
 
 // Gulp specific
 var gulp = require("gulp");
-var gzip = require("gulp-gzip");
-var tar = require("gulp-tar");
 var concat = require("gulp-concat");
 var runSequence = require("run-sequence");
 var rename = require("gulp-rename");
@@ -43,7 +41,6 @@ var KarmaServer = require("karma").Server;
 // Local variables
 var pkg = require("./package.json");
 var pluginOpts = pkg.TendrlProps;
-var archiveName = pkg.name + "." + pkg.version + pluginOpts.archiveExtension;
 var buildMode = process.argv[2] || "release";
 var browsers = pluginOpts.targetBrowsers;
 
@@ -55,7 +52,7 @@ var paths = (function () {
     return {
         src: src,
         build: pluginOpts.buildDestination,
-        dest: pluginOpts.buildDestination + pkg.name + "/",
+        dest: pluginOpts.buildDestination + "/",
         preloads: pluginOpts.preloads,
         preloadFolder: "preload/",
         jsLibraries: "jsLibraries/",
@@ -118,7 +115,7 @@ gulp.task("cssLibraries", function() {
 gulp.task("copy", function () {
     var filesToCopy;
 
-    filesToCopy = [filters.all, "../package.json", "!" + filters.jscss];
+    filesToCopy = [filters.all, "!../package.json", "!" + filters.jscss];
 
     paths.htmlFiles.forEach(function (htmlFile) {
         //filesToCopy.push("!" + htmlFile);
@@ -202,22 +199,21 @@ gulp.task("watcher", function (done) {
 
     gulp.watch(filesToCopy, { cwd: paths.src }, function (event) {
         gutil.log("Modified:", colors.yellow(event.path));
-        runSequence("copy", "zip", "upload");
+        runSequence("copy");
     });
 
     gulp.watch(paths.htmlFiles, { cwd: paths.src }, function (event) {
         gutil.log("Modified:", colors.yellow(event.path));
-        runSequence("zip", "upload");
     });
 
     gulp.watch(filters.js, { cwd: paths.src }, function (event) {
         gutil.log("Modified:", colors.yellow(event.path));
-        runSequence("preload", "jsbundle", "zip", "upload");
+        runSequence("preload", "jsbundle");
     });
 
     gulp.watch([filters.css, filters.scss], { cwd: paths.src }, function (event) {
         gutil.log("Modified:", colors.yellow(event.path));
-        runSequence("sass", "zip", "upload");
+        runSequence("sass");
     });
 
     done();
@@ -233,50 +229,17 @@ gulp.task("ut", function (done) {
     new KarmaServer(config, done).start();
 });
 
-// Compress task
-gulp.task("compress", ["common"], function (done) {
-    runSequence("zip", done);
-});
-
-//Create .tar.gz for Tendrl_frontend
-gulp.task("zip", function () {
-
-    gutil.log("Building package: ", colors.red(archiveName));
-
-    return gulp.src([paths.build + "**/**.*"], {
-        buffer: false
-    })
-        .pipe(tar(archiveName))
-        .pipe(gzip({
-            append: false
-        }))
-        .pipe(gulp.dest(".").on("finish", function () {
-            gutil.log(colors.bold("Package built"));
-        }));
-});
-
-// Just plain vanilla upload
-gulp.task("upload", function () {
-
-    var fileToUpload = "./" + archiveName;
-
-    gutil.log("Uploading package to SERVER");
-    gutil.log(colors.bold.green("PACKAGE UPLOADED SUCCESSFULLY"));
-
-});
-
 // Common task
 gulp.task("common", ["eslint", "jsLibraries", "cssLibraries", "resource", "copy", "preload", "sass", "jsbundle"]);
 
 // dev mode task
 gulp.task("dev", ["common", "watcher"], function (done) {
     gutil.log(colors.bold.yellow("Watchers Established. You can now start coding"));
-    runSequence("upload", done);
 });
 
 // production mode task
-gulp.task("release", ["common", "compress"], function (done) {
-    runSequence("ut", "upload", done);
+gulp.task("release", ["common"], function (done) {
+    runSequence("ut", done);
 });
 
 //default task is release

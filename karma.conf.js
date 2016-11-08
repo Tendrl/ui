@@ -5,7 +5,7 @@ module.exports = function (config) {
         frameworks: ["mocha", "chai", "sinon"],
         files: [
 
-            "dist/Tendrl/jsLibraries/libraries.js",
+            "dist/jsLibraries/libraries.js",
             "node_modules/angular-mocks/angular-mocks.js",
 
             // Add template files

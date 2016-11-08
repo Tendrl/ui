@@ -33,9 +33,8 @@ echo "clean"
 
 %files
 %{_datadir}/Tendrl/webapp/*
-%doc docs/*
+%doc ./docs/*
 
 %changelog
-* Ddd Mmm DD YYYY <email@domain.tld> x.y.z-c
-- Fix 1
-- Fix 2
+* Thu Nov 10 2016 <kchidamb@redhat.com> 0.0.1-1
+- Initial Commit
