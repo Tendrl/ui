@@ -1,8 +1,15 @@
 <!DOCTYPE html>
-<html>
-<title>Tendrl</title>
-
+<html class="layout-pf layout-pf-fixed">
 <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <link rel="icon" type="image/png" href="images/favicon.png" sizes="32x32" />
+    <title>Tendrl</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width">
+    <!-- inject:css -->
+    <!-- endinject -->
+
     <link rel="stylesheet" type="text/css" href="cssLibraries/libraries.css">
     <link href="commons/scss/main.css" type="text/css" rel="stylesheet" />
     <script type="text/javascript" src="jsLibraries/libraries.js"></script>
@@ -10,21 +17,17 @@
     <base href="/TendrlModule/">
 </head>
 
-<body ng-app="TendrlModule">
-    <div class="module-container row">
-        <nav class="navbar col-md-2 col-xs-4 col-sm-3 col-lg-2 module-nav">
-            <ul class="nav nav-pills nav-stacked">
-                <li>
-                    <span class="glyphicon glyphicon-dashboard pull-left icons" aria-hidden="true"></span>
-                    <a ui-sref="dashboard" class="nav-links">Dashboard</a>
-                </li>
-            </ul>
-        </nav>
-        <div class="vertical-line col-md-1 com-lg-1 col-sm-1 col-xs-1"></div>
-        <div class="col-md-8 col-xs-8 col-sm-8 col-lg-9">
-            <div ui-view></div>
+<body ng-app="TendrlModule" class="cards-pf tendrl-app">
+
+    <div ng-include src="'../modules/base/header/header.html'"></div>
+    <div ng-include src="'../modules/base/navigation/navigation.html'"></div>
+
+    <div class="container-fluid container-cards-pf container-pf-nav-pf-vertical container-pf-nav-pf-vertical-with-secondary">
+        <div class="row">
+            <div class="col-md-12" ui-view></div>
         </div>
     </div>
+
 </body>
 
 </html>

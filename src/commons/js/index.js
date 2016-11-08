@@ -19,6 +19,10 @@
             .state("dashboard", {
                 url: "/dashboard",
                 template: "<h1>Coming soon...</h1>"
+            })
+            .state("volumes", {
+                url: "/volumes",
+                template: "<h1>Volume Workflow Coming soon...</h1>"
             });
     });
 
