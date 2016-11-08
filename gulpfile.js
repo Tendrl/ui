@@ -1,160 +1,283 @@
-var argv = require('yargs').argv;
-var gulp = require('gulp');
-var $ = require('gulp-load-plugins')();
-var debug = require('gulp-debug');
-var gulpif = require('gulp-if');
-var tslint = require('gulp-tslint');
-var tsc = require('gulp-typescript');
-var browserify = require('browserify');
-var source = require('vinyl-source-stream');
-var buffer = require('vinyl-buffer');
-var merge = require('merge-stream');
-var ngAnnotate = require('gulp-ng-annotate');
-var uglify = require('gulp-uglify');
-var sass = require('gulp-sass');
-var del = require('del');
-//var es = require('event-stream');
-//var bowerFiles = require('main-bower-files');
-//var print = require('gulp-print');
-//var Q = require('q');
-var tscProject = tsc.createProject('tsconfig.json', { typescript: require('typescript') });
+/* global require */
+/* global process */
 
-var path = {
-    tscripts: './app/**/*.ts',
-    scripts: './app/components/**/*.js',
-    styles: ['app/styles/main.scss'],
-    index: 'app/index.html',
-    partials: ['app/components/**/*.html', '!app/index.html'],
-    tsdist: 'app',
-    dist: 'dist'
-};
+// Gulp specific
+var gulp = require("gulp");
+var gzip = require("gulp-gzip");
+var tar = require("gulp-tar");
+var concat = require("gulp-concat");
+var runSequence = require("run-sequence");
+var rename = require("gulp-rename");
 
-var config = {
-    appconfig: {
-        src: ['./app/config/config.json'],
-        dest: 'dist/config'
-    },
-    fonts: {
-        patternfly: {
-            src: ['./node_modules/patternfly/dist/fonts/*.*', './node_modules/font-awesome/fonts/*.*'],
-            dest: 'dist/fonts'
-        },
-        fontawesome: {
-            src: ['./node_modules/patternfly/components/font-awesome/fonts/*.*'],
-            dest: 'dist/components/font-awesome/fonts'
-        }
-    },
-    images: {
-        src: ['./app/images/*.*'],
-        dest: 'dist/images'
-    },
-    css: {
-        vendor: {
-            src: [
-                './node_modules/patternfly/dist/css/patternfly.css',
-                './node_modules/patternfly/dist/css/patternfly-additions.css', './node_modules/angular-patternfly/styles/angular-patternfly.css',
-                './node_modules/angular-bootstrap-datetimepicker/src/css/datetimepicker.css'
-            ],
-            dest: 'dist/css'
-        }
-    },
-    templates: {
-        src: ['./node_modules/angular-bootstrap-datetimepicker/src/templates/datetimepicker.html'],
-        dest: 'dist/templates'
-    }
-}
+// Logger modules
+var gutil = require("gulp-util");
+var colors = gutil.colors;
 
-gulp.task('tslint', function () {
-    return gulp.src('app/*.ts')
-        .pipe(tslint())
-        .pipe(tslint.report('verbose'))
+// File handling related modules
+var del = require("del");
+var fs = require("fs");
+
+// Stream related modules
+var merge = require("merge-stream");
+
+// Network modules
+var request = require("request");
+
+// CSS, SASS and styling related modules
+var cssimport = require("gulp-cssimport");
+var sass = require("gulp-sass");
+var minifyCSS = require("gulp-minify-css");
+var autoprefixer = require("autoprefixer-core");
+var postCss = require("gulp-postcss");
+
+// JavaScript related modules
+var eslint = require("gulp-eslint");
+var uglify = require("gulp-uglify");
+
+// Angular.js specific modules
+var ngAnnotate = require("gulp-ng-annotate");
+
+// Testing related modules
+var KarmaServer = require("karma").Server;
+
+// Local variables
+var pkg = require("./package.json");
+var pluginOpts = pkg.TendrlProps;
+var archiveName = pkg.name + "." + pkg.version + pluginOpts.archiveExtension;
+var buildMode = process.argv[2] || "release";
+var browsers = pluginOpts.targetBrowsers;
+
+// System wide paths
+var paths = (function () {
+
+    var src = "./src/";
+
+    return {
+        src: src,
+        build: pluginOpts.buildDestination,
+        dest: pluginOpts.buildDestination + pkg.name + "/",
+        preloads: pluginOpts.preloads,
+        preloadFolder: "preload/",
+        jsLibraries: "jsLibraries/",
+        cssLibraries: "cssLibraries/",
+        cssMain: pluginOpts.cssMain,
+        jsFiles: pluginOpts.jsFiles,
+        htmlFiles: pluginOpts.htmlFiles,
+        resources: pluginOpts.resources
+    };
+})();
+
+// File selection filters
+var filters = (function () {
+    return {
+        all: "**/*.*",
+        js: "**/*.{js,jst}",
+        css: "**/*.css",
+        scss: "**/*.scss",
+        images: "**/*.{jpg,jpeg,gif,png}",
+        jscss: "**/*.{js,jst,css,scss}",
+        html: "**/*.html"
+    };
+})();
+
+//TO-DO: make task to copy fonts folder. For now the path woff2 is hardcoded.
+
+// Clean the dist directory
+del.sync([paths.dest]);
+
+//Copy js file of the dependent libraries 
+gulp.task("jsLibraries", function() {
+  return gulp.src([
+    "node_modules/jquery/dist/jquery.min.js",
+    "node_modules/angular/angular.js",
+    "node_modules/angular-animate/angular-animate.min.js",
+    "node_modules/angular-aria/angular-aria.min.js",
+    "node_modules/angular-ui-router/release/angular-ui-router.js",
+    "node_modules/patternfly/dist/js/patternfly.js",
+    "node_modules/angular-patternfly/dist/angular-patternfly.js",
+  ])
+  //.pipe(uglify())
+  .pipe(concat("libraries.js"))
+  .pipe(gulp.dest(paths.dest + paths.jsLibraries));
 });
 
-gulp.task('tsc', function () {
-    return gulp.src(path.tscripts)
-        .pipe($.sourcemaps.init())
-        .pipe(tsc(tscProject))
-        .pipe($.sourcemaps.write())
-        .pipe(gulp.dest(path.tsdist));
+//Copy css file of the dependent libraries 
+gulp.task("cssLibraries", function() {
+  return gulp.src([
+    "node_modules/patternfly/dist/css/patternfly.css",
+    "node_modules/patternfly/dist/css/patternfly-additions.css",
+    "node_modules/angular-patternfly/styles/angular-patternfly.css"
+  ])
+  .pipe(postCss([autoprefixer({ browsers: browsers })]))
+  .pipe(buildMode === "dev" ? gutil.noop() : minifyCSS())
+  .pipe(concat("libraries.css"))
+  .pipe(gulp.dest(paths.dest + paths.cssLibraries));
 });
 
-//tsc needs to be completed before browserify
-//https://github.com/gulpjs/gulp/issues/96#issuecomment-33512519
-gulp.task('browserify', ['tsc'], function () {
-    return browserify({ entries: './app/app.js', debug: true })
-        .bundle()
-        .pipe(source('app.js'))
-        .pipe(buffer())
-        .pipe(ngAnnotate())
-        .pipe(gulpif(argv.prod, uglify()))
-        .pipe(gulp.dest(path.dist + '/scripts'));
+//Copy all the application files to dist except js and css
+gulp.task("copy", function () {
+    var filesToCopy;
+
+    filesToCopy = [filters.all, "../package.json", "!" + filters.jscss];
+
+    paths.htmlFiles.forEach(function (htmlFile) {
+        //filesToCopy.push("!" + htmlFile);
+    });
+
+    return gulp.src(filesToCopy, { cwd: paths.src })
+        .pipe(gulp.dest(paths.dest));
 });
 
-gulp.task('sass', function () {
-    return gulp.src(path.styles)
-        .pipe($.sourcemaps.init())
+//Task to do eslint
+gulp.task("eslint", function () {
+    return gulp.src([filters.js], { cwd: paths.src })
+        .pipe(eslint())
+        .pipe(eslint.format("stylish"))
+        .pipe(buildMode === "dev" ? gutil.noop() : eslint.failAfterError());
+});
+
+//Copy the files needed to load before the bootstraping of application
+gulp.task("preload", ["eslint"], function () {
+
+    return gulp.src(paths.preloads, { base: paths.src, cwd: paths.src })
+        .pipe(concat("preload.jst", { newLine: ";" }))
+        .pipe(buildMode === "dev" ? gutil.noop() : ngAnnotate())
+        .pipe(buildMode === "dev" ? gutil.noop() : uglify())
+        .pipe(gulp.dest(paths.dest + paths.preloadFolder));
+});
+
+//Compile the scss files
+gulp.task("sass", function () {
+    return gulp.src([paths.cssMain], { base: paths.src, cwd: paths.src })
         .pipe(sass())
-        .pipe($.concat('tendrl.css'))
-        .pipe($.sourcemaps.write('.'))
-        .pipe(gulp.dest(path.dist + '/css'));
+        .pipe(cssimport({
+            extensions: ["css"]
+        }))
+        .pipe(postCss([autoprefixer({ browsers: browsers })]))
+        .pipe(buildMode === "dev" ? gutil.noop() : minifyCSS())
+        .pipe(gulp.dest(paths.dest));
 });
 
-//Copy css to dist/css
-gulp.task('css', function () {
-    return gulp.src(config.css.vendor.src)
-        .pipe(gulp.dest(config.css.vendor.dest));
+//Copy the resources(fonts etc) to dist folder
+gulp.task("resource", function (done) {
+
+    var streams = merge(),
+        resources = Object.keys(paths.resources);
+
+    if (resources.length > 0) {
+        resources.forEach(function (resource) {
+            var stream = gulp.src(resource, { cwd: paths.src })
+                .pipe(gulp.dest(paths.dest + paths.resources[resource]));
+
+            streams.add(stream);
+        });
+
+        return streams;
+    } else {
+        done();
+    }
+
 });
 
-//Copy templates to dist/templates
-gulp.task('templates', function () {
-    return gulp.src(config.templates.src)
-        .pipe(gulp.dest(config.templates.dest));
+//bundle application js files in plugin-bundle.js and copy it to dist
+gulp.task("jsbundle", ["eslint"], function () {
+
+    return gulp.src(paths.jsFiles, { cwd: paths.src })
+        .pipe(concat("plugin-bundle.js"))
+        .pipe(buildMode === "dev" ? gutil.noop() : ngAnnotate())
+        .pipe(buildMode === "dev" ? gutil.noop() : uglify())
+        .pipe(gulp.dest(paths.dest));
 });
 
-//Copy config to dist/config
-gulp.task('config', function () {
-    return gulp.src(config.appconfig.src)
-        .pipe(gulp.dest(config.appconfig.dest));
+//Establish watcher for js, css, html and copy the updated file to dist 
+gulp.task("watcher", function (done) {
+
+    var filesToCopy;
+
+    filesToCopy = [filters.images, filters.html];
+
+    paths.htmlFiles.forEach(function (htmlPath) {
+        //filesToCopy.push("!" + htmlPath);
+    });
+
+    gulp.watch(filesToCopy, { cwd: paths.src }, function (event) {
+        gutil.log("Modified:", colors.yellow(event.path));
+        runSequence("copy", "zip", "upload");
+    });
+
+    gulp.watch(paths.htmlFiles, { cwd: paths.src }, function (event) {
+        gutil.log("Modified:", colors.yellow(event.path));
+        runSequence("zip", "upload");
+    });
+
+    gulp.watch(filters.js, { cwd: paths.src }, function (event) {
+        gutil.log("Modified:", colors.yellow(event.path));
+        runSequence("preload", "jsbundle", "zip", "upload");
+    });
+
+    gulp.watch([filters.css, filters.scss], { cwd: paths.src }, function (event) {
+        gutil.log("Modified:", colors.yellow(event.path));
+        runSequence("sass", "zip", "upload");
+    });
+
+    done();
+
 });
 
-//Copy the fonts to dist/fonts
-gulp.task('fonts', function () {
-    var patternfly = gulp.src(config.fonts.patternfly.src)
-        .pipe(gulp.dest(config.fonts.patternfly.dest));
-    var fontawesome = gulp.src(config.fonts.fontawesome.src)
-        .pipe(gulp.dest(config.fonts.fontawesome.dest));
-    return merge(patternfly, fontawesome);
+//Run the unit tests
+gulp.task("ut", function (done) {
+    var config = {
+        configFile: __dirname + "/karma.conf.js",
+        singleRun: true
+    };
+    new KarmaServer(config, done).start();
 });
 
-//Copy the images to dist/images
-gulp.task('images', function () {
-    return gulp.src(config.images.src)
-        .pipe(gulp.dest(config.images.dest));
+// Compress task
+gulp.task("compress", ["common"], function (done) {
+    runSequence("zip", done);
 });
 
-gulp.task('html', function () {
-    //Copy the partial html files to dist
-    return gulp.src(path.partials)
-        .pipe(gulp.dest(path.dist + '/views'));
+//Create .tar.gz for Tendrl_frontend
+gulp.task("zip", function () {
+
+    gutil.log("Building package: ", colors.red(archiveName));
+
+    return gulp.src([paths.build + "**/**.*"], {
+        buffer: false
+    })
+        .pipe(tar(archiveName))
+        .pipe(gzip({
+            append: false
+        }))
+        .pipe(gulp.dest(".").on("finish", function () {
+            gutil.log(colors.bold("Package built"));
+        }));
 });
 
-gulp.task('inject', ['browserify', 'sass', 'css', 'html'], function () {
-    //Copy index.html to dist and inject css/js
-    return gulp.src(path.index)
-        .pipe(gulp.dest(path.dist))
-        .pipe($.inject(gulp.src([path.dist + '/css/*.css', path.dist + '/scripts/*.js']), { relative: true }))
-        .pipe(gulp.dest(path.dist));
+// Just plain vanilla upload
+gulp.task("upload", function () {
+
+    var fileToUpload = "./" + archiveName;
+
+    gutil.log("Uploading package to SERVER");
+    gutil.log(colors.bold.green("PACKAGE UPLOADED SUCCESSFULLY"));
+
 });
 
+// Common task
+gulp.task("common", ["eslint", "jsLibraries", "cssLibraries", "resource", "copy", "preload", "sass", "jsbundle"]);
 
-gulp.task('compile', ['tslint', 'tsc', 'browserify', 'sass', 'css', 'templates', 'config', 'fonts', 'html', 'inject', 'images']);
-
-gulp.task('watch', function () {
-    gulp.watch(path.tscripts, ['browserify']);
-    gulp.watch(path.styles, ['sass']);
+// dev mode task
+gulp.task("dev", ["common", "watcher"], function (done) {
+    gutil.log(colors.bold.yellow("Watchers Established. You can now start coding"));
+    runSequence("upload", done);
 });
 
-gulp.task('clean', function () {
-    del(path.scripts);
-    del(path.dist);
+// production mode task
+gulp.task("release", ["common", "compress"], function (done) {
+    runSequence("ut", "upload", done);
 });
+
+//default task is release
+gulp.task("default", ["release"]);
