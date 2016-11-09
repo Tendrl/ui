@@ -12,7 +12,6 @@
         vm.formAttributes = {data: {}, isEmpty: true};
 
         utils.getAttributeList(config.clusterId, "volume").then(function(attributes) {
-
               vm.formAttributes.data = attributes;
               vm.formAttributes.isEmpty = false;
         });

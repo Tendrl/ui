@@ -48,8 +48,6 @@
                 template:   "<div class='container'>" +
                                 "<div class='col-md-offset-2 col-md-8'>" +
                                     "<div class='common-form'>" + 
-                                        "<div pf-toast-notification notification-type='{{type}}' header='{{header}}' message='{{message}}' show-close='{{showClose}}' close-callback='closeCallback' action-title='{{primaryAction}}' action-callback='handleAction' menu-actions='menuActions'>" +
-                                        "</div>" +
                                         "<form class='form-horizontal' role='form' ng-submit='performAction()'>" +
                                             "<div class='form-group' ng-repeat='(key, attribute) in formAttributes'>" + 
                                                 "<label class='col-sm-3 control-label'>{{key}}</label>" + 
@@ -68,4 +66,3 @@
     }
 
 }());
-
