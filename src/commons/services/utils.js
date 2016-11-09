@@ -30,7 +30,6 @@
         };
 
         vm.takeAction = function(data) {
-            console.log("utils file ===> " , vm.actionDetails);
             var actionRequest = {
                 method: vm.actionDetails.action.method,
                 url: vm.actionDetails.action.url,

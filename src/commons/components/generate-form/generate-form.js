@@ -24,8 +24,6 @@
                     $scope.performAction = function() {
                         $scope.requestData = $scope.manipulateData();
 
-                        console.log($scope.requestData, "requestData");
-
                         utils.takeAction($scope.requestData).then(function(jobObject) {
                             alert("Volume is created successfully. and JOB-ID is - " + jobObject.job_id + " And Volume creation is in " + jobObject.status);
                         });
