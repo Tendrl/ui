@@ -61,11 +61,8 @@ export class ClusterService {
     constructor(rest: restangular.ICollection,
         private $q: ng.IQService,
         private serverSvc: ServerService) {
-        this.rest = rest.withConfig((RestangularConfigurer) => {
-            RestangularConfigurer.setBaseUrl('/api/v1/');
-        });
+        this.rest = rest;
         this.restFull = rest.withConfig((RestangularConfigurer) => {
-            RestangularConfigurer.setBaseUrl('/api/v1/');
             RestangularConfigurer.setFullResponse(true);
         });
     }

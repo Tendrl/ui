@@ -129,6 +129,7 @@ class USMApp {
                 $logProvider.debugEnabled(true);
             }])
             .config(['RestangularProvider', function(RestangularProvider) {
+                RestangularProvider.setBaseUrl('http://api.tendrl.org/1.0/');
                 RestangularProvider.addResponseInterceptor(function(data, operation, what, url, response, deferred) {
                     if (operation === 'getList' && what === 'nodes') {
                         _.each(data, (node: any) => {
