@@ -20,7 +20,7 @@
         }, {
             label: 'Volumes',
             id: 'volumes',
-            href: 'volumes',
+            href: 'volume',
             icon: 'fa fa-database',
             active: false
         }];
