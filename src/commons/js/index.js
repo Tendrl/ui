@@ -22,7 +22,7 @@
             })
             .state("volumes", {
                 url: "/volumes",
-                template: "<h1>Volume Workflow Coming soon...</h1>"
+                template: ""
             });
     });
 
