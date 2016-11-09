@@ -11,6 +11,10 @@
         var vm = this;
         vm.menus = menuService.getMenus();
 
+        $rootScope.$on("$stateChangeSuccess", function(event, current, prev) {
+            menuService.setActive(current.name);
+        });
+
     }
 
 })();
