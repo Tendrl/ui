@@ -33,9 +33,9 @@ dist: build
 
 rpm: dist
 	mkdir -p $(RPMBUILD)/{SPECS,RPMS,SOURCES,BUILDROOT}
-	cp package.spec $(RPMBUILD)/SPECS
+	cp tendrl-frontend.spec $(RPMBUILD)/SPECS
 	cp $(TARNAME) $(RPMBUILD)/SOURCES
-	rpmbuild -ba package.spec
+	rpmbuild -ba tendrl-frontend.spec
 	@echo "--------------------------------------------------"
 	@echo "RPM file is now available at: $(RPMBUILD)/RPMS/noarch"
 	@echo "--------------------------------------------------"
