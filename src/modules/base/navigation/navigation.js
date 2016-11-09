@@ -11,13 +11,10 @@
         var vm = this;
         vm.menus = menuService.getMenus();
 
-<<<<<<< HEAD
         $rootScope.$on("$stateChangeSuccess", function(event, current, prev) {
             menuService.setActive(current.name);
         });
 
-=======
->>>>>>> header and navigation implementation
     }
 
 })();

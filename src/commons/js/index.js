@@ -4,6 +4,13 @@
 
     var storageModule = angular.module("TendrlModule", ["ui.router"]);
 
+    storageModule.constant("config", {
+            baseUrl: "http://localhost:9393/1.0/",
+            requestHeader: {"Content-Type": "application/x-www-form-urlencoded"},
+            clusterId: "f82409b8-b5ba-4f91-8486-e0294193268e"
+        }
+    );
+
     storageModule.config(function($stateProvider, $urlRouterProvider, $locationProvider) {
 
         //$locationProvider.html5Mode(true);
@@ -32,6 +39,7 @@
                 controller: "createVolumeController",
                 controllerAs: "createVolume"
             });
+
     });
 
 
