@@ -13,9 +13,11 @@ module.exports = function (config) {
 
             "src/commons/js/*.js",
             "src/modules/**/*.js",
+            "src/commons/services/*.js",
+            "src/commons/components/**/*.js",
 
             // Add all the test files
-            "test/unit/*.js",
+            "test/unit/*.js"
         ],
 
         exclude: [],
