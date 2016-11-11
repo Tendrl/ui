@@ -22,17 +22,17 @@
             //TODO: remove once API support is there
 
             vm.actionDetails.action.method = "POST";
-            vm.actionDetails.action.url =  config.baseUrl + "/cluster/" + config.clusterId + "/volume/create";
+            vm.actionDetails.action.url =  config.baseUrl + "cluster/" + config.clusterId + "/volume/create";
         };
 
         vm.getActionDetails = function() {
             return vm.actionDetails;
         };
 
-        vm.takeAction = function(data) {
+        vm.takeAction = function(data, postUrl) {
             var actionRequest = {
-                method: vm.actionDetails.action.method,
-                url: vm.actionDetails.action.url,
+                method: "POST",
+                url: postUrl,
                 headers: config.requestHeader
             };
 
@@ -43,12 +43,11 @@
                 return response.data;
             });
         };
-        
-        vm.getListOptions= function() {
-            var getListRequest;
+
+        vm.getListOptions= function(listType) {
             var getListRequest = {
                 method: "GET",
-                url: "/api/list.json"
+                url: "/api/" + listType +".json"
                 //url: serverIP + "/clusters"
             };
             var request = angular.copy(getListRequest);
@@ -72,21 +71,6 @@
             });
         };
 
-        vm.getVolumeList = function(clusterId) {
-            var volumeListRequest, request;
-
-            volumeListRequest = {
-                method: "GET",
-                url: "/api/volumeList.json"
-            }; 
-
-            request = angular.copy(volumeListRequest);
-
-            return $http(request).then(function (response) {
-                return response.data;
-            }); 
-        };
-
         vm.getActionList = function(cluster_id, inventory) {
             var actionRequest, request;
 
@@ -100,6 +84,24 @@
                 return response.data;
             });
         };
+
+        /* For cluster specific service */
+
+        vm.getClusterImportFlow = function() {
+            var clusterImportFlowRequest, request;
+
+            clusterImportFlowRequest = {
+                method: "GET",
+                url: "/api/cluster-import-flow.json"
+            };
+
+            request = angular.copy(clusterImportFlowRequest);
+
+            return $http(request).then(function (response) {
+                return response.data;
+            }); 
+        };
+
     }
 
 })();

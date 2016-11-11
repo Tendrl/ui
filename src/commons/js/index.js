@@ -27,6 +27,18 @@
                 url: "/dashboard",
                 template: "<h1>Coming soon...</h1>"
             })
+            .state("cluster", {
+                url: "/cluster",
+                templateUrl: "/modules/cluster/cluster.html",
+                controller: "clusterController",
+                controllerAs: "cluster"
+            })
+            .state("import-cluster", {
+                url: "/import-cluster",
+                templateUrl: "/modules/cluster/import-cluster/import-cluster.html",
+                controller: "importClusterController",
+                controllerAs: "importCluster"
+            })
             .state("volume", {
                 url: "/volume",
                 templateUrl: "/modules/volume/volume.html",

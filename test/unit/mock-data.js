@@ -3,27 +3,34 @@
      var testDataModule = angular.module("TestDataModule", []);
 
      testDataModule.value("generateForm", {
-          formAttributes: {
-                volName: {
-                    "type":"String",
-                    "name": "Name",
-                    "value": "Volume1"
-                },
-                stripe_count:{
-                    "type":"Integer",
-                    "name": "Stripe Count",
-                    "value": 3
-                },
-                replica_count:{
-                    "type":"Integer",
-                    "name": "Replica Count",
-                    "value": 4
-                }
+          formAttributes: [{
+                "type":"String",
+                "name": "volumeName",
+                "value": "Volume1",
+                "required": true
+            },{
+                "type":"Integer",
+                "name": "stripe_count",
+                "value": 3,
+                "required": false
+            },{
+                "type":"Integer",
+                "name": "replica_count",
+                "value": 4,
+                "required": true
+            }],
+            response: {
+                job_id: 1234, 
+                status: "in progress"
             },
             manipulatedData: {
-                volName: "Volume1",
+                volumeName: "Volume1",
                 stripe_count: 3,
                 replica_count: 4
+            },
+            postUrl: "http://10.70.7.196:8080/api/cluster-import-flow.json",
+            callBack: function callBack(response) {
+                vm.notification = "Volume is created successfully. and JOB-ID is - " + response.job_id + " And Volume creation is " + response.status;
             }
      });
 
@@ -46,22 +53,19 @@
             },
             booleanKey: "force",
             listAttribute: {
-                "type":"Brick[]",
+                "type":"List",
                 "name": "Brick Details"
             },
             listKey: "brickdetails",
-            listOptions: {
-                "data": [{
-                    "name": "brick1",
-                    "value": "brick1"
-                },{
-                    "name": "brick2",
-                    "value": "brick2"
-                }, {
-                    "name": "brick3",
-                    "value": "brick3"
-                }]
-            }
-
+            listOptions: [{
+                "node_uuid": "279-78774-782",
+                "fqdn": "dhcp-10.30.40.30-abx"
+            },{
+                "node_uuid": "279-78974-782",
+                "fqdn": "dhcp-10.30.40.50-abx"
+            },{
+                "node_uuid": "279-78374-782",
+                "fqdn": "dhcp-10.30.40.80-abx"
+            }]
         }); 
 })();
