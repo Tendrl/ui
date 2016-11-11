@@ -5,7 +5,7 @@
     var storageModule = angular.module("TendrlModule", ["ui.router"]);
 
     storageModule.constant("config", {
-            baseUrl: "/",
+            baseUrl: " /1.0/",
             requestHeader: {"Content-Type": "application/x-www-form-urlencoded"},
             clusterId: "3969b68f-e927-45da-84d6-004c67974f07"
         }
