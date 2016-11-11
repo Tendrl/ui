@@ -1,0 +1,26 @@
+<div class="tendrl-import-cluster-container">
+	<!--To-do: do in scss-->
+
+	<div class="row">
+		<h1 class="center-text">{{importCluster.heading}}</h1>
+		<div class="col-md-offset-3 col-md-5">
+			<div ng-if="importCluster.notification.length" class="toast-pf alert alert-success alert-dismissable">
+		        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">
+		            <span class="pficon pficon-close" ng-click="importCluster.closeNotification()"></span>
+		        </button>
+		        <span class='pficon pficon-ok'></span>
+		        {{importCluster.notification}}
+		    </div>
+		</div>
+	</div>
+
+	<div class="row">
+		<div class="col-md-12 center-text" ng-if="importCluster.isShowImportButton">
+			<button ng-repeat="flow in importCluster.importFlows" class="btn btn-primary button-padding" ng-click="importCluster.setImportClusterInfo(flow)">{{flow.name}}</button>
+		</div>
+		<div class="col-md-12 center-text" ng-if="!importCluster.isShowImportButton">
+			<generate-form ng-if="!importCluster.formAttributes.isEmpty" form-attributes="importCluster.formAttributes.data" submit-btn-name="Import Cluster" post-url="{{importCluster.postUrl}}" call-back="importCluster.callBack(response)"></generate-form>
+		</div>
+	</div>
+	
+</div>

@@ -9,11 +9,7 @@
     function volumeController(utils, config, $state) {
         var vm = this;
 
-        vm.performAction = performAction;
-
-        utils.getVolumeList(config.clusterId).then(function(list) {
-            vm.volumeList = list;
-        });            
+        vm.performAction = performAction;       
 
         utils.getActionList(config.clusterId, "volume").then(function(list) {
               vm.actionList = list;

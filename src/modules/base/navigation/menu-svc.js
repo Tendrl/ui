@@ -18,6 +18,12 @@
             icon: 'fa fa-dashboard',
             active: true
         }, {
+            label: 'Clusters',
+            id: 'cluster',
+            href: 'cluster',
+            icon: 'pficon pficon-cluster',
+            active: false
+        }, {
             label: 'Volumes',
             id: 'volume',
             href: 'volume',

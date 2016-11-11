@@ -18,29 +18,55 @@
 
                 controller: function($scope, utils) {
 
-                    if($scope.attributeDetails.type === "Brick[]") {
+                    if($scope.attributeDetails.type === "List") {
+                        
+                        /* TODO :- ask api team to send URL */
+                        var listType = $scope.attributeDetails.name.slice(0, -2),
+                            i,
+                            j,
+                            len,
+                            listLen,
+                            keys;
+                        
+                        utils.getListOptions(listType).then(function(listOptions) {
+                            
+                            $scope.listOptions = listOptions;
+                            listLen = $scope.listOptions.length;
 
-                        utils.getListOptions().then(function(listOptions) {
-                            $scope.listOptions = listOptions.data;
+                            keys = Object.keys($scope.listOptions[0]);
+                            len = keys.length;
+
+                            /* TODO :- This should be handle by API itself */
+                            for( j = 0; j < listLen; j++) {
+
+                                for(i = 0; i < len; i++) {
+                                    
+                                    if((keys[i].slice(keys[i].length-2, keys[i].length).toLowerCase()) === "id") {
+                                        $scope.listOptions[j].mappedId = $scope.listOptions[j][keys[i]];
+                                        break;
+                                    }
+                                }
+                            }
+
                         });
-                    }
+                     }
 
                 },
                 template:   "<div class='col-sm-6 tendrl-generate-form-field-container'>" +
-                                "<input type='text' class='form-control' name='{{fieldName}}' ng-if='attributeDetails.type === \"String\"' ng-model='generateFormFieldCtrl.attributeDetails.value' required>" +
-                                "<input type='number' class='form-control' name='{{fieldName}}' ng-if='attributeDetails.type === \"Integer\"' ng-model='generateFormFieldCtrl.attributeDetails.value' required>" + 
+                                "<input type='text' class='form-control' name='{{fieldName}}' ng-if='attributeDetails.type === \"String\"' ng-model='attributeDetails.value' ng-required='attributeDetails.required'>" +
+                                "<input type='number' class='form-control' name='{{fieldName}}' ng-if='attributeDetails.type === \"Integer\"' ng-model='attributeDetails.value' ng-required='attributeDetails.required'>" + 
                                 "<span ng-if='attributeDetails.type === \"Boolean\"'>" + 
                                     "<form>" + 
                                         "<input type='radio' id='yes_{{$id}}' ng-model='attributeDetails.value' name='{{fieldName}}' value='true'>" + 
                                         "<label for='yes_{{$id}}'' class='radio-label'>Yes</label>" +
-                                        "<input type='radio' id='no_{{$id}}' class='radio-button' ng-model='attributeDetails.value' name='{{generateFormFieldCtrl.fieldName}}' value='false'>" +
+                                        "<input type='radio' id='no_{{$id}}' class='radio-button' ng-model='attributeDetails.value' name='{{fieldName}}' value='false'>" +
                                         "<label for='no_{{$id}}' class='radio-label'>No</label>" +
                                     "</form>" +
                                 "</span>" +
-                                "<span ng-if='attributeDetails.type === \"Brick[]\"'>" +
-                                    "<select class='form-control' name='multipleSelect' id='multipleSelect' ng-model='attributeDetails.value' multiple required>" +
-                                        "<option ng-repeat='option in listOptions' value='{{option.value}}'>" +
-                                            "{{option.name}}" + 
+                                "<span ng-if='attributeDetails.type === \"List\"'>" +
+                                    "<select class='form-control' name='multipleSelect' id='multipleSelect' ng-model='attributeDetails.value' multiple ng-required='attributeDetails.required'>" +
+                                        "<option ng-repeat='option in listOptions' value='{{option.mappedId}}'>" +
+                                            "{{option.fqdn}}" + 
                                         "</option>" +
                                     "</select>" +
                                 "</span>" +

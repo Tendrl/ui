@@ -8,7 +8,7 @@ describe("UNIT DIRECTIVE: generateForm", function () {
     var $scope, generateForm, utils;
 
     // Local variables used for testing
-    var element, formRequestResponse, directiveScope, vm, template, takeActionDeferred;
+    var element, formRequestResponse, directiveScope, vm, template, takeActionDeferred, callBackDeferred, callBackCallPara;
 
     // Initialize modules
     beforeEach(function () {
@@ -37,9 +37,11 @@ describe("UNIT DIRECTIVE: generateForm", function () {
 
         beforeEach(function() {
             
-            template = "<generate-form form-attributes='formAttributes' submit-btn-name='Submit'></generate-form>";
+            template = "<generate-form form-attributes='formAttributes' submit-btn-name='Submit' post-url='postUrl' call-back-function='callBack'></generate-form>";
             element = $compile(template)($scope);                      
             $scope.formAttributes = generateForm.formAttributes;
+            $scope.postUrl = generateForm.postUrl;
+            $scope.callBack = function callBack(response) { };
 
             directiveScope = element.isolateScope();
 
@@ -60,14 +62,22 @@ describe("UNIT DIRECTIVE: generateForm", function () {
         describe("Function: performFunction", function() {
 
             beforeEach(function() {
+                callBackDeferred = $q.defer();
+                sinon.stub(directiveScope, "callBack").returns(callBackDeferred.promise);
+
                 directiveScope.performAction();
-                takeActionDeferred.resolve({job_id: 1234, status: "in progress"});
-                $scope.$digest();                
+                takeActionDeferred.resolve(generateForm.response);
+                $scope.$digest();
             });
 
             it("takeAction function should be called with desired parameter", function() {
                 expect(utils.takeAction.calledOnce).to.be.true;
                 expect(utils.takeAction.calledWithMatch(directiveScope.requestData)).to.be.true;
+            });
+
+            it("callBack function should be called with desired parameter", function() {
+                expect(directiveScope.callBack.calledOnce).to.be.true;
+                expect(directiveScope.callBack.calledWithMatch(generateForm.response)).to.be.true;
             });
 
             it("performFunction should modify the formAttributes", function() {
