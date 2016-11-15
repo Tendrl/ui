@@ -32,7 +32,7 @@ be good to avail:
 *Only required if building from source:*
 
 Installed with distro's package manager: `git`, `nodejs`, `npm` +
-Installed with `npm`: `gulp`, `tsd`, <add more>
+Installed with `npm`: `gulp`, <add more>
 
 == How to Deploy
 
@@ -81,16 +81,15 @@ $ cd tendrl_frontend
 Next we will install the dependencies for the package to build
 
 ```sh
-$ sudo npm install -g gulp tsd
+$ sudo npm install -g gulp
 $ npm install
-$ tsd install
 ```
 
 Lastly, the build... which is an one step process, using gulp to automate the
 underlying steps
 
 ```sh
-$ gulp compile
+$ gulp
 ```
 
 Once gulp finishes compiling, the build artifacts will be available in the

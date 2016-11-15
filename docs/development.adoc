@@ -78,14 +78,16 @@ changes to the source.
 
 
 ```sh
-$ sudo npm install -g gulp tsd
+$ sudo npm install -g gulp
 $ npm install
-$ tsd install
-$ gulp compile
+$ gulp
 ```
 
 Upon success of all the steps, you should have the build artifacts in `./dist/`
 subdirectory.
+
+You can also run gulp dev command. It will add watchers to all files and 
+accordingly dist folder will be updated continuosly.
 
 === Running a dev-server
 
