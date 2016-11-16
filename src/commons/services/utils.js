@@ -9,24 +9,27 @@
     function utils($http, config) {
 
         /* Cache the reference to this pointer */
-        var vm = this;
+        var vm = this,
+            actionDetails;
 
-        vm.actionDetails = {};
-        
         vm.setActionDetails = function(action, actionName) {
-            vm.actionDetails = {
+            actionDetails = {
                 action: action,
                 actionName: actionName
             };
 
             //TODO: remove once API support is there
-
-            vm.actionDetails.action.method = "POST";
-            vm.actionDetails.action.url =  config.baseUrl + "cluster/" + config.clusterId + "/volume/create";
+            actionDetails.action.method = "POST";
+            actionDetails.action.url =  config.baseUrl + "cluster/" + config.clusterId + "/volume/create";
         };
 
         vm.getActionDetails = function() {
-            return vm.actionDetails;
+            
+            if(actionDetails) {
+                return actionDetails;
+            } else {
+                return null;
+            }            
         };
 
         vm.takeAction = function(data, postUrl) {
@@ -48,7 +51,6 @@
             var getListRequest = {
                 method: "GET",
                 url: "/api/" + listType +".json"
-                //url: serverIP + "/clusters"
             };
             var request = angular.copy(getListRequest);
             return $http(request).then(function (response) {
@@ -61,7 +63,7 @@
 
             actionRequest = {
                 method: "GET",
-                url: config.baseUrl + "cluster/" + clusterId + '/' + inventory + '/attributes',
+                url: config.baseUrl + "cluster/" + clusterId + "/" + inventory + "/attributes",
             };
 
             request = angular.copy(actionRequest);
@@ -76,7 +78,7 @@
 
             actionRequest = {
                 method: "GET",
-                url: config.baseUrl + 'cluster/' + cluster_id + '/' + inventory + '/actions',
+                url: config.baseUrl + "cluster/" + cluster_id + "/" + inventory + "/actions",
             };
 
             request = angular.copy(actionRequest);
@@ -86,7 +88,6 @@
         };
 
         /* For cluster specific service */
-
         vm.getClusterImportFlow = function() {
             var clusterImportFlowRequest, request;
 
