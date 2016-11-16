@@ -8,7 +8,7 @@ describe("UNIT DIRECTIVE: generateFormField", function () {
     var $scope, generateFormField, utils;
 
     // Local variables used for testing
-    var element, formRequestResponse, directiveScope, vm, template, getListOptionsDeferred;
+    var element, formRequestResponse, directiveScope, vm, template, getObjectListDeferred;
 
     // Initialize modules
     beforeEach(function () {
@@ -28,8 +28,8 @@ describe("UNIT DIRECTIVE: generateFormField", function () {
 
             $scope = $rootScope.$new();
 
-            getListOptionsDeferred = $q.defer();
-            sinon.stub(utils,"getListOptions").returns(getListOptionsDeferred.promise);
+            getObjectListDeferred = $q.defer();
+            sinon.stub(utils,"getObjectList").returns(getObjectListDeferred.promise);
             template = "<generate-form-field attribute-details='attribute' field-name='key'></generate-form-field>";
         });
     });
@@ -132,7 +132,7 @@ describe("UNIT DIRECTIVE: generateFormField", function () {
             // Exercise SUT
             $scope.$digest();
 
-            getListOptionsDeferred.resolve(generateFormField.listOptions);
+            getObjectListDeferred.resolve(generateFormField.listOptions);
             $scope.$digest();
         });
 
@@ -141,7 +141,7 @@ describe("UNIT DIRECTIVE: generateFormField", function () {
         });
 
         it("should fetch the API call to get options", function() {
-            expect(utils.getListOptions.calledOnce).to.be.true;
+            expect(utils.getObjectList.calledOnce).to.be.true;
         });
 
     });

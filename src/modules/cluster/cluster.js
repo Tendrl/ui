@@ -6,10 +6,14 @@
     app.controller("clusterController", clusterController);
 
     /*@ngInject*/
-    function clusterController($state) {
+    function clusterController($state, utils) {
         var vm = this;
 
         vm.importCluster = importCluster;
+
+        utils.getObjectList("Cluster").then(function(list) {
+            vm.clusterList = list;
+        });
 
         function importCluster() {
             $state.go("import-cluster");

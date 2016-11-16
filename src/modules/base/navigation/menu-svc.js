@@ -24,6 +24,12 @@
             icon: 'pficon pficon-cluster',
             active: false
         }, {
+            label: 'Nodes',
+            id: 'node',
+            href: 'node',
+            icon: 'pficon pficon-container-node',
+            active: false
+        }, {
             label: 'Volumes',
             id: 'volume',
             href: 'volume',

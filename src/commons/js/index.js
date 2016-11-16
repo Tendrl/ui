@@ -5,7 +5,7 @@
     var storageModule = angular.module("TendrlModule", ["ui.router"]);
 
     storageModule.constant("config", {
-            baseUrl: " /1.0/",
+            baseUrl: "/1.0/",
             requestHeader: {"Content-Type": "application/x-www-form-urlencoded"},
             clusterId: "3969b68f-e927-45da-84d6-004c67974f07"
         }
@@ -38,6 +38,12 @@
                 templateUrl: "/modules/cluster/import-cluster/import-cluster.html",
                 controller: "importClusterController",
                 controllerAs: "importCluster"
+            })
+            .state("node", {
+                url: "/node",
+                templateUrl: "/modules/node/node.html",
+                controller: "nodeController",
+                controllerAs: "node"
             })
             .state("volume", {
                 url: "/volume",

@@ -115,11 +115,11 @@ describe("UNIT CONTROLLER - importClusterController", function () {
     describe("Funtcion: callBack", function () {
 
         beforeEach(function () {
-            vm.callBack({job_id: 1234, status: "in progress"});
+            vm.callBack({job_id: 1234});
         });
 
         it("Should set notification to empty when notification window is closed", function() {
-            expect(vm.notification).to.be.equal("Cluster is imported successfully. and JOB-ID is - 1234 And Cluster import is in progress");
+            expect(vm.notification).to.be.equal("Cluster is imported successfully. and JOB-ID is - 1234");
         });
     });
 

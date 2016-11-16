@@ -31,7 +31,7 @@
         }
 
         function callBack(response) {
-            vm.notification = "Cluster is imported successfully. and JOB-ID is - " + response.job_id + " And Cluster import is " + response.status;
+            vm.notification = "Cluster is imported successfully. and JOB-ID is - " + response.job_id;
         }
 
         function closeNotification() {
