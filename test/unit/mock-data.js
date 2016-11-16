@@ -225,4 +225,35 @@
         }
     });
 
+    testDataModule.value("createVolume", {
+        attributes: [{
+                "name": "vol_name",
+                "type": "String",
+                "required": true
+            }, {
+                "name": "stripe_count",
+                "type": "Integer",
+                "required": false
+            }, {
+                "name": "Brick[]",
+                "type": "List",
+                "required": true
+            }, {
+                "name":"replica_count",
+                "type": "Integer",
+                "required": true
+        }],
+        actionDetails: {
+            "actionName": "create",
+            "action": {
+                "method" : "POST",
+                "url": "http://10.70.7.196:8080/api/actions.json"
+            }
+        },
+        requestData: {
+            clusterId: "3969b68f-e927-45da-84d6-004c67974f07",
+            inventoryName: "volume"
+        }
+    });
+
 })();
