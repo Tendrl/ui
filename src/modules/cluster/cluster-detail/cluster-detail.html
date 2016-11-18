@@ -1,0 +1,23 @@
+<div class="tendrl-cluster-detail-container container-fluid">
+    
+    <ol class="breadcrumb custom-breadcrumb">
+        <li><a ui-sref="cluster">Cluster</a></li>
+        <li>
+            <span ng-if="clusterDetail.clusterList.length === 1">
+                {{clusterDetail.clusterList[0].sds_name}}
+            </span>
+        </li>
+    </ol>
+    <ul class="nav nav-tabs">
+        <li ng-repeat="(key,value) in clusterDetail.tabList" ng-class="{'active': clusterDetail.isTabSet(value)}">
+            <a href="" ng-click="clusterDetail.setTab(value)" ng-bind="key">
+            </a>
+        </li>
+    </ul>
+    
+    <!-- FIRST TAB CONTENT -->
+    <div ng-if="clusterDetail.isTabSet(clusterDetail.tabList.Volumes)">
+        <generate-list list-name="Volume" object-id="{{clusterDetail.clusterId}}"></generate-list>
+    </div>
+
+</div>

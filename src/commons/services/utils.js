@@ -9,37 +9,29 @@
     function utils($http, config) {
 
         /* Cache the reference to this pointer */
-        var vm = this,
-            actionDetails;
+        var vm = this
 
-        vm.setActionDetails = function(action, actionName) {
-            actionDetails = {
-                action: action,
-                actionName: actionName
-            };
+        vm.takeAction = function(data, postUrl, formMethod, clusterId) {
+            var url, actionRequest, request;
 
-            //TODO: remove once API support is there
-            actionDetails.action.method = "POST";
-            actionDetails.action.url =  config.baseUrl + "cluster/" + config.clusterId + "/volume/create";
-        };
+            // Todo : formMethod should not be null from API
+            if (formMethod === null || formMethod === "") {
+                formMethod = "POST";
+            }
 
-        vm.getActionDetails = function() {
-            
-            if(actionDetails) {
-                return actionDetails;
+            if (clusterId === undefined || clusterId === "") {
+                url = config.baseUrl + postUrl;
             } else {
-                return null;
-            }            
-        };
+                url = config.baseUrl + clusterId + "/" + postUrl;
+            }
 
-        vm.takeAction = function(data, postUrl) {
-            var actionRequest = {
-                method: "POST",
-                url: postUrl,
+            actionRequest = {
+                method: formMethod,
+                url: url,
                 headers: config.requestHeader
             };
 
-            var request = angular.copy(actionRequest);
+            request = angular.copy(actionRequest);
             request.data = data;
 
             return $http(request).then(function (response) {
@@ -47,59 +39,48 @@
             });
         };
 
-        vm.getAttributeList = function(clusterId, inventory) {
-            var actionRequest, request;
+        /* For object workflow service */
+        vm.getObjectWorkflows = function(clusterId) {
+            var url, objectWorkflowsRequest, request;
 
-            actionRequest = {
+            if (clusterId === undefined || clusterId === "") {
+                url = config.baseUrl + "Flows";
+            } else {
+                url = config.baseUrl + clusterId + "/Flows";
+            }
+
+            objectWorkflowsRequest = {
                 method: "GET",
-                url: config.baseUrl + "cluster/" + clusterId + "/" + inventory + "/attributes",
+                url: url
             };
 
-            request = angular.copy(actionRequest);
-
+            request = angular.copy(objectWorkflowsRequest);
             return $http(request).then(function (response) {
                 return response.data;
-            });
-        };
-
-        vm.getActionList = function(cluster_id, inventory) {
-            var actionRequest, request;
-
-            actionRequest = {
-                method: "GET",
-                url: config.baseUrl + "cluster/" + cluster_id + "/" + inventory + "/actions",
-            };
-
-            request = angular.copy(actionRequest);
-            return $http(request).then(function (response) {
-                return response.data;
-            });
-        };
-
-        /* For cluster specific service */
-        vm.getClusterImportFlow = function() {
-            var clusterImportFlowRequest, request;
-
-            clusterImportFlowRequest = {
-                method: "GET",
-                url: config.baseUrl + "Flows"
-            };
-
-            request = angular.copy(clusterImportFlowRequest);
-
-            return $http(request).then(function (response) {
-                return response.data;
+            }, function() {
+                console.log("Error Occurred: while fetching getObjectWorkflows");
             }); 
         };
 
-        vm.getObjectList= function(objectType) {
-            var getObjectListRequest = {
+        vm.getObjectList= function(objectType, clusterId) {
+            var url, getObjectListRequest, request;
+
+            if (clusterId === undefined || clusterId === "") {
+                url = config.baseUrl + "Get" + objectType +"List";
+            } else {
+                url = config.baseUrl + clusterId + "/Get" + objectType +"List";
+            }
+
+            getObjectListRequest = {
                 method: "GET",
-                url: config.baseUrl + "Get" + objectType +"List"
+                url: url
             };
-            var request = angular.copy(getObjectListRequest);
+
+            request = angular.copy(getObjectListRequest);
             return $http(request).then(function (response) {
-                    return response.data;
+                return response.data;
+            }, function() {
+                console.log("Error Occurred: while fetching getObjectList");
             });
         };
 

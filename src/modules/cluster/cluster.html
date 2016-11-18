@@ -26,7 +26,9 @@
                 <div class="list-view-pf-body">
                     <div class="list-view-pf-additional-info">
                         <div class="list-group-item-heading">
-                            <p ng-bind="cluster.sds_name"></p>
+                            <a ui-sref="cluster-detail({clusterId: cluster.cluster_id})">
+                                <p ng-bind="cluster.sds_name"></p>
+                            </a>
                         </div>
                     </div>
                 </div>

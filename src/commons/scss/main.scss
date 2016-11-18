@@ -1,28 +1,46 @@
 @import "../../modules/base/header/header.scss";
 @import "../../commons/components/generate-form-field/generate-form-field.scss";
-@import "../../modules/cluster/import-cluster/import-cluster.scss";
 
-.tendrl-list-view-container {
-	.list-view-pf-additional-info {
-        float: none;
-        width: 100%;
-        margin: auto 1rem;
-        justify-content: space-between;
+.tendrl-app {
+
+    .tendrl-list-view-container {
+        .list-view-pf-additional-info {
+            float: none;
+            width: 100%;
+            margin: auto 1rem;
+            justify-content: space-between;
+        }
+        .list-view-pf .list-group-item-heading {
+            flex: 0 0 auto;
+        }
+        .list-view-pf-additional-info-item {
+            flex-direction: column;
+        }
+        .list-view-pf-additional-info-item strong {
+            margin: auto 5px;
+        }
+        .list-view-pf-additional-info-item.deflex {
+            flex-basis: 10%;
+        }
+        .focus {
+            font-weight: 600;
+            font-size: 2rem;
+        }
     }
-    .list-view-pf .list-group-item-heading {
-        flex: 0 0 auto;
+
+    .custom-breadcrumb {
+        font-size: 17px;
+        padding: 8px;
     }
-    .list-view-pf-additional-info-item {
-        flex-direction: column;
+
+    .center-text {
+        text-align: center;
     }
-    .list-view-pf-additional-info-item strong {
-        margin: auto 5px;
+
+    .button-padding {
+        margin-top: 20px;
+        margin-left: 10px;
+        margin-right: 10px;
     }
-    .list-view-pf-additional-info-item.deflex {
-        flex-basis: 10%;
-    }
-    .focus {
-        font-weight: 600;
-        font-size: 2rem;
-    }
+
 }

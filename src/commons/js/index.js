@@ -6,14 +6,16 @@
 
     storageModule.constant("config", {
             baseUrl: "/1.0/",
-            requestHeader: {"Content-Type": "application/x-www-form-urlencoded"},
-            clusterId: "3969b68f-e927-45da-84d6-004c67974f07"
+            requestHeader: {"Content-Type": "application/x-www-form-urlencoded"}
         }
     );
 
-    storageModule.config(function($stateProvider, $urlRouterProvider, $locationProvider) {
+    storageModule.config(function($stateProvider, $urlRouterProvider, $locationProvider, $httpProvider) {
 
         //$locationProvider.html5Mode(true);
+
+        $httpProvider.defaults.useXDomain = true;
+        delete $httpProvider.defaults.headers.common['X-Requested-With'];
 
         $urlRouterProvider.otherwise("/dashboard");
 
@@ -39,23 +41,17 @@
                 controller: "importClusterController",
                 controllerAs: "importCluster"
             })
+            .state("cluster-detail", {
+                url: "/cluster/:clusterId",
+                templateUrl: "/modules/cluster/cluster-detail/cluster-detail.html",
+                controller: "clusterDetailController",
+                controllerAs: "clusterDetail"
+            })
             .state("node", {
                 url: "/node",
                 templateUrl: "/modules/node/node.html",
                 controller: "nodeController",
                 controllerAs: "node"
-            })
-            .state("volume", {
-                url: "/volume",
-                templateUrl: "/modules/volume/volume.html",
-                controller: "volumeController",
-                controllerAs: "volume"
-            })
-            .state("create-volume", {
-                url: "/create-volume",
-                templateUrl: "/modules/volume/create-volume/create-volume.html",
-                controller: "createVolumeController",
-                controllerAs: "createVolume"
             });
 
     });

@@ -142,7 +142,7 @@
     });
 
     testDataModule.value("utilsMockResponse", {
-        importFlows: [{
+        objectFlows: [{
             "name": "GlusterImportCluster",
             "method": "POST",
             "attributes": [{
@@ -174,7 +174,7 @@
                 "required": false
             }]
         }],
-        listOptions: [{
+        objectList: [{
             "fqdn": "dhcp10-10.abc.com",
             "machine_id": "a34kjsl3545l451d9962",
             "node_id": "3038c577-a8a1ab534b0bc4"
@@ -182,45 +182,7 @@
             "fqdn": "dhcp10-11.abc.com",
             "machine_id": "a34kjsl3545l451d9452",
             "node_id": "3038c577-a8a1ab534b0a2"
-        }],
-        attributeList: [{
-            "name": "Node[]",
-            "type": "List",
-            "required": true
-        }, {
-            "help": "Name of the Tendrl managed sds, eg: 'gluster'",
-            "type": "String",
-            "name": "sds_name",
-            "required": true
-        }, {
-            "help": "Version of the Tendrl managed sds, eg: '3.2.1'",
-            "type": "String",
-            "name": "sds_version",
-            "required": true
-        }],
-
-        actionList:  {
-            "info":{
-                "type":"get",
-                "url":"/cluster/:cluster_id/volume/:volume_id/info",
-                "method":"GET"
-            }, 
-            "create":{
-                "type":"create",
-                "url":"/cluster/:cluster_id/volume/create",
-                "method":"POST"
-            },
-            "start":{
-                "type":"action",
-                "url":"/cluster/:cluster_id/volume/:volume_id/start",
-                "method":"PUT"
-            },
-            "stop":{
-                "type":"action",
-                "url":"/cluster/:cluster_id/volume/:volume_id/stop",
-                "method":"PUT"
-            }
-        }
+        }]
     });
 
     testDataModule.value("createVolume", {

@@ -86,6 +86,7 @@ del.sync([paths.dest]);
 gulp.task("jsLibraries", function() {
   return gulp.src([
     "node_modules/jquery/dist/jquery.min.js",
+    "node_modules/bootstrap/dist/js/bootstrap.min.js", // For dropdown : temporary 
     "node_modules/angular/angular.js",
     "node_modules/angular-animate/angular-animate.min.js",
     "node_modules/angular-aria/angular-aria.min.js",
