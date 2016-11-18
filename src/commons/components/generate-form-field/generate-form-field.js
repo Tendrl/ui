@@ -28,7 +28,7 @@
                             listLen,
                             keys;
                         
-                        utils.getListOptions(listType).then(function(listOptions) {
+                        utils.getObjectList(listType).then(function(listOptions) {
                             
                             $scope.listOptions = listOptions;
                             listLen = $scope.listOptions.length;
@@ -53,8 +53,8 @@
 
                 },
                 template:   "<div class='col-sm-6 tendrl-generate-form-field-container'>" +
-                                "<input type='text' class='form-control' name='{{fieldName}}' ng-if='attributeDetails.type === \"String\"' ng-model='attributeDetails.value' ng-required='attributeDetails.required'>" +
-                                "<input type='number' class='form-control' name='{{fieldName}}' ng-if='attributeDetails.type === \"Integer\"' ng-model='attributeDetails.value' ng-required='attributeDetails.required'>" + 
+                                "<input type='text' placeholder='{{attributeDetails.help}}' class='form-control' name='{{fieldName}}' ng-if='attributeDetails.type === \"String\"' ng-model='attributeDetails.value' ng-required='attributeDetails.required'>" +
+                                "<input type='number' placeholder='{{attributeDetails.help}}' class='form-control' name='{{fieldName}}' ng-if='attributeDetails.type === \"Integer\"' ng-model='attributeDetails.value' ng-required='attributeDetails.required'>" + 
                                 "<span ng-if='attributeDetails.type === \"Boolean\"'>" + 
                                     "<form>" + 
                                         "<input type='radio' id='yes_{{$id}}' ng-model='attributeDetails.value' name='{{fieldName}}' value='true'>" + 

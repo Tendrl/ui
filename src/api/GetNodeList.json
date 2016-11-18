@@ -1,0 +1,9 @@
+[{
+	"fqdn": "dhcp10-10.abc.com",
+	"machine_id": "a34kjsl3545l451d9962",
+	"node_id": "3038c577-a8a1ab534b0bc4"
+},{
+	"fqdn": "dhcp10-11.abc.com",
+	"machine_id": "a34kjsl3545l451d9452",
+	"node_id": "3038c577-a8a1ab534b0a2"
+}]

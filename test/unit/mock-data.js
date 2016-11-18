@@ -58,14 +58,13 @@
         },
         listKey: "brickdetails",
         listOptions: [{
-            "node_uuid": "279-78774-782",
-            "fqdn": "dhcp-10.30.40.30-abx"
+            "fqdn": "dhcp10-10.abc.com",
+            "machine_id": "a34kjsl3545l451d9962",
+            "node_id": "3038c577-a8a1ab534b0bc4"
         },{
-            "node_uuid": "279-78974-782",
-            "fqdn": "dhcp-10.30.40.50-abx"
-        },{
-            "node_uuid": "279-78374-782",
-            "fqdn": "dhcp-10.30.40.80-abx"
+            "fqdn": "dhcp10-11.abc.com",
+            "machine_id": "a34kjsl3545l451d9452",
+            "node_id": "3038c577-a8a1ab534b0a2"
         }]
     });
 
@@ -176,14 +175,13 @@
             }]
         }],
         listOptions: [{
-            "node_uuid": "279-78774-782",
-            "fqdn": "dhcp-10.30.40.30-abx"
-        }, {
-            "node_uuid": "279-78974-782",
-            "fqdn": "dhcp-10.30.40.50-abx"
-        }, {
-            "node_uuid": "279-78374-782",
-            "fqdn": "dhcp-10.30.40.80-abx"
+            "fqdn": "dhcp10-10.abc.com",
+            "machine_id": "a34kjsl3545l451d9962",
+            "node_id": "3038c577-a8a1ab534b0bc4"
+        },{
+            "fqdn": "dhcp10-11.abc.com",
+            "machine_id": "a34kjsl3545l451d9452",
+            "node_id": "3038c577-a8a1ab534b0a2"
         }],
         attributeList: [{
             "name": "Node[]",

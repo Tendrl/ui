@@ -24,8 +24,8 @@
                     $scope.performAction = function() {
                         $scope.requestData = $scope.manipulateData();
 
-                        utils.takeAction($scope.requestData, $scope.postUrl).then(function(jobObject) {
-                            $scope.callBack(jobObject);
+                        utils.takeAction($scope.requestData, $scope.postUrl).then(function(responseObject) {
+                            $scope.callBack({response: responseObject});
                         });
                         
                     };
@@ -43,7 +43,7 @@
                     }
                 },
                 template:   "<div class='container'>" +
-                                "<div class='col-md-offset-2 col-md-8'>" +
+                                "<div class='col-md-offset-1 col-md-10'>" +
                                     "<div class='common-form'>" + 
                                         "<form class='form-horizontal' role='form' ng-submit='performAction()'>" +
                                             "<div class='form-group' ng-repeat='attribute in formAttributes'>" + 

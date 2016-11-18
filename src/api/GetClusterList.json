@@ -1,0 +1,9 @@
+[{
+	"cluster_id": "5291c055-70d3-4450-9769-2f6fd4932afb",
+	"sds_name": "gluster1",
+	"sds_version": "3.9rc1"
+},{
+	"cluster_id": "5291c055-70d3-4450-9769-2f6fd4932avb",
+	"sds_name": "gluster2",
+	"sds_version": "3.9rc1"
+}]

@@ -47,17 +47,6 @@
             });
         };
 
-        vm.getListOptions= function(listType) {
-            var getListRequest = {
-                method: "GET",
-                url: "/api/" + listType +".json"
-            };
-            var request = angular.copy(getListRequest);
-            return $http(request).then(function (response) {
-                    return response.data;
-            });
-        };
-
         vm.getAttributeList = function(clusterId, inventory) {
             var actionRequest, request;
 
@@ -93,7 +82,7 @@
 
             clusterImportFlowRequest = {
                 method: "GET",
-                url: "/api/cluster-import-flow.json"
+                url: config.baseUrl + "Flows"
             };
 
             request = angular.copy(clusterImportFlowRequest);
@@ -101,6 +90,17 @@
             return $http(request).then(function (response) {
                 return response.data;
             }); 
+        };
+
+        vm.getObjectList= function(objectType) {
+            var getObjectListRequest = {
+                method: "GET",
+                url: config.baseUrl + "Get" + objectType +"List"
+            };
+            var request = angular.copy(getObjectListRequest);
+            return $http(request).then(function (response) {
+                    return response.data;
+            });
         };
 
     }

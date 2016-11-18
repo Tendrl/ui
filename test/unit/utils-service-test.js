@@ -82,11 +82,11 @@ describe("UNIT SERVICE - utils", function () {
         response = utilsMockResponse.listOptions;
 
         // Setup data - expectation
-        $httpBackend.expectGET("/api/" + listType +".json")
+        $httpBackend.expectGET(config.baseUrl + "Get" + listType +"List")
             .respond(200, response);
 
         // Exercise SUT
-        utils.getListOptions("Node")
+        utils.getObjectList("Node")
             .then(function (data) {
             // Verify result (state)
             expect(data).to.deep.equal(response);
@@ -130,7 +130,7 @@ describe("UNIT SERVICE - utils", function () {
         var response = utilsMockResponse.importFlows;
 
         // Setup data - expectation
-        $httpBackend.expectGET("/api/cluster-import-flow.json")
+        $httpBackend.expectGET(config.baseUrl + "Flows")
             .respond(200, response);
 
         // Exercise SUT
