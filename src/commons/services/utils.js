@@ -14,9 +14,9 @@
         vm.takeAction = function(data, postUrl, formMethod, clusterId) {
             var url, actionRequest, request;
 
-            // Todo : formMethod should not be null from API
-            if (formMethod === null || formMethod === "") {
-                formMethod = "POST";
+            /* TODO:- Need to find out the proper way for DELETE Request */
+            if (formMethod === "DELETE") {
+                data._method = formMethod;
             }
 
             if (clusterId === undefined || clusterId === "") {
@@ -26,13 +26,12 @@
             }
 
             actionRequest = {
-                method: formMethod,
+                method: "POST",
                 url: url,
-                headers: config.requestHeader
+                data: data
             };
 
             request = angular.copy(actionRequest);
-            request.data = data;
 
             return $http(request).then(function (response) {
                 return response.data;
