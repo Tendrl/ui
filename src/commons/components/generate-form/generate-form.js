@@ -14,7 +14,9 @@
                     formAttributes: "=",
                     submitBtnName: "@",
                     postUrl: "@",
-                    callBack: '&'
+                    formMethod: "@",
+                    callBack: "&",
+                    clusterId: "@?"
                 },
 
                 replace: false,
@@ -23,8 +25,8 @@
 
                     $scope.performAction = function() {
                         $scope.requestData = $scope.manipulateData();
-
-                        utils.takeAction($scope.requestData, $scope.postUrl).then(function(responseObject) {
+                        
+                        utils.takeAction($scope.requestData, $scope.postUrl, $scope.formMethod, $scope.clusterId).then(function(responseObject) {
                             $scope.callBack({response: responseObject});
                         });
                         
@@ -37,7 +39,13 @@
                             i;
 
                         for (i = 0; i < len ; i++) {
-                            requestData[$scope.formAttributes[i].name] = $scope.formAttributes[i].value;
+                            /* TODO :- ask api team to send Brick List */
+                            if($scope.formAttributes[i].name === "Volume.bricks") {
+                                var values = $scope.formAttributes[i].value.split(',');
+                                requestData[$scope.formAttributes[i].name] = values;
+                            } else {
+                                requestData[$scope.formAttributes[i].name] = $scope.formAttributes[i].value;
+                            }
                         }
                         return requestData;
                     }

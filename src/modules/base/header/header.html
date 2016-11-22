@@ -1,4 +1,4 @@
-<nav class="navbar-pf-vertical tendrl-header-container">
+<nav class="navbar-pf-vertical tendrl-header-container" ng-controller="headerController as header">
     <div class="navbar-header">
         <button class="navbar-toggle" type="button" href="">
             <span class="sr-only">Toggle navigation</span>
@@ -11,7 +11,10 @@
         </a>
     </div>
     <nav class="collapse navbar-collapse">
-        <ul class="nav navbar-nav navbar-right navbar-iconic">
+        <span class="pull-right" ng-if="notification.message.length">
+            <notification notification-type="{{notification.type}}" notification-message="{{notification.message}}" notification-close-call-back="header.notificationClose()"></notification>
+        </span>
+        <ul class="nav navbar-nav navbar-right navbar-iconic" ng-if="!notification.message.length">
             <li class="dropdown">
                 <a data-toggle="dropdown" class="dropdown-toggle nav-item-iconic" href="" data-template=""
                 data-animation="am-fade-and-slide-top" bs-dropdown="dropdown" title="Events">

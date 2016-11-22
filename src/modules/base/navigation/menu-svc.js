@@ -29,12 +29,6 @@
             href: 'node',
             icon: 'pficon pficon-container-node',
             active: false
-        }, {
-            label: 'Volumes',
-            id: 'volume',
-            href: 'volume',
-            icon: 'fa fa-database',
-            active: false
         }];
 
         vm.setActive = function(menuId) {

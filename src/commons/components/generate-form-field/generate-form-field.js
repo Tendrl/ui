@@ -19,37 +19,41 @@
                 controller: function($scope, utils) {
 
                     if($scope.attributeDetails.type === "List") {
-                        
-                        /* TODO :- ask api team to send URL */
-                        var listType = $scope.attributeDetails.name.slice(0, -2),
-                            i,
-                            j,
-                            len,
-                            listLen,
-                            keys;
-                        
-                        utils.getObjectList(listType).then(function(listOptions) {
+                        /* TODO :- ask api team to send Brick List */
+                        if($scope.attributeDetails.name === "Volume.bricks") {
+                            $scope.attributeDetails.type = "String";
+                        } else {
+                            /* TODO :- ask api team to send URL */
+                            var listType = $scope.attributeDetails.name.slice(0, -2),
+                                i,
+                                j,
+                                len,
+                                listLen,
+                                keys;
                             
-                            $scope.listOptions = listOptions;
-                            listLen = $scope.listOptions.length;
+                            utils.getObjectList(listType).then(function(listOptions) {
+                                
+                                $scope.listOptions = listOptions;
+                                listLen = $scope.listOptions.length;
 
-                            keys = Object.keys($scope.listOptions[0]);
-                            len = keys.length;
+                                keys = Object.keys($scope.listOptions[0]);
+                                len = keys.length;
 
-                            /* TODO :- This should be handle by API itself */
-                            for( j = 0; j < listLen; j++) {
+                                /* TODO :- This should be handle by API itself */
+                                for( j = 0; j < listLen; j++) {
 
-                                for(i = 0; i < len; i++) {
-                                    
-                                    if((keys[i].slice(keys[i].length-2, keys[i].length).toLowerCase()) === "id") {
-                                        $scope.listOptions[j].mappedId = $scope.listOptions[j][keys[i]];
-                                        break;
+                                    for(i = 0; i < len; i++) {
+                                        
+                                        if((keys[i].slice(keys[i].length-2, keys[i].length).toLowerCase()) === "id") {
+                                            $scope.listOptions[j].mappedId = $scope.listOptions[j][keys[i]];
+                                            break;
+                                        }
                                     }
                                 }
-                            }
 
-                        });
-                     }
+                            });
+                        }
+                    }
 
                 },
                 template:   "<div class='col-sm-6 tendrl-generate-form-field-container'>" +
