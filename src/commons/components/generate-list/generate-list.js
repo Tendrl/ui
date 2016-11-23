@@ -17,42 +17,50 @@
 
                 replace: false,
 
-                controller: function($scope, $rootScope, $interval, utils) {
+                controller: function($scope, $rootScope, $interval, utils, config) {
 
-                    // initialization all scope variable
+                    /* initialization all scope variable */
                     $scope.isCreateFormShow = false;
-                    $scope.list = [];
                     $scope.flows = [];
                     $scope.createFlow = {};
 
+                    /* Now get the object flows */
+                    utils.getObjectWorkflows($scope.objectId).then(function(flows) {
+                        $scope.flows = flows;
+                        var len = $scope.flows.length,
+                            i;
+                        /* Segregating create flow form all flows */
+                        for (i = 0; i < len ; i++) {
+                            if($scope.flows[i].name.indexOf("Create")) {
+                                $scope.createFlow = $scope.flows[i];
+                                break;
+                            }
+                        }
+                    });
+
                     $scope.init = function() {
                         utils.getObjectList($scope.listName, $scope.objectId).then(function(list) {
-                            $scope.list = list;
-                            // Now get the object flows so that we will have actions for objects
-                            utils.getObjectWorkflows($scope.objectId).then(function(flows) {
-                                $scope.flows = flows;                         
-                            });
+                            $scope.list = [];
+                            if(list !== null) {
+                                $scope.list = list;
+                            }
                         });
                     }
 
                     $scope.init();
 
                     /*Refreshing list after each 30 second interval*/
-                    $interval(function () {
+                    var timer = $interval(function () {
                       $scope.init();
-                    }, 1000*30);
+                    }, 1000 * config.refreshIntervalTime );
+
+                    /*Cancelling interval when scope is destroy*/
+                    $scope.$on('$destroy', function() {
+                        $interval.cancel(timer);
+                    });
 
                     $scope.createAction = function() {
-                        var len = $scope.flows.length,
-                            i;
-
-                        for (i = 0; i < len ; i++) {
-                            if($scope.flows[i].name.indexOf("Create")) {
-                                $scope.isCreateFormShow = true;
-                                $scope.createFlow = $scope.flows[i];
-                                break;
-                            }
-                        }
+                        $scope.isCreateFormShow = true;
                     }
 
                     $scope.actionPerform = function(actionName, obj) {
