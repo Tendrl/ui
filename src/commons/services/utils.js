@@ -58,6 +58,7 @@
                 return response.data;
             }, function() {
                 console.log("Error Occurred: while fetching getObjectWorkflows");
+                return null;
             }); 
         };
 
@@ -80,6 +81,7 @@
                 return response.data;
             }, function() {
                 console.log("Error Occurred: while fetching getObjectList");
+                return null;
             });
         };
 
