@@ -19,7 +19,9 @@
         vm.activeTab = vm.tabList.Volumes;
 
         utils.getObjectList("Cluster").then(function(list) {
-            vm.clusterList = list;
+            vm.cluster = list.filter(function(cluster) {
+                return cluster.cluster_id === vm.clusterId;
+            })[0];
         });
 
         function setTab(newTab) {
