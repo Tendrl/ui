@@ -10,14 +10,17 @@
     </ol>
     <ul class="nav nav-tabs">
         <li ng-repeat="(key,value) in clusterDetail.tabList" ng-class="{'active': clusterDetail.isTabSet(value)}">
-            <a href="" ng-click="clusterDetail.setTab(value)" ng-bind="key">
+            <a href="" ng-click="clusterDetail.setTab(value)">
+                {{key}}s
             </a>
         </li>
     </ul>
     
-    <!-- FIRST TAB CONTENT -->
-    <div ng-if="clusterDetail.isTabSet(clusterDetail.tabList.Volumes)">
-        <generate-list list-name="Volume" object-id="{{clusterDetail.clusterId}}"></generate-list>
+    <div ng-if="clusterDetail.tabName.length > 0">
+        <!-- FIRST TAB CONTENT -->
+        <div ng-if="clusterDetail.isTabSet(clusterDetail.tabList[clusterDetail.tabName])">
+            <generate-list list-name="{{clusterDetail.tabName}}" object-id="{{clusterDetail.clusterId}}"></generate-list>
+        </div>
     </div>
 
 </div>

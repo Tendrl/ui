@@ -42,7 +42,14 @@
                         utils.getObjectList($scope.listName, $scope.objectId).then(function(list) {
                             $scope.list = [];
                             if(list !== null) {
-                                $scope.list = list;
+                                var len = list.length,
+                                    i,key;
+                                /* Todo:- Removing DELETE items from the list */
+                                for (i = 0; i < len ; i++) {
+                                    if(list[i].deleted !=='True') {
+                                        $scope.list.push(list[i]);
+                                    }
+                                }
                             }
                         });
                     }
@@ -65,23 +72,38 @@
 
                     $scope.actionPerform = function(actionName, obj) {
                         var len = $scope.flows.length,
-                            i, selectedFlow = {}, requestData = {};
+                            i, selectedFlow = {}, requestData = {}, objId, objName, objVersion;
 
+                        /* Setting up objId, objName, objVersion */
+                        for(var key in obj) {
+                            if(key.indexOf("id") !== -1 && key.indexOf("cluster") === -1) {
+                                objId = obj[key];
+                            } else if(key.indexOf("name") !== -1 && key.indexOf("host") === -1) {
+                                objName = obj[key];
+                            } else if(key.indexOf("version") !== -1) {
+                                objVersion = obj[key];
+                            }
+                        }
+
+                        /* Setting up request data */
                         for (i = 0; i < len ; i++) {
-                            if($scope.flows[i].name.indexOf(actionName) != -1) {
+                            if($scope.flows[i].name.indexOf(actionName) !== -1) {
                                 selectedFlow = $scope.flows[i];
                                 var length = selectedFlow.attributes.length,
                                     j;
                                 for (j = 0; j < length ; j++) {
-                                    if( (selectedFlow.attributes[j].name).indexOf("id") != -1 ) {
-                                        requestData[selectedFlow.attributes[j].name] = obj.vol_id;
-                                    } else if(selectedFlow.attributes[j].name.indexOf("name") != -1 ){
-                                        requestData[selectedFlow.attributes[j].name] = obj.name;
+                                    if( (selectedFlow.attributes[j].name).indexOf("id") !== -1 ) {
+                                        requestData[selectedFlow.attributes[j].name] = objId;
+                                    } else if(selectedFlow.attributes[j].name.indexOf("name") !== -1 ){
+                                        requestData[selectedFlow.attributes[j].name] = objName;
+                                    } else if(selectedFlow.attributes[j].name.indexOf("version") !== -1 ){
+                                        requestData[selectedFlow.attributes[j].name] = objVersion;
                                     }
                                 }
                             }
                         }
                         
+                        /* Performing the appropriate action */
                         utils.takeAction(requestData, selectedFlow.name, selectedFlow.method, $scope.objectId).then(function(response) {
                             $rootScope.notification.type = "success";
                             $rootScope.notification.message = "JOB is under process. and JOB-ID is - " + response.job_id;
