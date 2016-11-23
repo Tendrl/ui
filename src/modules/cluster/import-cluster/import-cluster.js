@@ -28,7 +28,7 @@
 
         function callBack(response) {
             $rootScope.notification.type = "success";
-            $rootScope.notification.message = "Cluster is imported successfully. and JOB-ID is - " + response.job_id;
+            $rootScope.notification.message = "JOB is under process. and JOB-ID is - " + response.job_id;
             $state.go("cluster");
         }
 

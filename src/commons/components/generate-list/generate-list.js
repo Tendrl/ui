@@ -76,14 +76,14 @@
                         
                         utils.takeAction(requestData, selectedFlow.name, selectedFlow.method, $scope.objectId).then(function(response) {
                             $rootScope.notification.type = "success";
-                            $rootScope.notification.message = $scope.listName + " " + actionName + " action performed successfully. and JOB-ID is - " + response.job_id;
+                            $rootScope.notification.message = "JOB is under process. and JOB-ID is - " + response.job_id;
                         });
 
                     }
 
                     $scope.callBack = function(response) {
                         $rootScope.notification.type = "success";
-                        $rootScope.notification.message = $scope.listName + " is created successfully. and JOB-ID is - " + response.job_id;
+                        $rootScope.notification.message = "JOB is under process. and JOB-ID is - " + response.job_id;
                         $scope.isCreateFormShow = false;
                     }
                     

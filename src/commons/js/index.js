@@ -5,17 +5,14 @@
     var storageModule = angular.module("TendrlModule", ["ui.router"]);
 
     storageModule.constant("config", {
-            baseUrl: "/1.0/",
-            requestHeader: {"Content-Type": "application/x-www-form-urlencoded"}
+            baseUrl: "/1.0/"
         }
     );
 
-    storageModule.config(function($stateProvider, $urlRouterProvider, $locationProvider, $httpProvider) {
+    storageModule.config(function($stateProvider, $urlRouterProvider, $httpProvider) {
 
-        //$locationProvider.html5Mode(true);
-
-        $httpProvider.defaults.useXDomain = true;
-        delete $httpProvider.defaults.headers.common['X-Requested-With'];
+        $httpProvider.defaults.headers.post = {};
+        $httpProvider.defaults.headers.delete = {};
 
         $urlRouterProvider.otherwise("/dashboard");
 
