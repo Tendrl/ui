@@ -1,0 +1,4 @@
+{
+	"baseUrl": "/api/1.0/",
+	"refreshIntervalTime": 30
+}
