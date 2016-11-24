@@ -5,7 +5,7 @@
     var storageModule = angular.module("TendrlModule", ["ui.router"]);
 
     storageModule.constant("config", {
-            baseUrl: "/1.0/",
+            baseUrl: "/api/1.0/",
             refreshIntervalTime: 30 /* Content refresh interval time in second */
         }
     );
