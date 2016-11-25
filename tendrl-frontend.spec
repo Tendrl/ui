@@ -6,7 +6,6 @@ Summary: GUI for Tendrl
 License: ASL 2.0
 Group:   Applications/System
 Source0: %{name}-%{version}.tar.gz
-BuildRoot: %{_tmppath}/%{name}-%{version}-%{pkg_release}-buildroot
 URL: https://github.com/Tendrl/tendrl_frontend
 
 Requires: tendrl-api
@@ -19,15 +18,15 @@ Contains the JavaScript GUI content for the Tendrl front-end components
 %setup
 
 %install
-install -m 755 -d $RPM_BUILD_ROOT/%{_datadir}/tendrl/webapp
-cp -r ./dist/* $RPM_BUILD_ROOT/%{_datadir}/tendrl/webapp/
+install -m 755 -d $RPM_BUILD_ROOT/%{_localstatedir}/www/tendrl
+cp -r ./dist/* $RPM_BUILD_ROOT/%{_localstatedir}/www/tendrl/
 
 %clean
 echo "clean"
 [ "$RPM_BUILD_ROOT" != "/" ] && rm -rf "$RPM_BUILD_ROOT"
 
 %files
-%{_datadir}/tendrl/webapp/*
+%{_localstatedir}/www/tendrl/
 %doc ./docs/*
 
 %changelog
