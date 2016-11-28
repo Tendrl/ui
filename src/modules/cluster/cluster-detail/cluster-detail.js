@@ -21,10 +21,12 @@
                 return cluster.cluster_id === vm.clusterId;
             })[0];
 
-            /* Setting up the tab based on ceph/gluster */
-            if(vm.cluster.sds_name === "gluster") {
+            /* TODO:- Cluster specific tab info should come from API itself 
+            Setting up the tab based on ceph/gluster */
+            var clusterType = vm.cluster.sds_name.toLowerCase();
+            if( clusterType.indexOf("gluster") !== -1 ) {
                 vm.tabName = "Volume";
-            } else {
+            } else if( clusterType.indexOf("ceph") !== -1 ) {
                 vm.tabName = "Pool";
             }
 
