@@ -81,7 +81,7 @@
     "htmlFiles": [
       "index.html"
     ],
-    "config": "config/config.json",
+    "config": "config.json",
     "buildDestination": "./dist/",
     "archiveExtension": ".tar.gz"
   }
