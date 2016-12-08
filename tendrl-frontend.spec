@@ -15,7 +15,7 @@ Contains the JavaScript GUI content for the Tendrl front-end components
 (dashboard, login screens, administration screens)
 
 %prep
-%setup
+%autosetup
 
 %install
 install -m 755 -d $RPM_BUILD_ROOT/%{_localstatedir}/www/tendrl
