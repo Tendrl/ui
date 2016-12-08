@@ -21,7 +21,7 @@ Contains the JavaScript GUI content for the Tendrl front-end components
 
 %install
 install -m 755 -d $RPM_BUILD_ROOT/%{_localstatedir}/www/tendrl
-cp -r ./dist/* $RPM_BUILD_ROOT/%{_localstatedir}/www/tendrl/
+cp -a ./dist/* $RPM_BUILD_ROOT/%{_localstatedir}/www/tendrl/
 
 %files
 %{_localstatedir}/www/tendrl/
