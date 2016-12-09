@@ -1,4 +1,4 @@
-describe("Unit: List Clusters", function () {
+describe("Unit Controller: clusterController", function () {
     "use strict";
 
     // Angular injectables
@@ -21,7 +21,7 @@ describe("Unit: List Clusters", function () {
 
         var templateHtml;
 
-        inject(function (_$q_, _$controller_, _$rootScope_, _$state_, _$templateCache_, _$compile_, _clusterList_, _$location_) {
+        inject(function (_$q_, _$controller_, _$rootScope_, _$state_, _$templateCache_, _$compile_, _clusterList_) {
             $q = _$q_;
             $controller = _$controller_;
             $rootScope = _$rootScope_;

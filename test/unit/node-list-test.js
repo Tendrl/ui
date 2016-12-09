@@ -1,4 +1,4 @@
-describe("Unit: List Nodes", function () {
+describe("Unit Controller: nodeController", function () {
     "use strict";
 
     // Angular injectables
@@ -21,7 +21,7 @@ describe("Unit: List Nodes", function () {
 
         var templateHtml;
 
-        inject(function (_$q_, _$controller_, _$rootScope_, _$state_, _$templateCache_, _$compile_, _nodeList_, _$location_) {
+        inject(function (_$q_, _$controller_, _$rootScope_, _$state_, _$templateCache_, _$compile_, _nodeList_) {
             $q = _$q_;
             $controller = _$controller_;
             $rootScope = _$rootScope_;
