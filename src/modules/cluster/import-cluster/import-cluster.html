@@ -1,17 +1,18 @@
-<div class="tendrl-import-cluster-container">
-	<!--To-do: do in scss-->
-
-	<div class="row">
-		<h1 class="center-text">{{importCluster.heading}}</h1>
-	</div>
-
-	<div class="row">
-		<div class="col-md-12 center-text" ng-if="importCluster.isShowImportButton">
-			<button ng-repeat="flow in importCluster.importFlows" class="btn btn-primary button-padding" ng-click="importCluster.setImportClusterInfo(flow)">{{flow.name}}</button>
-		</div>
-		<div class="col-md-12 center-text" ng-if="!importCluster.isShowImportButton">
-			<generate-form form-attributes="importCluster.selectedFlow.attributes" submit-btn-name="Import Cluster" post-url="{{importCluster.selectedFlow.name}}" form-method="{{importCluster.selectedFlow.method}}" call-back="importCluster.callBack(response)"></generate-form>
-		</div>
-	</div>
-	
+<div class="container-fluid import-cluster">
+    <ol class="breadcrumb">
+        <li><a ui-sref="cluster">Clusters</a></li>
+        <li>Import Cluster</li>
+    </ol>
+    <div>
+        <section>
+            <h2>Import Cluster</h2>
+            <p>Select a host for a cluster you wish to import. Note: Only one cluster can be imported at a given time</p>
+        </section>
+        <!-- table directive -->
+        <table-view heading="Available Hosts" colums="importCluster.colums" table-data="importCluster.freeNodes" selected-data="importCluster.selectedNodes"></table-view>
+    </div>
+    <div>
+        <button class="btn btn-primary" ng-click="importCluster.importCluster()">Import</button>
+        <button class="btn btn-default" ng-click="importCluster.cancel()">Cancel</button>
+    </div>
 </div>
