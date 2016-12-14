@@ -20,9 +20,9 @@ dist:   build
 	rm -rf $(NAME)-$(VERSION)
 
 clean:
-	rm -rf $(NAME)-$(VERSION).tar.gz
-	rm -rf $(NAME)-$(VERSION)*.rpm
-	rm -rf *.log
+	rm -f $(NAME)-$(VERSION).tar.gz
+	rm -f $(NAME)-$(VERSION)*.rpm
+	rm -f *.log
 
 srpm:   dist
 	fedpkg --dist epel7 srpm
