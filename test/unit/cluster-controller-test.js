@@ -21,7 +21,7 @@ describe("Unit Controller: clusterController", function () {
 
         var templateHtml;
 
-        inject(function (_$q_, _$controller_, _$rootScope_, _$state_, _$templateCache_, _$compile_, _clusterList_) {
+        inject(function (_$q_, _$controller_, _$rootScope_, _$state_, $location, _$templateCache_, _$compile_, _clusterList_) {
             $q = _$q_;
             $controller = _$controller_;
             $rootScope = _$rootScope_;
