@@ -1,9 +1,9 @@
-<div class="tendrl-list-view-container container-fluid">
+<div class="tendrl-cluster-container container-fluid">
     <div class="page-header">
         <div class="col-md-3 pull-right">
             <div class="row">
                 <div class="col-md-6">
-                    <button class="btn btn-primary pull-right" ng-click="cluster.importCluster()">Import</button>
+                    <button class="btn btn-primary pull-right" ng-click="cluster.openImportClusterModal()">Import</button>
                 </div>
                 <div class="col-md-6">
                     <input type="text" class="form-control" placeholder="Search" ng-model="cluster.search">
@@ -20,15 +20,17 @@
             <h1>No cluster detected.</h1>
         </div>
     </center>
-    <div class="list-group list-view-pf" ng-repeat="cluster in cluster.clusterList | filter:cluster.search">
-        <div class="list-group-item">
-            <div class="list-view-pf-main-info">
-                <div class="list-view-pf-body">
-                    <div class="list-view-pf-additional-info">
-                        <div class="list-group-item-heading">
-                            <a ui-sref="cluster-detail({clusterId: cluster.cluster_id})">
-                                <p ng-bind="cluster.sds_name"></p>
-                            </a>
+    <div class="tendrl-list-view-container">
+        <div class="list-group list-view-pf" ng-repeat="cluster in cluster.clusterList | filter:cluster.search">
+            <div class="list-group-item">
+                <div class="list-view-pf-main-info">
+                    <div class="list-view-pf-body">
+                        <div class="list-view-pf-additional-info">
+                            <div class="list-group-item-heading">
+                                <a ui-sref="cluster-detail({clusterId: cluster.cluster_id})">
+                                    <p ng-bind="cluster.sds_name"></p>
+                                </a>
+                            </div>
                         </div>
                     </div>
                 </div>

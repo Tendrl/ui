@@ -1,0 +1,39 @@
+<div class="tendrl-import-cluster-modal">
+  <div class="modal-header" >
+    <label>Select Storage Service</label>
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+      <span class="pficon pficon-close"></span>
+    </button>
+  </div>
+  <div class="modal-body">
+      <div class="row">
+        <div class="col-md-offset-2 col-md-8">
+          <div class="help-block">
+            Multiple storage service providers have been
+            installed on this system. Please select the storage 
+            service to use for cluster.
+          </div>
+
+          <div class="content">
+            <label>Storage Service</label>
+          </div>
+
+          <div class="paragraph-content">
+            <form>
+              <div ng-repeat="flow in cluster.importFlows">
+                <input type="radio" id="{{$id}}" name="{{flow.name}}" value="{{flow.name}}" ng-model="cluster.selectedStorageService"> 
+                <label for="{{$id}}" class="radio-label">{{flow.title}}</label>
+              </div>
+            </form>
+          </div>
+
+          <div class="center-content">
+            <button type="button" ng-disabled="cluster.selectedStorageService.length === 0" ng-click="cluster.importCluster(cluster.selectedStorageService)" class="btn btn-primary btn-lg">Continue</button>
+          </div>
+
+        </div>
+      </div>
+  </div>
+  <div class="modal-footer">
+  </div>
+</div>

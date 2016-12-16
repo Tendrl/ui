@@ -93,6 +93,7 @@ gulp.task("jsLibraries", function() {
     "node_modules/angular-ui-router/release/angular-ui-router.js",
     "node_modules/patternfly/dist/js/patternfly.js",
     "node_modules/angular-patternfly/dist/angular-patternfly.js",
+    "node_modules/angular-ui-bootstrap/dist/ui-bootstrap-tpls.js",
   ])
   //.pipe(uglify())
   .pipe(concat("libraries.js"))

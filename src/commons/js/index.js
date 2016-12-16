@@ -1,7 +1,7 @@
 //# sourceURL=storage-management-plugin.js
 (function() {
 
-    var storageModule = angular.module("TendrlModule", ["ui.router"]);
+    var storageModule = angular.module("TendrlModule", ["ui.router","ui.bootstrap"]);
 
     /* Setting up provider for getting config data */
     storageModule.provider("config", function () {
@@ -54,7 +54,7 @@
                         controllerAs: "cluster"
                     })
                     .state("import-cluster", {
-                        url: "/import-cluster",
+                        url: "/import-cluster/:storageService",
                         templateUrl: "/modules/cluster/import-cluster/import-cluster.html",
                         controller: "importClusterController",
                         controllerAs: "importCluster"

@@ -6,9 +6,12 @@
     app.controller("clusterController", clusterController);
 
     /*@ngInject*/
-    function clusterController($scope, $state, $interval, utils, config) {
+    function clusterController($scope, $state, $interval, utils, config, $uibModal) {
         var vm = this;
 
+        vm.importFlows = [];
+        vm.selectedStorageService = "";
+        vm.openImportClusterModal = openImportClusterModal;
         vm.importCluster = importCluster;
         vm.init = init;
         vm.init();
@@ -19,6 +22,21 @@
                 if(list !== null) {
                     vm.clusterList = list;
                 }
+            });
+
+            utils.getObjectWorkflows().then(function(importFlows) {
+                vm.importFlows = importFlows;
+                /* Todo: remove when we have proper name from api response */
+                var len = vm.importFlows.length,
+                            i,key;
+                for (i = 0; i < len ; i++) {
+                    if(vm.importFlows[i].name.indexOf('Ceph') !== -1) {
+                        vm.importFlows[i].title = "Red Hat Ceph Storage";
+                    } else if(vm.importFlows[i].name.indexOf('Gluster') !== -1) {
+                        vm.importFlows[i].title = "Red Hat Gluster Storage";
+                    } 
+                }
+
             });
         }
 
@@ -32,8 +50,20 @@
             $interval.cancel(timer);
         });
 
-        function importCluster() {
-            $state.go("import-cluster");
+        function openImportClusterModal() {
+            if(vm.importFlows.length ===1) {
+                $state.go('import-cluster', {storageService: vm.importFlows[0].name});
+            } else {
+                var modalInstance = $uibModal.open({
+                    templateUrl: '../modules/cluster/import-cluster-modal.tpl.html',
+                    scope: $scope,
+                    size: 'md'
+                });
+            }
+        }
+
+        function importCluster(storageService) {
+            $state.go('import-cluster', {storageService: storageService});
         }
     }
 
