@@ -85,14 +85,21 @@ del.sync([paths.dest]);
 //Copy js file of the dependent libraries 
 gulp.task("jsLibraries", function() {
   return gulp.src([
+    "node_modules/d3/d3.min.js",
+    "node_modules/c3/c3.min.js",
     "node_modules/jquery/dist/jquery.min.js",
     "node_modules/bootstrap/dist/js/bootstrap.min.js", // For dropdown : temporary 
     "node_modules/angular/angular.js",
+    "node_modules/angular-ui-bootstrap/dist/ui-bootstrap.min.js",
+    "node_modules/angular-ui-bootstrap/dist/ui-bootstrap-tpls.js",
+    "node_modules/angular-sanitize/angular-sanitize.min.js",
     "node_modules/angular-animate/angular-animate.min.js",
     "node_modules/angular-aria/angular-aria.min.js",
     "node_modules/angular-ui-router/release/angular-ui-router.js",
     "node_modules/patternfly/dist/js/patternfly.js",
     "node_modules/angular-patternfly/dist/angular-patternfly.js",
+    "node_modules/c3-angular/c3-angular.min.js",
+    
   ])
   //.pipe(uglify())
   .pipe(concat("libraries.js"))

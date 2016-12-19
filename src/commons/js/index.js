@@ -1,7 +1,7 @@
 //# sourceURL=storage-management-plugin.js
 (function() {
 
-    var storageModule = angular.module("TendrlModule", ["ui.router"]);
+    var storageModule = angular.module("TendrlModule", ["ui.router","ui.bootstrap","gridshore.c3js.chart","patternfly.charts"]);
 
     /* Setting up provider for getting config data */
     storageModule.provider("config", function () {
