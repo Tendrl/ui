@@ -1,0 +1,16 @@
+<div class="tendrl-sparkline-chart">
+	<div class="row">
+		<div class="col-md-9">
+			<!-- Drawing the graph -->
+			<div pf-sparkline-chart config="chartConfig" chart-data="chartMainData" chart-height="custChartHeight" show-x-axis="custShowXAxis" show-y-axis="custShowYAxis"></div>
+			<div ng-if="chartMainData.dataAvailable">Last 24 hours</div>
+		</div>
+		<div class="col-md-3" ng-if="chartMainData.dataAvailable">
+			<!-- Setting up information -->
+		    <div class="info-section">
+	    		<h3><label>{{chartMainData.yData[chartMainData.yData.length-1]}}K</label></h3>
+	    		<label>IOPS</label>
+		    </div>
+		</div>
+	</div>
+</div>
