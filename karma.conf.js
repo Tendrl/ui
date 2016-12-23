@@ -17,7 +17,10 @@ module.exports = function (config) {
             "src/commons/components/**/*.js",
 
             // Add all the test files
-            "test/unit/*.js"
+            "test/unit/basic-test.js",
+            "test/unit/generate-form-directive-test.js",
+            "test/unit/generate-form--field-directive-test.js",
+            "test/unit/mock-data.js"
         ],
 
         exclude: [],
