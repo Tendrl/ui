@@ -9,7 +9,9 @@
     function utils($http, config) {
 
         /* Cache the reference to this pointer */
-        var vm = this
+        var vm = this,
+            clusterData;
+            //config = config.initData;
 
         vm.takeAction = function(data, postUrl, formMethod, clusterId) {
             var url, actionRequest, request;
@@ -63,13 +65,14 @@
         };
 
         vm.getObjectList= function(objectType, clusterId) {
-            var url, getObjectListRequest, request;
+            var url = "", getObjectListRequest, request;
 
-            if (clusterId === undefined || clusterId === "") {
-                url = config.baseUrl + "Get" + objectType +"List";
-            } else {
-                url = config.baseUrl + clusterId + "/Get" + objectType +"List";
-            }
+            //will comment out once API is available
+            // if (clusterId === undefined || clusterId === "") {
+            //     url = config.baseUrl + "Get" + objectType +"List";
+            // }
+
+            url = "/api/Get" + objectType +"List.json";
 
             getObjectListRequest = {
                 method: "GET",

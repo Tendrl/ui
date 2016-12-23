@@ -17,7 +17,7 @@
             href: 'dashboard',
             icon: 'fa fa-dashboard',
             active: true
-        }, {
+        },{
             label: 'Clusters',
             id: 'cluster',
             href: 'cluster',
