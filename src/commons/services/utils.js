@@ -9,9 +9,11 @@
     function utils($http, config) {
 
         /* Cache the reference to this pointer */
-        var vm = this,
-            clusterData;
-            //config = config.initData;
+        var vm = this, clusterName, i, key, clusterData, len, clusterObj;
+
+        /* clusterData will feed before the application bootstrap */
+        vm.clusterData = null;
+            
 
         vm.takeAction = function(data, postUrl, formMethod, clusterId) {
             var url, actionRequest, request;
@@ -87,6 +89,24 @@
                 return null;
             });
         };
+
+        vm.getClusterDetails = function(clusterId) {
+            clusterName = "Unassigned";
+            if(vm.clusterData !== null && clusterId !== "") {
+                clusterData = vm.clusterData.clusters;
+                len = clusterData.length;
+                for ( i = 0; i < len; i++ ) {
+                    clusterObj = clusterData[i];
+                    for( key in clusterObj ) {
+                        if(key !== "stats" && clusterObj[key].tendrl_context.cluster_id === clusterId) {
+                            clusterName = clusterObj[key].tendrl_context.sds_name;
+                            return clusterName;
+                        }
+                    }
+                }
+            }
+            return clusterName;
+        }
 
     }
 

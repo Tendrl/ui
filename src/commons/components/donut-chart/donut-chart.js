@@ -85,8 +85,6 @@
                 },
                 controller: function($scope, config) {
 
-                    var config = config.initData;
-
                     if($scope.chartData.total !== undefined && $scope.chartData.used !== undefined) {
                         $scope.available = $scope.chartData.total - $scope.chartData.used;
                         $scope.used = $scope.chartData.used;

@@ -6,15 +6,14 @@
     /* Setting up provider for getting config data */
     storageModule.provider("config", function () {
 
-        var config = {initData: null, clusterData: null};
+        /*Ideally this config should only contain
+        configuration related stuff . it should not hold 
+        cluster data */
+        var config = {};
 
         /* Accessible only in config function */
-        this.setConfigData = function (initData) {
-            config.initData = initData;
-        };
-
-        this.setClusterData = function (clusterData) {
-            config.clusterData = clusterData;
+        this.setConfigData = function (dataFromServer) {
+            config = dataFromServer;
         };
 
         /* Accessible in controller/service/factory */
@@ -36,12 +35,6 @@
             storageModule.config(function($stateProvider, $urlRouterProvider, $httpProvider, configProvider) {
 
                 configProvider.setConfigData(response.data);
-
-                $http.get("/api/GetClusterList.json").then(function(response) {
-                    configProvider.setClusterData(response.data);
-                }, function(errorResponse) {
-                    console.log("Error while fetching cluster-list");
-                });
 
                 $httpProvider.defaults.headers.post = {};
                 $httpProvider.defaults.headers.delete = {};
@@ -76,13 +69,22 @@
                         controller: "clusterDetailController",
                         controllerAs: "clusterDetail"
                     })
-                    .state("node", {
-                        url: "/node",
-                        templateUrl: "/modules/node/node.html",
-                        controller: "nodeController",
-                        controllerAs: "node"
+                    .state("host", {
+                        url: "/host",
+                        templateUrl: "/modules/host/host-list/host-list.html",
+                        controller: "hostController",
+                        controllerAs: "hostCntrl"
                     });
 
+            });
+
+            storageModule.run(function(utils) {
+                /* Calling the custom utils service before application started 
+                And filling clusterData so that clusterData will be available
+                through whole application*/
+                utils.getObjectList("Cluster").then(function(list) {
+                    utils.clusterData = list;
+                });
             });
 
         }, function(errorResponse) {
