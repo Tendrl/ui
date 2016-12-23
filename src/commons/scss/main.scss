@@ -1,5 +1,8 @@
+@import "_variables.scss";
+@import "_base.scss";
 @import "../../modules/base/header/header.scss";
 @import "../../commons/components/generate-form-field/generate-form-field.scss";
+@import "../../modules/cluster/cluster-list/cluster-list.scss";
 
 .tendrl-app {
 

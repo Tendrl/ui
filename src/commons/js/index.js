@@ -6,11 +6,15 @@
     /* Setting up provider for getting config data */
     storageModule.provider("config", function () {
 
-        var config = {};
+        var config = {initData: null, clusterData: null};
 
         /* Accessible only in config function */
-        this.setConfigData = function (dataFromServer) {
-            config = dataFromServer;
+        this.setConfigData = function (initData) {
+            config.initData = initData;
+        };
+
+        this.setClusterData = function (clusterData) {
+            config.clusterData = clusterData;
         };
 
         /* Accessible in controller/service/factory */
@@ -19,7 +23,8 @@
     });
 
     /* First fetch the config data than only application will bootstrap */
-    fetchConfigData().then(bootstrapApplication);
+    fetchConfigData()
+        .then(bootstrapApplication);
 
     function fetchConfigData() {
         var initInjector = angular.injector(["ng"]);
@@ -31,6 +36,12 @@
             storageModule.config(function($stateProvider, $urlRouterProvider, $httpProvider, configProvider) {
 
                 configProvider.setConfigData(response.data);
+
+                $http.get("/api/GetClusterList.json").then(function(response) {
+                    configProvider.setClusterData(response.data);
+                }, function(errorResponse) {
+                    console.log("Error while fetching cluster-list");
+                });
 
                 $httpProvider.defaults.headers.post = {};
                 $httpProvider.defaults.headers.delete = {};
@@ -45,13 +56,13 @@
                     })
                     .state("dashboard", {
                         url: "/dashboard",
-                        template: "<h1>Coming soon...</h1>"
+                        template: "<h1>Coming Soon...</h1>"
                     })
                     .state("cluster", {
                         url: "/cluster",
-                        templateUrl: "/modules/cluster/cluster.html",
+                        templateUrl: "/modules/cluster/cluster-list/cluster-list.html",
                         controller: "clusterController",
-                        controllerAs: "cluster"
+                        controllerAs: "clusterCntrl"
                     })
                     .state("import-cluster", {
                         url: "/import-cluster",
