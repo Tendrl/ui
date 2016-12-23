@@ -17,16 +17,16 @@
             href: 'dashboard',
             icon: 'fa fa-dashboard',
             active: true
-        },{
+        }, {
             label: 'Clusters',
             id: 'cluster',
             href: 'cluster',
             icon: 'pficon pficon-cluster',
             active: false
         }, {
-            label: 'Nodes',
-            id: 'node',
-            href: 'node',
+            label: 'Hosts',
+            id: 'host',
+            href: 'host',
             icon: 'pficon pficon-container-node',
             active: false
         }];

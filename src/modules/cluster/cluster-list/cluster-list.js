@@ -28,12 +28,12 @@
             
             utils.getObjectList("cluster")
                 .then(function(data) {
-                    config.clusterData = data;
+                    utils.clusterData = data;
                 });
             
             init();
 
-        }, 1000 * config.initData.refreshIntervalTime );
+        }, 1000 * config.refreshIntervalTime );
 
         /*Cancelling interval when scope is destroy*/
         $scope.$on('$destroy', function() {
@@ -46,9 +46,9 @@
 
         function _createClusterList() {
 
-            if (config.clusterData !== null) {
+            if (utils.clusterData !== null) {
                 
-                clusterData = config.clusterData.clusters;
+                clusterData = utils.clusterData.clusters;
                 len = clusterData.length;
                 temp = [];
 

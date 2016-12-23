@@ -1,0 +1,23 @@
+.tendrl-host-list-view-container {
+
+    .bold-text {
+        font-weight: bold;
+    }
+
+    .counts {
+        color: $color-boston-blue;
+
+        &:hover {
+            cursor: pointer;
+        }
+    }
+
+    .list-group {
+        .list-group-item{
+            .list-view-pf-left {
+                text-align: left;
+            }
+        }
+    }
+
+}
