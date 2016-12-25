@@ -29,6 +29,12 @@
             href: 'host',
             icon: 'pficon pficon-container-node',
             active: false
+        }, {
+            label: 'File Shares',
+            id: 'file-share',
+            href: 'file-share',
+            icon: 'fa fa-database',
+            active: false
         }];
 
         vm.setActive = function(menuId) {
