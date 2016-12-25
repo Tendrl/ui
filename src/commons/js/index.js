@@ -74,6 +74,12 @@
                         templateUrl: "/modules/host/host-list/host-list.html",
                         controller: "hostController",
                         controllerAs: "hostCntrl"
+                    })
+                    .state("file-share", {
+                        url: "/file-share",
+                        templateUrl: "/modules/file-share/file-share-list/file-share-list.html",
+                        controller: "fileShareController",
+                        controllerAs: "fileShareCntrl"
                     });
 
             });

@@ -9,7 +9,7 @@
     function utils($http, config) {
 
         /* Cache the reference to this pointer */
-        var vm = this, clusterName, i, key, clusterData, len, clusterObj;
+        var vm = this, clusterName, volumeList, i, index, key, clusterData, len, clusterObj;
 
         /* clusterData will feed before the application bootstrap */
         vm.clusterData = null;
@@ -107,6 +107,35 @@
             }
             return clusterName;
         }
+
+        vm.getFileShareDetails = function(clusterId) {
+            volumeList = [];
+            clusterData = vm.clusterData.clusters;
+            len = clusterData.length;
+            for ( i = 0; i < len; i++ ) {
+                clusterObj = clusterData[i];
+                for( key in clusterObj ) {
+                    if(clusterId !== undefined) {
+                        if(key !== "stats" && key === clusterId) {
+                            if(clusterObj[key].volumes !== undefined) {
+                                for(index in clusterObj[key].volumes) {
+                                    volumeList.push(clusterObj[key].volumes[index])
+                                }
+                            }
+                        }
+                    } else {
+                        if(key !== "stats") {
+                            if(clusterObj[key].volumes !== undefined) {
+                                for(index in clusterObj[key].volumes) {
+                                    volumeList.push(clusterObj[key].volumes[index])
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            return volumeList;
+        };
 
     }
 

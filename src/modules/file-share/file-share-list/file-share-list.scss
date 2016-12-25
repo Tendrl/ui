@@ -1,0 +1,48 @@
+.tendrl-file-share-list-view-container {
+
+    .bold-text {
+        font-weight: bold;
+    }
+
+    .counts {
+        color: $color-boston-blue;
+
+        &:hover {
+            cursor: pointer;
+        }
+    }
+
+    .list-group {
+        .list-group-item{
+            .list-view-pf-left {
+                text-align: left;
+            }
+        }
+    }
+
+    .expand-box {
+        border: 1px solid $color-black;
+        box-shadow: 7px 7px 5px $color-shadow;
+    }
+
+    .active-list {
+        border-top: 2px solid $color-black !important;
+        background-color: $color-white-smoke;
+        border-left-color: transparent;
+        border-right-color: transparent;
+        box-shadow: 7px 7px 5px $color-shadow;
+    }
+
+    .rebalance-form {
+        margin: 20px;
+    }
+
+    .start-rebalance-button {
+        margin: 16px;
+    }
+
+    .rebalance-paragraph {
+        margin: 12px;
+    }
+
+}

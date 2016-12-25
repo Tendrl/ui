@@ -1,0 +1,150 @@
+<div class="tendrl-file-share-list-view-container">
+    <div class="container-fluid">
+        <!-- heading section-->
+        <!-- heading section-->
+        <h1 class="bold-text">File Shares</h1>
+        
+        <!-- Actions section -->
+        <div class="row toolbar-pf">
+          <div class="col-sm-12">
+            <form class="toolbar-pf-actions">
+              <div class="form-group toolbar-pf-filter">
+                <label class="sr-only" for="filter">Name</label>
+                <div class="input-group">
+                  <div class="input-group-btn">
+                    <!-- Search By -->
+                    <select ng-init="fileShareCntrl.filterBy = 'name'" ng-disabled="fileShareCntrl.fileShareList.length === 0" ng-model="fileShareCntrl.filterBy" class="btn btn-default dropdown-toggle" ng-change="fileShareCntrl.searchBy = {}">
+                      <option value="name">Name</option>
+                      <option value="cluster_name">Cluster</option>
+                      <option value="status">Status</option>
+                      <option value="type">Type</option>
+                    </select>
+                  </div><!-- /btn-group -->
+                  <input ng-disabled="fileShareCntrl.fileShareList.length === 0" type="text" class="form-control" id="filter" ng-model="fileShareCntrl.searchBy[fileShareCntrl.filterBy]" placeholder="Filter By {{fileShareCntrl.filterBy}}...">
+                </div><!-- /input-group -->
+              </div>
+              <div class="form-group">
+                <div class="dropdown btn-group">
+                    <!-- Order By -->
+                    <select ng-init="fileShareCntrl.orderBy = 'name'" ng-disabled="fileShareCntrl.fileShareList.length === 0" ng-model="fileShareCntrl.orderBy" class="btn btn-default dropdown-toggle">
+                      <option value="name">Name</option>
+                      <option value="storage['percent-used']">Storage</option>
+                      <option value="cluster_name">Cluster</option>
+                      <option value="status">Status</option>
+                    </select>
+                </div>
+                <button ng-init="fileShareCntrl.ascOrder = ''" ng-disabled="fileShareCntrl.fileShareList.length === 0" class="btn btn-link" type="button">
+                  <span ng-if="fileShareCntrl.ascOrder !== ''" class="fa fa-sort-alpha-desc" ng-click="fileShareCntrl.ascOrder = ''">
+                  </span>
+                  <span ng-if="fileShareCntrl.ascOrder !== '-'" class="fa fa-sort-alpha-asc" ng-click="fileShareCntrl.ascOrder = '-'">
+                  </span>
+                </button>
+              </div>
+              <div class="toolbar-pf-action-right">
+                <div class="form-group toolbar-pf-find">
+                  <button class="btn btn-primary">
+                    Add
+                  </button>
+                </div>
+              </div>
+            </form>
+
+            <!-- result row -->
+            <div class="row toolbar-pf-results">
+              <div class="col-sm-12">
+                <h5 ng-if="fileShareCntrl.fileShareList.length !== 0">{{fileShareCntrl.filteredFileShareList.length}} File Shares</h5>
+                <ul class="list-inline">
+                  <li>
+                    
+                  </li>
+                </ul>
+              </div><!-- /col -->
+            </div>
+
+          </div><!-- /col -->
+        </div><!-- /row -->
+    </div><!-- /container -->
+
+    <!-- list all file Share -->
+    <div class="container-fluid">
+        <center ng-if="fileShareCntrl.fileShareList.length === 0">
+            <div class="blank-slate-pf">
+                <div class="blank-slate-pf-icon">
+                    <i class="pficon pficon-container-node"></i>
+                </div>
+                <h1>No File Shares detected.</h1>
+                <p>File Shares are detected when you <a href="">create a cluster</a></p>
+                <p>If you have already cluster created and still do not see File Shares, make sure the File Shares are configured correctly.</p>
+            </div>
+        </center>
+        <div class="list-group list-view-pf list-view-pf-equalized-column" ng-repeat="fileShare in fileShareCntrl.filteredFileShareList=(fileShareCntrl.fileShareList | filter: fileShareCntrl.searchBy | orderBy : fileShareCntrl.ascOrder + fileShareCntrl.orderBy)">
+            <div class="list-group-item" ng-class="{'active-list':fileShare.isExpand}">
+                <div class="list-view-pf-left col-md-1">
+                  <i class="counts" title="Rebalance" ng-click="fileShare.isExpand = !fileShare.isExpand" ng-class="fileShare.isExpand? 'fa fa-angle-down':'fa fa-angle-right'" aria-hidden="true"></i>
+                </div>
+                <div class="list-view-pf-left col-md-1">
+                    <span title="{{fileShare.status}}" ng-if="fileShare.status !=='Stopped'" class="pficon pficon-ok list-view-pf-icon-success"></span>
+                    <span title="{{fileShare.status}}" ng-if="fileShare.status ==='Stopped'" class="fa fa-arrow-circle-o-down"></span>
+                </div>
+                <div class="list-view-pf-left col-md-1">
+                    <h5>
+                      <a href="">{{fileShare.name}}</a>
+                    </h5>
+                    <small>{{fileShare.type}}</small>
+                </div>
+                <div  class="col-md-2">
+                    <div ng-if="fileShare.storage !== 'NA'" class="list-view-pf-additional-info-item donut-chart" chart-title="Storage" chart-data="fileShare.storage">
+                    </div>
+                    <div ng-if="fileShare.storage === 'NA'" class="list-view-pf-additional-info-item list-view-pf-additional-info-item-stacked">
+                        <b>  Storage  </b>
+                        <h5>
+                            {{fileShare.storage}}
+                        </h5>
+                    </div>
+                </div>
+                <div  class="col-md-2">
+                    <div class="list-view-pf-additional-info-item list-view-pf-additional-info-item-stacked">
+                        <b>  Cluster  </b>
+                        <h5>
+                            {{fileShare.cluster_name}}
+                        </h5>
+                    </div>
+                </div>
+                <div  class="col-md-1">
+                    <div class="list-view-pf-additional-info-item list-view-pf-additional-info-item-stacked">
+                        <b>  Bricks  </b><h5 class="counts">{{fileShare.brick_count}}</h5>
+                    </div>
+                </div>
+                <div class="col-md-1">
+                    <div class="list-view-pf-additional-info-item list-view-pf-additional-info-item-stacked">
+                        <b>  Alerts  </b><h5 class="counts">{{fileShare.alert_count}}</h5>
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="list-view-pf-additional-info-item list-view-pf-additional-info-item-stacked">
+                        <b>  Last Rebalance  </b><h5>{{fileShare.last_rebalance | date : 'MMM d yyyy'}}</h5>
+                    </div>
+                </div>
+                <div class="col-md-1">
+                  <div class="list-view-pf-actions">
+                      <div class="dropdown pull-right dropdown-kebab-pf">
+                          <button class="btn btn-link dropdown-toggle" type="button" id="dropdownKebabRight12" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                              <span class="fa fa-ellipsis-v"></span>
+                          </button>
+                          <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownKebabRight12">
+                              <li><a href="">Edit</a></li>
+                              <li><a href="">Stop</a></li>
+                              <li><a href="" ng-click="fileShare.isExpand = true">Rebalance</a></li>
+                              <li><a href="">Remove</a></li>
+                          </ul>
+                      </div>
+                  </div>
+                </div>
+                <div class="list-group-item-container container-fluid expand-box" ng-if="fileShare.isExpand" ng-include src="'../modules/file-share/file-share-list/file-share-rebalance.html'"></div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12 horizontal-line"></div>
+        </div>
+    </div>
+</div>
