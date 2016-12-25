@@ -6,6 +6,9 @@
     /* Setting up provider for getting config data */
     storageModule.provider("config", function () {
 
+        /*Ideally this config should only contain
+        configuration related stuff . it should not hold 
+        cluster data */
         var config = {};
 
         /* Accessible only in config function */
@@ -19,7 +22,8 @@
     });
 
     /* First fetch the config data than only application will bootstrap */
-    fetchConfigData().then(bootstrapApplication);
+    fetchConfigData()
+        .then(bootstrapApplication);
 
     function fetchConfigData() {
         var initInjector = angular.injector(["ng"]);
@@ -45,13 +49,13 @@
                     })
                     .state("dashboard", {
                         url: "/dashboard",
-                        template: "<h1>Coming soon...</h1>"
+                        template: "<h1>Coming Soon...</h1>"
                     })
                     .state("cluster", {
                         url: "/cluster",
-                        templateUrl: "/modules/cluster/cluster.html",
+                        templateUrl: "/modules/cluster/cluster-list/cluster-list.html",
                         controller: "clusterController",
-                        controllerAs: "cluster"
+                        controllerAs: "clusterCntrl"
                     })
                     .state("import-cluster", {
                         url: "/import-cluster",
@@ -65,13 +69,22 @@
                         controller: "clusterDetailController",
                         controllerAs: "clusterDetail"
                     })
-                    .state("node", {
-                        url: "/node",
-                        templateUrl: "/modules/node/node.html",
-                        controller: "nodeController",
-                        controllerAs: "node"
+                    .state("host", {
+                        url: "/host",
+                        templateUrl: "/modules/host/host-list/host-list.html",
+                        controller: "hostController",
+                        controllerAs: "hostCntrl"
                     });
 
+            });
+
+            storageModule.run(function(utils) {
+                /* Calling the custom utils service before application started 
+                And filling clusterData so that clusterData will be available
+                through whole application*/
+                utils.getObjectList("Cluster").then(function(list) {
+                    utils.clusterData = list;
+                });
             });
 
         }, function(errorResponse) {

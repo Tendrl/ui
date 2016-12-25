@@ -24,9 +24,9 @@
             icon: 'pficon pficon-cluster',
             active: false
         }, {
-            label: 'Nodes',
-            id: 'node',
-            href: 'node',
+            label: 'Hosts',
+            id: 'host',
+            href: 'host',
             icon: 'pficon pficon-container-node',
             active: false
         }];

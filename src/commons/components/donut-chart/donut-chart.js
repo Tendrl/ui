@@ -14,7 +14,7 @@
         (In your template):
         <div ng-repeat="host in hostList"
             <div  class="col-md-2">
-                <div class="list-view-pf-additional-info-item donut-chart" chart-title="Storage" chart-data="node.chartData">
+                <div class="list-view-pf-additional-info-item donut-chart" chart-title="Storage" chart-data="host.chartData">
                 </div>
             </div>
         </div>
@@ -30,7 +30,7 @@
         (In your template):
          <div ng-repeat="host in hostList"
             <div  class="col-md-2">
-                <div class="list-view-pf-additional-info-item donut-chart" chart-title="Storage" chart-data="node.chartData" chart-thresholds="chartThresholds">
+                <div class="list-view-pf-additional-info-item donut-chart" chart-title="Storage" chart-data="host.chartData" chart-thresholds="chartThresholds">
                 </div>
             </div>
         </div>
@@ -44,7 +44,8 @@
 
     app.directive("donutChart", donutChart);
 
-    function donutChart() {
+    /*@ngInject*/
+    function donutChart(config) {
 
         return  {
                 restrict: "C",
