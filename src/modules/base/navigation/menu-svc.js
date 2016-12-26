@@ -27,13 +27,13 @@
             label: 'File Shares',
             id: 'file-share',
             href: 'file-share',
-            icon: 'fa fa-database',
+            icon: 'pficon pficon-volume',
             active: false
         }, {
             label: 'Pools',
             id: 'pool',
             href: 'pool',
-            icon: 'fa fa-database',
+            icon: 'pficon pficon-resource-pool',
             active: false
         }];
 

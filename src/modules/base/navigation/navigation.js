@@ -15,6 +15,16 @@
             menuService.setActive(current.name);
         });
 
+
+        /* fixed for navigation slide issue*/
+        var deregisterfn = $rootScope.$on("$viewContentLoaded", function() {
+            var navigation = $();
+            setTimeout(function() {
+               navigation.setupVerticalNavigation(true);
+            }, 0);
+            deregisterfn();
+        });
+
     }
 
 })();

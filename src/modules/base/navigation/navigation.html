@@ -2,7 +2,7 @@
     <ul class="list-group">
         <li class="list-group-item" ng-repeat="menu in navCtrl.menus" ng-class="{'active':menu.active, 'persistent-secondary':menu.hasSubMenus}"
         data-target="#{{menu.label}}">
-            <a ui-sref="{{menu.href}}"> <span ng-class="menu.icon"></span> <span class="list-group-item-value">{{menu.label}}</span> </a>
+            <a ui-sref="{{menu.href}}" class="cursor-pointer"> <span ng-class="menu.icon"></span> <span class="list-group-item-value">{{menu.label}}</span> </a>
             <div id="{{menu.label}}" class="nav-pf-persistent-secondary" ng-if="menu.hasSubMenus">
                 <div class="persistent-secondary-header">
                     <a class="secondary-collapse-toggle-pf cursor-pointer" data-toggle="collapse-secondary-nav"></a>
