@@ -12,12 +12,6 @@
         var vm = this;
 
         vm.menus = [{
-            label: 'Dashboard',
-            id: 'dashboard',
-            href: 'dashboard',
-            icon: 'fa fa-dashboard',
-            active: true
-        }, {
             label: 'Clusters',
             id: 'cluster',
             href: 'cluster',
@@ -33,6 +27,12 @@
             label: 'File Shares',
             id: 'file-share',
             href: 'file-share',
+            icon: 'fa fa-database',
+            active: false
+        }, {
+            label: 'Pools',
+            id: 'pool',
+            href: 'pool',
             icon: 'fa fa-database',
             active: false
         }];

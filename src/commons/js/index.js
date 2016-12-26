@@ -39,17 +39,13 @@
                 $httpProvider.defaults.headers.post = {};
                 $httpProvider.defaults.headers.delete = {};
 
-                $urlRouterProvider.otherwise("/dashboard");
+                $urlRouterProvider.otherwise("/cluster");
 
                 $stateProvider
                     .state("Tendrl", {
                         url: "/Tendrl",
                         templateUrl: "index.html",
                         abstract: true
-                    })
-                    .state("dashboard", {
-                        url: "/dashboard",
-                        template: "<h1>Coming Soon...</h1>"
                     })
                     .state("cluster", {
                         url: "/cluster",
@@ -80,6 +76,12 @@
                         templateUrl: "/modules/file-share/file-share-list/file-share-list.html",
                         controller: "fileShareController",
                         controllerAs: "fileShareCntrl"
+                    })
+                    .state("pool", {
+                        url: "/pool",
+                        templateUrl: "/modules/pool/pool-list/pool-list.html",
+                        controller: "poolController",
+                        controllerAs: "poolCntrl"
                     });
 
             });

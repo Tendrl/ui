@@ -6,7 +6,7 @@
     app.controller("clusterController", clusterController);
 
     /*@ngInject*/
-    function clusterController($scope, $state, $interval, config, $filter, utils) {
+    function clusterController($scope, $state, $interval, config, utils) {
         var vm = this,
             key,
             len,
@@ -54,21 +54,27 @@
 
                 for ( i = 0; i < len; i++) {
                     cluster = {};
-                    key = Object.keys(clusterData[i]);
+
+                    for(key in clusterData[i]) {
+
+                        if(key !== "stats") {
                     
-                    cluster.name = clusterData[i][key[0]].tendrl_context.sds_name;
-                    cluster.id = clusterData[i][key[0]].tendrl_context.cluster_id;
-                    cluster.alertCount = clusterData[i].stats.alert_cnt;
-                    cluster.storage = clusterData[i].stats.storage;
+                            cluster.name = clusterData[i][key].tendrl_context.sds_name;
+                            cluster.id = clusterData[i][key].tendrl_context.cluster_id;
+                        } else if (key === "stats") {
+                            cluster.alertCount = clusterData[i].stats.alert_cnt;
+                            cluster.storage = clusterData[i].stats.storage;
+                        }                 
+                    }
 
                     cluster.status = "NA";
                     cluster.hostCount = "NA";
                     cluster.poolCount = "NA";
                     cluster.iops = "IOPS-NA";
-
-                    temp.push(cluster); 
+                    
+                    temp.push(cluster);
+                    
                 }
-
                 vm.clusterList = temp;
             }
         }
