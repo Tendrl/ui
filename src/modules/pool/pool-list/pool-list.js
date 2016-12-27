@@ -6,7 +6,7 @@
     app.controller("poolController", poolController);
 
     /*@ngInject*/
-    function poolController($scope, $state, $interval, config, utils) {
+    function poolController($scope, $rootScope, $state, $interval, config, utils) {
         var vm = this,
             key,
             len,
@@ -25,7 +25,13 @@
 
         /*Refreshing list after each 30 second interval*/
         timer = $interval(function () {
-            init();
+
+            utils.getObjectList("Cluster")
+                .then(function(data) {
+                    $rootScope.clusterData = data;
+                    init();
+                });
+
         }, 1000 * config.refreshIntervalTime );
 
         /*Cancelling interval when scope is destroy*/

@@ -6,7 +6,7 @@
     app.controller("clusterController", clusterController);
 
     /*@ngInject*/
-    function clusterController($scope, $state, $interval, config, utils) {
+    function clusterController($scope, $state, $interval, config, utils, $rootScope) {
         var vm = this,
             key,
             len,
@@ -26,12 +26,11 @@
         /*Refreshing list after each 30 second interval*/
         var timer = $interval(function () {
             
-            utils.getObjectList("cluster")
+            utils.getObjectList("Cluster")
                 .then(function(data) {
-                    utils.clusterData = data;
+                    $rootScope.clusterData = data;
+                    init();
                 });
-            
-            init();
 
         }, 1000 * config.refreshIntervalTime );
 
@@ -46,9 +45,9 @@
 
         function _createClusterList() {
 
-            if (utils.clusterData !== null) {
+            if ($rootScope.clusterData !== null) {
                 
-                clusterData = utils.clusterData.clusters;
+                clusterData = $rootScope.clusterData.clusters;
                 len = clusterData.length;
                 temp = [];
 

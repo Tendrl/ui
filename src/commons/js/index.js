@@ -86,12 +86,13 @@
 
             });
 
-            storageModule.run(function(utils) {
+            storageModule.run(function(utils, $rootScope) {
                 /* Calling the custom utils service before application started 
                 And filling clusterData so that clusterData will be available
                 through whole application*/
+                $rootScope.clusterData = null;
                 utils.getObjectList("Cluster").then(function(list) {
-                    utils.clusterData = list;
+                    $rootScope.clusterData = list;
                 });
             });
 

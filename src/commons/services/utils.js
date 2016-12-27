@@ -6,7 +6,7 @@
     app.service("utils", utils);
 
     /*@ngInject*/
-    function utils($http, config) {
+    function utils($http, config, $rootScope) {
 
         /* Cache the reference to this pointer */
         var vm = this, 
@@ -20,9 +20,6 @@
             len, 
             clusterObj;
 
-        /* clusterData will feed before the application bootstrap */
-        vm.clusterData = null;
-            
 
         vm.takeAction = function(data, postUrl, formMethod, clusterId) {
             var url, actionRequest, request;
@@ -101,8 +98,8 @@
 
         vm.getClusterDetails = function(clusterId) {
             clusterName = "Unassigned";
-            if(vm.clusterData !== null && clusterId !== "") {
-                clusterData = vm.clusterData.clusters;
+            if($rootScope.clusterData !== null && clusterId !== "") {
+                clusterData = $rootScope.clusterData.clusters;
                 len = clusterData.length;
                 for ( i = 0; i < len; i++ ) {
                     clusterObj = clusterData[i];
@@ -119,64 +116,80 @@
 
         vm.getFileShareDetails = function(clusterId) {
             volumeList = [];
-            clusterData = vm.clusterData.clusters;
-            len = clusterData.length;
-            for ( i = 0; i < len; i++ ) {
-                clusterObj = clusterData[i];
-                for( key in clusterObj ) {
-                    if(clusterId !== undefined) {
-                        if(key !== "stats" && key === clusterId) {
-                            if(clusterObj[key].volumes !== undefined) {
-                                for(index in clusterObj[key].volumes) {
-                                    volumeList.push(clusterObj[key].volumes[index])
+
+            if($rootScope.clusterData !== null) {
+                clusterData = $rootScope.clusterData.clusters;
+                len = clusterData.length;
+                for ( i = 0; i < len; i++ ) {
+
+                    clusterObj = clusterData[i];
+                    for( key in clusterObj ) {
+
+                        if(clusterId !== undefined) {
+                            if(key !== "stats" && key === clusterId) {
+                                if(clusterObj[key].volumes !== undefined) {
+                                    for(index in clusterObj[key].volumes) {
+                                        volumeList.push(clusterObj[key].volumes[index])
+                                    }
                                 }
                             }
-                        }
-                    } else {
-                        if(key !== "stats") {
-                            if(clusterObj[key].volumes !== undefined) {
-                                for(index in clusterObj[key].volumes) {
-                                    volumeList.push(clusterObj[key].volumes[index])
+
+                        } else {
+                            
+                            if(key !== "stats") {
+                                if(clusterObj[key].volumes !== undefined) {
+                                    for(index in clusterObj[key].volumes) {
+                                        volumeList.push(clusterObj[key].volumes[index])
+                                    }
                                 }
                             }
                         }
                     }
                 }
+            } else {
+                vm.getObjectList("Cluster").then(function(list) {
+                    $rootScope.clusterData = list;
+                });
             }
             return volumeList;
         };
 
         vm.getPoolDetails = function(clusterId) {
-            
             poolList = [];
-            clusterData = vm.clusterData.clusters;
-            len = clusterData.length;
 
-            for ( i = 0; i < len; i++ ) {
+            if($rootScope.clusterData !== null) {
+                clusterData = $rootScope.clusterData.clusters;
+                len = clusterData.length;
+                for ( i = 0; i < len; i++ ) {
 
-                clusterObj = clusterData[i];
-                for( key in clusterObj ) {
+                    clusterObj = clusterData[i];
+                    for( key in clusterObj ) {
 
-                    if(clusterId !== undefined) {
-                        if(key !== "stats" && key === clusterId) {
-                            if(clusterObj[key].pools !== undefined) {
-                                for(index in clusterObj[key].pools) {
-                                    poolList.push(clusterObj[key].pools[index])
+                        if(clusterId !== undefined) {
+                            if(key !== "stats" && key === clusterId) {
+                                if(clusterObj[key].pools !== undefined) {
+                                    for(index in clusterObj[key].pools) {
+                                        poolList.push(clusterObj[key].pools[index])
+                                    }
                                 }
                             }
-                        }
 
-                    } else {
+                        } else {
 
-                        if(key !== "stats") {
-                            if(clusterObj[key].pools !== undefined) {
-                                for(index in clusterObj[key].pools) {
-                                    poolList.push(clusterObj[key].pools[index])
+                            if(key !== "stats") {
+                                if(clusterObj[key].pools !== undefined) {
+                                    for(index in clusterObj[key].pools) {
+                                        poolList.push(clusterObj[key].pools[index])
+                                    }
                                 }
                             }
                         }
                     }
                 }
+            } else {
+                vm.getObjectList("Cluster").then(function(list) {
+                    $rootScope.clusterData = list;
+                });
             }
             return poolList;
         };
