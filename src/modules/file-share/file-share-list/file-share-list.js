@@ -6,7 +6,7 @@
     app.controller("fileShareController", fileShareController);
 
     /*@ngInject*/
-    function fileShareController($scope, $interval, utils, config) {
+    function fileShareController($scope, $rootScope, $interval, utils, config) {
         var vm = this, timer, list, fileShareList, fileShare, fileShareObj, i, len;
 
         vm.setupFileShareListData = setupFileShareListData;
@@ -44,7 +44,13 @@
 
         /*Refreshing list after each 30 second interval*/
         timer = $interval(function () {
-          init();
+
+            utils.getObjectList("Cluster")
+                .then(function(data) {
+                    $rootScope.clusterData = data;
+                    init();
+                });
+
         }, 1000 * config.refreshIntervalTime );
 
         /*Cancelling interval when scope is destroy*/
