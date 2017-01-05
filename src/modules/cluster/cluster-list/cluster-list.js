@@ -7,12 +7,14 @@
 
     /*@ngInject*/
     function clusterController($scope, $state, $interval, config, utils, $rootScope) {
+        
         var vm = this,
             key,
             len,
             temp = [],
             clusterData,
             cluster,
+            timer,
             i;
 
         vm.importCluster = importCluster;
@@ -23,8 +25,7 @@
             _createClusterList();
         }
 
-        /*Refreshing list after each 30 second interval*/
-        var timer = $interval(function () {
+        timer = $interval(function () {
             
             utils.getObjectList("Cluster")
                 .then(function(data) {

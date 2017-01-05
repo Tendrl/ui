@@ -20,7 +20,8 @@ module.exports = function (config) {
             "test/unit/basic-test.js",
             "test/unit/generate-form-directive-test.js",
             "test/unit/generate-form-field-directive-test.js",
-            "test/unit/mock-data.js"
+            "test/unit/mock-data.js",
+            "test/unit/cluster-list-test.js"
         ],
 
         exclude: [],
