@@ -230,6 +230,75 @@
         clusterName: "zats"
     });
 
+    testDataModule.value("hostList", {
+        nodes: [{
+            "3038c577-b233-4513-926d-a8a1ac63b0a3": {
+                "node_context": {
+                    "fqdn": "dhcp43-189.lab.eng.blr.redhat.com",
+                    "machine_id": "a2e4163a1a8e4b28afb1a17e6a1d9962",
+                    "node_id": "3038c577-b233-4513-926d-a8a1ac63b0a3"
+                },
+                "tendrl_context": {
+                    "cluster_id": "8b0c637d-f5f7-40f6-acd9-50d5feb5f4b3",
+                    "node_id": "3038c577-b233-4513-926d-a8a1ac63b0a3",
+                    "sds_name": "glusterfs",
+                    "sds_version": "3.9rc1"
+                },
+                "node": {
+                    "fqdn": "dhcp43-189.lab.eng.blr.redhat.com",
+                    "node_id": "3038c577-b233-4513-926d-a8a1ac63b0a3",
+                    "status": "DOWN"
+                }
+            },
+            "stats": {
+                "alert_cnt": 10,
+                "storage": {
+                    "total": 42949672960,
+                    "used": 25769803776,
+                    "updated_at": "2016-12-19T23:12:51.278616",
+                    "percent-used": 60
+                },
+                "cpu": {
+                    "updated_at": "2016-12-19T23:12:51.278516",
+                    "percent-used": 4
+                },
+                "memory": {
+                    "total": 4294967296,
+                    "used": 3006477107,
+                    "updated_at": "2016-12-19T23:12:51.278593",
+                    "percent-used": 70
+                }
+            }
+        }],
+
+        formattedOutput: [{
+
+            alert_count: 10,
+            cluster_name: "zats",
+            cpu: {
+                "percent-used": 4,
+                updated_at: "2016-12-19T23:12:51.278516"                
+            },
+            id: "3038c577-b233-4513-926d-a8a1ac63b0a3",
+            memory: {
+                "percent-used": 70,
+                total: 4294967296,
+                updated_at: "2016-12-19T23:12:51.278593",
+                used: 3006477107
+            },
+            name: "dhcp43-189.lab.eng.blr.redhat.com",
+            role: undefined,
+            status: "DOWN",
+            storage: {
+                "percent-used": 60,
+                total: 42949672960,
+                updated_at: "2016-12-19T23:12:51.278616",
+                used: 25769803776
+            }
+        }],
+
+        clusterName: "zats"
+    });
     testDataModule.value("clusterList", {
         clusters: [{
             "8b0c637d-f5f7-40f6-acd9-50d5feb5f4b3": {
