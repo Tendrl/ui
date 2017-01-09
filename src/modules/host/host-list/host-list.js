@@ -10,22 +10,24 @@
         var vm = this;
 
         init();
-        vm.setupHostListData = setupHostListData;
 
         function init() {
             utils.getObjectList("Node").then(function(list) {
                 vm.hostList = [];
                 if(list !== null) {
-                   vm.hostList = vm.setupHostListData(list.nodes);
+                    vm.hostList = setupHostListData(list.nodes);
                 }
             });
         }
 
         function setupHostListData(list) {
             var i, length = list.length, hostList=[], host;
+
             for (i = 0; i < length; i++) {
                 host={};
+
                 for(var propName in list[i]) {
+                    
                     if(list[i].hasOwnProperty(propName)) {
                         //Checking only two condition because propName can have either "stats" or not
                         if(propName !== "stats") {
