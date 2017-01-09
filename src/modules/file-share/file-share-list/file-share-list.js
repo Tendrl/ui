@@ -35,7 +35,6 @@
                     fileShare.brick_count = fileShareObj.brick_count;
                     fileShare.alert_count = "NA"
                     fileShare.last_rebalance = "NA";
-                    fileShare.isExpand = false;
                     fileShareList.push(fileShare);
                 }
             }
