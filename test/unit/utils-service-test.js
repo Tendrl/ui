@@ -92,7 +92,7 @@ describe("UNIT SERVICE - utils", function () {
         clusterId = "2323-ab224";
 
         // Setup data - expectation
-        $httpBackend.expectGET(config.baseUrl + clusterId + "/Get" + objectType +"List")
+        $httpBackend.expectGET("/api/Get" + objectType +"List.json")
             .respond(200, response);
 
         // Exercise SUT
