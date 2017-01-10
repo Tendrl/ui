@@ -13,10 +13,16 @@
     }
 
     .list-group {
+        margin-bottom: 0px;
+
         .list-group-item{
             .list-view-pf-left {
                 text-align: left;
             }
+        }
+
+        .list-view-icon-failure {
+            color: $color-red;
         }
     }
 

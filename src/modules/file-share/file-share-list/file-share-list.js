@@ -7,24 +7,32 @@
 
     /*@ngInject*/
     function fileShareController($scope, $rootScope, $interval, utils, config) {
-        var vm = this, timer, list, fileShareList, fileShare, fileShareObj, i, len;
+        var vm = this,
+            timer,
+            list,
+            fileShareList,
+            fileShare,
+            fileShareObj,
+            i,
+            len;
 
-        vm.setupFileShareListData = setupFileShareListData;
         init();
 
         function init() {
             list = utils.getFileShareDetails();
-            vm.fileShareList = vm.setupFileShareListData(list);
+            vm.fileShareList = setupFileShareListData(list);
         }
 
         function setupFileShareListData(list) {
-            fileShareList=[];
+            fileShareList = [];
             len = list.length;
-            for ( i = 0; i < len; i++ ) {
+
+            for (i = 0; i < len; i++) {
                 fileShareObj = list[i];
+
                 /* TODO: Need to remove when we have proper api response 
                 and API should support for array data*/
-                if(Object.keys(fileShareObj).length > 5) {
+                if (Object.keys(fileShareObj).length > 5) {
                     fileShare = {};
                     fileShare.id = fileShareObj.vol_id;
                     fileShare.status = fileShareObj.status;
@@ -42,7 +50,7 @@
         }
 
         /*Refreshing list after each 30 second interval*/
-        timer = $interval(function () {
+        timer = $interval(function() {
 
             utils.getObjectList("Cluster")
                 .then(function(data) {
@@ -50,7 +58,7 @@
                     init();
                 });
 
-        }, 1000 * config.refreshIntervalTime );
+        }, 1000 * config.refreshIntervalTime);
 
         /*Cancelling interval when scope is destroy*/
         $scope.$on('$destroy', function() {

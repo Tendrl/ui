@@ -13,10 +13,10 @@
     }
 
     .list-group {
-        .list-group-item{
-            .list-view-pf-left {
-                text-align: left;
-            }
+        margin-bottom: 0;
+
+        .list-view-icon-failure {
+            color: $color-red;
         }
     }
 

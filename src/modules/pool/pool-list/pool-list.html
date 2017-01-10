@@ -58,44 +58,44 @@
     </center>
     <div class="list-group list-view-pf list-view-pf-equalized-column" ng-repeat="pool in poolCntrl.filteredPoolList = (poolCntrl.poolList | filter: poolCntrl.searchBy | orderBy: poolCntrl.ascOrder + poolCntrl.orderBy)">
         <div class="list-group-item">
-            <div class="list-view-pf-left text-center col-md-1">
+            <div class="list-view-pf-left col-md-1">
                 {{pool.status}}
             </div>
             <div class="col-md-1 text-center bold-text pool-name">{{pool.name}}</div>
             <div class="col-md-3">
                 {{pool.utilization}}
             </div>
-            <div class="col-md-1 text-center">
+            <div class="col-md-1">
                 <div class="list-view-pf-additional-info-item list-view-pf-additional-info-item-stacked">
                     <div class="bold-text">Cluster</div>
                     <h5 class="pull-left counts cluster-name">{{pool.clusterName}}</h5>
                 </div>
             </div>
-            <div class="col-md-1 text-center">
+            <div class="col-md-1">
                 <div class="list-view-pf-additional-info-item list-view-pf-additional-info-item-stacked">
                     <div class="bold-text">Replicas</div>
                     <h5 class="pull-left">{{pool.replicaCount}}</h5>
                 </div>
             </div>
-            <div class="col-md-1 text-center">
+            <div class="col-md-1">
                 <div class="list-view-pf-additional-info-item list-view-pf-additional-info-item-stacked">
                     <div class="bold-text">OSDs</div>
                     <h5 class="pull-left counts">{{pool.osdCount}}</h5>
                 </div>
             </div>
-            <div class="col-md-1 text-center">
+            <div class="col-md-1">
                 <div class="list-view-pf-additional-info-item list-view-pf-additional-info-item-stacked">
                     <div class="bold-text">PGs</div>
                     <h5 class="pull-left">{{pool.pgCount}}</h5>
                 </div>
             </div>
-            <div class="col-md-1 text-center">
+            <div class="col-md-1">
                 <div class="list-view-pf-additional-info-item list-view-pf-additional-info-item-stacked">
                     <div class="bold-text">Quotas</div>
                     <h5 class="pull-left">{{pool.quotas}}</h5>
                 </div>
             </div>
-            <div class="col-md-1 text-center">
+            <div class="col-md-1">
                 <div class="list-view-pf-additional-info-item list-view-pf-additional-info-item-stacked">
                     <div class="bold-text">Alerts</div>
                     <h5 class="pull-left counts">{{pool.alertCount}}</h5>

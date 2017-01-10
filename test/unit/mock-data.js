@@ -230,6 +230,44 @@
         clusterName: "zats"
     });
 
+    testDataModule.value("fileShareList", {
+
+        fileShares: [{
+            brick_count: "1",
+            bricks: {
+                "dhcp42-98.lab.eng.blr.redhat.com:_root_bricks_vol100_b1": {
+                    cluster_id: "49f878e3-e253-4fad-a947-cb987bba503d",
+                    fs_type: "None",
+                    hostname: "dhcp42-98.lab.eng.blr.redhat.com",
+                    mount_opts: "",
+                    path: "dhcp42-98.lab.eng.blr.redhat.com:/root/bricks/vol100_b1",
+                    port: "None",
+                    status: "None",
+                    vol_id: "9dd1a450-868d-4a65-a3f7-704623981f40"
+                }
+            },
+            cluster_id: "8b0c637d-f5f7-40f6-acd9-50d5feb5f4b3",
+            deleted: "True",
+            name: "new Vol786",
+            status: "Started",
+            vol_id: "9dd1a450-868d-4a65-a3f7-704623981f40",
+            vol_type: "Distribute"
+        }],
+
+        formattedOutput: [{
+            alert_count: "NA",
+            brick_count: "1",
+            cluster_name: "zats",
+            id: "9dd1a450-868d-4a65-a3f7-704623981f40",
+            last_rebalance: "NA",
+            name: "new Vol786",
+            status: "Started",
+            storage: "NA",
+            type: "Distribute"
+        }],
+        clusterName: "zats"
+    });
+
     testDataModule.value("hostList", {
         nodes: [{
             "3038c577-b233-4513-926d-a8a1ac63b0a3": {
@@ -277,7 +315,7 @@
             cluster_name: "zats",
             cpu: {
                 "percent-used": 4,
-                updated_at: "2016-12-19T23:12:51.278516"                
+                updated_at: "2016-12-19T23:12:51.278516"
             },
             id: "3038c577-b233-4513-926d-a8a1ac63b0a3",
             memory: {
