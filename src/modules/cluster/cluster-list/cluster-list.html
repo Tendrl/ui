@@ -58,7 +58,7 @@
     </center>
     <div class="list-group list-view-pf list-view-pf-equalized-column" ng-repeat="cluster in clusterCntrl.filteredClusteredList = (clusterCntrl.clusterList | filter: clusterCntrl.searchBy | orderBy: clusterCntrl.ascOrder + clusterCntrl.orderBy)">
         <div class="list-group-item">
-            <div class="list-view-pf-left text-center col-md-1">
+            <div class="list-view-pf-left col-md-1">
                 {{cluster.status}}
             </div>
             <div class="col-md-1 text-center cluster-name bold-text">{{cluster.name}}</div>
@@ -69,19 +69,19 @@
             <div class="col-md-3">
                 {{cluster.iops}}
             </div>
-            <div class="col-md-1 text-center">
+            <div class="col-md-1">
                 <div class="list-view-pf-additional-info-item list-view-pf-additional-info-item-stacked">
                     <div class="bold-text">Hosts</div>
                     <h5 class="pull-left counts">{{cluster.hostCount}}</h5>
                 </div>
             </div>
-            <div class="col-md-1 text-center">
+            <div class="col-md-1">
                 <div class="list-view-pf-additional-info-item list-view-pf-additional-info-item-stacked">
                     <div class="bold-text">Pools</div>
                     <h5 class="pull-left counts">{{cluster.poolCount}}</h5>
                 </div>
             </div>
-            <div class="col-md-1 text-center">
+            <div class="col-md-1">
                 <div class="list-view-pf-additional-info-item list-view-pf-additional-info-item-stacked">
                     <div class="bold-text">Alerts</div>
                     <h5 class="pull-left counts">{{cluster.alertCount}}</h5>
