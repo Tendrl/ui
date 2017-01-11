@@ -9,10 +9,13 @@
     function hostController($scope, $interval, utils, config) {
         var vm = this;
 
+        vm.isDataLoading = true;
+
         init();
 
         function init() {
             utils.getObjectList("Node").then(function(list) {
+                vm.isDataLoading = false;
                 vm.hostList = [];
                 if(list !== null) {
                     vm.hostList = setupHostListData(list.nodes);

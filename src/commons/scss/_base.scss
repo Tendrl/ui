@@ -3,3 +3,31 @@
     height: 1px;
     background-color: $color-white-smoke;
 }
+
+.centerLoading {
+    display : block;
+    position : fixed;
+    z-index: 100;
+    background-image : url('../../images/center-loading.gif');
+    opacity : 0.4;
+    background-repeat : no-repeat;
+    background-position : center;
+    left : 0;
+    bottom : 0;
+    right : 0;
+    top : 0;
+}
+
+.dataLoading {
+    display : block;
+    position : fixed;
+    z-index: 100;
+    background-image : url('../../images/data-loading.gif');
+    opacity : 0.4;
+    background-repeat : no-repeat;
+    background-position : center;
+    left : 0;
+    bottom : 0;
+    right : 0;
+    top : 0;
+}
