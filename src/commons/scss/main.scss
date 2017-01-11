@@ -10,6 +10,18 @@
 
 .tendrl-app {
 
+    .centered {
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+    }
+
+    .blank-slate-pf {
+        background-color: $color-white;
+        border: none;
+    }
+
     .custom-breadcrumb {
         font-size: 17px;
         padding: 8px;
@@ -17,12 +29,6 @@
 
     .center-text {
         text-align: center;
-    }
-
-    .button-padding {
-        margin-top: 20px;
-        margin-left: 10px;
-        margin-right: 10px;
     }
 
     .cursor-pointer {

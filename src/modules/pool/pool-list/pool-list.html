@@ -51,9 +51,12 @@
     <center ng-if="poolCntrl.poolList.length === 0">
         <div class="blank-slate-pf">
             <div class="blank-slate-pf-icon">
-                <i class="pficon pficon-container-pool"></i>
+                <i class="pficon pficon-resource-pool"></i>
             </div>
-            <h1>No Pool detected.</h1>
+            <h1>No Pools Detected.</h1>
+            <p>Pools are detected when you <a ui-sref="import-cluster">create or import a cluster</a></p>
+            <p>If you have already cluster created or imported and still do not see Pools, make sure the Pools are configured correctly.
+            </p>
         </div>
     </center>
     <div class="list-group list-view-pf list-view-pf-equalized-column" ng-repeat="pool in poolCntrl.filteredPoolList = (poolCntrl.poolList | filter: poolCntrl.searchBy | orderBy: poolCntrl.ascOrder + poolCntrl.orderBy)">

@@ -51,9 +51,12 @@
     <center ng-if="clusterCntrl.clusterList.length === 0">
         <div class="blank-slate-pf">
             <div class="blank-slate-pf-icon">
-                <i class="pficon pficon-container-cluster"></i>
+                <i class="pficon pficon-cluster"></i>
             </div>
-            <h1>No cluster detected.</h1>
+            <h1>No Clusters Detected.</h1>
+            <p>Clusters are detected when you <a ui-sref="import-cluster">create or import a cluster</a></p>
+            <p>If you have already cluster created or imported and still do not see Clusters, make sure the Clusters are configured correctly.
+            </p>
         </div>
     </center>
     <div class="list-group list-view-pf list-view-pf-equalized-column" ng-repeat="cluster in clusterCntrl.filteredClusteredList = (clusterCntrl.clusterList | filter: clusterCntrl.searchBy | orderBy: clusterCntrl.ascOrder + clusterCntrl.orderBy)">
