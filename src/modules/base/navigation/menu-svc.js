@@ -35,6 +35,12 @@
             href: 'pool',
             icon: 'pficon pficon-resource-pool',
             active: false
+        }, {
+            label: 'Tasks',
+            id: 'task',
+            href: 'task',
+            icon: 'fa fa-cog',
+            active: false
         }];
 
         vm.setActive = function(menuId) {

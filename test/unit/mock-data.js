@@ -270,43 +270,21 @@
 
     testDataModule.value("hostList", {
         nodes: [{
-            "3038c577-b233-4513-926d-a8a1ac63b0a3": {
-                "node_context": {
-                    "fqdn": "dhcp43-189.lab.eng.blr.redhat.com",
-                    "machine_id": "a2e4163a1a8e4b28afb1a17e6a1d9962",
-                    "node_id": "3038c577-b233-4513-926d-a8a1ac63b0a3"
-                },
-                "tendrl_context": {
-                    "cluster_id": "8b0c637d-f5f7-40f6-acd9-50d5feb5f4b3",
-                    "node_id": "3038c577-b233-4513-926d-a8a1ac63b0a3",
-                    "sds_name": "glusterfs",
-                    "sds_version": "3.9rc1"
-                },
-                "node": {
-                    "fqdn": "dhcp43-189.lab.eng.blr.redhat.com",
-                    "node_id": "3038c577-b233-4513-926d-a8a1ac63b0a3",
-                    "status": "DOWN"
-                }
+            "node_id":"3038c577-b233-4513-926d-a8a1ac63b0a3",
+            "status":"UP",
+            "fqdn":"dhcp43-189.lab.eng.blr.redhat.com",
+            "node_context":{
+                "fqdn":"dhcp43-189.lab.eng.blr.redhat.com",
+                "machine_id":"a2e4163a1a8e4b28afb1a17e6a1d9962",
+                "node_id":"3038c577-b233-4513-926d-a8a1ac63b0a3"
             },
-            "stats": {
-                "alert_cnt": 10,
-                "storage": {
-                    "total": 42949672960,
-                    "used": 25769803776,
-                    "updated_at": "2016-12-19T23:12:51.278616",
-                    "percent-used": 60
-                },
-                "cpu": {
-                    "updated_at": "2016-12-19T23:12:51.278516",
-                    "percent-used": 4
-                },
-                "memory": {
-                    "total": 4294967296,
-                    "used": 3006477107,
-                    "updated_at": "2016-12-19T23:12:51.278593",
-                    "percent-used": 70
-                }
-            }
+            "tendrl_context":{
+                "sds_version":"3.9rc1",
+                "cluster_id":"49f878e3-e253-4fad-a947-cb987bba503d",
+                "node_id":"3038c577-b233-4513-926d-a8a1ac63b0a3",
+                "sds_name":"glusterfs"
+            },
+            "stats":"{'alert_cnt': 10, 'storage': {'total': 42949672960, 'used': 21474836480, 'updated_at': '2016-12-19T23:12:51.278616', 'percent_used': 50}, 'cpu': {'updated_at': '2016-12-19T23:12:51.278516', 'percent_used': 4.5}, 'memory': {'total': 4294967296, 'used': 2147483648, 'updated_at': '2016-12-19T23:12:51.278593', 'percent_used': 50}}"
         }],
 
         formattedOutput: [{
@@ -314,12 +292,12 @@
             alert_count: 10,
             cluster_name: "zats",
             cpu: {
-                "percent-used": 4,
+                "percent_used": 4,
                 updated_at: "2016-12-19T23:12:51.278516"
             },
             id: "3038c577-b233-4513-926d-a8a1ac63b0a3",
             memory: {
-                "percent-used": 70,
+                "percent_used": 70,
                 total: 4294967296,
                 updated_at: "2016-12-19T23:12:51.278593",
                 used: 3006477107
@@ -328,7 +306,7 @@
             role: undefined,
             status: "DOWN",
             storage: {
-                "percent-used": 60,
+                "percent_used": 60,
                 total: 42949672960,
                 updated_at: "2016-12-19T23:12:51.278616",
                 used: 25769803776

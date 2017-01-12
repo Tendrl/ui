@@ -25,6 +25,16 @@
             _createClusterList();
         }
 
+        /* Trigger this function when we have cluster data */
+        $scope.$on("GotClusterData", function (event, data) {
+            /* Forward to home view if we don't have any cluster */    
+            if($rootScope.clusterData === null || $rootScope.clusterData.clusters.length === 0){
+                $state.go("home");
+            }else {
+                init();
+            }
+        });
+
         timer = $interval(function () {
             
             utils.getObjectList("Cluster")

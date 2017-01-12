@@ -110,17 +110,17 @@
                     "total":42949672960,
                     "used":8589934592,
                     "updated_at":"2016-12-19T23:12:51.278616",
-                    "percent-used":20
+                    "percent_used":20
                 },
                 "cpu":{
                     "updated_at":"2016-12-19T23:12:51.278516",
-                    "percent-used":4.5
+                    "percent_used":4.5
                 },
                 "memory":{
                     "total":4294967296,
                     "used":2147483648,
                     "updated_at":"2016-12-19T23:12:51.278593",
-                    "percent-used":50
+                    "percent_used":50
                 }
             }
         },
@@ -210,17 +210,17 @@
                     "total":42949672960,
                     "used":34359738368,
                     "updated_at":"2016-12-19T23:12:51.278616",
-                    "percent-used":80
+                    "percent_used":80
                 },
                 "cpu":{
                     "updated_at":"2016-12-19T23:12:51.278516",
-                    "percent-used":4.5
+                    "percent_used":4.5
                 },
                 "memory":{
                     "total":4294967296,
                     "used":2147483648,
                     "updated_at":"2016-12-19T23:12:51.278593",
-                    "percent-used":50
+                    "percent_used":50
                 }
             }
         },
@@ -455,17 +455,17 @@
                     "total":42949672960,
                     "used":21474836480,
                     "updated_at":"2016-12-19T23:12:51.278616",
-                    "percent-used":50
+                    "percent_used":50
                 },
                 "cpu":{
                     "updated_at":"2016-12-19T23:12:51.278516",
-                    "percent-used":4.5
+                    "percent_used":4.5
                 },
                 "memory":{
                     "total":4294967296,
                     "used":2147483648,
                     "updated_at":"2016-12-19T23:12:51.278593",
-                    "percent-used":50
+                    "percent_used":50
                 }
             }
         }

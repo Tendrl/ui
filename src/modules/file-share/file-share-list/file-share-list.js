@@ -6,7 +6,7 @@
     app.controller("fileShareController", fileShareController);
 
     /*@ngInject*/
-    function fileShareController($scope, $rootScope, $interval, utils, config) {
+    function fileShareController($scope, $rootScope, $state, $interval, utils, config) {
         var vm = this,
             timer,
             list,
@@ -22,6 +22,16 @@
             list = utils.getFileShareDetails();
             vm.fileShareList = setupFileShareListData(list);
         }
+
+        /* Trigger this function when we have cluster data */
+        $scope.$on("GotClusterData", function (event, data) {
+            /* Forward to home view if we don't have any cluster */    
+            if($rootScope.clusterData === null || $rootScope.clusterData.clusters.length === 0){
+                $state.go("home");
+            }else {
+                init();
+            }
+        });
 
         function setupFileShareListData(list) {
             fileShareList = [];

@@ -2,7 +2,7 @@
 <div>
 	<b ng-if="chartTitle !== undefined">{{chartTitle}}</b>
 	<h5 ng-if="chartData.used !== undefined">{{ chartData.used | bytes }}</h5>
-	<h5 ng-if="chartData.used === undefined"> {{ chartData["percent-used"] }} %</h5>
+	<h5 ng-if="chartData.used === undefined"> {{ chartData.percent_used }} %</h5>
 	<span>
 		<span ng-if="chartData.total !== undefined">
 			of {{chartData.total | bytes}}

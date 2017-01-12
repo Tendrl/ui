@@ -4,12 +4,12 @@
     - chartTitle (optional):  expected string for title.
         NOTE:-  In UX design some of the place "title" is not there. so it should be optional.
 
-    - chartData: Should be object with three properties - total, used and percent-used
-        NOTE: - Here "total" and "used" are optional , But "percent-used" is mandatory property.
+    - chartData: Should be object with three properties - total, used and percent_used
+        NOTE: - Here "total" and "used" are optional , But "percent_used" is mandatory property.
         Example: - 
 
         (In your controller):
-        vm.chartData = {"used":352460800,"total":3524608000, "percent-used": 10} (defined chartData object)
+        vm.chartData = {"used":352460800,"total":3524608000, "percent_used": 10} (defined chartData object)
 
         (In your template):
         <div ng-repeat="host in hostList"
@@ -19,7 +19,7 @@
             </div>
         </div>
 
-        NOTE: if "vm.chartData.percent-used" is not defined . than automatically "donut chart" will show "no data available".
+        NOTE: if "vm.chartData.percent_used" is not defined . than automatically "donut chart" will show "no data available".
 
     - chartThresholds (optional) : if user will not pass thresholds value than it will have default value:
         {'warning':'60','error':'90'} (which is defined in "config.json"- because it should be configurable)
@@ -61,7 +61,7 @@
                 link: function(scope, element, attributes) {
 
                     var c3ChartDefaults = $().c3ChartDefaults();
-                    scope.customDonutChartConfig = c3ChartDefaults.getDefaultDonutConfig(scope.chartData["percent-used"]+"%");
+                    scope.customDonutChartConfig = c3ChartDefaults.getDefaultDonutConfig(scope.chartData["percent_used"]+"%");
                     scope.customDonutChartConfig.size.height = 90;
                     scope.customDonutChartConfig.size.width = 80;
                     scope.customDonutChartConfig.donut.width = 10;
@@ -90,18 +90,18 @@
                         $scope.used = $scope.chartData.used;
                     } else {
                         $scope.available = 100;
-                        $scope.used = $scope.chartData["percent-used"];
+                        $scope.used = $scope.chartData["percent_used"];
                     }
                    
-                    $scope.chartData["percent-used"] = parseInt($scope.chartData["percent-used"]);
+                    $scope.chartData["percent_used"] = parseInt($scope.chartData["percent_used"]);
 
                     $scope.getThresholdColor = function() {
                         if($scope.chartThresholds === undefined) {
                             $scope.chartThresholds = config.defaultThresholds.values;
                         }
-                        if ($scope.chartData["percent-used"] >= parseInt($scope.chartThresholds.error)) {
+                        if ($scope.chartData["percent_used"] >= parseInt($scope.chartThresholds.error)) {
                             return config.defaultThresholds.colors.error;
-                        } else if ($scope.chartData["percent-used"] >= parseInt($scope.chartThresholds.warning)) {
+                        } else if ($scope.chartData["percent_used"] >= parseInt($scope.chartThresholds.warning)) {
                             return config.defaultThresholds.colors.warning;
                         } else {
                             return config.defaultThresholds.colors.normal;

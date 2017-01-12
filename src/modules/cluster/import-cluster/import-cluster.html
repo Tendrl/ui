@@ -1,17 +1,139 @@
 <div class="tendrl-import-cluster-container">
-	<!--To-do: do in scss-->
 
-	<div class="row">
-		<h1 class="center-text">{{importCluster.heading}}</h1>
-	</div>
+	<!-- Start First Step -->
+	<div ng-if="importClusterCntrl.step === 1" class="container-fluid">
+	    <ol class="breadcrumb" ng-if="isNavigationShow">
+	        <li><a ui-sref="cluster">Clusters</a></li>
+	        <li>Import Cluster</li>
+	    </ol>
+        <div class="row">
+        	<div class="col-md-12">
+        		 <section>
+		            <h2 class="heading"><label>Import Cluster</label></h2>
+		            <div class="row">
+		            	<div class="col-md-3">
+		            		 <select data-ng-options="cluster.cluster_id for cluster in importClusterCntrl.detectedClusters" data-ng-model="importClusterCntrl.selectedCluster" ng-change="importClusterCntrl.selectCluster()"></select>
+		            	</div>
+		            	<div class="col-md-3">
+		            		<b>{{importClusterCntrl.detectedClusters.length}} Cluster(s) detected !</b>
+		            	</div>
+		            </div>
+		            <h4><label>Cluster Summary</label></h4>
+		            <p>The following cluster details has been detected. click <b>import</b> to continue importing this cluster.</p>
+		        </section>
+		        <div class="cluster-detail">
+		        	<div class="row">
+			        	<div class="col-xs-6 col-sm-3 col-md-2">
+			        		<label>ID:</label>
+			        	</div>
+			        	<div class="col-xs-6 col-sm-9 col-md-10">
+			        		{{importClusterCntrl.selectedCluster.cluster_id}}
+			        	</div>
+			        </div>
+			        <div class="row">
+			        	<div class="col-xs-6 col-sm-3 col-md-2">
+			        		<label>Storage Service:</label>
+			        	</div>
+			        	<div class="col-xs-6 col-sm-9 col-md-10">
+			        		{{importClusterCntrl.selectedCluster.sds_type}}
+			        	</div>
+			        </div>
+		        </div>
+		        <!-- heading section-->
+		        <h1 class="bold-text">Hosts</h1>
+		        <!-- Actions section -->
+		        <div class="row toolbar-pf">
+		          <div class="col-sm-12">
+		            <form class="toolbar-pf-actions">
+		              <div class="form-group toolbar-pf-filter">
+		                <label class="sr-only" for="filter">Name</label>
+		                <div class="input-group">
+		                  <div class="input-group-btn">
+		                    <!-- Search By -->
+		                    <select ng-init="importClusterCntrl.filterBy = 'name'" ng-disabled="importClusterCntrl.hostList.length === 0" ng-model="importClusterCntrl.filterBy" class="btn btn-default dropdown-toggle" ng-change="importClusterCntrl.searchBy = {}">
+		                      <option value="name">Name</option>
+		                      <option value="ip">IP</option>
+		                    </select>
+		                  </div><!-- /btn-group -->
+		                  <input ng-disabled="importClusterCntrl.hostList.length === 0" type="text" class="form-control" id="filter" ng-model="importClusterCntrl.searchBy[importClusterCntrl.filterBy]" placeholder="Filter By {{importClusterCntrl.filterBy}}...">
+		                </div><!-- /input-group -->
+		              </div>
+		              <div class="form-group">
+		                <div class="dropdown btn-group">
+		                    <!-- Order By -->
+		                    <select ng-init="importClusterCntrl.orderBy = 'name'" ng-disabled="importClusterCntrl.hostList.length === 0" ng-model="importClusterCntrl.orderBy" class="btn btn-default dropdown-toggle">
+		                      <option value="name">Name</option>
+		                      <option value="ip">IP</option>
+		                    </select>
+		                </div>
+		                <button ng-init="importClusterCntrl.ascOrder = ''" ng-disabled="importClusterCntrl.hostList.length === 0" class="btn btn-link" type="button">
+		                  <span ng-if="importClusterCntrl.ascOrder !== ''" class="fa fa-sort-alpha-desc" ng-click="importClusterCntrl.ascOrder = ''">
+		                  </span>
+		                  <span ng-if="importClusterCntrl.ascOrder !== '-'" class="fa fa-sort-alpha-asc" ng-click="importClusterCntrl.ascOrder = '-'">
+		                  </span>
+		                </button>
+		              </div>
+		              <div class="toolbar-pf-action-right">
+		                <div class="form-group toolbar-pf-view-selector">
+		                    <div class="row">
+		                        <div class="col-md-offset-6 col-md-6">
+		                            <button class="btn btn-primary pull-right" ng-click="importClusterCntrl.init()">Refresh</button>
+		                        </div>
+		                    </div>
+		                </div>
+		              </div>
+		            </form>
+		            <!-- result row -->
+		            <div class="row toolbar-pf-results">
+		              <div class="col-sm-12">
+		                <h5 ng-if="importClusterCntrl.selectedCluster.hosts.length !== 0">{{importClusterCntrl.filteredHostList.length}} Hosts</h5>
+		              </div><!-- /col -->
+		            </div>
+		          </div><!-- /col -->
+		        </div><!-- /row -->
 
-	<div class="row">
-		<div class="col-md-12 center-text" ng-if="importCluster.isShowImportButton">
-			<button ng-repeat="flow in importCluster.importFlows" class="btn btn-primary button-padding" ng-click="importCluster.setImportClusterInfo(flow)">{{flow.name}}</button>
-		</div>
-		<div class="col-md-12 center-text" ng-if="!importCluster.isShowImportButton">
-			<generate-form form-attributes="importCluster.selectedFlow.attributes" submit-btn-name="Import Cluster" post-url="{{importCluster.selectedFlow.name}}" form-method="{{importCluster.selectedFlow.method}}" call-back="importCluster.callBack(response)"></generate-form>
-		</div>
+		        <div class="div-with-scroll">
+		        	<div ng-if="importClusterCntrl.isDataLoading" class="dataLoading"></div>
+		        	<div ng-if="!importClusterCntrl.isDataLoading" class="list-group list-view-pf list-view-pf-equalized-column" ng-repeat="host in importClusterCntrl.filteredHostList=(importClusterCntrl.selectedCluster.hosts | filter: importClusterCntrl.searchBy | orderBy : importClusterCntrl.ascOrder + importClusterCntrl.orderBy)">
+			            <div class="list-group-item">
+			                <div class="list-view-pf-left col-md-6">
+			                    {{host.name}}
+			                </div>
+			                <div class="col-md-6">
+			                    <div class="list-view-pf-additional-info-item list-view-pf-additional-info-item-stacked">
+			                        <h5 ng-if="host.ip !== undefined">{{host.ip}}</h5>
+			                        <h5 ng-if="host.ip === undefined">NA</h5>
+			                    </div>
+			                </div>
+			            </div>
+			        </div>
+		        </div>
+		        <div class="row action-button">
+                    <div class="col-xs-6 col-sm-2 col-md-1">
+                         <button ng-disabled="importClusterCntrl.isDataLoading" class="btn btn-primary btn-lg" ng-click="importClusterCntrl.importCluster()">Import</button>
+                    </div>
+                    <div class="col-xs-6 col-sm-10 col-md-11">
+                         <button class="btn btn-default btn-lg" ng-click="importClusterCntrl.importCancel()">Cancel</button>
+                    </div>
+                </div>
+        	</div>
+        </div>
 	</div>
-	
+	<!-- End First Step -->
+
+	<!-- Start Second Step -->
+	<div ng-if="importClusterCntrl.step === 2" class="blank-slate-pf centered">
+        <div class="blank-slate-pf-icon">
+            <i class="pficon pficon-ok"></i>
+        </div>
+        <div>
+        	<h1><label>Import Cluster Task Submitted</label></h1>
+        	<small> An import cluster task has been submitted. you will be notified when processing is complete and the new cluster is ready for use. </small>
+        </div>
+        <div class="blank-slate-pf-main-action">
+            <button class="btn btn-primary btn-lg" ng-click="importClusterCntrl.viewTaskProgress()">View Task Progress</button>
+        </div>
+    </div>
+    <!-- End Second Step -->
+
 </div>

@@ -6,7 +6,7 @@
     app.controller("hostController", hostController);
 
     /*@ngInject*/
-    function hostController($scope, $interval, utils, config) {
+    function hostController($scope, $rootScope, $state, $interval, utils, config) {
         var vm = this;
 
         vm.isDataLoading = true;
@@ -23,30 +23,41 @@
             });
         }
 
+        /* Trigger this function when we have cluster data */
+        $scope.$on("GotClusterData", function (event, data) {
+            /* Forward to home view if we don't have any cluster */    
+            if($rootScope.clusterData === null || $rootScope.clusterData.clusters.length === 0){
+                $state.go("home");
+            }else {
+                init();
+            }
+        });
+
         function setupHostListData(list) {
-            var i, length = list.length, hostList=[], host;
+            var i, length = list.length, hostList=[], host, stats;
 
             for (i = 0; i < length; i++) {
                 host={};
 
-                for(var propName in list[i]) {
-                    
-                    if(list[i].hasOwnProperty(propName)) {
-                        //Checking only two condition because propName can have either "stats" or not
-                        if(propName !== "stats") {
-                            host.id = list[i][propName].node.node_id;
-                            host.status = list[i][propName].node.status;
-                            host.name = list[i][propName].node.fqdn;
-                            host.role = list[i][propName].node.role;
-                            host.cluster_name = utils.getClusterDetails(list[i][propName].tendrl_context.cluster_id);
-                        } else if (propName === "stats"){
-                            host.storage = list[i].stats.storage;
-                            host.cpu = list[i].stats.cpu;
-                            host.memory = list[i].stats.memory;
-                            host.alert_count = list[i].stats.alert_cnt;
-                        }
-                    }
+                host.id = list[i].node_id;
+                host.status = list[i].status;
+                host.name = list[i].fqdn;
+                host.role = list[i].role;
+                host.cluster_name = utils.getClusterDetails(list[i].tendrl_context.cluster_id);
+                if(list[i].stats !== undefined) {
+                    list[i].stats = list[i].stats.replace(/'/g, '"');
+                    stats = JSON.parse(list[i].stats);
+                    host.storage = stats.storage;
+                    host.cpu = stats.cpu;
+                    host.memory = stats.memory;
+                    host.alert_count = stats.alert_cnt;
+                }else {
+                    host.storage = {"percent_used": 0};
+                    host.cpu = {"percent_used": 0}
+                    host.memory = {"percent_used": 0}
+                    host.alert_count = 0;
                 }
+
                 hostList.push(host);
             }
             return hostList;
