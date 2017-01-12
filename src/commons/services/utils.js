@@ -96,6 +96,24 @@
             });
         };
 
+        vm.importCluster = function(uri, data) {
+            var url, actionRequest, request;
+
+            url = config.baseUrl + uri;
+
+            actionRequest = {
+                method: "POST",
+                url: url,
+                data: data
+            };
+
+            request = angular.copy(actionRequest);
+
+            return $http(request).then(function (response) {
+                return response.data;
+            });
+        };
+
         vm.getClusterDetails = function(clusterId) {
             clusterName = "Unassigned";
             if($rootScope.clusterData !== null && clusterId !== "") {

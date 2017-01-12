@@ -11,11 +11,6 @@
         var vm = this;
         vm.menus = menuService.getMenus();
 
-        $rootScope.$on("$stateChangeSuccess", function(event, current, prev) {
-            menuService.setActive(current.name);
-        });
-
-
         /* fixed for navigation slide issue*/
         var deregisterfn = $rootScope.$on("$viewContentLoaded", function() {
             var navigation = $();

@@ -39,13 +39,35 @@
                 $httpProvider.defaults.headers.post = {};
                 $httpProvider.defaults.headers.delete = {};
 
-                $urlRouterProvider.otherwise("/cluster");
+                $urlRouterProvider.otherwise("/landing-page");
 
                 $stateProvider
-                    .state("Tendrl", {
-                        url: "/Tendrl",
-                        templateUrl: "index.html",
-                        abstract: true
+                    .state("landing-page", { /* This will decide which view will be landing page */
+                        url: "/landing-page",
+                        template: "<div class='centerLoading'><div>",
+                        resolve: {
+                            "landingPage": function($rootScope, $state, utils){  
+                                $rootScope.clusterData = null;
+                                utils.getObjectList("Cluster").then(function(list) {
+                                    $rootScope.clusterData = list;
+                                    if($rootScope.clusterData !== null && $rootScope.clusterData.clusters.length !== 0){
+                                        /* Forward to cluster view if we have cluster data. */
+                                        $rootScope.isNavigationShow = true;
+                                        $state.go("cluster");
+                                    }else{
+                                        /* Forward to home view if we don't have cluster data. */
+                                        $rootScope.isNavigationShow = false;
+                                        $state.go("home");
+                                    }
+                                });
+                            }
+                        }
+                    })
+                    .state("home", {
+                        url: "/home",
+                        templateUrl: "/modules/home/home.html",
+                        controller: "homeController",
+                        controllerAs: "homeCntrl"
                     })
                     .state("cluster", {
                         url: "/cluster",
@@ -57,7 +79,7 @@
                         url: "/import-cluster",
                         templateUrl: "/modules/cluster/import-cluster/import-cluster.html",
                         controller: "importClusterController",
-                        controllerAs: "importCluster"
+                        controllerAs: "importClusterCntrl"
                     })
                     .state("cluster-detail", {
                         url: "/cluster/:clusterId",
@@ -82,17 +104,35 @@
                         templateUrl: "/modules/pool/pool-list/pool-list.html",
                         controller: "poolController",
                         controllerAs: "poolCntrl"
+                    })
+                    .state("task", {
+                        url: "/task",
+                        templateUrl: "/modules/task/task.html",
+                        controller: "taskController",
+                        controllerAs: "taskCntrl"
                     });
 
             });
 
-            storageModule.run(function(utils, $rootScope) {
+            storageModule.run(function(utils, $rootScope, menuService) {
                 /* Calling the custom utils service before application started 
                 And filling clusterData so that clusterData will be available
                 through whole application*/
                 $rootScope.clusterData = null;
                 utils.getObjectList("Cluster").then(function(list) {
                     $rootScope.clusterData = list;
+                    /* Setting up manual broadcast event for ClusterData*/
+                    $rootScope.$broadcast("GotClusterData", $rootScope.clusterData); // going down!
+                    if ($rootScope.clusterData !== null && $rootScope.clusterData.clusters.length !== 0) {
+                        $rootScope.isNavigationShow = true;
+                    } else {
+                        $rootScope.isNavigationShow = false;
+                    }    
+                });
+
+                /* Tracking the current URI for navigation*/
+                $rootScope.$on("$stateChangeSuccess", function(event, current, prev) {
+                    menuService.setActive(current.name);
                 });
             });
 
