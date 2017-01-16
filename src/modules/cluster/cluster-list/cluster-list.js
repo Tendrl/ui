@@ -67,7 +67,7 @@
                 for ( i = 0; i < len; i++) {
                     cluster = {};
 
-                    cluster.name = clusterData[i].tendrl_context.sds_name;
+                    cluster.name = clusterData[i].maps ? clusterData[i].maps.config.cluster_name : "NA";
                     cluster.id = clusterData[i].cluster_id;
 
                     if(typeof clusterData[i].stats !== "undefined") {
