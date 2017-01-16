@@ -52,11 +52,8 @@
                     host.memory = stats.memory;
                     host.alert_count = stats.alert_cnt;
                 }else {
-                    host.storage = {"percent_used": 0};
-                    host.cpu = {"percent_used": 0}
-                    host.memory = {"percent_used": 0}
-                    host.alert_count = 0;
-                }
+                    host.alert_count = "NA";
+                }   
 
                 hostList.push(host);
             }

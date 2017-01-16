@@ -60,40 +60,43 @@
 
                 link: function(scope, element, attributes) {
 
-                    var c3ChartDefaults = $().c3ChartDefaults();
-                    scope.customDonutChartConfig = c3ChartDefaults.getDefaultDonutConfig(scope.chartData["percent_used"]+"%");
-                    scope.customDonutChartConfig.size.height = 90;
-                    scope.customDonutChartConfig.size.width = 80;
-                    scope.customDonutChartConfig.donut.width = 10;
-                    scope.customDonutChartConfig.bindto = element[0].childNodes[0]
-                    scope.customDonutChartConfig.color =  {
-                        pattern: [scope.getThresholdColor(),"#D1D1D1"]
-                    };
-                    scope.customDonutChartConfig.data = {
-                        type: "donut",
-                        columns: [
-                          [ "Used", scope.used ],
-                          ["Available", scope.available ]
-                        ],
-                        groups: [
-                          ["used", "available"]
-                        ],
-                        order: null
-                    };
-                    c3.generate(scope.customDonutChartConfig);
+                    if(typeof scope.chartData !== "undefined") {
+                        var c3ChartDefaults = $().c3ChartDefaults();
+                        scope.customDonutChartConfig = c3ChartDefaults.getDefaultDonutConfig(scope.chartData["percent_used"]+"%");
+                        scope.customDonutChartConfig.size.height = 90;
+                        scope.customDonutChartConfig.size.width = 80;
+                        scope.customDonutChartConfig.donut.width = 10;
+                        scope.customDonutChartConfig.bindto = element[0].childNodes[0]
+                        scope.customDonutChartConfig.color =  {
+                            pattern: [scope.getThresholdColor(),"#D1D1D1"]
+                        };
+                        scope.customDonutChartConfig.data = {
+                            type: "donut",
+                            columns: [
+                              [ "Used", scope.used ],
+                              ["Available", scope.available ]
+                            ],
+                            groups: [
+                              ["used", "available"]
+                            ],
+                            order: null
+                        };
+                        c3.generate(scope.customDonutChartConfig);
+                    }
 
                 },
                 controller: function($scope, config) {
 
-                    if($scope.chartData.total !== undefined && $scope.chartData.used !== undefined) {
-                        $scope.available = $scope.chartData.total - $scope.chartData.used;
-                        $scope.used = $scope.chartData.used;
-                    } else {
-                        $scope.available = 100;
-                        $scope.used = $scope.chartData["percent_used"];
+                    if(typeof $scope.chartData !== "undefined") { 
+                        if($scope.chartData.total !== undefined && $scope.chartData.used !== undefined) {
+                            $scope.available = $scope.chartData.total - $scope.chartData.used;
+                            $scope.used = $scope.chartData.used;
+                        } else {
+                            $scope.available = 100;
+                            $scope.used = $scope.chartData["percent_used"];
+                        }
+                        $scope.chartData["percent_used"] = parseInt($scope.chartData["percent_used"]);
                     }
-                   
-                    $scope.chartData["percent_used"] = parseInt($scope.chartData["percent_used"]);
 
                     $scope.getThresholdColor = function() {
                         if($scope.chartThresholds === undefined) {

@@ -1,5 +1,5 @@
 <span></span>
-<div>
+<div ng-if="chartData !== undefined">
 	<b ng-if="chartTitle !== undefined">{{chartTitle}}</b>
 	<h5 ng-if="chartData.used !== undefined">{{ chartData.used | bytes }}</h5>
 	<h5 ng-if="chartData.used === undefined"> {{ chartData.percent_used }} %</h5>
@@ -10,3 +10,4 @@
 		used
 	</span> 
 </div>
+<div class="not-available" ng-if="chartData === undefined">NA</div>
