@@ -116,19 +116,20 @@
 
         vm.getClusterDetails = function(clusterId) {
             clusterName = "Unassigned";
-            if($rootScope.clusterData !== null && clusterId !== "") {
+
+            if($rootScope.clusterData !== null && typeof clusterId !== "undefined") {
                 clusterData = $rootScope.clusterData.clusters;
                 len = clusterData.length;
+
                 for ( i = 0; i < len; i++ ) {
-                    clusterObj = clusterData[i];
-                    for( key in clusterObj ) {
-                        if(key !== "stats" && clusterObj[key].tendrl_context.cluster_id === clusterId) {
-                            clusterName = clusterObj[key].tendrl_context.sds_name;
-                            return clusterName;
-                        }
+
+                    if(clusterData[i].cluster_id === clusterId) {
+                        clusterName = clusterData[i].tendrl_context.sds_name;
+                        break;
                     }
                 }
             }
+
             return clusterName;
         };
 
@@ -140,33 +141,27 @@
                 len = clusterData.length;
                 for ( i = 0; i < len; i++ ) {
 
-                    clusterObj = clusterData[i];
-                    for( key in clusterObj ) {
+                    if(typeof clusterData[i].volumes !== "undefined") {
 
-                        if(clusterId !== undefined) {
-                            if(key !== "stats" && key === clusterId) {
-                                if(clusterObj[key].volumes !== undefined) {
-                                    for(index in clusterObj[key].volumes) {
-                                        volumeList.push(clusterObj[key].volumes[index])
-                                    }
-                                }
+                        if(clusterId !== undefined && clusterData[i].cluster_id === clusterId) {
+                               
+                            for(index in clusterData[i].volumes) {
+                                volumeList.push(clusterData[i].volumes[index])
                             }
 
                         } else {
-                            
-                            if(key !== "stats") {
-                                if(clusterObj[key].volumes !== undefined) {
-                                    for(index in clusterObj[key].volumes) {
-                                        volumeList.push(clusterObj[key].volumes[index])
-                                    }
-                                }
+
+                            for(index in clusterData[i].volumes) {
+                                volumeList.push(clusterData[i].volumes[index])
                             }
-                        }
+                        }   
                     }
+                    
                 }
             } else {
                 vm.getObjectList("Cluster").then(function(list) {
                     $rootScope.clusterData = list;
+                    vm.getFileShareDetails();
                 });
             }
             return volumeList;
@@ -178,35 +173,29 @@
             if($rootScope.clusterData !== null) {
                 clusterData = $rootScope.clusterData.clusters;
                 len = clusterData.length;
+
                 for ( i = 0; i < len; i++ ) {
 
-                    clusterObj = clusterData[i];
-                    for( key in clusterObj ) {
+                    if(typeof clusterData[i].pools !== "undefined") {
 
-                        if(clusterId !== undefined) {
-                            if(key !== "stats" && key === clusterId) {
-                                if(clusterObj[key].pools !== undefined) {
-                                    for(index in clusterObj[key].pools) {
-                                        poolList.push(clusterObj[key].pools[index])
-                                    }
-                                }
+                        if(clusterId !== undefined && clusterData[i].cluster_id === clusterId) {
+                               
+                            for(index in clusterData[i].pools) {
+                                poolList.push(clusterData[i].pools[index])
                             }
 
                         } else {
 
-                            if(key !== "stats") {
-                                if(clusterObj[key].pools !== undefined) {
-                                    for(index in clusterObj[key].pools) {
-                                        poolList.push(clusterObj[key].pools[index])
-                                    }
-                                }
+                            for(index in clusterData[i].pools) {
+                                poolList.push(clusterData[i].pools[index])
                             }
-                        }
+                        }   
                     }
                 }
             } else {
                 vm.getObjectList("Cluster").then(function(list) {
                     $rootScope.clusterData = list;
+                    vm.getPoolDetails();
                 });
             }
             return poolList;

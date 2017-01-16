@@ -15,7 +15,9 @@
             clusterData,
             cluster,
             timer,
-            i;
+            stats,
+            i,
+            stats;
 
         vm.importCluster = importCluster;
 
@@ -65,16 +67,17 @@
                 for ( i = 0; i < len; i++) {
                     cluster = {};
 
-                    for(key in clusterData[i]) {
+                    cluster.name = clusterData[i].tendrl_context.sds_name;
+                    cluster.id = clusterData[i].cluster_id;
 
-                        if(key !== "stats") {
-                    
-                            cluster.name = clusterData[i][key].tendrl_context.sds_name;
-                            cluster.id = clusterData[i][key].tendrl_context.cluster_id;
-                        } else if (key === "stats") {
-                            cluster.alertCount = clusterData[i].stats.alert_cnt;
-                            cluster.storage = clusterData[i].stats.storage;
-                        }                 
+                    if(typeof clusterData[i].stats !== "undefined") {
+                        stats = clusterData[i].stats.replace(/'/g, '"');
+                        stats = JSON.parse(stats);
+                        cluster.alertCount = stats.alert_cnt;
+                        cluster.storage = stats.storage;
+                    } else {
+                        cluster.alertCount = "NA";
+                        cluster.storage = "NA";   
                     }
 
                     cluster.status = "NA";
@@ -83,7 +86,6 @@
                     cluster.iops = "IOPS-NA";
                     
                     temp.push(cluster);
-                    
                 }
                 vm.clusterList = temp;
             }
