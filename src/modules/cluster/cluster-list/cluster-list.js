@@ -77,7 +77,6 @@
                         cluster.storage = stats.storage;
                     } else {
                         cluster.alertCount = "NA";
-                        cluster.storage = "NA";   
                     }
 
                     cluster.status = "NA";
