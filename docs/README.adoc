@@ -1,5 +1,5 @@
 // vim: tw=79
-= Tendrl Frontend Docs
+= Dashboard Docs
 
 This section documents all the frontend related details, split among multiple
 sub-sections. Use the following navigation to access specific parts.

@@ -4,9 +4,9 @@
 
 '''
 
-= Tendrl Frontend: Deployment
+= Dashboard: Deployment
 
-Tendrl frontend is a static webapp, built from a Node.js project. This document
+Dashboard is a static webapp, built from a Node.js project. This document
 details how to build from the source, and then how to configure the webhost to
 serve the app.
 
@@ -36,7 +36,7 @@ Installed with `npm`: `gulp`, <add more>
 
 == How to Deploy
 
-To deploy Tendrl frontend, you may want to build from source, or install the
+To deploy Dashboard, you may want to build from source, or install the
 package.
 
 * *If installing from package*, skip the "Building from source" section
@@ -74,8 +74,8 @@ $ sudo dnf install -y git nodejs npm
 Then we need the frontend source
 
 ```sh
-$ git clone https://github.com/Tendrl/tendrl_frontend.git
-$ cd tendrl_frontend
+$ git clone https://github.com/Tendrl/dashboard.git
+$ cd dashboard
 ```
 
 Next we will install the dependencies for the package to build

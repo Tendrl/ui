@@ -1,13 +1,13 @@
-# Tendrl Frontend [![Build Status](https://travis-ci.org/Tendrl/tendrl_frontend.svg?branch=master)](https://travis-ci.org/Tendrl/tendrl_frontend) [![Dependency Status](https://david-dm.org/Tendrl/tendrl_frontend.svg)](https://david-dm.org/Tendrl/tendrl_frontend) [![Issue Stats](http://issuestats.com/github/Tendrl/tendrl_frontend/badge/pr?style=flat)](http://issuestats.com/github/Tendrl/tendrl_frontend)
+# Dashboard [![Build Status](https://travis-ci.org/Tendrl/dashboard.svg?branch=master)](https://travis-ci.org/Tendrl/dashboard) [![Dependency Status](https://david-dm.org/Tendrl/dashboard.svg)](https://david-dm.org/Tendrl/dashboard) [![Issue Stats](http://issuestats.com/github/Tendrl/dashboard/badge/pr?style=flat)](http://issuestats.com/github/Tendrl/dashboard)
 
-Tendrl Frontend is a graphical user interface for [Tendrl]
+Dashboard is a graphical user interface for [Tendrl]
 (https://github.com/Tendrl), a modern, extensible
 web-based storage management platform, using RESTFul API
 to communicate with Tendrl API server.
 
-# Tendrl Frontend: Development #
+# Dashboard: Development #
 
-Tendrl frontend is a static webapp, built from a Node.js project. This document
+Dashboard is a static webapp, built from a Node.js project. This document
 details how to contribute to the project as a developer.
 
 ## Prerequisites ##
@@ -33,7 +33,7 @@ $ sudo dnf install -y git nodejs npm
 
 ## Obtaining the source ##
 
-Fork the https://github.com/Tendrl/tendrl_frontend[upstream repo] to your own
+Fork the https://github.com/Tendrl/dashboard[upstream repo] to your own
 GitHub account.
 
 *This is required.*
@@ -47,8 +47,8 @@ you have write access.
 Once forked, you can clone the repo to your workstation for development:
 
 ```sh
-$ git clone git@github.com:GitHubUsername/tendrl_frontend.git
-$ cd tendrl_frontend
+$ git clone git@github.com:GitHubUsername/dashboard.git
+$ cd dashboard
 ```
 
 ### Reaching out ###
@@ -68,7 +68,7 @@ https://isobar-idev.github.io/code-standards/[this] consolidated guides for
 further details.
 
 In case of confusion or conflict of opinions, please
-https://github.com/Tendrl/tendrl_frontend/issues/new[create an issue] to start
+https://github.com/Tendrl/dashboard/issues/new[create an issue] to start
 the discussion.
 
 ### Building from source ###
@@ -151,7 +151,7 @@ Rejoice!
 
 ## Next steps ##
 
-If you enjoyed contributing to Tendrl frontend, pick up another issue. If you
+If you enjoyed contributing to Dashboard, pick up another issue. If you
 need help, reach out to us on mailing list. If you've successfully submitted a
 few changes, feel free to ask to be a member of the GitHub org.
 
@@ -159,9 +159,9 @@ _May the source be with you._
 
 
 
-# Tendrl Frontend: Deployment #
+# Dashboard: Deployment #
 
-Tendrl frontend is a static webapp, built from a Node.js project. This document
+Dashboard is a static webapp, built from a Node.js project. This document
 details how to build from the source, and then how to configure the webhost to
 serve the app.
 
@@ -191,7 +191,7 @@ Installed with `npm`: `gulp`, <add more>
 
 ## How to Deploy ##
 
-To deploy Tendrl frontend, you may want to build from source, or install the
+To deploy Dashboard, you may want to build from source, or install the
 package.
 
 * *If installing from package*, skip the "Building from source" section
@@ -229,8 +229,8 @@ $ sudo dnf install -y git nodejs npm
 Then we need the frontend source
 
 ```sh
-$ git clone https://github.com/Tendrl/tendrl_frontend.git
-$ cd tendrl_frontend
+$ git clone https://github.com/Tendrl/dashboard.git
+$ cd dashboard
 ```
 
 Next we will install the dependencies for the package to build

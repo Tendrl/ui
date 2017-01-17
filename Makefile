@@ -1,5 +1,5 @@
 # store the current working directory
-NAME      := tendrl-frontend
+NAME      := tendrl-dashboard
 VERSION   := 1.1
 RELEASE   := 1
 
