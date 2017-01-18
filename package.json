@@ -1,6 +1,6 @@
 {
   "name": "Tendrl",
-  "description": "Tendrl Frontend",
+  "description": "Dashboard",
   "version": "0.0.1",
   "dependencies": {
     "angular": "~1.5.8",

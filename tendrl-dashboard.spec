@@ -1,4 +1,4 @@
-Name: tendrl-frontend
+Name: tendrl-dashboard
 Version: 1.1
 Release: 1%{?dist}
 BuildArch: noarch
@@ -6,7 +6,7 @@ Summary: GUI for Tendrl
 License: ASL 2.0
 Group:   Applications/System
 Source0: %{name}-%{version}.tar.gz
-URL: https://github.com/Tendrl/tendrl_frontend
+URL: https://github.com/Tendrl/dashboard
 
 Requires: tendrl-api
 

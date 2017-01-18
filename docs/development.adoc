@@ -4,9 +4,9 @@
 
 '''
 
-= Tendrl Frontend: Development
+= Dashboard: Development
 
-Tendrl frontend is a static webapp, built from a Node.js project. This document
+Dashboard is a static webapp, built from a Node.js project. This document
 details how to contribute to the project as a developer.
 
 == Prerequisites
@@ -32,7 +32,7 @@ $ sudo dnf install -y git nodejs npm
 
 === Obtaining the source
 
-Fork the https://github.com/Tendrl/tendrl_frontend[upstream repo] to your own
+Fork the https://github.com/Tendrl/dashboard[upstream repo] to your own
 GitHub account.
 
 *This is required.*
@@ -46,8 +46,8 @@ you have write access.
 Once forked, you can clone the repo to your workstation for development:
 
 ```sh
-$ git clone git@github.com:GitHubUsername/tendrl_frontend.git
-$ cd tendrl_frontend
+$ git clone git@github.com:GitHubUsername/dashboard.git
+$ cd dashboard
 ```
 
 === Reaching out
@@ -67,7 +67,7 @@ https://isobar-idev.github.io/code-standards/[this] consolidated guides for
 further details.
 
 In case of confusion or conflict of opinions, please
-https://github.com/Tendrl/tendrl_frontend/issues/new[create an issue] to start
+https://github.com/Tendrl/dashboard/issues/new[create an issue] to start
 the discussion.
 
 === Building from source
@@ -150,7 +150,7 @@ Rejoice!
 
 == Next steps
 
-If you enjoyed contributing to Tendrl frontend, pick up another issue. If you
+If you enjoyed contributing to Dashboard, pick up another issue. If you
 need help, reach out to us on mailing list. If you've successfully submitted a
 few changes, feel free to ask to be a member of the GitHub org.
 
