@@ -106,7 +106,7 @@
                         controllerAs: "poolCntrl"
                     })
                     .state("task", {
-                        url: "/task",
+                        url: "/admin/task",
                         templateUrl: "/modules/task/task.html",
                         controller: "taskController",
                         controllerAs: "taskCntrl"
