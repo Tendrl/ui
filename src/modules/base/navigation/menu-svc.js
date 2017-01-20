@@ -10,41 +10,57 @@
 
         /* Cache the reference to this pointer */
         var vm = this;
-
         vm.menus = [{
             label: 'Clusters',
             id: 'cluster',
             href: 'cluster',
             icon: 'pficon pficon-cluster',
-            active: false
+            active: false,
+            hasSubMenus: false
         }, {
             label: 'Hosts',
             id: 'host',
             href: 'host',
             icon: 'pficon pficon-container-node',
-            active: false
+            active: false,
+            hasSubMenus: false
         }, {
             label: 'File Shares',
             id: 'file-share',
             href: 'file-share',
             icon: 'pficon pficon-volume',
-            active: false
+            active: false,
+            hasSubMenus: false
         }, {
             label: 'Pools',
             id: 'pool',
             href: 'pool',
             icon: 'pficon pficon-resource-pool',
-            active: false
+            active: false,
+            hasSubMenus: false
         }, {
-            label: 'Tasks',
-            id: 'task',
-            href: 'task',
+            label: 'Admin',
+            id: 'admin',
+            href: 'admin',
             icon: 'fa fa-cog',
-            active: false
+            active: false,
+            hasSubMenus: true,
+            subMenus: [{
+                label: 'Tasks',
+                id: 'task',
+                href: 'task',
+                icon: 'fa fa-cog',
+                active: false
+            }]
         }];
 
         vm.setActive = function(menuId) {
             vm.menus.map(function(menu){
+                if (menu.hasSubMenus===true){
+                    menu.subMenus.map(function(submenu){
+                        submenu.active = submenu.id === menuId
+                    });
+                }
                 menu.active = menu.id === menuId;
                 return menu;
             });
@@ -53,6 +69,7 @@
         vm.getMenus = function() {
             return vm.menus;
         };
+
     }
 
 })();

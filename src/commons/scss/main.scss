@@ -43,3 +43,17 @@
 .navbar-pf-vertical .navbar-brand {
     padding: 18px 0 12px;
 }
+
+.navbar-pf-vertical .nav-pf-persistent-secondary li > a {
+    background-color: transparent;
+}
+
+.nav-pf-vertical .list-group-item:hover > a:before{
+    background: #39a5dc;
+    content: " ";
+    height: 100%;
+    left: 0;
+    position: absolute;
+    top: 0;
+    width: 3px;
+}
