@@ -20,6 +20,7 @@
             stats;
 
         vm.importCluster = importCluster;
+        vm.goToClusterDetail = goToClusterDetail;
 
         init();
 
@@ -88,6 +89,10 @@
                 }
                 vm.clusterList = temp;
             }
+        }
+
+        function goToClusterDetail(cluster_id) {
+            $state.go("cluster-detail",{ clusterId: cluster_id });
         }
     }
 

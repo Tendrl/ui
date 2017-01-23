@@ -65,7 +65,7 @@
             <div class="list-view-pf-left col-md-1">
                 {{cluster.status}}
             </div>
-            <div class="col-md-1 text-center cluster-name bold-text">{{cluster.name}}</div>
+            <div class="col-md-1 text-center cluster-name bold-text counts" ng-click="clusterCntrl.goToClusterDetail(cluster.id)">{{cluster.name}}</div>
             <div class="col-md-3">
                 <div class="list-view-pf-additional-info-item donut-chart" chart-data="cluster.storage">
                 </div>

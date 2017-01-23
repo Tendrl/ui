@@ -6,34 +6,26 @@
     app.controller("clusterDetailController", clusterDetailController);
 
     /*@ngInject*/
-    function clusterDetailController($state, $stateParams, utils) {
+    function clusterDetailController($state, $stateParams, utils, $scope) {
 
         var vm = this;
-        vm.tabList = {};
+        vm.tabList = {"Host": 1};
         vm.tabName = "";
         vm.setTab = setTab;
         vm.isTabSet = isTabSet;
 
-        vm.clusterId = $stateParams.clusterId;
+        /* Adding clusterId in scope so that it will be accessible inside child directive */
+        $scope.clusterId = $stateParams.clusterId;
+        vm.clusterObj = utils.getClusterDetails($scope.clusterId);
+        vm.clusterName = vm.clusterObj.maps ? vm.clusterObj.maps.config.cluster_name : "NA";
+        if( vm.clusterObj.tendrl_context.sds_name === 'gluster' ) {
+            vm.tabName = "FileShare";
+        } else {
+            vm.tabName = "Pool";
+        }
 
-        utils.getObjectList("Cluster").then(function(list) {
-            vm.cluster = list.filter(function(cluster) {
-                return cluster.cluster_id === vm.clusterId;
-            })[0];
-
-            /* TODO:- Cluster specific tab info should come from API itself 
-            Setting up the tab based on ceph/gluster */
-            var clusterType = vm.cluster.sds_name.toLowerCase();
-            if( clusterType.indexOf("gluster") !== -1 ) {
-                vm.tabName = "Volume";
-            } else if( clusterType.indexOf("ceph") !== -1 ) {
-                vm.tabName = "Pool";
-            }
-
-            vm.tabList[vm.tabName] = 1;
-            vm.activeTab = vm.tabList[vm.tabName];
-            
-        });
+        vm.tabList[vm.tabName] = 2;
+        vm.activeTab = vm.tabList["Host"];
 
         function setTab(newTab) {
             vm.activeTab = newTab;

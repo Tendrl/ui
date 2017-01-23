@@ -76,7 +76,7 @@
         </center><div ng-if="hostCntrl.isDataLoading" class="dataLoading"></div>
         <div ng-if="!hostCntrl.isDataLoading" class="list-group list-view-pf list-view-pf-equalized-column" ng-repeat="host in hostCntrl.filteredHostList=(hostCntrl.hostList | filter: hostCntrl.searchBy | orderBy : hostCntrl.ascOrder + hostCntrl.orderBy)">
             <div class="list-group-item">
-                <div class="list-view-pf-left col-md-2">
+                <div class="col-md-2" ng-class="{ 'list-view-pf-left': clusterId === undefined }">
                     <span title="{{host.status}}" ng-if="host.status ==='UP'" class="pficon pficon-ok list-view-pf-icon-success"></span>
                     <span title="{{host.status}}" ng-if="host.status !=='UP'" class="fa fa-arrow-circle-o-down list-view-icon-failure"></span>
                     <a href="">{{host.name}}</a>
