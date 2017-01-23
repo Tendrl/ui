@@ -1,0 +1,81 @@
+[{
+	"name": "GlusterCreateVolume",
+	"method": "POST",
+	"attributes": [{
+		"name": "Volume.volname",
+		"help": "Name of gluster volume",
+		"type": "String",
+		"default": null,
+		"required": true
+	}, {
+		"name": "Volume.bricks",
+		"help": "List of brick mnt_paths for volume",
+		"type": "List",
+		"default": null,
+		"required": true
+	}, {
+		"name": "Volume.stripe_count",
+		"help": "Stripe count of volume",
+		"type": "Integer",
+		"default": null,
+		"required": false
+	}, {
+		"name": "Volume.replica_count",
+		"help": "Replica count of volume",
+		"type": "Integer",
+		"default": null,
+		"required": false
+	}, {
+		"name": "Volume.arbiter_count",
+		"help": "Arbiter count of volume",
+		"type": "Integer",
+		"default": null,
+		"required": false
+	}, {
+		"name": "Volume.disperse_count",
+		"help": "Disperse count of volume",
+		"type": "Integer",
+		"default": null,
+		"required": false
+	}, {
+		"name": "Volume.disperse_data_count",
+		"help": "Disperse data count of volume",
+		"type": "Integer",
+		"default": null,
+		"required": false
+	}, {
+		"name": "Volume.redundancy_count",
+		"help": "Redundancy count of volume",
+		"type": "Integer",
+		"default": null,
+		"required": false
+	}, {
+		"name": "Volume.transport",
+		"help": "Transport type for volume",
+		"type": "String",
+		"default": null,
+		"required": false
+	}, {
+		"name": "Volume.force",
+		"help": "If force execute the action",
+		"type": "Boolean",
+		"default": null,
+		"required": false
+	}]
+}, {
+	"name": "GlusterDeleteVolume",
+	"method": "DELETE",
+	"attributes": [{
+		"name": "Volume.volname",
+		"help": "Name of gluster volume",
+		"type": "String",
+		"default": null,
+		"required": true
+	}, {
+		"name": "Volume.vol_id",
+		"help": "ID of the gluster volume",
+		"type": "String",
+		"default": null,
+		"required": true
+	}]
+}]

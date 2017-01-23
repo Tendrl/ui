@@ -217,7 +217,7 @@
         formattedOutput: [{
             alertCount: "NA",
             clusterId: "8b0c637d-f5f7-40f6-acd9-50d5feb5f4b3",
-            clusterName: "zats",
+            clusterName: "Unassigned",
             name: "rbd",
             osdCount: "NA",
             pgCount: "64",
@@ -257,7 +257,7 @@
         formattedOutput: [{
             alert_count: "NA",
             brick_count: "1",
-            cluster_name: "zats",
+            cluster_name: "Unassigned",
             id: "9dd1a450-868d-4a65-a3f7-704623981f40",
             last_rebalance: "NA",
             name: "new Vol786",
@@ -290,7 +290,7 @@
         formattedOutput: [{
 
             alert_count: 10,
-            cluster_name: "gluster",
+            cluster_name: "Unassigned",
             cpu: {
                 percent_used: 4.5,
                 updated_at: "2016-12-19T23:12:51.278516"

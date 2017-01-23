@@ -4,7 +4,7 @@
         <li><a ui-sref="cluster">Cluster</a></li>
         <li>
             <span>
-                {{clusterDetail.cluster.sds_name}}
+                {{clusterDetail.clusterName}}
             </span>
         </li>
     </ol>
@@ -17,10 +17,9 @@
     </ul>
     
     <div ng-if="clusterDetail.tabName.length > 0">
-        <!-- FIRST TAB CONTENT -->
-        <div ng-if="clusterDetail.isTabSet(clusterDetail.tabList[clusterDetail.tabName])">
-            <generate-list list-name="{{clusterDetail.tabName}}" object-id="{{clusterDetail.clusterId}}"></generate-list>
-        </div>
+        <cluster-host-list ng-if="clusterDetail.activeTab === 1"></cluster-host-list>
+        <cluster-file-share-list ng-if="clusterDetail.activeTab === 2 && clusterDetail.clusterObj.tendrl_context.sds_name ==='gluster'"></cluster-file-share-list>
+        <cluster-pool-list ng-if="clusterDetail.activeTab === 2 && clusterDetail.clusterObj.tendrl_context.sds_name !=='gluster'"></cluster-pool-list>
     </div>
 
 </div>

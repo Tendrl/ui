@@ -1,0 +1,4 @@
+<div ng-if="addInventoryCntrl.createFlows.name !== undefined">
+    <h1 class="center-text">{{addInventoryCntrl.createFlows.name}}</h1>
+    <generate-form form-attributes="addInventoryCntrl.createFlows.attributes" submit-btn-name="Create {{addInventoryCntrl.createFlows.name}}" post-url="{{addInventoryCntrl.createFlows.name}}" form-method="{{createFlow.method}}" cluster-id="{{addInventoryCntrl.clusterId}}" call-back="addInventoryCntrl.callBack(response)"></generate-form>
+</div>

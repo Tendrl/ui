@@ -7,7 +7,7 @@
 
     /*@ngInject*/
     function hostController($scope, $rootScope, $state, $interval, utils, config) {
-        var vm = this;
+        var vm = this, clusterObj, associatedHosts = [];
 
         vm.isDataLoading = true;
 
@@ -18,7 +18,12 @@
                 vm.isDataLoading = false;
                 vm.hostList = [];
                 if(list !== null) {
-                    vm.hostList = setupHostListData(list.nodes);
+                    if(typeof $scope.clusterId !== "undefined") {
+                        associatedHosts = utils.getAssociatedHosts(list.nodes,$scope.clusterId);
+                        vm.hostList = setupHostListData(associatedHosts);
+                    } else {
+                        vm.hostList = setupHostListData(list.nodes);
+                    }
                 }
             });
         }
@@ -38,13 +43,17 @@
 
             for (i = 0; i < length; i++) {
                 host={};
-
+                clusterObj = {};
+                host.cluster_name = "Unassigned";
                 host.id = list[i].node_id;
                 host.status = list[i].status;
                 host.name = list[i].fqdn;
                 host.role = list[i].role;
-                host.cluster_name = utils.getClusterDetails(list[i].tendrl_context.cluster_id);
-                if(list[i].stats !== undefined) {
+                clusterObj = utils.getClusterDetails(list[i].tendrl_context.cluster_id);
+                if(typeof clusterObj !== "undefined" && typeof clusterObj.tendrl_context !== "undefined") {
+                    host.cluster_name = clusterObj.tendrl_context.sds_name;
+                }
+                if(typeof list[i].stats !== "undefined") {
                     list[i].stats = list[i].stats.replace(/'/g, '"');
                     stats = JSON.parse(list[i].stats);
                     host.storage = stats.storage;

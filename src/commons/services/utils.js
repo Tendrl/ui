@@ -9,9 +9,9 @@
     function utils($http, config, $rootScope) {
 
         /* Cache the reference to this pointer */
-        var vm = this, 
-            clusterName, 
+        var vm = this,
             volumeList,
+            hostList,
             poolList,
             i, 
             index, 
@@ -115,7 +115,7 @@
         };
 
         vm.getClusterDetails = function(clusterId) {
-            clusterName = "Unassigned";
+            clusterObj = {};
 
             if($rootScope.clusterData !== null && typeof clusterId !== "undefined") {
                 clusterData = $rootScope.clusterData.clusters;
@@ -124,13 +124,13 @@
                 for ( i = 0; i < len; i++ ) {
 
                     if(clusterData[i].cluster_id === clusterId) {
-                        clusterName = clusterData[i].tendrl_context.sds_name;
+                        clusterObj = clusterData[i];
                         break;
                     }
                 }
             }
 
-            return clusterName;
+            return clusterObj;
         };
 
         vm.getFileShareDetails = function(clusterId) {
@@ -199,6 +199,17 @@
                 });
             }
             return poolList;
+        };
+
+        vm.getAssociatedHosts = function(hostListArray, clusterId) {
+            hostList = [];
+            len = hostListArray.length;
+            for ( i = 0; i < len; i++ ) {
+                if(hostListArray[i].tendrl_context.cluster_id === clusterId) {
+                    hostList.push(hostListArray[i]);
+                }
+            }
+            return hostList;
         };
 
     }

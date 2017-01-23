@@ -14,12 +14,15 @@
             fileShare,
             fileShareObj,
             i,
-            len;
+            len,
+            clusterObj;
+
+        vm.createFileShare = createFileShare;
 
         init();
 
         function init() {
-            list = utils.getFileShareDetails();
+            list = utils.getFileShareDetails($scope.clusterId);
             vm.fileShareList = setupFileShareListData(list);
         }
 
@@ -44,12 +47,17 @@
                 and API should support for array data*/
                 if (Object.keys(fileShareObj).length > 5) {
                     fileShare = {};
+                    clusterObj = {};
+                    fileShare.cluster_name = "Unassigned";
                     fileShare.id = fileShareObj.vol_id;
                     fileShare.status = fileShareObj.status;
                     fileShare.name = fileShareObj.name;
                     fileShare.type = fileShareObj.vol_type;
                     fileShare.storage = "NA";
-                    fileShare.cluster_name = utils.getClusterDetails(fileShareObj.cluster_id);
+                    clusterObj = utils.getClusterDetails(fileShareObj.cluster_id);
+                    if(typeof clusterObj !== "undefined" && typeof clusterObj.tendrl_context !== "undefined") {
+                        fileShare.cluster_name = clusterObj.tendrl_context.sds_name;
+                    }
                     fileShare.brick_count = fileShareObj.brick_count;
                     fileShare.alert_count = "NA"
                     fileShare.last_rebalance = "NA";
@@ -74,6 +82,10 @@
         $scope.$on('$destroy', function() {
             $interval.cancel(timer);
         });
+
+        function createFileShare() {
+            $state.go("add-inventory",{ clusterId: $scope.clusterId });
+        }
     }
 
 })();

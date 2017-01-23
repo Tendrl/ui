@@ -45,7 +45,7 @@
                 <div class="form-group toolbar-pf-view-selector">
                     <div class="row">
                         <div class="col-md-offset-6 col-md-6">
-                            <button class="btn btn-primary pull-right">Add</button>
+                            <button ng-if="clusterId.length>0" class="btn btn-primary pull-right" ng-click="fileShareCntrl.createFileShare()">Add</button>
                         </div>
                     </div>
                 </div>
