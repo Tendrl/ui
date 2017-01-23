@@ -1,0 +1,23 @@
+---
+# Development environment
+development:
+  common:
+    tendrl:
+      ip: jealous-feather.surge.sh
+      username: 
+      password: 
+
+# QA environment
+qa:
+  common:
+    tendrl:
+      ip: jealous-feather.surge.sh
+      username: 
+      password: 
+# Stage environment
+stage:
+  common:
+    tendrl:
+      ip: jealous-feather.surge.sh
+      username: 
+      password: 
