@@ -80,7 +80,8 @@
             //     url = config.baseUrl + "Get" + objectType +"List";
             // }
 
-            url = config.baseUrl + "Get" + objectType +"List";
+            //url = config.baseUrl + "Get" + objectType +"List";
+            url = "/api/GetClusterList.json";
 
             getObjectListRequest = {
                 method: "GET",
@@ -152,6 +153,7 @@
                         } else {
 
                             for(index in clusterData[i].volumes) {
+                                clusterData[i].volumes[index].cluster_id = clusterData[i].cluster_id;
                                 volumeList.push(clusterData[i].volumes[index])
                             }
                         }   
@@ -187,6 +189,7 @@
                         } else {
 
                             for(index in clusterData[i].pools) {
+                                clusterData[i].pools[index].cluster_id = clusterData[i].cluster_id;
                                 poolList.push(clusterData[i].pools[index])
                             }
                         }   
