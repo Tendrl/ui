@@ -55,8 +55,8 @@
                     fileShare.type = fileShareObj.vol_type;
                     fileShare.storage = "NA";
                     clusterObj = utils.getClusterDetails(fileShareObj.cluster_id);
-                    if(typeof clusterObj !== "undefined" && typeof clusterObj.tendrl_context !== "undefined") {
-                        fileShare.cluster_name = clusterObj.tendrl_context.sds_name;
+                    if(typeof clusterObj !== "undefined") {
+                         fileShare.cluster_name = clusterObj.name;
                     }
                     fileShare.brick_count = fileShareObj.brick_count;
                     fileShare.alert_count = "NA"

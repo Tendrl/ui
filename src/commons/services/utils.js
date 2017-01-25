@@ -133,6 +133,26 @@
             return clusterObj;
         };
 
+
+        vm.getIntergrationDetails = function(intergrationId) {
+            clusterObj = {};
+
+            if($rootScope.clusterData !== null && typeof clusterId !== "undefined") {
+                clusterData = $rootScope.clusterData.clusters;
+                len = clusterData.length;
+
+                for ( i = 0; i < len; i++ ) {
+
+                    if(clusterData[i].intergration_id === intergrationId) {
+                        clusterObj = clusterData[i];
+                        break;
+                    }
+                }
+            }
+
+            return clusterObj;
+        };
+
         vm.getFileShareDetails = function(clusterId) {
             volumeList = [];
 
@@ -152,6 +172,7 @@
                         } else {
 
                             for(index in clusterData[i].volumes) {
+                                clusterData[i].volumes[index].cluster_id = clusterData[i].cluster_id;
                                 volumeList.push(clusterData[i].volumes[index])
                             }
                         }   
@@ -187,6 +208,7 @@
                         } else {
 
                             for(index in clusterData[i].pools) {
+                                clusterData[i].pools[index].cluster_id = clusterData[i].cluster_id;
                                 poolList.push(clusterData[i].pools[index])
                             }
                         }   
