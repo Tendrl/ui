@@ -35,7 +35,7 @@
 			        		<label>Storage Service:</label>
 			        	</div>
 			        	<div class="col-xs-6 col-sm-9 col-md-10">
-			        		{{importClusterCntrl.selectedCluster.sds_type}}
+			        		{{importClusterCntrl.selectedCluster.sds_type | capitalize}}
 			        	</div>
 			        </div>
 		        </div>
@@ -99,10 +99,18 @@
 			                <div class="list-view-pf-left col-md-6">
 			                    {{host.name}}
 			                </div>
-			                <div class="col-md-6">
+			                <div class="col-md-3">
 			                    <div class="list-view-pf-additional-info-item list-view-pf-additional-info-item-stacked">
-			                        <h5 ng-if="host.ip !== undefined">{{host.ip}}</h5>
-			                        <h5 ng-if="host.ip === undefined">NA</h5>
+			                    	<h5 class="bold-text" ng-if="host.release !== undefined">Release</h5>
+			                        <h5 ng-if="host.release !== undefined">{{host.release | capitalize}}</h5>
+			                        <h5 ng-if="host.release === undefined">NA</h5>
+			                    </div>
+			                </div>
+			                <div class="col-md-3">
+			                    <div class="list-view-pf-additional-info-item list-view-pf-additional-info-item-stacked">
+			                    	<h5 class="bold-text" ng-if="host.role !== undefined">Role</h5>
+			                        <h5 ng-if="host.role !== undefined">{{host.role}}</h5>
+			                        <h5 ng-if="host.role === undefined">NA</h5>
 			                    </div>
 			                </div>
 			            </div>
