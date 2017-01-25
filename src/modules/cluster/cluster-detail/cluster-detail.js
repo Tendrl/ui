@@ -17,8 +17,8 @@
         /* Adding clusterId in scope so that it will be accessible inside child directive */
         $scope.clusterId = $stateParams.clusterId;
         vm.clusterObj = utils.getClusterDetails($scope.clusterId);
-        vm.clusterName = vm.clusterObj.maps ? vm.clusterObj.maps.config.cluster_name : "NA";
-        if( vm.clusterObj.tendrl_context.sds_name === 'gluster' ) {
+        vm.clusterName = vm.clusterObj.name || "NA";
+        if( vm.clusterObj.sds_name === "gluster" ) {
             vm.tabName = "FileShare";
         } else {
             vm.tabName = "Pool";

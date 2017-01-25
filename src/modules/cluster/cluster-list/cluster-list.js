@@ -68,7 +68,7 @@
                 for ( i = 0; i < len; i++) {
                     cluster = {};
 
-                    cluster.name = clusterData[i].maps ? clusterData[i].maps.config.cluster_name : "NA";
+                    cluster.name = clusterData[i].name || "NA";
                     cluster.id = clusterData[i].cluster_id;
 
                     if(typeof clusterData[i].stats !== "undefined") {

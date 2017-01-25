@@ -62,12 +62,12 @@
                 pool = {};
                 clusterObj = {};
                 pool.clusterName = "Unassigned";
-                pool.name = list[i].poolname;
+                pool.name = list[i].pool_name;
                 pool.clusterId = list[i].cluster_id;
                 pool.pgCount = list[i].pg_num;
                 clusterObj = utils.getClusterDetails(list[i].cluster_id);
-                if(typeof clusterObj !== "undefined" && typeof clusterObj.tendrl_context !== "undefined") {
-                    pool.clusterName = clusterObj.tendrl_context.sds_name;
+                if(typeof clusterObj !== "undefined") {
+                    pool.clusterName = clusterObj.name;
                 }
 
                 pool.status = "NA";
