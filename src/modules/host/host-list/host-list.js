@@ -22,7 +22,8 @@
                         associatedHosts = utils.getAssociatedHosts(list.nodes,$scope.clusterId);
                         vm.hostList = setupHostListData(associatedHosts);
                     } else {
-                        vm.hostList = setupHostListData(list.nodes);
+                        vm.hostList = setupHostListData(list.nodes,list.clusters);
+
                     }
                 }
             });
@@ -38,9 +39,8 @@
             }
         });
 
-        function setupHostListData(list) {
-            var i, length = list.length, hostList=[], host, stats;
-
+        function setupHostListData(list,clusters) {
+            var i, j, length = list.length, hostList=[], host, stats;
             for (i = 0; i < length; i++) {
                 host={};
                 clusterObj = {};
@@ -49,10 +49,15 @@
                 host.status = list[i].status;
                 host.name = list[i].fqdn;
                 host.role = list[i].role;
-                clusterObj = utils.getClusterDetails(list[i].tendrl_context.cluster_id);
-                if(typeof clusterObj !== "undefined" && typeof clusterObj.tendrl_context !== "undefined") {
-                    host.cluster_name = clusterObj.tendrl_context.sds_name;
+                for (j = 0; j < clusters.length; j++) {
+                    if(list[i].detectedcluster.detected_cluster_id === clusters[i].cluster_id){
+                        host.cluster_name = clusters[i].sds_name
+                    }
                 }
+                // clusterObj = utils.getClusterDetails(list[i].detectedcluster.detected_cluster_id);
+                // if(typeof clusterObj !== "undefined" && typeof clusterObj.tendrl_context !== "undefined") {
+                //     host.cluster_name = clusterObj.tendrl_context.sds_name;
+                // }
                 if(typeof list[i].stats !== "undefined") {
                     list[i].stats = list[i].stats.replace(/'/g, '"');
                     stats = JSON.parse(list[i].stats);
