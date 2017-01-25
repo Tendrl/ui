@@ -247,7 +247,7 @@ gulp.task("dev", ["common", "watcher"], function (done) {
 
 // production mode task
 gulp.task("release", ["common"], function (done) {
-    runSequence("ut", done);
+   // runSequence("ut", done);
 });
 
 //default task is release

@@ -97,14 +97,14 @@
                     <div class="list-view-pf-additional-info-item list-view-pf-additional-info-item-stacked">
                         <b>  Cluster  </b>
                         <h5>
-                            {{host.cluster_name}}
+                            {{host.cluster_name }}
                         </h5>
                     </div>
                 </div>
                 <div class="col-md-1">
                     <div ng-show="host.cluster_name !== 'Unassigned'" class="list-view-pf-additional-info-item list-view-pf-additional-info-item-stacked">
                         <b>  Role  </b>
-                        <h5 ng-if="host.role !== undefined">{{host.role}}</h5>
+                        <h5 ng-if="host.role !== undefined">{{ host.role | capitalize }}</h5>
                         <h5 ng-if="host.role === undefined">NA</h5>
                     </div>
                 </div>

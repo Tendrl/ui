@@ -40,24 +40,26 @@
         });
 
         function setupHostListData(list,clusters) {
-            var i, j, length = list.length, hostList=[], host, stats;
+            var role = {
+                "mon": "Monitor",
+                "osd": "OSD Host",
+                "server": "Peer",
+                "rados": "RADOS Gateway"
+            }
+            var i, j, length = list.length, hostList=[], host, stats, tags;
             for (i = 0; i < length; i++) {
                 host={};
                 clusterObj = {};
+                tags = list[i].tags.split("/")
                 host.cluster_name = "Unassigned";
                 host.id = list[i].node_id;
                 host.status = list[i].status;
                 host.name = list[i].fqdn;
-                host.role = list[i].role;
-                for (j = 0; j < clusters.length; j++) {
-                    if(list[i].detectedcluster.detected_cluster_id === clusters[i].cluster_id){
-                        host.cluster_name = clusters[i].sds_name
-                    }
+                host.role = role[tags[1]];
+                clusterObj = utils.getClusterDetails(list[i].tendrlcontext.integration_id);
+                if(typeof clusterObj !== "undefined") {
+                    host.cluster_name = clusterObj.name;
                 }
-                // clusterObj = utils.getClusterDetails(list[i].detectedcluster.detected_cluster_id);
-                // if(typeof clusterObj !== "undefined" && typeof clusterObj.tendrl_context !== "undefined") {
-                //     host.cluster_name = clusterObj.tendrl_context.sds_name;
-                // }
                 if(typeof list[i].stats !== "undefined") {
                     list[i].stats = list[i].stats.replace(/'/g, '"');
                     stats = JSON.parse(list[i].stats);
