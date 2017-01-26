@@ -137,12 +137,10 @@
         vm.getIntergrationDetails = function(intergrationId) {
             clusterObj = {};
 
-            if($rootScope.clusterData !== null && typeof clusterId !== "undefined") {
+            if($rootScope.clusterData !== null && typeof intergrationId !== "undefined") {
                 clusterData = $rootScope.clusterData.clusters;
                 len = clusterData.length;
-
                 for ( i = 0; i < len; i++ ) {
-
                     if(clusterData[i].intergration_id === intergrationId) {
                         clusterObj = clusterData[i];
                         break;
@@ -166,6 +164,7 @@
                         if(clusterId !== undefined && clusterData[i].cluster_id === clusterId) {
                                
                             for(index in clusterData[i].volumes) {
+                                clusterData[i].volumes[index].cluster_id = clusterData[i].cluster_id;
                                 volumeList.push(clusterData[i].volumes[index])
                             }
 
@@ -202,6 +201,7 @@
                         if(clusterId !== undefined && clusterData[i].cluster_id === clusterId) {
                                
                             for(index in clusterData[i].pools) {
+                                clusterData[i].pools[index].cluster_id = clusterData[i].cluster_id;
                                 poolList.push(clusterData[i].pools[index])
                             }
 
@@ -227,7 +227,7 @@
             hostList = [];
             len = hostListArray.length;
             for ( i = 0; i < len; i++ ) {
-                if(hostListArray[i].tendrl_context.cluster_id === clusterId) {
+                if(hostListArray[i].tendrlcontext.integration_id === clusterId) {
                     hostList.push(hostListArray[i]);
                 }
             }
