@@ -106,7 +106,6 @@
                 url: url,
                 data: data
             };
-
             request = angular.copy(actionRequest);
 
             return $http(request).then(function (response) {
