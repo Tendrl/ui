@@ -21,6 +21,8 @@
 		            <h4><label>Cluster Summary</label></h4>
 		            <p>The following cluster details has been detected. click <b>import</b> to continue importing this cluster.</p>
 		        </section>
+		        <div ng-if="importClusterCntrl.isDataLoading" class="dataLoading"></div>
+		        <div ng-if="!importClusterCntrl.isDataLoading">
 		        <div class="cluster-detail">
 		        	<div class="row">
 			        	<div class="col-xs-6 col-sm-3 col-md-2">
@@ -35,7 +37,7 @@
 			        		<label>Storage Service:</label>
 			        	</div>
 			        	<div class="col-xs-6 col-sm-9 col-md-10">
-			        		{{importClusterCntrl.selectedCluster.sds_type | capitalize}}
+			        		{{importClusterCntrl.selectedCluster.sds_type + " "  + importClusterCntrl.selectedClusterVersion | capitalize}}
 			        	</div>
 			        </div>
 		        </div>
@@ -123,6 +125,7 @@
                     <div class="col-xs-6 col-sm-10 col-md-11">
                          <button class="btn btn-default btn-lg" ng-click="importClusterCntrl.importCancel()">Cancel</button>
                     </div>
+                </div>
                 </div>
         	</div>
         </div>

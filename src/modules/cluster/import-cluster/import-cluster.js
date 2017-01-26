@@ -49,8 +49,9 @@
                 for(j = 0; j < hostListlength; j++) {
                     if(hostList[j].node_id === id) {
                         if(i===0) {
-                            sds_type = vm.selectedCluster.sds_name + " " +vm.selectedCluster.sds_version
+                            sds_type = vm.selectedCluster.sds_name 
                         }
+                        vm.selectedCluster.sds_name = sds_type + " " + vm.selectedClusterVersion
                         host = {};
                         if(hostList.tags !== "undefined"){
                             tags = hostList[j].tags.split("/")
@@ -74,12 +75,7 @@
         }
 
         function importCluster() {
-            var uri;
-            if(vm.selectedCluster.sds_type.includes("ceph")) {
-                uri = "ImportCephCluster";
-            } else {
-                uri = "ImportGlusterCluster";
-            }
+            var uri = "ImportCluster";
             utils.importCluster(uri, vm.selectedCluster).then(function(list) {
                 vm.step = 2;
             });
