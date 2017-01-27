@@ -50,6 +50,8 @@
                                 $rootScope.clusterData = null;
                                 utils.getObjectList("Cluster").then(function(list) {
                                     $rootScope.clusterData = list;
+                                    /* Setting up manual broadcast event for ClusterData*/
+                                    $rootScope.$broadcast("GotClusterData", $rootScope.clusterData); // going down!
                                     if($rootScope.clusterData !== null && $rootScope.clusterData.clusters.length !== 0){
                                         /* Forward to cluster view if we have cluster data. */
                                         $rootScope.isNavigationShow = true;
@@ -121,21 +123,6 @@
             });
 
             storageModule.run(function(utils, $rootScope, menuService) {
-                /* Calling the custom utils service before application started 
-                And filling clusterData so that clusterData will be available
-                through whole application*/
-                $rootScope.clusterData = null;
-                utils.getObjectList("Cluster").then(function(list) {
-                    $rootScope.clusterData = list;
-                    /* Setting up manual broadcast event for ClusterData*/
-                    $rootScope.$broadcast("GotClusterData", $rootScope.clusterData); // going down!
-                    if ($rootScope.clusterData !== null && $rootScope.clusterData.clusters.length !== 0) {
-                        $rootScope.isNavigationShow = true;
-                    } else {
-                        $rootScope.isNavigationShow = false;
-                    }    
-                });
-
                 /* Tracking the current URI for navigation*/
                 $rootScope.$on("$stateChangeSuccess", function(event, current, prev) {
                     menuService.setActive(current.name);
