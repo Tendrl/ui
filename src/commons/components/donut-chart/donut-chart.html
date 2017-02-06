@@ -1,13 +1,13 @@
-<span></span>
-<div ng-if="chartData !== undefined">
-	<b ng-if="chartTitle !== undefined">{{chartTitle}}</b>
-	<h5 ng-if="chartData.used !== undefined">{{ chartData.used | bytes }}</h5>
-	<h5 ng-if="chartData.used === undefined"> {{ chartData.percent_used }} %</h5>
+<span class="chart"></span>
+<span class="desc" ng-if="vm.chartData !== undefined">
+	<b ng-if="vm.chartTitle !== undefined">{{ vm.chartTitle }}</b>
+	<h5 ng-if="vm.chartData.used !== undefined">{{ vm.chartData.used | bytes }}</h5>
+	<h5 ng-if="vm.chartData.used === undefined"> {{ vm.chartData.percent_used }} %</h5>
 	<span>
-		<span ng-if="chartData.total !== undefined">
-			of {{chartData.total | bytes}}
+		<span ng-if="vm.chartData.total !== undefined">
+			of {{vm.chartData.total | bytes}}
 		</span>
 		used
 	</span> 
-</div>
-<div class="not-available" ng-if="chartData === undefined">NA</div>
+</span>
+<div class="not-available" ng-if="vm.chartData === undefined">NA</div>

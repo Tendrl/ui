@@ -92,8 +92,7 @@
                     <small>{{fileShare.type}}</small>
                 </div>
                 <div  class="col-md-2">
-                    <div ng-if="fileShare.storage !== 'NA'" class="list-view-pf-additional-info-item donut-chart" chart-title="Storage" chart-data="fileShare.storage">
-                    </div>
+                    <donut-chart id="storage-donut-chart{{$index}}" ng-if="fileShare.storage !== 'NA'" class="list-view-pf-additional-info-item" chart-title="Storage" chart-data="fileShare.storage"></donut-chart>
                     <div ng-if="fileShare.storage === 'NA'" class="list-view-pf-additional-info-item list-view-pf-additional-info-item-stacked">
                         <b>  Storage  </b>
                         <h5>

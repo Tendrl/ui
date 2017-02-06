@@ -64,8 +64,7 @@
             </div>
             <div class="col-md-1 text-center cluster-name bold-text counts" ng-click="clusterCntrl.goToClusterDetail(cluster.id)">{{cluster.name}}</div>
             <div class="col-md-3">
-                <div class="list-view-pf-additional-info-item donut-chart" chart-data="cluster.storage">
-                </div>
+                <donut-chart id="" id="storage-donut-chart{{$index}}" class="list-view-pf-additional-info-item" chart-data="cluster.storage"></donut-chart>
             </div>
             <div class="col-md-3">
                 {{cluster.iops}}

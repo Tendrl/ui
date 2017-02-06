@@ -67,7 +67,9 @@
             </div>
             <div class="col-md-1 text-center bold-text pool-name">{{pool.name}}</div>
             <div class="col-md-3">
-                {{pool.utilization}}
+                
+                <donut-chart id="storage-donut-chart{{$index}}" class="list-view-pf-additional-info-item" chart-title="Storage" chart-data="pool.utilization"></donut-chart>
+                
             </div>
             <div class="col-md-1">
                 <div class="list-view-pf-additional-info-item list-view-pf-additional-info-item-stacked">

@@ -82,16 +82,13 @@
                     <a href="">{{host.name}}</a>
                 </div>
                 <div  class="col-md-2">
-                    <div class="list-view-pf-additional-info-item donut-chart" chart-title="Storage" chart-data="host.storage">
-                    </div>
+                    <donut-chart id="storage-donut-chart{{$index}}" class="list-view-pf-additional-info-item" chart-title="Storage" chart-data="host.storage"></donut-chart>
                 </div>
                 <div  class="col-md-2">
-                    <div class="list-view-pf-additional-info-item donut-chart" chart-title="CPU" chart-data="host.cpu">
-                    </div>
+                    <donut-chart id="cpu-donut-chart{{$index}}" class="list-view-pf-additional-info-item" chart-title="CPU" chart-data="host.cpu"></donut-chart>
                 </div>
                 <div  class="col-md-2">
-                    <div class="list-view-pf-additional-info-item donut-chart" chart-title="Memory" chart-data="host.memory">
-                    </div>
+                    <donut-chart id="memory-donut-chart{{$index}}" class="list-view-pf-additional-info-item" chart-title="Memory" chart-data="host.memory"></donut-chart>
                 </div>
                 <div  class="col-md-1">
                     <div class="list-view-pf-additional-info-item list-view-pf-additional-info-item-stacked">
