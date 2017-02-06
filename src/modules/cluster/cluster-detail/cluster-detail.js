@@ -18,7 +18,7 @@
         $scope.clusterId = $stateParams.clusterId;
         vm.clusterObj = utils.getClusterDetails($scope.clusterId);
         vm.clusterName = vm.clusterObj.name || "NA";
-         if( vm.clusterObj.sds_name === "gluster" ) {
+         if( vm.clusterObj.sds_name === "glusterfs" ) {
             vm.tabName = "FileShare";
         } else {
             vm.tabName = "Pool";
