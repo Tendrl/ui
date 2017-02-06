@@ -114,7 +114,7 @@
         };
 
         vm.getClusterDetails = function(clusterId) {
-            clusterObj = {};
+            var clusterObj;
 
             if($rootScope.clusterData !== null && typeof clusterId !== "undefined") {
                 clusterData = $rootScope.clusterData.clusters;
@@ -134,7 +134,7 @@
 
 
         vm.getIntergrationDetails = function(intergrationId) {
-            clusterObj = {};
+            var clusterObj = {};
 
             if($rootScope.clusterData !== null && typeof intergrationId !== "undefined") {
                 clusterData = $rootScope.clusterData.clusters;

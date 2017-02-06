@@ -18,8 +18,8 @@
     
     <div ng-if="clusterDetail.tabName.length > 0">
         <cluster-host-list ng-if="clusterDetail.activeTab === 1"></cluster-host-list>
-        <cluster-file-share-list ng-if="clusterDetail.activeTab === 2 && clusterDetail.clusterObj.tendrl_context.sds_name ==='gluster'"></cluster-file-share-list>
-        <cluster-pool-list ng-if="clusterDetail.activeTab === 2 && clusterDetail.clusterObj.tendrl_context.sds_name !=='gluster'"></cluster-pool-list>
+        <cluster-file-share-list ng-if="clusterDetail.activeTab === 2 && clusterDetail.clusterObj.sds_name ==='glusterfs'"></cluster-file-share-list>
+        <cluster-pool-list ng-if="clusterDetail.activeTab === 2 && clusterDetail.clusterObj.sds_name !=='glusterfs'"></cluster-pool-list>
     </div>
 
 </div>

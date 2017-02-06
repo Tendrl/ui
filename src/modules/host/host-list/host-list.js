@@ -45,28 +45,28 @@
                 "osd": "OSD Host",
                 "server": "Peer",
                 "rados": "RADOS Gateway"
-            }
-            var i, j, length = list.length, hostList=[], host, stats, tags;
+            },
+            i, j, length = list.length, hostList=[], host, stats, tags;
+            
             for (i = 0; i < length; i++) {
                 host={};
-                clusterObj = {};
                 tags = list[i].tags.split("/")
                 host.cluster_name = "Unassigned";
                 host.id = list[i].node_id;
                 host.status = list[i].status;
                 host.name = list[i].fqdn;
-                host.role = role[tags[1]];
+                host.role = role[tags[tags.length-1]];
                 clusterObj = utils.getClusterDetails(list[i].tendrlcontext.integration_id);
+                
                 if(typeof clusterObj !== "undefined") {
-                    host.cluster_name = clusterObj.name;
+                    host.cluster_name = clusterObj.name || "NA";
                 }
                 if(typeof list[i].stats !== "undefined") {
-                    list[i].stats = list[i].stats.replace(/'/g, '"');
-                    stats = JSON.parse(list[i].stats);
-                    host.storage = stats.storage;
-                    host.cpu = stats.cpu;
-                    host.memory = stats.memory;
-                    host.alert_count = stats.alert_cnt;
+                    stats = list[i].stats;
+                    host.storage = stats.storage_usage;
+                    host.cpu = stats.cpu_usage;
+                    host.memory = stats.memory_usage;
+                    host.alert_count = stats.alert_count;
                 }else {
                     host.alert_count = "NA";
                 }   
