@@ -1,0 +1,68 @@
+<div class="tendrl-create-rbd-container container-fluid">
+    <ol class="breadcrumb">
+        <li>
+            <a ui-sref="rbd">RBDs</a>
+        </li>
+        <li class="active"> <strong>Create RBD</strong>
+        </li>
+    </ol>
+    <h1 class="bold-text">Create RBD</h1>
+    <div class="create-rbd-wizard" ng-if="!createRBDCntrl.taskSubmitted">
+        <div class="wizard-pf">
+            <div>
+                <div class="wizard-pf-body clearfix">
+                    <div class="wizard-pf-steps">
+                        <ul class="wizard-pf-steps-indicator">
+                            <li class="wizard-pf-step active" ng-class="{active: (createRBDCntrl.step === 1)}" data-tabgroup="1">
+                                <a><span class="wizard-pf-step-number">1</span><span class="wizard-pf-step-title">Basic Settings</span></a>
+                            </li>
+                            <li class="wizard-pf-step" data-tabgroup="2" ng-class="{active: (createRBDCntrl.step === 2)}">
+                                <a><span class="wizard-pf-step-number">2</span><span class="wizard-pf-step-title">Backing Pool</span></a>
+                            </li>
+                            <li class="wizard-pf-step" data-tabgroup="3" ng-class="{active: (createRBDCntrl.step === 3)}">
+                                <a><span class="wizard-pf-step-number">3</span><span class="wizard-pf-step-title">Review</span></a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="wizard-pf-row">
+                        <div class="wizard-pf-main">
+
+                            <div ng-include src="'../modules/rbd/create-rbd/step-first.html'"></div>
+                            
+                            <div ng-include src="'../modules/rbd/create-rbd/step-second.html'"></div>
+                            
+                            <div ng-include src="'../modules/rbd/create-rbd/step-third.html'"></div>
+
+                        </div>
+                        <!-- /.wizard-pf-main -->
+                    </div>
+                </div>
+                <!-- /.wizard-pf-body -->
+                <div class="modal-footer wizard-pf-footer">
+                    <button type="button" class="btn btn-default wizard-pf-back" ng-click="createRBDCntrl.updateStep('dec')" ng-disabled="createRBDCntrl.step === 1">
+                        <span class="i fa fa-angle-left"></span> Back
+                    </button>
+                    <button type="button" class="btn btn-primary wizard-pf-next" ng-click="createRBDCntrl.updateStep('inc')" ng-disabled="!createRBDCntrl.rbdName.length">
+                        <span ng-if="createRBDCntrl.step !== 3">Next</span>
+                        <span ng-if="createRBDCntrl.step === 3">Create RBDs</span>
+                        <span class="i fa fa-angle-right;"></span>
+                    </button>
+                    <a type="button" class="btn btn-default btn-cancel wizard-pf-cancel wizard-pf-dismiss" ui-sref="rbd">Cancel</a>
+                </div>
+                <!-- /.wizard-pf-footer -->
+            </div>
+        </div>
+    </div>
+    <div ng-if="createRBDCntrl.taskSubmitted" class="blank-slate-pf centered">
+        <div class="blank-slate-pf-icon">
+            <i class="pficon pficon-ok"></i>
+        </div>
+        <div>
+            <h1><label>Create RBD(s) Submitted</label></h1>
+            <div class="text-center"> An task has been submitted to the background for each RBD requested. You will be notified when processing is complete and the new RBDs are ready for use. </div>
+        </div>
+        <div class="blank-slate-pf-main-action">
+            <button class="btn btn-primary btn-lg" ng-click="createRBDCntrl.viewTaskProgress()">View Task Progress</button>
+        </div>
+    </div>
+</div>

@@ -111,6 +111,12 @@
                         controller: "rbdController",
                         controllerAs: "rbdCntrl"
                     })
+                    .state("create-rbd", {
+                        url: "/create-rbd",
+                        templateUrl: "/modules/rbd/create-rbd/create-rbd.html",
+                        controller: "createRBDController",
+                        controllerAs: "createRBDCntrl"
+                    })
                     .state("add-inventory", {
                         url: "/add-inventory/:clusterId",
                         templateUrl: "/modules/add-inventory/add-inventory.html",
