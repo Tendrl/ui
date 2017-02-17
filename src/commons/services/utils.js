@@ -167,7 +167,7 @@
                                 volumeList.push(clusterData[i].volumes[index])
                             }
 
-                        } else {
+                        } else if(clusterId === undefined) {
 
                             for(index in clusterData[i].volumes) {
                                 clusterData[i].volumes[index].cluster_id = clusterData[i].cluster_id;
@@ -204,7 +204,7 @@
                                 poolList.push(clusterData[i].pools[index])
                             }
 
-                        } else {
+                        } else if(clusterId === undefined) {
 
                             for(index in clusterData[i].pools) {
                                 clusterData[i].pools[index].cluster_id = clusterData[i].cluster_id;
@@ -250,7 +250,7 @@
                                 }
                             }
 
-                        } else {
+                        } else if(clusterId === undefined) {
 
                             for(index1 in clusterData[i].pools) {
                                 if(typeof clusterData[i].pools[index1].rbds !== "undefined") {
@@ -287,6 +287,20 @@
                 }
             }
             return hostList;
+        };
+
+        vm.convertToBytes = function(value, unit) {
+            if(unit === "KB") {
+                return value * Math.pow(1024,1);
+            }else if(unit === "MB") {
+                return value * Math.pow(1024,2);
+            }else if(unit === "GB") {
+                return value * Math.pow(1024,3);
+            }else if(unit === "TB") {
+                return value * Math.pow(1024,4);
+            }else if(unit === "PB") {
+                return value * Math.pow(1024,5);
+            }
         };
 
     }

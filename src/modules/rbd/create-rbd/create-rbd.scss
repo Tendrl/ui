@@ -1,0 +1,109 @@
+.tendrl-create-rbd-container {
+    
+    .create-rbd-wizard {
+        .wizard-pf {
+            width: 100%;
+
+            .wizard-pf-steps {
+                border: none;
+            }
+
+            .wizard-pf-row {
+                position: static;
+
+                .wizard-pf-main {
+                    overflow: hidden;
+                    padding: 0;
+                    margin-left: 114px;
+                    margin-right: 106px;
+
+                    .wizard-pf-contents {
+                        .form-horizontal .control-label {
+                            text-align: left;
+                        }
+
+                        .list-group {
+                            margin-bottom: 0;
+                        }
+
+                        .rbd-summary {
+                            margin-bottom: 50px;
+                            margin-left: 0;
+
+                            .desc {
+                                margin-bottom: 30px;
+                            }
+
+                            .single-rbd-summary {
+                                border: 1px solid $color-white-smoke;
+
+                                .row {
+                                    padding: 10px 0;
+                                    
+                                    &:nth-of-type(2n) {
+                                        background-color: $color-white-smoke;
+                                    }
+                                }
+
+                            }
+
+                            .single-rbd-summary:nth-of-type(2n) {
+                                background-color: red;
+                            }
+                        }
+
+                        .pool-summary {
+                            .desc {
+                                margin-bottom: 30px;
+                            }
+                        }
+                    }
+                }
+
+                @media screen and (min-width: 992px) {
+                    .wizard-pf-main {                        
+                        margin-left: 253px;
+                        margin-right: 253px;
+                    }
+                }
+            }
+
+            .wizard-pf-footer {
+                border: none;
+                position: static;
+                margin-left: 240px;
+                text-align: left;
+            }
+        }
+    }
+
+    .pool-section {
+        margin: 50px 0 0 55px;
+
+        .pool-table {
+            margin: 20px 0 25px 0;
+            background-color: $color-white-smoke;
+            padding: 20px 0 20px 0;
+        }
+    }
+
+    .error-msg {
+        color: $color-red;
+    }
+
+    .editable-drop-down {
+        margin-top: 17px;
+        margin-right: 64px
+    }
+
+    .large-icon {
+        font-size: 26px;
+        margin-top: 6px;
+        cursor: pointer;
+        margin-left: 10px;
+    }
+
+    .data-available {
+        margin-top: 15px;
+    }
+}
