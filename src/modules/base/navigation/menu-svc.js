@@ -39,6 +39,13 @@
             active: false,
             hasSubMenus: false
         }, {
+            label: 'RBDs',
+            id: 'rbd',
+            href: 'rbd',
+            icon: 'pficon pficon-resource-pool',
+            active: false,
+            hasSubMenus: false
+        }, {
             label: 'Admin',
             id: 'admin',
             href: 'admin',

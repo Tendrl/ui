@@ -10,7 +10,6 @@
 
         var vm = this;
         vm.tabList = {"Host": 1};
-        vm.tabName = "";
         vm.setTab = setTab;
         vm.isTabSet = isTabSet;
 
@@ -19,12 +18,12 @@
         vm.clusterObj = utils.getClusterDetails($scope.clusterId);
         vm.clusterName = vm.clusterObj.name || "NA";
          if( vm.clusterObj.sds_name === "glusterfs" ) {
-            vm.tabName = "FileShare";
+            vm.tabList.FileShare = 2;
         } else {
-            vm.tabName = "Pool";
+            vm.tabList.Pool = 2;
+            vm.tabList.RBD = 3;
         }
 
-        vm.tabList[vm.tabName] = 2;
         vm.activeTab = vm.tabList["Host"];
 
         function setTab(newTab) {

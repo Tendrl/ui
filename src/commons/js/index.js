@@ -105,6 +105,12 @@
                         controller: "poolController",
                         controllerAs: "poolCntrl"
                     })
+                    .state("rbd", {
+                        url: "/rbd",
+                        templateUrl: "/modules/rbd/rbd-list/rbd-list.html",
+                        controller: "rbdController",
+                        controllerAs: "rbdCntrl"
+                    })
                     .state("add-inventory", {
                         url: "/add-inventory/:clusterId",
                         templateUrl: "/modules/add-inventory/add-inventory.html",

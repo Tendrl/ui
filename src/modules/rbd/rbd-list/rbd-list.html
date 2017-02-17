@@ -1,0 +1,106 @@
+<div ng-if="!isNavigationShow" class="centerLoading"></div>
+<div ng-if="isNavigationShow" class="tendrl-rbd-list-view-container container-fluid">
+    <h1 class="bold-text">RBDs</h1>
+    <div class="row toolbar-pf">
+        <div class="col-sm-12">
+            <form class="toolbar-pf-actions">
+                <div class="form-group toolbar-pf-filter">
+                    <label class="sr-only" for="filter">Name</label>
+                    <div class="input-group">
+                        <div class="input-group-btn">
+                            <select ng-init="rbdCntrl.filterBy = 'name'" ng-disabled="rbdCntrl.rbdList.length === 0" ng-model="rbdCntrl.filterBy" class="btn btn-default dropdown-toggle" ng-change="rbdCntrl.searchBy = {}">
+                                <option value="name">Name</option>
+                                <option value="clusterName">Cluster Name</option>
+                                <option value="backingPool">Backing Pool name</option>
+                            </select>
+                        </div>
+                        <input type="text" class="form-control" id="filter" ng-model="rbdCntrl.searchBy[rbdCntrl.filterBy]" placeholder="Filter By {{rbdCntrl.filterBy}}...">
+                    </div>
+                </div>
+                <div class="form-group sorting-section">
+                    <div class="dropdown btn-group">
+                        <select ng-init="rbdCntrl.orderBy = 'name'" ng-model="rbdCntrl.orderBy" ng-disabled="rbdCntrl.rbdList.length === 0">
+                            <option value="name" class="selected">Name</option>
+                            <option value="utilization">Utilization</option>
+                            <option value="clusterName">Cluster Name</option>
+                            <option value="backingPool">Backing Pool</option>
+                        </select>
+                    </div>
+                    <button ng-init="rbdCntrl.ascOrder = ''" ng-disabled="rbdCntrl.rbdList.length === 0" class="btn btn-link" type="button">
+                        <span ng-if="rbdCntrl.ascOrder !== ''" class="fa fa-sort-alpha-desc" ng-click="rbdCntrl.ascOrder = ''"></span>
+                        <span ng-if="rbdCntrl.ascOrder !== '-'" class="fa fa-sort-alpha-asc" ng-click="rbdCntrl.ascOrder = '-'"></span>
+                    </button>
+                </div>
+                <div class="toolbar-pf-action-right">
+                    <div class="form-group toolbar-pf-view-selector">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <button ng-if="clusterId.length>0" class="btn btn-primary  pull-right" ng-click="rbdCntrl.createRbd()">Add</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+            <div class="row toolbar-pf-results">
+                <div class="col-sm-12">
+                    <h5>{{rbdCntrl.filteredRbdList.length}} RBDs</h5>
+                </div>
+            </div>
+        </div>
+    </div>
+    <center ng-if="rbdCntrl.rbdList.length === 0">
+        <div class="blank-slate-pf">
+            <div class="blank-slate-pf-icon">
+                <i class="pficon pficon-resource-pool"></i>
+            </div>
+            <h1>No RBDs Detected.</h1>
+            <p>RBDs are detected when you <a ui-sref="import-cluster">create or import a cluster</a></p>
+            <p>If you have already cluster created or imported and still do not see RBDs, make sure the RBDs are configured correctly.
+            </p>
+        </div>
+    </center>
+    <div class="list-group list-view-pf list-view-pf-equalized-column" ng-repeat="rbd in rbdCntrl.filteredRbdList = (rbdCntrl.rbdList | filter: rbdCntrl.searchBy | orderBy: rbdCntrl.ascOrder + rbdCntrl.orderBy)">
+        <div class="list-group-item">
+            <div class="list-view-pf-left col-md-1 bold-text rbd-name">
+                {{rbd.name}}
+            </div>
+            <div class="col-md-1">in</div>
+            <div class="col-md-2">
+                <h5 class="pull-left counts cluster-name">{{rbd.clusterName}}</h5>
+            </div>
+            <div class="col-md-3">
+                <donut-chart id="storage-donut-chart{{$index}}" class="list-view-pf-additional-info-item" chart-data="rbd.utilization"></donut-chart>
+            </div>
+            <div class="col-md-2">
+                <div class="list-view-pf-additional-info-item list-view-pf-additional-info-item-stacked">
+                    <div class="bold-text">Backing pool</div>
+                    <h5 class="pull-left">{{rbd.backingPool}} 
+                        <span ng-if="rbd.isBackingPoolShared">(Shared)</span>
+                    </h5>
+                </div>
+            </div>
+            <div class="col-md-2">
+                <div class="list-view-pf-additional-info-item list-view-pf-additional-info-item-stacked">
+                    <div class="bold-text">Alerts</div>
+                    <h5 class="pull-left counts">{{rbd.alertCount}}</h5>
+                </div>
+            </div>
+            <div class="col-md-1">
+                <div class="list-view-pf-actions">
+                    <div class="dropdown pull-right dropdown-kebab-pf">
+                        <button class="btn btn-link dropdown-toggle" type="button" id="dropdownKebabRight12" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                            <span class="fa fa-ellipsis-v"></span>
+                        </button>
+                        <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownKebabRight12">
+                            <li><a>Resize</a></li>
+                            <li><a>Delete</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12 horizontal-line"></div>
+    </div>
+</div>
