@@ -1,7 +1,7 @@
 //# sourceURL=storage-management-plugin.js
 (function() {
 
-    var storageModule = angular.module("TendrlModule", ["ui.router","ui.bootstrap","gridshore.c3js.chart","patternfly.charts"]);
+    var storageModule = angular.module("TendrlModule", ["ui.router","ui.bootstrap","frapontillo.bootstrap-switch","gridshore.c3js.chart","patternfly.charts"]);
 
     /* Setting up provider for getting config data */
     storageModule.provider("config", function () {
@@ -104,6 +104,10 @@
                         templateUrl: "/modules/pool/pool-list/pool-list.html",
                         controller: "poolController",
                         controllerAs: "poolCntrl"
+                    })
+                    .state("create-pool", {
+                        url: "/pool/create-pool",
+                        templateUrl: "/modules/pool/create-pool/create-pool.html",
                     })
                     .state("add-inventory", {
                         url: "/add-inventory/:clusterId",

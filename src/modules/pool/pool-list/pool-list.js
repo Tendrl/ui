@@ -83,7 +83,7 @@
         }
 
         function createPool() {
-            $state.go("add-inventory",{ clusterId: $scope.clusterId });
+            $state.go("create-pool");
         }
     }
 

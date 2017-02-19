@@ -1,0 +1,132 @@
+<div class="wizard-pf-contents" ng-if="createPoolCntrl.step === 4">
+	<div class="rbd-summary row">
+		<h3 class="bold-text desc">{{createPoolCntrl.poolCount}} Pool<span ng-if="createPoolCntrl.poolCount > 1">s</span> to create in cluster {{createPoolCntrl.selectedCluster.name}}
+		</h3>
+		<div ng-if="createPoolCntrl.poolCount > 1">
+			<div class="row">
+				<div class="col-sm-12">
+					<form class="toolbar-pf-actions">
+						<div class="form-group toolbar-pf-filter col-md-3">
+							<label class="sr-only" for="filter">Name</label>
+							<div class="input-group">
+								<div class="input-group-btn">
+									<select ng-init="createPoolCntrl.filterBy = 'name'" ng-disabled="createPoolCntrl.poolNames.length === 0" ng-model="createPoolCntrl.filterBy" class="btn btn-default dropdown-toggle" ng-change="createPoolCntrl.searchBy = {}">
+										<option value="name">Name</option>
+									</select>
+								</div>
+								<input type="text" class="form-control" id="filter" ng-model="createPoolCntrl.searchBy[createPoolCntrl.filterBy]" placeholder="Filter By {{createPoolCntrl.filterBy}}...">
+							</div>
+						</div>
+						<div class="form-group sorting-section">
+							<div class="dropdown btn-group">
+								<select ng-init="createPoolCntrl.orderBy = 'name'" ng-model="createPoolCntrl.orderBy" ng-disabled="createPoolCntrl.poolList.length === 0" ng-change="createPoolCntrl.displayArg()">
+									<option value="name" class="selected">Name</option>
+								</select>
+							</div>
+							<button ng-init="createPoolCntrl.ascOrder = ''" ng-disabled="createPoolCntrl.poolNames.length === 0" class="btn btn-link" type="button">
+								<span ng-if="createPoolCntrl.ascOrder !== ''" class="fa fa-sort-alpha-desc" ng-click="createPoolCntrl.ascOrder = ''"></span>
+								<span ng-if="createPoolCntrl.ascOrder !== '-'" class="fa fa-sort-alpha-asc" ng-click="createPoolCntrl.ascOrder = '-'"></span>
+							</button>
+						</div>
+					</form>
+				</div>
+			</div>
+			<div class="list-group list-view-pf list-view-pf-equalized-column" ng-repeat="pool in createPoolCntrl.filteredPoolList = (createPoolCntrl.poolList | filter: createPoolCntrl.searchBy | orderBy: createPoolCntrl.ascOrder + createPoolCntrl.orderBy)">
+				<div class="list-group-item">
+					<div class="col-md-2">
+						<div class="list-view-pf-additional-info-item list-view-pf-additional-info-item-stacked">
+							<div class="bold-text">Name</div>
+							<h5 class="pull-left counts cluster-name" data-ng-hide="createPoolCntrl.editMode[$index]">{{pool.name}}</h5>
+							<input type="text" data-ng-show="createPoolCntrl.editMode[$index]" data-ng-model="pool.name" data-ng-required />
+						</div>
+					</div>
+					<div class="col-md-1">
+						<div class="list-view-pf-additional-info-item list-view-pf-additional-info-item-stacked">
+							<div class="bold-text">Type</div>
+							<h5 class="pull-left counts cluster-name">{{pool.type}}</h5>
+						</div>
+					</div>
+					<div class="col-md-1">
+						<div class="list-view-pf-additional-info-item list-view-pf-additional-info-item-stacked">
+							<div class="bold-text">OSDs</div>
+							<h5 class="pull-left counts">{{pool.osdCount || "NA"}}</h5>
+						</div>
+					</div>
+					<div class="col-md-1">
+						<div class="list-view-pf-additional-info-item list-view-pf-additional-info-item-stacked">
+							<div class="bold-text">Replicas</div>
+							<h5 class="pull-left" data-ng-hide="createPoolCntrl.editMode[$index]">{{pool.replicaCount}}</h5>
+							<input data-ng-show="createPoolCntrl.editMode[$index]" type="number" data-id="replicas" class="form-control" ng-model="pool.replicaCount" required>
+						</div>
+					</div>
+					<div class="col-md-1">
+						<div class="list-view-pf-additional-info-item list-view-pf-additional-info-item-stacked">
+							<div class="bold-text">PGs</div>
+							<h5 class="pull-left" data-ng-hide="createPoolCntrl.editMode[$index]">{{pool.pgCount}}</h5>
+							<input data-ng-show="createPoolCntrl.editMode[$index]" type="number" data-id="PGCount" class="form-control" ng-model="pool.pgCount" required>
+						</div>
+					</div>
+					<div class="col-md-2">
+						<div class="list-view-pf-additional-info-item list-view-pf-additional-info-item-stacked">
+							<div class="bold-text">Journal Configration</div>
+							<h5 class="pull-left counts">{{pool.conf || "NA"}}</h5>
+						</div>
+					</div>
+
+					<div class="col-md-2" ng-if="((createPoolCntrl.checkboxModelQuotasValue) && (createPoolCntrl.checkboxModelQuotasMaxPercentageValue || createPoolCntrl.checkboxModelQuotasMaxObjectValue))">
+						<div class="list-view-pf-additional-info-item list-view-pf-additional-info-item-stacked">
+							<div class="bold-text">Quotas</div>
+							<h5 class="pull-left" data-ng-hide="createPoolCntrl.editMode[$index]">{{ pool.quotas[0]}}%.{{pool.quotas[1] }} Objects</h5>
+							<div data-ng-show="createPoolCntrl.editMode[$index]">
+								<input type="number"  data-id="quotas-max-used" class="form-control" ng-model="pool.quotas[0]"> % Objects<input type="number" data-id="quotas-max-object" class="form-control" ng-model="pool.quotas[1]">
+							</div>
+						</div>
+					</div>
+					<div class="edit-buttons col-md-2">
+						<button type="submit" data-ng-hide="createPoolCntrl.editMode[$index]" data-ng-click="createPoolCntrl.editMode[$index] = true; createPoolCntrl.editAppKey(pool)" class="btn btn-default col-md-3">Edit</button>
+						<span  type="submit" data-ng-show="createPoolCntrl.editMode[$index]" data-ng-click="createPoolCntrl.editMode[$index] = false" class="fa fa-check list-view-pf-icon-check col-md-3"></span>
+						<span  data-ng-show="createPoolCntrl.editMode[$index]" data-ng-click="createPoolCntrl.editMode[$index] = false; createPoolCntrl.cancelEdit(createPoolCntrl.poolList.indexOf(pool))" class="pficon pficon-close list-view-pf-icon-close col-md-3"></span>
+					</div>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-md-12 horizontal-line"></div>
+			</div>
+		</div>
+
+		<div ng-if="createPoolCntrl.poolCount === 1">
+			<div class="col-md-6 col-sm-6 single-rbd-summary">
+				<div class="row">
+					<div class="col-md-6 col-sm-6">Name</div>
+					<div class="col-md-6 col-sm-6">{{createPoolCntrl.poolNames[0]}}</div>
+				</div>
+				<div class="row">
+					<div class="col-md-6 col-sm-6">Type</div>
+
+					<div class="col-md-6 col-sm-6">{{createPoolCntrl.selectedType}} </br>
+						<span ng-if="createPoolCntrl.selectedType === 'Erasure Coded'">{{ createPoolCntrl.selectedEC }}</span>
+					</div>
+
+				</div>
+				<div class="row">
+					<div class="col-md-6 col-sm-6">OSD's</div>
+					<div class="col-md-6 col-sm-6">{{createPoolCntrl.OSDs || "NA"}}</div>
+				</div>
+				<div class="row">
+					<div class="col-md-6 col-sm-6">PG Count</div>
+					<div class="col-md-6 col-sm-6">{{createPoolCntrl.pgCount}}</div>
+
+				</div>
+				<div class="row">
+					<div class="col-md-6 col-sm-6">Journal Configration</div>
+					<div class="col-md-6 col-sm-6">{{createPoolCntrl.journalConfigration || "NA"}}</div>
+				</div>
+				<div class="row" ng-if="((createPoolCntrl.checkboxModelQuotasValue) && (createPoolCntrl.checkboxModelQuotasMaxPercentageValue || createPoolCntrl.checkboxModelQuotasMaxObjectValue))">
+					<div class="col-md-6 col-sm-6">Quotas</div>
+					<div class="col-md-6 col-sm-6">Max Utilization {{createPoolCntrl.quotasMaxPercentage}}</br>Max Number of Objects {{createPoolCntrl.quotasMaxObjects}}</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+</div>

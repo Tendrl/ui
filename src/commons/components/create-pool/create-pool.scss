@@ -1,0 +1,47 @@
+.tendrl-create-pool-container{
+	 .create-pool-wizard {
+        .wizard-pf { 	
+        	.wizard-pf-sidebar{
+        		height: 85vh;
+        		top: initial;
+        		bottom: initial;
+        	}
+        }
+	}
+	.bold-text {
+        font-weight: bold;
+    }
+	.rbd-summary {
+		margin-bottom: 50px;
+		margin-left: 0;
+
+		.desc {
+		    margin-bottom: 30px;
+		}
+
+		.single-rbd-summary {
+		    border: 1px solid $color-white-smoke;
+
+		    .row {
+		        padding: 10px 0;
+		        
+		        &:nth-of-type(2n) {
+		            background-color: $color-white-smoke;
+		        }
+		    }
+		}
+
+		.single-rbd-summary:nth-of-type(2n) {
+		    background-color: red;
+		}
+	}
+	.modal-footer{
+		padding-left: 10%;
+		text-align: left;
+	}
+
+	.edit-buttons{
+		font-size: 30px;
+	}
+}
+

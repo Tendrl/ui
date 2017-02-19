@@ -9,6 +9,7 @@
 @import "../../modules/file-share/file-share-list/file-share-list.scss";
 @import "../../modules/pool/pool-list/pool-list.scss";
 @import "../../modules/cluster/import-cluster/import-cluster.scss";
+@import "../../commons/components/create-pool/create-pool.scss";
 
 .tendrl-app {
 
@@ -36,6 +37,9 @@
     .cursor-pointer {
         cursor: pointer;
         text-decoration: none;
+    }
+    .list-group {
+    margin-bottom: 0px !important;
     }
 
 }
