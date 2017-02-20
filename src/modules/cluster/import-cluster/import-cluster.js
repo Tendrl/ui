@@ -65,12 +65,11 @@
                         }
                         vm.selectedCluster.sds_name = sds_type + " " + vm.selectedClusterVersion;
                         host = {};
-                        if(hostList.tags !== "undefined"){
-                            tags = hostList[j].tags.split("/");
-                            release = tags[1].split("\n");
-                            host.release = release[1]+ " " +vm.selectedClusterVersion;
-                            host.role = role[tags[tags.length-1]];
-                        }
+                        if(hostList[j].tags !== "undefined" && hostList[j].tags){
+                            release = hostList[j].tags.split("/");
+                            host.release = release[0]+ " " +vm.selectedClusterVersion;
+                            host.role = role[release[release.length - 1]];
+                         }
                         host.name = hostList[j].fqdn;
                         associatedHosts.push(host);
                         break;
