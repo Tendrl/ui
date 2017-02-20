@@ -99,7 +99,8 @@ gulp.task("jsLibraries", function() {
     "node_modules/patternfly/dist/js/patternfly.js",
     "node_modules/angular-patternfly/dist/angular-patternfly.js",
     "node_modules/c3-angular/c3-angular.min.js",
-    
+    "node_modules/angular-patternfly/node_modules/bootstrap-switch/dist/js/bootstrap-switch.js",
+    "node_modules/angular-bootstrap-switch/dist/angular-bootstrap-switch.js"
   ])
   //.pipe(uglify())
   .pipe(concat("libraries.js"))
@@ -111,7 +112,8 @@ gulp.task("cssLibraries", function() {
   return gulp.src([
     "node_modules/patternfly/dist/css/patternfly.css",
     "node_modules/patternfly/dist/css/patternfly-additions.css",
-    "node_modules/angular-patternfly/styles/angular-patternfly.css"
+    "node_modules/angular-patternfly/styles/angular-patternfly.css",
+    "node_modules/angular-patternfly/node_modules/bootstrap-switch/dist/css/bootstrap3/bootstrap-switch.css"
   ])
   .pipe(postCss([autoprefixer({ browsers: browsers })]))
   .pipe(buildMode === "dev" ? gutil.noop() : minifyCSS())
