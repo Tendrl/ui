@@ -36,7 +36,7 @@
             }
 
             actionRequest = {
-                method: "POST",
+                method: formMethod,
                 url: url,
                 data: data
             };
@@ -241,6 +241,7 @@
                                         clusterData[i].pools[index1].rbds[index2].clusterName = clusterData[i].name;
                                         clusterData[i].pools[index1].rbds[index2].clusterId = clusterData[i].cluster_id;
                                         clusterData[i].pools[index1].rbds[index2].backingPool = clusterData[i].pools[index1].pool_name;
+                                        clusterData[i].pools[index1].rbds[index2].pool_id = clusterData[i].pools[index1].pool_id;
                                         clusterData[i].pools[index1].rbds[index2].isBackingPoolShared = false;
                                         if(Object.keys(clusterData[i].pools[index1].rbds).length>1) {
                                             clusterData[i].pools[index1].rbds[index2].isBackingPoolShared = true;
@@ -258,6 +259,7 @@
                                         clusterData[i].pools[index1].rbds[index2].clusterName = clusterData[i].name;
                                         clusterData[i].pools[index1].rbds[index2].clusterId = clusterData[i].cluster_id;
                                         clusterData[i].pools[index1].rbds[index2].backingPool = clusterData[i].pools[index1].pool_name;
+                                        clusterData[i].pools[index1].rbds[index2].pool_id = clusterData[i].pools[index1].pool_id;
                                         clusterData[i].pools[index1].rbds[index2].isBackingPoolShared = false;
                                         if(Object.keys(clusterData[i].pools[index1].rbds).length>1) {
                                             clusterData[i].pools[index1].rbds[index2].isBackingPoolShared = true;

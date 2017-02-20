@@ -29,7 +29,17 @@
         vm.taskSubmitted = false;
         vm.isEditable = {};
         vm.editRbd = {};
+        vm.isNextButtonDisabled = false;
 
+        $scope.$watch(angular.bind(this, function (rbdName) {
+          return vm.rbdName;
+        }), function () {
+            if(vm.rbdName.length === 0) {
+                vm.isNextButtonDisabled = true;
+            }else {
+                vm.isNextButtonDisabled = false;
+            }
+        });
 
         init();
 
@@ -50,6 +60,8 @@
                     _createPoolList(poolList);
                     if(vm.poolList.length) {
                         vm.selectedPool = vm.poolList[0];
+                    }else {
+                        vm.isNextButtonDisabled = true;
                     }
                 }
 
@@ -72,6 +84,12 @@
             
             } else if (step === "dec") {
                 vm.step -= 1;
+
+                if(vm.step === 1) {
+                    if(vm.rbdName.length) {
+                        vm.isNextButtonDisabled = false;
+                    }
+                }
             }
         }
 
