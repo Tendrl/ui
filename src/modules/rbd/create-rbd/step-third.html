@@ -1,0 +1,106 @@
+<div class="wizard-pf-contents" ng-if="createRBDCntrl.step === 3">
+    <div class="rbd-summary row">
+        <h3 class="bold-text desc">{{createRBDCntrl.rbdCount}} RBD<span ng-if="createRBDCntrl.rbdCount > 1">s</span> to create in cluster {{createRBDCntrl.selectedCluster.name}}
+        </h3>
+        <div ng-if="createRBDCntrl.rbdCount > 1">
+            <div class="list-group list-view-pf list-view-pf-equalized-column" ng-repeat="rbd in createRBDCntrl.rbdList">
+                <div class="list-group-item">
+                    <div class="col-md-2">
+                        <div class="list-view-pf-additional-info-item list-view-pf-additional-info-item-stacked">
+                            <div class="bold-text">Name</div>
+                            <h5 ng-if="!createRBDCntrl.isEditable[$index]" class="pull-left counts">{{rbd.name}}</h5>
+                            <input ng-if="createRBDCntrl.isEditable[$index]" type="text" data-id="rbdName" class="form-control" name="rbdName" ng-model="createRBDCntrl.editRbd.name">
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="list-view-pf-additional-info-item list-view-pf-additional-info-item-stacked">
+                            <div class="bold-text">Target Size</div>
+                            <h5 ng-if="!createRBDCntrl.isEditable[$index]" class="pull-left counts">{{rbd.size}} {{rbd.unit}}</h5>
+                            <input ng-if="createRBDCntrl.isEditable[$index]" type="number" data-id="target-size" ng-model="createRBDCntrl.editRbd.size" class="form-control editable-fields">
+                        </div>
+                    </div>
+                    <div class="col-md-2" ng-if="createRBDCntrl.isEditable[$index]">
+                        <select class="form-control pull-left editable-drop-down" data-ng-options="unit for unit in createRBDCntrl.sizeUnits" data-ng-model="createRBDCntrl.editRbd.unit"></select>
+                    </div>
+                    <div class="col-md-2" ng-if="createRBDCntrl.isEditable[$index]">
+                        <div class="data-available">{{createRBDCntrl.selectedCluster.utilization.available | bytes }} available</div>
+                    </div>
+                    <div class="col-md-2">
+                        <button ng-if="!createRBDCntrl.isEditable[$index]" type="button" class="btn btn-default" ng-click="createRBDCntrl.editRBDsList($index, rbd)">Edit</button>
+                        <span ng-if="createRBDCntrl.isEditable[$index]" type="submit" class="fa fa-check list-view-pf-icon-check large-icon pull-left" ng-click="createRBDCntrl.updateRBDsList($index, rbd)">
+                        </span>
+                        <span ng-if="createRBDCntrl.isEditable[$index]"class="pficon pficon-close list-view-pf-icon-close large-icon pull-left" ng-click="createRBDCntrl.isEditable[$index] = false">
+                        </span>
+                    </div>
+                </div>
+            </div>
+            <div class="horizontal-line"></div>
+        </div>
+        <div ng-if="createRBDCntrl.rbdCount === 1">
+            <div class="col-md-4 col-sm-6 single-rbd-summary">
+                <div class="row">
+                    <div class="col-md-6 col-sm-6">Name</div>
+                    <div class="col-md-6 col-sm-6">{{createRBDCntrl.rbdNames[0]}}</div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6 col-sm-6">Target Size</div>
+                    <div class="col-md-6 col-sm-6">{{createRBDCntrl.targetSize}}</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="pool-summary">
+        <div class="bold-text">Backing Pool</div>
+        <div class="desc">A
+            <span ng-if="createRBDCntrl.backingPool === 'existing'">existing </span>
+            <span ng-if="createRBDCntrl.backingPool !== 'existing'">new backing </span>pool will be created in <span class="bold-text">{{createRBDCntrl.selectedCluster.name}}.</span>
+        </div>
+        <div class="list-group list-view-pf list-view-pf-equalized-column">
+            <div class="list-group-item">
+                <div class="col-md-2">
+                    <div class="list-view-pf-additional-info-item list-view-pf-additional-info-item-stacked">
+                        <div class="bold-text">Name</div>
+                        <h5 class="pull-left counts">{{createRBDCntrl.selectedPool.name}}</h5>
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="list-view-pf-additional-info-item list-view-pf-additional-info-item-stacked">
+                        <div class="bold-text">Type</div>
+                        <h5 class="pull-left counts">{{createRBDCntrl.selectedPool.type || "NA"}}</h5>
+                    </div>
+                </div>
+                <div class="col-md-1">
+                    <div class="list-view-pf-additional-info-item list-view-pf-additional-info-item-stacked">
+                        <div class="bold-text">OSDs</div>
+                        <h5 class="pull-left counts">{{createRBDCntrl.selectedPool.osdCount || "NA"}}</h5>
+                    </div>
+                </div>
+                <div class="col-md-1">
+                    <div class="list-view-pf-additional-info-item list-view-pf-additional-info-item-stacked">
+                        <div class="bold-text">Replicas</div>
+                        <h5 class="pull-left counts">{{createRBDCntrl.selectedPool.replicaCount || "NA"}}</h5>
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="list-view-pf-additional-info-item list-view-pf-additional-info-item-stacked">
+                        <div class="bold-text">PG Count</div>
+                        <h5 class="pull-left counts">{{createRBDCntrl.selectedPool.pgCount || "NA"}}</h5>
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="list-view-pf-additional-info-item list-view-pf-additional-info-item-stacked">
+                        <div class="bold-text">Journal Configuration</div>
+                        <h5 class="pull-left counts">{{createRBDCntrl.selectedPool.conf || "NA"}}</h5>
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="list-view-pf-additional-info-item list-view-pf-additional-info-item-stacked">
+                        <div class="bold-text">Quotas</div>
+                        <h5 class="pull-left counts">{{createRBDCntrl.selectedPool.quotas || "NA"}}</h5>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="horizontal-line"></div>
+    </div>
+</div>

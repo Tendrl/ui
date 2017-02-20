@@ -17,5 +17,13 @@
 	    overflow: scroll;
 	    overflow-x: hidden;
 	}
+
+    .cluster-list-selectbox {
+        width:270px;
+        
+        & > option {
+            text-overflow: ellipsis;
+        }
+    }
 	
 }

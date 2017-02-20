@@ -1,0 +1,31 @@
+.tendrl-rbd-list-view-container {
+    .bold-text {
+        font-weight: bold;
+    }
+
+    .sorting-section {
+        border-right: none;
+    }
+
+    .cluster-name {
+        color: $color-boston-blue;
+        text-transform: capitalize;
+    }
+
+    .rbd-name {
+        text-transform: capitalize;
+    }
+
+    .counts {
+        color: $color-boston-blue;
+
+        &:hover {
+            cursor: pointer;
+        }
+    }
+
+    .list-group {
+        margin-bottom: 0px;
+    }
+    
+}

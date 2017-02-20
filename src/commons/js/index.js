@@ -50,8 +50,6 @@
                                 $rootScope.clusterData = null;
                                 utils.getObjectList("Cluster").then(function(list) {
                                     $rootScope.clusterData = list;
-                                    /* Setting up manual broadcast event for ClusterData*/
-                                    $rootScope.$broadcast("GotClusterData", $rootScope.clusterData); // going down!
                                     if($rootScope.clusterData !== null && $rootScope.clusterData.clusters.length !== 0){
                                         /* Forward to cluster view if we have cluster data. */
                                         $rootScope.isNavigationShow = true;
@@ -107,6 +105,18 @@
                         controller: "poolController",
                         controllerAs: "poolCntrl"
                     })
+                    .state("rbd", {
+                        url: "/rbd",
+                        templateUrl: "/modules/rbd/rbd-list/rbd-list.html",
+                        controller: "rbdController",
+                        controllerAs: "rbdCntrl"
+                    })
+                    .state("create-rbd", {
+                        url: "/create-rbd",
+                        templateUrl: "/modules/rbd/create-rbd/create-rbd.html",
+                        controller: "createRBDController",
+                        controllerAs: "createRBDCntrl"
+                    })
                     .state("add-inventory", {
                         url: "/add-inventory/:clusterId",
                         templateUrl: "/modules/add-inventory/add-inventory.html",
@@ -126,6 +136,20 @@
                 /* Tracking the current URI for navigation*/
                 $rootScope.$on("$stateChangeSuccess", function(event, current, prev) {
                     menuService.setActive(current.name);
+                });
+
+                $rootScope.clusterData = null;
+                utils.getObjectList("Cluster").then(function(list) {
+                    $rootScope.clusterData = list;
+                    /* Setting up manual broadcast event for ClusterData*/
+                    $rootScope.$broadcast("GotClusterData", $rootScope.clusterData); // going down!
+                    if($rootScope.clusterData !== null && $rootScope.clusterData.clusters.length !== 0) {
+                        /* Forward to cluster view if we have cluster data. */
+                        $rootScope.isNavigationShow = true;
+                    } else {
+                        /* Forward to home view if we don't have cluster data. */
+                        $rootScope.isNavigationShow = false;
+                    }
                 });
             });
 
