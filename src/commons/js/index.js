@@ -108,6 +108,18 @@
                     .state("create-pool", {
                         url: "/pool/create-pool",
                         templateUrl: "/modules/pool/create-pool/create-pool.html",
+                      })
+                    .state("rbd", {
+                        url: "/rbd",
+                        templateUrl: "/modules/rbd/rbd-list/rbd-list.html",
+                        controller: "rbdController",
+                        controllerAs: "rbdCntrl"
+                    })
+                    .state("create-rbd", {
+                        url: "/create-rbd",
+                        templateUrl: "/modules/rbd/create-rbd/create-rbd.html",
+                        controller: "createRBDController",
+                        controllerAs: "createRBDCntrl"
                     })
                     .state("add-inventory", {
                         url: "/add-inventory/:clusterId",
