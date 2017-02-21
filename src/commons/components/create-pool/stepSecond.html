@@ -15,7 +15,7 @@
 		<div class="form-group required" ng-if = "createPoolCntrl.selectedType === 'Standard'">
 			<label class="col-sm-2 col-md-3 control-label" for="min-replicas">Minimum Replicas</label>
 			<div class="col-sm-4 col-md-2">
-				<input type="number" min="1" max="{{createPoolCntrl.replicaCount}}" data-id="min-replicas" class="form-control" ng-model="createPoolCntrl.minReplicas" required>
+				<input type="number" min="0" max="10" data-id="min-replicas" class="form-control" ng-model="createPoolCntrl.minReplicas" required>
 			</div>
 		</div>
 	</form>

@@ -25,7 +25,7 @@
         vm.journalConfigration;
         vm.OSDs;
         vm.pgCount = 0;
-        vm.minReplicas = 1;
+        vm.minReplicas = 0;
         vm.owners = [];
         vm.checkboxModelOwnerValue = false;
         vm.checkboxModelQuotasValue = false;
@@ -132,6 +132,7 @@
                     "sds_name": vm.selectedCluster.sds_name,
                     "sds_version": vm.selectedCluster.sds_version,
                     "integration_id": vm.selectedCluster.integration_id,
+                    "min_size": pool.minSize,
                 }
                 if (vm.checkboxModelQuotasValue){
                     postData.quota_enabled = vm.checkboxModelQuotasValue;
@@ -146,9 +147,6 @@
                     else{
                         postData.erasure_code_profile = vm.poolList[i].erasure_code_profile;
                     }
-                }
-                else if(vm.poolList[i].type === "Standard"){
-                    postData.min_size = pool.minSize;
                 }
                 utils.takeAction(postData, "CephCreatePool", "POST", vm.selectedCluster.cluster_id).then(function(response) {
                     $rootScope.notification.type = "success";
