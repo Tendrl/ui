@@ -126,26 +126,24 @@
                 var postData = {};
                 pool = vm.poolList[i];
                 postData = {
-                    "poolname": pool["name"],
-                    "pg_num": pool.pgCount,
-                    "size": pool.replicaCount,
-                    "sds_name": vm.selectedCluster.sds_name,
-                    "sds_version": vm.selectedCluster.sds_version,
-                    "integration_id": vm.selectedCluster.integration_id,
-                    "min_size": pool.minSize,
+                    "Pool.poolname": pool.name,
+                    "Pool.pg_num": pool.pgCount,
+                    "Pool.size": pool.replicaCount,
+                    "Pool.min_size": pool.minSize,
                 }
                 if (vm.checkboxModelQuotasValue){
-                    postData.quota_enabled = vm.checkboxModelQuotasValue;
-                    postData.quota_max_objects = pool.quotas[1];
-                    postData.quota_max_bytes = pool.quotas[0];
+                    postData["Pool.quota_enabled"] = vm.checkboxModelQuotasValue;
+                    postData["Pool.quota_max_objects"] = pool.quotas[1];
+                    postData["Pool.quota_max_bytes"] = pool.quotas[0];
+                    console.log(pool.quotas)
                 }
                 if(vm.poolList[i].type === "Erasure Coded"){
-                    postData.type = vm.poolList[i].type;
+                    postData["Pool.type"] = vm.poolList[i].type;
                     if(vm.poolList[i].erasure_code_profile === "2+1"){
-                        postData.erasure_code_profile = "default";
+                        postData["Pool.erasure_code_profile"] = "default";
                     }
                     else{
-                        postData.erasure_code_profile = vm.poolList[i].erasure_code_profile;
+                        postData["Pool.erasure_code_profile"] = vm.poolList[i].erasure_code_profile;
                     }
                 }
                 utils.takeAction(postData, "CephCreatePool", "POST", vm.selectedCluster.cluster_id).then(function(response) {
