@@ -22,7 +22,6 @@
         init();
 
         function init() {
-            console.log("controller");
             list = utils.getRBDsDetails($scope.clusterId);
             _createRbdList(list);
         }

@@ -70,7 +70,8 @@
                     pool.clusterName = clusterObj.name;
                 }
                 pool.status = "NA";
-                pool.utilization = "Utilisation-NA";
+                pool.type = list[i].type;
+                pool.utilization = {"percent_used": list[i].percent_used };
                 pool.replicaCount = "NA";
                 pool.osdCount = "NA";
                 pool.quotas = "NA";
