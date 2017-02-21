@@ -65,17 +65,14 @@
             <div class="list-view-pf-left col-md-1">
                 {{pool.status}}
             </div>
-            <div class="col-md-1 text-center bold-text pool-name">{{pool.name}}</div>
+            <div class="col-md-2 text-center pool-name">
+                <p class="bold-text">{{pool.name}} &nbsp; in &nbsp; {{pool.clusterName}}</p>
+                <small>{{pool.type}}</small>
+            </div>
             <div class="col-md-3">
                 
                 <donut-chart id="storage-donut-chart{{$index}}" class="list-view-pf-additional-info-item" chart-title="Storage" chart-data="pool.utilization"></donut-chart>
                 
-            </div>
-            <div class="col-md-1">
-                <div class="list-view-pf-additional-info-item list-view-pf-additional-info-item-stacked">
-                    <div class="bold-text">Cluster</div>
-                    <h5 class="pull-left counts cluster-name">{{pool.clusterName}}</h5>
-                </div>
             </div>
             <div class="col-md-1">
                 <div class="list-view-pf-additional-info-item list-view-pf-additional-info-item-stacked">
