@@ -136,7 +136,7 @@
                 sizeInBytes = utils.convertToBytes(vm.rbdList[i].size, vm.rbdList[i].unit);
                 sizeInMB = (sizeInBytes / (1024*1024)).toFixed(0);
                 vm.rbdList[i].size = parseInt(sizeInMB);
-                postData = { "Rbd.pool_id":vm.rbdList[i].pool_id, "Rbd.name": vm.rbdList[i].name, "Rbd.size": vm.rbdList[i].size };
+                postData = { "Rbd.pool_id": parseInt(vm.rbdList[i].pool_id), "Rbd.name": vm.rbdList[i].name, "Rbd.size": vm.rbdList[i].size };
                 
                 utils.takeAction(postData, "CephCreateRbd", "POST", vm.selectedCluster.cluster_id).then(function(response) {
                     $rootScope.notification.type = "success";

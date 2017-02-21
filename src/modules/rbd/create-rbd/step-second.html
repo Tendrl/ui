@@ -9,7 +9,7 @@
             </div>
             <div class="radio col-md-2">
                 <label>
-                    <input type="radio" name="poolOptions" id="poolOption2" value="new" ng-model="createRBDCntrl.backingPool" ng-disabled="true"> Create new pool
+                    <input type="radio" name="poolOptions" id="poolOption2" value="new" ng-model="createRBDCntrl.backingPool"> Create new pool
                 </label>
             </div>
         </div>
@@ -41,6 +41,11 @@
                     </div>
                 </div>
             </div>
+        </div>
+
+        <div class="form-group pool-section" ng-if="createRBDCntrl.backingPool === 'new'">
+            <h1 class="bold-text">Create Pool</h1>
+            <create-pool></create-pool>
         </div>
     </form>
 </div>
