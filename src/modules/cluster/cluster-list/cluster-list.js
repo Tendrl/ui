@@ -82,7 +82,11 @@
 
                     cluster.status = "NA";
                     cluster.hostCount = "NA";
-                    cluster.poolCount = "NA";
+                    if(typeof clusterData[i].pools !== "undefined") {
+                        cluster.poolCount = Object.keys(clusterData[i].pools).length;
+                    }else {
+                        cluster.poolCount = "NA";
+                    }
                     cluster.iops = "IOPS-NA";
                     
                     temp.push(cluster);
