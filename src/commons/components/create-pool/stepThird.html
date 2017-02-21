@@ -14,7 +14,7 @@
 					<label class="control-label" for="quotasMaxPercentage">Max Percentage used</label>
 				</div>
 				<div class="col-md-2">
-					<input type="number" min="1" max = "100" ng-disabled="!(createPoolCntrl.checkboxModelQuotasValue && createPoolCntrl.checkboxModelQuotasMaxPercentageValue)"  data-id="quotas-max-used" class="form-control" ng-model="createPoolCntrl.quotasMaxPercentage">
+					<input type="number" min="0" max = "100" ng-disabled="!(createPoolCntrl.checkboxModelQuotasValue && createPoolCntrl.checkboxModelQuotasMaxPercentageValue)"  data-id="quotas-max-used" class="form-control" ng-model="createPoolCntrl.quotasMaxPercentage">
 				</div>
 				<div class="col-md-4" ng-if="createPoolCntrl.checkboxModelQuotasValue && createPoolCntrl.checkboxModelQuotasMaxPercentageValue	">
 					<span>% {{((createPoolCntrl.selectedCluster.utilization.available/100)*createPoolCntrl.quotasMaxPercentage) | bytes}} of {{createPoolCntrl.selectedCluster.utilization.available | bytes}}</span>
