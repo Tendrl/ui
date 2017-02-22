@@ -20,12 +20,14 @@
 
         vm.importCluster = importCluster;
         vm.goToClusterDetail = goToClusterDetail;
+        vm.isDataLoading = true;
 
         init();
 
         function init() {
             utils.getObjectList("Node")
                 .then(function(data) {
+                    vm.isDataLoading = false;
                     hostList = data.nodes;
                     _createClusterList();
                 });
