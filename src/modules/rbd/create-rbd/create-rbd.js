@@ -10,9 +10,11 @@
         var vm = this,
             selectedPool,
             poolList,
-            rbdList;
+            rbdList,
+            index;
 
         vm.step = 1;
+        vm.clusterList = [];
         vm.updateStep = updateStep;
         vm.updateRBDName = updateRBDName;
         vm.isSizeGreater = isSizeGreater;
@@ -88,12 +90,20 @@
         function init() {
 
             if (typeof $rootScope.clusterData !== "undefined") {
-                vm.clusterList = $rootScope.clusterData.clusters;
+                for(index = 0 ; index < $rootScope.clusterData.clusters.length ; index++) {
+                    if($rootScope.clusterData.clusters[index].sds_name === 'ceph') {
+                        vm.clusterList.push($rootScope.clusterData.clusters[index]);
+                    }
+                }
             } else {
                 utils.getObjectList("Cluster")
                     .then(function(data) {
                         $rootScope.clusterData = data;
-                        vm.clusterList = $rootScope.clusterData.clusters;
+                        for(index = 0 ; index < $rootScope.clusterData.clusters.length ; index++) {
+                            if($rootScope.clusterData.clusters[index].sds_name === 'ceph') {
+                                vm.clusterList.push($rootScope.clusterData.clusters[index]);
+                            }
+                        }
                     });
             }
 

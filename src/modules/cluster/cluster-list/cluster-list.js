@@ -15,9 +15,8 @@
             clusterData,
             cluster,
             timer,
-            stats,
-            i,
-            stats;
+            hostList,
+            i;
 
         vm.importCluster = importCluster;
         vm.goToClusterDetail = goToClusterDetail;
@@ -25,7 +24,11 @@
         init();
 
         function init() {
-            _createClusterList();
+            utils.getObjectList("Node")
+                .then(function(data) {
+                    hostList = data.nodes;
+                    _createClusterList();
+                });
         }
 
         /* Trigger this function when we have cluster data */
@@ -68,24 +71,21 @@
                 for ( i = 0; i < len; i++) {
                     cluster = {};
 
-                    cluster.name = clusterData[i].name || "NA";
                     cluster.id = clusterData[i].cluster_id;
+                    cluster.name = clusterData[i].name || "NA";
+                    cluster.sds_name = clusterData[i].sds_name;
 
-                    if(typeof clusterData[i].stats !== "undefined") {
-                        stats = clusterData[i].stats.replace(/'/g, '"');
-                        stats = JSON.parse(stats);
-                        cluster.alertCount = stats.alert_cnt;
-                        cluster.storage = stats.storage;
-                    } else {
-                        cluster.alertCount = "NA";
+                    if(typeof clusterData[i].utilization !== "undefined") {
+                        cluster.utilization = {"percent_used": clusterData[i].utilization.pcnt_used };
                     }
-
+                    cluster.alertCount = "NA";
                     cluster.status = "NA";
-                    cluster.hostCount = "NA";
-                    if(typeof clusterData[i].pools !== "undefined") {
-                        cluster.poolCount = Object.keys(clusterData[i].pools).length;
-                    }else {
-                        cluster.poolCount = "NA";
+                    cluster.hostCount = utils.getAssociatedHosts(hostList, clusterData[i].cluster_id).length;
+                    cluster.poolOrFileShareCount = "NA";
+                    if(clusterData[i].sds_name === 'ceph' && typeof clusterData[i].pools !== "undefined") {
+                        cluster.poolOrFileShareCount = Object.keys(clusterData[i].pools).length;
+                    } else if (clusterData[i].sds_name === 'glusterfs' && typeof clusterData[i].volumes !== "undefined"){
+                        cluster.poolOrFileShareCount = Object.keys(clusterData[i].volumes).length;
                     }
                     cluster.iops = "IOPS-NA";
                     

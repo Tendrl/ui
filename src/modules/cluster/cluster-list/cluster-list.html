@@ -21,7 +21,7 @@
                         <select ng-init="clusterCntrl.orderBy = 'name'" ng-model="clusterCntrl.orderBy" ng-disabled="clusterCntrl.clusterList.length === 0" ng-change="clusterCntrl.displayArg()">
                             <option value="name" class="selected">Name</option>
                             <option value="status">Status</option>
-                            <option value="storage['percent_used']">Utilization</option>
+                            <option value="utilization['percent_used']">Utilization</option>
                         </select>
                     </div>
                     <button ng-init="clusterCntrl.ascOrder = ''" ng-disabled="clusterCntrl.clusterList.length === 0" class="btn btn-link" type="button">
@@ -64,7 +64,7 @@
             </div>
             <div class="col-md-1 text-center cluster-name bold-text counts" ng-click="clusterCntrl.goToClusterDetail(cluster.id)">{{cluster.name}}</div>
             <div class="col-md-3">
-                <donut-chart id="" id="storage-donut-chart{{$index}}" class="list-view-pf-additional-info-item" chart-data="cluster.storage"></donut-chart>
+                <donut-chart id="" id="utilization-donut-chart{{$index}}" class="list-view-pf-additional-info-item" chart-data="cluster.utilization"></donut-chart>
             </div>
             <div class="col-md-3">
                 {{cluster.iops}}
@@ -77,8 +77,13 @@
             </div>
             <div class="col-md-1">
                 <div class="list-view-pf-additional-info-item list-view-pf-additional-info-item-stacked">
-                    <div class="bold-text">Pools</div>
-                    <h5 class="pull-left counts">{{cluster.poolCount}}</h5>
+                    <div class="bold-text">
+                        <span ng-if="cluster.sds_name === 'ceph'">Pools</span>
+                        <span ng-if="cluster.sds_name === 'glusterfs'">File Shares</span>
+                    </div>
+                    <h5 class="pull-left counts">
+                        {{cluster.poolOrFileShareCount}}
+                    </h5>
                 </div>
             </div>
             <div class="col-md-1">
