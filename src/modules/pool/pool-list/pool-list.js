@@ -72,9 +72,16 @@
                 pool.status = "NA";
                 pool.type = list[i].type;
                 pool.utilization = {"percent_used": list[i].percent_used };
-                pool.replicaCount = "NA";
+                pool.replicaCount = list[i].size ? list[i].size : "NA";
                 pool.osdCount = "NA";
                 pool.quotas = "NA";
+
+                if(list[i].quota_enabled.toLowerCase() === "false") {
+                    pool.quotas = "Disabled";
+                } else if(list[i].quota_enabled.toLowerCase() === "true") {
+                    pool.quotas = list[i].quota_max_objects;
+                }
+                
                 pool.alertCount = "NA";
                 
                 poolList.push(pool);
