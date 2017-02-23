@@ -57,6 +57,7 @@
             </p>
         </div>
     </center>
+    <div ng-if="clusterCntrl.isDataLoading" class="dataLoading"></div>
     <div class="list-group list-view-pf list-view-pf-equalized-column" ng-repeat="cluster in clusterCntrl.filteredClusteredList = (clusterCntrl.clusterList | filter: clusterCntrl.searchBy | orderBy: clusterCntrl.ascOrder + clusterCntrl.orderBy)">
         <div class="list-group-item">
             <div class="list-view-pf-left col-md-1">
@@ -99,9 +100,9 @@
                             <span class="fa fa-ellipsis-v"></span>
                         </button>
                         <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownKebabRight12">
-                            <li><a>Expand</a></li>
-                            <li><a>Shrink</a></li>
-                            <li><a>Unmanage</a></li>
+                            <li><a ng-class="{disabled: true}">Expand</a></li>
+                            <li><a ng-class="{disabled: true}">Shrink</a></li>
+                            <li><a ng-class="{disabled: true}">Unmanage</a></li>
                         </ul>
                     </div>
                 </div>

@@ -102,7 +102,7 @@ gulp.task("jsLibraries", function() {
     "node_modules/angular-patternfly/node_modules/bootstrap-switch/dist/js/bootstrap-switch.js",
     "node_modules/angular-bootstrap-switch/dist/angular-bootstrap-switch.js"
   ])
-  //.pipe(uglify())
+  .pipe(uglify())
   .pipe(concat("libraries.js"))
   .pipe(gulp.dest(paths.dest + paths.jsLibraries));
 });
