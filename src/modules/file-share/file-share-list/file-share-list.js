@@ -56,7 +56,7 @@
                     fileShare.storage = "NA";
                     clusterObj = utils.getClusterDetails(fileShareObj.cluster_id);
                     if(typeof clusterObj !== "undefined") {
-                         fileShare.cluster_name = clusterObj.name || "NA";
+                         fileShare.cluster_name = clusterObj.integration_name || "NA";
                     }
                     fileShare.brick_count = fileShareObj.brick_count;
                     fileShare.alert_count = "NA"

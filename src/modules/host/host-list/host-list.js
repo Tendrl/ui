@@ -59,7 +59,7 @@
                 clusterObj = utils.getClusterDetails(list[i].tendrlcontext.integration_id);
                 
                 if(typeof clusterObj !== "undefined") {
-                    host.cluster_name = clusterObj.name || "NA";
+                    host.cluster_name = clusterObj.integration_name || "NA";
                 }
                 if(typeof list[i].stats !== "undefined") {
                     stats = list[i].stats;
