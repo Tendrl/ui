@@ -14,9 +14,10 @@
             index;
 
         vm.step = 1;
-        vm.clusterList = [];
+        vm.cephClusterList = [];
         vm.updateStep = updateStep;
         vm.updateRBDName = updateRBDName;
+        vm.checkPoolList = checkPoolList;
         vm.isSizeGreater = isSizeGreater;
         vm.createRBDs = createRBDs;
         vm.editRBDsList = editRBDsList;
@@ -59,8 +60,11 @@
         });
 
         function isSizeGreater() {
-            var result = utils.convertToBytes(vm.targetSize * vm.rbdCount, vm.selectedUnit);
-            return result > vm.selectedCluster.utilization.available;
+            if(vm.selectedCluster.utilization && vm.selectedCluster.utilization.available){
+                var result = utils.convertToBytes(vm.targetSize * vm.rbdCount, vm.selectedUnit);
+                return result > vm.selectedCluster.utilization.available;
+
+            }
         }
 
         function updateStep(step) {
@@ -118,30 +122,36 @@
             }
         }
 
+        function checkPoolList(){
+            return (vm.step === 2 && vm.poolList)
+        }
+
         function init() {
 
             if (typeof $rootScope.clusterData !== "undefined") {
-                for(index = 0 ; index < $rootScope.clusterData.clusters.length ; index++) {
-                    if($rootScope.clusterData.clusters[index].sds_name === 'ceph') {
-                        vm.clusterList.push($rootScope.clusterData.clusters[index]);
-                    }
-                }
+                getCephClusterList();
             } else {
                 utils.getObjectList("Cluster")
                     .then(function(data) {
                         $rootScope.clusterData = data;
-                        for(index = 0 ; index < $rootScope.clusterData.clusters.length ; index++) {
-                            if($rootScope.clusterData.clusters[index].sds_name === 'ceph') {
-                                vm.clusterList.push($rootScope.clusterData.clusters[index]);
-                            }
-                        }
+                        getCephClusterList();
                     });
             }
 
-            vm.selectedCluster = vm.clusterList[0];
+            vm.selectedCluster = vm.cephClusterList[0];
             vm.selectedUnit = vm.sizeUnits[0];
             vm.updateRBDName();
             
+        }
+
+        function getCephClusterList(){
+            var index;
+            var clustersLength = $rootScope.clusterData.clusters.length;
+            for(index = 0 ; index < clustersLength ; index++) {
+                if($rootScope.clusterData.clusters[index].sds_name === 'ceph') {
+                    vm.cephClusterList.push($rootScope.clusterData.clusters[index]);
+                }
+            }
         }
 
         function _createPoolList(list) {

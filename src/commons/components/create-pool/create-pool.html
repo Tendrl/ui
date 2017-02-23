@@ -1,4 +1,4 @@
-<div class="create-pool-wizard" >
+<div class="create-pool-wizard">
 	<div ng-class="{'wizard-pf': (createPoolCntrl.step !== 4)}">
 		<div>
 			<div class="wizard-pf-body clearfix">
@@ -25,7 +25,6 @@
 
 				<!-- Steps -->
 				<div class="create-pool-content">
-					
 					<!--Step 1-->
 					<div ng-include src="'../commons/components/create-pool/stepFirst.html'"></div>
 					<!--Step 2-->
@@ -41,10 +40,11 @@
 
 			<!-- footer -->
 			<div class="create-pool-footer" ng-class="{hide: (createPoolCntrl.step === 5)}">
+				<div class="col-md-1" ng-if="createPoolCntrl.step !== 4"></div>
 				<button type="button" class="btn btn-default wizard-pf-back" ng-click="createPoolCntrl.updateStep('dec')" ng-disabled="createPoolCntrl.step === 1">
 					<span class="i fa fa-angle-left"></span> Back
 				</button>
-				<button ng-if="createPoolCntrl.step !== 4" type="button" class="btn btn-primary wizard-pf-next" ng-click="createPoolCntrl.updateStep('inc')"  ng-disabled = "createPoolCntrl.poolName.length === 0">
+				<button ng-if="createPoolCntrl.step !== 4" type="button" class="btn btn-primary wizard-pf-next" ng-click="createPoolCntrl.updateStep('inc')"  ng-disabled = "createPoolCntrl.poolName.length === 0 || createPoolCntrl.cephClusterList.length === 0">
 					<span >Next <span class="i fa fa-angle-right"></span></span>
 				</button>
 				<button ng-if="createPoolCntrl.step === 4" type="button" class="btn btn-primary wizard-pf-next" ng-click="createPoolCntrl.updateStep('inc')" class="btn btn-default btn-create">Create Pools</button>
@@ -56,7 +56,7 @@
 	</div>
 </div>
 <!-- Task Submitted -->
-<div ng-if="createPoolCntrl.taskSubmitted" class="blank-slate-pf centered">
+<div ng-if="createPoolCntrl.taskSubmitted" class="task-submitted blank-slate-pf centered">
 	<div class="blank-slate-pf-icon">
 		<i class="pficon pficon-ok"></i>
 	</div>
