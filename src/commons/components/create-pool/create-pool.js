@@ -39,7 +39,19 @@
         vm.quotasMaxObjects = 0;
         vm.taskSubmitted = false;
 
-        init();
+        if($rootScope.clusterData !== null && typeof $rootScope.clusterData !== "undefined") {
+            init();
+        }
+
+        /* Trigger this function when we have cluster data */
+        $scope.$on("GotClusterData", function (event, data) {
+            /* Forward to home view if we don't have any cluster */    
+            if($rootScope.clusterData === null || $rootScope.clusterData.clusters.length === 0){
+                $state.go("home");
+            }else {
+                init();
+            }
+        });
 
         vm.updateStep = function(step) {
             if (step === "inc") {

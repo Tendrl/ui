@@ -32,8 +32,31 @@
         vm.isEditable = {};
         vm.editRbd = {};
 
+        vm.isNextButtonDisabled = false;
 
-        init();
+        $scope.$watch(angular.bind(this, function (rbdName) {
+          return vm.rbdName;
+        }), function () {
+            if(vm.rbdName.length === 0) {
+                vm.isNextButtonDisabled = true;
+            }else {
+                vm.isNextButtonDisabled = false;
+            }
+        });
+
+        if($rootScope.clusterData !== null && typeof $rootScope.clusterData !== "undefined") {
+            init();
+        }
+
+        /* Trigger this function when we have cluster data */
+        $scope.$on("GotClusterData", function (event, data) {
+            /* Forward to home view if we don't have any cluster */    
+            if($rootScope.clusterData === null || $rootScope.clusterData.clusters.length === 0){
+                $state.go("home");
+            }else {
+                init();
+            }
+        });
 
         function isSizeGreater() {
             var result = utils.convertToBytes(vm.targetSize * vm.rbdCount, vm.selectedUnit);
@@ -52,6 +75,8 @@
                     _createPoolList(poolList);
                     if(vm.poolList.length) {
                         vm.selectedPool = vm.poolList[0];
+                    } else {
+                        vm.isNextButtonDisabled = true;
                     }
                 }
 
@@ -74,6 +99,12 @@
             
             } else if (step === "dec") {
                 vm.step -= 1;
+
+                if(vm.step === 1) {
+                    if(vm.rbdName.length) {
+                        vm.isNextButtonDisabled = false;
+                    }
+                }
             }
         }
 

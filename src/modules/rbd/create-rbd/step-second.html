@@ -14,32 +14,37 @@
             </div>
         </div>
         <div class="form-group pool-section" ng-if="createRBDCntrl.backingPool === 'existing'">
-            <div class="row">
-                <div class="col-md-2">
-                    <select data-ng-options="pool.name for pool in createRBDCntrl.poolList | filter:pool.type ='replicated'" data-ng-model="createRBDCntrl.selectedPool" class="form-control" data-id="pool-name"></select>
+            <div ng-if="createRBDCntrl.poolList.length">
+                <div class="row">
+                    <div class="col-md-2">
+                        <select data-ng-options="pool.name for pool in createRBDCntrl.poolList | filter:pool.type ='replicated'" data-ng-model="createRBDCntrl.selectedPool" class="form-control" data-id="pool-name"></select>
+                    </div>
+                </div>
+                <div class="col-md-8 pool-table">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="col-md-2">Type</div>
+                            <div class="col-md-1">OSDs</div>
+                            <div class="col-md-1">Replicas</div>
+                            <div class="col-md-2">PG Count</div>
+                            <div class="col-md-4">Journal Configuration</div>
+                            <div class="col-md-2">Quotas</div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="col-md-2">{{createRBDCntrl.selectedPool.type || "NA"}}</div>
+                            <div class="col-md-1">{{createRBDCntrl.selectedPool.osdCount || "NA"}}</div>
+                            <div class="col-md-1">{{createRBDCntrl.selectedPool.replicaCount || "NA"}}</div>
+                            <div class="col-md-2">{{createRBDCntrl.selectedPool.pgCount || "NA"}}</div>
+                            <div class="col-md-4">{{createRBDCntrl.selectedPool.conf || "NA"}}</div>
+                            <div class="col-md-2">{{createRBDCntrl.selectedPool.quotas || "NA"}}</div>
+                        </div>
+                    </div>
                 </div>
             </div>
-            <div class="col-md-8 pool-table">
-                <div class="row">
-                    <div class="col-md-12">
-                        <div class="col-md-2">Type</div>
-                        <div class="col-md-1">OSDs</div>
-                        <div class="col-md-1">Replicas</div>
-                        <div class="col-md-2">PG Count</div>
-                        <div class="col-md-4">Journal Configuration</div>
-                        <div class="col-md-2">Quotas</div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-12">
-                        <div class="col-md-2">{{createRBDCntrl.selectedPool.type || "NA"}}</div>
-                        <div class="col-md-1">{{createRBDCntrl.selectedPool.osdCount || "NA"}}</div>
-                        <div class="col-md-1">{{createRBDCntrl.selectedPool.replicaCount || "NA"}}</div>
-                        <div class="col-md-2">{{createRBDCntrl.selectedPool.pgCount || "NA"}}</div>
-                        <div class="col-md-4">{{createRBDCntrl.selectedPool.conf || "NA"}}</div>
-                        <div class="col-md-2">{{createRBDCntrl.selectedPool.quotas || "NA"}}</div>
-                    </div>
-                </div>
+            <div ng-if="createRBDCntrl.poolList.length === 0" class="no-pool-detected">
+                You don't have any pool right now, Create new pool and try again.
             </div>
         </div>
 
