@@ -1,4 +1,5 @@
-<div class="tendrl-create-rbd-container container-fluid">
+<div ng-if="!isNavigationShow" class="centerLoading"></div>
+<div ng-if="isNavigationShow" class="tendrl-create-rbd-container container-fluid">
     <ol class="breadcrumb">
         <li>
             <a ui-sref="rbd">RBDs</a>
@@ -42,7 +43,7 @@
                     <button type="button" class="btn btn-default wizard-pf-back" ng-click="createRBDCntrl.updateStep('dec')" ng-disabled="createRBDCntrl.step === 1">
                         <span class="i fa fa-angle-left"></span> Back
                     </button>
-                    <button type="button" class="btn btn-primary wizard-pf-next" ng-click="createRBDCntrl.updateStep('inc')" ng-disabled="!createRBDCntrl.rbdName.length">
+                    <button type="button" class="btn btn-primary wizard-pf-next" ng-click="createRBDCntrl.updateStep('inc')" ng-disabled="createRBDCntrl.isNextButtonDisabled && createRBDCntrl.backingPool !== 'new'">
                         <span ng-if="createRBDCntrl.step !== 3">Next</span>
                         <span ng-if="createRBDCntrl.step === 3">Create RBDs</span>
                         <span class="i fa fa-angle-right;"></span>
