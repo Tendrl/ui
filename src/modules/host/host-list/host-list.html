@@ -1,4 +1,4 @@
-<div ng-if="!isNavigationShow" class="centerLoading"></div>
+<div ng-if="!isNavigationShow" class="spinner spinner-lg"></div>
 <div ng-if="isNavigationShow" class="tendrl-host-list-view-container">
     <div class="container-fluid">
         <!-- heading section-->
@@ -73,7 +73,7 @@
                 </div>
                 <h1>No Hosts Detected.</h1>
             </div>
-        </center><div ng-if="hostCntrl.isDataLoading" class="dataLoading"></div>
+        </center><div ng-if="hostCntrl.isDataLoading" class="spinner spinner-lg"></div>
         <div ng-if="!hostCntrl.isDataLoading" class="list-group list-view-pf list-view-pf-equalized-column" ng-repeat="host in hostCntrl.filteredHostList=(hostCntrl.hostList | filter: hostCntrl.searchBy | orderBy : hostCntrl.ascOrder + hostCntrl.orderBy)">
             <div class="list-group-item">
                 <div class="col-md-2" ng-class="{ 'list-view-pf-left': clusterId === undefined }">
