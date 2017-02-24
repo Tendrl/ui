@@ -1,4 +1,4 @@
-<div ng-if="!isNavigationShow" class="centerLoading"></div>
+<div ng-if="!isNavigationShow" class="spinner spinner-lg"></div>
 <div ng-if="isNavigationShow" class="tendrl-cluster-list-view-container container-fluid">
     <h1 class="bold-text">Clusters</h1>
     <div class="row toolbar-pf">
@@ -57,7 +57,7 @@
             </p>
         </div>
     </center>
-    <div ng-if="clusterCntrl.isDataLoading" class="dataLoading"></div>
+    <div ng-if="clusterCntrl.isDataLoading" class="spinner spinner-lg"></div>
     <div class="list-group list-view-pf list-view-pf-equalized-column" ng-repeat="cluster in clusterCntrl.filteredClusteredList = (clusterCntrl.clusterList | filter: clusterCntrl.searchBy | orderBy: clusterCntrl.ascOrder + clusterCntrl.orderBy)">
         <div class="list-group-item">
             <div class="list-view-pf-left col-md-1">
