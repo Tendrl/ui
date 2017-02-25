@@ -3,10 +3,11 @@
     {
       "fsid": "c221ccdb-51d6-4b57-9f10-bcf30c7fa351",
       "integration_id": "c221ccdb-51d6-4b57-9f10-bcf30c7fa353",
-      "name": "ceph",
+      "integration_name": "ceph",
       "sds_name": "ceph",
       "sds_version": "10.2.5",
       "cluster_id": "c221ccdb-51d6-4b57-9f10-bcf30c7fa353",
+      "utilization":{"available":"1221313213"},
       "pools": {
         "0": {
           "percent_used": "0",

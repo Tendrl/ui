@@ -1,10 +1,8 @@
 <a ui-sref="{{menu.href}}" class="cursor-pointer" ng-if="menu.hasSubMenus === false">
-    <span ng-class="menu.icon"></span>
     <span class="list-group-item-value">{{menu.label}}</span>
 </a>
 
 <a ng-click="navCtrl.toggleSubmenu()" class="cursor-pointer" role="button" data-toggle="collapse" ng-if="menu.hasSubMenus">
-    <span ng-class="menu.icon"></span>
     <span class="list-group-item-value">{{menu.label}}</span>
     <i class="fa" ng-class="navCtrl.isSubmenuExpand? 'fa fa-angle-down' : 'fa fa-angle-right'" aria-hidden="true"></i>
 </a>
