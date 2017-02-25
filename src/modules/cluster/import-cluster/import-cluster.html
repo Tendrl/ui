@@ -1,5 +1,5 @@
 <div class="tendrl-import-cluster-container">
-    <div ng-if="importClusterCntrl.isDataLoading" class="dataLoading"></div>
+    <div ng-if="importClusterCntrl.isDataLoading" class="spinner spinner-lg"></div>
     <div ng-if="!importClusterCntrl.isDataLoading">
         <div ng-if="importClusterCntrl.detectedClusters.length !== 0">
             <!-- Start First Step -->
@@ -23,7 +23,7 @@
                             <h4><label>Cluster Summary</label></h4>
                             <p>The following cluster details has been detected. click <b>import</b> to continue importing this cluster.</p>
                         </section>
-                        <div ng-if="importClusterCntrl.isDataLoading" class="dataLoading"></div>
+                        <div ng-if="importClusterCntrl.isDataLoading" class="spinner spinner-lg"></div>
                         <div ng-if="!importClusterCntrl.isDataLoading">
                             <div class="cluster-detail">
                                 <div class="row">
@@ -101,7 +101,7 @@
                             </div>
                             <!-- /row -->
                             <div class="div-with-scroll">
-                                <div ng-if="importClusterCntrl.isDataLoading" class="dataLoading"></div>
+                                <div ng-if="importClusterCntrl.isDataLoading" class="spinner spinner-lg"></div>
                                 <div ng-if="!importClusterCntrl.isDataLoading" class="list-group list-view-pf list-view-pf-equalized-column" ng-repeat="host in importClusterCntrl.filteredHostList=(importClusterCntrl.selectedCluster.hosts | filter: importClusterCntrl.searchBy | orderBy : importClusterCntrl.ascOrder + importClusterCntrl.orderBy)">
                                     <div class="list-group-item">
                                         <div class="list-view-pf-left col-md-6">

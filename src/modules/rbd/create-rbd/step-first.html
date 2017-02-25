@@ -22,16 +22,19 @@
         <div class="form-group required">
             <label class="col-sm-2 col-md-2 control-label" for="cluster-name">Cluster Name</label>
             <div class="col-sm-8 col-md-3">
-                <select data-ng-options="cluster.name for cluster in createRBDCntrl.clusterList | filter:cluster.sds_name ='ceph'" data-ng-model="createRBDCntrl.selectedCluster" class="form-control" data-id="cluster-name"></select>
+                <select data-ng-options="cluster.integration_name for cluster in createRBDCntrl.cephClusterList" data-ng-model="createRBDCntrl.selectedCluster" class="form-control" data-id="cluster-name"></select>
             </div>
-            <div class="col-sm-2 col-md-2">
-                <span>{{createRBDCntrl.selectedCluster.utilization.available | bytes }} Available</span>
+            <div class="col-sm-2 col-md-2" ng-if="createRBDCntrl.selectedCluster.utilization.available">
+                <span>{{createRBDCntrl.selectedCluster.utilization.available | bytes}} Available</span>
+            </div>
+            <div class="col-sm-2 col-md-2" ng-if="!createRBDCntrl.selectedCluster.utilization.available">
+                <span class="error-msg">* Utilization Not Available</span>
             </div>
         </div>
         <div class="form-group required">
             <label class="col-sm-2 col-md-2 control-label" for="target-size">Target Size</label>
             <div class="col-sm-5 col-md-2">
-                <input type="number" data-id="target-size" ng-model="createRBDCntrl.targetSize" class="form-control">
+                <input type="number" min="0" data-id="target-size" ng-model="createRBDCntrl.targetSize" class="form-control">
             </div>
             <div class="col-sm-2 col-md-1">
                 <select data-ng-options="unit for unit in createRBDCntrl.sizeUnits" data-ng-model="createRBDCntrl.selectedUnit" class="form-control"></select>
