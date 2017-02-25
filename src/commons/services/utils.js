@@ -24,11 +24,6 @@
         vm.takeAction = function(data, postUrl, formMethod, clusterId) {
             var url, actionRequest, request;
 
-            /* TODO:- Need to find out the proper way for DELETE Request */
-            if (formMethod === "DELETE") {
-                data._method = formMethod;
-            }
-
             if (clusterId === undefined || clusterId === "") {
                 url = config.baseUrl + postUrl;
             } else {
@@ -36,7 +31,7 @@
             }
 
             actionRequest = {
-                method: "POST",
+                method: formMethod,
                 url: url,
                 data: data
             };
@@ -241,6 +236,7 @@
                                         clusterData[i].pools[index1].rbds[index2].clusterName = clusterData[i].name;
                                         clusterData[i].pools[index1].rbds[index2].clusterId = clusterData[i].cluster_id;
                                         clusterData[i].pools[index1].rbds[index2].backingPool = clusterData[i].pools[index1].pool_name;
+                                        clusterData[i].pools[index1].rbds[index2].pool_id = clusterData[i].pools[index1].pool_id;
                                         clusterData[i].pools[index1].rbds[index2].isBackingPoolShared = false;
                                         if(Object.keys(clusterData[i].pools[index1].rbds).length>1) {
                                             clusterData[i].pools[index1].rbds[index2].isBackingPoolShared = true;
@@ -258,6 +254,7 @@
                                         clusterData[i].pools[index1].rbds[index2].clusterName = clusterData[i].name;
                                         clusterData[i].pools[index1].rbds[index2].clusterId = clusterData[i].cluster_id;
                                         clusterData[i].pools[index1].rbds[index2].backingPool = clusterData[i].pools[index1].pool_name;
+                                        clusterData[i].pools[index1].rbds[index2].pool_id = clusterData[i].pools[index1].pool_id;
                                         clusterData[i].pools[index1].rbds[index2].isBackingPoolShared = false;
                                         if(Object.keys(clusterData[i].pools[index1].rbds).length>1) {
                                             clusterData[i].pools[index1].rbds[index2].isBackingPoolShared = true;
@@ -300,6 +297,8 @@
                 return value * Math.pow(1024,4);
             }else if(unit === "PB") {
                 return value * Math.pow(1024,5);
+            } else {
+                return value;
             }
         };
 
