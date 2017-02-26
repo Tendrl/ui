@@ -74,7 +74,7 @@
                     cluster = {};
 
                     cluster.id = clusterData[i].cluster_id;
-                    cluster.name = clusterData[i].name || "NA";
+                    cluster.name = clusterData[i].integration_name || "NA";
                     cluster.sds_name = clusterData[i].sds_name;
 
                     if(typeof clusterData[i].utilization !== "undefined") {

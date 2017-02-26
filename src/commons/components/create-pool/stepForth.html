@@ -1,8 +1,8 @@
 <div class="wizard-pf-contents" ng-if="createPoolCntrl.step === 4">
-	<div class="rbd-summary row">
+	<div class="pool-summary row">
 		<h3 class="bold-text desc">{{createPoolCntrl.poolCount}} Pool<span ng-if="createPoolCntrl.poolCount > 1">s</span> to create in cluster {{createPoolCntrl.selectedCluster.name}}
 		</h3>
-		<div ng-if="createPoolCntrl.poolCount > 1">
+		<div ng-if="createPoolCntrl.poolCount > 1" ng-disabled="true">
 			<div class="row">
 				<div class="col-sm-12">
 					<form class="toolbar-pf-actions">
@@ -84,7 +84,7 @@
 					</div>
 					<div class="edit-buttons col-md-2">
 						<button type="submit" data-ng-hide="createPoolCntrl.editMode[$index]" data-ng-click="createPoolCntrl.editMode[$index] = true; createPoolCntrl.editAppKey(pool)" class="btn btn-default col-md-3">Edit</button>
-						<span  type="submit" data-ng-show="createPoolCntrl.editMode[$index]" data-ng-click="createPoolCntrl.editMode[$index] = false" class="fa fa-check list-view-pf-icon-check col-md-3"></span>
+						<span  type="submit" data-ng-show="createPoolCntrl.editMode[$index]" data-ng-click="createPoolCntrl.editMode[$index] = false; createPoolCntrl.saveEdit()" class="fa fa-check list-view-pf-icon-check col-md-3"></span>
 						<span  data-ng-show="createPoolCntrl.editMode[$index]" data-ng-click="createPoolCntrl.editMode[$index] = false; createPoolCntrl.cancelEdit(createPoolCntrl.poolList.indexOf(pool))" class="pficon pficon-close list-view-pf-icon-close col-md-3"></span>
 					</div>
 				</div>
@@ -95,7 +95,7 @@
 		</div>
 
 		<div ng-if="createPoolCntrl.poolCount === 1">
-			<div class="col-md-6 col-sm-6 single-rbd-summary">
+			<div class="col-md-6 col-sm-6 single-pool-summary">
 				<div class="row">
 					<div class="col-md-6 col-sm-6">Name</div>
 					<div class="col-md-6 col-sm-6">{{createPoolCntrl.poolNames[0]}}</div>

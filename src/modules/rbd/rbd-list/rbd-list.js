@@ -6,7 +6,7 @@
     app.controller("rbdController", rbdController);
 
     /*@ngInject*/
-    function rbdController($scope, $rootScope, $state, $interval, config, utils) {
+    function rbdController($scope, $rootScope, $state, $interval, config, utils, $filter) {
         var vm = this,
             key,
             len,
@@ -18,6 +18,14 @@
             clusterObj;
 
         vm.createRbd = createRbd;
+        vm.onOpenRbdResizeModal = onOpenRbdResizeModal;
+        vm.resizeRBD = resizeRBD;
+        vm.viewTaskProgress = viewTaskProgress;
+        vm.resizeRBD = resizeRBD;
+        vm.resizeRbd = {"unit": "" , "size": 0};
+        vm.sizeUnits = ["bytes", "KB", "MB", "GB", "TB"];
+        vm.resizeRBDtaskSubmitted = false;
+        vm.resizeRBDstep = 1;
 
         init();
 
@@ -64,6 +72,8 @@
                 
                 rbd.name = list[i].name;
                 rbd.clusterId = list[i].clusterId;
+                rbd.pool_id = list[i].pool_id;
+                rbd.size = parseInt(list[i].size);
                 rbd.clusterName = list[i].clusterName;
                 if( typeof list[i].used !== "undefined" && typeof list[i].provisioned !== "undefined") {
                     utilization_percent = ( (parseInt(list[i].used) * 100) / parseInt(list[i].provisioned) );
@@ -81,6 +91,48 @@
 
         function createRbd() {
             $state.go("create-rbd");
+        }
+
+        function onOpenRbdResizeModal(rbdObject) {
+            vm.resizeRBDstep = 1;
+            vm.resizeRBDtaskSubmitted = false;
+            var size, sizeAndUnit = [], clusterObj;
+            vm.resizeRbd = rbdObject;
+            if(rbdObject.size) {
+                size = $filter('bytes')(rbdObject.size);
+                sizeAndUnit = size.split(' ');
+                vm.resizeRbd.size = Math.round(parseFloat(sizeAndUnit[0]));
+                vm.resizeRbd.unit = sizeAndUnit[1];
+            }
+            clusterObj = utils.getClusterDetails(rbdObject.clusterId);
+            vm.resizeRbd.clusterAvailable = "NA";
+            if( typeof clusterObj.utilization !== "undefined" ) {
+                vm.resizeRbd.clusterAvailable = clusterObj.utilization.available;
+            }
+        }
+
+
+        function resizeRBD() {
+            var sizeInBytes, sizeInMB, postData;
+            sizeInBytes = utils.convertToBytes(vm.resizeRbd.size, vm.resizeRbd.unit);
+            sizeInMB = (sizeInBytes / (1024*1024));
+            vm.resizeRbd.size = parseFloat(sizeInMB);
+
+            postData = { "Rbd.pool_id": parseInt(vm.resizeRbd.pool_id), "Rbd.name": vm.resizeRbd.name, "Rbd.size": vm.resizeRbd.size };
+            
+            utils.takeAction(postData, "CephResizeRbd", "PUT", vm.resizeRbd.clusterId).then(function(response) {
+                $rootScope.notification.type = "success";
+                $rootScope.notification.message = "JOB is under process. and JOB-ID is - " + response.job_id;
+            });
+            vm.resizeRBDstep = 2;
+        }
+
+        function viewTaskProgress() {
+            vm.resizeRBDtaskSubmitted = true;
+            $('#rbdResizeModal').modal('hide');
+            setTimeout(function() {
+                $state.go("task");
+            },1000)
         }
     }
 

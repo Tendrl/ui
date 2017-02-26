@@ -13,18 +13,18 @@
 
     function createPoolController($scope, $state, utils, $rootScope) {
     var vm = this;
-
         // edit variables
         vm.newField = {};
         vm.editing = false;
         vm.step = 1;
         vm.poolList = [];
+        vm.cephClusterList = [];
         vm.updatePoolName = updatePoolName;
         vm.poolType = ["Standard","Erasure Coded"];
         vm.ECType = ["2+1"];
         vm.journalConfigration;
         vm.OSDs;
-        vm.pgCount = 0;
+        vm.pgCount = 128;
         vm.minReplicas = 0;
         vm.owners = [];
         vm.checkboxModelOwnerValue = false;
@@ -87,20 +87,30 @@
         function init() {
 
             if (typeof $rootScope.clusterData !== "undefined") {
-                vm.clusterList = $rootScope.clusterData.clusters;
+                getCephClusterList();
             } else {
                 utils.getObjectList("Cluster")
                 .then(function(data) {
                     $rootScope.clusterData = data;
-                    vm.clusterList = $rootScope.clusterData.clusters;
+                    getCephClusterList();
                 });
             }
 
-            vm.selectedCluster = vm.clusterList[0];
+            vm.selectedCluster = vm.cephClusterList[0];
             vm.selectedType = vm.poolType[0];
             vm.selectedEC = vm.ECType[0];
             vm.selectedOwner = vm.owners[0];
             vm.updatePoolName();
+        }
+
+        function getCephClusterList(){
+            var index;
+            var clustersLength = $rootScope.clusterData.clusters.length;
+            for(index = 0 ; index < clustersLength ; index++) {
+                if($rootScope.clusterData.clusters[index].sds_name === 'ceph') {
+                    vm.cephClusterList.push($rootScope.clusterData.clusters[index]);
+                }
+            }
         }
 
         function poolList() {
@@ -180,6 +190,9 @@
                 vm.poolList[vm.editing] = vm.newField;
                 vm.editing = false;
             }       
+        };
+        vm.saveEdit = function(index) {
+            vm.editing = false;
         };
 
         vm.cancelCreate = function(){

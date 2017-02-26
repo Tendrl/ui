@@ -1,4 +1,4 @@
-<div ng-if="!isNavigationShow" class="centerLoading"></div>
+<div ng-if="!isNavigationShow" class="spinner spinner-lg"></div>
 <div ng-if="isNavigationShow" class="tendrl-create-rbd-container container-fluid">
     <ol class="breadcrumb">
         <li>
@@ -43,10 +43,10 @@
                     <button type="button" class="btn btn-default wizard-pf-back" ng-click="createRBDCntrl.updateStep('dec')" ng-disabled="createRBDCntrl.step === 1">
                         <span class="i fa fa-angle-left"></span> Back
                     </button>
-                    <button type="button" class="btn btn-primary wizard-pf-next" ng-click="createRBDCntrl.updateStep('inc')" ng-disabled="createRBDCntrl.isNextButtonDisabled && createRBDCntrl.backingPool !== 'new'">
+                    <button type="button" class="btn btn-primary wizard-pf-next" ng-click="createRBDCntrl.updateStep('inc')" ng-disabled="!createRBDCntrl.rbdName.length > 0 || createRBDCntrl.isSizeGreater() || createRBDCntrl.backingPool === 'new' ||  !createRBDCntrl.selectedCluster.utilization.available || createRBDCntrl.checkPoolList()">
                         <span ng-if="createRBDCntrl.step !== 3">Next</span>
                         <span ng-if="createRBDCntrl.step === 3">Create RBDs</span>
-                        <span class="i fa fa-angle-right;"></span>
+                        <span class="i fa fa-angle-right"></span>
                     </button>
                     <a type="button" class="btn btn-default btn-cancel wizard-pf-cancel wizard-pf-dismiss" ui-sref="rbd">Cancel</a>
                 </div>

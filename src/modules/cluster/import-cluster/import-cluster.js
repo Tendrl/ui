@@ -27,7 +27,6 @@
                 if(list !== null && list.clusters.length !== 0) {
 
                     hostList = list.nodes;
-                    list.clusters = filterCephNodes(list.clusters);
                     vm.detectedClusters = list.clusters;
                     vm.selectedCluster = vm.detectedClusters[0];
                     vm.selectedClusterVersion = vm.selectedCluster.sds_version;
@@ -36,33 +35,6 @@
                     vm.selectedCluster.sds_type = hostDetail.sds_type;
                 }
             });
-        }
-
-        function filterCephNodes(clusterListData) {
-            var clusterList = clusterListData;
-            var i, j, clusterLength= clusterList.length, nodeLength, nodeList = [];
-            for(i = 0; i < clusterLength; i++) {
-                if(clusterList[i].sds_name === "ceph") {
-                    nodeLength = clusterList[i].node_ids.length;
-                    for(j = 0; j < nodeLength; j++ ) {
-                        if( IsNodeMon( clusterList[i].node_ids[j] ) ) {
-                            nodeList.push(clusterList[i].node_ids[j]);
-                        }
-                    }
-                    clusterList[i].node_ids = nodeList;
-                }
-            }
-            return clusterList;
-        }
-
-        function IsNodeMon(nodeId) {
-            var i, hostListlength = hostList.length;
-            for(i = 0 ; i < hostListlength; i++) {
-                if(hostList[i].node_id === nodeId && hostList[i].tags.indexOf("mon") !== -1) {
-                    return true;
-                }
-            }
-            return false;
         }
 
         function setHostDetails(hostIds) {
