@@ -1,41 +1,41 @@
 <!-- RBD resize Modal -->
 <div class="modal fade tendrl-rbd-resize-view-container" id="rbdResizeModal" role="dialog">
     <div class="modal-dialog modal-md">
-      <!-- Modal content-->
-      <div class="modal-content modal-md">
-        <div class="modal-header">
-          <a class="close" data-dismiss="modal">&times;</a>
-          <h4>Resize RBD</h4>
-        </div>
-        <div class="modal-body">
-        	<div ng-if="rbdCntrl.resizeRBDstep === 1">
-        		<div class="row">
-	        		<div class="col-md-offset-1 col-md-10">
-	        			<h5>Enter the new target size for <label>{{rbdCntrl.resizeRbd.name}}</label> and click Save.</h5>
-	        		</div>
-	        	</div>
-	        	<div class="row">
-	        		<div class="col-md-5">
-	        			<label class="pull-right">Cluster</label>
-	        		</div>
-	        		<div class="col-md-5">
-	        			<p>{{rbdCntrl.resizeRbd.clusterName}}</p>
-	        		</div>
-	        	</div>
-	        	<div class="row">
-	        		<div class="col-md-5">
-	        			<label class="pull-right">Backing Pool</label>
-	        		</div>
-	        		<div class="col-md-5">
-	        			<p>{{rbdCntrl.resizeRbd.backingPool}}</p>
-	        		</div>
-	        	</div>
-	        	<div class="row">
-	        		<div class="col-md-5">
-	        			<label class="pull-right">New Target Size</label>
-	        		</div>
-	        		<div class="col-md-7">
-	        			<span>
+        <!-- Modal content-->
+        <div class="modal-content modal-md">
+            <div class="modal-header">
+                <a class="close" data-dismiss="modal">&times;</a>
+                <h4>Resize RBD</h4>
+            </div>
+            <div class="modal-body">
+                <div ng-if="rbdCntrl.resizeRBDstep === 1">
+                    <div class="row">
+                        <div class="col-md-offset-1 col-md-10">
+                            <h5>Enter the new target size for <label>{{rbdCntrl.resizeRbd.name}}</label> and click Save.</h5>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-5">
+                            <label class="pull-right">Cluster</label>
+                        </div>
+                        <div class="col-md-5">
+                            <p>{{rbdCntrl.resizeRbd.clusterName}}</p>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-5">
+                            <label class="pull-right">Backing Pool</label>
+                        </div>
+                        <div class="col-md-5">
+                            <p>{{rbdCntrl.resizeRbd.backingPool}}</p>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-5">
+                            <label class="pull-right">New Target Size</label>
+                        </div>
+                        <div class="col-md-7">
+                            <span>
 	        				<div class="row">
 	        					<div class="col-md-3">
 	        						<input type="number" min=1 data-id="target-size" ng-model="rbdCntrl.resizeRbd.size" class="form-control">
@@ -49,41 +49,46 @@
 	        					</div>
 	        				</div>
 	        			</span>
-	        		</div>
-	        	</div>
-        	</div>
-        	<div ng-if="rbdCntrl.resizeRBDstep === 2">
-		        <div class="task-submitted-icon">
-		            <i class="pficon pficon-ok"></i>
-		        </div>
-		        <div>
-		            <h1 class="text-center"><label>Resize RBD Task Submitted</label></h1>
-		            <div class="text-center"> An Resize RBD task has been submitted <label>
-		            	{{rbdCntrl.resizeRbd.name}} </label> in <label>{{rbdCntrl.resizeRbd.clusterName}}</label>.
-		            	You will be notified when processing is complete.</div>
-		        </div>
-		        <div class="view-task-progress">
-		        	<div class="row">
-		        		<div class="col-md-6">
-		        			<button class="btn btn-primary btn-lg" ng-click="rbdCntrl.viewTaskProgress()">View Task Progress</button>
-		        		</div>
-		        		<div class="col-md-6">
-		        			<button class="btn btn-default btn-lg" data-dismiss="modal">Close</button>
-		        		</div>
-		        	</div>
-		        </div>
-		    </div>
+                        </div>
+                    </div>
+                </div>
+                <div ng-if="rbdCntrl.resizeRBDstep === 2">
+                    <div class="task-submitted-icon">
+                        <i class="pficon" ng-class="{'pficon-error-circle-o': rbdCntrl.errorInProcess, 'pficon-ok': !rbdCntrl.errorInProcess}"></i>
+                    </div>
+                    <div>
+                        <h1 class="text-center" ng-show="rbdCntrl.errorInProcess"><label>Resize RBD Task failed.</label></h1>
+                        <div  ng-show="!rbdCntrl.errorInProcess">
+                            <h1 class="text-center"><label>Resize RBD Task Submitted</label></h1>
+                            <div class="text-center"> An Resize RBD task has been submitted
+                                <label>
+                                    {{rbdCntrl.resizeRbd.name}} </label> in
+                                <label>{{rbdCntrl.resizeRbd.clusterName}}</label>. You will be notified when processing is complete.
+                            </div>
+                        </div>
+                    </div>
+                    <div class="view-task-progress">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <button ng-disabled="rbdCntrl.errorInProcess" class="btn btn-primary btn-lg" ng-click="rbdCntrl.viewTaskProgress()">View Task Progress</button>
+                            </div>
+                            <div class="col-md-6">
+                                <button class="btn btn-default btn-lg" data-dismiss="modal">Close</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <div class="row" ng-if="rbdCntrl.resizeRBDstep === 1">
+                    <div class="col-md-offset-6 col-md-3">
+                        <button class="btn btn-default btn-md" data-dismiss="modal">Cancel</button>
+                    </div>
+                    <div class="col-md-3">
+                        <button class="btn btn-default btn-primary pull-left" ng-click="rbdCntrl.resizeRBD()">Resize RBD</button>
+                    </div>
+                </div>
+            </div>
         </div>
-        <div class="modal-footer">
-        	<div class="row" ng-if="rbdCntrl.resizeRBDstep === 1">
-        		<div class="col-md-offset-6 col-md-3">
-        			<button class="btn btn-default btn-md" data-dismiss="modal">Cancel</button>
-        		</div>
-        		<div class="col-md-3">
-        			<button class="btn btn-default btn-primary pull-left" ng-click="rbdCntrl.resizeRBD()">Resize RBD</button>
-        		</div>
-        	</div>
-        </div>
-      </div>
     </div>
 </div>

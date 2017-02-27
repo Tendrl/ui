@@ -18,12 +18,19 @@
             clusterObj;
 
         vm.createPool = createPool;
+        vm.onOpenGrowPGModal = onOpenGrowPGModal;
+        vm.growPGs = growPGs;
+        vm.isDataLoading = true;
+        vm.errorInProcess = false;
+        vm.showClusterNAMsg = false;
+        vm.viewTaskProgress = viewTaskProgress;
 
         init();
 
         function init() {
             list = utils.getPoolDetails($scope.clusterId);
             _createPoolList(list);
+            vm.isDataLoading = false;
         }
 
         /* Trigger this function when we have cluster data */
@@ -48,7 +55,7 @@
         }, 1000 * config.refreshIntervalTime );
 
         /*Cancelling interval when scope is destroy*/
-        $scope.$on('$destroy', function() {
+        $scope.$on("$destroy", function() {
             $interval.cancel(timer);
         });
 
@@ -65,6 +72,8 @@
                 pool.name = list[i].pool_name;
                 pool.clusterId = list[i].cluster_id;
                 pool.pgCount = list[i].pg_num;
+                pool.id = list[i].pool_id;
+                pool.minSize = list[i].min_size;
                 clusterObj = utils.getClusterDetails(list[i].cluster_id);
                 if(typeof clusterObj !== "undefined") {
                     pool.clusterName = clusterObj.name;
@@ -92,6 +101,45 @@
 
         function createPool() {
             $state.go("create-pool");
+        }
+
+        function onOpenGrowPGModal(pool) {
+
+            vm.growPGStep = 1;
+            vm.growPGtaskSubmitted = false;
+            vm.growPGPool = pool;
+            vm.updatedPool = {};
+            vm.updatedPool.pgCount = vm.growPGPool.pgCount = parseInt(vm.growPGPool.pgCount);
+            vm.updatedPool.incPGCnt = "immediate";
+
+            console.log(pool, "pool");
+        }
+
+        function growPGs() {
+            var postData;
+
+            postData = { "Pool.pool_id": parseInt(vm.growPGPool.id), "Pool.poolname": vm.growPGPool.name, "Pool.pg_num": vm.updatedPool.pgCount, "Pool.min_size": parseInt(vm.growPGPool.minSize) };
+            
+            utils.takeAction(postData, "CephUpdatePool", "PUT", vm.growPGPool.clusterId)
+                .then(function(response) {
+                    $rootScope.notification.type = "success";
+                    $rootScope.notification.message = "JOB is under process. and JOB-ID is - " + response.job_id;
+                    vm.growPGStep = 2;
+                })
+                .catch(function(error) {
+                    vm.errorInProcess = true;
+                    vm.growPGStep = 2;
+                });
+            
+        }
+
+        function viewTaskProgress() {
+
+            $("#growPGModal").modal("hide");
+            
+            setTimeout(function() {
+                $state.go("task");
+            },1000);
         }
     }
 
