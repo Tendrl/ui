@@ -56,7 +56,7 @@
         }, 1000 * config.refreshIntervalTime );
 
         /*Cancelling interval when scope is destroy*/
-        $scope.$on('$destroy', function() {
+        $scope.$on("$destroy", function() {
             $interval.cancel(timer);
         });
 
@@ -94,18 +94,22 @@
         }
 
         function onOpenRbdResizeModal(rbdObject) {
+            var size, sizeAndUnit = [], clusterObj;
+            
             vm.resizeRBDstep = 1;
             vm.resizeRBDtaskSubmitted = false;
-            var size, sizeAndUnit = [], clusterObj;
             vm.resizeRbd = rbdObject;
+            
             if(rbdObject.size) {
-                size = $filter('bytes')(rbdObject.size);
+                size = $filter("bytes")(rbdObject.size);
                 sizeAndUnit = size.split(' ');
                 vm.resizeRbd.size = Math.round(parseFloat(sizeAndUnit[0]));
                 vm.resizeRbd.unit = sizeAndUnit[1];
             }
+            
             clusterObj = utils.getClusterDetails(rbdObject.clusterId);
             vm.resizeRbd.clusterAvailable = "NA";
+            
             if( typeof clusterObj.utilization !== "undefined" ) {
                 vm.resizeRbd.clusterAvailable = clusterObj.utilization.available;
             }
@@ -120,16 +124,21 @@
 
             postData = { "Rbd.pool_id": parseInt(vm.resizeRbd.pool_id), "Rbd.name": vm.resizeRbd.name, "Rbd.size": vm.resizeRbd.size };
             
-            utils.takeAction(postData, "CephResizeRbd", "PUT", vm.resizeRbd.clusterId).then(function(response) {
-                $rootScope.notification.type = "success";
-                $rootScope.notification.message = "JOB is under process. and JOB-ID is - " + response.job_id;
-            });
-            vm.resizeRBDstep = 2;
+            utils.takeAction(postData, "CephResizeRbd", "PUT", vm.resizeRbd.clusterId)
+                .then(function(response) {
+                    $rootScope.notification.type = "success";
+                    $rootScope.notification.message = "JOB is under process. and JOB-ID is - " + response.job_id;
+                    vm.resizeRBDstep = 2;
+                })
+                .catch(function(error) {
+                    vm.errorInProcess = true;
+                    vm.resizeRBDstep = 2;
+                });
         }
 
         function viewTaskProgress() {
             vm.resizeRBDtaskSubmitted = true;
-            $('#rbdResizeModal').modal('hide');
+            $("#rbdResizeModal").modal("hide");
             setTimeout(function() {
                 $state.go("task");
             },1000)

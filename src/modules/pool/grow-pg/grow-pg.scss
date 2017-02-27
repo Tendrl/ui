@@ -1,0 +1,36 @@
+.tendrl-grow-pg-view-container {
+    
+    .task-submitted-icon {
+        font-size: 50px;
+        text-align: center;
+    }
+
+    .view-task-progress {
+        text-align: center;
+        margin-top: 15px;
+    }
+
+    .current-pg-num {
+        padding-left: 0;
+    }
+
+    .inc-pg-count {
+        margin-top: 5px;
+    }
+
+    .error-msg {
+    	color: $color-red;
+    }
+
+    .warning-section {
+
+    	margin: 0 -15px 0 -15px;
+    	border-top: 1px solid $color-tangerine;
+    	border-bottom: 1px solid $color-tangerine;
+    	background-color: $color-bizarre;
+
+    	.pficon-warning-triangle-o {
+    		line-height: 2;
+    	}
+	}
+}

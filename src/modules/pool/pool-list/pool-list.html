@@ -60,7 +60,8 @@
             </p>
         </div>
     </center>
-    <div class="list-group list-view-pf list-view-pf-equalized-column" ng-repeat="pool in poolCntrl.filteredPoolList = (poolCntrl.poolList | filter: poolCntrl.searchBy | orderBy: poolCntrl.ascOrder + poolCntrl.orderBy)">
+    <div ng-if="poolCntrl.isDataLoading" class="spinner spinner-lg"></div>
+    <div ng-if="!poolCntrl.isDataLoading" class="list-group list-view-pf list-view-pf-equalized-column" ng-repeat="pool in poolCntrl.filteredPoolList = (poolCntrl.poolList | filter: poolCntrl.searchBy | orderBy: poolCntrl.ascOrder + poolCntrl.orderBy)">
         <div class="list-group-item">
             <div class="list-view-pf-left col-md-1">
                 {{pool.status}}
@@ -70,9 +71,7 @@
                 <small>{{pool.type}}</small>
             </div>
             <div class="col-md-3">
-                
                 <donut-chart id="storage-donut-chart{{$index}}" class="list-view-pf-additional-info-item" chart-title="Storage" chart-data="pool.utilization"></donut-chart>
-                
             </div>
             <div class="col-md-1">
                 <div class="list-view-pf-additional-info-item list-view-pf-additional-info-item-stacked">
@@ -112,7 +111,9 @@
                         </button>
                         <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownKebabRight12">
                             <li><a ng-class="{disabled: true}">Edit</a></li>
-                            <li><a ng-class="{disabled: true}">Grow PGs</a></li>
+                            <li ng-click="poolCntrl.onOpenGrowPGModal(pool)">
+                                <a data-target="#growPGModal" data-toggle="modal">Grow PGs</a>
+                            </li>
                             <li><a ng-class="{disabled: true}">Remove</a></li>
                         </ul>
                     </div>
@@ -124,3 +125,4 @@
         <div class="col-md-12 horizontal-line"></div>
     </div>
 </div>
+<div ng-include src="'../modules/pool/grow-pg/grow-pg.html'"></div>
