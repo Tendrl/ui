@@ -105,6 +105,7 @@
                 vm.step -= 1;
 
                 if(vm.step === 1) {
+                    vm.backingPool =  "existing"
                     if(vm.rbdName.length) {
                         vm.isNextButtonDisabled = false;
                     }
@@ -123,7 +124,7 @@
         }
 
         function checkPoolList(){
-            return (vm.step === 2 && vm.poolList)
+            return (vm.step === 2 && vm.poolList.length === 0)
         }
 
         function init() {
