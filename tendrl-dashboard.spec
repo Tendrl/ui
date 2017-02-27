@@ -8,7 +8,7 @@ Group:   Applications/System
 Source0: %{name}-%{version}.tar.gz
 URL: https://github.com/Tendrl/dashboard
 
-Requires: tendrl-api
+Requires: tendrl-api-httpd
 
 %description
 Contains the JavaScript GUI content for the Tendrl front-end components
