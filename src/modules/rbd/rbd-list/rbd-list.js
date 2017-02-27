@@ -22,8 +22,8 @@
         vm.resizeRBD = resizeRBD;
         vm.viewTaskProgress = viewTaskProgress;
         vm.resizeRBD = resizeRBD;
-        vm.resizeRbd = {"unit": "" , "size": 0};
-        vm.sizeUnits = ["bytes", "KB", "MB", "GB", "TB"];
+        vm.resizeRbd = {"unit": "MB" , "size": 0};
+        vm.sizeUnits = ["MB", "GB", "TB"];
         vm.resizeRBDtaskSubmitted = false;
         vm.resizeRBDstep = 1;
 
@@ -94,17 +94,17 @@
         }
 
         function onOpenRbdResizeModal(rbdObject) {
-            var size, sizeAndUnit = [], clusterObj;
+            var clusterObj;
             
             vm.resizeRBDstep = 1;
             vm.resizeRBDtaskSubmitted = false;
             vm.resizeRbd = rbdObject;
             
             if(rbdObject.size) {
-                size = $filter("bytes")(rbdObject.size);
-                sizeAndUnit = size.split(' ');
-                vm.resizeRbd.size = Math.round(parseFloat(sizeAndUnit[0]));
-                vm.resizeRbd.unit = sizeAndUnit[1];
+                /* Now RBD's size always come in "MB" unit 
+                and also we need to send data in "MB" while reside RBD. */
+                vm.resizeRbd.size = parseInt(rbdObject.size);
+                vm.resizeRbd.unit = "MB"
             }
             
             clusterObj = utils.getClusterDetails(rbdObject.clusterId);
