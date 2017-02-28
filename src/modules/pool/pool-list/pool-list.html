@@ -63,10 +63,10 @@
     <div ng-if="poolCntrl.isDataLoading" class="spinner spinner-lg"></div>
     <div ng-if="!poolCntrl.isDataLoading" class="list-group list-view-pf list-view-pf-equalized-column" ng-repeat="pool in poolCntrl.filteredPoolList = (poolCntrl.poolList | filter: poolCntrl.searchBy | orderBy: poolCntrl.ascOrder + poolCntrl.orderBy)">
         <div class="list-group-item">
-            <div class="list-view-pf-left col-md-1">
+<!--        <div class="list-view-pf-left col-md-1">
                 {{pool.status}}
-            </div>
-            <div class="col-md-2 text-center pool-name">
+            </div> -->
+            <div class="col-md-3 text-center pool-name">
                 <p class="bold-text">{{pool.name}} &nbsp; in &nbsp; {{pool.clusterName}}</p>
                 <small>{{pool.type}}</small>
             </div>

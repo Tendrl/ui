@@ -53,7 +53,9 @@
                     fileShare.status = fileShareObj.status;
                     fileShare.name = fileShareObj.name;
                     fileShare.type = fileShareObj.vol_type;
-                    fileShare.storage = "NA";
+                    if(fileShareObj.usable_capacity && fileShareObj.used_capacity){
+                        fileShare.storage = {"total":fileShareObj.usable_capacity,"used":fileShareObj.used_capacity,"percent_used":fileShareObj.pcnt_used};
+                    }
                     clusterObj = utils.getClusterDetails(fileShareObj.cluster_id);
                     if(typeof clusterObj !== "undefined") {
                          fileShare.cluster_name = clusterObj.integration_name || "NA";
