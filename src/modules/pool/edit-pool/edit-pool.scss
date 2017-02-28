@@ -1,0 +1,26 @@
+.tendrl-pool-edit-view-container {
+	.edit-pool {
+		padding: 20px;
+	}
+
+  .task-submitted-icon {
+      font-size: 50px;
+      text-align: center;
+  }
+
+  .view-task-progress {
+      text-align: center;
+      margin-top: 15px;
+  }
+  .warning-section {
+
+    	margin: 0 -15px 0 -15px;
+    	border-top: 1px solid $color-tangerine;
+    	border-bottom: 1px solid $color-tangerine;
+    	background-color: $color-bizarre;
+
+    	.pficon-warning-triangle-o {
+    		line-height: 2;
+    	}
+	}
+}
