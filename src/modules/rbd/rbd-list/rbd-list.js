@@ -126,8 +126,8 @@
             
             utils.takeAction(postData, "CephResizeRbd", "PUT", vm.resizeRbd.clusterId)
                 .then(function(response) {
-                    $rootScope.notification.type = "success";
-                    $rootScope.notification.message = "JOB is under process. and JOB-ID is - " + response.job_id;
+                    // $rootScope.notification.type = "success";
+                    // $rootScope.notification.message = "JOB is under process. and JOB-ID is - " + response.job_id;
                     vm.resizeRBDstep = 2;
                 })
                 .catch(function(error) {

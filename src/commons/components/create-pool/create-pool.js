@@ -25,7 +25,7 @@
         vm.journalConfigration;
         vm.OSDs;
         vm.pgCount = 128;
-        vm.minReplicas = 0;
+        vm.minReplicas = 1;
         vm.owners = [];
         vm.checkboxModelOwnerValue = false;
         vm.checkboxModelQuotasValue = false;
@@ -160,7 +160,7 @@
                     console.log(pool.quotas)
                 }
                 if(vm.poolList[i].type === "Erasure Coded"){
-                    postData["Pool.type"] = vm.poolList[i].type;
+                    postData["Pool.type"] = "erasure";
                     if(vm.poolList[i].erasure_code_profile === "2+1"){
                         postData["Pool.erasure_code_profile"] = "default";
                     }

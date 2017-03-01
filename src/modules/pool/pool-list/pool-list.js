@@ -145,8 +145,8 @@
             
             utils.takeAction(postData, "CephUpdatePool", "PUT", vm.editPoolObj.clusterId)
                 .then(function(response) {
-                    $rootScope.notification.type = "success";
-                    $rootScope.notification.message = "JOB is under process. and JOB-ID is - " + response.job_id;
+                    // $rootScope.notification.type = "success";
+                    // $rootScope.notification.message = "JOB is under process. and JOB-ID is - " + response.job_id;
                     vm.editPoolStep = 4;
                 })
                 .catch(function(error) {
@@ -169,12 +169,12 @@
         function growPGs() {
             var postData;
 
-            postData = { "Pool.pool_id": parseInt(vm.growPGPool.id), "Pool.poolname": vm.growPGPool.name, "Pool.pg_num": vm.updatedPool.pgCount, "Pool.min_size": parseInt(vm.growPGPool.minSize) };
+            postData = { "Pool.pool_id": parseInt(vm.growPGPool.id), "Pool.pg_num": vm.updatedPool.pgCount};
             
             utils.takeAction(postData, "CephUpdatePool", "PUT", vm.growPGPool.clusterId)
                 .then(function(response) {
-                    $rootScope.notification.type = "success";
-                    $rootScope.notification.message = "JOB is under process. and JOB-ID is - " + response.job_id;
+                    // $rootScope.notification.type = "success";
+                    // $rootScope.notification.message = "JOB is under process. and JOB-ID is - " + response.job_id;
                     vm.growPGStep = 2;
                 })
                 .catch(function(error) {
