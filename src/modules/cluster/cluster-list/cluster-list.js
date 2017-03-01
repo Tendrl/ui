@@ -54,7 +54,7 @@
         }, 1000 * config.refreshIntervalTime );
 
         /*Cancelling interval when scope is destroy*/
-        $scope.$on('$destroy', function() {
+        $scope.$on("$destroy", function() {
             $interval.cancel(timer);
         });
 
@@ -78,7 +78,16 @@
                     cluster.sds_name = clusterData[i].sds_name;
 
                     if(typeof clusterData[i].utilization !== "undefined") {
-                        cluster.utilization = {"percent_used": clusterData[i].utilization.pcnt_used };
+                        
+                        if(cluster.sds_name === "ceph") {
+                            cluster.utilization = clusterData[i].utilization;
+                            cluster.utilization.percent_used = clusterData[i].utilization.pcnt_used;
+                        } else if(cluster.sds_name === "glusterfs") {
+                            cluster.utilization = {};
+                            cluster.utilization.percent_used =  clusterData[i].utilization.pcnt_used;
+                            cluster.utilization.used = clusterData[i].utilization.used_capacity;
+                            cluster.utilization.total = clusterData[i].utilization.usable_capacity;
+                        }
                     }
                     cluster.alertCount = "NA";
                     cluster.status = "NA";

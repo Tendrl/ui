@@ -1,6 +1,6 @@
 # store the current working directory
 NAME      := tendrl-dashboard
-VERSION   := 1.2
+VERSION   := 1.2.1
 RELEASE   := 1
 
 all: setup rpm
