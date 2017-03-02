@@ -90,9 +90,9 @@
             request = angular.copy(getObjectListRequest);
             return $http(request).then(function (response) {
                 return response.data;
-            }, function() {
+            }, function(e) {
                 console.log("Error Occurred: while fetching getObjectList");
-                return null;
+                throw e;
             });
         };
 
@@ -214,9 +214,13 @@
                     }
                 }
             } else {
+                
+
                 vm.getObjectList("Cluster").then(function(list) {
                     $rootScope.clusterData = list;
                     vm.getPoolDetails();
+                }).catch(function(error) {
+                    
                 });
             }
             return poolList;

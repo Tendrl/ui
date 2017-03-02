@@ -70,3 +70,11 @@
 .error-msg {
     color: $color-red;
 }
+
+.hide-404-template {
+    display: none;
+}
+
+.show-404-template {
+    display: block;
+}

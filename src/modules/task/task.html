@@ -1,4 +1,5 @@
-<div class="tendrl-task-container">
+<div ng-if="!isNavigationShow && !isAPINotFoundError" class="spinner spinner-lg"></div>
+<div ng-if="isNavigationShow && clusterData !== null" class="tendrl-task-container">
 
     <div class="container-fluid">
         <ol class="breadcrumb">
