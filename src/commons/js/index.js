@@ -46,7 +46,8 @@
                         url: "/landing-page",
                         template: "<div class='centerLoading'><div>",
                         resolve: {
-                            "landingPage": function($rootScope, $state, utils){  
+                            "landingPage": function($rootScope, $state, utils){ 
+                                $rootScope.isAPINotFoundError = false; 
                                 $rootScope.clusterData = null;
                                 utils.getObjectList("Cluster").then(function(list) {
                                     $rootScope.clusterData = list;
@@ -59,6 +60,8 @@
                                         $rootScope.isNavigationShow = false;
                                         $state.go("home");
                                     }
+                                }).catch(function(error) {
+                                    $rootScope.isAPINotFoundError = true;
                                 });
                             }
                         }
@@ -141,7 +144,7 @@
                 $rootScope.$on("$stateChangeSuccess", function(event, current, prev) {
                     menuService.setActive(current.name);
                 });
-
+                $rootScope.isAPINotFoundError = false;
                 $rootScope.clusterData = null;
                 utils.getObjectList("Cluster").then(function(list) {
                     $rootScope.clusterData = list;
@@ -154,7 +157,11 @@
                         /* Forward to home view if we don't have cluster data. */
                         $rootScope.isNavigationShow = false;
                     }
+                }).catch(function(error) {
+                    $rootScope.$broadcast("GotClusterData", $rootScope.clusterData); // going down!
+                    $rootScope.isAPINotFoundError = true;
                 });
+
             });
 
         }, function(errorResponse) {
