@@ -193,7 +193,7 @@
                 clusterData = $rootScope.clusterData.clusters;
                 len = clusterData.length;
 
-                for ( i = 0; i < len; i++ ) {
+                for ( i = 0; i < len; i++) {
 
                     if(typeof clusterData[i].pools !== "undefined") {
 
@@ -201,14 +201,14 @@
                                
                             for(index in clusterData[i].pools) {
                                 clusterData[i].pools[index].cluster_id = clusterData[i].cluster_id;
-                                poolList.push(clusterData[i].pools[index])
+                                poolList.push(clusterData[i].pools[index]);
                             }
 
                         } else if(clusterId === undefined) {
 
                             for(index in clusterData[i].pools) {
                                 clusterData[i].pools[index].cluster_id = clusterData[i].cluster_id;
-                                poolList.push(clusterData[i].pools[index])
+                                poolList.push(clusterData[i].pools[index]);
                             }
                         }   
                     }

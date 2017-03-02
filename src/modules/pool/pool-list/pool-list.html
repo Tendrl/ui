@@ -11,8 +11,8 @@
                             <select ng-init="poolCntrl.filterBy = 'name'" ng-disabled="poolCntrl.poolList.length === 0" ng-model="poolCntrl.filterBy" class="btn btn-default dropdown-toggle" ng-change="poolCntrl.searchBy = {}">
                                 <option value="name">Name</option>
                                 <option value="clusterName">Cluster Name</option>
-                                <option value="">Status</option>
-                                <option value="">Type</option>
+                                <!-- <option value="">Status</option> -->
+                                <option value="type">Type</option>
                             </select>
                         </div>
                         <input type="text" class="form-control" id="filter" ng-model="poolCntrl.searchBy[poolCntrl.filterBy]" placeholder="Filter By {{poolCntrl.filterBy}}...">
@@ -22,9 +22,9 @@
                     <div class="dropdown btn-group">
                         <select ng-init="poolCntrl.orderBy = 'name'" ng-model="poolCntrl.orderBy" ng-disabled="poolCntrl.poolList.length === 0" ng-change="poolCntrl.displayArg()">
                             <option value="name" class="selected">Name</option>
-                            <option value="">Utilization</option>
+                            <option value="utilization['percent_used']">Utilization</option>
                             <option value="clusterName" class="selected">Cluster Name</option>
-                            <option value="">Status</option>
+                            <!-- <option value="">Status</option> -->
                         </select>
                     </div>
                     <button ng-init="poolCntrl.ascOrder = ''" ng-disabled="poolCntrl.poolList.length === 0" class="btn btn-link" type="button">

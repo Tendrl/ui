@@ -61,7 +61,7 @@
     <div class="list-group list-view-pf list-view-pf-equalized-column" ng-repeat="cluster in clusterCntrl.filteredClusteredList = (clusterCntrl.clusterList | filter: clusterCntrl.searchBy | orderBy: clusterCntrl.ascOrder + clusterCntrl.orderBy)">
         <div class="list-group-item">
             <div class="list-view-pf-left col-md-1">
-                {{cluster.status}}
+                <i class="pficon" ng-class="{'pficon-error-circle-o': (cluster.status === 'HEALTH_ERR'), 'pficon-ok': (cluster.status === 'HEALTH_OK'), 'pficon-warning-triangle-o': (cluster.status === 'HEALTH_WARN')}"></i>
             </div>
             <div class="col-md-1 text-center cluster-name bold-text counts" ng-click="clusterCntrl.goToClusterDetail(cluster.id)">{{cluster.name}}</div>
             <div class="col-md-3">
