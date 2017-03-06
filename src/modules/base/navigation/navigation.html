@@ -1,4 +1,4 @@
-<nav class="nav-pf-vertical nav-pf-vertical-with-secondary-nav" ng-controller="navController as navCtrl">
+<nav class="nav-pf-vertical nav-pf-vertical-with-secondary-nav hidden-icons-pf" ng-controller="navController as navCtrl">
     <ul class="list-group">
 	    <li class="list-group-item" ng-repeat="menu in navCtrl.menus" ng-class="{'active':menu.active, 'persistent-secondary':menu.hasSubMenus}" data-target="#{{menu.label}}" toggle-submenu>
         </li>
