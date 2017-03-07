@@ -1,0 +1,65 @@
+<span class="trends-chart-component-container" ng-switch on="vm.config.layout" ng-class="{'data-unavailable-pf': vm.chartData.dataAvailable === false}">
+  
+    <div ng-switch-default ng-class="{'trend-card-large-pf': vm.showLargeCardLayout,'trend-card-small-pf': vm.showSmallCardLayout}" class="chart-section">
+
+        <div class="row header-row">
+            <span class="trend-header-pf col-md-5" ng-if="vm.config.title">{{vm.config.title}}</span>
+            <span ng-if="vm.showActualValue" class="col-md-6 text-right max-value">
+                <span class="trend-title-big-pf">{{vm.getLatestValue()}}</span>
+                <span class="trend-title-small-pf">{{vm.config.units}}</span>
+            </span>
+        </div>
+
+        <span ng-if="vm.showPercentageValue">
+              <span class="trend-title-big-pf">{{vm.getPercentageValue() + '%'}}</span>
+            <span class="trend-title-small-pf">of {{vm.chartData.total + ' ' + vm.config.units}}</span>
+        </span>
+
+        <div pf-sparkline-chart ng-if="vm.chartData.dataAvailable !== false" config="vm.config" chart-data="vm.chartData" chart-height="vm.getChartHeight()" show-x-axis="vm.showXAxis" show-y-axis="vm.showYAxis"></div>
+        <div pf-empty-chart ng-if="vm.chartData.dataAvailable === false" chart-height="vm.getChartHeight()"></div>
+        <div class="row">
+            <span class="trend-footer-pf col-md-12 text-right time-frame" ng-if="vm.config.timeFrame">{{vm.config.timeFrame}}</span>
+        </div>
+    </div>
+
+    <div ng-switch-when="compact" class="trend-card-compact-pf">
+        <div class="row trend-row">
+            <div class="col-sm-4 col-md-4">
+                <div class="trend-compact-details">
+                    <span ng-if="vm.showActualValue">
+                <span class="trend-title-compact-big-pf">{{vm.getLatestValue()}}</span>
+                    <span class="trend-title-compact-small-pf">{{vm.config.units}}</span>
+                    </span>
+                    <span ng-if="vm.showPercentageValue">
+                <span class="trend-title-compact-big-pf">{{vm.getPercentageValue() + '%'}}</span>
+                    <span class="trend-title-compact-small-pf">of {{vm.chartData.total + ' ' + vm.config.units}}</span>
+                    </span>
+                    <span class="trend-header-compact-pf" ng-if="vm.config.title">{{vm.config.title}}</span>
+                </div>
+            </div>
+            <div class="col-sm-8 col-md-8">
+                <div pf-sparkline-chart ng-if="vm.chartData.dataAvailable !== false" config="vm.config" chart-data="vm.chartData" chart-height="vm.getChartHeight()" show-x-axis="vm.showXAxis" show-y-axis="vm.showYAxis"></div>
+                <div pf-empty-chart ng-if="vm.chartData.dataAvailable === false" chart-height="vm.getChartHeight()"></div>
+            </div>
+        </div>
+    </div>
+    <div ng-switch-when="inline" class="trend-card-inline-pf">
+        <div class="row trend-row">
+            <div class="col-sm-8 col-md-8 trend-flat-col">
+                <div pf-sparkline-chart ng-if="vm.chartData.dataAvailable !== false" config="vm.config" chart-data="vm.chartData" chart-height="vm.getChartHeight()" show-x-axis="vm.showXAxis" show-y-axis="vm.showYAxis"></div>
+                <div pf-empty-chart ng-if="vm.chartData.dataAvailable === false" chart-height="vm.getChartHeight()"></div>
+            </div>
+            <div class="col-sm-4 col-md-4 trend-flat-col">
+                <div class="trend-flat-details">
+                    <div class="trend-flat-details-cell">
+                        <span class="trend-title-flat-big-pf">{{vm.getPercentageValue() + '%'}}</span>
+                    </div>
+                    <div class="trend-flat-details-cell">
+                        <span class="trend-label-flat-strong-pf">{{vm.config.trendLabel}}</span>
+                        <span class="trend-label-flat-pf">{{vm.getLatestValue()}} of {{vm.chartData.total + ' ' + vm.config.units}}</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</span>

@@ -59,7 +59,14 @@
                 icon: 'fa fa-cog',
                 active: false
             }]
-        }];
+        }/*,{
+            label: 'Dashboard',
+            id: 'dashboard',
+            href: 'dashboard',
+            icon: 'pficon pficon-resource-pool',
+            active: false,
+            hasSubMenus: false
+        }*/];
 
         vm.setActive = function(menuId) {
             vm.menus.map(function(menu){
