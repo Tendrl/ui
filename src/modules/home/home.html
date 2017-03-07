@@ -1,5 +1,5 @@
-<div ng-if="!isNavigationShow && !isAPINotFoundError" class="spinner spinner-lg"></div>
-<div ng-if="isNavigationShow && clusterData !== null" class="tendrl-home-view-container">
+<div ng-if="clusterData === null && !isAPINotFoundError" class="spinner spinner-lg"></div>
+<div ng-if="clusterData !== null" class="tendrl-home-view-container">
     <div class="blank-slate-pf centered">
         <div class="blank-slate-pf-icon">
             <i class="pficon pficon-cluster"></i>

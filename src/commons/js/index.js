@@ -44,7 +44,7 @@
                 $stateProvider
                     .state("landing-page", { /* This will decide which view will be landing page */
                         url: "/landing-page",
-                        template: "<div class='centerLoading'><div>",
+                        template: "<div class='spinner spinner-lg'><div>",
                         resolve: {
                             "landingPage": function($rootScope, $state, utils){ 
                                 $rootScope.isAPINotFoundError = false; 
