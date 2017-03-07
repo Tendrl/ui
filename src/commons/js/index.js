@@ -1,7 +1,7 @@
 //# sourceURL=storage-management-plugin.js
 (function() {
 
-    var storageModule = angular.module("TendrlModule", ["ui.router","ui.bootstrap","frapontillo.bootstrap-switch","gridshore.c3js.chart","patternfly.charts"]);
+    var storageModule = angular.module("TendrlModule", ["ui.router","ui.bootstrap","frapontillo.bootstrap-switch","gridshore.c3js.chart","patternfly.charts", "patternfly.card"]);
 
     /* Setting up provider for getting config data */
     storageModule.provider("config", function () {
@@ -135,6 +135,12 @@
                         templateUrl: "/modules/task/task.html",
                         controller: "taskController",
                         controllerAs: "taskCntrl"
+                    })
+                    .state("dashboard", {
+                        url: "/dashboard",
+                        templateUrl: "/modules/dashboard/dashboard.html",
+                        controller: "dashboardController",
+                        controllerAs: "dashboardCntrl"
                     });
 
             });
