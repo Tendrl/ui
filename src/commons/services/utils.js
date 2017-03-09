@@ -82,6 +82,11 @@
 
             url = config.baseUrl + "Get" + objectType +"List";
 
+            //For testing purpose
+            // if(objectType === "trends-chart") {
+            //     url = "/api/trends-chart.json";
+            // }
+
             getObjectListRequest = {
                 method: "GET",
                 url: url
@@ -131,7 +136,6 @@
 
             return clusterObj;
         };
-
 
         vm.getIntergrationDetails = function(intergrationId) {
             var clusterObj = {};
