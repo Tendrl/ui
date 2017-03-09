@@ -1,0 +1,46 @@
+<div class="container-fluid container-cards-pf">
+	<div class="row row-cards-pf">
+		<div class="col-xs-6 col-sm-4 col-md-4">
+			<div class="card-pf">
+				<div class="card-pf-heading">
+					<h2 class="card-pf-title">
+						<span>{{vm.chartTitleData.data.total}} {{vm.chartTitleData.title}}</span>
+						<span ng-if="!vm.chartTitleData.data.error && !vm.chartTitleData.data.warning && !vm.chartTitleData.data.down" class="pull-right">
+							<span class="pficon pficon-ok">
+								{{vm.chartTitleData.data.error}}
+							</span>
+						</span>
+						<p class="card-pf-aggregate-status-notifications pull-right" ng-if="vm.chartTitleData.data.error || vm.chartTitleData.data.warning || vm.chartTitleData.data.down">
+							<span ng-if="vm.chartTitleData.data.error" class="card-pf-aggregate-status-notification">
+								<a href="">
+									<span class="pficon pficon-error-circle-o">
+										{{vm.chartTitleData.data.error}}
+									</span>
+								</a>
+							</span>
+							<span ng-if="vm.chartTitleData.data.warning" class="card-pf-aggregate-status-notification">
+								<a href="">
+									<span class="pficon pficon-warning-triangle-o">
+										{{vm.chartTitleData.data.warning}}
+									</span>
+								</a>
+							</span>
+							<span ng-if="vm.chartTitleData.data.down" class="card-pf-aggregate-status-notification">
+								<a href="">
+									<span class="fa fa-arrow-circle-o-down">
+										{{vm.chartTitleData.data.down}}
+									</span>
+								</a>
+							</span>
+					    </p>
+					</h2>
+				</div>
+				<div class="card-pf-body" ng-if="!vm.isHorizontalBarChartShow">
+					<div ng-repeat="barData in vm.dataArray" pf-utilization-bar-chart chart-data="barData.data" chart-title="barData.title" chart-footer="barData.footer" threshold-warning="vm.chartThresholds.warning" threshold-error="vm.chartThresholds.error">
+					</div>
+				</div>
+				<div id="horizontal-bar-chart"></div>
+			</div>
+		</div>
+	</div><!-- /row -->
+</div><!-- /container -->
