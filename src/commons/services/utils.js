@@ -85,16 +85,12 @@
             // // For testing purpose
             // if(objectType === "trends-chart") {
             //     url = "/api/trends-chart.json";
-            // }
-
-            // //For testing purpose
-            // if(objectType === "bar-chart") {
+            // } else if(objectType === "bar-chart") {
             //     url = "/api/bar-chart.json";
-            // }
-
-            // //For testing purpose
-            // if(objectType === "heat-map") {
+            // } else if(objectType === "heat-map") {
             //     url = "/api/heat-map.json";
+            // } else if(objectType === "Disk") {
+            //     url = "/api/GetDiskList.json";   
             // }
 
             getObjectListRequest = {

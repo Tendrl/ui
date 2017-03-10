@@ -1,0 +1,69 @@
+<div class="wizard-pf-contents review-container" ng-if="createFileShareCntrl.step === 4">
+    <div class="bold-text">One File Share will be created on {{createFileShareCntrl.selectedCluster}}</div>
+    <div class="col-md-8 review-table">
+        <div class="row">
+            <div class="col-md-6 review-field-title">
+                <label>Name(s)</label>
+            </div>
+            <div class="col-md-6 review-field-value">
+                <label class="value">{{createFileShareCntrl.fileShareName}}</label>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6 review-field-title">
+                <label>Total Size</label>
+            </div>
+            <div class="col-md-6 review-field-value">
+                <label class="value">{{createFileShareCntrl.size || "NA"}}</label>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6 review-field-title">
+                <label>Replics Sets</label>
+            </div>
+            <div class="col-md-6 review-field-value">
+                <label class="value">{{createFileShareCntrl.replicaSets || "NA"}}</label>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6 review-field-title">
+                <label>Bricks in Replics Set</label>
+            </div>
+            <div class="col-md-6 review-field-value">
+                <label class="value">{{createFileShareCntrl.brickInfo.brickCount || "NA"}}</label>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6 review-field-title">
+                <label>Type</label>
+            </div>
+            <div class="col-md-6 review-field-value">
+                <label class="value">{{createFileShareCntrl.selectedType}}</label>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6 review-field-title">
+                <label>Disk Configuration</label>
+            </div>
+            <div class="col-md-6 review-field-value">
+                <label class="value">{{createFileShareCntrl.brickInfo.selectedDiskConf}}</label>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6 review-field-title">
+                <label>Access Protocols</label>
+            </div>
+            <div class="col-md-6 review-field-value">
+                <label class="value">{{createFileShareCntrl.settings.protocol}}</label>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6 review-field-title">
+                <label>Optimized For</label>
+            </div>
+            <div class="col-md-6 review-field-value">
+                <label class="value">{{createFileShareCntrl.settings.selectedOption}}</label>
+            </div>
+        </div>
+    </div>
+</div>
