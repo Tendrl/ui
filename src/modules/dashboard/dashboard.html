@@ -1,9 +1,9 @@
 <div ng-if="clusterData === null && !isAPINotFoundError" class="spinner spinner-lg"></div>
 <div ng-if="clusterData !== null" class="tendrl-dashboard-view-container">
    <label class="label-title">Card with Multiple Trends</label>
-      <div pf-card head-title="Performance" show-top-border="false"
+      <div pf-card head-title="IO Trends" show-top-border="false"
            show-titles-separator="false" style="width: 25%">
-        <trends-chart config="dashboardCntrl.configVirtual" chart-data="dashboardCntrl.dataVirtual"></trends-chart>
-        <trends-chart config="dashboardCntrl.configPhysical" chart-data="dashboardCntrl.dataPhysical"></trends-chart>
+        <trends-chart config="dashboardCntrl.IOPSConfig" chart-data="dashboardCntrl.chartData"></trends-chart>
+        <trends-chart config="dashboardCntrl.latencyConfig" chart-data="dashboardCntrl.chartData"></trends-chart>
       </div>
 </div>
