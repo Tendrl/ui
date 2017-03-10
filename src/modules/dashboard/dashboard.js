@@ -39,6 +39,61 @@
 
         
 
+
+        /* Temporary mocked data for bar-chart */
+       
+        vm.chartTitleData = {
+            "title": "Pools",
+            "data": {
+                "total" : 21,
+                "error" : 3,
+                "warning" : 2
+            }
+        }
+
+        vm.chartData = [
+                {
+                    "title" : "Ceph-Cluster1: Pool1",
+                    "data" : {
+                        "used": '43318391580',
+                        "total": '72197319301'
+                    }
+
+                },
+                {
+                    "title" : "Ceph-Cluster1: Pool2",
+                    "data" : {
+                        "used": '21659195790',
+                        "total": '72197319301'
+                    }
+
+                },
+                {
+                    "title" : "Ceph-Cluster1: Pool3",
+                    "data" : {
+                        "used": '57757855440',
+                        "total": '72197319301'
+                    }
+
+                },
+                {
+                    "title" : "Ceph-Cluster1: Pool4",
+                    "data" : {
+                        "used": '36098659650',
+                        "total": '72197319301'
+                    }
+
+                },
+                {
+                    "title" : "Ceph-Cluster1: Pool5",
+                    "data" : {
+                        "used": '64977587370',
+                        "total": '72197319301'
+                    }
+
+                }
+        ]
+
     }
 
 })();
