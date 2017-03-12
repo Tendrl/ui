@@ -6,4 +6,17 @@
         <trends-chart config="dashboardCntrl.IOPSConfig" chart-data="dashboardCntrl.chartData"></trends-chart>
         <trends-chart config="dashboardCntrl.latencyConfig" chart-data="dashboardCntrl.chartData"></trends-chart>
       </div>
+      
+		<div class="row">
+		    <div class="col-md-6">
+            <!-- utilization bar chart component -->
+		        <bar-chart ng-if="dashboardCntrl.barChartData.length" chart-title-data="dashboardCntrl.barChartTitleData" chart-data="dashboardCntrl.barChartData"></bar-chart>
+		    </div>
+        <div class="col-md-6">
+            <!-- horizontal bar chart -->
+            <bar-chart chart-title-data="dashboardCntrl.barChartTitleData" is-horizontal-bar-chart-show="true" horizontal-bar-chart-data="dashboardCntrl.horizontalBarChartData">
+            </bar-chart>
+        </div>
+		</div>
+    
 </div>

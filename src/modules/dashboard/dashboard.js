@@ -10,12 +10,23 @@
         var vm = this;
             
         vm.chartData = [];
+
+        vm.barChartTitleData = null;
+        vm.barChartData = [];
+        vm.horizontalBarChartData = [];
+
         init();
 
         function init() {
             utils.getObjectList("trends-chart")
                 .then(function(data) {
                     vm.chartData = data[0].datapoints;
+                });
+            utils.getObjectList("bar-chart")
+                .then(function(data) {
+                    vm.barChartTitleData = data.chartTitleData;
+                    vm.barChartData = data.chartData;
+                    vm.horizontalBarChartData = data.horizontalBarChartData;
                 });
         }
 
