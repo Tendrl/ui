@@ -87,6 +87,11 @@
             //     url = "/api/trends-chart.json";
             // }
 
+            //For testing purpose
+            // if(objectType === "bar-chart") {
+             //    url = "/api/bar-chart.json";
+            // }
+
             getObjectListRequest = {
                 method: "GET",
                 url: url
