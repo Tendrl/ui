@@ -82,14 +82,19 @@
 
             url = config.baseUrl + "Get" + objectType +"List";
 
-            //For testing purpose
+            // // For testing purpose
             // if(objectType === "trends-chart") {
             //     url = "/api/trends-chart.json";
             // }
 
-            //For testing purpose
+            // //For testing purpose
             // if(objectType === "bar-chart") {
-             //    url = "/api/bar-chart.json";
+            //     url = "/api/bar-chart.json";
+            // }
+
+            // //For testing purpose
+            // if(objectType === "heat-map") {
+            //     url = "/api/heat-map.json";
             // }
 
             getObjectListRequest = {
