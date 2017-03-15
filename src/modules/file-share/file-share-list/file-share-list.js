@@ -17,7 +17,12 @@
             len,
             clusterObj;
 
+        vm.deleteFileShareStep = 1;
+        vm.selectedFileShare = null;
         vm.createFileShare = createFileShare;
+        vm.onOpenFileShareDeleteModal = onOpenFileShareDeleteModal;
+        vm.onDeleteFileShare = onDeleteFileShare;
+        vm.viewTaskProgress = viewTaskProgress;
 
         init();
 
@@ -53,6 +58,7 @@
                     fileShare.status = fileShareObj.status;
                     fileShare.name = fileShareObj.name;
                     fileShare.type = fileShareObj.vol_type;
+                    fileShare.cluster_id = fileShareObj.cluster_id;
                     if(fileShareObj.usable_capacity && fileShareObj.used_capacity){
                         fileShare.storage = {"total":fileShareObj.usable_capacity,"used":fileShareObj.used_capacity,"percent_used":fileShareObj.pcnt_used};
                     }
@@ -63,6 +69,7 @@
                     fileShare.brick_count = fileShareObj.brick_count;
                     fileShare.alert_count = "NA"
                     fileShare.last_rebalance = "NA";
+                    fileShare.bricks = fileShareObj.bricks;
                     fileShareList.push(fileShare);
                 }
             }
@@ -87,6 +94,46 @@
 
         function createFileShare() {
             $state.go("add-inventory",{ clusterId: $scope.clusterId });
+        }
+
+        function onOpenFileShareDeleteModal(fileShare) {
+            var key, brickObj;
+            vm.deleteFileShareStep = 1;
+            vm.errorInProcess = false;
+            vm.brickList = [];
+            vm.selectedFileShare = fileShare;
+            vm.isDataRemain = 'true';
+            vm.connectedClients = 10;
+            if(vm.selectedFileShare.bricks) {
+                for(key in vm.selectedFileShare.bricks) {
+                    brickObj = {"name": "NA", "status": "NA", "usage": 20, "port": "NA", "pid": "NA"};
+                    brickObj.name = vm.selectedFileShare.bricks[key].path;
+                    brickObj.status = vm.selectedFileShare.bricks[key].status;
+                    brickObj.port = vm.selectedFileShare.bricks[key].port;
+                    vm.brickList.push(brickObj);
+                }
+            }
+        }
+
+        function onDeleteFileShare() {
+            var postData;
+            postData = { "Volume.volname": vm.selectedFileShare.name, "Volume.vol_id": vm.selectedFileShare.id};
+            utils.takeAction(postData, "GlusterDeleteVolume", "DELETE", vm.selectedFileShare.cluster_id)
+                .then(function(response) {
+                    vm.deleteFileShareStep = 2;
+                })
+                .catch(function(error) {
+                    vm.errorInProcess = true;
+                    vm.deleteFileShareStep = 2;
+                });
+        }
+
+        function viewTaskProgress(modalId) {
+            $(modalId).modal("hide");
+            
+            setTimeout(function() {
+                $state.go("task");
+            },1000);
         }
     }
 

@@ -133,7 +133,11 @@
                               <li><a ng-class="{disabled: true}">Edit</a></li>
                               <li><a ng-class="{disabled: true}">Stop</a></li>
                               <li><a ng-class="{disabled: true}">Rebalance</a></li>
-                              <li><a ng-class="{disabled: true}">Remove</a></li>
+                              <li ng-click="fileShareCntrl.onOpenFileShareDeleteModal(fileShare)">
+                                <a data-target="#fileShareDeleteModal" data-toggle="modal">
+                                  Delete
+                                </a>
+                              </li>
                           </ul>
                       </div>
                   </div>
@@ -145,3 +149,5 @@
         </div>
     </div>
 </div>
+
+<div ng-include src="'../modules/file-share/file-share-delete/file-share-delete.html'"></div>
