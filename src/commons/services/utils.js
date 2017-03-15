@@ -30,7 +30,7 @@
                 url = config.baseUrl + clusterId + "/" + postUrl;
             }
 
-            if (formMethod === "PUT" ) {
+            if (formMethod === "PUT" || formMethod === "DELETE") {
               data._method = formMethod;
               formMethod = "POST";
             }

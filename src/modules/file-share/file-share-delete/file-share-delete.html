@@ -1,0 +1,183 @@
+<!-- File share delete's Modal -->
+<div class="modal fade tendrl-file-share-delete-view-container" id="fileShareDeleteModal" role="dialog">
+    <div class="modal-dialog modal-lg">
+        <!-- Modal content-->
+        <div class="modal-content modal-lg">
+            <div class="modal-header">
+                <a class="close" data-dismiss="modal">&times;</a>
+                <h4>Delete File Share</h4>
+            </div>
+            <div class="modal-body">
+                <!-- step first -->
+                <div class="row" ng-if="fileShareCntrl.deleteFileShareStep === 1">
+                    <div class="col-md-offset-1 col-md-10">
+
+                        <!-- warning section -->
+                        <div class="row warning-section">
+                            <div class="col-md-1">
+                                <i class="pficon pficon-warning-triangle-o fa-2x"></i>
+                            </div>
+                            <div class="col-md-11">
+                                This action will be permanantly remove <label>{{fileShareCntrl.selectedFileShare.name}}</label>. upon clicking delete, this file share will be stopped, {{fileShareCntrl.connectedClients}} clients / hosts will be disconnected, and a removal task will be submitted.
+                            </div>
+                        </div>
+
+                        <!-- brick section -->
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="brick-count">
+                                    <label>
+                                        {{fileShareCntrl.filteredBrickList.length}} Bricks
+                                    </label>
+                                </div>
+
+                                <!-- filter section -->
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="filter-section">
+                                            <div class="row">
+                                                <div class="col-md-3">
+                                                    <!-- Search By -->
+                                                    <select ng-init="fileShareCntrl.filterByInModal = 'name'" ng-disabled="fileShareCntrl.brickList.length === 0" ng-model="fileShareCntrl.filterByInModal" class="btn btn-default dropdown-toggle" ng-change="fileShareCntrl.searchByInModal = {}">
+                                                        <option value="name">Name</option>
+                                                        <option value="port">Port</option>
+                                                        <option value="pid">PID</option>
+                                                    </select>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <input ng-disabled="fileShareCntrl.brickList.length === 0" type="text" class="form-control" id="filter" ng-model="fileShareCntrl.searchByInModal[fileShareCntrl.filterByInModal]" placeholder="Filter By {{fileShareCntrl.filterByInModal}}...">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+    <!-- brick details -->
+    <div class="div-with-scroll">
+        <table class="table table-striped table-bordered">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Usage</th>
+                    <th>Port</th>
+                    <th>PID</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="brick in fileShareCntrl.filteredBrickList=(fileShareCntrl.brickList | filter: fileShareCntrl.searchByInModal)">
+                    <td>
+                        <span title="{{brick.status}}" ng-if="brick.status ==='Started'" class="pficon pficon-ok list-view-pf-icon-success"></span>
+                        <span title="{{brick.status}}" ng-if="brick.status !=='Started'" class="fa fa-arrow-circle-o-down list-view-icon-failure"></span>
+                        <span>{{brick.name}}</span>
+                    </td>
+                    <td>
+                        <div class="progress-bar-height" ng-if="brick.usage !== 'NA'">
+                            <div class="progress">
+                              <div class="progress-bar" role="progressbar" aria-valuenow="{{brick.usage}}" aria-valuemin="0" aria-valuemax="100" ng-style="{ width: brick.usage + '%' }" data-toggle="tooltip" title="{{brick.usage}}% Used">
+                                <span class="sr-only">{{brick.usage}}% Used</span>
+                              </div>
+                              <div class="progress-bar progress-bar-remaining" role="progressbar" aria-valuenow="100-{{brick.usage}}" aria-valuemin="0" aria-valuemax="100" ng-style="{ width: (100-brick.usage) + '%' }" data-toggle="tooltip" title="(100-{{brick.usage}} )% Available">
+                                <span class="sr-only">100-{{brick.usage}}% Available</span>
+                              </div>
+                            </div>
+                            <span>
+                                {{brick.usage}}%
+                            </span>
+                        </div>
+                        <div ng-if="brick.usage === 'NA'">
+                            NA
+                        </div>
+                    </td>
+                    <td>
+                        <span ng-if="brick.port.length">
+                            {{brick.port}}
+                        </span>
+                        <span ng-if="!brick.port.length">
+                            NA
+                        </span>
+                    </td>
+                    <td>{{brick.pid}}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <!-- end brick details -->
+
+                                
+                            </div>
+                        </div>
+                        <!-- end of brick section -->
+
+                        <!-- option section -->
+                        <div class="row option-section">
+                            <div class="col-md-12">
+                                <form class="form">
+                                    <div class="form-group">
+                                        <div class="radio">
+                                            <input type="radio" name="poolOptions" id="dataRemainFalse" value="false" checked ng-model="fileShareCntrl.isDataRemain"> 
+                                        </div>
+                                        <label for="dataRemainFalse">Delete data from all bricks</label>
+                                        <div>
+                                            <small>
+                                                Delete this file share and permanently delete the data on all the bricks,
+                                                 Bricks will be freed up for re-use.
+                                            </small>
+                                        </div>
+                                        <div class="radio">
+                                            <input type="radio" name="poolOptions" id="dataRemainTrue" value="true" ng-model="fileShareCntrl.isDataRemain"> 
+                                        </div>
+                                        <label for="dataRemainTrue">Delete file share but let data remain</label>
+                                        <div>
+                                            <small>
+                                                Delete this file share but retain data on bricks that are currently in use.
+                                            </small>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                        <!-- end option section -->
+                    </div>
+                </div>
+                <!-- end step first -->
+
+                <!-- second first -->
+                <div ng-if="fileShareCntrl.deleteFileShareStep === 2">
+                    <div class="task-submitted-icon">
+                        <i class="pficon" ng-class="{'pficon-error-circle-o': fileShareCntrl.errorInProcess, 'pficon-ok': !fileShareCntrl.errorInProcess}"></i>
+                    </div>
+                    <div>
+                        <h1 class="text-center" ng-show="fileShareCntrl.errorInProcess"><label>Delete File Share Task failed.</label></h1>
+                        <div  ng-show="!fileShareCntrl.errorInProcess">
+                            <h1 class="text-center"><label>Delete File Share Task Submitted</label></h1>
+                            <div class="text-center"> A Delete File Share task has been submitted to complete the removal of <label> {{fileShareCntrl.selectedFileShare.name}} </label>. you will be notified when processing is complete.
+                            </div>
+                        </div>
+                    </div>
+                    <div class="view-task-progress">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <button class="btn btn-primary btn-lg" ng-click="fileShareCntrl.viewTaskProgress('#growPGModal')">View Task Progress</button>
+                            </div>
+                            <div class="col-md-6">
+                                <button class="btn btn-default btn-lg" data-dismiss="modal">Close</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- end second step -->
+
+            </div>
+            <div class="modal-footer">
+                <div class="row" ng-if="fileShareCntrl.deleteFileShareStep === 1">
+                    <div class="col-md-offset-6 col-md-3">
+                        <button class="btn btn-default btn-lg" data-dismiss="modal">Cancel</button>
+                    </div>
+                    <div class="col-md-3">
+                        <button class="btn btn-lg btn-danger pull-left" ng-click="fileShareCntrl.onDeleteFileShare()">Delete</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

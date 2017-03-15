@@ -1,0 +1,66 @@
+.tendrl-file-share-delete-view-container {
+    
+    .task-submitted-icon {
+        font-size: 50px;
+        text-align: center;
+    }
+
+    .view-task-progress {
+        text-align: center;
+        margin-top: 15px;
+    }
+
+    .current-pg-num {
+        padding-left: 0;
+    }
+
+    .inc-pg-count {
+        margin-top: 5px;
+    }
+
+    .error-msg {
+    	color: $color-red;
+    }
+
+    .warning-section {
+    	border: 1px solid $color-tangerine;
+    	border-bottom: 1px solid $color-tangerine;
+    	background-color: $color-bizarre;
+    	.pficon-warning-triangle-o {
+    		line-height: 2;
+    	}
+	}
+
+    .brick-count {
+        margin-top: 5px;
+        float: left;
+    }
+
+    .progress-bar-height {
+        margin-top: 9px;
+    }
+
+    .div-with-scroll {
+        height: 169px;
+        overflow: scroll;
+        overflow-x: hidden;
+        border: 1px solid #bdbdbd;
+    }
+
+    .filter-section {
+        padding: 5px;
+        background-color: #f1f1f1;
+        border: 1px solid #bdbdbd
+    }
+
+    .option-section {
+        margin-top: 5px;
+    }
+
+    .progress {
+        height: 12px ! important;
+        margin-bottom: 0px ! important;
+        display: inline-block ! important;
+        width: 100px ! important;
+    }
+}
