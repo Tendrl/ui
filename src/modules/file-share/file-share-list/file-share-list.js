@@ -93,7 +93,8 @@
         });
 
         function createFileShare() {
-            $state.go("add-inventory",{ clusterId: $scope.clusterId });
+            //$state.go("add-inventory",{ clusterId: $scope.clusterId });
+            $state.go("create-file-share");
         }
 
         function onOpenFileShareDeleteModal(fileShare) {

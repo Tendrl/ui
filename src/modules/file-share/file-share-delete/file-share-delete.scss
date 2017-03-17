@@ -44,13 +44,13 @@
         height: 169px;
         overflow: scroll;
         overflow-x: hidden;
-        border: 1px solid #bdbdbd;
+        border: 1px solid $color-silver;
     }
 
     .filter-section {
         padding: 5px;
         background-color: #f1f1f1;
-        border: 1px solid #bdbdbd
+        border: 1px solid $color-silver;
     }
 
     .option-section {

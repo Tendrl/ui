@@ -141,6 +141,12 @@
                         templateUrl: "/modules/dashboard/dashboard.html",
                         controller: "dashboardController",
                         controllerAs: "dashboardCntrl"
+                    })
+                    .state("create-file-share", {
+                        url: "/create-file-share",
+                        templateUrl: "/modules/file-share/create-file-share/create-file-share.html",
+                        controller: "createFileShareController",
+                        controllerAs: "createFileShareCntrl"
                     });
 
             });
@@ -180,5 +186,6 @@
             angular.bootstrap(document, ["TendrlModule"]);
         });
     }
+
 }());
 
