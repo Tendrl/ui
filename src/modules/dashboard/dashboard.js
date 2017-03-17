@@ -73,11 +73,6 @@
             "units": "ms",
             "tooltipType": "actual",
           }
-        vm.dataVirtual = {
-            "total": "250",
-            "xData": dates,
-            "yData": ["used", "90", "20", "30", "20", "20", "10", "14", "20", "25", "68", "44", "56", "78", "56", "67", "88", "76", "65", "87", "76"]
-        };
 
         vm.configPhysical = {
             "chartId": "physicalTrendsChart",
@@ -87,12 +82,6 @@
             "tooltipType": "percentage",
             "title": "Latency",
             "timeFrame": "Last 24 hours"
-        };
-
-        vm.dataPhysical = {
-            "total": "250",
-            "xData": dates,
-            "yData": ["used", "20", "20", "35", "20", "20", "87", "14", "20", "25", "28", "44", "56", "78", "56", "67", "88", "76", "65", "87", "16"]
         };
 
         vm.status = {
