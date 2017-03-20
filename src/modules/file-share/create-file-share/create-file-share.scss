@@ -78,6 +78,12 @@
                 padding-left: 0;
             }
 
+            .brick-names {
+                text-overflow: ellipsis;
+                white-space: nowrap;
+                overflow: hidden;
+            }
+
             .table-container {
                 margin-top: 20px;
                 max-height: 300px;

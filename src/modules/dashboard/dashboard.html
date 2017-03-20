@@ -1,58 +1,49 @@
 <div ng-if="clusterData === null && !isAPINotFoundError" class="spinner spinner-lg"></div>
 <div ng-if="clusterData !== null" class="tendrl-dashboard-view-container">
-
-  <full-aggregate-status-card status="dashboardCntrl.status" show-top-border="true"></full-aggregate-status-card>
-
-  <label class="label-title">Card with Multiple Trends</label>
-  <div pf-card head-title="Performance" show-top-border="false" show-titles-separator="false" style="width: 25%">
-    <trends-chart config="dashboardCntrl.configVirtual" chart-data="dashboardCntrl.dataVirtual"></trends-chart>
-    <trends-chart config="dashboardCntrl.configPhysical" chart-data="dashboardCntrl.dataPhysical" show-top-border="true"></trends-chart>
-  </div>
-
-  <div class="container-cards-pf">
-    <div class="row">
-      <div class="col-xs-6">
-        <div class="card-pf card-pf-utilization">
-          <h2 class="card-pf-title">
-            {{dashboardCntrl.heatmapTitle}}
-          </h2>
-          <div class="card-pf-body">
-            <div class="row">
-
-              <div ng-if = "dashboardCntrl.heatMapdataAvailable === false">
-                <div class="col-xs-12 col-sm-6 col-md-6" ng-if = "dashboardCntrl.heatMapdataAvailable === false">
-                  <div pf-heatmap id="id" chart-title="CPU" data="data" chart-data-available="false"
-                  show-legend="false"></div>
+    <full-aggregate-status-card status="dashboardCntrl.status" show-top-border="true"></full-aggregate-status-card>
+    
+    <label class="label-title">Card with Multiple Trends</label>
+    <div pf-card head-title="Performance" show-top-border="false" show-titles-separator="false" style="width: 25%">
+        <trends-chart config="dashboardCntrl.configVirtual" chart-data="dashboardCntrl.chartData"></trends-chart>
+        <trends-chart config="dashboardCntrl.configPhysical" chart-data="dashboardCntrl.chartData" show-top-border="true"></trends-chart>
+    </div>
+    
+    <div class="container-cards-pf">
+        <div class="row">
+            <div class="col-xs-6">
+                <div class="card-pf card-pf-utilization">
+                    <h2 class="card-pf-title">{{dashboardCntrl.heatmapTitle}}</h2>
+                    <div class="card-pf-body">
+                        <div class="row">
+                            <div ng-if="dashboardCntrl.heatMapdataAvailable === false">
+                                <div class="col-xs-12 col-sm-6 col-md-6" ng-if="dashboardCntrl.heatMapdataAvailable === false">
+                                    <div pf-heatmap id="id" chart-title="CPU" data="data" chart-data-available="false" show-legend="false"></div>
+                                </div>
+                                <div class="col-xs-12 col-sm-6 col-md-6">
+                                    <div pf-heatmap id="id" chart-title="Storage" data="data" chart-data-available="false" show-legend="false"></div>
+                                </div>
+                            </div>
+                            <div class="col-xs-12 col-sm-6 col-md-6" ng-repeat="mapData in dashboardCntrl.heatMapData">
+                                <div pf-heatmap id="dashboardCntrl.id" chart-title="mapData.title" data="mapData.data" chart-data-available="dashboardCntrl.heatMapdataAvailable" show-legend="dashboardCntrl.showLegends" legend-labels="dashboardCntrl.legendLabels" max-block-size="40" block-padding="2" heatmap-color-pattern="dashboardCntrl.heatmapColorPattern" thresholds="dashboardCntrl.thresholds">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div ng-if="dashboardCntrl.systemPerformanceLegends === true;" pf-heatmap-legend dashboardCntrl.legend="legendLabels" dashboardCntrl.legend-colors="heatmapColorPattern">
+                    </div>
                 </div>
-                <div class="col-xs-12 col-sm-6 col-md-6">
-                  <div pf-heatmap id="id" chart-title="Storage" data="data" chart-data-available="false"
-                  show-legend="false"></div>
-                </div>
-              </div>
-
-
-              <div class="col-xs-12 col-sm-6 col-md-6" ng-repeat="mapData in dashboardCntrl.heatMapData">
-                <div pf-heatmap id="dashboardCntrl.id" chart-title="mapData.title" data="mapData.data" chart-data-available="dashboardCntrl.heatMapdataAvailable" show-legend="dashboardCntrl.showLegends" legend-labels="dashboardCntrl.legendLabels" max-block-size="40" block-padding="2" heatmap-color-pattern="dashboardCntrl.heatmapColorPattern" thresholds="dashboardCntrl.thresholds">
-                </div>
-              </div>
             </div>
-          </div>
-          <div ng-if="dashboardCntrl.systemPerformanceLegends === true;" pf-heatmap-legend dashboardCntrl.legend="legendLabels" dashboardCntrl.legend-colors="heatmapColorPattern">
-
-          </div>
         </div>
-      </div>
     </div>
-  </div>
-
-  <div class="row">
-    <div class="col-md-6">
-      <!-- utilization bar chart component -->
-      <bar-chart ng-if="dashboardCntrl.barChartData.length" chart-title-data="dashboardCntrl.barChartTitleData" chart-data="dashboardCntrl.barChartData"></bar-chart>
+    
+    <div class="row">
+        <div class="col-md-6">
+            <!-- utilization bar chart component -->
+            <bar-chart ng-if="dashboardCntrl.barChartData.length" chart-title-data="dashboardCntrl.barChartTitleData" chart-data="dashboardCntrl.barChartData"></bar-chart>
+        </div>
+        <div class="col-md-6">
+            <!-- horizontal bar chart -->
+            <bar-chart chart-title-data="dashboardCntrl.barChartTitleData" is-horizontal-bar-chart-show="true" horizontal-bar-chart-data="dashboardCntrl.horizontalBarChartData"></bar-chart>
+        </div>
     </div>
-    <div class="col-md-6">
-      <!-- horizontal bar chart -->
-      <bar-chart chart-title-data="dashboardCntrl.barChartTitleData" is-horizontal-bar-chart-show="true" horizontal-bar-chart-data="dashboardCntrl.horizontalBarChartData"></bar-chart>
-    </div>
-  </div>
 </div>
