@@ -6,7 +6,7 @@
     app.service("utils", utils);
 
     /*@ngInject*/
-    function utils($http, config, $rootScope) {
+    function utils($http, $rootScope, config, AuthManager) {
 
         /* Cache the reference to this pointer */
         var vm = this,
@@ -45,6 +45,8 @@
 
             return $http(request).then(function (response) {
                 return response.data;
+            },function(e) {
+                checkErrorCode(e);
             });
         };
 
@@ -66,7 +68,8 @@
             request = angular.copy(objectWorkflowsRequest);
             return $http(request).then(function (response) {
                 return response.data;
-            }, function() {
+            }, function(e) {
+                checkErrorCode(e);
                 console.log("Error Occurred: while fetching getObjectWorkflows");
                 return null;
             }); 
@@ -102,6 +105,7 @@
             return $http(request).then(function (response) {
                 return response.data;
             }, function(e) {
+                checkErrorCode(e);
                 console.log("Error Occurred: while fetching getObjectList");
                 throw e;
             });
@@ -121,6 +125,8 @@
 
             return $http(request).then(function (response) {
                 return response.data;
+            }, function(e) {
+                checkErrorCode(e);
             });
         };
 
@@ -318,6 +324,12 @@
                 return value * Math.pow(1024,5);
             } else {
                 return value;
+            }
+        };
+
+        var checkErrorCode = function(e){
+            if(e.status === 401){
+                AuthManager.handleUnauthApi();
             }
         };
 

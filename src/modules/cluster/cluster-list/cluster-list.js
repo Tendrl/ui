@@ -26,11 +26,11 @@
 
         function init() {
             utils.getObjectList("Node")
-                .then(function(data) {
-                    vm.isDataLoading = false;
-                    hostList = data.nodes;
-                    _createClusterList();
-                });
+            .then(function(data) {
+                vm.isDataLoading = false;
+                hostList = data.nodes;
+                _createClusterList();
+            });
         }
 
         /* Trigger this function when we have cluster data */
@@ -46,10 +46,10 @@
         timer = $interval(function() {
 
             utils.getObjectList("Cluster")
-                .then(function(data) {
-                    $rootScope.clusterData = data;
-                    init();
-                });
+            .then(function(data) {
+                $rootScope.clusterData = data;
+                init();
+            });
 
         }, 1000 * config.refreshIntervalTime);
 
