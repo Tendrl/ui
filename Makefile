@@ -1,11 +1,16 @@
 # store the current working directory
 NAME      := tendrl-dashboard
-VERSION   := 1.2
+VERSION   := 1.2.1
 RELEASE   := 1
+
+build-pkgs-dist:
+	npm prune
+	npm install
+	tar -zcf tendrl-dashboard-build-pkgs.tar.gz node_modules
 
 dist:
 	mkdir -p $(NAME)-$(VERSION)
-	cp *.js package.json README.md tendrl-dashboard.spec $(NAME)-$(VERSION)/
+	cp *.js package.json README.md $(NAME)-$(VERSION)/
 	cp -r docs $(NAME)-$(VERSION)/
 	cp -r src $(NAME)-$(VERSION)/
 	tar -zcf $(NAME)-$(VERSION).tar.gz $(NAME)-$(VERSION)
