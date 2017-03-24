@@ -42,7 +42,7 @@
             /* Forward to home view if we don't have any cluster */    
             if($rootScope.clusterData === null || $rootScope.clusterData.clusters.length === 0){
                 $state.go("home");
-            }else {
+            } else {
                 init();
             }
         });

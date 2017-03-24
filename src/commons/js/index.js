@@ -1,7 +1,7 @@
 //# sourceURL=storage-management-plugin.js
 (function() {
 
-    var storageModule = angular.module("TendrlModule", ["ui.router", "ui.bootstrap", "frapontillo.bootstrap-switch", "gridshore.c3js.chart", "patternfly.charts", "patternfly.card"]);
+    var storageModule = angular.module("TendrlModule", ["ui.router","ui.bootstrap","frapontillo.bootstrap-switch","gridshore.c3js.chart","patternfly.charts", "patternfly.card", "patternfly.form"]);
 
     /* Setting up provider for getting config data */
     storageModule.provider("config", function() {
@@ -139,11 +139,17 @@
                         controller: "addInventoryController",
                         controllerAs: "addInventoryCntrl"
                     })
-                    .state("task", {
-                        url: "/admin/task",
-                        templateUrl: "/modules/task/task.html",
+                    .state("tasks", {
+                        url: "/admin/tasks",
+                        templateUrl: "/modules/tasks/tasks.html",
                         controller: "taskController",
                         controllerAs: "taskCntrl"
+                    })
+                    .state("task-detail", {
+                        url: "/admin/tasks/:taskId",
+                        templateUrl: "/modules/tasks/task-detail/task-detail.html",
+                        controller: "taskDetailController",
+                        controllerAs: "taskDetailCntrl"
                     })
                     .state("dashboard", {
                         url: "/dashboard",

@@ -6,7 +6,7 @@
     app.service("utils", utils);
 
     /*@ngInject*/
-    function utils($http, $rootScope, config, AuthManager) {
+    function utils($http, $rootScope, $filter, config, AuthManager) {
 
         /* Cache the reference to this pointer */
         var vm = this,
@@ -111,6 +111,23 @@
             });
         };
 
+        vm.getJobList = function() {
+            var url = "", getJobListRequest, request;
+
+            getJobListRequest = {
+                method: "GET",
+                //url: "jobs"
+                url: "/api/jobs.json"
+            };
+
+            request = angular.copy(getJobListRequest);
+            return $http(request).then(function (response) {
+                return response.data;
+            }, function(e) {
+                console.log("Error Occurred: while fetching getJobListRequest");
+            });
+        };
+
         vm.importCluster = function(uri, data) {
             var url, actionRequest, request;
 
@@ -147,6 +164,23 @@
             }
 
             return clusterObj;
+        };
+
+        vm.getJobDetail = function(id) {
+            var url = "", getJobDetailRequest, request;
+
+            getJobDetailRequest = {
+                method: "GET",
+                //url: "jobs"
+                url: "/api/task-detail.json"
+            };
+
+            request = angular.copy(getJobDetailRequest);
+            return $http(request).then(function (response) {
+                return response.data;
+            }, function(e) {
+                console.log("Error Occurred: while fetching getJobDetailRequest");
+            });
         };
 
         vm.getIntergrationDetails = function(intergrationId) {
@@ -332,7 +366,37 @@
                 AuthManager.handleUnauthApi();
             }
         };
+        
+        vm.formatDate = function (list, property, format) {
+            var len = list.length,
+                i;
 
+            for(i = 0; i < len; i++) {
+                list[i][property] = $filter("date")(list[i][property], format);
+            }
+
+            return list;
+        }
+
+        vm.getTaskLogs = function(type, jobId) {
+            var url, getTaskLogsRequest, request;
+
+            //url = config.baseUrl + "jobs/"  + JobId + "logs/type=" + type;
+            url = "/api/GetLogs.json";
+
+            getTaskLogsRequest = {
+                method: "GET",
+                url: url
+            };
+
+            request = angular.copy(getTaskLogsRequest);
+            return $http(request).then(function (response) {
+                return response.data;
+            }, function() {
+                console.log("Error Occurred: while fetching getTaskLogs");
+                return null;
+            });
+        };
     }
 
 })();

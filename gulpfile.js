@@ -89,6 +89,7 @@ gulp.task("jsLibraries", function() {
     "node_modules/c3/c3.min.js",
     "node_modules/jquery/dist/jquery.min.js",
     "node_modules/bootstrap/dist/js/bootstrap.min.js", // For dropdown : temporary
+    "node_modules/bootstrap-datepicker/dist/js/bootstrap-datepicker.js",
     "node_modules/angular/angular.js",
     "node_modules/angular-ui-bootstrap/dist/ui-bootstrap.min.js",
     "node_modules/angular-ui-bootstrap/dist/ui-bootstrap-tpls.js",

@@ -1,5 +1,5 @@
 {
-	"baseUrl": "/api/1.0/",
+	"baseUrl": "http://10.70.41.221:9292/1.0/",
 	"refreshIntervalTime": 120,
 	"defaultThresholds" : {
 		"values" : {"warning": 60, "error": 90 },
