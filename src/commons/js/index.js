@@ -196,6 +196,18 @@
                         templateUrl: "/modules/file-share/create-file-share/create-file-share.html",
                         controller: "createFileShareController",
                         controllerAs: "createFileShareCntrl"
+                    })
+                    .state("create-ceph-cluster", {
+                        url: "/create-ceph-cluster",
+                        templateUrl: "/modules/cluster/create-ceph-cluster/create-ceph-cluster.html",
+                        controller: "createCephClusterController",
+                        controllerAs: "createCephClusterCntrl"
+                    })
+                    .state("create-gluster-cluster", {
+                        url: "/create-gluster-cluster",
+                        templateUrl: "/modules/cluster/create-cluster/create-cluster.html",
+                        controller: "createClusterController",
+                        controllerAs: "createClusterCntrl"
                     });
 
             });

@@ -30,9 +30,10 @@
 @import "../../commons/components/ceph-dashboard/ceph-dashboard.scss";
 @import "../../modules/cluster/cluster-detail/cluster-detail.scss";
 @import "../../commons/components/bar-chart/bar-chart.scss";
-    
-.tendrl-app {
+@import "../../modules/home/create-cluster-modal/create-cluster-modal.scss";
+@import "../../modules/cluster/create-ceph-cluster/create-ceph-cluster.scss";
 
+.tendrl-app {
     .centered {
         position: fixed;
         top: 50%;
