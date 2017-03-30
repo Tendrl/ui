@@ -1,4 +1,4 @@
-{"disks":[{
+{"disks":[{ 
          "host_name": "ceph-node1.tendrl.org1",
           "disks": [{
             "device_name": "/dev/vda1",

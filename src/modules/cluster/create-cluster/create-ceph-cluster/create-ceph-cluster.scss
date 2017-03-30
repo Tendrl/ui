@@ -78,10 +78,30 @@
             }
         }
     }
+    .create-cluster-summary {
+        margin-bottom: 50px;
+        margin-left: 0;
+        .desc {
+            margin-bottom: 30px;
+        }
+        .single-create-cluster-summary {
+            border: 1px solid $color-white-smoke;
+            .row {
+                padding: 10px 0;
+                &:nth-of-type(2n) {
+                    background-color: $color-white-smoke;
+                }
+            }
+        }
+        .single-create-cluster-summary:nth-of-type(2n) {
+            background-color: red;
+        }
+    }
     .available-host-list{
 	    background-color: #ededed;
 	    border-left-color: transparent;
 	    border-right-color: transparent;
+        padding: 10px;
     }
     .remove-stack{
         display: inline;
@@ -90,5 +110,25 @@
     .stack-left{
         text-align: left;
         display: initial;
+    }
+    .device-conf-view-container {
+        .list-group-item {
+            padding: 10px;
+        }
+
+        .table-container {
+            width: 90%;
+            padding: 10px;
+            margin-left: 60px;
+        }
+
+        .angle-expand{
+            font-size: 20px;
+            cursor: pointer;
+        }
+        .remove-padding{
+            padding-left: 0;
+            padding-right: 0;
+        }
     }
 }

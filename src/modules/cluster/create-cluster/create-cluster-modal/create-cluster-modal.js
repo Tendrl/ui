@@ -14,6 +14,7 @@
         vm.valueSelected = "ceph";
 
         vm.cancelModal = function () {
+            $state.go("landing-page");
             $rootScope.$emit('modal.done', 'cancel');
         };
 
@@ -52,9 +53,9 @@
         vm.StorageServices = [{
             "name": "Ceph",
             "value": "ceph"
-        },{
-            "name": "Gluster",
-            "value": "gluster"  
+        // },{
+        //     "name": "Gluster",
+        //     "value": "gluster"
         }];
     }
 

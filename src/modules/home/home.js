@@ -6,10 +6,11 @@
     app.controller("homeController", homeController);
 
     /*@ngInject*/
-    function homeController($rootScope, $scope, $state, $uibModal) {
+    function homeController($rootScope, $scope, $state) {
 
         var vm = this;
-        vm.importCluster = importCluster;   
+        vm.importCluster = importCluster;
+        vm.createCluster = createCluster;  
 
         init();
         
@@ -29,25 +30,9 @@
             $state.go('import-cluster');
         }
 
-        vm.openWizardModel = function () {
-          var wizardDoneListener,
-              modalInstance = $uibModal.open({
-                animation: true,
-                backdrop: 'static',
-                templateUrl: '/modules/home/create-cluster-modal/create-cluster-modal.html',
-                controller: 'createClusterModalController',
-                size: 'md'
-              });
-
-          var closeWizard = function (e, reason) {
-            modalInstance.dismiss(reason);
-            wizardDoneListener();
-          };
-
-          modalInstance.result.then(function () { }, function () { });
-
-          wizardDoneListener = $rootScope.$on('modal.done', closeWizard);
-        };
+        function createCluster() {
+            $state.go('create-cluster');
+        }
         
     }
 
