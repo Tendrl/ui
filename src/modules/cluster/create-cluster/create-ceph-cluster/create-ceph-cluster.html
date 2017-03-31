@@ -42,11 +42,11 @@
                         <span class="i fa fa-angle-left"></span> Back
                     </button>
                     <button type="button" class="btn btn-primary wizard-pf-next" ng-click="createCephClusterCntrl.nextStep(createCephClusterCntrl.selectedStep)">
-                        <span ng-if="createCephClusterCntrl.step !== 3">Next</span>
-                        <span ng-if="createCephClusterCntrl.step === 3">Create RBDs</span>
+                        <span ng-if="createCephClusterCntrl.SelectedStep !== 5">Next</span>
+                        <span ng-if="createCephClusterCntrl.selectedStep === 5">Create Cluster</span>
                         <span class="i fa fa-angle-right"></span>
                     </button>
-                    <a type="button" class="btn btn-default btn-cancel wizard-pf-cancel wizard-pf-dismiss" ui-sref="rbd">Cancel</a>
+                    <a type="button" class="btn btn-default btn-cancel wizard-pf-cancel wizard-pf-dismiss" ui-sref="landing-page">Cancel</a>
                 </div>
                 <!-- /.wizard-pf-footer -->
             </div>
@@ -57,8 +57,8 @@
             <i class="pficon pficon-ok"></i>
         </div>
         <div>
-            <h1><label>Create RBD(s) Submitted</label></h1>
-            <div class="text-center"> An task has been submitted to the background for each RBD requested. You will be notified when processing is complete and the new RBDs are ready for use. </div>
+            <h1><label>Create Cluster Submitted</label></h1>
+            <div class="text-center"> The Create Cluster task is submitted. You will be notified when processing is complete and the new cluster is ready for use.</div>
         </div>
         <div class="blank-slate-pf-main-action">
             <button class="btn btn-primary btn-lg" ng-click="createCephClusterCntrl.viewTaskProgress()">View Task Progress</button>

@@ -13,7 +13,7 @@
 
 
         vm.selectedStep = 1;
-        vm.storageService ="Red Hat Ceph Storage";
+        vm.storageService ="Ceph";
         vm.roles = ["Monitor", "OSD Host"];
         vm.totalDevices = 0;
         vm.diskConf = {
@@ -46,7 +46,7 @@
         };
 
         vm.subnetFilterBy = {
-            "property": "networks.eth0.ipv4",
+            "property": "networks.eth0.subnet",
             "value": ""
         };
 
@@ -54,6 +54,9 @@
         vm.filterNestedList = filterNestedList;
         vm.filterList = filterList;
         vm.expandList = expandList;
+        vm.changeSelectedNetwork = changeSelectedNetwork;
+        vm.allCheckboxSelected =allCheckboxSelected;
+        vm.deviceWarningMsg = "Some devices contain user data and will be repartitioned on cluster creation. Any existing data will be lost."
 
         init();
         /* Trigger this function when we have cluster data */
@@ -65,18 +68,43 @@
             vm.isDataLoading = true;
             vm.totalDevices = 0
             vm.availableHostList = [];
-            utils.getObjectList("DemoNode").then(function(list) {
+            utils.getObjectList("Node").then(function(list) {
                 vm.isDataLoading = false;
                 var hostList = list.nodes;
                 if(list !== null && hostList.length !== 0) {
-                    for(var i=0;i<hostList.length;i++){
+                    for(var i = 0; i<hostList.length ; i++){
                         if (hostList[i].detectedcluster && hostList[i].detectedcluster.detected_cluster_id === ""){
                             vm.availableHostList.push(hostList[i]);
                             vm.totalRawCapacity += hostList[i].stats ? hostList[i].stats.storage.total : 0;
+                            hostList[i].freeDevices = Object.keys(hostList[i].disks.free).length;
+                            hostList[i].usedDevices = Object.keys(hostList[i].disks.used).length;
+                            hostList[i].totalNodeInDevice = hostList[i].freeDevices + hostList[i].usedDevices;
+                            hostList[i].disks.devices = getDevices(hostList[i]);
+                            changeIntoArray(hostList[i]);
                         }
                     }
                 }
             });
+        }
+
+        function getDevices(host){
+            var disks = host.disks;
+            var disksFormat = [];
+            if (disks.hasOwnProperty("used")){
+                for(var usedDeviceName in disks.used){
+                    disksFormat.push(disks[usedDeviceName]);
+                }
+            }
+            if(disks.hasOwnProperty("free")){
+                for(var freeDeviceName in disks.free){
+                    disksFormat.push(disks[freeDeviceName]);
+                }
+            }
+            return disksFormat;
+        }
+
+        function changeIntoArray(host){
+            host.networks.eth0.ipv4 = JSON.parse(host.networks.eth0.ipv4);
         }
 
         $scope.$watch(angular.bind(this, function(availableHostList){
@@ -86,23 +114,27 @@
             selectedMonitors = 0,
             selectedOSD = 0,
             totalDevices = 0,
+            deviceWarningSign = 0,
             selectedHostList = 0;
             angular.forEach(vm.availableHostList, function(item){
                 selectedHosts += item.checkboxSelected ? 1 : 0;
                 if(item.checkboxSelected && item.selectedRole){
                     selectedMonitors += item.selectedRole.indexOf("Monitor") !== -1 ? 1 : 0;
                     selectedOSD += item.selectedRole.indexOf("OSD Host") !== -1 ? 1 : 0;
-                    totalDevices += item.disks ? item.disks.devices.length : 0;
+                    totalDevices += item.disks ? item.totalNodeInDevice : 0;
+                    deviceWarningSign += item.usedDevices ? 1 : 0;
                     selectedHostList += 1;
-
                 }
+
             })
             vm.selectedHosts = selectedHosts;
             vm.selectedMonitors = selectedMonitors;
             vm.selectedOSD = selectedOSD;
             vm.totalDevices = totalDevices;
+            vm.deviceWarningSign = deviceWarningSign;
             vm.selectedHostList = selectedHostList;
         }, true);
+
 
         function refreshHostList(){
             init();
@@ -120,15 +152,26 @@
             for(var index=0; index< vm.availableHostList.length; index++){
                 if(vm.availableHostList[index].checkboxSelected && vm.availableHostList[index].selectedRole){
                     vm.selectedNodeList.push(vm.availableHostList[index]);
+                    vm.selectedNodeList[index].customselectedUnit = "GB";
+                    vm.selectedNodeList[index].selectedJournalConfigration = "Colocated";
+                    vm.selectedNodeList[index].partitionSize = 4;
+                    vm.selectedNodeList[index].selectedPartitionType = "SSD";
                     // vm.selectedNodeList.selectedTotalDevices += hostList[i].disks ? hostList[i].disks.devices.length : 0;
                     // vm.selectedNodeList.selectedTotalRawCapacity += hostList[i].stats ? hostList[i].stats.storage.total : 0;
                     vm.selectedNodeList[index].checkboxSelected = vm.availableHostList[index].checkboxSelected;
                     vm.selectedNodeList[index].selectedRole = vm.availableHostList[index].selectedRole;
-                    vm.selectedNodeList[index].isExpanded = false;
+                    vm.selectedNodeList[index].totalNodeInDevice = vm.availableHostList[index].totalNodeInDevice;
+                    selectedNetworks(vm.selectedNodeList[index].networks.eth0);
                 }
             }
             return vm.selectedNodeList;
         };
+
+        function closeExpandList(){
+            for(var index=0; index < vm.selectedNodeList.length; index++){
+                vm.selectedNodeList[index].isExpanded = false;
+            }
+        }
 
         function expandList(item) {
             if(item.isExpanded) {
@@ -138,6 +181,87 @@
             }
         }
 
+        function changeSelectedNetwork(selectedNetworkList, NetworkCheckbox){
+            if (selectedNetworkList[NetworkCheckbox] === true){
+                for(var index in selectedNetworkList.ipFlags){
+                    selectedNetworkList.ipFlags[index][NetworkCheckbox] = true;
+                }
+            }else{
+                for(var index in selectedNetworkList.ipFlags){
+                    selectedNetworkList.ipFlags[index][NetworkCheckbox] = false;
+                }
+            }
+        }
+
+        function allCheckboxSelected(selectedNetworkList, NetworkCheckbox){
+            var countTrue = 0;
+            for(var index in selectedNetworkList.ipFlags){
+                if(selectedNetworkList.ipFlags[index][NetworkCheckbox] === true){
+                    countTrue +=1;
+                }
+            }
+            if(countTrue === selectedNetworkList.ipFlags.length){
+                selectedNetworkList[NetworkCheckbox] = true
+            }
+            else{
+                selectedNetworkList[NetworkCheckbox] = false;
+            }
+        }
+
+        function selectedNetworks(network){
+            vm.subnet = network.subnet;
+            network.selectedNetworkList = {};
+            network.selectedNetworkList.ipFlags = []
+            network.selectedNetworkList.clusterNetworkCheckbox = false;
+            network.selectedNetworkList.publicNetworkCheckbox = false;
+            network.selectedNetworkList.rgwNetworkCheckbox = false;
+            for(var index=0; index<network.ipv4.length; index++){
+                var ipaddr = network.ipv4[index];
+                var ipFlags = { 
+                    ip: ipaddr,
+                    clusterNetworkCheckbox :false,
+                    publicNetworkCheckbox : false,
+                    rgwNetworkCheckbox : false
+                }
+            network.selectedNetworkList.ipFlags.push(ipFlags);
+            }
+        }
+
+        function createClusterPostData(){
+            var postData = {},
+            sds_parameters = {},
+            node_configuration = {},
+            conf_overrides =  {
+            "global":{
+                "osd_pool_default_pg_num":128,
+                "pool_default_pgp_num":1
+                }
+            },
+            role = {
+                "Monitor": "ceph/mon",
+                "OSD Host": "osd"
+            }
+
+            sds_parameters.name = vm.cephClusterName;
+            sds_parameters.public_network = vm.subnet;
+            sds_parameters.cluster_network = vm.subnet;
+            sds_parameters.conf_overrides = conf_overrides;
+            postData.sds_parameters = sds_parameters;
+            postData.node_identifier = "ip";
+
+            for(var index = 0; index < vm.selectedNodes.length; index++){
+                var network = vm.selectedNodes[index].networks.eth0;
+                for(var index1=0; index1<network.ipv4.length; index1++){
+                    ip = network.ipv4[index1];
+                    ip.provisioning_ip = ip;
+                    ip.monitor_interface = network.interface;
+                    ip.role = role[vm.selectedRole[0]];
+                    node_configuration.push(ip)
+                }
+            }
+            postData.node_configuration = node_configuration;
+            console.log(postData);
+        }
         function _resetFlag() {
             // if(vm.selectedStep === 4) {
             //     vm.selectedNodeList.map(function(curr, index, list) {
@@ -228,9 +352,16 @@
             if(!vm.showMsg){
                 vm.selectedStep += 1;
                 
-                if(vm.selectedStep >= 3) {
+                if(vm.selectedStep === 3) {
                     vm.selectedNodes();
                 }
+                if(vm.selectedStep === 5) {
+                    createClusterPostData();
+                }
+                if(vm.selectedStep >= 3) {
+                    closeExpandList();
+                }
+                                    
             }
 
         };
@@ -239,7 +370,7 @@
             vm.selectedStep -= 1;
 
             if(vm.selectedStep >= 3) {
-                vm.selectedNodes();
+                closeExpandList();
             }
 
         };
@@ -258,11 +389,6 @@
             }else if (step === 3) {
 
             }
-        };
-
-        vm.config = {
-            useExpandingRows: true,
-            showSelectBox: false
         };
     }
 })();

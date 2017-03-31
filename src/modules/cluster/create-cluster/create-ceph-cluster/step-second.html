@@ -1,4 +1,4 @@
-<div class="wizard-pf-contents" ng-if="createCephClusterCntrl.selectedStep === 2">
+<div class="wizard-pf-contents available-host-container" ng-if="createCephClusterCntrl.selectedStep === 2">
     <div class="alert alert-danger" ng-if="createCephClusterCntrl.showMsg">
         <span class="pficon pficon-error-circle-o"></span>
         {{createCephClusterCntrl.showMsg}}
@@ -10,31 +10,32 @@
             <div class="col-md-2">
                 <div class="list-view-pf-additional-info-item list-view-pf-additional-info-item-stacked">
                     <div class="bold-text">Hosts</div>
-                    <div class="" ng-modal="createCephClusterCntrl.hostSummary.hosts">{{createCephClusterCntrl.selectedHostList}}</div>
+                    <div class="" ng-modal="createCephClusterCntrl.hosts">{{createCephClusterCntrl.selectedHostList}}</div>
                 </div>
             </div>
             <div class="col-md-3">
                 <div class="list-view-pf-additional-info-item list-view-pf-additional-info-item-stacked">
                     <div class="bold-text">Monitors</div>
-                    <h5 class="pull-left counts" ng-modal="createCephClusterCntrl.hostSummary.monitors">{{createCephClusterCntrl.selectedMonitors}} (of 3 minimum)</h5>
+                    <h5 class="pull-left" ng-modal="createCephClusterCntrl.monitors">{{createCephClusterCntrl.selectedMonitors}} (of 3 minimum)</h5>
                 </div>
             </div>
             <div class="col-md-2">
                 <div class="list-view-pf-additional-info-item list-view-pf-additional-info-item-stacked">
                     <div class="bold-text">OSD Hosts</div>
-                    <h5 class="pull-left counts"  ng-modal="createCephClusterCntrl.hostSummary.OSDHosts">{{createCephClusterCntrl.selectedOSD}}</h5>
+                    <h5 class="pull-left "  ng-modal="createCephClusterCntrl.OSDHosts">{{createCephClusterCntrl.selectedOSD}}</h5>
                 </div>
             </div>
             <div class="col-md-3">
-                <div class="list-view-pf-additional-info-item list-view-pf-additional-info-item-stacked">
-                    <div class="bold-text">Devices</div>
-                    <h5 class="pull-left counts" ng-modal="createCephClusterCntrl.hostSummary.devices">{{createCephClusterCntrl.totalDevices}}</h5>
+                <div class="list-view-pf-additional-info-item list-view-pf-additional-info-item-stacked remove-flex">
+                    <strong class="bold-text">Devices</strong>
+                    <h5 ng-modal="createCephClusterCntrl.totalDevices">{{createCephClusterCntrl.totalDevices}}</h5>
+                    <i ng-if="(createCephClusterCntrl.deviceWarningSign > 0)" data-placement="top" title="{{createCephClusterCntrl.deviceWarningMsg}}" class="pficon pficon-warning-triangle-o warning-icon-adjustment" ng-modal='vm.deviceWarningSign'></i>
                 </div>
             </div>
             <div class="col-md-2">
                 <div class="list-view-pf-additional-info-item list-view-pf-additional-info-item-stacked">
                     <div class="bold-text">Total Raw Capacity</div>
-                    <h5 class="pull-left counts">{{createCephClusterCntrl.hostSummary.totalRawCapacity | bytes}}</h5>
+                    <h5 class="pull-left">{{createCephClusterCntrl.hostSummary.totalRawCapacity | bytes}}</h5>
                 </div>
             </div>
         </div>
@@ -118,13 +119,15 @@
                 <div  class="col-md-1">
                     <div class="list-view-pf-additional-info-item list-view-pf-additional-info-item-stacked">
                         <div class="bold-text">Interfaces</div>
-                        <h5 class="pull-left counts" ng-modal="host.interfaces">{{host.networks.eth0.length || "NA"}}</h5>
+                        <h5 class="pull-left counts">{{host.networks.eth0.ipv4.length || "NA"}}</h5>
                     </div>
                 </div>
                 <div  class="col-md-1">
-                    <div class="list-view-pf-additional-info-item list-view-pf-additional-info-item-stacked">
+                    <div class="list-view-pf-additional-info-item list-view-pf-additional-info-item-stacked remove-stack">
                         <div class="bold-text">Devices</div>
-                        <h5 class="pull-left counts" ng-modal="host.devices">{{host.disks.devices.length || "NA"}}</h5>
+                        <h5 ng-modal="host.totalNodeInDevice">{{host.totalNodeInDevice || "NA"}}</h5>
+                        <i ng-if="(host.usedDevices > 0)" data-placement="top" title="{{createCephClusterCntrl.deviceWarningMsg}}" class="pficon pficon-warning-triangle-o warning-icon-adjustment "></i>
+
                     </div>
                 </div>
                 <div  class="col-md-2">

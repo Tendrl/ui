@@ -1,56 +1,62 @@
-<div class="wizard-pf-contents" ng-if="createCephClusterCntrl.selectedStep ===5	">
-	<div class="create-cluster-summary row">
-		<h3>Cluster Summary</h3>
+<div class="wizard-pf-contents summary-view-container" ng-if="createCephClusterCntrl.selectedStep === 5">
+    <div class="create-cluster-summary row">
+        <h3>Cluster Summary</h3>
 
-		<div class="col-md-12 col-sm-12 single-create-cluster-summary">
-			<div class="row">
-				<div class="col-md-6 col-sm-6">Name</div>
-				<div class="col-md-6 col-sm-6">{{createCephClusterCntrl.cephClusterName}}</div>
-			</div>
-			<div class="row">
-				<div class="col-md-6 col-sm-6">Journal Size</div>
-				<div class="col-md-6 col-sm-6">{{createCephClusterCntrl.selectedType}}
-				</div>
+        <div class="col-md-12 col-sm-12 single-create-cluster-summary">
+            <div class="row">
+                <div class="col-md-6 col-sm-6">Name</div>
+                <div class="col-md-6 col-sm-6">{{createCephClusterCntrl.cephClusterName}}</div>
+            </div>
+            <div class="row">
+                <div class="col-md-6 col-sm-6">Journal Size</div>
+                <div class="col-md-6 col-sm-6">{{createCephClusterCntrl.journalSize}}
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6 col-sm-6">Devices</div>
+                <div class="col-md-6 col-sm-6">{{createCephClusterCntrl.totalDevices || "NA"}}</div>
+            </div>
+            <div class="row">
+                <div class="col-md-6 col-sm-6">Raw Capacity</div>
+                <div class="col-md-6 col-sm-6">{{createCephClusterCntrl.selectedTotalRawCapacity || "NA"}}</div>
 
-			</div>
-			<div class="row">
-				<div class="col-md-6 col-sm-6">Devices</div>
-				<div class="col-md-6 col-sm-6">{{createCephClusterCntrl.OSDs || "NA"}}</div>
-			</div>
-			<div class="row">
-				<div class="col-md-6 col-sm-6">Raw Capacity</div>
-				<div class="col-md-6 col-sm-6">{{createCephClusterCntrl.pgCount}}</div>
-
-			</div>
-			<div class="row">
-				<div class="col-md-6 col-sm-6">Journal Configration</div>
-				<div class="col-md-6 col-sm-6">{{createCephClusterCntrl.journalConfigration || "NA"}}</div>
-			</div>
-		</div>
-	</div>
+            </div>
+            <div class="row">
+                <div class="col-md-6 col-sm-6">Journal Configration</div>
+                <div class="col-md-6 col-sm-6">{{createCephClusterCntrl.SelectedJournalConfigration || "NA"}}</div>
+            </div>
+        </div>
+    </div>
 
     <div class="div-with-scroll">
-	    <div ng-if="createCephClusterCntrl.isDataLoading" class="spinner spinner-lg"></div>
-	    <div ng-if="!createCephClusterCntrl.isDataLoading" class="list-group list-view-pf list-view-pf-equalized-column" ng-repeat="host in createCephClusterCntrl.filteredHostList=(createCephClusterCntrl.selectedNodeLists | filter: createCephClusterCntrl.searchBy | orderBy : createCephClusterCntrl.ascOrder + createCephClusterCntrl.orderBy)">
-	        <div class="list-group-item">
-	            <div class="list-view-pf-left col-md-6">
-	                {{host.name}}
-	            </div>
-	            <div class="col-md-3">
-	                <div class="list-view-pf-additional-info-item list-view-pf-additional-info-item-stacked">
-	                    <h5 class="bold-text" ng-if="host.release !== undefined">Release</h5>
-	                    <h5 ng-if="host.release !== undefined">{{host.release | capitalize}}</h5>
-	                    <h5 ng-if="host.release === undefined">NA</h5>
-	                </div>
-	            </div>
-	            <div class="col-md-3">
-	                <div class="list-view-pf-additional-info-item list-view-pf-additional-info-item-stacked">
-	                    <h5 class="bold-text" ng-if="host.role !== undefined">Role</h5>
-	                    <h5 ng-if="host.role !== undefined">{{host.role}}</h5>
-	                    <h5 ng-if="host.role === undefined">NA</h5>
-	                </div>
-	            </div>
-	        </div>
-	    </div>
-	</div>
+        <div class="list-group list-view-pf list-view-pf-equalized-column" ng-repeat="host in createCephClusterCntrl.selectedNodeList">
+            <div class="list-group-item">
+                <div class="col-md-12">
+                    <div class="col-md-4">
+                        <div class="list-view-pf-additional-info-item list-view-pf-additional-info-item-stacked stack-left">
+                            <strong>{{host.fqdn}}</strong>
+                            <h5>{{host.networks.eth0.ipv4.length}} Interfaces, {{host.disks.devices.length}} Devices, {{host.stats.storage.total | bytes}}</h5>
+                        </div>  
+                    </div>
+                    <div class=" col-md-4">
+                        <div class="list-view-pf-additional-info-item list-view-pf-additional-info-item-stacked">
+                            <h5 ng-repeat="role in host.selectedRole">{{role}}</h5>
+                        </div>
+                    </div>
+                    <div class=" col-md-2">
+                        <div class="list-view-pf-additional-info-item list-view-pf-additional-info-item-stacked">
+                            <strong>Cluster Network</strong>
+                            <h5 ng-repeat="clusterNetwork in host.networks.eth0.selectedNetworkList.ipFlags" ng-if = "clusterNetwork.clusterNetworkCheckbox">{{clusterNetwork.ip || "NA"}} | {{host.networks.eth0.interface}}</h5>
+                        </div>
+                    </div>
+                    <div class=" col-md-2">
+                        <div class="list-view-pf-additional-info-item list-view-pf-additional-info-item-stacked">
+                            <strong>Public Network</strong>
+                            <h5 ng-repeat="clusterNetwork in host.networks.eth0.selectedNetworkList.ipFlags" ng-if = "clusterNetwork.publicNetworkCheckbox">{{clusterNetwork.ip || "NA"}} | {{host.networks.eth0.interface}}</h5>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>

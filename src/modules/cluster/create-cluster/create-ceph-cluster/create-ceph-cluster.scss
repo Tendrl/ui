@@ -131,4 +131,24 @@
             padding-right: 0;
         }
     }
+    .available-host-container{
+        .warning-icon-adjustment {
+            margin-top: 9px;
+            margin-left: 6px;
+            font-size: 14px;
+
+        }
+        .remove-flex{
+            display: table-caption;
+            padding-left:60px
+        }
+    }
+
+    .summary-view-container {
+        .div-with-scroll {
+            height: 167px;
+            overflow: scroll;
+            overflow-x: hidden;
+        }
+    }
 }
