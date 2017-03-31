@@ -6,7 +6,7 @@
     app.controller("taskController", taskController);
 
     /*@ngInject*/
-    function taskController($rootScope, $scope, $interval, $state, $timeout, $filter, utils, config, taskStore) {
+    function taskController($rootScope, $scope, $interval, $state, $timeout, $filter, config, taskStore) {
 
         var vm = this,
             timer,
@@ -70,10 +70,31 @@
             }
         }
 
+        // function _updateTaskStatus() {
+        //     var len = vm.taskList.length,
+        //         i,
+        //         j,
+        //         task;
+
+        //     for( i = 0; i < len; i++) {
+        //         (function(j) {
+        //             //j = i;
+        //             task = vm.taskList[j];
+        //             taskStore.getTaskStatus(task.job_id)
+        //                 .then(function(data) {
+        //                     console.log(j);
+        //                     task.status = data.status;
+        //                     console.log(j, vm.taskList[j].status);
+        //                 });
+                
+        //         })(i);
+        //     }
+        // }
+
         /*Refreshing list after each 2 mins interval*/
         timer = $interval(function () {
             init();
-        }, 1000 * config.refreshIntervalTime );       
+        }, 1000 * config.statusRefreshIntervalTime);       
 
         function updateStatus(status) {
             var index;

@@ -12,8 +12,7 @@
         var vm = this;
 
         if(AuthManager.isUserLoggedIn){
-            //$state.go("landing-page")
-            $state.go("tasks");
+            $state.go("landing-page")
         }
 
         vm.user = {};

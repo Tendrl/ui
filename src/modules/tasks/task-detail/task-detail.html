@@ -1,7 +1,5 @@
-<!-- <div ng-if="clusterData === null && !isAPINotFoundError" class="spinner spinner-lg"></div>
-<div ng-if="clusterData !== null" class="tendrl-task-detail-view-container container-fluid"> -->
-<div ng-if="!isAPINotFoundError" class="spinner spinner-lg"></div>
-<div class="tendrl-task-detail-view-container container-fluid">
+<div ng-if="clusterData === null && !isAPINotFoundError" class="spinner spinner-lg"></div>
+<div ng-if="clusterData !== null" class="tendrl-task-detail-view-container container-fluid">
     <ol class="breadcrumb custom-breadcrumb" ng-if="!taskDetailCntrl.isDataLoading && taskDetailCntrl.taskDetail">
         <li><a ui-sref="tasks">Tasks</a></li>
         <li>
@@ -33,7 +31,7 @@
         <div class="row bold-text table-heading">
             Events
         </div>
-        <div class="row list-group-item" ng-repeat="log in taskDetailCntrl.taskDetail.logs" id="log-list-group-item-{{$index+1}}">
+        <div class="row list-group-item logs" ng-repeat="log in taskDetailCntrl.taskDetail.logs" id="log-list-group-item-{{$index+1}}">
             <div class="list-view-pf-left col-md-1">
                     <i ng-class="{'pficon pficon-error-circle-o': (log.type === 'error'), 'pficon pficon-warning-triangle-o': (log.type === 'warning')}"></i>
             </div>
@@ -44,7 +42,7 @@
                 {{log.message}}
             </div>
             <div class="col-md-2">
-                {{log.date}}
+                {{log.date | date: "dd MMM yyyy hh:mm:ss"}}
             </div>
         </div>
     </div>

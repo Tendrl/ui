@@ -13,7 +13,6 @@
 	.div-with-scroll-logs {
         max-height: 700px;
         padding: 0;
-        width: 800px;
         
         .list-group-item:nth-child(2n+1) {
             background-color: $color-white-smoke;
@@ -25,6 +24,7 @@
             padding: 10px 0 10px 10px;
             font-size: 16px;
             background-color: $color-white-smoke;
+            margin-right: 0;
         }
 
         overflow: auto;
@@ -35,6 +35,11 @@
             margin-left: 0;
         }
 
+        .logs {
+            padding-left: 0;
+            padding-right: 0;
+            margin-right: 0;
+        }
         .list-group-item {
             border: none;
         }

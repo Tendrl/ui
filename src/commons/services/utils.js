@@ -78,7 +78,7 @@
         vm.getObjectList= function(objectType, clusterId) {
             var url = "", getObjectListRequest, request;
 
-            //will comment out once API is available
+            // will comment out once API is available
             // if (clusterId === undefined || clusterId === "") {
             //     url = config.baseUrl + "Get" + objectType +"List";
             // }
@@ -124,6 +124,7 @@
             return $http(request).then(function (response) {
                 return response.data;
             }, function(e) {
+                checkErrorCode(e);
                 console.log("Error Occurred: while fetching getJobListRequest");
             });
         };
@@ -179,6 +180,7 @@
             return $http(request).then(function (response) {
                 return response.data;
             }, function(e) {
+                checkErrorCode(e);
                 console.log("Error Occurred: while fetching getJobDetailRequest");
             });
         };
@@ -378,11 +380,11 @@
             return list;
         }
 
-        vm.getTaskLogs = function(type, jobId) {
+        vm.getTaskLogs = function(jobId) {
             var url, getTaskLogsRequest, request;
 
-            //url = config.baseUrl + "jobs/"  + JobId + "logs/type=" + type;
-            url = "/api/GetLogs.json";
+            //url = config.baseUrl + "jobs/"  + JobId + "/messages";
+            url = "/api/GetMessageList.json";
 
             getTaskLogsRequest = {
                 method: "GET",
@@ -390,6 +392,26 @@
             };
 
             request = angular.copy(getTaskLogsRequest);
+            return $http(request).then(function (response) {
+                return response.data;
+            }, function() {
+                console.log("Error Occurred: while fetching getTaskLogs");
+                return null;
+            });
+        };
+
+        vm.getTaskStatus = function(jobId) {
+            var url, getTaskStatusRequest, request;
+
+            //url = config.baseUrl + "jobs/"  + JobId + "/status";
+            url = "/api/GetStatus.json";
+
+            getTaskStatusRequest = {
+                method: "GET",
+                url: url
+            };
+
+            request = angular.copy(getTaskStatusRequest);
             return $http(request).then(function (response) {
                 return response.data;
             }, function() {

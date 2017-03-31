@@ -6,40 +6,56 @@
     app.controller("taskDetailController", taskDetailController);
 
     /*@ngInject*/
-    function taskDetailController($rootScope, $scope, $interval, $state, utils, config, $stateParams) {
+    function taskDetailController($rootScope, $scope, $interval, $state, $stateParams, taskStore, config, utils) {
 
         var vm = this,
-            timer;
+            statusTimer,
+            msgTimer;
 
         vm.isDataLoading = true;
-        vm.update = update;
 
         init();
 
+        function _getTaskLogs() {
+            taskStore.getTaskLogs($stateParams.taskId)
+                .then(function(response) {
+                    if(typeof vm.taskDetail !== "undefined") {
+                        vm.taskDetail.logs = response;
+                    }
+                });
+        }
+
         function init() {
-            utils.getJobDetail($stateParams.taskId)
+            taskStore.getJobDetail($stateParams.taskId)
                 .then(function(data) {
                     vm.taskDetail = data;
                     vm.isDataLoading = false;
 
-                    utils.getTaskLogs("all")
-                        .then(function(data) {
-
-                            if(typeof vm.taskDetail !== "undefined") {
-                                vm.taskDetail.logs = data;
-                            }
-                        });
+                    _getTaskLogs();
                 });
         }
 
-        /*Refreshing list after each 2 mins interval*/
-        timer = $interval(function () {
-            init();
-        }, 1000 * config.refreshIntervalTime );
+       function _updateStatus() {
+            taskStore.getTaskStatus($stateParams.taskId)
+                .then(function(data) {
+                    vm.taskDetail.status = data.status;
+                });
+       } 
 
-        function update(dateType, val) {
-            console.log(dateType, val);
-        }    
+        /*Refreshing list after each 2 mins interval*/
+        statusTimer = $interval(function () {
+            _updateStatus();
+        }, 1000 * config.statusRefreshIntervalTime );
+
+        msgTimer = $interval(function () {
+            _getTaskLogs();
+        }, 1000 * config.msgRefreshIntervalTime );
+
+        $scope.$on("$destroy", function() {
+            $interval.cancel(statusTimer);
+            $interval.cancel(msgTimer);
+        });
+            
 
     }
 
