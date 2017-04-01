@@ -54,8 +54,8 @@
             hasSubMenus: true,
             subMenus: [{
                 label: 'Tasks',
-                id: 'task',
-                href: 'task',
+                id: 'tasks',
+                href: 'tasks',
                 icon: 'fa fa-cog',
                 active: false
             }]

@@ -1,6 +1,7 @@
 {
 	"baseUrl": "/api/1.0/",
 	"refreshIntervalTime": 120,
+	"statusRefreshIntervalTime": 15,
 	"defaultThresholds" : {
 		"values" : {"warning": 60, "error": 90 },
 		"colors" : {"error": "#CC0000", "warning": "#EC7A08", "normal":"#3F9C35"}

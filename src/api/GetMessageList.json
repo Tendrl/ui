@@ -1,0 +1,469 @@
+[{
+	"publisher": "node_agent",
+	"job_id": "c7b98511-4758-4d9e-9ff4-e9e1bc4ee059",
+	"timestamp": "2017-03-31T08:47:32.681199+00:00",
+	"caller": {
+		"function": "run",
+		"line_no": 57,
+		"filename": "/usr/lib/python2.7/site-packages/tendrl/commons/flows/create_cluster/__init__.py"
+	},
+	"payload": {
+		"message": "Creating Ceph Storage Cluster c0801652-61b9-43b3-b50b-5871de09252d"
+	},
+	"priority": "info",
+	"parent_id": null,
+	"node_id": "feb97013-8924-4792-acdd-ec6186e0e03a",
+	"cluster_id": null,
+	"flow_id": "2f94a48a-05d7-408c-b400-e27827f4eacd",
+	"message_id": "59087ab6-16e6-4978-9202-638476a7dfb4"
+}, {
+	"publisher": "node_agent",
+	"job_id": "c7b98511-4758-4d9e-9ff4-e9e1bc4ee059",
+	"timestamp": "2017-03-31T08:47:24.236423+00:00",
+	"caller": {
+		"function": "_run",
+		"line_no": 94,
+		"filename": "/usr/lib/python2.7/site-packages/tendrl/commons/jobs/__init__.py"
+	},
+	"payload": {
+		"message": "Running Flow tendrl.flows.CreateCluster"
+	},
+	"priority": "info",
+	"parent_id": null,
+	"node_id": "feb97013-8924-4792-acdd-ec6186e0e03a",
+	"cluster_id": null,
+	"flow_id": "2f94a48a-05d7-408c-b400-e27827f4eacd",
+	"message_id": "34cb256e-6f93-48e3-9d0d-2b46c2e93af9"
+}, {
+	"publisher": "node_agent",
+	"job_id": "c7b98511-4758-4d9e-9ff4-e9e1bc4ee059",
+	"timestamp": "2017-03-31T08:47:26.189745+00:00",
+	"caller": {
+		"function": "ceph_create_ssh_setup_jobs",
+		"line_no": 42,
+		"filename": "/usr/lib/python2.7/site-packages/tendrl/commons/flows/utils.py"
+	},
+	"payload": {
+		"message": "Created SSH setup job c41753a0-594b-429f-83b2-d12a011f0892 for node 917e7e10-ae7b-4c24-b0fd-88a2d376226e"
+	},
+	"priority": "info",
+	"parent_id": null,
+	"node_id": "feb97013-8924-4792-acdd-ec6186e0e03a",
+	"cluster_id": null,
+	"flow_id": "2f94a48a-05d7-408c-b400-e27827f4eacd",
+	"message_id": "0be250ee-7240-4e27-873d-29b4a269781d"
+}, {
+	"publisher": "node_agent",
+	"job_id": "c7b98511-4758-4d9e-9ff4-e9e1bc4ee059",
+	"timestamp": "2017-03-31T08:47:27.627387+00:00",
+	"caller": {
+		"function": "ceph_create_ssh_setup_jobs",
+		"line_no": 42,
+		"filename": "/usr/lib/python2.7/site-packages/tendrl/commons/flows/utils.py"
+	},
+	"payload": {
+		"message": "Created SSH setup job 9a50bc00-e14c-42c9-9ec2-6fbd9aae4974 for node 96344259-a9bf-4f9d-a416-e6bd72a80b1a"
+	},
+	"priority": "info",
+	"parent_id": null,
+	"node_id": "feb97013-8924-4792-acdd-ec6186e0e03a",
+	"cluster_id": null,
+	"flow_id": "2f94a48a-05d7-408c-b400-e27827f4eacd",
+	"message_id": "e57c59ff-7ee9-4e03-beec-1482fd22d40e"
+}, {
+	"publisher": "node_agent",
+	"job_id": "c7b98511-4758-4d9e-9ff4-e9e1bc4ee059",
+	"timestamp": "2017-03-31T08:47:29.948061+00:00",
+	"caller": {
+		"function": "ceph_create_ssh_setup_jobs",
+		"line_no": 42,
+		"filename": "/usr/lib/python2.7/site-packages/tendrl/commons/flows/utils.py"
+	},
+	"payload": {
+		"message": "Created SSH setup job 2ac0a186-a4e3-459b-a514-069662d855ef for node f157ed8c-b7a9-4ff6-b0b5-07f83c2b0fad"
+	},
+	"priority": "info",
+	"parent_id": null,
+	"node_id": "feb97013-8924-4792-acdd-ec6186e0e03a",
+	"cluster_id": null,
+	"flow_id": "2f94a48a-05d7-408c-b400-e27827f4eacd",
+	"message_id": "3e4e1c11-0889-4d4b-8319-9e9f19c05450"
+}, {
+	"publisher": "node_agent",
+	"job_id": "c7b98511-4758-4d9e-9ff4-e9e1bc4ee059",
+	"timestamp": "2017-03-31T08:47:32.644221+00:00",
+	"caller": {
+		"function": "ceph_create_ssh_setup_jobs",
+		"line_no": 42,
+		"filename": "/usr/lib/python2.7/site-packages/tendrl/commons/flows/utils.py"
+	},
+	"payload": {
+		"message": "Created SSH setup job 721ccbd1-7c80-4796-aecc-894728c4d9a5 for node 79564a7c-0d96-4df0-ab69-df032c4df9ce"
+	},
+	"priority": "info",
+	"parent_id": null,
+	"node_id": "feb97013-8924-4792-acdd-ec6186e0e03a",
+	"cluster_id": null,
+	"flow_id": "2f94a48a-05d7-408c-b400-e27827f4eacd",
+	"message_id": "2c4f2970-ae97-4e04-8b5a-5a03cc0ae17a"
+}, {
+	"publisher": "node_agent",
+	"job_id": "c7b98511-4758-4d9e-9ff4-e9e1bc4ee059",
+	"timestamp": "2017-03-31T08:47:24.227522+00:00",
+	"caller": {
+		"function": "_run",
+		"line_no": 82,
+		"filename": "/usr/lib/python2.7/site-packages/tendrl/commons/jobs/__init__.py"
+	},
+	"payload": {
+		"message": "Processing Job c7b98511-4758-4d9e-9ff4-e9e1bc4ee059"
+	},
+	"priority": "info",
+	"parent_id": null,
+	"node_id": "feb97013-8924-4792-acdd-ec6186e0e03a",
+	"cluster_id": null,
+	"flow_id": "2f94a48a-05d7-408c-b400-e27827f4eacd",
+	"message_id": "3b07d564-d167-4b12-a9b2-438f65c6640c"
+}, {
+	"publisher": "node_agent",
+	"job_id": "c7b98511-4758-4d9e-9ff4-e9e1bc4ee059",
+	"timestamp": "2017-03-31T08:47:31.019152+00:00",
+	"caller": {
+		"function": "ceph_create_ssh_setup_jobs",
+		"line_no": 42,
+		"filename": "/usr/lib/python2.7/site-packages/tendrl/commons/flows/utils.py"
+	},
+	"payload": {
+		"message": "Created SSH setup job ebe18f72-e00e-4e66-8ae7-2b25bf01e691 for node 72f2115d-456e-4566-8968-0583540b11c5"
+	},
+	"priority": "info",
+	"parent_id": null,
+	"node_id": "feb97013-8924-4792-acdd-ec6186e0e03a",
+	"cluster_id": null,
+	"flow_id": "2f94a48a-05d7-408c-b400-e27827f4eacd",
+	"message_id": "bc5c475b-0f3f-4aa3-b187-270619f07277"
+}, {
+	"publisher": "node_agent",
+	"job_id": "c7b98511-4758-4d9e-9ff4-e9e1bc4ee059",
+	"timestamp": "2017-03-31T08:47:32.665783+00:00",
+	"caller": {
+		"function": "run",
+		"line_no": 42,
+		"filename": "/usr/lib/python2.7/site-packages/tendrl/commons/flows/create_cluster/__init__.py"
+	},
+	"payload": {
+		"message": "SSH setup completed for all nodes in cluster c0801652-61b9-43b3-b50b-5871de09252d"
+	},
+	"priority": "info",
+	"parent_id": null,
+	"node_id": "feb97013-8924-4792-acdd-ec6186e0e03a",
+	"cluster_id": null,
+	"flow_id": "2f94a48a-05d7-408c-b400-e27827f4eacd",
+	"message_id": "d5553266-af72-48be-a305-67fea263f396"
+}, {
+	"publisher": "node_agent",
+	"job_id": "c7b98511-4758-4d9e-9ff4-e9e1bc4ee059",
+	"timestamp": "2017-03-31T08:47:32.690394+00:00",
+	"caller": {
+		"function": "create_ceph",
+		"line_no": 17,
+		"filename": "/usr/lib/python2.7/site-packages/tendrl/commons/flows/create_cluster/ceph_help.py"
+	},
+	"payload": {
+		"message": "Installing Ceph Packages c0801652-61b9-43b3-b50b-5871de09252d"
+	},
+	"priority": "info",
+	"parent_id": null,
+	"node_id": "feb97013-8924-4792-acdd-ec6186e0e03a",
+	"cluster_id": null,
+	"flow_id": "2f94a48a-05d7-408c-b400-e27827f4eacd",
+	"message_id": "e795552a-221e-4d90-bf87-abfacbfd0c61"
+}, {
+	"publisher": "node_agent",
+	"job_id": "c7b98511-4758-4d9e-9ff4-e9e1bc4ee059",
+	"timestamp": "2017-03-31T08:47:33.068396+00:00",
+	"caller": {
+		"function": "install_packages",
+		"line_no": 75,
+		"filename": "/usr/lib/python2.7/site-packages/tendrl/commons/flows/create_cluster/ceph_help.py"
+	},
+	"payload": {
+		"message": "Installing Ceph Packages on MONS [10.70.42.73 10.70.42.2 10.70.43.102], ceph-installer task d5fa6b77-3c79-470b-a592-711003d5fa52"
+	},
+	"priority": "info",
+	"parent_id": null,
+	"node_id": "feb97013-8924-4792-acdd-ec6186e0e03a",
+	"cluster_id": null,
+	"flow_id": "2f94a48a-05d7-408c-b400-e27827f4eacd",
+	"message_id": "7f46509f-4541-49e3-8282-4d7fdcc2d8f9"
+}, {
+	"publisher": "node_agent",
+	"job_id": "9a50bc00-e14c-42c9-9ec2-6fbd9aae4974",
+	"timestamp": "2017-03-31T08:47:33.745198+00:00",
+	"caller": {
+		"function": "_run",
+		"line_no": 82,
+		"filename": "/usr/lib/python2.7/site-packages/tendrl/commons/jobs/__init__.py"
+	},
+	"payload": {
+		"message": "Processing Job 9a50bc00-e14c-42c9-9ec2-6fbd9aae4974"
+	},
+	"priority": "info",
+	"parent_id": null,
+	"node_id": "96344259-a9bf-4f9d-a416-e6bd72a80b1a",
+	"cluster_id": null,
+	"flow_id": "759e639a-1315-11e7-93ae-92361f002672",
+	"message_id": "7346edfd-16fa-4fa0-a873-a5625b486fc7"
+}, {
+	"publisher": "node_agent",
+	"job_id": "9a50bc00-e14c-42c9-9ec2-6fbd9aae4974",
+	"timestamp": "2017-03-31T08:47:33.794655+00:00",
+	"caller": {
+		"function": "_run",
+		"line_no": 94,
+		"filename": "/usr/lib/python2.7/site-packages/tendrl/commons/jobs/__init__.py"
+	},
+	"payload": {
+		"message": "Running Flow tendrl.flows.SetupSsh"
+	},
+	"priority": "info",
+	"parent_id": null,
+	"node_id": "96344259-a9bf-4f9d-a416-e6bd72a80b1a",
+	"cluster_id": null,
+	"flow_id": "759e639a-1315-11e7-93ae-92361f002672",
+	"message_id": "451007ed-4daa-4c06-a9f6-0f06809db453"
+}, {
+	"publisher": "node_agent",
+	"job_id": "9a50bc00-e14c-42c9-9ec2-6fbd9aae4974",
+	"timestamp": "2017-03-31T08:47:35.682818+00:00",
+	"caller": {
+		"function": "_run",
+		"line_no": 108,
+		"filename": "/usr/lib/python2.7/site-packages/tendrl/commons/jobs/__init__.py"
+	},
+	"payload": {
+		"message": "JOB[9a50bc00-e14c-42c9-9ec2-6fbd9aae4974]:  Finished Flow tendrl.flows.SetupSsh"
+	},
+	"priority": "info",
+	"parent_id": null,
+	"node_id": "96344259-a9bf-4f9d-a416-e6bd72a80b1a",
+	"cluster_id": null,
+	"flow_id": "759e639a-1315-11e7-93ae-92361f002672",
+	"message_id": "4c7a9281-38de-416c-b366-d6c101a5361d"
+}, {
+	"publisher": "node_agent",
+	"job_id": "c41753a0-594b-429f-83b2-d12a011f0892",
+	"timestamp": "2017-03-31T08:47:29.302879+00:00",
+	"caller": {
+		"function": "_run",
+		"line_no": 82,
+		"filename": "/usr/lib/python2.7/site-packages/tendrl/commons/jobs/__init__.py"
+	},
+	"payload": {
+		"message": "Processing Job c41753a0-594b-429f-83b2-d12a011f0892"
+	},
+	"priority": "info",
+	"parent_id": null,
+	"node_id": "917e7e10-ae7b-4c24-b0fd-88a2d376226e",
+	"cluster_id": null,
+	"flow_id": "759e639a-1315-11e7-93ae-92361f002672",
+	"message_id": "0a2f748e-37bf-439a-8cbf-4650909e34c8"
+}, {
+	"publisher": "node_agent",
+	"job_id": "c41753a0-594b-429f-83b2-d12a011f0892",
+	"timestamp": "2017-03-31T08:47:29.681801+00:00",
+	"caller": {
+		"function": "_run",
+		"line_no": 94,
+		"filename": "/usr/lib/python2.7/site-packages/tendrl/commons/jobs/__init__.py"
+	},
+	"payload": {
+		"message": "Running Flow tendrl.flows.SetupSsh"
+	},
+	"priority": "info",
+	"parent_id": null,
+	"node_id": "917e7e10-ae7b-4c24-b0fd-88a2d376226e",
+	"cluster_id": null,
+	"flow_id": "759e639a-1315-11e7-93ae-92361f002672",
+	"message_id": "5cf7c2c4-3364-463f-aeaf-2b07085228e5"
+}, {
+	"publisher": "node_agent",
+	"job_id": "c41753a0-594b-429f-83b2-d12a011f0892",
+	"timestamp": "2017-03-31T08:47:32.663030+00:00",
+	"caller": {
+		"function": "_run",
+		"line_no": 108,
+		"filename": "/usr/lib/python2.7/site-packages/tendrl/commons/jobs/__init__.py"
+	},
+	"payload": {
+		"message": "JOB[c41753a0-594b-429f-83b2-d12a011f0892]:  Finished Flow tendrl.flows.SetupSsh"
+	},
+	"priority": "info",
+	"parent_id": null,
+	"node_id": "917e7e10-ae7b-4c24-b0fd-88a2d376226e",
+	"cluster_id": null,
+	"flow_id": "759e639a-1315-11e7-93ae-92361f002672",
+	"message_id": "281ca6d1-2680-4a7f-b1fa-bfd70a2f397d"
+}, {
+	"publisher": "node_agent",
+	"job_id": "2ac0a186-a4e3-459b-a514-069662d855ef",
+	"timestamp": "2017-03-31T08:47:35.916671+00:00",
+	"caller": {
+		"function": "_run",
+		"line_no": 108,
+		"filename": "/usr/lib/python2.7/site-packages/tendrl/commons/jobs/__init__.py"
+	},
+	"payload": {
+		"message": "JOB[2ac0a186-a4e3-459b-a514-069662d855ef]:  Finished Flow tendrl.flows.SetupSsh"
+	},
+	"priority": "info",
+	"parent_id": null,
+	"node_id": "f157ed8c-b7a9-4ff6-b0b5-07f83c2b0fad",
+	"cluster_id": null,
+	"flow_id": "759e639a-1315-11e7-93ae-92361f002672",
+	"message_id": "58e9b29d-d365-4b59-8b81-cb386d88a1a1"
+}, {
+	"publisher": "node_agent",
+	"job_id": "2ac0a186-a4e3-459b-a514-069662d855ef",
+	"timestamp": "2017-03-31T08:47:33.714634+00:00",
+	"caller": {
+		"function": "_run",
+		"line_no": 82,
+		"filename": "/usr/lib/python2.7/site-packages/tendrl/commons/jobs/__init__.py"
+	},
+	"payload": {
+		"message": "Processing Job 2ac0a186-a4e3-459b-a514-069662d855ef"
+	},
+	"priority": "info",
+	"parent_id": null,
+	"node_id": "f157ed8c-b7a9-4ff6-b0b5-07f83c2b0fad",
+	"cluster_id": null,
+	"flow_id": "759e639a-1315-11e7-93ae-92361f002672",
+	"message_id": "64b80c69-2e79-47a8-a0a3-f340cd1aa76b"
+}, {
+	"publisher": "node_agent",
+	"job_id": "2ac0a186-a4e3-459b-a514-069662d855ef",
+	"timestamp": "2017-03-31T08:47:33.793162+00:00",
+	"caller": {
+		"function": "_run",
+		"line_no": 94,
+		"filename": "/usr/lib/python2.7/site-packages/tendrl/commons/jobs/__init__.py"
+	},
+	"payload": {
+		"message": "Running Flow tendrl.flows.SetupSsh"
+	},
+	"priority": "info",
+	"parent_id": null,
+	"node_id": "f157ed8c-b7a9-4ff6-b0b5-07f83c2b0fad",
+	"cluster_id": null,
+	"flow_id": "759e639a-1315-11e7-93ae-92361f002672",
+	"message_id": "ddd0a809-3345-4608-967b-aef74280cec4"
+}, {
+	"publisher": "node_agent",
+	"job_id": "721ccbd1-7c80-4796-aecc-894728c4d9a5",
+	"timestamp": "2017-03-31T08:47:44.397432+00:00",
+	"caller": {
+		"function": "_run",
+		"line_no": 82,
+		"filename": "/usr/lib/python2.7/site-packages/tendrl/commons/jobs/__init__.py"
+	},
+	"payload": {
+		"message": "Processing Job 721ccbd1-7c80-4796-aecc-894728c4d9a5"
+	},
+	"priority": "info",
+	"parent_id": null,
+	"node_id": "79564a7c-0d96-4df0-ab69-df032c4df9ce",
+	"cluster_id": null,
+	"flow_id": "759e639a-1315-11e7-93ae-92361f002672",
+	"message_id": "6cd897ec-4230-4d23-95a5-e7fbecd74f10"
+}, {
+	"publisher": "node_agent",
+	"job_id": "721ccbd1-7c80-4796-aecc-894728c4d9a5",
+	"timestamp": "2017-03-31T08:47:44.448498+00:00",
+	"caller": {
+		"function": "_run",
+		"line_no": 94,
+		"filename": "/usr/lib/python2.7/site-packages/tendrl/commons/jobs/__init__.py"
+	},
+	"payload": {
+		"message": "Running Flow tendrl.flows.SetupSsh"
+	},
+	"priority": "info",
+	"parent_id": null,
+	"node_id": "79564a7c-0d96-4df0-ab69-df032c4df9ce",
+	"cluster_id": null,
+	"flow_id": "759e639a-1315-11e7-93ae-92361f002672",
+	"message_id": "74a03dbb-476d-4a29-b7a3-10c08e3ab685"
+}, {
+	"publisher": "node_agent",
+	"job_id": "721ccbd1-7c80-4796-aecc-894728c4d9a5",
+	"timestamp": "2017-03-31T08:47:46.786559+00:00",
+	"caller": {
+		"function": "_run",
+		"line_no": 108,
+		"filename": "/usr/lib/python2.7/site-packages/tendrl/commons/jobs/__init__.py"
+	},
+	"payload": {
+		"message": "JOB[721ccbd1-7c80-4796-aecc-894728c4d9a5]:  Finished Flow tendrl.flows.SetupSsh"
+	},
+	"priority": "info",
+	"parent_id": null,
+	"node_id": "79564a7c-0d96-4df0-ab69-df032c4df9ce",
+	"cluster_id": null,
+	"flow_id": "759e639a-1315-11e7-93ae-92361f002672",
+	"message_id": "684d1057-d93a-4d04-9603-7b62f2699232"
+}, {
+	"publisher": "node_agent",
+	"job_id": "ebe18f72-e00e-4e66-8ae7-2b25bf01e691",
+	"timestamp": "2017-03-31T08:47:36.974595+00:00",
+	"caller": {
+		"function": "_run",
+		"line_no": 82,
+		"filename": "/usr/lib/python2.7/site-packages/tendrl/commons/jobs/__init__.py"
+	},
+	"payload": {
+		"message": "Processing Job ebe18f72-e00e-4e66-8ae7-2b25bf01e691"
+	},
+	"priority": "info",
+	"parent_id": null,
+	"node_id": "72f2115d-456e-4566-8968-0583540b11c5",
+	"cluster_id": null,
+	"flow_id": "759e639a-1315-11e7-93ae-92361f002672",
+	"message_id": "884a8d54-c127-4e1d-9dbd-b729d1aeae29"
+}, {
+	"publisher": "node_agent",
+	"job_id": "ebe18f72-e00e-4e66-8ae7-2b25bf01e691",
+	"timestamp": "2017-03-31T08:47:37.058771+00:00",
+	"caller": {
+		"function": "_run",
+		"line_no": 94,
+		"filename": "/usr/lib/python2.7/site-packages/tendrl/commons/jobs/__init__.py"
+	},
+	"payload": {
+		"message": "Running Flow tendrl.flows.SetupSsh"
+	},
+	"priority": "info",
+	"parent_id": null,
+	"node_id": "72f2115d-456e-4566-8968-0583540b11c5",
+	"cluster_id": null,
+	"flow_id": "759e639a-1315-11e7-93ae-92361f002672",
+	"message_id": "a11a7bff-9516-4db4-b4cc-6e807c065c15"
+}, {
+	"publisher": "node_agent",
+	"job_id": "ebe18f72-e00e-4e66-8ae7-2b25bf01e691",
+	"timestamp": "2017-03-31T08:47:39.357290+00:00",
+	"caller": {
+		"function": "_run",
+		"line_no": 108,
+		"filename": "/usr/lib/python2.7/site-packages/tendrl/commons/jobs/__init__.py"
+	},
+	"payload": {
+		"message": "JOB[ebe18f72-e00e-4e66-8ae7-2b25bf01e691]:  Finished Flow tendrl.flows.SetupSsh"
+	},
+	"priority": "info",
+	"parent_id": null,
+	"node_id": "72f2115d-456e-4566-8968-0583540b11c5",
+	"cluster_id": null,
+	"flow_id": "759e639a-1315-11e7-93ae-92361f002672",
+	"message_id": "c16ef55a-f93b-467a-a1e6-b761f249c485"
+}]
