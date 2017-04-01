@@ -114,10 +114,12 @@
         vm.getJobList = function() {
             var url = "", getJobListRequest, request;
 
+            url = config.baseUrl + "jobs";
+
             getJobListRequest = {
                 method: "GET",
                 //url: "jobs"
-                url: "/api/jobs.json"
+                url: url
             };
 
             request = angular.copy(getJobListRequest);
@@ -170,10 +172,12 @@
         vm.getJobDetail = function(id) {
             var url = "", getJobDetailRequest, request;
 
+            url = config.baseUrl + "jobs/" + id ;
+
             getJobDetailRequest = {
                 method: "GET",
-                //url: "jobs"
-                url: "/api/task-detail.json"
+                url: url
+                // url: "/api/task-detail.json"
             };
 
             request = angular.copy(getJobDetailRequest);
@@ -383,8 +387,8 @@
         vm.getTaskLogs = function(jobId) {
             var url, getTaskLogsRequest, request;
 
-            //url = config.baseUrl + "jobs/"  + JobId + "/messages";
-            url = "/api/GetMessageList.json";
+            url = config.baseUrl + "jobs/"  + jobId + "/messages";
+            //url = "/api/GetMessageList.json";
 
             getTaskLogsRequest = {
                 method: "GET",
@@ -403,8 +407,8 @@
         vm.getTaskStatus = function(jobId) {
             var url, getTaskStatusRequest, request;
 
-            //url = config.baseUrl + "jobs/"  + JobId + "/status";
-            url = "/api/GetStatus.json";
+            url = config.baseUrl + "jobs/"  + jobId + "/status";
+            //url = "/api/GetStatus.json";
 
             getTaskStatusRequest = {
                 method: "GET",

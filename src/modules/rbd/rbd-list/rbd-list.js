@@ -74,7 +74,7 @@
                 rbd.clusterId = list[i].clusterId;
                 rbd.pool_id = list[i].pool_id;
                 rbd.size = parseInt(list[i].size);
-                rbd.clusterName = list[i].clusterName;
+                rbd.clusterName = list[i].cluster_name;
                 if( typeof list[i].used !== "undefined" && typeof list[i].provisioned !== "undefined") {
                     utilization_percent = ( (parseInt(list[i].used) * 100) / parseInt(list[i].provisioned) );
                     rbd.utilization = {"percent_used": utilization_percent };

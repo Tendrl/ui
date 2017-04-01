@@ -94,7 +94,11 @@
         /*Refreshing list after each 2 mins interval*/
         timer = $interval(function () {
             init();
-        }, 1000 * config.statusRefreshIntervalTime);       
+        }, 1000 * config.statusRefreshIntervalTime);
+
+        $scope.$on("$destroy", function() {
+            $interval.cancel(timer);
+        });    
 
         function updateStatus(status) {
             var index;

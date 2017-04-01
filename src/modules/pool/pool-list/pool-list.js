@@ -80,7 +80,7 @@
                 pool.minSize = list[i].min_size;
                 clusterObj = utils.getClusterDetails(list[i].cluster_id);
                 if(typeof clusterObj !== "undefined") {
-                    pool.clusterName = clusterObj.name;
+                    pool.clusterName = clusterObj.cluster_name;
                 }
                 pool.status = "NA";
                 pool.type = list[i].type;

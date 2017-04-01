@@ -50,17 +50,19 @@
             
             for (i = 0; i < length; i++) {
                 host={};
-                tags = list[i].tags.split("/")
+
+                tags = JSON.parse(list[i].tags)[0].split("/");
                 host.cluster_name = "Unassigned";
                 host.id = list[i].node_id;
                 host.status = list[i].status;
                 host.name = list[i].fqdn;
-                host.role = role[tags[tags.length-1]];
-                clusterObj = utils.getClusterDetails(list[i].tendrlcontext.integration_id);
+                host.role = role[tags[1]];
+                host.cluster_name = list[i].tendrlcontext.cluster_name;
+                // clusterObj = utils.getClusterDetails(list[i].tendrlcontext.integration_id);
                 
-                if(typeof clusterObj !== "undefined") {
-                    host.cluster_name = clusterObj.integration_name || "NA";
-                }
+                // if(typeof clusterObj !== "undefined") {
+                //     host.cluster_name = clusterObj.integration_name || "NA";
+                // }
                 if(typeof list[i].stats !== "undefined") {
                     stats = list[i].stats;
                     host.storage = stats.storage_usage;

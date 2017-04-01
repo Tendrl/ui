@@ -17,12 +17,15 @@
         init();
 
         function _getTaskLogs() {
-            taskStore.getTaskLogs($stateParams.taskId)
-                .then(function(response) {
-                    if(typeof vm.taskDetail !== "undefined") {
-                        vm.taskDetail.logs = response;
-                    }
-                });
+            if(vm.taskDetail && vm.taskDetail.status === "in progress"){
+                taskStore.getTaskLogs($stateParams.taskId)
+                    .then(function(response) {
+                        if(typeof vm.taskDetail !== "undefined") {
+                            vm.taskDetail.logs = response;
+                        }
+                    });
+            }
+
         }
 
         function init() {
@@ -36,10 +39,12 @@
         }
 
        function _updateStatus() {
-            taskStore.getTaskStatus($stateParams.taskId)
-                .then(function(data) {
-                    vm.taskDetail.status = data.status;
-                });
+            if(vm.taskDetail && vm.taskDetail.status === "in progress"){
+                taskStore.getTaskStatus($stateParams.taskId)
+                    .then(function(data) {
+                        vm.taskDetail.status = data.status;
+                    });
+            }
        } 
 
         /*Refreshing list after each 2 mins interval*/
