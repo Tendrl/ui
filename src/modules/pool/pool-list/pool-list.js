@@ -148,6 +148,7 @@
                     // $rootScope.notification.type = "success";
                     // $rootScope.notification.message = "JOB is under process. and JOB-ID is - " + response.job_id;
                     vm.editPoolStep = 4;
+                    vm.jobId = response.job_id;
                 })
                 .catch(function(error) {
                     vm.errorInProcess = true;
@@ -176,6 +177,7 @@
                     // $rootScope.notification.type = "success";
                     // $rootScope.notification.message = "JOB is under process. and JOB-ID is - " + response.job_id;
                     vm.growPGStep = 2;
+                    vm.jobId = response.job_id;
                 })
                 .catch(function(error) {
                     vm.errorInProcess = true;
@@ -188,7 +190,7 @@
             $(modalId).modal("hide");
             
             setTimeout(function() {
-                $state.go("task");
+                $state.go("task-detail", {taskId: vm.jobId});
             },1000);
         }
 

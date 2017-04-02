@@ -38,7 +38,7 @@
                 })
                 .catch(function(){
                     AuthManager.isUserLoggedIn = false;
-                    vm.errorMsg = "The email address or password you entered does not match our records. Please try again.";
+                    vm.errorMsg = "The username or password you entered does not match our records. Please try again.";
                     vm.user.password = "";
                 })
                 .finally(function () {

@@ -6,7 +6,7 @@
     app.controller("taskController", taskController);
 
     /*@ngInject*/
-    function taskController($rootScope, $scope, $interval, $state, $timeout, $filter, config, taskStore) {
+    function taskController($rootScope, $scope, $interval, $state, $timeout, $filter, orderByFilter, config, taskStore) {
 
         var vm = this,
             timer,
@@ -48,6 +48,8 @@
         function init() {
             taskStore.getJobList()
                 .then(function(data) {
+                    //data = orderByFilter(data, "created_at", "job_id");
+                    //data = orderByFilter(data, "job_id");
                     vm.taskList = data;
                     vm.isDataLoading = false;
                 });
@@ -65,8 +67,10 @@
                 return "Failed";
             } else if (status === "warning") {
                 return "Completed with Errors";
-            } else if (status === "in progress") {
-                return "In Progress";
+            } else if (status === "processing") {
+                return "Processing";
+            } else if(status === "new") {
+                return "New";
             }
         }
 

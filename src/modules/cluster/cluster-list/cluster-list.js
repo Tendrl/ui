@@ -20,6 +20,7 @@
 
         vm.importCluster = importCluster;
         vm.goToClusterDetail = goToClusterDetail;
+        vm.createCluster = createCluster;
         vm.isDataLoading = true;
 
         init();
@@ -60,6 +61,10 @@
 
         function importCluster() {
             $state.go("import-cluster");
+        }
+
+        function createCluster() {
+            $state.go("create-cluster");
         }
 
         function _createClusterList() {

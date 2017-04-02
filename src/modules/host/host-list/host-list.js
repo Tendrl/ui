@@ -81,7 +81,7 @@
         /*Refreshing list after each 30 second interval*/
         var timer = $interval(function () {
           init();
-        }, 1000 * config.refreshIntervalTime );
+        }, 1000 * config.nodeRefreshIntervalTime );
 
         /*Cancelling interval when scope is destroy*/
         $scope.$on('$destroy', function() {

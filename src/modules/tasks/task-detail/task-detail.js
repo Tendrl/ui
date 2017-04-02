@@ -17,15 +17,12 @@
         init();
 
         function _getTaskLogs() {
-            if(vm.taskDetail && vm.taskDetail.status === "in progress"){
-                taskStore.getTaskLogs($stateParams.taskId)
-                    .then(function(response) {
-                        if(typeof vm.taskDetail !== "undefined") {
-                            vm.taskDetail.logs = response;
-                        }
-                    });
-            }
-
+            taskStore.getTaskLogs($stateParams.taskId)
+                .then(function(response) {
+                    if(typeof vm.taskDetail !== "undefined") {
+                        vm.taskDetail.logs = response;
+                    }
+                });
         }
 
         function init() {
@@ -39,21 +36,23 @@
         }
 
        function _updateStatus() {
-            if(vm.taskDetail && vm.taskDetail.status === "in progress"){
-                taskStore.getTaskStatus($stateParams.taskId)
-                    .then(function(data) {
-                        vm.taskDetail.status = data.status;
-                    });
-            }
+            taskStore.getTaskStatus($stateParams.taskId)
+                .then(function(data) {
+                    vm.taskDetail.status = data.status;
+                });
        } 
 
         /*Refreshing list after each 2 mins interval*/
         statusTimer = $interval(function () {
-            _updateStatus();
+            if(vm.taskDetail && (vm.taskDetail.status === "processing" || vm.taskDetail.status === "new")){
+                _updateStatus();
+            }
         }, 1000 * config.statusRefreshIntervalTime );
 
         msgTimer = $interval(function () {
-            _getTaskLogs();
+            if(vm.taskDetail && (vm.taskDetail.status === "processing" || vm.taskDetail.status === "new")){
+                _getTaskLogs();
+            }
         }, 1000 * config.msgRefreshIntervalTime );
 
         $scope.$on("$destroy", function() {

@@ -16,8 +16,8 @@
             deferred = $q.defer();
             utils.getJobList()
                 .then(function(data) {
-                    list = utils.formatDate(data, "created_at", "dd MMM yyyy");
-                    deferred.resolve(list);
+                    //list = utils.formatDate(data, "created_at", "dd MMM yyyy");
+                    deferred.resolve(data);
                 });
 
             return deferred.promise;
@@ -40,7 +40,9 @@
             deferred = $q.defer();
             utils.getTaskLogs(jobId)
                 .then(function(data) {
-                    logs = _formatData(data);
+                    if(data) {
+                        logs = _formatData(data);
+                    }
                     deferred.resolve(logs);
                 });
 

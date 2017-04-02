@@ -62,7 +62,8 @@
 
 
         function _createRbdList(list) {
-            var utilization_percent;
+            var utilization_percent,
+                clusterObj;
             len = list.length;
             rbdList = [];
 
@@ -74,7 +75,11 @@
                 rbd.clusterId = list[i].clusterId;
                 rbd.pool_id = list[i].pool_id;
                 rbd.size = parseInt(list[i].size);
-                rbd.clusterName = list[i].cluster_name;
+                rbd.clusterName = "NA";
+                clusterObj = utils.getClusterDetails(list[i].clusterId);
+                if(typeof clusterObj !== "undefined") {
+                    rbd.clusterName = clusterObj.cluster_name;
+                }
                 if( typeof list[i].used !== "undefined" && typeof list[i].provisioned !== "undefined") {
                     utilization_percent = ( (parseInt(list[i].used) * 100) / parseInt(list[i].provisioned) );
                     rbd.utilization = {"percent_used": utilization_percent };
@@ -129,6 +134,7 @@
                     // $rootScope.notification.type = "success";
                     // $rootScope.notification.message = "JOB is under process. and JOB-ID is - " + response.job_id;
                     vm.resizeRBDstep = 2;
+                    vm.jobId = response.job_id;
                 })
                 .catch(function(error) {
                     vm.errorInProcess = true;
@@ -140,7 +146,7 @@
             vm.resizeRBDtaskSubmitted = true;
             $("#rbdResizeModal").modal("hide");
             setTimeout(function() {
-                $state.go("task");
+                $state.go("task-detail", {taskId: vm.jobId});
             },1000)
         }
     }
