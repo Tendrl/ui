@@ -13,7 +13,7 @@
     }
 
 	.div-with-scroll {
-	    height: 167px;
+	    max-height: 315px;
 	    overflow: scroll;
 	    overflow-x: hidden;
 	}
