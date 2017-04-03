@@ -29,7 +29,7 @@
                     hostList = list.nodes;
                     vm.detectedClusters = list.clusters;
                     vm.selectedCluster = vm.detectedClusters[0];
-                    vm.selectedClusterVersion = vm.selectedCluster.sds_version;
+                    vm.selectedClusterVersion = vm.selectedCluster.tendrlcontext.sds_version;
                     hostDetail = setHostDetails(vm.selectedCluster.node_ids);
                     vm.selectedCluster.hosts = hostDetail.hosts;
                     vm.selectedCluster.sds_type = hostDetail.sds_type;
@@ -66,7 +66,8 @@
                         vm.selectedCluster.sds_name = sds_type + " " + vm.selectedClusterVersion;
                         host = {};
                         if(hostList[j].tags !== "undefined" && hostList[j].tags){
-                            release = hostList[j].tags.split("/");
+                            hostList[j].tags = JSON.parse(hostList[j].tags);
+                            release = hostList[j].tags[0].split("/");
                             host.release = release[0]+ " " +vm.selectedClusterVersion;
                             host.role = role[release[release.length - 1]];
                          }

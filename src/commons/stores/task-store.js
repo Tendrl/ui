@@ -7,11 +7,11 @@
 
     /*@ngInject*/
     function taskStore($state, $q, utils) {
-        var store = this,
-            deferred;
+        var store = this;
 
         store.getJobList = function() {
-            var list;
+            var list,
+                deferred;
                 
             deferred = $q.defer();
             utils.getJobList()
@@ -24,7 +24,7 @@
         };
 
         store.getJobDetail = function(jobId) {
-            deferred = $q.defer();
+            var deferred = $q.defer();
 
             utils.getJobDetail(jobId)
                 .then(function(data) {
@@ -35,7 +35,8 @@
         };
 
         store.getTaskLogs = function(jobId) {
-            var logs;
+            var logs,
+                deferred;
 
             deferred = $q.defer();
             utils.getTaskLogs(jobId)
@@ -67,7 +68,7 @@
         };
 
         store.getTaskStatus = function(jobId) {
-            deferred = $q.defer();
+            var deferred = $q.defer();
 
             utils.getTaskStatus(jobId)
                 .then(function(data) {
