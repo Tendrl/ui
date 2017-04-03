@@ -18,11 +18,14 @@
                 </div>
                 <div class="form-group">
                     From:
-                    <div pf-datepicker options="taskCntrl.fromDateOptions" date="taskCntrl.date.fromDate" ng-model="taskCntrl.date.fromDate"></div>
+                    <div pf-datepicker options="taskCntrl.fromDateOptions" date="taskCntrl.date.fromDate" ng-model="taskCntrl.date.fromDate"  ng-click="taskCntrl.resetCount()"></div>
                 </div>
-                <div class="form-group">
+                <div class="form-group remove-right-border">
                     To:
-                    <div pf-datepicker options="taskCntrl.toDateOptions" date="taskCntrl.date.toDate" ng-model="taskCntrl.date.toDate"></div>
+                    <div pf-datepicker options="taskCntrl.toDateOptions" date="taskCntrl.date.toDate" ng-model="taskCntrl.date.toDate" ng-click="taskCntrl.resetCount()"></div>
+                </div>
+                <div class="form-group invalid-msg" ng-if="taskCntrl.invalidToDate">
+                    <span class="error-msg">*To date cannot be greater than from date</span>
                 </div>
             </form>
             
@@ -64,18 +67,19 @@
     </center>
     <div ng-if="taskCntrl.isDataLoading" class="spinner spinner-lg"></div>
     <div class="task-list-table">
-        <div class="list-group list-view-pf list-view-pf-equalized-column" ng-repeat="task in taskCntrl.filteredTaskList = (taskCntrl.taskList | filter: taskCntrl.searchBy | filter:taskCntrl.filterByStatus | filter: taskCntrl.filterByCreatedDate)">
+        <div class="list-group list-view-pf list-view-pf-equalized-column" ng-repeat="task in taskCntrl.filteredTaskList = (taskCntrl.taskList | filter: taskCntrl.searchBy | filter:taskCntrl.filterByStatus | filter: taskCntrl.filterByCreatedDate| orderBy: ['-created_at', 'job_id'])">
             <div class="list-group-item">
                 <div class="list-view-pf-left col-md-1">
-                    <i ng-class="{'pficon pficon-error-circle-o': (task.status === 'failed'), 'pficon pficon-ok': (task.status === 'finished'), 'pficon pficon-warning-triangle-o': (task.status === 'warning'), 'fa fa-spinner': (task.status === 'in progress')}"></i>
+                    <i ng-class="{'pficon pficon-error-circle-o': (task.status === 'failed'), 'pficon pficon-ok': (task.status === 'finished'), 'pficon pficon-warning-triangle-o': (task.status === 'warning'), 'fa fa-spinner': (task.status === 'processing')}"></i>
                 </div>
                 <div class="col-md-3 text-center">
-                    <a href="" ng-click="taskCntrl.goToTaskDetail(task.job_id)" class="bold-text">{{task.flow}}</a>
-                    <p>Task ID: {{task.job_id}}</p>
+                    <a href="" ng-click="taskCntrl.goToTaskDetail(task.job_id)" ng-if="task.flow" class="bold-text">{{task.flow}}</a>
+                    <div class="bold-text" ng-if="!task.flow">NA</div>
+                    <p>Task ID: {{task.job_id || "NA"}} </p>
                 </div>
                  <div class="col-md-3 text-center">
                     <p class="bold-text">Submitted</p>
-                    <p>{{task.created_at}}</p>
+                    <p>{{task.created_at| date: 'dd MMM yyyy'}}</p>
                 </div>
                  <div class="col-md-3 text-center">
                     <p class="bold-text">{{taskCntrl.getStatusText(task.status)}}</p>

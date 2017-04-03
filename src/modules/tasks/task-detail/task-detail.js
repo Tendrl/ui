@@ -44,11 +44,15 @@
 
         /*Refreshing list after each 2 mins interval*/
         statusTimer = $interval(function () {
-            _updateStatus();
+            if(vm.taskDetail && (vm.taskDetail.status === "processing" || vm.taskDetail.status === "new")){
+                _updateStatus();
+            }
         }, 1000 * config.statusRefreshIntervalTime );
 
         msgTimer = $interval(function () {
-            _getTaskLogs();
+            if(vm.taskDetail && (vm.taskDetail.status === "processing" || vm.taskDetail.status === "new")){
+                _getTaskLogs();
+            }
         }, 1000 * config.msgRefreshIntervalTime );
 
         $scope.$on("$destroy", function() {

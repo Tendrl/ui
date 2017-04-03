@@ -88,13 +88,14 @@
 
         function importCluster() {
             var uri = "ImportCluster";
-            utils.importCluster(uri, vm.selectedCluster).then(function(list) {
+            utils.importCluster(uri, vm.selectedCluster).then(function(response) {
                 vm.step = 2;
+                vm.jobId = response.job_id;;
             });
         }
 
         function viewTaskProgress() {
-            $state.go("task");
+            $state.go("task-detail", {taskId: vm.jobId});
         }
 
         function importCancel() {
