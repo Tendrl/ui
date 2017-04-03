@@ -6,25 +6,31 @@
     app.controller("clusterDetailController", clusterDetailController);
 
     /*@ngInject*/
-    function clusterDetailController($state, $stateParams, utils, $scope) {
+    function clusterDetailController($state, $stateParams, utils, $scope, $rootScope) {
 
         var vm = this;
-        vm.tabList = {"Host": 1};
+        vm.tabList = { "Host": 1 };
         vm.setTab = setTab;
         vm.isTabSet = isTabSet;
 
         /* Adding clusterId in scope so that it will be accessible inside child directive */
         $scope.clusterId = $stateParams.clusterId;
-        vm.clusterObj = utils.getClusterDetails($scope.clusterId);
-        vm.clusterName = vm.clusterObj.cluster_name || "NA";
-         if( vm.clusterObj.sds_name === "glusterfs" ) {
-            vm.tabList.FileShare = 2;
+
+        if (!$rootScope.clusterData) {
+            $state.go("cluster");
         } else {
-            vm.tabList.Pool = 2;
-            vm.tabList.RBD = 3;
+
+            vm.clusterObj = utils.getClusterDetails($scope.clusterId);
+            vm.clusterName = vm.clusterObj.cluster_name || "NA";
+            if (vm.clusterObj.sds_name === "glusterfs") {
+                vm.tabList.FileShare = 2;
+            } else {
+                vm.tabList.Pool = 2;
+                vm.tabList.RBD = 3;
+            }
+            vm.activeTab = vm.tabList["Host"];
         }
 
-        vm.activeTab = vm.tabList["Host"];
 
         function setTab(newTab) {
             vm.activeTab = newTab;
