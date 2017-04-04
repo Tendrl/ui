@@ -79,7 +79,7 @@
                     cluster = {};
 
                     cluster.id = clusterData[i].cluster_id;
-                    cluster.name = clusterData[i].integration_name || "NA";
+                    cluster.name = clusterData[i].cluster_name || "NA";
                     cluster.sds_name = clusterData[i].sds_name;
                     cluster.status = "NA";
 
