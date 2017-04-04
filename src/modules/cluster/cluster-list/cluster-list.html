@@ -33,6 +33,9 @@
                     <div class="form-group toolbar-pf-view-selector">
                         <div class="row">
                             <div class="col-md-6">
+                                <button class="btn pull-right btn-primary" ng-click="">Create</button>
+                            </div>
+                            <div class="col-md-6">
                                 <button class="btn pull-right" ng-click="clusterCntrl.importCluster()">Import</button>
                             </div>
                         </div>
@@ -52,7 +55,7 @@
                 <i class="pficon pficon-cluster"></i>
             </div>
             <h1>No Clusters Detected.</h1>
-            <p>Clusters are detected when you <a ui-sref="import-cluster">create or import a cluster</a></p>
+            <p>Clusters are detected when you <a ui-sref="import-cluster">import a cluster</a></p>
             <p>If you have already cluster created or imported and still do not see Clusters, make sure the Clusters are configured correctly.
             </p>
         </div>

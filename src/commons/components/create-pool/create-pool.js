@@ -66,7 +66,7 @@
             }
             if(vm.step === 5) {
                 createPool();
-                vm.taskSubmitted = true;
+                
             }
         }
 
@@ -169,8 +169,10 @@
                     }
                 }
                 utils.takeAction(postData, "CephCreatePool", "POST", vm.selectedCluster.cluster_id).then(function(response) {
-                    $rootScope.notification.type = "success";
-                    $rootScope.notification.message = "JOB is under process. and JOB-ID is - " + response.job_id;
+                    vm.taskSubmitted = true;
+                    vm.jobId = response.job_id;
+                    //$rootScope.notification.type = "success";
+                    //$rootScope.notification.message = "JOB is under process. and JOB-ID is - " + response.job_id;
                 });
 
             }
@@ -200,7 +202,7 @@
         };
 
         vm.viewTaskProgress = function(){
-            $state.go("task");
+            $state.go("task-detail", {taskId: vm.jobId});
         };
     }
 })();

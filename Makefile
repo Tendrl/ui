@@ -3,19 +3,16 @@ NAME      := tendrl-dashboard
 VERSION   := 1.2.1
 RELEASE   := 1
 
-all: setup rpm
-
-setup:
-	sudo npm install -g gulp
+build-pkgs-dist:
+	npm prune
 	npm install
+	tar -zcf tendrl-dashboard-build-pkgs.tar.gz node_modules
 
-build:
-	gulp release
-
-dist:   build
+dist:
 	mkdir -p $(NAME)-$(VERSION)
+	cp *.js package.json README.md $(NAME)-$(VERSION)/
 	cp -r docs $(NAME)-$(VERSION)/
-	cp -r dist $(NAME)-$(VERSION)/
+	cp -r src $(NAME)-$(VERSION)/
 	tar -zcf $(NAME)-$(VERSION).tar.gz $(NAME)-$(VERSION)
 	rm -rf $(NAME)-$(VERSION)
 

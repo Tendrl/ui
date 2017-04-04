@@ -22,7 +22,7 @@
         <div class="form-group required">
             <label class="col-sm-2 col-md-2 control-label" for="cluster-name">Cluster Name</label>
             <div class="col-sm-8 col-md-3">
-                <select data-ng-options="cluster.integration_name for cluster in createRBDCntrl.cephClusterList" data-ng-model="createRBDCntrl.selectedCluster" class="form-control" data-id="cluster-name"></select>
+                <select data-ng-options="cluster.cluster_name for cluster in createRBDCntrl.cephClusterList" data-ng-model="createRBDCntrl.selectedCluster" class="form-control" data-id="cluster-name"></select>
             </div>
             <div class="col-sm-2 col-md-2" ng-if="createRBDCntrl.selectedCluster.utilization.available">
                 <span>{{createRBDCntrl.selectedCluster.utilization.available | bytes}} Available</span>

@@ -1,61 +1,52 @@
 .create-pool-wizard {
-  .wizard-pf {
-    .wizard-pf-sidebar{
-	position: fixed;
-	left: 200px;
-	top: 200px;
-	bottom: 0;
-	}
+    .wizard-pf {
+        .wizard-pf-sidebar {
+            position: fixed;
+            left: 200px;
+            top: 200px;
+            bottom: 0;
+        }
     }
-
-  .bold-text {
-    font-weight: bold;
-  }
-    
-  .pool-summary {
-    margin-bottom: 50px;
-    margin-left: 0;
-
-  .desc {
-    margin-bottom: 30px;
-  }
- 
-  .single-pool-summary {
-    border: 1px solid $color-white-smoke;
-
-  .row {
-    padding: 10px 0;
-      &:nth-of-type(2n) {
-        background-color: $color-white-smoke;
-      }
+    .bold-text {
+        font-weight: bold;
     }
-  }
-
-  .single-pool-summary:nth-of-type(2n) {
-    background-color: red;
+    .pool-summary {
+        margin-bottom: 50px;
+        margin-left: 0;
+        .desc {
+            margin-bottom: 30px;
+        }
+        .single-pool-summary {
+            border: 1px solid $color-white-smoke;
+            .row {
+                padding: 10px 0;
+                &:nth-of-type(2n) {
+                    background-color: $color-white-smoke;
+                }
+            }
+        }
+        .single-pool-summary:nth-of-type(2n) {
+            background-color: red;
+        }
     }
-  }
-
-  .modal-footer{
-    text-align: left;
-  }
-
-  .edit-buttons{
-    font-size: 30px;
-  }
-
-  .create-pool-content{
-    height: 100%;
-    padding: 1em;
-    vertical-align: top;
-  }
-
-  .wizard-pf-sidebar {
-    border-top: 1px solid #d1d1d1;
-  }
+    .modal-footer {
+        text-align: left;
+    }
+    .edit-buttons {
+        font-size: 30px;
+    }
+    .create-pool-content {
+        height: 100%;
+        padding: 1em;
+        vertical-align: top;
+    }
+    .wizard-pf-sidebar {
+        border-top: 1px solid $color-light-grey;
+    }
 }
-.task-submitted{
-  left: 0 !important;
-  transform: translate(0%, 0%) !important;
-  position: relative !important;
+
+.task-submitted {
+    left: 0 !important;
+    transform: translate(0%, 0%) !important;
+    position: relative !important;
 }

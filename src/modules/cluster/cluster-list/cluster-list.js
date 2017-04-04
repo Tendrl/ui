@@ -20,17 +20,18 @@
 
         vm.importCluster = importCluster;
         vm.goToClusterDetail = goToClusterDetail;
+        vm.createCluster = createCluster;
         vm.isDataLoading = true;
 
         init();
 
         function init() {
             utils.getObjectList("Node")
-                .then(function(data) {
-                    vm.isDataLoading = false;
-                    hostList = data.nodes;
-                    _createClusterList();
-                });
+            .then(function(data) {
+                vm.isDataLoading = false;
+                hostList = data.nodes;
+                _createClusterList();
+            });
         }
 
         /* Trigger this function when we have cluster data */
@@ -46,10 +47,10 @@
         timer = $interval(function() {
 
             utils.getObjectList("Cluster")
-                .then(function(data) {
-                    $rootScope.clusterData = data;
-                    init();
-                });
+            .then(function(data) {
+                $rootScope.clusterData = data;
+                init();
+            });
 
         }, 1000 * config.refreshIntervalTime);
 
@@ -60,6 +61,10 @@
 
         function importCluster() {
             $state.go("import-cluster");
+        }
+
+        function createCluster() {
+            $state.go("create-cluster");
         }
 
         function _createClusterList() {
