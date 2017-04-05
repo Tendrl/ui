@@ -21,7 +21,7 @@ clean:
 	rm -f $(NAME)-$(VERSION)*.rpm
 	rm -f *.log
 
-srpm:   dist
+srpm:   dist build-pkgs-dist
 	fedpkg --dist epel7 srpm
 
 rpm:    srpm
