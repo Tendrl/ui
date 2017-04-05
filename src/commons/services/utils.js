@@ -124,7 +124,7 @@
 
             request = angular.copy(getJobListRequest);
             return $http(request).then(function (response) {
-                return response.data;
+                return response.data.jobs;
             }, function(e) {
                 checkErrorCode(e);
                 console.log("Error Occurred: while fetching getJobListRequest");
