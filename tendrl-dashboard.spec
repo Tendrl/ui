@@ -9,7 +9,7 @@ Source0: %{name}-%{version}.tar.gz
 Source1: tendrl-dashboard-build-pkgs.tar.gz
 URL: https://github.com/Tendrl/dashboard
 
-Requires: tendrl-api
+Requires: tendrl-api-httpd
 BuildRequires: npm
 BuildRequires: nodejs-packaging
 BuildRequires: fontconfig
