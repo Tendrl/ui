@@ -22,6 +22,7 @@
         vm.createRBDs = createRBDs;
         vm.editRBDsList = editRBDsList;
         vm.updateRBDsList = updateRBDsList;
+        vm.viewTaskProgress = viewTaskProgress;
         vm.sizeUnits = ["GB", "TB"];
 
         //default values
@@ -191,8 +192,9 @@
                 postData = { "Rbd.pool_id": parseInt(vm.rbdList[i].pool_id), "Rbd.name": vm.rbdList[i].name, "Rbd.size": vm.rbdList[i].size };
                 
                 utils.takeAction(postData, "CephCreateRbd", "POST", vm.selectedCluster.cluster_id).then(function(response) {
-                    $rootScope.notification.type = "success";
-                    $rootScope.notification.message = "JOB is under process. and JOB-ID is - " + response.job_id;
+                    vm.jobId = response.job_id;
+                    //$rootScope.notification.type = "success";
+                    //$rootScope.notification.message = "JOB is under process. and JOB-ID is - " + response.job_id;
                 });
 
             }
@@ -217,6 +219,9 @@
             vm.isEditable[index] = false;
         }  
 
+        function viewTaskProgress(){
+            $state.go("task-detail", {taskId: vm.jobId});
+        };
     }
 
 })();

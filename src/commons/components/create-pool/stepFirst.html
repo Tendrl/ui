@@ -41,22 +41,22 @@
 		<div class="form-group required">
 			<label class="col-sm-2 col-md-3 control-label" for="cluster-name">Cluster</label>
 			<div class="col-sm-8 col-md-3">
-				<select data-ng-options="cluster.integration_name for cluster in createPoolCntrl.cephClusterList" data-ng-model="createPoolCntrl.selectedCluster" class="form-control" data-id="cluster-name"></select>
+				<select data-ng-options="cluster.cluster_name for cluster in createPoolCntrl.cephClusterList" data-ng-model="createPoolCntrl.selectedCluster" class="form-control" data-id="cluster-name"></select>
 			</div>
 		</div>
 
-		<div class="form-group required">
+		<!-- <div class="form-group required">
 			<label class="col-sm-2 col-md-3 control-label" for="journalConfigration">Journal Configration</label>
 			<div class="col-sm-12 col-md-2">
 				<label class="control-label" data-id="journal-configration" name="journalConfigration">{{createPoolCntrl.journalConfigration || "NA"}}</label>
 			</div>
 		</div>
 		<div class="form-group required">
-			<label class="col-sm-2 col-md-3 control-label" for="OSDs">OSD's</label>
+			<label class="col-sm-2 col-md-3 control-label" for="OSDs">OSD</label>
 			<div class="col-sm-12 col-md-2">
 				<label class="control-label" data-id="OSDs" name="OSDs">{{createPoolCntrl.OSDs || "NA"}}</label>
 			</div>
-		</div>
+		</div> -->
 		<div class="form-group required">
 			<label class="col-sm-3 control-label" for="descriptionInput-markup">PG Count</label>
 			<div class="col-sm-9">

@@ -22,8 +22,8 @@
         vm.resizeRBD = resizeRBD;
         vm.viewTaskProgress = viewTaskProgress;
         vm.resizeRBD = resizeRBD;
-        vm.resizeRbd = {"unit": "" , "size": 0};
-        vm.sizeUnits = ["bytes", "KB", "MB", "GB", "TB"];
+        vm.resizeRbd = {"unit": "MB" , "size": 0};
+        vm.sizeUnits = ["MB", "GB", "TB"];
         vm.resizeRBDtaskSubmitted = false;
         vm.resizeRBDstep = 1;
 
@@ -56,13 +56,14 @@
         }, 1000 * config.refreshIntervalTime );
 
         /*Cancelling interval when scope is destroy*/
-        $scope.$on('$destroy', function() {
+        $scope.$on("$destroy", function() {
             $interval.cancel(timer);
         });
 
 
         function _createRbdList(list) {
-            var utilization_percent;
+            var utilization_percent,
+                clusterObj;
             len = list.length;
             rbdList = [];
 
@@ -74,7 +75,11 @@
                 rbd.clusterId = list[i].clusterId;
                 rbd.pool_id = list[i].pool_id;
                 rbd.size = parseInt(list[i].size);
-                rbd.clusterName = list[i].clusterName;
+                rbd.clusterName = "NA";
+                clusterObj = utils.getClusterDetails(list[i].clusterId);
+                if(typeof clusterObj !== "undefined") {
+                    rbd.clusterName = clusterObj.cluster_name;
+                }
                 if( typeof list[i].used !== "undefined" && typeof list[i].provisioned !== "undefined") {
                     utilization_percent = ( (parseInt(list[i].used) * 100) / parseInt(list[i].provisioned) );
                     rbd.utilization = {"percent_used": utilization_percent };
@@ -94,18 +99,22 @@
         }
 
         function onOpenRbdResizeModal(rbdObject) {
+            var clusterObj;
+            
             vm.resizeRBDstep = 1;
             vm.resizeRBDtaskSubmitted = false;
-            var size, sizeAndUnit = [], clusterObj;
             vm.resizeRbd = rbdObject;
+            
             if(rbdObject.size) {
-                size = $filter('bytes')(rbdObject.size);
-                sizeAndUnit = size.split(' ');
-                vm.resizeRbd.size = Math.round(parseFloat(sizeAndUnit[0]));
-                vm.resizeRbd.unit = sizeAndUnit[1];
+                /* Now RBD's size always come in "MB" unit 
+                and also we need to send data in "MB" while reside RBD. */
+                vm.resizeRbd.size = parseInt(rbdObject.size);
+                vm.resizeRbd.unit = "MB"
             }
+            
             clusterObj = utils.getClusterDetails(rbdObject.clusterId);
             vm.resizeRbd.clusterAvailable = "NA";
+            
             if( typeof clusterObj.utilization !== "undefined" ) {
                 vm.resizeRbd.clusterAvailable = clusterObj.utilization.available;
             }
@@ -120,18 +129,24 @@
 
             postData = { "Rbd.pool_id": parseInt(vm.resizeRbd.pool_id), "Rbd.name": vm.resizeRbd.name, "Rbd.size": vm.resizeRbd.size };
             
-            utils.takeAction(postData, "CephResizeRbd", "PUT", vm.resizeRbd.clusterId).then(function(response) {
-                $rootScope.notification.type = "success";
-                $rootScope.notification.message = "JOB is under process. and JOB-ID is - " + response.job_id;
-            });
-            vm.resizeRBDstep = 2;
+            utils.takeAction(postData, "CephResizeRbd", "PUT", vm.resizeRbd.clusterId)
+                .then(function(response) {
+                    // $rootScope.notification.type = "success";
+                    // $rootScope.notification.message = "JOB is under process. and JOB-ID is - " + response.job_id;
+                    vm.resizeRBDstep = 2;
+                    vm.jobId = response.job_id;
+                })
+                .catch(function(error) {
+                    vm.errorInProcess = true;
+                    vm.resizeRBDstep = 2;
+                });
         }
 
         function viewTaskProgress() {
             vm.resizeRBDtaskSubmitted = true;
-            $('#rbdResizeModal').modal('hide');
+            $("#rbdResizeModal").modal("hide");
             setTimeout(function() {
-                $state.go("task");
+                $state.go("task-detail", {taskId: vm.jobId});
             },1000)
         }
     }

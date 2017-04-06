@@ -6,7 +6,7 @@
     app.service("menuService", menuService);
 
     /*@ngInject*/
-    function menuService() {
+    function menuService($state, $rootScope, AuthManager) {
 
         /* Cache the reference to this pointer */
         var vm = this;
@@ -54,24 +54,39 @@
             hasSubMenus: true,
             subMenus: [{
                 label: 'Tasks',
-                id: 'task',
-                href: 'task',
+                id: 'tasks',
+                href: 'tasks',
                 icon: 'fa fa-cog',
                 active: false
             }]
-        }];
+        }/*,{
+            label: 'Dashboard',
+            id: 'dashboard',
+            href: 'dashboard',
+            icon: 'pficon pficon-resource-pool',
+            active: false,
+            hasSubMenus: false
+        }*/];
 
         vm.setActive = function(menuId) {
-            vm.menus.map(function(menu){
-                if (menu.hasSubMenus===true){
-                    menu.subMenus.map(function(submenu){
-                        submenu.active = submenu.id === menuId
-                    });
-                }
-                menu.active = menu.id === menuId;
-                return menu;
-            });
-        }
+
+            if(JSON.parse(localStorage.getItem("userInfo"))) {
+                vm.menus.map(function(menu){
+                    if (menu.hasSubMenus===true){
+                        menu.subMenus.map(function(submenu){
+                            submenu.active = submenu.id === menuId
+                        });
+                    }
+                    menu.active = menu.id === menuId;
+                    return menu;
+                });
+            } else {
+                AuthManager.logout();
+                $state.go("login");
+                AuthManager.setFlags(); 
+                AuthManager.isUserLoggedIn = false;
+            }
+        };
         
         vm.getMenus = function() {
             return vm.menus;

@@ -13,7 +13,17 @@
 @import "../../modules/rbd/rbd-list/rbd-list.scss";
 @import "../../modules/rbd/create-rbd/create-rbd.scss";
 @import "../../modules/rbd/resize-rbd/resize-rbd.scss";
-
+@import "../../modules/pool/grow-pg/grow-pg.scss";
+@import "../../modules/pool/edit-pool/edit-pool.scss";
+@import "../../commons/components/progress-bar/progress-bar.scss";
+@import "../../commons/components/trends-chart/trends-chart.scss";
+@import "../../commons/components/full-aggregate-status-card/full-aggregate-status-card.scss";
+@import "../../modules/file-share/file-share-delete/file-share-delete.scss";
+@import "../../modules/file-share/create-file-share/create-file-share.scss";
+@import "../../modules/login/login.scss";
+@import "../../modules/tasks/tasks.scss";
+@import "../../modules/tasks/task-detail/task-detail.scss";
+    
 .tendrl-app {
 
     .centered {
@@ -66,4 +76,12 @@
 }
 .error-msg {
     color: $color-red;
+}
+
+.hide-404-template {
+    display: none;
+}
+
+.show-404-template {
+    display: block;
 }

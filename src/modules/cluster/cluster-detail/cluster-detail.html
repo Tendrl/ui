@@ -1,4 +1,5 @@
-<div class="tendrl-cluster-detail-container container-fluid">
+<div ng-if="clusterData === null && !isAPINotFoundError" class="spinner spinner-lg"></div>
+<div ng-if="clusterData !== null" class="tendrl-cluster-detail-container container-fluid">
     
     <ol class="breadcrumb custom-breadcrumb">
         <li><a ui-sref="cluster">Cluster</a></li>

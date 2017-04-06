@@ -1,0 +1,23 @@
+.progress-bar-component {
+	
+	.progress-border-color {
+		border: 1px solid #000000;
+	}
+
+	.progress-info {
+		display: inline-flex;
+		text-align: center;
+	}
+
+	.square {
+		content: "";
+    	width: 24px;
+    	border: 1px solid black;
+	}
+
+	.text-data {
+		margin-left: 4px;
+    	margin-right: 18px;
+	}
+
+}

@@ -1,0 +1,23 @@
+.trends-chart-component-container {
+    
+    .chart-section {
+        margin-bottom: 55px;
+        
+        .header-row {
+            margin-right: -30px;
+            margin-bottom: 20px;
+            
+            .max-value {
+                padding-right: 10px;
+            }
+        }
+        
+        .time-frame {
+            padding-right: 40px;
+        }
+
+        .max-value {
+            padding-left: 0;
+        }
+    }
+}

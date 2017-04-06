@@ -1,0 +1,17 @@
+[{
+	"type": "warning",
+	"message": "Available host memory below 5%",
+	"date": "16 Jan 2017"
+}, {
+	"type": "info",
+	"message": "Rebalancing of Pool1 completed",
+	"date": "16 Jan 2017"
+}, {
+	"type": "error",
+	"message": "Host 555 not responding",
+	"date": "16 Jan 2017"
+},{
+	"type": "warning",
+	"message": "Available host memory below 5%",
+	"date": "16 Jan 2017"
+}]

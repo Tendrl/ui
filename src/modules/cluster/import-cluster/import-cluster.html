@@ -1,4 +1,5 @@
-<div class="tendrl-import-cluster-container">
+<div ng-if="clusterData === null && !isAPINotFoundError" class="spinner spinner-lg"></div>
+<div ng-if="clusterData !== null" class="tendrl-import-cluster-container">
     <div ng-if="importClusterCntrl.isDataLoading" class="spinner spinner-lg"></div>
     <div ng-if="!importClusterCntrl.isDataLoading">
         <div ng-if="importClusterCntrl.detectedClusters.length !== 0">
@@ -56,7 +57,7 @@
                                                     <!-- Search By -->
                                                     <select ng-init="importClusterCntrl.filterBy = 'name'" ng-disabled="importClusterCntrl.hostList.length === 0" ng-model="importClusterCntrl.filterBy" class="btn btn-default dropdown-toggle" ng-change="importClusterCntrl.searchBy = {}">
                                                         <option value="name">Name</option>
-                                                        <option value="ip">IP</option>
+                                                        <!-- <option value="ip">IP</option> -->
                                                     </select>
                                                 </div>
                                                 <!-- /btn-group -->
@@ -69,7 +70,7 @@
                                                 <!-- Order By -->
                                                 <select ng-init="importClusterCntrl.orderBy = 'name'" ng-disabled="importClusterCntrl.hostList.length === 0" ng-model="importClusterCntrl.orderBy" class="btn btn-default dropdown-toggle">
                                                     <option value="name">Name</option>
-                                                    <option value="ip">IP</option>
+                                                    <!-- <option value="ip">IP</option> -->
                                                 </select>
                                             </div>
                                             <button ng-init="importClusterCntrl.ascOrder = ''" ng-disabled="importClusterCntrl.hostList.length === 0" class="btn btn-link" type="button">

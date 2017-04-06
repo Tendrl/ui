@@ -1,5 +1,5 @@
-<div ng-if="!isNavigationShow" class="spinner spinner-lg"></div>
-<div ng-if="isNavigationShow" class="tendrl-create-rbd-container container-fluid">
+<div ng-if="clusterData === null && !isAPINotFoundError" class="spinner spinner-lg"></div>
+<div ng-if="clusterData !== null" class="tendrl-create-rbd-container container-fluid">
     <ol class="breadcrumb">
         <li>
             <a ui-sref="rbd">RBDs</a>

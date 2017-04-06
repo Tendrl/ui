@@ -1,5 +1,5 @@
-<div ng-if="!isNavigationShow" class="spinner spinner-lg"></div>
-<div ng-if="isNavigationShow" class="tendrl-pool-list-view-container container-fluid">
+<div ng-if="clusterData === null && !isAPINotFoundError" class="spinner spinner-lg"></div>
+<div ng-if="clusterData !== null" class="tendrl-pool-list-view-container container-fluid">
     <h1 class="bold-text">Pools</h1>
     <div class="row toolbar-pf">
         <div class="col-sm-12">
@@ -11,8 +11,8 @@
                             <select ng-init="poolCntrl.filterBy = 'name'" ng-disabled="poolCntrl.poolList.length === 0" ng-model="poolCntrl.filterBy" class="btn btn-default dropdown-toggle" ng-change="poolCntrl.searchBy = {}">
                                 <option value="name">Name</option>
                                 <option value="clusterName">Cluster Name</option>
-                                <option value="">Status</option>
-                                <option value="">Type</option>
+                                <!-- <option value="">Status</option> -->
+                                <option value="type">Type</option>
                             </select>
                         </div>
                         <input type="text" class="form-control" id="filter" ng-model="poolCntrl.searchBy[poolCntrl.filterBy]" placeholder="Filter By {{poolCntrl.filterBy}}...">
@@ -22,9 +22,9 @@
                     <div class="dropdown btn-group">
                         <select ng-init="poolCntrl.orderBy = 'name'" ng-model="poolCntrl.orderBy" ng-disabled="poolCntrl.poolList.length === 0" ng-change="poolCntrl.displayArg()">
                             <option value="name" class="selected">Name</option>
-                            <option value="">Utilization</option>
+                            <option value="utilization['percent_used']">Utilization</option>
                             <option value="clusterName" class="selected">Cluster Name</option>
-                            <option value="">Status</option>
+                            <!-- <option value="">Status</option> -->
                         </select>
                     </div>
                     <button ng-init="poolCntrl.ascOrder = ''" ng-disabled="poolCntrl.poolList.length === 0" class="btn btn-link" type="button">
@@ -60,29 +60,28 @@
             </p>
         </div>
     </center>
-    <div class="list-group list-view-pf list-view-pf-equalized-column" ng-repeat="pool in poolCntrl.filteredPoolList = (poolCntrl.poolList | filter: poolCntrl.searchBy | orderBy: poolCntrl.ascOrder + poolCntrl.orderBy)">
+    <div ng-if="poolCntrl.isDataLoading" class="spinner spinner-lg"></div>
+    <div ng-if="!poolCntrl.isDataLoading" class="list-group list-view-pf list-view-pf-equalized-column" ng-repeat="pool in poolCntrl.filteredPoolList = (poolCntrl.poolList | filter: poolCntrl.searchBy | orderBy: poolCntrl.ascOrder + poolCntrl.orderBy)">
         <div class="list-group-item">
-            <div class="list-view-pf-left col-md-1">
+<!--        <div class="list-view-pf-left col-md-1">
                 {{pool.status}}
-            </div>
-            <div class="col-md-2 text-center pool-name">
+            </div> -->
+            <div class="col-md-3 text-center pool-name">
                 <p class="bold-text">{{pool.name}} &nbsp; in &nbsp; {{pool.clusterName}}</p>
                 <small>{{pool.type}}</small>
             </div>
             <div class="col-md-3">
-                
                 <donut-chart id="storage-donut-chart{{$index}}" class="list-view-pf-additional-info-item" chart-title="Storage" chart-data="pool.utilization"></donut-chart>
-                
             </div>
             <div class="col-md-1">
                 <div class="list-view-pf-additional-info-item list-view-pf-additional-info-item-stacked">
                     <div class="bold-text">Replicas</div>
-                    <h5 class="pull-left">{{pool.replicaCount}}</h5>
+                    <h5 class="pull-left">{{pool.replicaCount || "NA"}}</h5>
                 </div>
             </div>
             <div class="col-md-1">
                 <div class="list-view-pf-additional-info-item list-view-pf-additional-info-item-stacked">
-                    <div class="bold-text">OSDs</div>
+                    <div class="bold-text">OSD</div>
                     <h5 class="pull-left counts">{{pool.osdCount}}</h5>
                 </div>
             </div>
@@ -111,8 +110,12 @@
                             <span class="fa fa-ellipsis-v"></span>
                         </button>
                         <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownKebabRight12">
-                            <li><a ng-class="{disabled: true}">Edit</a></li>
-                            <li><a ng-class="{disabled: true}">Grow PGs</a></li>
+                            <li ng-click="poolCntrl.onOpenPoolEditModal(pool)">
+                                <a data-target="#poolEditModal" data-toggle="modal">Edit</a>
+                            </li>
+                            <li ng-click="poolCntrl.onOpenGrowPGModal(pool)">
+                                <a data-target="#growPGModal" data-toggle="modal">Grow PGs</a>
+                            </li>
                             <li><a ng-class="{disabled: true}">Remove</a></li>
                         </ul>
                     </div>
@@ -124,3 +127,5 @@
         <div class="col-md-12 horizontal-line"></div>
     </div>
 </div>
+<div  ng-include src="'../modules/pool/edit-pool/edit-pool.html'"></div>
+<div ng-include src="'../modules/pool/grow-pg/grow-pg.html'"></div>

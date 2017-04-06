@@ -1,0 +1,87 @@
+<div ng-if="clusterData === null && !isAPINotFoundError" class="spinner spinner-lg"></div>
+<div ng-if="clusterData !== null" class="tendrl-create-file-share-container container-fluid">
+    <ol class="breadcrumb">
+        <li>
+            <a ui-sref="file-share">File Shares</a>
+        </li>
+        <li class="active"> <strong>Create File Share</strong>
+        </li>
+    </ol>
+    <h1 class="bold-text">Create File Share</h1>
+        <center ng-if="createFileShareCntrl.glusterClusterList.length === 0">
+            <div class="blank-slate-pf">
+                <div class="blank-slate-pf-icon">
+                    <i class="pficon pficon-cluster"></i>
+                </div>
+                <h1>No Gluster Cluster Detected.</h1>
+                <p>Clusters are detected when you <a ui-sref="import-cluster">import a cluster</a></p>
+                <p>If you have already gluster cluster created or imported and still do not see Clusters, make sure the Clusters are configured correctly.
+                </p>
+            </div>
+        </center>
+    <div class="create-file-share-wizard" ng-if="!createFileShareCntrl.taskSubmitted && createFileShareCntrl.glusterClusterList.length !== 0">
+        <div class="wizard-pf">
+            <div>
+                <div class="wizard-pf-body clearfix">
+                    <div class="wizard-pf-steps">
+                        <ul class="wizard-pf-steps-indicator">
+                            <li class="wizard-pf-step active" ng-class="{active: (createFileShareCntrl.step === 1)}" data-tabgroup="1">
+                                <a><span class="wizard-pf-step-number">1</span><span class="wizard-pf-step-title">General Settings</span></a>
+                            </li>
+                            <li class="wizard-pf-step" data-tabgroup="2" ng-class="{active: (createFileShareCntrl.step === 2)}">
+                                <a><span class="wizard-pf-step-number">2</span><span class="wizard-pf-step-title">Bricks</span></a>
+                            </li>
+                            <li class="wizard-pf-step" data-tabgroup="3" ng-class="{active: (createFileShareCntrl.step === 3)}">
+                                <a><span class="wizard-pf-step-number">3</span><span class="wizard-pf-step-title">Advanced Settings</span></a>
+                            </li>
+                            <li class="wizard-pf-step" data-tabgroup="4" ng-class="{active: (createFileShareCntrl.step === 4)}">
+                                <a><span class="wizard-pf-step-number">4</span><span class="wizard-pf-step-title">Review</span></a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="wizard-pf-row">
+                        <div class="wizard-pf-main">
+
+                            <div ng-include src="'../modules/file-share/create-file-share/step-first.html'"></div>
+                            
+                            <div ng-include src="'../modules/file-share/create-file-share/step-second.html'"></div>
+                            
+                            <div ng-include src="'../modules/file-share/create-file-share/step-third.html'"></div>
+
+                            <div ng-include src="'../modules/file-share/create-file-share/step-fourth.html'"></div> 
+
+                        </div>
+                        <!-- /.wizard-pf-main -->
+                    </div>
+                </div>
+                <!-- /.wizard-pf-body -->
+                <div class="modal-footer wizard-pf-footer" ng-show="createFileShareCntrl.step !== 3">
+                    <button type="button" class="btn btn-default wizard-pf-back" ng-click="createFileShareCntrl.updateStep('dec')" ng-disabled="createFileShareCntrl.step === 1">
+                        <span class="i fa fa-angle-left"></span> Back
+                    </button>
+                    <button type="button" class="btn btn-primary wizard-pf-next" ng-click="createFileShareCntrl.updateStep('inc')">
+                        <span ng-if="createFileShareCntrl.step !== 4">Next</span>
+                        <span ng-if="createFileShareCntrl.step === 4">Create File Share</span>
+                        <span class="i fa fa-angle-right"></span>
+                    </button>
+                    <a type="button" class="btn btn-default btn-cancel wizard-pf-cancel wizard-pf-dismiss" ui-sref="file-share" ng-click="createFileShareCntrl.cancelCreate()">Cancel</a>
+                </div>
+                <!-- /.wizard-pf-footer -->
+            </div>
+        </div>
+    </div>
+    <div ng-if="createFileShareCntrl.taskSubmitted" class="blank-slate-pf centered">
+        <div class="blank-slate-pf-icon">
+            <i class="pficon pficon-ok"></i>
+        </div>
+        <div>
+            <h1><label>Create File Share Submitted</label></h1>
+            <div class="text-center"> A task has been submitted to the background for each File Share requested. You will be notified when processing is complete and the new file share are ready for use. </div>
+            <div>If you want to create another File Share, click Create Another</div>
+        </div>
+        <div class="blank-slate-pf-main-action">
+            <button class="btn btn-primary btn-lg task-progress-button" ng-click="createFileShareCntrl.viewTaskProgress()">View Task Progress</button>
+            <button class="btn btn-lg" ng-click="createFileShareCntrl.goToFileShareCreateView()">Create Another</button>
+        </div>
+    </div>
+</div>

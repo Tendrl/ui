@@ -25,7 +25,7 @@
         vm.journalConfigration;
         vm.OSDs;
         vm.pgCount = 128;
-        vm.minReplicas = 0;
+        vm.minReplicas = 1;
         vm.owners = [];
         vm.checkboxModelOwnerValue = false;
         vm.checkboxModelQuotasValue = false;
@@ -34,7 +34,7 @@
         vm.checkboxModelQwnerValue = false; 
         vm.poolName = "MyPool";
         vm.poolCount = 3;
-        vm.replicaCount = 2;
+        vm.replicaCount = 3;
         vm.quotasMaxPercentage = 0;
         vm.quotasMaxObjects = 0;
         vm.taskSubmitted = false;
@@ -66,7 +66,7 @@
             }
             if(vm.step === 5) {
                 createPool();
-                vm.taskSubmitted = true;
+                
             }
         }
 
@@ -160,7 +160,7 @@
                     console.log(pool.quotas)
                 }
                 if(vm.poolList[i].type === "Erasure Coded"){
-                    postData["Pool.type"] = vm.poolList[i].type;
+                    postData["Pool.type"] = "erasure";
                     if(vm.poolList[i].erasure_code_profile === "2+1"){
                         postData["Pool.erasure_code_profile"] = "default";
                     }
@@ -169,8 +169,10 @@
                     }
                 }
                 utils.takeAction(postData, "CephCreatePool", "POST", vm.selectedCluster.cluster_id).then(function(response) {
-                    $rootScope.notification.type = "success";
-                    $rootScope.notification.message = "JOB is under process. and JOB-ID is - " + response.job_id;
+                    vm.taskSubmitted = true;
+                    vm.jobId = response.job_id;
+                    //$rootScope.notification.type = "success";
+                    //$rootScope.notification.message = "JOB is under process. and JOB-ID is - " + response.job_id;
                 });
 
             }
@@ -200,7 +202,7 @@
         };
 
         vm.viewTaskProgress = function(){
-            $state.go("task");
+            $state.go("task-detail", {taskId: vm.jobId});
         };
     }
 })();

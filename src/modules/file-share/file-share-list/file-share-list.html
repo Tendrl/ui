@@ -1,5 +1,5 @@
-<div ng-if="!isNavigationShow" class="spinner spinner-lg"></div>
-<div ng-if="isNavigationShow" class="tendrl-file-share-list-view-container">
+<div ng-if="clusterData === null && !isAPINotFoundError" class="spinner spinner-lg"></div>
+<div ng-if="clusterData !== null" class="tendrl-file-share-list-view-container">
     <div class="container-fluid">
         <!-- heading section-->
         <!-- heading section-->
@@ -71,7 +71,7 @@
                     <i class="pficon pficon-volume"></i>
                 </div>
                 <h1>No File Shares Detected.</h1>
-                <p>File Shares are detected when you <a ui-sref="import-cluster">import a cluster</a></p>
+                <p>File Shares are detected when you <a ui-sref="create-file-share">create</a> or <a ui-sref="import-cluster">import a cluster</a></p>
                 <p>If you have already cluster created or imported and still do not see File Shares, make sure the File Shares are configured correctly.
                 </p>
             </div>
@@ -108,21 +108,21 @@
                         </h5>
                     </div>
                 </div>
-                <div  class="col-md-1">
+                <div  class="col-md-2">
                     <div class="list-view-pf-additional-info-item list-view-pf-additional-info-item-stacked">
                         <b>  Bricks  </b><h5 class="counts">{{fileShare.brick_count}}</h5>
                     </div>
                 </div>
-                <div class="col-md-1">
+                <div class="col-md-2">
                     <div class="list-view-pf-additional-info-item list-view-pf-additional-info-item-stacked">
                         <b>  Alerts  </b><h5 class="counts">{{fileShare.alert_count}}</h5>
                     </div>
                 </div>
-                <div class="col-md-2">
+<!--            <div class="col-md-2">
                     <div class="list-view-pf-additional-info-item list-view-pf-additional-info-item-stacked">
                         <b>  Last Rebalance  </b><h5>{{fileShare.last_rebalance | date : 'MMM d yyyy'}}</h5>
                     </div>
-                </div>
+                </div> -->
                 <div class="col-md-1">
                   <div class="list-view-pf-actions">
                       <div class="dropdown pull-right dropdown-kebab-pf">
@@ -133,7 +133,11 @@
                               <li><a ng-class="{disabled: true}">Edit</a></li>
                               <li><a ng-class="{disabled: true}">Stop</a></li>
                               <li><a ng-class="{disabled: true}">Rebalance</a></li>
-                              <li><a ng-class="{disabled: true}">Remove</a></li>
+                              <li ng-click="fileShareCntrl.onOpenFileShareDeleteModal(fileShare)">
+                                <a data-target="#fileShareDeleteModal" data-toggle="modal">
+                                  Delete
+                                </a>
+                              </li>
                           </ul>
                       </div>
                   </div>
@@ -145,3 +149,5 @@
         </div>
     </div>
 </div>
+
+<div ng-include src="'../modules/file-share/file-share-delete/file-share-delete.html'"></div>

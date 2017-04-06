@@ -10,14 +10,7 @@
     .cluster-name {
         color: $color-boston-blue;
         text-transform: capitalize;
-    }
-
-    .counts {
-        color: $color-boston-blue;
-
-        &:hover {
-            cursor: pointer;
-        }
+        cursor: pointer;
     }
 
     .list-group {

@@ -6,7 +6,7 @@
     app.service("utils", utils);
 
     /*@ngInject*/
-    function utils($http, config, $rootScope) {
+    function utils($http, $rootScope, $filter, config, AuthManager) {
 
         /* Cache the reference to this pointer */
         var vm = this,
@@ -30,6 +30,11 @@
                 url = config.baseUrl + clusterId + "/" + postUrl;
             }
 
+            if (formMethod === "PUT" || formMethod === "DELETE") {
+              data._method = formMethod;
+              formMethod = "POST";
+            }
+
             actionRequest = {
                 method: formMethod,
                 url: url,
@@ -40,6 +45,8 @@
 
             return $http(request).then(function (response) {
                 return response.data;
+            },function(e) {
+                checkErrorCode(e);
             });
         };
 
@@ -61,7 +68,8 @@
             request = angular.copy(objectWorkflowsRequest);
             return $http(request).then(function (response) {
                 return response.data;
-            }, function() {
+            }, function(e) {
+                checkErrorCode(e);
                 console.log("Error Occurred: while fetching getObjectWorkflows");
                 return null;
             }); 
@@ -70,12 +78,23 @@
         vm.getObjectList= function(objectType, clusterId) {
             var url = "", getObjectListRequest, request;
 
-            //will comment out once API is available
+            // will comment out once API is available
             // if (clusterId === undefined || clusterId === "") {
             //     url = config.baseUrl + "Get" + objectType +"List";
             // }
 
             url = config.baseUrl + "Get" + objectType +"List";
+
+            // // For testing purpose
+            // if(objectType === "trends-chart") {
+            //     url = "/api/trends-chart.json";
+            // } else if(objectType === "bar-chart") {
+            //     url = "/api/bar-chart.json";
+            // } else if(objectType === "heat-map") {
+            //     url = "/api/heat-map.json";
+            // } else if(objectType === "Disk") {
+            //     url = "/api/GetDiskList.json";   
+            // }
 
             getObjectListRequest = {
                 method: "GET",
@@ -85,9 +104,30 @@
             request = angular.copy(getObjectListRequest);
             return $http(request).then(function (response) {
                 return response.data;
-            }, function() {
+            }, function(e) {
+                checkErrorCode(e);
                 console.log("Error Occurred: while fetching getObjectList");
-                return null;
+                throw e;
+            });
+        };
+
+        vm.getJobList = function() {
+            var url = "", getJobListRequest, request;
+
+            url = config.baseUrl + "jobs";
+
+            getJobListRequest = {
+                method: "GET",
+                //url: "jobs"
+                url: url
+            };
+
+            request = angular.copy(getJobListRequest);
+            return $http(request).then(function (response) {
+                return response.data.jobs;
+            }, function(e) {
+                checkErrorCode(e);
+                console.log("Error Occurred: while fetching getJobListRequest");
             });
         };
 
@@ -105,6 +145,8 @@
 
             return $http(request).then(function (response) {
                 return response.data;
+            }, function(e) {
+                checkErrorCode(e);
             });
         };
 
@@ -127,6 +169,25 @@
             return clusterObj;
         };
 
+        vm.getJobDetail = function(id) {
+            var url = "", getJobDetailRequest, request;
+
+            url = config.baseUrl + "jobs/" + id ;
+
+            getJobDetailRequest = {
+                method: "GET",
+                url: url
+                // url: "/api/task-detail.json"
+            };
+
+            request = angular.copy(getJobDetailRequest);
+            return $http(request).then(function (response) {
+                return response.data;
+            }, function(e) {
+                checkErrorCode(e);
+                console.log("Error Occurred: while fetching getJobDetailRequest");
+            });
+        };
 
         vm.getIntergrationDetails = function(intergrationId) {
             var clusterObj = {};
@@ -188,7 +249,7 @@
                 clusterData = $rootScope.clusterData.clusters;
                 len = clusterData.length;
 
-                for ( i = 0; i < len; i++ ) {
+                for ( i = 0; i < len; i++) {
 
                     if(typeof clusterData[i].pools !== "undefined") {
 
@@ -196,22 +257,26 @@
                                
                             for(index in clusterData[i].pools) {
                                 clusterData[i].pools[index].cluster_id = clusterData[i].cluster_id;
-                                poolList.push(clusterData[i].pools[index])
+                                poolList.push(clusterData[i].pools[index]);
                             }
 
                         } else if(clusterId === undefined) {
 
                             for(index in clusterData[i].pools) {
                                 clusterData[i].pools[index].cluster_id = clusterData[i].cluster_id;
-                                poolList.push(clusterData[i].pools[index])
+                                poolList.push(clusterData[i].pools[index]);
                             }
                         }   
                     }
                 }
             } else {
+                
+
                 vm.getObjectList("Cluster").then(function(list) {
                     $rootScope.clusterData = list;
                     vm.getPoolDetails();
+                }).catch(function(error) {
+                    
                 });
             }
             return poolList;
@@ -302,6 +367,62 @@
             }
         };
 
+        var checkErrorCode = function(e){
+            if(e.status === 401){
+                AuthManager.handleUnauthApi();
+            }
+        };
+        
+        vm.formatDate = function (list, property, format) {
+            var len = list.length,
+                i;
+
+            for(i = 0; i < len; i++) {
+                list[i][property] = $filter("date")(list[i][property], format);
+            }
+
+            return list;
+        }
+
+        vm.getTaskLogs = function(jobId) {
+            var url, getTaskLogsRequest, request;
+
+            url = config.baseUrl + "jobs/"  + jobId + "/messages";
+            //url = "/api/GetMessageList.json";
+
+            getTaskLogsRequest = {
+                method: "GET",
+                url: url
+            };
+
+            request = angular.copy(getTaskLogsRequest);
+            return $http(request).then(function (response) {
+                return response.data;
+            }, function() {
+                console.log("Error Occurred: while fetching getTaskLogs");
+                return null;
+            });
+        };
+
+        vm.getTaskStatus = function(jobId) {
+            var url, getTaskStatusRequest, request;
+
+            url = config.baseUrl + "jobs/"  + jobId + "/status";
+            //url = "/api/GetStatus.json";
+
+            getTaskStatusRequest = {
+                method: "GET",
+                url: url
+            };
+
+            request = angular.copy(getTaskStatusRequest);
+            return $http(request).then(function (response) {
+                return response.data;
+            }, function() {
+                console.log("Error Occurred: while fetching getTaskLogs");
+                return null;
+            });
+        };
     }
 
 })();
