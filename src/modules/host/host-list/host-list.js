@@ -61,7 +61,8 @@
                     "mon": "Monitor",
                     "osd": "OSD Host",
                     "server": "Peer",
-                    "rados": "RADOS Gateway"
+                    "rados": "RADOS Gateway",
+                    "central-store": "Server Node"
                 },
                 i, j, length = list.length,
                 hostList = [],
@@ -70,7 +71,13 @@
             for (i = 0; i < length; i++) {
                 host = {};
 
-                tags = JSON.parse(list[i].tags)[0].split("/");
+                if(list[i].tendrlcontext && list[i].tendrlcontext.sds_name === "ceph"){
+                    tags = JSON.parse(list[i].tags)[0].split("/");
+                }
+                else{
+                    tags = JSON.parse(list[i].tags)[1].split("/");
+                }
+
                 host.cluster_name = "Unassigned";
                 host.id = list[i].node_id;
                 host.status = list[i].status;
