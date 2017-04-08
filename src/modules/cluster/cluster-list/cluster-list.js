@@ -6,7 +6,7 @@
     app.controller("clusterController", clusterController);
 
     /*@ngInject*/
-    function clusterController($scope, $state, $interval, config, utils, $rootScope) {
+    function clusterController($scope, $state, $interval, config, utils, $rootScope, $filter) {
 
         var vm = this,
             key,
@@ -16,6 +16,7 @@
             cluster,
             timer,
             hostList,
+            startTimer,
             i;
 
         vm.importCluster = importCluster;
@@ -24,14 +25,20 @@
         vm.isDataLoading = true;
 
         init();
+        startTimer();
 
         function init() {
-            utils.getObjectList("Node")
-            .then(function(data) {
+            if($rootScope.clusterData && !$rootScope.clusterData.clusters.length) {
+                utils.getObjectList("Cluster")
+                .then(function(data) {
+                    $rootScope.clusterData = data;
+                    _createClusterList();
+                    vm.isDataLoading = false;
+                });
+            } else {
                 vm.isDataLoading = false;
-                hostList = data.nodes;
                 _createClusterList();
-            });
+            }
         }
 
         /* Trigger this function when we have cluster data */
@@ -44,15 +51,23 @@
             }
         });
 
-        timer = $interval(function() {
+        function startTimer() {
+            
+            timer = $interval(function() {
 
-            utils.getObjectList("Cluster")
-            .then(function(data) {
-                $rootScope.clusterData = data;
-                init();
-            });
+                utils.getObjectList("Cluster")
+                .then(function(data) {
+                    $interval.cancel(timer);
+                    $rootScope.clusterData = data;
+                    init();
+                    startTimer();
+                    var time = $filter('date')(new Date(), 'HH:mm:ss');
+                    console.log("timer time", time);
+                });
 
-        }, 1000 * config.refreshIntervalTime);
+            }, 1000 * config.refreshIntervalTime, 1);
+        }
+        
 
         /*Cancelling interval when scope is destroy*/
         $scope.$on("$destroy", function() {
@@ -88,7 +103,7 @@
                         if (cluster.sds_name === "ceph") {
                             cluster.utilization = clusterData[i].utilization;
                             cluster.utilization.percent_used = clusterData[i].utilization.pcnt_used;
-                            cluster.status = clusterData[i].globaldetails.status;
+                            cluster.status = clusterData[i].globaldetails.status || "NA";
                         } else if (cluster.sds_name === "glusterfs") {
                             cluster.utilization = {};
                             cluster.utilization.percent_used = clusterData[i].utilization.pcnt_used;
@@ -104,7 +119,8 @@
                     }
                     cluster.alertCount = "NA";
 
-                    cluster.hostCount = utils.getAssociatedHosts(hostList, clusterData[i].cluster_id).length;
+                    //cluster.hostCount = utils.getAssociatedHosts(hostList, clusterData[i].cluster_id).length;
+                    cluster.hostCount = Object.keys(clusterData[i].nodes).length;
                     cluster.poolOrFileShareCount = "NA";
                     if (clusterData[i].sds_name === 'ceph' && typeof clusterData[i].pools !== "undefined") {
                         cluster.poolOrFileShareCount = Object.keys(clusterData[i].pools).length;

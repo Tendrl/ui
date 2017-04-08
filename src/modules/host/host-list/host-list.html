@@ -1,5 +1,5 @@
-<div ng-if="clusterData === null && !isAPINotFoundError" class="spinner spinner-lg"></div>
-<div ng-if="clusterData !== null" class="tendrl-host-list-view-container">
+<!-- <div ng-if="clusterData === null && !isAPINotFoundError" class="spinner spinner-lg"></div> -->
+<div class="tendrl-host-list-view-container">
     <div class="container-fluid">
         <!-- heading section-->
         <h1 class="bold-text">Hosts</h1>
@@ -90,10 +90,10 @@
                 <div  class="col-md-2">
                     <donut-chart id="memory-donut-chart{{$index}}" class="list-view-pf-additional-info-item" chart-title="Memory" chart-data="host.memory"></donut-chart>
                 </div>
-                <div  class="col-md-1">
+                <div class="col-md-1">
                     <div class="list-view-pf-additional-info-item list-view-pf-additional-info-item-stacked">
                         <b>Cluster</b>
-                        <h5 class="capitalize">
+                        <h5 class="capitalize cluster-name col-md-12" title="{{host.cluster_name}}">
                             {{host.cluster_name || "NA"}}
                         </h5>
                     </div>

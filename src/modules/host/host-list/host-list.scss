@@ -11,6 +11,12 @@
             .list-view-pf-left {
                 text-align: left;
             }
+
+            .cluster-name {
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+            }
         }
 
         .list-view-icon-failure {

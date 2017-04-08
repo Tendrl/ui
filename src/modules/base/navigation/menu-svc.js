@@ -6,7 +6,7 @@
     app.service("menuService", menuService);
 
     /*@ngInject*/
-    function menuService($state, $rootScope, AuthManager) {
+    function menuService($state, $rootScope, $http, AuthManager) {
 
         /* Cache the reference to this pointer */
         var vm = this;
@@ -80,7 +80,7 @@
                     menu.active = menu.id === menuId;
                     return menu;
                 });
-            } else {
+            } else if($http.defaults.headers.common["Authorization"]){
                 AuthManager.logout();
                 $state.go("login");
                 AuthManager.setFlags(); 

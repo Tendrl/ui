@@ -66,9 +66,10 @@
 
         function logout() {
             var req = create_request("DELETE", "logout");
-
+            console.log(authApiFactory.globalUser.accessToken);
             return $http(req).then(function (response) {
                 authApiFactory.clearCredentials();
+                $http.defaults.headers.common["Authorization"] = "";
                 return response.data;
             })
             .catch(function (response) {

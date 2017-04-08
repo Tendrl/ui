@@ -196,21 +196,26 @@
                     $rootScope.isAPINotFoundError = false;
                     $rootScope.clusterData = null;
 
-                    utils.getObjectList("Cluster").then(function(list) {
-                        $rootScope.clusterData = list;
-                        /* Setting up manual broadcast event for ClusterData*/
-                        $rootScope.$broadcast("GotClusterData", $rootScope.clusterData); // going down!
-                        if ($rootScope.clusterData !== null && $rootScope.clusterData.clusters.length !== 0) {
-                            /* Forward to cluster view if we have cluster data. */
-                            $rootScope.isNavigationShow = true;
-                        } else {
-                            /* Forward to home view if we don't have cluster data. */
-                            $rootScope.isNavigationShow = false;
-                        }
-                    }).catch(function(error) {
-                        $rootScope.$broadcast("GotClusterData", $rootScope.clusterData); // going down!
-                        $rootScope.isAPINotFoundError = true;
-                    });
+                    var url = $location.path();
+                    //if((url === "/host") && (url === "/task")) {
+                        utils.getObjectList("Cluster").then(function(list) {
+                            $rootScope.clusterData = list;
+                            /* Setting up manual broadcast event for ClusterData*/
+                            $rootScope.$broadcast("GotClusterData", $rootScope.clusterData); // going down!
+                            if ($rootScope.clusterData !== null && $rootScope.clusterData.clusters.length !== 0) {
+                                /* Forward to cluster view if we have cluster data. */
+                                $rootScope.isNavigationShow = true;
+                            } else {
+                                /* Forward to home view if we don't have cluster data. */
+                                $rootScope.isNavigationShow = false;
+                            }
+                        }).catch(function(error) {
+                            $rootScope.$broadcast("GotClusterData", $rootScope.clusterData); // going down!
+                            $rootScope.isAPINotFoundError = true;
+                        });
+                    // } else {
+                    //     $rootScope.isNavigationShow = true;
+                    // }
                 }
             });
 

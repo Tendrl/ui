@@ -52,7 +52,23 @@
                     //data = orderByFilter(data, "job_id");
                     vm.taskList = data;
                     vm.isDataLoading = false;
+                    startTimer();
                 });
+        }
+
+        function startTimer() {
+
+            timer = $interval(function() {
+
+                taskStore.getJobList()
+                    .then(function(data) {
+                        $interval.cancel(timer);
+                        vm.taskList = data;
+                        vm.isDataLoading = false;
+                        startTimer();
+                    });
+
+            }, 1000 * config.statusRefreshIntervalTime, 1);
         }
 
         function goToTaskDetail(id) {
@@ -94,11 +110,6 @@
         //         })(i);
         //     }
         // }
-
-        /*Refreshing list after each 2 mins interval*/
-        timer = $interval(function () {
-            init();
-        }, 1000 * config.statusRefreshIntervalTime);
 
         $scope.$on("$destroy", function() {
             $interval.cancel(timer);

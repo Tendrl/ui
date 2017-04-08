@@ -65,11 +65,11 @@
                         if (i === 0) {
                             sds_type = vm.selectedCluster.sds_name;
                         }
-                        vm.selectedCluster.sds_name = sds_type + " " + vm.selectedClusterVersion;
+                        vm.selectedCluster.sdsName = sds_type + " " + vm.selectedClusterVersion;
                         host = {};
                         if (hostList[j].tags !== "undefined" && hostList[j].tags) {
-                            hostList[j].tags = JSON.parse(hostList[j].tags);
-                            release = hostList[j].tags[0].split("/");
+                            tags = JSON.parse(hostList[j].tags);
+                            release = tags[1].split("/");
                             host.release = release[0] + " " + vm.selectedClusterVersion;
                             host.role = role[release[release.length - 1]];
                         }
@@ -84,6 +84,7 @@
         }
 
         function selectCluster() {
+            vm.selectedClusterVersion = vm.selectedCluster.sds_version;
             hostDetail = setHostDetails(vm.selectedCluster.node_ids);
             vm.selectedCluster.hosts = hostDetail.hosts;
             vm.selectedCluster.sds_type = hostDetail.sds_type;
@@ -93,11 +94,12 @@
             var uri = "ImportCluster";
             utils.importCluster(uri, vm.selectedCluster).then(function(response) {
                 vm.step = 2;
-                vm.jobId = response.job_id;;
+                vm.jobId = response.job_id;
             });
         }
 
         function viewTaskProgress() {
+            $rootScope.isNavigationShow = true;
             $state.go("task-detail", { taskId: vm.jobId });
         }
 

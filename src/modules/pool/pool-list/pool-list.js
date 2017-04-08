@@ -35,6 +35,7 @@
             list = utils.getPoolDetails($scope.clusterId);
             _createPoolList(list);
             vm.isDataLoading = false;
+            startTimer();
         }
 
         /* Trigger this function when we have cluster data */
@@ -47,16 +48,22 @@
             }
         });
 
-        /*Refreshing list after each 30 second interval*/
-        timer = $interval(function () {
+        function startTimer() {
 
-            utils.getObjectList("Cluster")
-                .then(function(data) {
-                    $rootScope.clusterData = data;
-                    init();
-                });
+            timer = $interval(function() {
 
-        }, 1000 * config.refreshIntervalTime );
+                utils.getObjectList("Cluster")
+                    .then(function(data) {
+                        $interval.cancel(timer);
+                        $rootScope.clusterData = data;
+                        list = utils.getPoolDetails($scope.clusterId);
+                        _createPoolList(list);
+                        vm.isDataLoading = false;
+                        startTimer();
+                    });
+
+            }, 1000 * config.refreshIntervalTime, 1);
+        }
 
         /*Cancelling interval when scope is destroy*/
         $scope.$on("$destroy", function() {
