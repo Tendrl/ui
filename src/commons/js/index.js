@@ -1,7 +1,7 @@
 //# sourceURL=storage-management-plugin.js
 (function() {
 
-    var storageModule = angular.module("TendrlModule", ["ui.router","ui.bootstrap","frapontillo.bootstrap-switch","gridshore.c3js.chart","patternfly.charts", "patternfly.card", "patternfly.form"]);
+    var storageModule = angular.module("TendrlModule", ["ui.router", "ui.bootstrap", "frapontillo.bootstrap-switch", "gridshore.c3js.chart", "patternfly.charts", "patternfly.card", "patternfly.form"]);
 
     /* Setting up provider for getting config data */
     storageModule.provider("config", function() {
@@ -18,7 +18,7 @@
 
         /* Accessible in controller/service/factory */
         this.$get = function() {
-            return config; 
+            return config;
         };
 
     });
@@ -177,7 +177,7 @@
                     if (restrictedPage && !loggedIn) {
                         $location.path("/login");
                     }
-                    if(!restrictedPage){
+                    if (!restrictedPage) {
                         $rootScope.isHeaderShow = false;
                     }
                 });
@@ -186,36 +186,33 @@
                     menuService.setActive(current.name);
                 });
 
-                if(JSON.parse(localStorage.getItem("userInfo")) && JSON.parse(localStorage.getItem("userInfo")).username && JSON.parse(localStorage.getItem("userInfo")).accessToken) {
+                if (JSON.parse(localStorage.getItem("userInfo")) && JSON.parse(localStorage.getItem("userInfo")).username && JSON.parse(localStorage.getItem("userInfo")).accessToken) {
                     AuthManager.isUserLoggedIn = true;
                     AuthManager.setAuthHeader();
                 }
 
-                if(AuthManager.isUserLoggedIn){
+                if (AuthManager.isUserLoggedIn) {
                     /* Tracking the current URI for navigation*/
                     $rootScope.isAPINotFoundError = false;
                     $rootScope.clusterData = null;
 
                     var url = $location.path();
-                    //if((url === "/host") && (url === "/task")) {
-                        utils.getObjectList("Cluster").then(function(list) {
-                            $rootScope.clusterData = list;
-                            /* Setting up manual broadcast event for ClusterData*/
-                            $rootScope.$broadcast("GotClusterData", $rootScope.clusterData); // going down!
-                            if ($rootScope.clusterData !== null && $rootScope.clusterData.clusters.length !== 0) {
-                                /* Forward to cluster view if we have cluster data. */
-                                $rootScope.isNavigationShow = true;
-                            } else {
-                                /* Forward to home view if we don't have cluster data. */
-                                $rootScope.isNavigationShow = false;
-                            }
-                        }).catch(function(error) {
-                            $rootScope.$broadcast("GotClusterData", $rootScope.clusterData); // going down!
-                            $rootScope.isAPINotFoundError = true;
-                        });
-                    // } else {
-                    //     $rootScope.isNavigationShow = true;
-                    // }
+                    utils.getObjectList("Cluster").then(function(list) {
+                        $rootScope.clusterData = list;
+                        /* Setting up manual broadcast event for ClusterData*/
+                        $rootScope.$broadcast("GotClusterData", $rootScope.clusterData); // going down!
+                        if ($rootScope.clusterData !== null && $rootScope.clusterData.clusters.length !== 0) {
+                            /* Forward to cluster view if we have cluster data. */
+                            $rootScope.isNavigationShow = true;
+                        } else {
+                            /* Forward to home view if we don't have cluster data. */
+                            $rootScope.isNavigationShow = false;
+                        }
+                    }).catch(function(error) {
+                        $rootScope.$broadcast("GotClusterData", $rootScope.clusterData); // going down!
+                        $rootScope.isAPINotFoundError = true;
+                    });
+
                 }
             });
 

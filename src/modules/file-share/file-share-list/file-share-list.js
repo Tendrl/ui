@@ -29,6 +29,21 @@
         function init() {
             list = utils.getFileShareDetails($scope.clusterId);
             vm.fileShareList = setupFileShareListData(list);
+            startTimer();
+        }
+
+        function startTimer() {
+
+            timer = $interval(function() {
+
+                utils.getObjectList("Cluster")
+                    .then(function(data) {
+                        $interval.cancel(timer);
+                        $rootScope.clusterData = data;
+                        init();
+                    });
+
+            }, 1000 * config.refreshIntervalTime, 1);
         }
 
         /* Trigger this function when we have cluster data */
@@ -75,17 +90,6 @@
             }
             return fileShareList;
         }
-
-        /*Refreshing list after each 30 second interval*/
-        timer = $interval(function() {
-
-            utils.getObjectList("Cluster")
-                .then(function(data) {
-                    $rootScope.clusterData = data;
-                    init();
-                });
-
-        }, 1000 * config.refreshIntervalTime);
 
         /*Cancelling interval when scope is destroy*/
         $scope.$on('$destroy', function() {
