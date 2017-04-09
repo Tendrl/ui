@@ -1,7 +1,7 @@
 {
 	"baseUrl": "/api/1.0/",
-	"refreshIntervalTime": 5,
-	"nodeRefreshIntervalTime":  120,
+	"refreshIntervalTime": 10,
+	"nodeRefreshIntervalTime":  30,
 	"msgRefreshIntervalTime": 5,
 	"statusRefreshIntervalTime": 5,
 	"defaultThresholds" : {

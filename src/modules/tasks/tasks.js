@@ -9,8 +9,9 @@
     function taskController($rootScope, $scope, $interval, $state, $timeout, $filter, orderByFilter, config, taskStore) {
 
         var vm = this,
-            timer,
-            toDate;
+            jobTimer,
+            toDate,
+            count;
 
         vm.goToTaskDetail = goToTaskDetail;
         vm.getStatusText = getStatusText;
@@ -21,7 +22,7 @@
         
         vm.tasksStatus = [];
         vm.isDataLoading = true;
-        var count =1;
+        count = 1;
 
         vm.date = {
             fromDate: "",
@@ -52,7 +53,23 @@
                     //data = orderByFilter(data, "job_id");
                     vm.taskList = data;
                     vm.isDataLoading = false;
+                    startTimer();
                 });
+        }
+
+        function startTimer() {
+
+            jobTimer = $interval(function() {
+
+                taskStore.getJobList()
+                    .then(function(data) {
+                        $interval.cancel(jobTimer);
+                        vm.taskList = data;
+                        vm.isDataLoading = false;
+                        startTimer();
+                    });
+
+            }, 1000 * config.statusRefreshIntervalTime, 1);
         }
 
         function goToTaskDetail(id) {
@@ -95,14 +112,9 @@
         //     }
         // }
 
-        /*Refreshing list after each 2 mins interval*/
-        timer = $interval(function () {
-            init();
-        }, 1000 * config.statusRefreshIntervalTime);
-
         $scope.$on("$destroy", function() {
-            $interval.cancel(timer);
-        });    
+            $interval.cancel(jobTimer);
+        });
 
         function updateStatus(status) {
             var index;

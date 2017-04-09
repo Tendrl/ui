@@ -89,7 +89,7 @@
                 vm.available = vm.chartData.total - vm.chartData.used;
                 vm.used = vm.chartData.used;
             } else {
-                vm.available = 100;
+                vm.available = 100 - vm.chartData["percent_used"];
                 vm.used = vm.chartData["percent_used"];
             }
             vm.chartData["percent_used"] = parseInt(vm.chartData["percent_used"]);
