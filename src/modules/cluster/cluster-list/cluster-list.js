@@ -16,7 +16,6 @@
             cluster,
             timer,
             hostList,
-            startTimer,
             i;
 
         vm.importCluster = importCluster;
@@ -61,8 +60,6 @@
                     $rootScope.clusterData = data;
                     init();
                     startTimer();
-                    var time = $filter('date')(new Date(), 'HH:mm:ss');
-                    console.log("timer time", time);
                 });
 
             }, 1000 * config.refreshIntervalTime, 1);

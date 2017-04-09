@@ -56,10 +56,7 @@
                     .then(function(data) {
                         $interval.cancel(timer);
                         $rootScope.clusterData = data;
-                        list = utils.getPoolDetails($scope.clusterId);
-                        _createPoolList(list);
-                        vm.isDataLoading = false;
-                        startTimer();
+                        init();
                     });
 
             }, 1000 * config.refreshIntervalTime, 1);
