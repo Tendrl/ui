@@ -151,4 +151,19 @@
             overflow-x: hidden;
         }
     }
+
+    .network-container {
+        .network {
+            width: initial;
+        }
+
+        .select-deselect {
+            border-top: none;
+        }
+
+        .toolbar-pf-filter {
+            width: 29%;
+        }
+        
+    }
 }

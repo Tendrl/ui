@@ -6,7 +6,7 @@
     app.controller("createCephClusterController", createCephClusterController);
 
     /*@ngInject*/
-    function createCephClusterController($rootScope, $scope, utils, $state, $uibModal) {
+    function createCephClusterController($rootScope, $scope, $uibModal, $filter, utils, $state) {
 
         var vm = this,
             date = new Date();
@@ -28,13 +28,13 @@
                 "name": "General"
             },{
                 "number": 2,
-                "name": "Hosts"
+                "name": "Networks"
             },{
                 "number": 3,
-                "name": "Device Configration"
+                "name": "Host"
             },{
                 "number": 4,
-                "name": "Network"
+                "name": "Journal Configuration"
             },{
                 "number": 5,
                 "name": "Review"
@@ -49,6 +49,13 @@
             "property": "networks.eth0.subnet",
             "value": ""
         };
+        vm.showSelectionWarning = false;
+
+        vm.clusterNetwork = [];
+        vm.publicNetwork = [];
+        vm.filteredList = [];
+        vm.selectedNWHost = [];
+        vm.selectedRoleHost = [];
 
         vm.refreshHostList = refreshHostList;
         vm.filterNestedList = filterNestedList;
@@ -57,6 +64,14 @@
         vm.changeSelectedNetwork = changeSelectedNetwork;
         vm.allCheckboxSelected =allCheckboxSelected;
         vm.deviceWarningMsg = "Some devices contain user data and will be repartitioned on cluster creation. Any existing data will be lost."
+        vm.createPublicNetwork = createPublicNetwork;
+        vm.filterByCN = filterByCN;
+        vm.filterByPN = filterByPN;
+        vm.filterHostByPN = filterHostByPN;
+        vm.selectNWHost = selectNWHost;
+        vm.isSelectedNWHost = isSelectedNWHost;
+        vm.validateFields = validateFields;
+        vm.updateOSDMonCount = updateOSDMonCount;
 
         init();
         /* Trigger this function when we have cluster data */
@@ -68,23 +83,211 @@
             vm.isDataLoading = true;
             vm.totalDevices = 0
             vm.availableHostList = [];
+            vm.updatedHostList = [];
+            vm.subnetList = [];
+
             utils.getObjectList("Node").then(function(list) {
                 vm.isDataLoading = false;
                 var hostList = list.nodes;
+                
                 if(list !== null && hostList.length !== 0) {
                     for(var i = 0; i<hostList.length ; i++){
                         if (hostList[i].detectedcluster && hostList[i].detectedcluster.detected_cluster_id === ""){
                             vm.availableHostList.push(hostList[i]);
                             vm.totalRawCapacity += hostList[i].stats ? hostList[i].stats.storage.total : 0;
-                            hostList[i].freeDevices = Object.keys(hostList[i].disks.free).length;
-                            hostList[i].usedDevices = Object.keys(hostList[i].disks.used).length;
-                            hostList[i].totalNodeInDevice = hostList[i].freeDevices + hostList[i].usedDevices;
-                            hostList[i].disks.devices = getDevices(hostList[i]);
+                            // hostList[i].freeDevices = Object.keys(hostList[i].disks.free).length;
+                            // hostList[i].usedDevices = Object.keys(hostList[i].disks.used).length;
+                            // hostList[i].totalNodeInDevice = hostList[i].freeDevices + hostList[i].usedDevices;
+                            //hostList[i].disks.devices = getDevices(hostList[i]);
                             changeIntoArray(hostList[i]);
+                            //_createSubnetMapping(hostList[i]);
+                            _createHostList(hostList[i]);
+                            //vm.filteredList = $filter("filter")(vm.updatedHostList, vm.filterByCN);
+                            vm.createPublicNetwork();
                         }
                     }
                 }
+
+                if(vm.availableHostList && vm.availableHostList.length >= 3) {
+                    vm.enablePOCIntendedUsage = true;
+                    vm.enableProIntendedUsage = true;
+                    vm.intendedUsage = "production";
+                } else if(vm.availableHostList && vm.availableHostList.length >= 1) {
+                    vm.enablePOCIntendedUsage = true;
+                    vm.enableProIntendedUsage = false;
+                    vm.intendedUsage = "poc";  
+                }
+                
             });
+        }
+
+        function validateFields() {
+            var flag = false;
+            vm.showSelectionWarning = false;
+
+            if(vm.selectedStep == 2) {
+                
+                if(vm.intendedUsage === "production") {                
+                    flag = vm.selectedNWHost.length < 3;
+                    
+                    if(flag) {
+                        vm.hostSelectionMsg = "Minimum 3 hosts should be selected for Production";
+                        vm.showSelectionWarning = true;
+                    }
+                } else if(vm.intendedUsage === "poc") {
+                    flag = vm.selectedNWHost.length < 1;
+                    
+                    if(flag) {
+                        vm.hostSelectionMsg = "Minimum 1 host should be selected for POC";
+                        vm.showSelectionWarning = true;
+                    }
+                }
+
+                return flag; 
+            }
+        }
+
+        function selectNWHost(host) {
+            
+            var hostIndex;
+
+            if (typeof host === "boolean") {
+                
+                if(host) {
+                    vm.selectedNWHost = vm.filteredList.slice(0); 
+                } else {
+                    vm.selectedNWHost = [];
+                }
+
+            } else if (typeof host === "object") {
+                hostIndex = vm.selectedNWHost.indexOf(host);
+
+                if (hostIndex === -1) {
+                    vm.selectedNWHost.push(host);
+                } else {
+                    vm.selectedNWHost.splice(hostIndex, 1);
+                }
+            }
+
+            console.log(vm.selectedNWHost, "selectedNWHost");
+
+            vm.allNWHostChecked = vm.selectedNWHost.length === vm.filteredList.length;
+        }
+
+        function isSelectedNWHost(host) {
+            return vm.selectedNWHost.indexOf(host) > -1;
+        }
+
+        function createPublicNetwork() {
+            var len,
+                subnetLen,
+                i,
+                j;
+                
+            vm.publicNetwork = [];
+            vm.filteredList = vm.filterListByCN = $filter("filter")(vm.updatedHostList, vm.filterByCN);
+            len = vm.filteredList.length
+
+            for ( i = 0; i < len; i++) {
+                subnetLen = vm.filteredList[i].subnets.length;
+
+                for ( j = 0; j < subnetLen; j++) {
+                    if(vm.publicNetwork.indexOf(vm.filteredList[i].subnets[j]) === -1) {
+                        vm.publicNetwork.push(vm.filteredList[i].subnets[j]);
+                    }
+                }
+            }
+
+            vm.selectedPublicNetwork = vm.publicNetwork[0];
+            vm.filteredList = vm.filteredListByPN = $filter("filter")(vm.filterListByCN, vm.filterByPN);
+        };
+
+        function filterByCN(host) {
+            if(host.subnets.indexOf(vm.selectedClusterNetwork) !== -1) {
+                return host;
+            }
+        }
+
+        function filterByPN(host) {
+            if(host.subnets.indexOf(vm.selectedPublicNetwork) !== -1) {
+                return host;
+            }
+        }
+
+        function filterHostByPN() {
+            vm.filteredList = $filter("filter")(vm.filterListByCN, vm.filterByPN);   
+        }
+
+        function _createHostList(host) {
+            var interfaceKeys = Object.keys(host.networks),
+                len = interfaceKeys.length,
+                interfaces = [],
+                hostIP = [],
+                subnets = [],
+                ipLen,
+                ip,
+                i,
+                j,
+                obj = {};
+
+            obj.fqdn = host.fqdn;
+            obj.interfaces = [];
+            obj.hostIP = [];
+            obj.subnets = [];
+            obj.freeDevices = host.disks.free ? Object.keys(host.disks.free).length : 0;
+            obj.usedDevices = host.disks.used ? Object.keys(host.disks.used).length : 0;
+            obj.totalNodeInDevice = obj.freeDevices + obj.usedDevices;
+            obj.selectedRole = "Monitor";
+
+
+            for ( i = 0; i < len; i++) {
+                obj.interfaces.push(interfaceKeys[i]);
+                
+                ip = host.networks[interfaceKeys[i]].ipv4;
+                ipLen = ip.length;
+
+                for ( j = 0; j < ipLen; j++) {
+                    if(obj.hostIP.indexOf(ip[j]) === -1) {
+                        obj.hostIP.push(ip[j]);
+                    }
+                }
+
+                if(obj.subnets.indexOf(host.networks[interfaceKeys[i]].subnet) === -1) {
+                    obj.subnets.push(host.networks[interfaceKeys[i]].subnet);
+                    _createClusterNetwork(host.networks[interfaceKeys[i]].subnet);
+                }
+
+                obj.selectedHostIP = obj.hostIP[0];
+                obj.selectedInterface = obj.interfaces[0];
+                vm.selectedClusterNetwork = vm.clusterNetwork[0];
+                
+            }
+
+            vm.updatedHostList.push(obj);
+            console.log(obj);
+        }
+
+        function _createClusterNetwork(subnet) {
+            if(vm.clusterNetwork.indexOf(subnet) === -1) {
+                vm.clusterNetwork.push(subnet);
+            }
+        }
+
+        function updateOSDMonCount() {
+            var len = vm.avaialableHostForRole.length,
+                i;
+
+            vm.selectedMonitors = 0;
+            vm.selectedOSDs = 0;
+
+            for (i = 0; i < len; i++) {
+
+                if(vm.avaialableHostForRole[i].selectedRole === "Monitor") {
+                    vm.selectedMonitors += 1;
+                } else if(vm.avaialableHostForRole[i].selectedRole === "OSD Host") {
+                    vm.selectedOSDs += 1;
+                }
+            }
         }
 
         function getDevices(host){
@@ -104,36 +307,42 @@
         }
 
         function changeIntoArray(host){
-            host.networks.eth0.ipv4 = JSON.parse(host.networks.eth0.ipv4);
+            var i,
+                interfaces = Object.keys(host.networks),
+                len = interfaces.length;
+
+            for ( i = 0; i < len; i++) {
+                host.networks[interfaces[i]].ipv4 = JSON.parse(host.networks[interfaces[i]].ipv4);
+            }
         }
 
-        $scope.$watch(angular.bind(this, function(availableHostList){
-            return vm.availableHostList;
-        }),function(){
-            var selectedHosts = 0,
-            selectedMonitors = 0,
-            selectedOSD = 0,
-            totalDevices = 0,
-            deviceWarningSign = 0,
-            selectedHostList = 0;
-            angular.forEach(vm.availableHostList, function(item){
-                selectedHosts += item.checkboxSelected ? 1 : 0;
-                if(item.checkboxSelected && item.selectedRole){
-                    selectedMonitors += item.selectedRole.indexOf("Monitor") !== -1 ? 1 : 0;
-                    selectedOSD += item.selectedRole.indexOf("OSD Host") !== -1 ? 1 : 0;
-                    totalDevices += item.disks ? item.totalNodeInDevice : 0;
-                    deviceWarningSign += item.usedDevices ? 1 : 0;
-                    selectedHostList += 1;
-                }
+        // $scope.$watch(angular.bind(this, function(avaialableHostForRole){
+        //     return vm.avaialableHostForRole;
+        // }),function(){
+        //     var selectedHosts = 0,
+        //     selectedMonitors = 0,
+        //     selectedOSD = 0,
+        //     totalDevices = 0,
+        //     deviceWarningSign = 0,
+        //     selectedHostList = 0;
+        //     angular.forEach(vm.avaialableHostForRole, function(item){
+        //         selectedHosts += item.checkboxSelected ? 1 : 0;
+        //         if(item.checkboxSelected && item.selectedRole){
+        //             selectedMonitors += item.selectedRole.indexOf("Monitor") !== -1 ? 1 : 0;
+        //             selectedOSD += item.selectedRole.indexOf("OSD Host") !== -1 ? 1 : 0;
+        //             totalDevices += item.totalNodeInDevice;
+        //             deviceWarningSign += item.usedDevices ? 1 : 0;
+        //             selectedHostList += 1;
+        //         }
 
-            })
-            vm.selectedHosts = selectedHosts;
-            vm.selectedMonitors = selectedMonitors;
-            vm.selectedOSD = selectedOSD;
-            vm.totalDevices = totalDevices;
-            vm.deviceWarningSign = deviceWarningSign;
-            vm.selectedHostList = selectedHostList;
-        }, true);
+        //     })
+        //     vm.selectedHosts = selectedHosts;
+        //     vm.selectedMonitors = selectedMonitors;
+        //     vm.selectedOSD = selectedOSD;
+        //     vm.totalDevices = totalDevices;
+        //     vm.deviceWarningSign = deviceWarningSign;
+        //     vm.selectedHostList = selectedHostList;
+        // }, true);
 
 
         function refreshHostList(){
@@ -142,14 +351,14 @@
 
         vm.checkAll = function (checkValue) {
             vm.selectedAll = checkValue;
-            angular.forEach(vm.availableHostList, function (item) {
+            angular.forEach(vm.avaialableHostForRole, function (item) {
                 item.checkboxSelected = vm.selectedAll;
             });
         }
 
         vm.selectedNodes = function(){
             vm.selectedNodeList = []
-            for(var index=0; index< vm.availableHostList.length; index++){
+            for(var index=0; index< vm.avaialableHostForRole.length; index++){
                 if(vm.availableHostList[index].checkboxSelected && vm.availableHostList[index].selectedRole){
                     vm.selectedNodeList.push(vm.availableHostList[index]);
                     vm.selectedNodeList[index].customselectedUnit = "GB";
@@ -262,13 +471,6 @@
             postData.node_configuration = node_configuration;
             console.log(postData);
         }
-        function _resetFlag() {
-            // if(vm.selectedStep === 4) {
-            //     vm.selectedNodeList.map(function(curr, index, list) {
-            //         curr.isExpanded = false;
-            //     });
-            // }
-        }
 
         function filterNestedList(item) {
             var properties,
@@ -353,18 +555,40 @@
                 vm.selectedStep += 1;
                 
                 if(vm.selectedStep === 3) {
-                    vm.selectedNodes();
+                    vm.avaialableHostForRole = vm.selectedNWHost;
+                    _calculateSummaryValues();
+                    //vm.selectedNodes();
                 }
                 if(vm.selectedStep === 5) {
                     createClusterPostData();
                 }
-                if(vm.selectedStep >= 3) {
-                    closeExpandList();
-                }
-                                    
+                
+                // if(vm.selectedStep >= 3) {
+                //     closeExpandList();
+                // }
+                    
             }
 
         };
+
+        function _calculateSummaryValues() {
+            var len = vm.avaialableHostForRole.length,
+                i;
+
+            vm.totalDevices = 0;
+            vm.selectedMonitors = 0;
+            vm.selectedOSDs = 0;
+
+            for (i = 0; i < len; i++) {
+                vm.totalDevices += vm.avaialableHostForRole[i].totalNodeInDevice;
+                
+                if(vm.avaialableHostForRole[i].selectedRole === "Monitor") {
+                    vm.selectedMonitors += 1;
+                } else if(vm.avaialableHostForRole[i].selectedRole === "OSD Host") {
+                    vm.selectedOSDs += 1;
+                }
+            }
+        }
 
         vm.backStep= function(step) {
             vm.selectedStep -= 1;
