@@ -6,6 +6,10 @@
 
   app.component('createPool', {
     // Loads the component template
+    bindings: {
+        taskSubmitted: "=?",
+        poolToCreate: "=?"
+    },
     templateUrl: '/commons/components/create-pool/create-pool.html',
     controller: 'createPoolController',
     controllerAs: "createPoolCntrl"
@@ -33,11 +37,16 @@
         vm.checkboxModelQuotasMaxObjectValue  = false;
         vm.checkboxModelQwnerValue = false; 
         vm.poolName = "MyPool";
-        vm.poolCount = 3;
+        vm.poolCount = 1;
         vm.replicaCount = 3;
         vm.quotasMaxPercentage = 0;
         vm.quotasMaxObjects = 0;
         vm.taskSubmitted = false;
+        vm.disableFilter = false;
+        vm.powValue = 7;
+
+        vm.getpgCountValue = getpgCountValue;
+        vm.pgCountEveryPool = pgCountEveryPool;
 
         if($rootScope.clusterData !== null && typeof $rootScope.clusterData !== "undefined") {
             init();
@@ -61,13 +70,14 @@
             } else {
                 vm.step = step;
             }
-            if(vm.step === 4) {
-                poolList();
-            }
             if(vm.step === 5) {
                 createPool();
-                
             }
+        }
+
+        vm.goToSummary = function(){
+            vm.step = 4;
+            poolList();
         }
 
         function updatePoolName() {
@@ -103,6 +113,28 @@
             vm.updatePoolName();
         }
 
+        function getpgCountValue(pgCount){
+            var number;
+            number = Math.pow(2, vm.powValue);
+            if(number < pgCount){
+                vm.powValue += 1
+            }else if(number > pgCount){
+                vm.powValue -= 1
+            }
+            vm.pgCount = parseInt(Math.pow(2,vm.powValue).toFixed(0));
+        }
+
+        function pgCountEveryPool(pool){
+            var number;
+            number = Math.pow(2, pool.powValue);
+            if(number < pool.pgCount){
+                pool.powValue += 1
+            }else if(number > pgCount){
+                pool.powValue -= 1
+            }
+            pool.pgCount = parseInt(Math.pow(2,pool.powValue).toFixed(0));
+        }
+
         function getCephClusterList(){
             var index;
             var clustersLength = $rootScope.clusterData.clusters.length;
@@ -132,6 +164,7 @@
                 pool.osdCount = vm.OSDs;
                 pool.quotas = [vm.quotasMaxPercentage, vm.quotasMaxObjects];
                 pool.conf = vm.journalConfigration;
+                pool.powValue = vm.powValue;
 
                 poolList.push(pool);
             }
@@ -179,6 +212,7 @@
         }
 
         vm.editAppKey = function(field) {
+            vm.disableFilter = true;
             vm.editing = vm.poolList.indexOf(field);
             vm.newField = angular.copy(field);
             for(var i in vm.editMode){
@@ -191,10 +225,12 @@
             if (vm.editing !== false) {
                 vm.poolList[vm.editing] = vm.newField;
                 vm.editing = false;
-            }       
+            }
+            vm.disableFilter = false;
         };
         vm.saveEdit = function(index) {
             vm.editing = false;
+            vm.disableFilter = false;
         };
 
         vm.cancelCreate = function(){

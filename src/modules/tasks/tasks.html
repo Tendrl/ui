@@ -1,7 +1,7 @@
 <div ng-if="clusterData === null && !isAPINotFoundError" class="spinner spinner-lg"></div>
 <div ng-if="clusterData !== null" class="tendrl-task-list-view-container container-fluid">
     <h1 class="bold-text">Tasks</h1>
-    
+
     <div class="row toolbar-pf">
         <div class="col-sm-12">
             <form class="toolbar-pf-actions">
@@ -28,7 +28,7 @@
                     <span class="error-msg">*To date cannot be greater than from date</span>
                 </div>
             </form>
-            
+
             <div class="row toolbar-pf-results">
                 <div class="col-md-1 status-options">
                     Show:
@@ -72,16 +72,16 @@
                 <div class="list-view-pf-left col-md-1">
                     <i ng-class="{'pficon pficon-error-circle-o': (task.status === 'failed'), 'pficon pficon-ok': (task.status === 'finished'), 'pficon pficon-warning-triangle-o': (task.status === 'warning'), 'fa fa-spinner': (task.status === 'processing' || task.status === 'new')}"></i>
                 </div>
-                <div class="col-md-3 text-center">
+                <div class="col-md-3 text-left">
                     <a href="" ng-click="taskCntrl.goToTaskDetail(task.job_id)" ng-if="task.flow" class="bold-text">{{task.flow}}</a>
                     <div class="bold-text" ng-if="!task.flow">NA</div>
                     <p>Task ID: {{task.job_id || "NA"}} </p>
                 </div>
-                 <div class="col-md-3 text-center">
+                 <div class="col-md-3 text-left">
                     <p class="bold-text">Submitted</p>
                     <p>{{task.created_at| date: 'dd MMM yyyy'}}</p>
                 </div>
-                 <div class="col-md-3 text-center">
+                 <div class="col-md-3 text-left">
                     <p class="bold-text">{{taskCntrl.getStatusText(task.status)}}</p>
                 </div>
             </div>

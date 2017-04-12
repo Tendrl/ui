@@ -26,6 +26,7 @@
         vm.sizeUnits = ["GB", "TB"];
 
         //default values
+        vm.poolTaskSubmitted = false;
         vm.backingPool = "existing";
         vm.rbdName = "MyBlockDevice";
         vm.rbdCount = 3;
