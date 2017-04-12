@@ -19,7 +19,7 @@
                 </div>
                 <div class="form-group sorting-section">
                     <div class="dropdown btn-group">
-                        <select ng-init="rbdCntrl.orderBy = 'name'" ng-model="rbdCntrl.orderBy" ng-disabled="rbdCntrl.rbdList.length === 0">
+                        <select  class="btn btn-default dropdown-toggle" ng-init="rbdCntrl.orderBy = 'name'" ng-model="rbdCntrl.orderBy" ng-disabled="rbdCntrl.rbdList.length === 0">
                             <option value="name" class="selected">Name</option>
                             <option value="utilization['percent_used']">Utilization</option>
                             <option value="clusterName">Cluster Name</option>
