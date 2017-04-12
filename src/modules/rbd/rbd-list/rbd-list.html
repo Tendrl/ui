@@ -35,7 +35,7 @@
                     <div class="form-group toolbar-pf-view-selector">
                         <div class="row">
                             <div class="col-md-6">
-                                <button class="btn btn-primary  pull-right" ng-click="rbdCntrl.createRbd()">Add</button>
+                                <button class="btn btn-primary  pull-right" ng-click="rbdCntrl.createRbd()">Create</button>
                             </div>
                         </div>
                     </div>
@@ -64,7 +64,7 @@
             <div class="list-view-pf-left col-md-1 bold-text rbd-name">
                 {{rbd.name}}
             </div>
-            <div class="col-md-1">in</div>
+            <div class="col-md-1 connector">in</div>
             <div class="col-md-2">
                 <h5 class="pull-left counts cluster-name">{{rbd.clusterName}}</h5>
             </div>
@@ -74,7 +74,7 @@
             <div class="col-md-2">
                 <div class="list-view-pf-additional-info-item list-view-pf-additional-info-item-stacked">
                     <div class="bold-text">Backing pool</div>
-                    <h5 class="pull-left">{{rbd.backingPool}} 
+                    <h5 class="pull-left">{{rbd.backingPool}}
                         <span ng-if="rbd.isBackingPoolShared">(Shared)</span>
                     </h5>
                 </div>
@@ -108,4 +108,3 @@
 </div>
 
 <div  ng-include src="'../modules/rbd/resize-rbd/resize-rbd.html'"></div>
-

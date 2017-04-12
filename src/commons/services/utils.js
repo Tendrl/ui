@@ -271,7 +271,6 @@
                 }
             } else {
                 
-
                 vm.getObjectList("Cluster").then(function(list) {
                     $rootScope.clusterData = list;
                     vm.getPoolDetails();

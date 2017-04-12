@@ -171,9 +171,30 @@
                     pool.type = list[i].type;
                     pool.clusterId = list[i].cluster_id;
                     pool.pgCount = list[i].pg_num;
-                    pool.replicaCount = list[i].replica_count;
+                    pool.replicaCount = list[i].size;
                     pool.osdCount = list[i].osd_count;
-                    pool.quotas = list[i].quotas;
+                    pool.quotas = "NA";
+                    pool.quota_enabled = list[i].quota_enabled;
+                    if(list[i].quota_enabled){
+                        if(list[i].quota_enabled.toLowerCase() === "false") {
+                            pool.quotas = "Disabled";
+                            pool.quota_max_objects = list[i].quota_max_objects;
+                            pool.quota_max_bytes = list[i].quota_max_bytes;
+
+                        } else if(list[i].quota_enabled.toLowerCase() === "true") {
+                            pool.quota_max_objects = list[i].quota_max_objects;
+                            pool.quota_max_bytes = list[i].quota_max_bytes;
+                            if(pool.quota_max_bytes !== "0" && pool.quota_max_objects !=="0"){
+                                pool.quotas = pool.quota_max_bytes + "%, " + pool.quota_max_objects + " objects"
+                            }
+                            else if(pool.quota_max_bytes !== "0"){
+                                pool.quotas = pool.quota_max_bytes + "%";
+                            }
+                            else if(pool.quota_max_objects !== "0"){
+                                pool.quotas = pool.quota_max_objects + " objects";
+                            }
+                        }
+                    }
                     pool.conf = list[i].conf;
                     poolList.push(pool);
                 }
@@ -193,12 +214,13 @@
                 
                 utils.takeAction(postData, "CephCreateRbd", "POST", vm.selectedCluster.cluster_id).then(function(response) {
                     vm.jobId = response.job_id;
+                    vm.taskSubmitted = true;
                     //$rootScope.notification.type = "success";
                     //$rootScope.notification.message = "JOB is under process. and JOB-ID is - " + response.job_id;
                 });
 
             }
-            vm.taskSubmitted = true;
+            
         }
 
         function editRBDsList(index, rbd) {

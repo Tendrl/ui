@@ -64,7 +64,6 @@
 
             }, 1000 * config.refreshIntervalTime, 1);
         }
-        
 
         /*Cancelling interval when scope is destroy*/
         $scope.$on("$destroy", function() {

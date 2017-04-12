@@ -33,7 +33,7 @@
         vm.checkboxModelQuotasMaxObjectValue  = false;
         vm.checkboxModelQwnerValue = false; 
         vm.poolName = "MyPool";
-        vm.poolCount = 3;
+        vm.poolCount = 1;
         vm.replicaCount = 3;
         vm.quotasMaxPercentage = 0;
         vm.quotasMaxObjects = 0;
