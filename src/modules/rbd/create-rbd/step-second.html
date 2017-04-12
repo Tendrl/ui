@@ -50,7 +50,7 @@
 
         <div class="form-group pool-section" ng-if="createRBDCntrl.backingPool === 'new'">
             <h1 class="bold-text">Create Pool</h1>
-            <create-pool></create-pool>
+            <create-pool task-submitted="createRBDCntrl.poolTaskSubmitted" pool-to-create ="false"></create-pool>
         </div>
     </form>
 </div>

@@ -66,16 +66,26 @@
                 },
                 i, j, length = list.length,
                 hostList = [],
+                tagsList,
+                index,
                 host, stats, tags;
 
             for (i = 0; i < length; i++) {
                 host = {};
 
-                if(list[i].tendrlcontext && list[i].tendrlcontext.sds_name === "ceph"){
-                    tags = JSON.parse(list[i].tags)[0].split("/");
-                }
-                else{
-                    tags = JSON.parse(list[i].tags)[1].split("/");
+                tagsList = JSON.parse(list[i].tags);
+                if (tagsList.indexOf("tendrl/central-store")!== -1){
+                    index = tagsList.indexOf("tendrl/central-store");
+                    tags = tagsList[index].split("/");
+                } else if (tagsList.indexOf("ceph/mon") !== -1){
+                    index = tagsList.indexOf("ceph/mon");
+                    tags = tagsList[index].split("/");
+                } else if (tagsList.indexOf("ceph/osd") !== -1){
+                    index = tagsList.indexOf("ceph/osd");
+                    tags = tagsList[index].split("/");
+                } else if (tagsList.indexOf("gluster/server") !== -1){
+                    index = tagsList.indexOf("gluster/server");
+                    tags = tagsList[index].split("/");
                 }
 
                 host.cluster_name = "Unassigned";
