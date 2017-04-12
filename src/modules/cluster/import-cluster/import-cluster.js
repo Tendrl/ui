@@ -68,8 +68,7 @@
                         vm.selectedCluster.sdsName = sds_type + " " + vm.selectedClusterVersion;
                         host = {};
                         if (hostList[j].tags !== "undefined" && hostList[j].tags) {
-                            tags = JSON.parse(hostList[j].tags);
-                            release = tags[1].split("/");
+                            release = getRole(JSON.parse(hostList[j].tags));
                             host.release = release[0] + " " + vm.selectedClusterVersion;
                             host.role = role[release[release.length - 1]];
                         }
@@ -81,6 +80,25 @@
             }
             return { hosts: associatedHosts, sds_type: sds_type };
 
+        }
+
+        function getRole(tagsList){
+            var index,
+                tags;
+            if (tagsList.indexOf("tendrl/central-store")!== -1){
+                index = tagsList.indexOf("tendrl/central-store");
+                tags = tagsList[index].split("/");
+            } else if (tagsList.indexOf("ceph/mon") !== -1){
+                index = tagsList.indexOf("ceph/mon");
+                tags = tagsList[index].split("/");
+            } else if (tagsList.indexOf("ceph/osd") !== -1){
+                index = tagsList.indexOf("ceph/osd");
+                tags = tagsList[index].split("/");
+            } else if (tagsList.indexOf("gluster/server") !== -1){
+                index = tagsList.indexOf("gluster/server");
+                tags = tagsList[index].split("/");
+            }
+            return tags;
         }
 
         function selectCluster() {
