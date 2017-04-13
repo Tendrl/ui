@@ -53,7 +53,7 @@
         <div class="bold-text">Backing Pool</div>
         <div class="desc">A
             <span ng-if="createRBDCntrl.backingPool === 'existing'">existing </span>
-            <span ng-if="createRBDCntrl.backingPool !== 'existing'">new backing </span>pool will be created in <span class="bold-text">{{createRBDCntrl.selectedCluster.name}}.</span>
+            <span ng-if="createRBDCntrl.backingPool !== 'existing'">new backing </span>pool will be created in <span class="bold-text">{{createRBDCntrl.selectedCluster.cluster_name}}.</span>
         </div>
         <div class="list-group list-view-pf list-view-pf-equalized-column">
             <div class="list-group-item">
@@ -66,7 +66,7 @@
                 <div class="col-md-2">
                     <div class="list-view-pf-additional-info-item list-view-pf-additional-info-item-stacked">
                         <div class="bold-text">Type</div>
-                        <h5 class="pull-left counts">{{createRBDCntrl.selectedPool.type || "NA"}}</h5>
+                        <h5 class="pull-left counts pool-type">{{createRBDCntrl.selectedPool.type || "NA"}}</h5>
                     </div>
                 </div>
                 <div class="col-md-1">

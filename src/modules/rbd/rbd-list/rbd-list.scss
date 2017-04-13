@@ -10,14 +10,30 @@
     .cluster-name {
         color: $color-boston-blue;
         text-transform: capitalize;
+        padding-left: 0;
+        cursor: pointer;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
     }
 
     .rbd-name {
         text-transform: capitalize;
+        padding-right: 0;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        text-align: left;
     }
     
     .list-group {
         margin-bottom: 0px;
+    }
+
+    .connector {
+        padding-left: 0;
+        padding-right: 0;
+        width: 50px;
     }
     
 }

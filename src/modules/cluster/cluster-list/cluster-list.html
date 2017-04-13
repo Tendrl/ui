@@ -10,7 +10,7 @@
                         <div class="input-group-btn">
                             <select ng-init="clusterCntrl.filterBy = 'name'" ng-disabled="clusterCntrl.clusterList.length === 0" ng-model="clusterCntrl.filterBy" class="btn btn-default dropdown-toggle" ng-change="clusterCntrl.searchBy = {}">
                                 <option value="name">Name</option>
-                                <option value="">Provider</option>
+                                <option value="sds_name">Provider</option>
                             </select>
                         </div>
                         <input type="text" class="form-control" id="filter" ng-model="clusterCntrl.searchBy[clusterCntrl.filterBy]" placeholder="Filter By {{clusterCntrl.filterBy}}...">
@@ -18,7 +18,7 @@
                 </div>
                 <div class="form-group sorting-section">
                     <div class="dropdown btn-group">
-                        <select ng-init="clusterCntrl.orderBy = 'name'" ng-model="clusterCntrl.orderBy" ng-disabled="clusterCntrl.clusterList.length === 0" ng-change="clusterCntrl.displayArg()">
+                        <select  class="btn btn-default dropdown-toggle" ng-init="clusterCntrl.orderBy = 'name'" ng-model="clusterCntrl.orderBy" ng-disabled="clusterCntrl.clusterList.length === 0" ng-change="clusterCntrl.displayArg()">
                             <option value="name" class="selected">Name</option>
                             <option value="status">Status</option>
                             <option value="utilization['percent_used']">Utilization</option>
@@ -66,7 +66,7 @@
             <div class="list-view-pf-left col-md-1">
                 <i class="pficon" ng-class="{'pficon-error-circle-o': (cluster.status === 'HEALTH_ERR'), 'pficon-ok': (cluster.status === 'HEALTH_OK'), 'pficon-warning-triangle-o': (cluster.status === 'HEALTH_WARN')}"></i>
             </div>
-            <div class="col-md-1 text-center cluster-name bold-text counts" ng-click="clusterCntrl.goToClusterDetail(cluster.id)" title="{{cluster.name}}">{{cluster.name}}</div>
+            <div class="col-md-1 text-center cluster-name bold-text counts" ng-click="clusterCntrl.goToClusterDetail(cluster.id)" data-toggle="tooltip" data-placement="bottom" title="{{cluster.name}}">{{cluster.name}}</div>
             <div class="col-md-3">
                 <donut-chart id="" id="utilization-donut-chart{{$index}}" class="list-view-pf-additional-info-item" chart-data="cluster.utilization"></donut-chart>
             </div>

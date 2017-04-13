@@ -8,10 +8,10 @@
 			</div>
 			<span ng-if="!createPoolCntrl.poolName.length" class="error-msg">* Pool name is required</span>
 		</div>
-		<div class="form-group required">
+		<div class="form-group required" ng-if="createPoolCntrl.poolToCreate">
 			<label class="col-sm-2 col-md-3 control-label" for="pool-count">Pools to Create</label>
 			<div class="col-sm-4 col-md-2">
-				<input type="number" min="1" data-id="pool-count" class="form-control" ng-model="createPoolCntrl.poolCount" ng-change="createPoolCntrl.updatePoolName()" required>
+				<input type="number" min="1" max="20" data-id="pool-count" class="form-control" ng-model="createPoolCntrl.poolCount" ng-change="createPoolCntrl.updatePoolName()" required>
 			</div>
 			<div class="col-sm-8 col-md-5" ng-if = "createPoolCntrl.poolName">
 				<span ng-repeat="name in createPoolCntrl.poolNames">{{name}}
@@ -31,7 +31,7 @@
 				</div>
 			</div>
 		</div>
-		<div class="form-group required">
+		<div class="form-group required" ng-if="createPoolCntrl.selectedType === 'Standard'">
 			<label class="col-sm-2 col-md-3 control-label" for="pool-count">Replicas</label>
 			<div class="col-sm-4 col-md-2">
 				<input type="number" min="1" max="10" data-id="replicas" class="form-control" ng-model="createPoolCntrl.replicaCount" required>
@@ -67,11 +67,11 @@
 					</label>
 				</div>
 				<div>
-					Use the <a href="http://ceph.com/pgcalc/">PG Calculator</a> to estimate PGs required for production development. Although PG's can be increased at any time later ,you cannot decrease the PG's. Using an optimal PG value is always encouraged as increasing PG's after the fact can cause performance degradation during redistribution of data in the cluster.
+					Use the <a href="http://ceph.com/pgcalc/">PG Calculator</a> to estimate PGs required for production development. Although PG's can be increased at any time later, you cannot decrease the PG's. Using an optimal PG value is always encouraged as increasing PG's after the fact can cause performance degradation during redistribution of data in the cluster.
 				</div>
-				<label class="col-sm-3 control-label" for="PGCount">Optimised PG Count</label>
+				<label class="col-sm-3 control-label" for="PGCount">Optimized PG Count</label>
 				<div class="col-sm-2">
-					<input type="number" min="0" data-id="pgCount" class="form-control" ng-model="createPoolCntrl.pgCount" required>
+					<input type="number" min="0" data-id="pgCount" class="form-control" ng-model="createPoolCntrl.pgCount" ng-change="createPoolCntrl.getpgCountValue(createPoolCntrl.pgCount)" required>
 				</div>
 			</div>
 		</div>
