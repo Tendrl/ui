@@ -19,9 +19,10 @@
 
         vm.createRbd = createRbd;
         vm.onOpenRbdResizeModal = onOpenRbdResizeModal;
-        vm.resizeRBD = resizeRBD;
         vm.viewTaskProgress = viewTaskProgress;
         vm.resizeRBD = resizeRBD;
+        vm.isSizeGreater = isSizeGreater;
+
         vm.resizeRbd = { "unit": "MB", "size": 0 };
         vm.sizeUnits = ["MB", "GB", "TB"];
         vm.resizeRBDtaskSubmitted = false;
@@ -123,6 +124,15 @@
 
             if (typeof clusterObj.utilization !== "undefined") {
                 vm.resizeRbd.clusterAvailable = clusterObj.utilization.available;
+            }
+        }
+
+        function isSizeGreater() {
+            var size;
+
+            if(vm.resizeRbd.size && vm.resizeRbd.clusterAvailable){
+                size = utils.convertToBytes(vm.resizeRbd.size, vm.resizeRbd.unit);
+                return size > vm.resizeRbd.clusterAvailable;
             }
         }
 

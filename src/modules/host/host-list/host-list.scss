@@ -24,4 +24,16 @@
         }
     }
 
+    .host-name{
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        padding-left: 0;
+        padding-right: 0;
+    }
+
+    .status-icons {
+        font-size: 23px;
+    }
+
 }

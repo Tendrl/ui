@@ -87,6 +87,10 @@
         }
     }
 
+    .pool-type {
+        text-transform: capitalize;
+    }
+
     .editable-drop-down {
         margin-top: 17px;
         margin-right: 64px
@@ -113,5 +117,9 @@
 
     .show-rbd-footer{
         display: block;
+    }
+    
+    .create-pool-wizard .wizard-pf .wizard-pf-body .wizard-pf-sidebar{
+        top: 254px;
     }
 }

@@ -8,7 +8,15 @@
         </li>
     </ol>
     <h1 class="bold-text">Create RBD</h1>
-    <div class="create-rbd-wizard" ng-if="!createRBDCntrl.taskSubmitted">
+    <center ng-if="createRBDCntrl.cephClusterList.length === 0">
+        <div class="blank-slate-pf">
+            <div class="blank-slate-pf-icon">
+                <i class="pficon pficon-resource-pool"></i>
+            </div>
+            <h1>No Ceph cluster detected.</h1>
+        </div>
+    </center>
+    <div class="create-rbd-wizard" ng-if="!createRBDCntrl.taskSubmitted && createRBDCntrl.cephClusterList.length !== 0">
         <div class="wizard-pf">
             <div>
                 <div class="wizard-pf-body clearfix">
@@ -44,8 +52,7 @@
                     <button type="button" class="btn btn-default wizard-pf-back" ng-click="createRBDCntrl.updateStep('dec')" ng-disabled="createRBDCntrl.step === 1">
                         <span class="i fa fa-angle-left"></span> Back
                     </button>
-                    <!-- <button type="button" class="btn btn-primary wizard-pf-next" ng-click="createRBDCntrl.updateStep('inc')" ng-disabled="!createRBDCntrl.rbdName.length > 0 || createRBDCntrl.backingPool === 'new' ||  !createRBDCntrl.selectedCluster.utilization.available || createRBDCntrl.checkPoolList()"> -->
-                    <button type="button" class="btn btn-primary wizard-pf-next" ng-click="createRBDCntrl.updateStep('inc')">
+                    <button type="button" class="btn btn-primary wizard-pf-next" ng-click="createRBDCntrl.updateStep('inc')" ng-disabled="!createRBDCntrl.rbdName.length > 0 || createRBDCntrl.backingPool === 'new' ||  !createRBDCntrl.selectedCluster.utilization.available || createRBDCntrl.checkPoolList()">
                         <span ng-if="createRBDCntrl.step !== 3">Next</span>
                         <span ng-if="createRBDCntrl.step === 3">Create RBDs</span>
                         <span class="i fa fa-angle-right"></span>
@@ -56,7 +63,7 @@
             </div>
         </div>
     </div>
-    <div ng-if="createRBDCntrl.taskSubmitted" class="blank-slate-pf centered">
+    <div ng-if="createRBDCntrl.taskSubmitted && createRBDCntrl.cephClusterList.length !== 0" class="blank-slate-pf centered">
         <div class="blank-slate-pf-icon">
             <i class="pficon pficon-ok"></i>
         </div>
