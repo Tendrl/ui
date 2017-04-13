@@ -36,19 +36,25 @@
                         </div>
                         <div class="col-md-7">
                             <span>
-                            <div class="row">
-                                <div class="col-md-4">
-                                    <input type="number" min=1 data-id="target-size" ng-model="rbdCntrl.resizeRbd.size" class="form-control">
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <input type="number" min=1 data-id="target-size" ng-model="rbdCntrl.resizeRbd.size" class="form-control">
+                                    </div>
+                                    <div class="col-md-4">
+                                        <select data-ng-options="unit for unit in rbdCntrl.sizeUnits" data-ng-model="rbdCntrl.resizeRbd.unit" class="form-control"></select>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <p class="cluster-available" ng-if="rbdCntrl.resizeRbd.clusterAvailable !== 'NA'">{{rbdCntrl.resizeRbd.clusterAvailable | bytes}} Available
+                                        </p>
+                                    </div>
                                 </div>
-                                <div class="col-md-4">
-                                    <select data-ng-options="unit for unit in rbdCntrl.sizeUnits" data-ng-model="rbdCntrl.resizeRbd.unit" class="form-control"></select>
-                                </div>
-                                <div class="col-md-4">
-                                    <p class="cluster-available" ng-if="rbdCntrl.resizeRbd.clusterAvailable !== 'NA'">{{rbdCntrl.resizeRbd.clusterAvailable | bytes}} Available
-                                    </p>
-                                </div>
-                            </div>
-                        </span>
+                                
+                            </span>
+                        </div>
+                    </div>
+                    <div class="row pull-right" ng-if="rbdCntrl.isSizeGreater()">
+                        <div class="col-md-12">
+                            <span class="pficon pficon-warning-triangle-o"></span> Storage needed exceeds the amount of storage available in this cluster
                         </div>
                     </div>
                 </div>
@@ -58,7 +64,7 @@
                     </div>
                     <div>
                         <h1 class="text-center" ng-show="rbdCntrl.errorInProcess"><label>Resize RBD Task failed.</label></h1>
-                        <div  ng-show="!rbdCntrl.errorInProcess">
+                        <div ng-show="!rbdCntrl.errorInProcess">
                             <h1 class="text-center"><label>Resize RBD Task Submitted</label></h1>
                             <div class="text-center"> An Resize RBD task has been submitted
                                 <label>

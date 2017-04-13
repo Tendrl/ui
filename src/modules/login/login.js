@@ -6,10 +6,11 @@
     app.controller("LoginController", LoginController);
 
     /*@ngInject*/
-    function LoginController($scope, $window, $location, $state, AuthManager) {
+    function LoginController($scope, $window, $location, $state, $rootScope, AuthManager) {
 
         /* Controller instance */
         var vm = this;
+        $rootScope.isAPINotFoundError = false;
 
         if(AuthManager.isUserLoggedIn){
             $state.go("landing-page")
@@ -19,8 +20,6 @@
         vm.showPassword = "password";
         vm.errorMsg = "";
         vm.login = login;
-
-
 
         function login() {
 
