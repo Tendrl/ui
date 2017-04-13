@@ -29,7 +29,7 @@
         vm.journalConfigration;
         vm.OSDs;
         vm.pgCount = 128;
-        vm.minReplicas = 1;
+        vm.minReplicas = 2;
         vm.owners = [];
         vm.checkboxModelOwnerValue = false;
         vm.checkboxModelQuotasValue = false;

@@ -66,7 +66,7 @@
             </div>
             <div class="col-md-1 connector">in</div>
             <div class="col-md-2">
-                <h5 class="pull-left counts cluster-name">{{rbd.clusterName}}</h5>
+                <h5 class="pull-left counts cluster-name bold-text" ng-click="rbdCntrl.goToClusterDetail(rbd.clusterId)" title="{{rbd.clusterName}}">{{rbd.clusterName}}</h5>
             </div>
             <div class="col-md-3">
                 <donut-chart id="storage-donut-chart{{$index}}" class="list-view-pf-additional-info-item" chart-data="rbd.utilization"></donut-chart>

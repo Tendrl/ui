@@ -22,6 +22,7 @@
         vm.viewTaskProgress = viewTaskProgress;
         vm.resizeRBD = resizeRBD;
         vm.isSizeGreater = isSizeGreater;
+        vm.goToClusterDetail = goToClusterDetail;
 
         vm.resizeRbd = { "unit": "MB", "size": 0 };
         vm.sizeUnits = ["MB", "GB", "TB"];
@@ -164,6 +165,10 @@
             setTimeout(function() {
                 $state.go("task-detail", { taskId: vm.jobId });
             }, 1000)
+        }
+
+        function goToClusterDetail(cluster_id) {
+            $state.go("cluster-detail", { clusterId: cluster_id });
         }
     }
 
