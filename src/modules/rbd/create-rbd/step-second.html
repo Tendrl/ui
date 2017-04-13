@@ -33,7 +33,7 @@
                     </div>
                     <div class="row">
                         <div class="col-md-12">
-                            <div class="col-md-2">{{createRBDCntrl.selectedPool.type || "NA"}}</div>
+                            <div class="col-md-2 pool-type">{{createRBDCntrl.selectedPool.type || "NA"}}</div>
                             <div class="col-md-1">{{createRBDCntrl.selectedPool.osdCount || "NA"}}</div>
                             <div class="col-md-1">{{createRBDCntrl.selectedPool.replicaCount || "NA"}}</div>
                             <div class="col-md-2">{{createRBDCntrl.selectedPool.pgCount || "NA"}}</div>
@@ -50,7 +50,7 @@
 
         <div class="form-group pool-section" ng-if="createRBDCntrl.backingPool === 'new'">
             <h1 class="bold-text">Create Pool</h1>
-            <create-pool></create-pool>
+            <create-pool task-submitted="createRBDCntrl.poolTaskSubmitted" pool-to-create ="false"></create-pool>
         </div>
     </form>
 </div>

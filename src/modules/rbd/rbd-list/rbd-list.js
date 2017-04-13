@@ -19,9 +19,11 @@
 
         vm.createRbd = createRbd;
         vm.onOpenRbdResizeModal = onOpenRbdResizeModal;
-        vm.resizeRBD = resizeRBD;
         vm.viewTaskProgress = viewTaskProgress;
         vm.resizeRBD = resizeRBD;
+        vm.isSizeGreater = isSizeGreater;
+        vm.goToClusterDetail = goToClusterDetail;
+
         vm.resizeRbd = { "unit": "MB", "size": 0 };
         vm.sizeUnits = ["MB", "GB", "TB"];
         vm.resizeRBDtaskSubmitted = false;
@@ -126,6 +128,15 @@
             }
         }
 
+        function isSizeGreater() {
+            var size;
+
+            if(vm.resizeRbd.size && vm.resizeRbd.clusterAvailable){
+                size = utils.convertToBytes(vm.resizeRbd.size, vm.resizeRbd.unit);
+                return size > vm.resizeRbd.clusterAvailable;
+            }
+        }
+
 
         function resizeRBD() {
             var sizeInBytes, sizeInMB, postData;
@@ -154,6 +165,10 @@
             setTimeout(function() {
                 $state.go("task-detail", { taskId: vm.jobId });
             }, 1000)
+        }
+
+        function goToClusterDetail(cluster_id) {
+            $state.go("cluster-detail", { clusterId: cluster_id });
         }
     }
 

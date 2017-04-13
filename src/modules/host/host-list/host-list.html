@@ -76,10 +76,12 @@
         </center><div ng-if="hostCntrl.isDataLoading" class="spinner spinner-lg"></div>
         <div ng-if="!hostCntrl.isDataLoading" class="list-group list-view-pf list-view-pf-equalized-column" ng-repeat="host in hostCntrl.filteredHostList=(hostCntrl.hostList | filter: hostCntrl.searchBy | orderBy : hostCntrl.ascOrder + hostCntrl.orderBy)">
             <div class="list-group-item">
-                <div class="col-md-2" ng-class="{ 'list-view-pf-left': clusterId === undefined }">
-                    <span title="{{host.status}}" ng-if="host.status ==='UP'" class="pficon pficon-ok list-view-pf-icon-success"></span>
-                    <span title="{{host.status}}" ng-if="host.status !=='UP'" class="fa fa-arrow-circle-o-down list-view-icon-failure"></span>
-                    <a href="">{{host.name}}</a>
+                <div class="col-md-1" ng-class="{ 'list-view-pf-left': clusterId === undefined }">
+                    <span title="{{host.status}}" ng-if="host.status ==='UP'" class="pficon pficon-ok list-view-pf-icon-success status-icons"></span>
+                    <span title="{{host.status}}" ng-if="host.status !=='UP'" class="fa fa-arrow-circle-o-down list-view-icon-failure status-icons"></span>
+                </div>
+                <div class="col-md-1 host-name" title="{{host.name}}">
+                    {{host.name}}
                 </div>
                 <div  class="col-md-2">
                     <donut-chart id="storage-donut-chart{{$index}}" class="list-view-pf-additional-info-item" chart-title="Storage" chart-data="host.storage"></donut-chart>

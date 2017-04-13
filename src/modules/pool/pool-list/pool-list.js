@@ -15,7 +15,8 @@
             list,
             i,
             timer,
-            clusterObj;
+            clusterObj,
+            powValue = 7;
 
         vm.createPool = createPool;
         vm.onOpenGrowPGModal = onOpenGrowPGModal;
@@ -89,7 +90,15 @@
                 pool.status = "NA";
                 pool.type = list[i].type;
                 pool.utilization = {"percent_used": list[i].percent_used };
-                pool.replicaCount = list[i].size;
+                if (list[i].type === "erasure_coded"){
+                    if(list[i].erasure_code_profile === "default"){
+                        pool.ECProfile = "2+1";
+                    } else {
+                        pool.ECProfile = list[i].erasure_code_profile;
+                    }
+                } else {
+                    pool.replicaCount = list[i].size;
+                }
                 pool.minReplicaCount = list[i].min_size;
                 pool.osdCount = "NA";
                 pool.quotas = "NA";
@@ -169,6 +178,17 @@
             vm.updatedPool.pgCount = vm.growPGPool.pgCount = parseInt(vm.growPGPool.pgCount);
             vm.updatedPool.incPGCnt = "immediate";
 
+        }
+
+        function getpgCountValue(pgCount){
+            var number;
+            number = Math.pow(2,powValue);
+            if(number < pgCount){
+                powValue += 1
+            }else if(number > pgCount){
+                 powValue -= 1
+            }
+            vm.pgCount = parseInt(Math.pow(2,powValue).toFixed(0));
         }
 
         function growPGs() {
