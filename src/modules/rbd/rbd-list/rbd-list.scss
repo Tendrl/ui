@@ -11,6 +11,10 @@
         color: $color-boston-blue;
         text-transform: capitalize;
         padding-left: 0;
+        cursor: pointer;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
     }
 
     .rbd-name {
