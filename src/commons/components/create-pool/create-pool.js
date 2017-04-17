@@ -63,7 +63,9 @@
         });
 
         vm.updateStep = function(step) {
-            if (step === "inc") {
+            if(typeof step !== "string"){
+                vm.step = step;
+            } else if (step === "inc") {
                 vm.step += 1;
             } else if (step === "dec") {
                 vm.step -= 1;
@@ -129,7 +131,7 @@
             number = Math.pow(2, pool.powValue);
             if(number < pool.pgCount){
                 pool.powValue += 1
-            }else if(number > pgCount){
+            }else if(number > pool.pgCount){
                 pool.powValue -= 1
             }
             pool.pgCount = parseInt(Math.pow(2,pool.powValue).toFixed(0));
