@@ -63,7 +63,7 @@
 						<div class="list-view-pf-additional-info-item list-view-pf-additional-info-item-stacked">
 							<div class="bold-text">PG Count</div>
 							<h5 class="pull-left" data-ng-hide="createPoolCntrl.editMode[$index]">{{pool.pgCount}}</h5>
-							<input type="number" data-ng-show="createPoolCntrl.editMode[$index]" data-id="poolPGCount" class="form-control" ng-model="pool.pgCount" ng-change="createPoolCntrl.pgCountEveryPool(pool)" required>
+							<input type="number" min="1" data-ng-show="createPoolCntrl.editMode[$index]" data-id="poolPGCount" class="form-control" ng-model="pool.pgCount" ng-change="createPoolCntrl.pgCountEveryPool(pool)" required>
 						</div>
 					</div>
 <!-- 					<div class="col-md-2">
