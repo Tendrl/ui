@@ -4,13 +4,20 @@
         {{createCephClusterCntrl.showMsg}}
     </div>
     <h3>Host Summary</h3>
+    <div class="alert alert-warning alert-dismissable" ng-if="createCephClusterCntrl.showMonSelectionWarning">
+        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">
+            <span class="pficon pficon-close"></span>
+        </button>
+        <span class="pficon pficon-warning-triangle-o"></span>
+        <strong>{{createCephClusterCntrl.monSelectionMsg}}</strong>.
+    </div>
     
     <div class="list-group list-view-pf list-view-pf-equalized-column">
         <div class="list-group-item available-host-list">
             <div class="col-md-2">
                 <div class="list-view-pf-additional-info-item list-view-pf-additional-info-item-stacked">
                     <div class="bold-text">Hosts</div>
-                    <div class="" ng-modal="createCephClusterCntrl.hosts">{{createCephClusterCntrl.avaialableHostForRole.length}}</div>
+                    <div class="" ng-modal="createCephClusterCntrl.hosts">{{createCephClusterCntrl.availableHostForRole.length}}</div>
                 </div>
             </div>
             <div class="col-md-3">
@@ -91,7 +98,7 @@
             <!-- <div class="row toolbar-pf-results">
                 <div class="col-sm-12">
                     <h5>{{createCephClusterCntrl.selectedHosts}} of {{createCephClusterCntrl.avaialableHostForRole.length}} Hosts Selected</h5><a href ng-click="createCephClusterCntrl.checkAll(true)"> Select All</a> <a href ng-click="createCephClusterCntrl.checkAll(false)"> Deselect All</a>
-                </div><!-- /col -->
+                </div>
             </div> -->
 
         </div><!-- /col -->
@@ -108,7 +115,7 @@
             </div>
         </center>
         <div ng-if="createCephClusterCntrl.isDataLoading" class=""></div>
-        <div ng-if="!createCephClusterCntrl.isDataLoading" class="list-group list-view-pf list-view-pf-equalized-column" ng-repeat="host in createCephClusterCntrl.filteredHostForRole=(createCephClusterCntrl.avaialableHostForRole | filter: createCephClusterCntrl.searchBy | orderBy : createCephClusterCntrl.ascOrder + createCephClusterCntrl.orderBy)">
+        <div ng-if="!createCephClusterCntrl.isDataLoading" class="list-group list-view-pf list-view-pf-equalized-column" ng-repeat="host in createCephClusterCntrl.filteredHostForRole=(createCephClusterCntrl.availableHostForRole | filter: createCephClusterCntrl.searchBy | orderBy : createCephClusterCntrl.ascOrder + createCephClusterCntrl.orderBy)">
             <div class="list-group-item">
 <!--                 <div class="col-md-1">
                     <input type="checkbox" ng-model="host.checkboxSelected">
@@ -122,7 +129,7 @@
                 <div  class="col-md-1">
                     <div class="list-view-pf-additional-info-item list-view-pf-additional-info-item-stacked">
                         <div class="bold-text">Interfaces</div>
-                        <h5 class="pull-left counts">{{host.interfaces.length || "NA"}}</h5>
+                        <h5 class="pull-left counts">{{host.ifLength || "NA"}}</h5>
                     </div>
                 </div>
                 <div  class="col-md-1">
