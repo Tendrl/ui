@@ -24,6 +24,7 @@
         vm.growPGs = growPGs;
         vm.EditPool =EditPool;
         vm.viewTaskProgress = viewTaskProgress;
+        vm.getpgCountValue = getpgCountValue;
 
         vm.isDataLoading = true;
         vm.errorInProcess = false;
@@ -91,6 +92,7 @@
                 pool.type = list[i].type;
                 pool.utilization = {"percent_used": list[i].percent_used };
                 if (list[i].type === "erasure_coded"){
+                    pool.type = "Erasure Coded";
                     if(list[i].erasure_code_profile === "default"){
                         pool.ECProfile = "2+1";
                     } else {
@@ -188,7 +190,7 @@
             }else if(number > pgCount){
                  powValue -= 1
             }
-            vm.pgCount = parseInt(Math.pow(2,powValue).toFixed(0));
+            vm.updatedPool.pgCount = parseInt(Math.pow(2,powValue).toFixed(0));
         }
 
         function growPGs() {
