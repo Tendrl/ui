@@ -74,11 +74,11 @@
                 <donut-chart id="storage-donut-chart{{$index}}" class="list-view-pf-additional-info-item" chart-title="Storage" chart-data="pool.utilization"></donut-chart>
             </div>
             <div class="col-md-1">
-                <div class="list-view-pf-additional-info-item list-view-pf-additional-info-item-stacked" ng-if="pool.type !== 'erasure_coded'">
+                <div class="list-view-pf-additional-info-item list-view-pf-additional-info-item-stacked" ng-if="pool.type !== 'Erasure Coded'">
                     <div class="bold-text">Replicas</div>
                     <h5 class="pull-left">{{pool.replicaCount || "NA"}}</h5>
                 </div>
-                <div class="list-view-pf-additional-info-item list-view-pf-additional-info-item-stacked" ng-if="pool.type === 'erasure_coded'">
+                <div class="list-view-pf-additional-info-item list-view-pf-additional-info-item-stacked" ng-if="pool.type === 'Erasure Coded'">
                     <div class="bold-text">EC Profile</div>
                     <h5 class="pull-left">{{pool.ECProfile || "NA"}}</h5>
                 </div>
