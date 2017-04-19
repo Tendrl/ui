@@ -4,7 +4,7 @@
         "storage_disks": [
             { "device": "/dev/vda1", "journal": "/dev/vdc" },
             { "device": "/dev/vda2", "journal": "/dev/vde" },
-            { "device": "/dev/vdc", "journal": "dev/vde"}
+            { "device": "/dev/vdc", "journal": "/dev/vde"}
         ],
         "unallocated_disks": ["/dev/vdb1", "/dev/vdb2"]
     }, {
@@ -21,6 +21,6 @@
             { "device": "/dev/vda2", "journal": "/dev/vde" },
             { "device": "/dev/vdb2", "journal": "/dev/vdc" }
         ],
-        "unallocated_disks": ["/dev/vdc"]
+        "unallocated_disks": ["/dev/vdc", "/dev/vda1"]
     }]
 }

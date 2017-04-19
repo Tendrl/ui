@@ -1,112 +1,40 @@
-<div class="wizard-pf-contents available-host-container" ng-if="createCephClusterCntrl.selectedStep === 3">
+<div class="wizard-pf-contents network-container" ng-if="createCephClusterCntrl.selectedStep === 2">
     <div class="alert alert-danger" ng-if="createCephClusterCntrl.showMsg">
-        <span class="pficon pficon-error-circle-o"></span>
-        {{createCephClusterCntrl.showMsg}}
+        <span class="pficon pficon-error-circle-o"></span> {{createCephClusterCntrl.showMsg}}
     </div>
-    <h3>Host Summary</h3>
-    <div class="alert alert-warning alert-dismissable" ng-if="createCephClusterCntrl.showMonSelectionWarning">
+    <h3>Subnets</h3>
+    <div class="alert alert-warning alert-dismissable" ng-if="createCephClusterCntrl.showSelectionWarning">
         <button type="button" class="close" data-dismiss="alert" aria-hidden="true">
             <span class="pficon pficon-close"></span>
         </button>
         <span class="pficon pficon-warning-triangle-o"></span>
-        <strong>{{createCephClusterCntrl.monSelectionMsg}}</strong>.
+        <strong>{{createCephClusterCntrl.hostSelectionMsg}}</strong>.
     </div>
-    
-    <div class="list-group list-view-pf list-view-pf-equalized-column">
-        <div class="list-group-item available-host-list">
-            <div class="col-md-2">
-                <div class="list-view-pf-additional-info-item list-view-pf-additional-info-item-stacked">
-                    <div class="bold-text">Hosts</div>
-                    <div class="" ng-modal="createCephClusterCntrl.hosts">{{createCephClusterCntrl.availableHostForRole.length}}</div>
-                </div>
-            </div>
-            <div class="col-md-3">
-                <div class="list-view-pf-additional-info-item list-view-pf-additional-info-item-stacked">
-                    <div class="bold-text">Monitors</div>
-                    <h5 class="pull-left" ng-modal="createCephClusterCntrl.monitors">{{createCephClusterCntrl.selectedMonitors}} 
-                        <span ng-if="createCephClusterCntrl.intendedUsage === 'production'">(of 3 minimum)</span>
-                        <span ng-if="createCephClusterCntrl.intendedUsage === 'poc'">(of 1 minimum)</span>                    
-                    </h5>
-                </div>
-            </div>
-            <div class="col-md-2">
-                <div class="list-view-pf-additional-info-item list-view-pf-additional-info-item-stacked">
-                    <div class="bold-text">OSD Hosts</div>
-                    <h5 class="pull-left "  ng-modal="createCephClusterCntrl.OSDHosts">{{createCephClusterCntrl.selectedOSDs}}</h5>
-                </div>
-            </div>
-            <div class="col-md-3">
-                <div class="list-view-pf-additional-info-item list-view-pf-additional-info-item-stacked remove-flex">
-                    <strong class="bold-text">Devices</strong>
-                    <h5 ng-modal="createCephClusterCntrl.totalDevices">{{createCephClusterCntrl.totalDevices}}</h5>
-                    <!-- <i ng-if="(createCephClusterCntrl.deviceWarningSign > 0)" data-placement="top" title="{{createCephClusterCntrl.deviceWarningMsg}}" class="pficon pficon-warning-triangle-o warning-icon-adjustment" ng-modal='vm.deviceWarningSign'></i> -->
-                </div>
-            </div>
-            <div class="col-md-2">
-                <div class="list-view-pf-additional-info-item list-view-pf-additional-info-item-stacked">
-                    <div class="bold-text">Total Raw Capacity</div>
-                    <h5 class="pull-left">{{createCephClusterCntrl.hostSummary.totalRawCapacity | bytes}}</h5>
-                </div>
-            </div>
+    <div class="row toolbar-pf-results select-deselect">
+        <div class="col-md-4">
+            <h5>{{createCephClusterCntrl.selectedNWHost.length}} of {{createCephClusterCntrl.filteredList.length}} Hosts Selected</h5><a href ng-click="createCephClusterCntrl.selectNWHost(true)"> Select All</a> <a href ng-click="createCephClusterCntrl.selectNWHost(false)"> Deselect All</a>
         </div>
-    </div>
-
-    <h3>Avaialble Host</h3>
-    <div class="row toolbar-pf">
-        <div class="col-sm-12">
-            <form class="toolbar-pf-actions">
-                <div class="form-group toolbar-pf-filter">
-                    <label class="sr-only" for="filter">Name</label>
-                    <div class="input-group">
-                        <div class="input-group-btn">
-                            <!-- Search By -->
-                            <select ng-init="createCephClusterCntrl.filterBy = 'fqdn'" ng-disabled="createCephClusterCntrl.avaialablEhosTforRole.length === 0" ng-model="createCephClusterCntrl.filterBy" class="btn btn-default dropdown-toggle" ng-change="createCephClusterCntrl.searchBy = {}">
-                                <option value="fqdn">Name</option>
-                                <option value="selectedRole">Role</option>
-                            </select>
-                        </div><!-- /btn-group -->
-                        <input ng-disabled="createCephClusterCntrl.avaialablEhosTforRole.length === 0" type="text" class="form-control" id="filter" ng-model="createCephClusterCntrl.searchBy[createCephClusterCntrl.filterBy]" placeholder="Filter By {{createCephClusterCntrl.filterBy}}...">
-                    </div><!-- /input-group -->
-                </div>
-                <div class="form-group">
-                    <div class="dropdown btn-group">
-                        <!-- Order By -->
-                        <select ng-init="createCephClusterCntrl.orderBy = 'fqdn'" ng-disabled="createCephClusterCntrl.avaialablEhosTforRole.length === 0" ng-model="createCephClusterCntrl.orderBy" class="btn btn-default dropdown-toggle">
-                            <option value="fqdn">Name</option>
-                            <option value="selectedRole">Role</option>
-                        </select>
-                    </div>
-                    <button ng-init="createCephClusterCntrl.ascOrder = ''" ng-disabled="createCephClusterCntrl.avaialablEhosTforRole.length === 0" class="btn btn-link" type="button">
-                        <span ng-if="createCephClusterCntrl.ascOrder !== ''" class="fa fa-sort-alpha-desc" ng-click="createCephClusterCntrl.ascOrder = ''">
-                        </span>
-                        <span ng-if="createCephClusterCntrl.ascOrder !== '-'" class="fa fa-sort-alpha-asc" ng-click="createCephClusterCntrl.ascOrder = '-'">
-                        </span>
-                    </button>
-                </div>
-                <!-- <div class="toolbar-pf-action-right">
-                    <div class="form-group toolbar-pf-view-selector">
-                        <div class="row">
-                            <div class="col-md-offset-6 col-md-6">
-                                <button class="btn btn-primary pull-right" ng-click="createCephClusterCntrl.refreshHostList()">Refresh</button>
-                            </div>
+        <div class="col-md-7">
+                <div class="row toolbar-pf filter-section pull-right">
+                    <div class="col-md-6 form-group">
+                        <p class="col-md-6">Cluster Network</p>
+                        <div class="col-md-5">
+                            <select data-ng-options="network for network in createCephClusterCntrl.clusterNetwork" ng-model="createCephClusterCntrl.selectedClusterNetwork" class="form-control network" ng-change="createCephClusterCntrl.createPublicNetwork()"></select>
                         </div>
                     </div>
-                </div> -->
-            </form>
-
-            <!-- result row -->
-            <!-- <div class="row toolbar-pf-results">
-                <div class="col-sm-12">
-                    <h5>{{createCephClusterCntrl.selectedHosts}} of {{createCephClusterCntrl.avaialableHostForRole.length}} Hosts Selected</h5><a href ng-click="createCephClusterCntrl.checkAll(true)"> Select All</a> <a href ng-click="createCephClusterCntrl.checkAll(false)"> Deselect All</a>
+                    <div class="col-md-6 form-group">
+                        <p class="col-md-6">Public Network</p>
+                        <div class="col-md-5">
+                            <select data-ng-options="network for network in createCephClusterCntrl.publicNetwork" ng-model="createCephClusterCntrl.selectedPublicNetwork" class="form-control network" ng-change="createCephClusterCntrl.filterHostByPN()"></select>
+                        </div>
+                    </div>
                 </div>
-            </div> -->
-
-        </div><!-- /col -->
-    </div><!-- /row -->
-
+        </div>
+        <!-- /col -->
+    </div>
     <!-- list all host -->
     <div class="container-fluid">
-        <center ng-if="createCephClusterCntrl.avaialableHostForRole.length === 0 && !createCephClusterCntrl.isDataLoading">
+        <center ng-if="createCephClusterCntrl.updatedHostList.length === 0 && !createCephClusterCntrl.isDataLoading">
             <div class="blank-slate-pf">
                 <div class="blank-slate-pf-icon">
                     <i class="pficon pficon-container-node"></i>
@@ -115,57 +43,58 @@
             </div>
         </center>
         <div ng-if="createCephClusterCntrl.isDataLoading" class=""></div>
-        <div ng-if="!createCephClusterCntrl.isDataLoading" class="list-group list-view-pf list-view-pf-equalized-column" ng-repeat="host in createCephClusterCntrl.filteredHostForRole=(createCephClusterCntrl.availableHostForRole | filter: createCephClusterCntrl.searchBy | orderBy : createCephClusterCntrl.ascOrder + createCephClusterCntrl.orderBy)">
+        <div ng-if="!createCephClusterCntrl.isDataLoading" class="list-group list-view-pf list-view-pf-equalized-column" ng-repeat="host in createCephClusterCntrl.filteredList">
             <div class="list-group-item">
-<!--                 <div class="col-md-1">
-                    <input type="checkbox" ng-model="host.checkboxSelected">
-                </div> -->
-                <div class="col-md-4">
+                <div class="col-md-1">
+                    <input type="checkbox" ng-click="createCephClusterCntrl.selectNWHost(host)" ng-checked="createCephClusterCntrl.isSelectedNWHost(host)">
+                </div>
+                <div class="col-md-3">
                     <div class="list-view-pf-additional-info-item list-view-pf-additional-info-item-stacked">
                         <div class="bold-text">{{host.fqdn || "NA"}}</div>
-                        <!-- <h5 class="pull-left counts" ng-modal="host.name">{{host.ip || "NA"}}</h5> -->
                     </div>
                 </div>
-                <div  class="col-md-1">
+                <div class="col-md-2" ng-repeat="if in host.ifIPMapping">
+                    <div class="list-view-pf-additional-info-item list-view-pf-additional-info-item-stacked">
+                        <div class="bold-text">{{if.if}}</div>
+                        <div>{{if.ip}}</div>
+                    </div>
+                </div>
+                <!-- <div class="col-md-2">
+                    <div class="list-view-pf-additional-info-item list-view-pf-additional-info-item-stacked">
+                        <div class="bold-text">IP Address</div>
+                        <span ng-repeat="ip in host.hostIP">{{ip}}
+                            <span ng-if="$index !== (host.hostIP.length-1)">,</span>
+                        </span>
+                    </div>
+                </div>
+                <div class="col-md-2">
                     <div class="list-view-pf-additional-info-item list-view-pf-additional-info-item-stacked">
                         <div class="bold-text">Interfaces</div>
-                        <h5 class="pull-left counts">{{host.ifLength || "NA"}}</h5>
+                        <span ng-repeat="interface in host.interfaces">{{interface}}
+                            <span ng-if="$index !== (host.interfaces.length-1)">,</span>
+                        </span>
                     </div>
+                </div> -->
+               <!--  <div class="col-md-2">
+                    <div class="bold-text">Cluster Network</div>
+                    <div>{{createCephClusterCntrl.selectedClusterNetwork}}</div>
                 </div>
-                <div  class="col-md-1">
-                    <div class="list-view-pf-additional-info-item list-view-pf-additional-info-item-stacked remove-stack col-md-12">
-                        <div class="bold-text row">Devices</div>
-                        <div class="row">
-                            <h5 ng-modal="host.totalNodeInDevice" class="col-md-9">{{host.totalNodeInDevice || "NA"}}</h5>
-                            <!-- <i ng-if="(host.usedDevices > 0)" data-placement="top" title="{{createCephClusterCntrl.deviceWarningMsg}}" class="pficon pficon-warning-triangle-o warning-icon-adjustment col-md-3"></i> -->
-                        </div>
-
-                    </div>
-                </div>
-                <div  class="col-md-2">
-                    <div class="list-view-pf-additional-info-item list-view-pf-additional-info-item-stacked">
-                        <div class="bold-text">Raw Capacity</div>
-                        <h5 class="pull-left counts" ng-modal="host.rawCapacity">{{(host.stats.storage.total || "NA")}}</h5>
-                    </div>
-                </div>
-                <div  class="col-md-2">
-                    <div class="list-view-pf-additional-info-item list-view-pf-additional-info-item-stacked">
-                        <div class="bold-text">Usable Capacity</div>
-                        <h5 class="pull-left counts" ng-modal="host.usableCapacity">{{((host.stats.storage.total - host.stats.storage.used) || "NA")}}</h5>
-                    </div>
-                </div>
-                <div  class="col-md-2">
-                    <div class="list-view-pf-additional-info-item list-view-pf-additional-info-item-stacked">
-                        <b>Role</b>
-                        <div class="col-sm-12 col-md-12">
-                            <select ng-options="role for role in createCephClusterCntrl.roles;" ng-model="host.selectedRole" class="form-control" data-id="create-host-role" ng-change="createCephClusterCntrl.updateOSDMonCount()"></select>
-                        </div>
-                    </div>
-                </div>
+                <div class="col-md-2">
+                    <div class="bold-text">Public Network</div>
+                    <div>{{createCephClusterCntrl.selectedPublicNetwork}}</div>
+                </div> -->
             </div>
         </div>
         <div class="row">
             <div class="col-md-12 horizontal-line"></div>
         </div>
+        <!-- <div class="row">
+            <div class="col-md-1">
+                <input type="checkbox" ng-model="createCephClusterCntrl.conditionFulfilled">
+            </div>
+            <div class="col-md-3" ng-if="createCephClusterCntrl.intendedUsage === 'production'">
+                3 nodes selected for Production
+            </div>
+        </div> -->
     </div>
 </div>

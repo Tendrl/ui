@@ -1,5 +1,5 @@
 {
-	"baseUrl": "/api/1.0/",
+	"baseUrl": "http://10.70.43.137/api/1.0/",
 	"refreshIntervalTime": 10,
 	"nodeRefreshIntervalTime":  30,
 	"msgRefreshIntervalTime": 5,
