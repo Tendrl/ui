@@ -3,7 +3,7 @@
 		<!-- replacing id with data-id to pass build errors -->
 		<div class="form-group required">
 			<label class="col-sm-2 col-md-3 control-label" for="poolName">Name</label>
-			<div class="col-sm-4">
+			<div class="col-sm-3">
 				<input type="text" data-id="pool-name" class="form-control" name="poolName" ng-model="createPoolCntrl.poolName" ng-change="createPoolCntrl.updatePoolName()">
 			</div>
 			<span ng-if="!createPoolCntrl.poolName.length" class="error-msg">* Pool name is required</span>

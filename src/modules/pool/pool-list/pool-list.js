@@ -25,6 +25,7 @@
         vm.EditPool =EditPool;
         vm.viewTaskProgress = viewTaskProgress;
         vm.getpgCountValue = getpgCountValue;
+        vm.revertReplicasValue = revertReplicasValue;
 
         vm.isDataLoading = true;
         vm.errorInProcess = false;
@@ -87,6 +88,7 @@
                 clusterObj = utils.getClusterDetails(list[i].cluster_id);
                 if(typeof clusterObj !== "undefined") {
                     pool.clusterName = clusterObj.cluster_name;
+                    pool.utilizationAvailable = clusterObj.utilization.available;
                 }
                 pool.status = "NA";
                 pool.type = list[i].type;
@@ -136,13 +138,19 @@
 
         function onOpenPoolEditModal(pool)
         { 
+            vm.editPoolObj = {};
             vm.editPoolStep = 1;
             vm.editPoolObj = pool;
-            vm.editPoolObj.poolName = pool.name
+            vm.editPoolObj.poolName = pool.name;
+            vm.editPoolObj.pgCount = pool.pgCount;
+            vm.editPoolObj.utilization = pool.utilizationAvailable;
+            vm.editPoolObj.quota_max_bytes = 1;
             vm.editPoolObj.checkboxModelQuotasValue = (vm.editPoolObj.quota_enabled === "True") ? true : false;
             vm.editPoolObj.checkboxModelQuotasMaxObjectValue = false;
             vm.editPoolObj.checkboxModelQuotasMaxPercentageValue = false;
             vm.editPoolObj.checkboxModelReplicas = false;
+            vm.editPoolObj.defaultReplicaCount = parseInt(pool.replicaCount);
+            vm.editPoolObj.defaultMinReplicaCount = parseInt(pool.minReplicaCount);
             vm.editPoolObj.editReplicaCount = parseInt(pool.replicaCount);
             vm.editPoolObj.editMinReplicaCount = parseInt(pool.minReplicaCount);
             vm.editPoolObj.quota_max_objects = parseInt(vm.editPoolObj.quota_max_objects);
@@ -153,10 +161,30 @@
             vm.editPoolObj.checkboxModelNoDeepScrub = false;
         }
 
+        function revertReplicasValue(){
+            if(vm.editPoolObj.checkboxModelReplicas === true){
+                vm.editPoolObj.editReplicaCount = vm.editPoolObj.defaultReplicaCount;
+                vm.editPoolObj.editMinReplicaCount = vm.editPoolObj.editMinReplicaCount;
+            }
+        }
+
         function EditPool(){
             var postData;
 
-            postData = { "Pool.pool_id": parseInt(vm.editPoolObj.id), "Pool.poolname": vm.editPoolObj.poolName, "Pool.min_size": parseInt(vm.editPoolObj.editMinReplicaCount) };
+            postData = {
+                        "Pool.pool_id": parseInt(vm.editPoolObj.id),
+                        "Pool.min_size": parseInt(vm.editPoolObj.editMinReplicaCount),
+                        "Pool.size": parseInt(vm.editPoolObj.editReplicaCount)
+                        };
+            if(vm.editPoolObj.checkboxModelQuotasValue){
+                postData["Pool.quota_enabled"] = vm.editPoolObj.checkboxModelQuotasValue;
+                if(vm.editPoolObj.checkboxModelQuotasMaxPercentageValue){
+                    postData["Pool.quota_max_bytes"] = vm.editPoolObj.quota_max_bytes;
+                }
+                if(vm.editPoolObj.checkboxModelQuotasMaxObjectValue){
+                    postData["Pool.quota_max_objects"] = vm.editPoolObj.quota_max_objects;
+                }
+            }
             
             utils.takeAction(postData, "CephUpdatePool", "PUT", vm.editPoolObj.clusterId)
                 .then(function(response) {
@@ -209,7 +237,6 @@
                     vm.errorInProcess = true;
                     vm.growPGStep = 2;
                 });
-            
         }
 
         function viewTaskProgress(modalId) {

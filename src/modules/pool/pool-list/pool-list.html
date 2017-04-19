@@ -115,12 +115,14 @@
                         </button>
                         <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownKebabRight12">
                             <li ng-click="poolCntrl.onOpenPoolEditModal(pool)">
-                                <a ng-class="{disabled: true}" data-target="#poolEditModal" data-toggle="modal">Edit</a>
+                                <a data-target="#poolEditModal" data-toggle="modal">Edit</a>
                             </li>
                             <li ng-click="poolCntrl.onOpenGrowPGModal(pool)">
                                 <a data-target="#growPGModal" data-toggle="modal">Grow PGs</a>
                             </li>
-                            <li><a ng-class="{disabled: true}">Remove</a></li>
+                            <li>
+                                <a ng-class="{disabled: true}">Remove</a>
+                            </li>
                         </ul>
                     </div>
                 </div>
@@ -131,5 +133,5 @@
         <div class="col-md-12 horizontal-line"></div>
     </div>
 </div>
-<div  ng-include src="'../modules/pool/edit-pool/edit-pool.html'"></div>
+<div ng-include src="'../modules/pool/edit-pool/edit-pool.html'"></div>
 <div ng-include src="'../modules/pool/grow-pg/grow-pg.html'"></div>
