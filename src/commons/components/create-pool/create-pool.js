@@ -192,7 +192,6 @@
                     postData["Pool.quota_enabled"] = vm.checkboxModelQuotasValue;
                     postData["Pool.quota_max_objects"] = pool.quotas[1];
                     postData["Pool.quota_max_bytes"] = pool.quotas[0];
-                    console.log(pool.quotas)
                 }
                 if(vm.poolList[i].type === "Erasure Coded"){
                     postData["Pool.type"] = "erasure";

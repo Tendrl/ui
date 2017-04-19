@@ -22,19 +22,19 @@
 						<div class="form-group">
 							<label class="col-sm-3 control-label" for="edit-pool-name">Name </label>
 							<div class="col-sm-9">
-								<input type="text" id="edit-pool-name" ng-model="poolCntrl.editPoolObj.poolName" class="form-control">
+								<label class="control-label" data-id="pool-name" name="poolName">{{poolCntrl.editPoolObj.poolName}}</label>
 							</div>
 						</div>
 						<div class="form-group">
 							<label class="col-sm-3 control-label" for="edit-pool-cluster">Cluster</label>
 							<div class="col-sm-5">
-								<div id="edit-pool-cluster" >{{poolCntrl.editPoolObj.clusterName || "NA"}}</div>
+								<div id="edit-pool-cluster" >{{poolCntrl.editPoolObj.clusterName | capitalize}}</div>
 							</div>
 						</div>
 						<div class="form-group">
 							<label class="col-sm-3 control-label" for="edit-pool-type">Type</label>
 							<div class="col-sm-9">
-								<div id="edit-pool-type" >{{poolCntrl.editPoolObj.type || "NA"}}</div>
+								<div id="edit-pool-type" >{{poolCntrl.editPoolObj.type | capitalize}}</div>
 							</div>
 						</div>
 						<div class="form-group required">
@@ -44,8 +44,8 @@
 							</div>
 						</div>
 						<div class="form-group required">
-							<label class="col-sm-2 col-md-3"></label>
-							<div class="col-sm-12 col-md-9">
+							<label class="col-sm-2 col-md-2"></label>
+							<div class="col-sm-12 col-md-10">
 								<div class="col-md-6">
 									<input type="checkbox" ng-disabled="!(poolCntrl.editPoolObj.checkboxModelQuotasValue)" ng-model="poolCntrl.editPoolObj.checkboxModelQuotasMaxPercentageValue">
 									<label class="control-label" for="quotasMaxPercentage">Max Percentage used</label>
@@ -54,13 +54,13 @@
 									<input type="number" min="1" max = "100" ng-disabled="!(poolCntrl.editPoolObj.checkboxModelQuotasValue && poolCntrl.editPoolObj.checkboxModelQuotasMaxPercentageValue)"  data-id="quotas-max-used" class="form-control" ng-model="poolCntrl.editPoolObj.quota_max_bytes">
 								</div>
 								<div class="col-md-3" ng-if="poolCntrl.editPoolObj.checkboxModelQuotasValue && poolCntrl.editPoolObj.checkboxModelQuotasMaxPercentageValue">
-									<span>% {{((pool.selectedCluster.utilization.available/100)*poolCntrl.editPoolObj.quota_max_bytes) | bytes}} of {{pool.selectedCluster.utilization.available | bytes}}</span>
+									<span>% {{ ((poolCntrl.editPoolObj.utilization/100) * poolCntrl.editPoolObj.quota_max_bytes) | bytes}} of {{poolCntrl.editPoolObj.utilization | bytes }}</span>
 								</div>
 							</div>
 						</div>
 						<div class="form-group required">
-							<label class="col-sm-2 col-md-3"></label>
-							<div class="col-sm-12 col-md-9">
+							<label class="col-sm-2 col-md-2"></label>
+							<div class="col-sm-12 col-md-10">
 								<div class="col-md-6">
 									<input type="checkbox" ng-disabled="!(poolCntrl.editPoolObj.checkboxModelQuotasValue)" ng-model="poolCntrl.editPoolObj.checkboxModelQuotasMaxObjectValue">
 									<label class="control-label" for="quotasMaxObjects">Max number of objects</label>
@@ -76,7 +76,7 @@
 						<div class="form-group">
 							<label class="col-sm-3 control-label"></label>
 							<div class="col-sm-9">
-								<input type="checkbox" ng-model="poolCntrl.editPoolObj.checkboxModelReplicas"> No Chnages to Replicas
+								<input type="checkbox" ng-model="poolCntrl.editPoolObj.checkboxModelReplicas" ng-change="poolCntrl.revertReplicasValue()"> &nbsp; No Changes to Replicas
 							</div>
 						</div>
 						<div class="form-group">
@@ -106,7 +106,7 @@
 								<select ng-disabled="!(checkboxModel.ownerValue)" data-ng-options="owner for owner in createPoolCntrl.owners" ng-model="createPoolCntrl.selectedOwner" class="form-control" data-id="pool-owner"></select>
 							</div>
 						</div>
-						<div class="form-group required">
+<!-- 						<div class="form-group required">
 							<label class="col-sm-3 control-label" for="owner">Optional Pool Settings</label>
 							<div class="col-sm-9" ng-init="poolCntrl.checkboxModel.owner.value = false">
 								<input ng-model="poolCntrl.editPoolObj.checkboxModelNoChange" type="checkbox" value="poolCntrl.editPoolObj.checkboxModelNoChange"><label>No Change to Replicas</label></br>
@@ -114,7 +114,7 @@
 								<input ng-model="poolCntrl.editPoolObj.checkboxModelNoScrub" type="checkbox" value="poolCntrl.editPoolObj.checkboxModelNoScrub"><label>No Scrub</label></br>
 								<input ng-model="poolCntrl.editPoolObj.checkboxModelNoDeepScrub" type="checkbox" value="poolCntrl.editPoolObj.checkboxModelNoDeepScrub"><label>No deept Scrub</label>
 							</div>
-						</div>
+						</div> -->
 					</form>
 
 					<div ng-if="poolCntrl.editPoolStep === 4">
