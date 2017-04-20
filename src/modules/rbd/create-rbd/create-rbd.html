@@ -47,13 +47,12 @@
                     </div>
                 </div>
                 <!-- /.wizard-pf-body -->
-                <div class=" modal-footer wizard-pf-footer" ng-class="{ 'hide-rbd-footer': createRBDCntrl.backingPool === 'new', 'show-rbd-footer': createRBDCntrl.poolTaskSubmitted}">
+                <div class=" modal-footer wizard-pf-footer" ng-class="{ 'hide-rbd-footer': createRBDCntrl.backingPool === 'new', 'show-rbd-footer': createRBDCntrl.poolTaskSubmitted, 'first-Step-footer': createRBDCntrl.step === 1}">
                 <!-- <div class=" modal-footer wizard-pf-footer" ng-class="{ 'create-rbd-footer': createRBDCntrl.backingPool === 'new'} "> -->
                     <button type="button" class="btn btn-default wizard-pf-back" ng-click="createRBDCntrl.updateStep('dec')" ng-disabled="createRBDCntrl.step === 1">
                         <span class="i fa fa-angle-left"></span> Back
                     </button>
-                    <!-- <button type="button" class="btn btn-primary wizard-pf-next" ng-click="createRBDCntrl.updateStep('inc')" ng-disabled="!createRBDCntrl.rbdName.length > 0 || createRBDCntrl.backingPool === 'new' ||  !createRBDCntrl.selectedCluster.utilization.available || createRBDCntrl.checkPoolList()"> -->
-                    <button type="button" class="btn btn-primary wizard-pf-next" ng-click="createRBDCntrl.updateStep('inc')">
+                    <button type="button" class="btn btn-primary wizard-pf-next" ng-click="createRBDCntrl.updateStep('inc')" ng-disabled="!createRBDCntrl.rbdName.length > 0 || createRBDCntrl.backingPool === 'new' ||  !createRBDCntrl.selectedCluster.utilization.available || createRBDCntrl.checkPoolList()">
                         <span ng-if="createRBDCntrl.step !== 3">Next</span>
                         <span ng-if="createRBDCntrl.step === 3">Create RBDs</span>
                         <span class="i fa fa-angle-right"></span>

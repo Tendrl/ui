@@ -1,34 +1,34 @@
 <div class="wizard-pf-contents" ng-if="createPoolCntrl.step === 3">
 	<form class="form-horizontal">
 		<div class="form-group required">
-			<label class="col-sm-3 control-label" for="quotas">Quotas</label>
-			<div class="col-sm-9">
+			<label class="col-sm-4 col-md-3 control-label" for="quotas">Quotas</label>
+			<div class="col-sm-8 col-md-5">
 			<input bs-switch ng-model="createPoolCntrl.checkboxModelQuotasValue" type="checkbox" value="createPoolCntrl.checkboxModelQuotasValue" ng-true-value="true" ng-false-value="false">
 			</div>
 		</div>
 		<div class="form-group required">
-			<label class="col-sm-2 col-md-3"></label>
+			<label class="col-sm-4 col-md-3"></label>
 			<div class="col-sm-8 col-md-9">
-				<div class="col-md-4">
+				<div class="col-sm-8 col-md-3">
 					<input type="checkbox" ng-disabled="!(createPoolCntrl.checkboxModelQuotasValue)" ng-model="createPoolCntrl.checkboxModelQuotasMaxPercentageValue" >
 					<label class="control-label" for="quotasMaxPercentage">Max Percentage used</label>
 				</div>
-				<div class="col-md-2">
+				<div class="col-sm-4 col-md-2">
 					<input type="number" min="0" max = "100" ng-disabled="!(createPoolCntrl.checkboxModelQuotasValue && createPoolCntrl.checkboxModelQuotasMaxPercentageValue)"  data-id="quotas-max-used" class="form-control" ng-model="createPoolCntrl.quotasMaxPercentage">
 				</div>
-				<div class="col-md-4" ng-if="createPoolCntrl.checkboxModelQuotasValue && createPoolCntrl.checkboxModelQuotasMaxPercentageValue	">
+				<div class="col-sm-12 col-md-4" ng-if="createPoolCntrl.checkboxModelQuotasValue && createPoolCntrl.checkboxModelQuotasMaxPercentageValue	">
 					<span>% {{((createPoolCntrl.selectedCluster.utilization.available/100)*createPoolCntrl.quotasMaxPercentage) | bytes}} of {{createPoolCntrl.selectedCluster.utilization.available | bytes}}</span>
 				</div>
 			</div>
 		</div>
 		<div class="form-group required">
-			<label class="col-sm-2 col-md-3"></label>
+			<label class="col-sm-4 col-md-3"></label>
 			<div class="col-sm-8 col-md-9">
-				<div class="col-md-4">
+				<div class="col-sm-8 col-md-3">
 					<input type="checkbox" ng-disabled="!(createPoolCntrl.checkboxModelQuotasValue)" ng-model="createPoolCntrl.checkboxModelQuotasMaxObjectValue">
 					<label class="control-label" for="quotasMaxObjects">Max number of objects</label>
 				</div>
-				<div class="col-md-2">
+				<div class="col-sm-4 col-md-2">
 					<input type="number" ng-disabled="!(createPoolCntrl.checkboxModelQuotasValue && createPoolCntrl.checkboxModelQuotasMaxObjectValue)"  data-id="quotas-max-object" class="form-control" ng-model="createPoolCntrl.quotasMaxObjects">
 				</div>
 

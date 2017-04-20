@@ -38,10 +38,10 @@
                             <span>
                                 <div class="row">
                                     <div class="col-md-4">
-                                        <input type="number" min=1 data-id="target-size" ng-model="rbdCntrl.resizeRbd.size" class="form-control">
+                                        <input type="number" min="1" data-id="target-size" ng-model="rbdCntrl.resizeRbd.size" class="form-control">
                                     </div>
                                     <div class="col-md-4">
-                                        <select data-ng-options="unit for unit in rbdCntrl.sizeUnits" data-ng-model="rbdCntrl.resizeRbd.unit" class="form-control"></select>
+                                        <select data-ng-options="unit for unit in rbdCntrl.sizeUnits" data-ng-model="rbdCntrl.resizeRbd.unit" class="form-control" ng-change="rbdCntrl.changeTargetSize()"></select>
                                     </div>
                                     <div class="col-md-4">
                                         <p class="cluster-available" ng-if="rbdCntrl.resizeRbd.clusterAvailable !== 'NA'">{{rbdCntrl.resizeRbd.clusterAvailable | bytes}} Available

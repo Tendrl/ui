@@ -1,61 +1,58 @@
 <div class="create-pool-wizard">
 	<div ng-class="{'wizard-pf': (createPoolCntrl.step !== 4)}">
-		<div>
-			<div class="wizard-pf-body clearfix">
-				<!-- Sidebar-->
-				<div class="wizard-pf-sidebar" ng-class="{hide: (createPoolCntrl.step >= 4)}">
-					<ul class="list-group">
-						<li class="list-group-item" ng-class="{active: (createPoolCntrl.step === 1)}" data-tabgroup="1">
-							<a ng-click="createPoolCntrl.updateStep(1)">
-								<span class="wizard-pf-substep-title">Basic Settings</span>
-							</a>
-						</li>
-						<li class="list-group-item" ng-class="{active: (createPoolCntrl.step === 2)}" data-tabgroup="2">
-							<a ng-click="createPoolCntrl.updateStep(2)">
-								<span class="wizard-pf-substep-title">Advance Configration</span>
-							</a>
-						</li>
-						<li class="list-group-item" ng-class="{active: (createPoolCntrl.step === 3)}" data-tabgroup="3">
-							<a ng-click="createPoolCntrl.updateStep(3)">
-								<span class="wizard-pf-substep-title">Quotas</span>
-							</a>
-						</li>
-					</ul>
-				</div>
-
-				<!-- Steps -->
-				<div class="create-pool-content">
-					<!--Step 1-->
-					<div ng-include src="'../commons/components/create-pool/stepFirst.html'"></div>
-					<!--Step 2-->
-					<div ng-include src="'../commons/components/create-pool/stepSecond.html'"></div>
-					<!--Step 3-->
-					<div ng-include src="'../commons/components/create-pool/stepThird.html'"></div>
-					<!--Step 4-->
-					<div ng-include src="'../commons/components/create-pool/stepForth.html'"></div>
-
-				</div>
-				<!-- /.wizard-pf-main -->
+		<div class="wizard-pf-body clearfix">
+			<div class="wizard-pf-sidebar" ng-class="{hide: (createPoolCntrl.step >= 4)}">
+				<ul class="list-group">
+					<li class="list-group-item" ng-class="{active: (createPoolCntrl.step === 1)}" data-tabgroup="1">
+						<a ng-click="createPoolCntrl.updateStep(1)">
+							<span class="wizard-pf-substep-title">Basic Settings</span>
+						</a>
+					</li>
+					<li class="list-group-item" ng-class="{active: (createPoolCntrl.step === 2)}" data-tabgroup="2">
+						<a ng-click="createPoolCntrl.updateStep(2)">
+							<span class="wizard-pf-substep-title">Advance Configration</span>
+						</a>
+					</li>
+					<li class="list-group-item" ng-class="{active: (createPoolCntrl.step === 3)}" data-tabgroup="3">
+						<a ng-click="createPoolCntrl.updateStep(3)">
+							<span class="wizard-pf-substep-title">Quotas</span>
+						</a>
+					</li>
+				</ul>
 			</div>
+			<!-- Sidebar-->
 
-			<!-- footer -->
-			<div class="create-pool-footer" ng-class="{hide: (createPoolCntrl.step === 5)}">
-				<div class="col-md-1" ng-if="createPoolCntrl.step !== 4"></div>
-				<button ng-if="createPoolCntrl.step !== 4" type="button" class="btn btn-default wizard-pf-back" ng-click="createPoolCntrl.updateStep('dec')" ng-disabled="createPoolCntrl.step === 1">
-					<span class="i fa fa-angle-left"></span> Back
-				</button>
-				<button ng-if="createPoolCntrl.step !== 4" type="button" class="btn btn-primary wizard-pf-next" ng-click="createPoolCntrl.updateStep('inc')"  ng-disabled = "createPoolCntrl.poolName.length === 0 || createPoolCntrl.cephClusterList.length === 0 || createPoolCntrl.step === 3">
-					<span >Next <span class="i fa fa-angle-right"></span></span>
-				</button>
-				<button ng-if="createPoolCntrl.step !== 4" type="button" class="btn btn-primary wizard-pf-next" ng-click="createPoolCntrl.goToSummary()"  ng-disabled = "createPoolCntrl.poolName.length === 0 || createPoolCntrl.cephClusterList.length === 0">
-					<span>Create Pool <span class="i fa fa-angle-right"></span></span>
-				</button>
-				<button ng-if="createPoolCntrl.step === 4" type="button" class="btn btn-primary wizard-pf-next" ng-click="createPoolCntrl.updateStep('inc')" class="btn btn-default btn-create">Continue</button>
-				<button type="button" ng-click="createPoolCntrl.cancelCreate()" class="btn btn-default btn-cancel">Cancel</button>
+			<!-- Steps -->
+			<div id="create-pool-content" ng-class="{'create-pool-content': (createPoolCntrl.step !== 4)}">
+				<!--Step 1-->
+				<div ng-include src="'../commons/components/create-pool/stepFirst.html'"></div>
+				<!--Step 2-->
+				<div ng-include src="'../commons/components/create-pool/stepSecond.html'"></div>
+				<!--Step 3-->
+				<div ng-include src="'../commons/components/create-pool/stepThird.html'"></div>
+				<!--Step 4-->
+				<div ng-include src="'../commons/components/create-pool/stepForth.html'"></div>
+
 			</div>
-			<!--footer -->
-
+			<!-- /.wizard-pf-main -->
 		</div>
+
+		<!-- footer -->
+		<div id="create-pool-footer" ng-class="{hide: (createPoolCntrl.step === 5), 'create-pool-footer': (createPoolCntrl.step !== 4)}">
+			<div class="col-md-1" ng-if="createPoolCntrl.step !== 4"></div>
+			<button ng-if="createPoolCntrl.step !== 4" type="button" class="btn btn-default wizard-pf-back" ng-click="createPoolCntrl.updateStep('dec')" ng-disabled="createPoolCntrl.step === 1">
+				<span class="i fa fa-angle-left"></span> Back
+			</button>
+			<button ng-if="createPoolCntrl.step !== 4" type="button" class="btn btn-primary wizard-pf-next" ng-click="createPoolCntrl.updateStep('inc')"  ng-disabled = "createPoolCntrl.poolName.length === 0 || createPoolCntrl.cephClusterList.length === 0 || createPoolCntrl.step === 3">
+				<span >Next <span class="i fa fa-angle-right"></span></span>
+			</button>
+			<button ng-if="createPoolCntrl.step !== 4" type="button" class="btn btn-primary wizard-pf-next" ng-click="createPoolCntrl.goToSummary()"  ng-disabled = "createPoolCntrl.poolName.length === 0 || createPoolCntrl.cephClusterList.length === 0">
+				<span>Create Pool <span class="i fa fa-angle-right"></span></span>
+			</button>
+			<button ng-if="createPoolCntrl.step === 4" type="button" class="btn btn-primary wizard-pf-next" ng-click="createPoolCntrl.updateStep('inc')" class="btn btn-default btn-create">Continue</button>
+			<button type="button" ng-click="createPoolCntrl.cancelCreate()" class="btn btn-default btn-cancel">Cancel</button>
+		</div>
+		<!--footer -->
 	</div>
 </div>
 <!-- Task Submitted -->
@@ -65,7 +62,7 @@
 	</div>
 	<div>
 		<h1><label>Create Pool(s) Submitted</label></h1>
-		<div class="text-center"> An task has been submitted to the background for each Pool requested. You will be notified when processing is complete and the new Pools are ready for use. </div>
+		<div class="text-center">A task has been submitted for the Pool(s) requested. You will be notified when the task is complete and the new Pool(s) is ready for use.</div>
 	</div>
 	<div class="blank-slate-pf-main-action">
 		<button class="btn btn-primary btn-lg" ng-click="createPoolCntrl.viewTaskProgress()">View Task Progress</button>

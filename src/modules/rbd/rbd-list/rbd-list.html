@@ -61,7 +61,7 @@
     </center>
     <div class="list-group list-view-pf list-view-pf-equalized-column" ng-repeat="rbd in rbdCntrl.filteredRbdList = (rbdCntrl.rbdList | filter: rbdCntrl.searchBy | orderBy: rbdCntrl.ascOrder + rbdCntrl.orderBy)">
         <div class="list-group-item">
-            <div class="list-view-pf-left col-md-1 bold-text rbd-name">
+            <div class="list-view-pf-left col-md-1 bold-text rbd-name" title="{{rbd.name}}">
                 {{rbd.name}}
             </div>
             <div class="col-md-1 connector">in</div>

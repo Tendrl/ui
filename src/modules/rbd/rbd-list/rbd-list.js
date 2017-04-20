@@ -22,10 +22,11 @@
         vm.viewTaskProgress = viewTaskProgress;
         vm.resizeRBD = resizeRBD;
         vm.isSizeGreater = isSizeGreater;
+        vm.changeTargetSize = changeTargetSize;
         vm.goToClusterDetail = goToClusterDetail;
 
-        vm.resizeRbd = { "unit": "MB", "size": 0 };
-        vm.sizeUnits = ["MB", "GB", "TB"];
+        vm.resizeRbd = { "unit": "GB", "size": 0 };
+        vm.sizeUnits = ["GB", "TB"];
         vm.resizeRBDtaskSubmitted = false;
         vm.resizeRBDstep = 1;
 
@@ -113,11 +114,13 @@
             vm.resizeRBDtaskSubmitted = false;
             vm.resizeRbd = rbdObject;
 
+
             if (rbdObject.size) {
                 /* Now RBD's size always come in "MB" unit 
                 and also we need to send data in "MB" while reside RBD. */
-                vm.resizeRbd.size = parseInt(rbdObject.size);
-                vm.resizeRbd.unit = "MB"
+                vm.resizeRbd.size = Math.ceil(rbdObject.size / Math.pow(1024,1));
+                vm.resizeRbd.unit = "GB"
+                vm.resizeRbd.oldUnit = "GB"
             }
 
             clusterObj = utils.getClusterDetails(rbdObject.clusterId);
@@ -125,6 +128,20 @@
 
             if (typeof clusterObj.utilization !== "undefined") {
                 vm.resizeRbd.clusterAvailable = clusterObj.utilization.available;
+            }
+        }
+
+        function changeTargetSize() {
+            var size;
+
+            size = utils.convertToBytes(vm.resizeRbd.size, vm.resizeRbd.oldUnit);
+            if(vm.resizeRbd.unit === "GB"){
+                vm.resizeRbd.size = Math.ceil(size / Math.pow(1024,3));
+                vm.resizeRbd.oldUnit = "GB";
+
+            } else if(vm.resizeRbd.unit === "TB"){
+                vm.resizeRbd.size = Math.ceil(size / Math.pow(1024,4));
+                vm.resizeRbd.oldUnit = "TB"
             }
         }
 

@@ -46,14 +46,14 @@
                             <span>
                             <div class="row">
                                 <div class="col-md-4">
-                                    <input type="number" class="form-control" min=1 data-id="target-size" ng-model="poolCntrl.updatedPool.pgCount" ng-change="poolCntrl.getpgCountValue(poolCntrl.updatedPool.pgCount)">
+                                    <input type="number" class="form-control" min="{{poolCntrl.growPGPool.pgCount}}" data-id="target-size" ng-model="poolCntrl.updatedPool.pgCount" ng-change="poolCntrl.getpgCountValue(poolCntrl.updatedPool.pgCount)">
                                 </div>
                                 <div class="col-md-6 current-pg-num">
                                     <p>Current PG Count is {{poolCntrl.growPGPool.pgCount}}</p>
                                 </div>
                             </div>
                             <div class="error-msg" ng-show="poolCntrl.growPGPool.pgCount > poolCntrl.updatedPool.pgNum">The new PG Count must be greater than the current one</div>
-                            <div class="row inc-pg-count">
+<!--                             <div class="row inc-pg-count">
                                 <div class="col-md-9">
                                     <input type="radio" name="incPGCount" value="immediate" ng-model="poolCntrl.updatedPool.incPGCnt"> Increase PG count immediately
                                 </div>                                
@@ -62,7 +62,7 @@
                                 <div class="col-md-9">
                                     <input type="radio" name="incPGCount" value="gardual" ng-model="poolCntrl.updatedPool.updatedIncPGCnt"> Increase PG count gradually
                                 </div>                                
-                            </div>
+                            </div> -->
                         </span>
                         </div>
                     </div>
@@ -78,7 +78,7 @@
 	                        <div class="text-center"> A task has been submitted to increase
 	                            <label>
 	                                {{poolCntrl.growPGPool.name}} </label> in
-	                            <label>{{poolCntrl.growPGPool.clusterName}}</label> with additional placement groups(PGs). You will be notified when processing is complete.
+	                            <label>{{poolCntrl.growPGPool.clusterName}}</label> with additional placement groups (PGs). You will be notified when processing is complete.
 	                        </div>
                         </div>
                     </div>
