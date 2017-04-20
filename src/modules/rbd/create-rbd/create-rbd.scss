@@ -14,12 +14,10 @@
                 .wizard-pf-main {
                     overflow: hidden;
                     padding: 0;
-                    margin-left: 114px;
-                    margin-right: 106px;
 
                     .wizard-pf-contents {
                         .form-horizontal .control-label {
-                            text-align: left;
+                            text-align: right;
                         }
 
                         .list-group {
@@ -71,8 +69,13 @@
             .wizard-pf-footer {
                 border: none;
                 position: static;
-                margin-left: 240px;
+                margin-left: 14vw;
                 text-align: left;
+            }
+
+            .first-Step-footer {
+                margin-left: 20vw;
+                margin-top: 10px;
             }
         }
     }
@@ -111,16 +114,24 @@
        padding: 30px;
     }
 
-    .create-pool-wizard .wizard-pf .wizard-pf-body .wizard-pf-sidebar{
+    .create-pool-content, .remove-left-padding {
+        padding-left: 0px;
+    }
+
+    .create-pool-wizard .wizard-pf .wizard-pf-sidebar {
         top: 254px;
         height: 65vh;
     }
 
-    .hide-rbd-footer{
+    .hide-rbd-footer {
         display: none;
     }
 
-    .show-rbd-footer{
+    .show-rbd-footer {
         display: block;
+    }
+
+    .create-pool-footer {
+        padding-left: 120px;
     }
 }

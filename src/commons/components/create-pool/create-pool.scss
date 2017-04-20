@@ -1,5 +1,6 @@
 .create-pool-wizard {
     .wizard-pf {
+        width: auto;
         .wizard-pf-sidebar {
             top: 125px;
             height: 78vh;
@@ -30,13 +31,20 @@
     .modal-footer {
         text-align: left;
     }
+
     .edit-buttons {
         font-size: 30px;
+    }
+
+    .create-pool-footer{
+        padding-top: 20px;
+        padding-left: 20vw;
     }
     .create-pool-content {
         height: 100%;
         padding: 1em;
         vertical-align: top;
+        padding-left: 16vw;
     }
     .wizard-pf-sidebar {
         border-top: 1px solid $color-light-grey;

@@ -29,8 +29,8 @@
         vm.poolTaskSubmitted = false;
         vm.backingPool = "existing";
         vm.rbdName = "MyBlockDevice";
-        vm.rbdCount = 3;
-        vm.targetSize = 128;
+        vm.rbdCount = 1;
+        vm.targetSize = 1;
         vm.taskSubmitted = false;
         vm.isEditable = {};
         vm.editRbd = {};
@@ -121,7 +121,11 @@
             vm.rbdNames = [];
 
             for (i = 0; i < vm.rbdCount; i++) {
+                if(vm.rbdCount === 1){
+                    vm.rbdNames.push(vm.rbdName);
+                } else{
                 vm.rbdNames.push(vm.rbdName + (i + 1));
+                }
             }
         }
 
