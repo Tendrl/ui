@@ -9,15 +9,23 @@
     function headerController($rootScope, $state, AuthManager) {
 
         var vm = this;
+
+        vm.showAlertFlag = false;
         
         vm.notificationClose = notificationClose;
         vm.logout = logout;
         vm.homePage = homePage;
+        vm.setAlertFlag = setAlertFlag;
 
         $rootScope.notification = {
             "type": "",
             "message": ""
         };
+
+        function setAlertFlag() {
+            vm.showAlertFlag = !vm.showAlertFlag;
+            console.log($rootScope.eventList, "eventList");
+        }
 
         function notificationClose() {
             $rootScope.notification.type = "";
