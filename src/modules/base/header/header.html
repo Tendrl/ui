@@ -17,7 +17,7 @@
         <ul class="nav navbar-nav navbar-right navbar-iconic" ng-if="!notification.message.length">
             <li class="dropdown">
                 <a data-toggle="dropdown" class="dropdown-toggle nav-item-iconic" href="" data-template=""
-                data-animation="am-fade-and-slide-top" bs-dropdown="dropdown" title="Events">
+                data-animation="am-fade-and-slide-top" bs-dropdown="dropdown" title="Events" id="alerts" ng-click="header.setAlertFlag()">
                     <i class="fa fa-bell"></i>
                     <span class="badge"></span>
                 </a>
@@ -50,5 +50,24 @@
                 </ul>
             </li>
         </ul>
+        
     </nav>
+    <div ng-if="header.showAlertFlag" class="alerts-container">
+        <h2 class="text-center">Notification Drawer</h2>
+        <div class="row">
+            <div class="col-md-12 horizontal-line"></div>
+        </div>
+        <div class="list-group list-view-pf list-view-pf-equalized-column" ng-repeat="event in eventList">
+        <div class="list-group-item">
+            <div class="list-view-pf-left col-md-2">
+                <i class="pficon" ng-class="{'pficon-error-circle-o': (event.status === 'error'), 'pficon-info': (event.status === 'info'), 'pficon-warning-triangle-o': (event.status === 'warning')}"></i>
+            </div>
+            <div class="col-md-10">
+                <p class="event-name">{{event.name}}</p>
+                <p>{{event.created_at| date: 'dd MMM yyyy HH:mm:ss'}}</p>
+            </div>
+        </div>
+    </div>
+    </div>
+
 </nav>

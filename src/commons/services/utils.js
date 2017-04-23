@@ -83,7 +83,8 @@
             //     url = config.baseUrl + "Get" + objectType +"List";
             // }
 
-            url = config.baseUrl + "Get" + objectType +"List";
+            //url = config.baseUrl + "Get" + objectType +"List";
+            url = "/api/GetClusterList.json";
 
             // // For testing purpose
             // if(objectType === "trends-chart") {
@@ -422,6 +423,25 @@
                 return null;
             });
         };
-    }
 
+        vm.getEventList = function() {
+            var url, getEventListRequest, request;
+
+                url = "/api/alerts.json";
+
+                getEventListRequest = {
+                    method: "GET",
+                    url: url
+                };
+
+                request = angular.copy(getEventListRequest);
+                return $http(request).then(function (response) {
+                    return response.data;
+                }, function() {
+                    console.log("Error Occurred: while fetching getTaskLogs");
+                    return null;
+                });
+        };
+    };
+    
 })();

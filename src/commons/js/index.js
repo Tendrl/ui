@@ -165,8 +165,8 @@
                     });
 
             });
-            storageModule.run(function(utils, $rootScope, $location, $http, menuService, AuthManager) {
-                var restrictedPage, loggedIn;
+            storageModule.run(function($rootScope, $location, $http, $interval, menuService, AuthManager, utils, eventStore, config) {
+                var restrictedPage, loggedIn, timer;
 
                 $rootScope.$on("$locationChangeStart", function(event, current, next) {
                     // redirect to login page if not logged in and trying to access a restricted page
@@ -195,6 +195,7 @@
                     /* Tracking the current URI for navigation*/
                     $rootScope.isAPINotFoundError = false;
                     $rootScope.clusterData = null;
+                    $rootScope.eventList = null;
 
                     var url = $location.path();
                     utils.getObjectList("Cluster").then(function(list) {
@@ -204,6 +205,16 @@
                         if ($rootScope.clusterData !== null && $rootScope.clusterData.clusters.length !== 0) {
                             /* Forward to cluster view if we have cluster data. */
                             $rootScope.isNavigationShow = true;
+
+                            eventStore.getEventList()
+                                .then(function(eventList) {
+                                    $rootScope.eventList = eventList;
+                                    console.log($rootScope.eventList, "eventList");
+                                    startEventTimer();
+                                })
+                                .catch(function(error) {
+                                    $rootScope.eventList = null;
+                                });
                         } else {
                             /* Forward to home view if we don't have cluster data. */
                             $rootScope.isNavigationShow = false;
@@ -213,6 +224,21 @@
                         $rootScope.isAPINotFoundError = true;
                     });
 
+                }
+
+
+                function startEventTimer() {
+                    timer = $interval(function() {
+
+                        eventStore.getEventList()
+                            .then(function(eventList) {
+                                $interval.cancel(timer);
+                                console.log(new Date());
+                                $rootScope.eventList = eventList;
+                                startEventTimer();
+                            });
+
+                    }, 1000 * config.eventsRefreshIntervalTime, 1);
                 }
             });
 
