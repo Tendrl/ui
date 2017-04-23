@@ -7,52 +7,54 @@
                 <div class="col-md-6 col-sm-6">Name</div>
                 <div class="col-md-6 col-sm-6">{{createCephClusterCntrl.cephClusterName}}</div>
             </div>
-            <div class="row">
+<!--             <div class="row">
                 <div class="col-md-6 col-sm-6">Journal Size</div>
                 <div class="col-md-6 col-sm-6">{{createCephClusterCntrl.journalSize}}
                 </div>
-            </div>
+            </div> -->
             <div class="row">
                 <div class="col-md-6 col-sm-6">Devices</div>
                 <div class="col-md-6 col-sm-6">{{createCephClusterCntrl.totalDevices || "NA"}}</div>
             </div>
             <div class="row">
-                <div class="col-md-6 col-sm-6">Raw Capacity</div>
-                <div class="col-md-6 col-sm-6">{{createCephClusterCntrl.selectedTotalRawCapacity || "NA"}}</div>
+                <div class="col-md-6 col-sm-6">Public Network</div>
+                <div class="col-md-6 col-sm-6">{{createCephClusterCntrl.selectedClusterNetwork || "NA"}}</div>
 
             </div>
             <div class="row">
-                <div class="col-md-6 col-sm-6">Journal Configration</div>
-                <div class="col-md-6 col-sm-6">{{createCephClusterCntrl.SelectedJournalConfigration || "NA"}}</div>
+                <div class="col-md-6 col-sm-6">Cluster Network</div>
+                <div class="col-md-6 col-sm-6">{{createCephClusterCntrl.selectedPublicNetwork || "NA"}}</div>
             </div>
         </div>
     </div>
-
+        <h3>Hosts</h3>{{createCephClusterCntrl.availableHostForJournal.length}}({{createCephClusterCntrl.selectedMonitors}} Monitors, {{createCephClusterCntrl.selectedOSDs}} OSD Host)
     <div class="div-with-scroll">
-        <div class="list-group list-view-pf list-view-pf-equalized-column" ng-repeat="host in createCephClusterCntrl.selectedNodeList">
+        <div class="list-group list-view-pf list-view-pf-equalized-column" ng-repeat="host in createCephClusterCntrl.availableHostForRole">
             <div class="list-group-item">
                 <div class="col-md-12">
                     <div class="col-md-4">
                         <div class="list-view-pf-additional-info-item list-view-pf-additional-info-item-stacked stack-left">
                             <strong>{{host.fqdn}}</strong>
-                            <h5>{{host.networks.eth0.ipv4.length}} Interfaces, {{host.disks.devices.length}} Devices, {{host.stats.storage.total | bytes}}</h5>
+                            <h5>{{host.ifIPMapping.length}} Interfaces, {{host.totalNodeInDevice}} Devices</h5>
                         </div>  
                     </div>
                     <div class=" col-md-4">
                         <div class="list-view-pf-additional-info-item list-view-pf-additional-info-item-stacked">
-                            <h5 ng-repeat="role in host.selectedRole">{{role}}</h5>
+                            <h5 id="SummaryHostRole">{{host.selectedRole}}</h5>
                         </div>
                     </div>
-                    <div class=" col-md-2">
-                        <div class="list-view-pf-additional-info-item list-view-pf-additional-info-item-stacked">
-                            <strong>Cluster Network</strong>
-                            <h5 ng-repeat="clusterNetwork in host.networks.eth0.selectedNetworkList.ipFlags" ng-if = "clusterNetwork.clusterNetworkCheckbox">{{clusterNetwork.ip || "NA"}} | {{host.networks.eth0.interface}}</h5>
+                    <div ng-if="host.selectedRole ==='OSD Host'">
+                        <div class=" col-md-2">
+                            <div class="list-view-pf-additional-info-item list-view-pf-additional-info-item-stacked">
+                                <strong>Journal Configration</strong>
+                                <h5 id="SummaryJournalConfigration">{{host.selectedJournalConfigration}}</h5>
+                            </div>
                         </div>
-                    </div>
-                    <div class=" col-md-2">
-                        <div class="list-view-pf-additional-info-item list-view-pf-additional-info-item-stacked">
-                            <strong>Public Network</strong>
-                            <h5 ng-repeat="clusterNetwork in host.networks.eth0.selectedNetworkList.ipFlags" ng-if = "clusterNetwork.publicNetworkCheckbox">{{clusterNetwork.ip || "NA"}} | {{host.networks.eth0.interface}}</h5>
+                        <div class=" col-md-2">
+                            <div class="list-view-pf-additional-info-item list-view-pf-additional-info-item-stacked">
+                                <strong>Journal Size</strong>
+                                <h5 id="SummaryjournalSize">{{host.journalSize}} {{host.customselectedUnit}}</h5>
+                            </div>
                         </div>
                     </div>
                 </div>

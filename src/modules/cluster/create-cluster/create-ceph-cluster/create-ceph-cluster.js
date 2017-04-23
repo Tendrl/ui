@@ -9,7 +9,8 @@
     function createCephClusterController($rootScope, $scope, $uibModal, $filter, $state, utils, nodeStore) {
 
         var vm = this,
-            date = new Date();
+            date = new Date(),
+            initialLoad = true;
 
 
         vm.selectedStep = 1;
@@ -51,12 +52,17 @@
         };
         vm.showSelectionWarning = false;
         vm.showMonSelectionWarning = false;
+        vm.journalFilterBy = "fqdn";
 
         vm.clusterNetwork = [];
         vm.publicNetwork = [];
         vm.filteredList = [];
         vm.selectedNWHost = [];
         vm.selectedRoleHost = [];
+        vm.journalFilterBy = {
+            "property": "fqdn",
+            "value": ""
+        };
 
         vm.deviceWarningMsg = "Some devices contain user data and will be repartitioned on cluster creation. Any existing data will be lost."
         vm.createPublicNetwork = createPublicNetwork;
@@ -69,8 +75,13 @@
         vm.updateOSDMonCount = updateOSDMonCount;
         vm.closeExpandList = closeExpandList;
         vm.expandList = expandList;
+        vm.reset = reset;
+        vm.filterByOSD = filterByOSD;
+        vm.filterList = filterList;
+        vm.getJournalMap = getJournalMap;
 
         init();
+        
         /* Trigger this function when we have cluster data */
         $scope.$on("GotClusterData", function (event, data) {
             init();
@@ -82,15 +93,20 @@
             vm.availableHostList = [];
             vm.updatedHostList = [];
             vm.subnetList = [];
+            vm.serverNodes = [];
 
             utils.getObjectList("Node").then(function(list) {
-                vm.isDataLoading = false;
                 var hostList = list.nodes,
-                    len = hostList.length;
+                    len = hostList.length,
+                    i;
+
+                vm.isDataLoading = false;
                 
                 if(list !== null && len !== 0) {
-                    for(var i = 0; i < len ; i++){
-                        if (hostList[i].detectedcluster && hostList[i].detectedcluster.detected_cluster_id === ""){
+                    for(i = 0; i < len ; i++){
+                        if(JSON.parse(hostList[i].tags).indexOf("tendrl/central-store") !== -1){
+                            vm.serverNodes.push(hostList[i]);
+                        } else if (hostList[i].detectedcluster && hostList[i].detectedcluster.detected_cluster_id === ""){
                             vm.availableHostList.push(hostList[i]);
                             //vm.totalRawCapacity += hostList[i].stats ? hostList[i].stats.storage.total : 0;
                             changeIntoArray(hostList[i]);
@@ -100,17 +116,24 @@
                     }
                 }
 
-                if(vm.availableHostList && vm.availableHostList.length >= 3) {
-                    vm.enablePOCIntendedUsage = true;
-                    vm.enableProIntendedUsage = true;
-                    vm.intendedUsage = "production";
-                } else if(vm.availableHostList && vm.availableHostList.length >= 1) {
-                    vm.enablePOCIntendedUsage = true;
-                    vm.enableProIntendedUsage = false;
-                    vm.intendedUsage = "poc";  
+                if(initialLoad) {
+                    _setIntendedUsage();
                 }
-                
             });
+        }
+
+        function _setIntendedUsage() {
+            if(vm.availableHostList && vm.availableHostList.length >= 3) {
+                vm.enablePOCIntendedUsage = true;
+                vm.enableProIntendedUsage = true;
+                vm.intendedUsage = "production";
+            } else if(vm.availableHostList && vm.availableHostList.length >= 1) {
+                vm.enablePOCIntendedUsage = true;
+                vm.enableProIntendedUsage = false;
+                vm.intendedUsage = "poc";  
+            }
+
+            initialLoad = false;
         }
 
         function validateFields() {
@@ -297,6 +320,13 @@
             vm.updatedHostList.push(obj);
         }
 
+        function reset() {
+            init();
+            vm.selectedNWHost = [];
+            vm.availableHostForRole = [];
+            vm.filteredList = [];
+        }
+
         function _createClusterNetwork(subnet) {
             if(vm.clusterNetwork.indexOf(subnet) === -1) {
                 vm.clusterNetwork.push(subnet);
@@ -338,28 +368,12 @@
             }
         }
 
-        // vm.selectedNodes = function(){
-        //     vm.selectedNodeList = []
-        //     for(var index=0; index< vm.availableHostForRole.length; index++){
-        //         if(vm.availableHostList[index].checkboxSelected && vm.availableHostList[index].selectedRole){
-        //             vm.selectedNodeList.push(vm.availableHostList[index]);
-        //             vm.selectedNodeList[index].customselectedUnit = "GB";
-        //             vm.selectedNodeList[index].selectedJournalConfigration = "Colocated";
-        //             vm.selectedNodeList[index].partitionSize = 4;
-        //             vm.selectedNodeList[index].selectedPartitionType = "SSD";
-        //             // vm.selectedNodeList.selectedTotalDevices += hostList[i].disks ? hostList[i].disks.devices.length : 0;
-        //             // vm.selectedNodeList.selectedTotalRawCapacity += hostList[i].stats ? hostList[i].stats.storage.total : 0;
-        //             vm.selectedNodeList[index].checkboxSelected = vm.availableHostList[index].checkboxSelected;
-        //             vm.selectedNodeList[index].selectedRole = vm.availableHostList[index].selectedRole;
-        //             vm.selectedNodeList[index].totalNodeInDevice = vm.availableHostList[index].totalNodeInDevice;
-        //             selectedNetworks(vm.selectedNodeList[index].networks.eth0);
-        //         }
-        //     }
-        //     return vm.selectedNodeList;
-        // };
-
         function createClusterPostData(){
-            var postData = {},
+            var roleMapping = {
+                "Monitor": "ceph/mon",
+                "OSD Host": "ceph/osd"
+            },
+            postData = {},
             sds_parameters = {},
             node_configuration = {},
             conf_overrides =  {
@@ -371,26 +385,35 @@
             role = {
                 "Monitor": "ceph/mon",
                 "OSD Host": "osd"
-            }
+            },
+            network,
+            index,
+            index1;
 
             sds_parameters.name = vm.cephClusterName;
-            sds_parameters.public_network = vm.subnet;
-            sds_parameters.cluster_network = vm.subnet;
+            sds_parameters.public_network = vm.selectedPublicNetwork;
+            sds_parameters.cluster_network = vm.selectedClusterNetwork;
             sds_parameters.conf_overrides = conf_overrides;
             postData.sds_parameters = sds_parameters;
             postData.node_identifier = "ip";
 
-            for(var index = 0; index < vm.selectedNodes.length; index++){
-                var network = vm.selectedNodes[index].networks.eth0;
-                for(var index1=0; index1<network.ipv4.length; index1++){
-                    ip = network.ipv4[index1];
-                    ip.provisioning_ip = ip;
-                    ip.monitor_interface = network.interface;
-                    ip.role = role[vm.selectedRole[0]];
-                    node_configuration.push(ip)
+            for(index = 0; index < vm.availableHostForJournal.length; index++){
+                for(index1=0; index1 < vm.availableHostForJournal[index].ifIPMapping.length; index1++){
+                    network = vm.availableHostForJournal[index].ifIPMapping[index1].ip;
+                    node_configuration[network] = {};
+                    node_configuration[network].role = roleMapping[vm.availableHostForJournal[index].selectedRole];
+                    node_configuration[network].provisioning_ip = vm.availableHostForJournal[index].ifIPMapping[index1].ip;
+                    if(vm.availableHostForJournal[index].selectedRole === "OSD Host"){
+                        node_configuration[network].journal_size = vm.availableHostForJournal[index].journalSize;
+                        node_configuration[network].journal_colocation = vm.availableHostForJournal[index].selectedJournalConfigration === "Dedicated" ? false : true;
+                        node_configuration[network].storage_disks = vm.availableHostForJournal[index].storage_disks;
+                    } else if(vm.availableHostForJournal[index].selectedRole === "Monitor"){
+                        node_configuration[network].monitor_interface = vm.availableHostForJournal[index].ifIPMapping[index1]["if"];
+                    }
                 }
             }
             postData.node_configuration = node_configuration;
+            console.log(postData);
         }
 
         function _createNodeConf() {
@@ -420,16 +443,16 @@
         }
 
         function _updateDiskList(journal) {
-            var len = vm.availableHostForRole.length,
+            var len = vm.availableHostForJournal.length,
                 diskLen,
                 i,
                 j;
 
             for(i = 0; i < len; i++) {
-                if(vm.availableHostForRole[i].node_id === journal.node_id) {
-                    _upadateDisk(vm.availableHostForRole[i], journal);
-                    vm.availableHostForRole[i].unallocated_disks = journal.unallocated_disks;
-                    _deleteUnallocatedDisks(vm.availableHostForRole[i], journal);
+                if(vm.availableHostForJournal[i].node_id === journal.node_id) {
+                    _upadateDisk(vm.availableHostForJournal[i], journal);
+                    vm.availableHostForJournal[i].unallocated_disks = journal.unallocated_disks;
+                    _deleteUnallocatedDisks(vm.availableHostForJournal[i], journal);
                     break;
                 }
             }
@@ -471,18 +494,87 @@
         }
 
         function _setJournalConf() {
+            var len = vm.availableHostForJournal.length,
+                i;
+
+            for ( i = 0; i < len; i++) {
+                if(vm.intendedUsage === "production") {
+                    vm.availableHostForJournal[i].selectedJournalConfigration = "Dedicated";
+                } else if(vm.intendedUsage === "poc") {
+                    vm.availableHostForJournal[i].selectedJournalConfigration = "Colocated";
+                }
+            }
+        }
+
+        function filterByOSD(host) {
+             if(host.selectedRole !== "Monitor") {
+                return host;
+            }
+        }
+
+        function filterList(item) {
+            var properties,
+                property,
+                i,
+                diskLen,
+                disks,
+                searchBy = {},
+                eth,
+                ethlen,
+                list = item.storage_disks,
+                len = list.length;
+
+            if(vm.journalFilterBy.value) {
+
+                properties = vm.journalFilterBy.property.split(".");
+
+                if(properties.length > 1) {
+                    property = properties[1];
+                   
+                    for ( i = 0; i < len; i++) {
+                        if(list[i][property].toLowerCase().indexOf(vm.journalFilterBy.value.toLowerCase()) >= 0) {
+                            item.isExpanded = true;
+                            return item;
+                        }
+                    }
+
+                } else {
+                    property = vm.journalFilterBy.property;
+
+                    if(item[property].toLowerCase().indexOf(vm.journalFilterBy.value.toLowerCase()) >= 0) {
+                        return item;
+                    }
+                }
+                
+            } else {
+                return item;
+            }
+        };
+
+        function _resetNodeDetails(host) {
             var len = vm.availableHostForRole.length,
                 i;
 
             for ( i = 0; i < len; i++) {
-                //if(vm.availableHostForRole[i].selectedRole === "OSD host") {
-                    if(vm.intendedUsage === "production") {
-                        vm.availableHostForRole[i].selectedJournalConfigration = "Dedicated";
-                    } else if(vm.intendedUsage === "poc") {
-                        vm.availableHostForRole[i].selectedJournalConfigration = "Colocated";
-                    }
-                //}
+                if(host.node_id === vm.availableHostForRole[i].node_id) {
+                    vm.availableHostForJournal[i] = vm.availableHostForRole[i];
+                    break;
+                }
             }
+        }
+
+        function getJournalMap(host, $event) {
+            _resetNodeDetails(host);
+            if(host.selectedJournalConfigration === "Dedicated") {
+                nodeStore.getJournalConf()
+                    .then(function(data) {
+                        _createJournalData(data);                                
+                        //vm.availableHostForRole =  $filter("filter")(vm.availableHostForRole, vm.filterByOSD)
+                        console.log(vm.availableHostForRole, "availableHostForRoleUpdated");
+                    });
+            }
+            //$event.stopPropagation();
+            
         }
 
         vm.nextStep = function(step) {
@@ -493,21 +585,20 @@
                     vm.availableHostForRole = vm.selectedNWHost;
                     _calculateSummaryValues();
                 }else if(vm.selectedStep === 4) {
-                    console.log(vm.availableHostForRole, "availableHostForRole");
+                    vm.availableHostForJournal = angular.copy(vm.availableHostForRole);
+                    console.log(vm.availableHostForJournal, "availableHostForJournal");
                     _setJournalConf();
-                    if(vm.intendedUsage === "poc") {
-                         _createJournalData();
-                    } else if(vm.intendedUsage === "production") {
+                    if(vm.intendedUsage === "production") {
                         nodeStore.getJournalConf()
                             .then(function(data) {
                                 _createJournalData(data);                                
-                                console.log(vm.availableHostForRole, "availableHostForRoleUpdated");                      
+                                //vm.availableHostForRole =  $filter("filter")(vm.availableHostForRole, vm.filterByOSD)
+                                console.log(vm.availableHostForRole, "availableHostForRoleUpdated");
                             });
                     }
                 }else if(vm.selectedStep === 5) {
                     createClusterPostData();
                 }
-                
             }
 
         };

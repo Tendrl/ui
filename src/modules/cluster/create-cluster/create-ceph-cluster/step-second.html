@@ -97,4 +97,10 @@
             </div>
         </div> -->
     </div>
+    <div class="row server-node" ng-if="createCephClusterCntrl.serverNodes.length">
+        <div class="col-md-2 bold-text">Server Nodes:</div>
+        <div class="col-md-6">
+            <div class="row" ng-repeat="serverNode in createCephClusterCntrl.serverNodes">{{serverNode.fqdn}}</div>
+        </div>
+    </div>
 </div>

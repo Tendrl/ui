@@ -130,6 +130,16 @@
             padding-left: 0;
             padding-right: 0;
         }
+
+        .unallocated-disks {
+            margin-left: 45px;
+
+            .unallocated-disks-name{
+                text-overflow: ellipsis;
+                white-space: nowrap;
+                overflow: hidden;
+            }
+        }
     }
     .available-host-container{
         .warning-icon-adjustment {
@@ -155,6 +165,10 @@
     .network-container {
         .network {
             width: initial;
+        }
+
+        .server-node {
+            margin-top: 10px;
         }
 
         .select-deselect {

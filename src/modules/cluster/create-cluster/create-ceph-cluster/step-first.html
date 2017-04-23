@@ -19,7 +19,7 @@
             <div class="col-md-10">
                 <div class="radio">
                     <label ng-disabled="createCephClusterCntrl.enableProIntendedUsage">
-                        <input type="radio" name="intendedUsageRadio" id="production" value="production" ng-model="createCephClusterCntrl.intendedUsage" ng-checked="createCephClusterCntrl.intendedUsage === 'production'" ng-disabled="!createCephClusterCntrl.enableProIntendedUsage">
+                        <input type="radio" name="intendedUsageRadio" id="production" value="production" ng-model="createCephClusterCntrl.intendedUsage" ng-checked="createCephClusterCntrl.intendedUsage === 'production'" ng-disabled="!createCephClusterCntrl.enableProIntendedUsage" ng-change="createCephClusterCntrl.reset()">
                         <strong class="control-label" for="production">Production</strong> (Requires atleast 3 Nodes)
                         <div>
                             <p>For storing data in a live application environment.</p>
@@ -28,7 +28,7 @@
                 </div>
                 <div class="radio">
                     <label ng-disabled="createCephClusterCntrl.enablePOCIntendedUsage">
-                        <input type="radio" name="intendedUsageRadio" id="poc" value="poc" ng-checked="createCephClusterCntrl.intendedUsage === 'poc'" ng-model="createCephClusterCntrl.intendedUsage" ng-disabled="!createCephClusterCntrl.enablePOCIntendedUsage">
+                        <input type="radio" name="intendedUsageRadio" id="poc" value="poc" ng-checked="createCephClusterCntrl.intendedUsage === 'poc'" ng-model="createCephClusterCntrl.intendedUsage" ng-disabled="!createCephClusterCntrl.enablePOCIntendedUsage" ng-change="createCephClusterCntrl.reset()">
                         <strong class="control-label" for="poc">Evaluation or Demonstration(Proof of Concept)</strong> (Requires atleast 1 Node)
                         <div>
                             <p>For a proof of concept or demonstration environment only.</p>

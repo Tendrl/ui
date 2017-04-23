@@ -8,12 +8,12 @@
                     <div class="input-group">
                         <div class="input-group-btn">
                             <!-- Search By -->
-                            <select ng-disabled="createCephClusterCntrl.diskList.length === 0" ng-model="createCephClusterCntrl.subnetFilterBy.property" class="btn btn-default dropdown-toggle">
+                            <select ng-disabled="createCephClusterCntrl.diskList.length === 0" ng-model="createCephClusterCntrl.journalFilterBy.property" class="btn btn-default dropdown-toggle">
                                 <option value="networks.eth0.subnet">Ip Addr</option>
                             </select>
                         </div>
                         <!-- /btn-group -->
-                        <input ng-disabled="createCephClusterCntrl.diskList.length === 0" type="text" class="form-control" id="filter" ng-model="createCephClusterCntrl.subnetFilterBy.value" placeholder="Filter By IP Address...">
+                        <input ng-disabled="createCephClusterCntrl.diskList.length === 0" type="text" class="form-control" id="filter" ng-model="createCephClusterCntrl.journalFilterBy.value" placeholder="Filter By IP Address...">
                     </div>
                     <!-- /input-group -->
                 </div>
