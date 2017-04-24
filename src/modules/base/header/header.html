@@ -53,21 +53,58 @@
         
     </nav>
     <div ng-if="header.showAlertFlag" class="alerts-container">
-        <h2 class="text-center">Notification Drawer</h2>
+        <h3 class="text-center">Notification Drawer</h3>
         <div class="row">
             <div class="col-md-12 horizontal-line"></div>
         </div>
-        <div class="list-group list-view-pf list-view-pf-equalized-column" ng-repeat="event in eventList">
-        <div class="list-group-item">
-            <div class="list-view-pf-left col-md-2">
-                <i class="pficon" ng-class="{'pficon-error-circle-o': (event.status === 'error'), 'pficon-info': (event.status === 'info'), 'pficon-warning-triangle-o': (event.status === 'warning')}"></i>
+        <div class="row">
+            <div class="col-md-2">
+                <i class="fa fa-angle-right angle-expand" aria-hidden="true" ng-click="header.expandEventList(true)" ng-show="!header.isEventExpanded"></i>
+                <i class="fa fa-angle-down angle-expand" aria-hidden="true" ng-click="header.expandEventList(false)" ng-show="header.isEventExpanded"></i>
             </div>
-            <div class="col-md-10">
-                <p class="event-name">{{event.name}}</p>
-                <p>{{event.created_at| date: 'dd MMM yyyy HH:mm:ss'}}</p>
+            <div class="col-md-4">
+                <h3 class="bold-text">Alerts</h3>
+                <p class="italic-text">4 New Events</p>
+            </div>
+            <div class="col-md-6 alert-count">
+                <div class="row">
+                    <div class="col-md-4 counts">
+                        <i class="pficon pficon-warning-triangle-o"></i>
+                        <span>21</span>
+                    </div>
+                    <div class="col-md-4 counts">
+                        <i class="pficon pficon-error-circle-o"></i>
+                        <span>1</span>
+                    </div>
+                    <div class="col-md-4 counts">
+                        <i class="pficon pficon-info"></i>
+                        <span>2</span>
+                    </div>
+                </div>
             </div>
         </div>
-    </div>
+        <div class="row">
+            <div class="col-md-12 horizontal-line"></div>
+        </div>
+        <div class="row duration-conatiner">
+            <div class="col-md-4 duration">Last 24 hours</div>
+            <div class="col-md-7">
+                <a href="" class="pull-right">View All Events</a>
+            </div>
+        </div>
+        <div class="alert-list-container">
+            <div class="list-group list-view-pf list-view-pf-equalized-column" ng-repeat="event in eventList" ng-show="header.isEventExpanded">
+                <div class="list-group-item">
+                    <div class="list-view-pf-left col-md-2">
+                        <i class="pficon" ng-class="{'pficon-error-circle-o': (event.status === 'error'), 'pficon-info': (event.status === 'info'), 'pficon-warning-triangle-o': (event.status === 'warning')}"></i>
+                    </div>
+                    <div class="col-md-10">
+                        <p class="event-name" data-toggle="tooltip" data-placement="top" title="{{event.name}}">{{event.name}}</p>
+                        <p>{{event.created_at| date: 'dd MMM yyyy HH:mm:ss'}}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 
 </nav>

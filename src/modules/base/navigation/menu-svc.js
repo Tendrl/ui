@@ -58,6 +58,12 @@
                 href: 'tasks',
                 icon: 'fa fa-cog',
                 active: false
+            }, {
+                label: 'Events',
+                id: 'events',
+                href: 'events',
+                icon: 'fa fa-cog',
+                active: false
             }]
         }/*,{
             label: 'Dashboard',

@@ -83,8 +83,8 @@
             //     url = config.baseUrl + "Get" + objectType +"List";
             // }
 
-            //url = config.baseUrl + "Get" + objectType +"List";
-            url = "/api/GetClusterList.json";
+            url = config.baseUrl + "Get" + objectType +"List";
+            //url = "/api/GetClusterList.json";
 
             // // For testing purpose
             // if(objectType === "trends-chart") {

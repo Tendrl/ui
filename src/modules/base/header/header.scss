@@ -1,6 +1,7 @@
 .tendrl-header-container {
 	
 	height: 58px;
+	
 
 	.brand-name-img{
 	    height:20px;
@@ -19,6 +20,39 @@
 		border: 1px solid $color-black;
 		height: 100vh;
 		top: 56px;
+		background: $color-white;
+
+		.angle-expand {
+			font-size: 25px;
+			margin-top: 20px;
+			text-align: center;
+			margin-left: 5px;
+		}
+
+		.alert-count {
+			margin-top: 20px;
+			text-align: center;
+
+			.row {
+				margin-right: 0;
+
+				.counts {
+					padding: 0;
+				}
+			}
+		}
+
+		.duration-conatiner {
+			margin-top: 5px;
+
+			.duration {
+				margin-left: 5px;
+			}
+		}
+
+		.alert-list-container {
+			/*border: 1px solid $color-black;*/
+		}
 	}
 
 	.event-name {

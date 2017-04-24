@@ -1,0 +1,69 @@
+<div ng-if="clusterData === null && !isAPINotFoundError" class="spinner spinner-lg"></div>
+<div ng-if="clusterData !== null" class="tendrl-event-list-view-container container-fluid">
+    <h1 class="bold-text">Events</h1>
+
+    <div class="row toolbar-pf">
+        <div class="col-sm-12">
+            <form class="toolbar-pf-actions">
+                <div class="form-group toolbar-pf-filter filter-section">
+                    <label class="sr-only" for="filter">Name</label>
+                    <div class="input-group">
+                        <div class="input-group-btn">
+                            <select ng-init="eventCntrl.filterBy = 'flow'" ng-disabled="eventCntrl.taskList.length === 0" ng-model="eventCntrl.filterBy" class="btn btn-default dropdown-toggle" ng-change="eventCntrl.searchBy = {}">
+                                <option value="flow">Name</option>
+                            </select>
+                        </div>
+                        <input type="text" class="form-control" id="filter" ng-model="eventCntrl.searchBy[eventCntrl.filterBy]" placeholder="Filter By {{eventCntrl.filterBy}}...">
+                    </div>
+                </div>
+                <div class="form-group">
+                    From:
+                    <div pf-datepicker options="eventCntrl.fromDateOptions" date="eventCntrl.date.fromDate" ng-model="eventCntrl.date.fromDate"  ng-click="eventCntrl.resetCount()"></div>
+                </div>
+                <div class="form-group remove-right-border">
+                    To:
+                    <div pf-datepicker options="eventCntrl.toDateOptions" date="eventCntrl.date.toDate" ng-model="eventCntrl.date.toDate" ng-click="eventCntrl.resetCount()"></div>
+                </div>
+                <div class="form-group invalid-msg" ng-if="eventCntrl.invalidToDate">
+                    <span class="error-msg">*To date cannot be greater than from date</span>
+                </div>
+            </form>
+
+            <div class="row toolbar-pf-results">
+                <div class="col-sm-12">
+                    <h5>{{eventCntrl.filteredEventList.length}} Events</h5>
+                </div>
+            </div>
+        </div>
+    </div>
+    <center ng-if="eventCntrl.taskList.length === 0">
+        <div class="blank-slate-pf">
+            <div class="blank-slate-pf-icon">
+                <i class="pficon pficon-cluster"></i>
+            </div>
+            <h1>No Events Detected.</h1>
+        </div>
+    </center>
+    <div ng-if="eventCntrl.isDataLoading" class="spinner spinner-lg"></div>
+    <div class="event-list-table">
+        <div class="list-group list-view-pf list-view-pf-equalized-column" ng-repeat="event in eventCntrl.filteredEventList = (eventCntrl.eventList | filter: eventCntrl.filterByCreatedDate| orderBy: ['-created_at', 'alert_id'])">
+            <div class="list-group-item">
+                <div class="list-view-pf-left col-md-1">
+                    <i ng-class="{'pficon pficon-error-circle-o': (event.status === 'error'), 'pficon pficon-info': (event.status === 'info'), 'pficon pficon-warning-triangle-o': (event.status === 'warning')}"></i>
+                </div>
+                <div class="col-md-1">
+                    {{eventCntrl.getEventStatus(event.status)}}
+                </div>
+                <div class="col-md-4 text-left">
+                    <div>{{event.name || "NA"}}</div>
+                </div>
+                 <div class="col-md-3 text-left">
+                    <p>{{event.created_at| date: 'dd MMM yyyy HH:mm:ss'}}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12 horizontal-line"></div>
+    </div>
+</div>
