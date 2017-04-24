@@ -1,0 +1,37 @@
+.tendrl-event-list-view-container {
+	.status-options {
+		padding-top: 10px;
+
+		input[type=checkbox] {
+            vertical-align: bottom;
+            height: 20px;
+            width: 20px;
+        }
+	}
+
+	.event-list-table {
+		max-height: 65vh;
+		overflow: auto;
+
+		.list-group {
+			padding-top: 15px;
+			padding-bottom: 15px;
+		}
+	}
+
+	.filter-section {
+		margin-top: 20px;
+	}
+
+	.to-date-calendar {
+		border-right: none;
+	}
+
+	.invalid-msg {
+		margin-top: 21px;
+	}
+
+	.remove-right-border{
+	    border-right: none;
+	}
+}

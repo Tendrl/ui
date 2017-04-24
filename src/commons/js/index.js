@@ -49,14 +49,19 @@
                         url: "/landing-page",
                         template: "<div ng-if='!isAPINotFoundError' class='spinner spinner-lg'><div>",
                         resolve: {
-                            "landingPage": function($rootScope, $state, utils) {
+                            "landingPage": function($rootScope, $state, $interval, utils, eventStore, config) {
+                                var timer;
+
                                 $rootScope.isAPINotFoundError = false;
                                 $rootScope.clusterData = null;
+                                $rootScope.eventList = null;
+
                                 utils.getObjectList("Cluster").then(function(list) {
                                     $rootScope.clusterData = list;
                                     if ($rootScope.clusterData !== null && $rootScope.clusterData.clusters.length !== 0) {
                                         /* Forward to cluster view if we have cluster data. */
                                         $rootScope.isNavigationShow = true;
+                                        getEventList();                              
                                         $state.go("cluster");
                                     } else {
                                         /* Forward to home view if we don't have cluster data. */
@@ -66,6 +71,24 @@
                                 }).catch(function(error) {
                                     $rootScope.isAPINotFoundError = true;
                                 });
+
+                                function getEventList() {
+                                    eventStore.getEventList()
+                                        .then(function(eventList) {
+                                            $interval.cancel(timer);
+                                            $rootScope.eventList = eventList;
+                                            startEventTimer();
+                                        })
+                                        .catch(function(error) {
+                                            $rootScope.eventList = null;
+                                        });
+                                }
+
+                                function startEventTimer() {
+                                    timer = $interval(function() {
+                                       getEventList();
+                                    }, 1000 * config.eventsRefreshIntervalTime, 1);
+                                }
                             }
                         }
                     })
@@ -145,6 +168,12 @@
                         controller: "taskController",
                         controllerAs: "taskCntrl"
                     })
+                    .state("events", {
+                        url: "/admin/events",
+                        templateUrl: "/modules/events/events.html",
+                        controller: "eventController",
+                        controllerAs: "eventCntrl"
+                    })
                     .state("task-detail", {
                         url: "/admin/tasks/:taskId",
                         templateUrl: "/modules/tasks/task-detail/task-detail.html",
@@ -205,16 +234,7 @@
                         if ($rootScope.clusterData !== null && $rootScope.clusterData.clusters.length !== 0) {
                             /* Forward to cluster view if we have cluster data. */
                             $rootScope.isNavigationShow = true;
-
-                            eventStore.getEventList()
-                                .then(function(eventList) {
-                                    $rootScope.eventList = eventList;
-                                    console.log($rootScope.eventList, "eventList");
-                                    startEventTimer();
-                                })
-                                .catch(function(error) {
-                                    $rootScope.eventList = null;
-                                });
+                            getEventList();
                         } else {
                             /* Forward to home view if we don't have cluster data. */
                             $rootScope.isNavigationShow = false;
@@ -223,20 +243,24 @@
                         $rootScope.$broadcast("GotClusterData", $rootScope.clusterData); // going down!
                         $rootScope.isAPINotFoundError = true;
                     });
-
                 }
 
+                function getEventList() {
+                    eventStore.getEventList()
+                        .then(function(eventList) {
+                            $interval.cancel(timer);
+                            $rootScope.eventList = eventList;
+                            startEventTimer();
+                        })
+                        .catch(function(error) {
+                            $rootScope.eventList = null;
+                        });
+                }
 
                 function startEventTimer() {
                     timer = $interval(function() {
 
-                        eventStore.getEventList()
-                            .then(function(eventList) {
-                                $interval.cancel(timer);
-                                console.log(new Date());
-                                $rootScope.eventList = eventList;
-                                startEventTimer();
-                            });
+                        getEventList();
 
                     }, 1000 * config.eventsRefreshIntervalTime, 1);
                 }

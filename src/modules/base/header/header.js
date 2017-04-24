@@ -11,11 +11,13 @@
         var vm = this;
 
         vm.showAlertFlag = false;
+        vm.isEventExpanded = true;
         
         vm.notificationClose = notificationClose;
         vm.logout = logout;
         vm.homePage = homePage;
         vm.setAlertFlag = setAlertFlag;
+        vm.expandEventList = expandEventList;
 
         $rootScope.notification = {
             "type": "",
@@ -25,6 +27,10 @@
         function setAlertFlag() {
             vm.showAlertFlag = !vm.showAlertFlag;
             console.log($rootScope.eventList, "eventList");
+        }
+
+        function expandEventList() {
+            vm.isEventExpanded = !vm.isEventExpanded;
         }
 
         function notificationClose() {
