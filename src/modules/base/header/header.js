@@ -12,7 +12,6 @@
 
         vm.showNotification = false;
         vm.isNotificationExpanded = true;
-        
         vm.notificationClose = notificationClose;
         vm.logout = logout;
         vm.homePage = homePage;
@@ -36,6 +35,10 @@
 
         function expandNotificationList() {
             vm.isNotificationExpanded = !vm.isNotificationExpanded;
+        }
+
+        function expandEventList() {
+            vm.isEventExpanded = !vm.isEventExpanded;
         }
 
         function notificationClose() {
