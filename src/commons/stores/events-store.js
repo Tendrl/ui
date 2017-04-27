@@ -80,6 +80,37 @@
                 return res;
             }
         };
+
+        store.getNotificationList = function() {
+            var list,
+                deferred;
+                
+            deferred = $q.defer();
+            utils.getNotificationList()
+                .then(function(data) {
+                    list = _formatNotificationData(data);
+                    deferred.resolve(list);
+                });
+
+            return deferred.promise;
+
+            function _formatNotificationData(data) {
+                var len = data.length,
+                    res = [],
+                    temp = {},
+                    i;
+
+                for ( i = 0; i < len; i++) {
+                    temp = {},
+                    temp.timeStamp = new Date(data[i].timestamp);
+                    temp.priority = data[i].priority;
+                    temp.message = data[i].message;
+                    temp.message_id = data[i].message_id;
+                    res.push(temp);
+                }
+                return res;
+            }
+        };
     }
 
 })();

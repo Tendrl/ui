@@ -37,8 +37,8 @@
             vm.isNotificationExpanded = !vm.isNotificationExpanded;
         }
 
-        function expandEventList() {
-            vm.isEventExpanded = !vm.isEventExpanded;
+        function expandNotificationList() {
+            vm.isNotificationExpanded = !vm.isNotificationExpanded;
         }
 
         function notificationClose() {
