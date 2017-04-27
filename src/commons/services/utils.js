@@ -473,7 +473,8 @@
             request = angular.copy(getJournalConfRequest);
             return $http(request).then(function(response) {
                 return response.data;
-            }, function() {
+            }, function(e) {
+                checkErrorCode(e);
                 console.log("Error Occurred: while fetching getTaskLogs");
                 return null;
             });
