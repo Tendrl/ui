@@ -6,7 +6,7 @@
     app.controller("headerController", headerController);
 
     /*@ngInject*/
-    function headerController($rootScope, $state, AuthManager) {
+    function headerController($rootScope, $state, $scope, AuthManager, utils) {
 
         var vm = this;
 
@@ -23,6 +23,15 @@
             "type": "",
             "message": ""
         };
+
+        // $scope.$on("GotEventData", function(event, data) {
+        //     if ($rootScope.eventList !== null && $rootScope.eventList.length !== 0) {
+        //        vm.alertList = utils.getAlertList($rootScope.eventList);
+        //        vm.warningAlertCnt = vm.alertList.warningAlerts.length;
+        //        vm.errorAlertCnt = vm.alertList.errorAlerts.length;
+        //        vm.infoAlertCnt = vm.alertList.infoAlerts.length;
+        //     }
+        // });
 
         function setAlertFlag() {
             vm.showAlertFlag = !vm.showAlertFlag;

@@ -46,6 +46,13 @@
             active: false,
             hasSubMenus: false
         }, {
+            label: 'Alerts',
+            id: 'alerts',
+            href: 'alerts',
+            icon: 'fa fa-cog',
+            active: false,
+            hasSubMenus: false
+        }, {
             label: 'Admin',
             id: 'admin',
             href: 'admin',
@@ -58,13 +65,7 @@
                 href: 'tasks',
                 icon: 'fa fa-cog',
                 active: false
-            }, {
-                label: 'Events',
-                id: 'events',
-                href: 'events',
-                icon: 'fa fa-cog',
-                active: false
-            }]
+            }, ]
         }/*,{
             label: 'Dashboard',
             id: 'dashboard',

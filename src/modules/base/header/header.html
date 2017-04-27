@@ -52,11 +52,7 @@
         </ul>
         
     </nav>
-    <div ng-if="header.showAlertFlag" class="alerts-container">
-        <h3 class="text-center">Notification Drawer</h3>
-        <div class="row">
-            <div class="col-md-12 horizontal-line"></div>
-        </div>
+   <!--  <div ng-if="header.showAlertFlag" class="alerts-container">
         <div class="row">
             <div class="col-md-2">
                 <i class="fa fa-angle-right angle-expand" aria-hidden="true" ng-click="header.expandEventList(true)" ng-show="!header.isEventExpanded"></i>
@@ -64,21 +60,20 @@
             </div>
             <div class="col-md-4">
                 <h3 class="bold-text">Alerts</h3>
-                <p class="italic-text">4 New Events</p>
             </div>
             <div class="col-md-6 alert-count">
                 <div class="row">
-                    <div class="col-md-4 counts">
+                    <div class="col-md-4 counts" ng-show="header.warningAlertCnt">
                         <i class="pficon pficon-warning-triangle-o"></i>
-                        <span>21</span>
+                        <span>{{header.warningAlertCnt}}</span>
                     </div>
-                    <div class="col-md-4 counts">
+                    <div class="col-md-4 counts" ng-show="header.errorAlertCnt">
                         <i class="pficon pficon-error-circle-o"></i>
-                        <span>1</span>
+                        <span>{{header.errorAlertCnt}}</span>
                     </div>
-                    <div class="col-md-4 counts">
+                    <div class="col-md-4 counts" ng-show="header.infoAlertCnt">
                         <i class="pficon pficon-info"></i>
-                        <span>2</span>
+                        <span>{{header.infoAlertCnt}}</span>
                     </div>
                 </div>
             </div>
@@ -86,7 +81,7 @@
         <div class="row">
             <div class="col-md-12 horizontal-line"></div>
         </div>
-        <div class="row duration-conatiner">
+        <div class="row duration-conatiner" ng-show="header.isEventExpanded">
             <div class="col-md-4 duration">Last 24 hours</div>
             <div class="col-md-7">
                 <a href="" class="pull-right">View All Events</a>
@@ -105,6 +100,6 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div> -->
 
 </nav>

@@ -3,7 +3,7 @@
 	height: 58px;
 	
 
-	.brand-name-img{
+	.brand-name-img {
 	    height:20px;
 	    cursor: pointer;
 	}
@@ -22,11 +22,17 @@
 		top: 56px;
 		background: $color-white;
 
+		.row {
+			margin-right: 0;
+			margin-left: 0;
+		}
+
 		.angle-expand {
 			font-size: 25px;
 			margin-top: 20px;
 			text-align: center;
 			margin-left: 5px;
+			cursor: pointer;
 		}
 
 		.alert-count {
@@ -52,6 +58,8 @@
 
 		.alert-list-container {
 			/*border: 1px solid $color-black;*/
+			max-height: 75vh;
+    		overflow: auto;
 		}
 	}
 

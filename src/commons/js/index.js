@@ -61,7 +61,7 @@
                                     if ($rootScope.clusterData !== null && $rootScope.clusterData.clusters.length !== 0) {
                                         /* Forward to cluster view if we have cluster data. */
                                         $rootScope.isNavigationShow = true;
-                                        getEventList();                              
+                                        //getEventList();                              
                                         $state.go("cluster");
                                     } else {
                                         /* Forward to home view if we don't have cluster data. */
@@ -72,23 +72,24 @@
                                     $rootScope.isAPINotFoundError = true;
                                 });
 
-                                function getEventList() {
-                                    eventStore.getEventList()
-                                        .then(function(eventList) {
-                                            $interval.cancel(timer);
-                                            $rootScope.eventList = eventList;
-                                            startEventTimer();
-                                        })
-                                        .catch(function(error) {
-                                            $rootScope.eventList = null;
-                                        });
-                                }
+                                // function getEventList() {
+                                //     eventStore.getEventList()
+                                //         .then(function(eventList) {
+                                //             $interval.cancel(timer);
+                                //             $rootScope.eventList = eventList;
+                                //             startEventTimer();
+                                //             utils.updateAlertList($rootScope.eventList);
+                                //         })
+                                //         .catch(function(error) {
+                                //             $rootScope.eventList = null;
+                                //         });
+                                // }
 
-                                function startEventTimer() {
-                                    timer = $interval(function() {
-                                       getEventList();
-                                    }, 1000 * config.eventsRefreshIntervalTime, 1);
-                                }
+                                // function startEventTimer() {
+                                //     timer = $interval(function() {
+                                //        getEventList();
+                                //     }, 1000 * config.eventsRefreshIntervalTime, 1);
+                                // }
                             }
                         }
                     })
@@ -168,11 +169,11 @@
                         controller: "taskController",
                         controllerAs: "taskCntrl"
                     })
-                    .state("events", {
-                        url: "/admin/events",
-                        templateUrl: "/modules/events/events.html",
-                        controller: "eventController",
-                        controllerAs: "eventCntrl"
+                    .state("alerts", {
+                        url: "/alerts",
+                        templateUrl: "/modules/alerts/alerts.html",
+                        controller: "alertController",
+                        controllerAs: "alertCntrl"
                     })
                     .state("task-detail", {
                         url: "/admin/tasks/:taskId",
@@ -234,7 +235,7 @@
                         if ($rootScope.clusterData !== null && $rootScope.clusterData.clusters.length !== 0) {
                             /* Forward to cluster view if we have cluster data. */
                             $rootScope.isNavigationShow = true;
-                            getEventList();
+                            //getEventList();
                         } else {
                             /* Forward to home view if we don't have cluster data. */
                             $rootScope.isNavigationShow = false;
@@ -245,25 +246,26 @@
                     });
                 }
 
-                function getEventList() {
-                    eventStore.getEventList()
-                        .then(function(eventList) {
-                            $interval.cancel(timer);
-                            $rootScope.eventList = eventList;
-                            startEventTimer();
-                        })
-                        .catch(function(error) {
-                            $rootScope.eventList = null;
-                        });
-                }
+                // function getEventList() {
+                //     eventStore.getEventList()
+                //         .then(function(eventList) {
+                //             $interval.cancel(timer);
+                //             $rootScope.eventList = eventList;
+                //             $rootScope.$broadcast("GotEventData", $rootScope.eventList);
+                //             //startEventTimer();
+                //         })
+                //         .catch(function(error) {
+                //             $rootScope.eventList = null;
+                //         });
+                // }
 
-                function startEventTimer() {
-                    timer = $interval(function() {
+                // function startEventTimer() {
+                //     timer = $interval(function() {
 
-                        getEventList();
+                //         getEventList();
 
-                    }, 1000 * config.eventsRefreshIntervalTime, 1);
-                }
+                //     }, 1000 * config.eventsRefreshIntervalTime, 1);
+                // }
             });
 
         }, function(errorResponse) {
