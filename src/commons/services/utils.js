@@ -20,7 +20,6 @@
             len, 
             clusterObj;
 
-
         vm.takeAction = function(data, postUrl, formMethod, clusterId) {
             var url, actionRequest, request;
 
@@ -398,7 +397,8 @@
             request = angular.copy(getTaskLogsRequest);
             return $http(request).then(function (response) {
                 return response.data;
-            }, function() {
+            }, function(e) {
+                checkErrorCode(e);
                 console.log("Error Occurred: while fetching getTaskLogs");
                 return null;
             });
@@ -418,30 +418,42 @@
             request = angular.copy(getTaskStatusRequest);
             return $http(request).then(function (response) {
                 return response.data;
-            }, function() {
+            }, function(e) {
+                checkErrorCode(e);
                 console.log("Error Occurred: while fetching getTaskLogs");
                 return null;
             });
         };
 
-        vm.getEventList = function() {
-            var url, getEventListRequest, request;
+        vm.getAlertList = function() {
+            var url, getAlertListRequest, request;
 
                 url = "/api/alerts.json";
 
-                getEventListRequest = {
+                getAlertListRequest = {
                     method: "GET",
                     url: url
                 };
 
-                request = angular.copy(getEventListRequest);
+                request = angular.copy(getAlertListRequest);
                 return $http(request).then(function (response) {
                     return response.data;
-                }, function() {
-                    console.log("Error Occurred: while fetching getTaskLogs");
+                }, function(e) {
+                    checkErrorCode(e);
+                    console.log("Error Occurred: while fetching getAlertList");
                     return null;
                 });
         };
+
+        vm.getAlertSeverityList= function(list) {
+            var filteredList = {};
+
+            filteredList.warningAlerts = $filter("filter")(list, {severity: "warning"});
+            filteredList.errorAlerts = $filter("filter")(list, {severity: "error"});
+            filteredList.infoAlerts = $filter("filter")(list, {severity: "info"});
+            return filteredList;
+        };
+
     };
     
 })();
