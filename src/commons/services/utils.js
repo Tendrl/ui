@@ -428,7 +428,8 @@
         vm.getAlertList = function() {
             var url, getAlertListRequest, request;
 
-                url = "/api/alerts.json";
+                //url = "/api/alerts.json";
+                url = config.baseUrl +  "alerts";
 
                 getAlertListRequest = {
                     method: "GET",
@@ -452,6 +453,27 @@
             filteredList.errorAlerts = $filter("filter")(list, {severity: "error"});
             filteredList.infoAlerts = $filter("filter")(list, {severity: "info"});
             return filteredList;
+        };
+
+        vm.getNotificationList = function() {
+            var url, getNotificationListRequest, request;
+
+                //url = "/api/notification.json";
+                url = config.baseUrl + "notifications";
+
+                getNotificationListRequest = {
+                    method: "GET",
+                    url: url
+                };
+
+                request = angular.copy(getNotificationListRequest);
+                return $http(request).then(function (response) {
+                    return response.data;
+                }, function(e) {
+                    checkErrorCode(e);
+                    console.log("Error Occurred: while fetching getNotificationList");
+                    return null;
+                });
         };
 
     };

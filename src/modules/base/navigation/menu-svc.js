@@ -65,7 +65,7 @@
                 href: 'tasks',
                 icon: 'fa fa-cog',
                 active: false
-            }, ]
+            }]
         }/*,{
             label: 'Dashboard',
             id: 'dashboard',

@@ -50,18 +50,18 @@
                         template: "<div ng-if='!isAPINotFoundError' class='spinner spinner-lg'><div>",
                         resolve: {
                             "landingPage": function($rootScope, $state, $interval, utils, eventStore, config) {
-                                var timer;
+                                var notificationTimer;
 
                                 $rootScope.isAPINotFoundError = false;
                                 $rootScope.clusterData = null;
-                                $rootScope.eventList = null;
+                                $rootScope.notificationList = null;
 
                                 utils.getObjectList("Cluster").then(function(list) {
                                     $rootScope.clusterData = list;
                                     if ($rootScope.clusterData !== null && $rootScope.clusterData.clusters.length !== 0) {
                                         /* Forward to cluster view if we have cluster data. */
                                         $rootScope.isNavigationShow = true;
-                                        //getEventList();                              
+                                        getNotificationList();
                                         $state.go("cluster");
                                     } else {
                                         /* Forward to home view if we don't have cluster data. */
@@ -72,24 +72,28 @@
                                     $rootScope.isAPINotFoundError = true;
                                 });
 
-                                // function getEventList() {
-                                //     eventStore.getEventList()
-                                //         .then(function(eventList) {
-                                //             $interval.cancel(timer);
-                                //             $rootScope.eventList = eventList;
-                                //             startEventTimer();
-                                //             utils.updateAlertList($rootScope.eventList);
-                                //         })
-                                //         .catch(function(error) {
-                                //             $rootScope.eventList = null;
-                                //         });
-                                // }
+                                function getNotificationList() {
+                                    eventStore.getNotificationList()
+                                        .then(function(notificationList) {
+                                            $interval.cancel(notificationTimer);
+                                            $rootScope.notificationList = notificationList;
+                                            $rootScope.$broadcast("GotNoticationData", $rootScope.notificationList);
+                                            startNotificationTimer();
+                                        })
+                                        .catch(function(error) {
+                                            $rootScope.notificationList = null;
+                                        });
+                                }
 
-                                // function startEventTimer() {
-                                //     timer = $interval(function() {
-                                //        getEventList();
-                                //     }, 1000 * config.eventsRefreshIntervalTime, 1);
-                                // }
+                                function startNotificationTimer() {
+                                    notificationTimer = $interval(function() {
+                                        getNotificationList();
+                                    }, 1000 * config.eventsRefreshIntervalTime, 1);
+                                }
+
+                                $rootScope.$on("$destroy", function() {
+                                    $interval.cancel(notificationTimer);
+                                });
                             }
                         }
                     })
@@ -196,7 +200,7 @@
 
             });
             storageModule.run(function($rootScope, $location, $http, $interval, menuService, AuthManager, utils, eventStore, config) {
-                var restrictedPage, loggedIn, timer;
+                var restrictedPage, loggedIn, notificationTimer;
 
                 $rootScope.$on("$locationChangeStart", function(event, current, next) {
                     // redirect to login page if not logged in and trying to access a restricted page
@@ -225,7 +229,7 @@
                     /* Tracking the current URI for navigation*/
                     $rootScope.isAPINotFoundError = false;
                     $rootScope.clusterData = null;
-                    $rootScope.eventList = null;
+                    $rootScope.notificationList = null;
 
                     var url = $location.path();
                     utils.getObjectList("Cluster").then(function(list) {
@@ -235,7 +239,7 @@
                         if ($rootScope.clusterData !== null && $rootScope.clusterData.clusters.length !== 0) {
                             /* Forward to cluster view if we have cluster data. */
                             $rootScope.isNavigationShow = true;
-                            //getEventList();
+                            getNotificationList();
                         } else {
                             /* Forward to home view if we don't have cluster data. */
                             $rootScope.isNavigationShow = false;
@@ -246,26 +250,28 @@
                     });
                 }
 
-                // function getEventList() {
-                //     eventStore.getEventList()
-                //         .then(function(eventList) {
-                //             $interval.cancel(timer);
-                //             $rootScope.eventList = eventList;
-                //             $rootScope.$broadcast("GotEventData", $rootScope.eventList);
-                //             //startEventTimer();
-                //         })
-                //         .catch(function(error) {
-                //             $rootScope.eventList = null;
-                //         });
-                // }
+                function getNotificationList() {
+                    eventStore.getNotificationList()
+                        .then(function(notificationList) {
+                            $interval.cancel(notificationTimer);
+                            $rootScope.notificationList = notificationList;
+                            $rootScope.$broadcast("GotNoticationData", $rootScope.notificationList);
+                            startNotificationTimer();
+                        })
+                        .catch(function(error) {
+                            $rootScope.notificationList = null;
+                        });
+                }
 
-                // function startEventTimer() {
-                //     timer = $interval(function() {
+                function startNotificationTimer() {
+                    notificationTimer = $interval(function() {
+                        getNotificationList();
+                    }, 1000 * config.eventsRefreshIntervalTime, 1);
+                }
 
-                //         getEventList();
-
-                //     }, 1000 * config.eventsRefreshIntervalTime, 1);
-                // }
+                $rootScope.$on("$destroy", function() {
+                    $interval.cancel(notificationTimer);
+                });
             });
 
         }, function(errorResponse) {

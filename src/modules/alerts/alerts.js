@@ -58,7 +58,7 @@
                     vm.alertList = list;
                     vm.isDataLoading = false;
                     startAlertTimer();
-                    vm.severityList = utils.getAlertSeverityList(vm.alertList);
+                    vm.severityList = utils.getAlertSeverityList(vm.filteredAlertList);
                 });
         }
 
@@ -71,6 +71,14 @@
         $scope.$on("$destroy", function() {
             $interval.cancel(alertTimer);
         });
+
+        $scope.$watch(angular.bind(this, function(filteredAlertList){
+            return vm.filteredAlertList;
+        }),function(newVal, oldVal){
+            if(newVal !== oldVal) {
+                vm.severityList = utils.getAlertSeverityList(vm.filteredAlertList);
+            }
+        }, true);
 
         function filterByCreatedDate(list) {
             if(count === 1 && vm.date.fromDate && vm.date.toDate) {

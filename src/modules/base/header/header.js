@@ -10,36 +10,32 @@
 
         var vm = this;
 
-        vm.showAlertFlag = false;
-        vm.isEventExpanded = true;
+        vm.showNotification = false;
+        vm.isNotificationExpanded = true;
         
         vm.notificationClose = notificationClose;
         vm.logout = logout;
         vm.homePage = homePage;
-        vm.setAlertFlag = setAlertFlag;
-        vm.expandEventList = expandEventList;
+        vm.setNotificationFlag = setNotificationFlag;
+        vm.expandNotificationList = expandNotificationList;
 
         $rootScope.notification = {
             "type": "",
             "message": ""
         };
 
-        // $scope.$on("GotEventData", function(event, data) {
-        //     if ($rootScope.eventList !== null && $rootScope.eventList.length !== 0) {
-        //        vm.alertList = utils.getAlertList($rootScope.eventList);
-        //        vm.warningAlertCnt = vm.alertList.warningAlerts.length;
-        //        vm.errorAlertCnt = vm.alertList.errorAlerts.length;
-        //        vm.infoAlertCnt = vm.alertList.infoAlerts.length;
-        //     }
-        // });
+        $scope.$on("GotNoticationData", function(event, data) {
+            if ($rootScope.notificationList !== null && $rootScope.notificationList.length !== 0) {
+               vm.notificationList = $rootScope.notificationList;
+            }
+        });
 
-        function setAlertFlag() {
-            vm.showAlertFlag = !vm.showAlertFlag;
-            console.log($rootScope.eventList, "eventList");
+        function setNotificationFlag() {
+            vm.showNotification = !vm.showNotification;
         }
 
-        function expandEventList() {
-            vm.isEventExpanded = !vm.isEventExpanded;
+        function expandNotificationList() {
+            vm.isNotificationExpanded = !vm.isNotificationExpanded;
         }
 
         function notificationClose() {
