@@ -100,7 +100,7 @@
                             cluster.utilization = clusterData[i].utilization;
                             cluster.utilization.percent_used = clusterData[i].utilization.pcnt_used;
                             cluster.status = clusterData[i].globaldetails.status || "NA";
-                        } else if (cluster.sds_name === "glusterfs") {
+                        } else if (cluster.sds_name === "gluster") {
                             cluster.utilization = {};
                             cluster.utilization.percent_used = clusterData[i].utilization.pcnt_used;
                             cluster.utilization.used = clusterData[i].utilization.used_capacity;
@@ -120,7 +120,7 @@
                     cluster.poolOrFileShareCount = "NA";
                     if (clusterData[i].sds_name === 'ceph' && typeof clusterData[i].pools !== "undefined") {
                         cluster.poolOrFileShareCount = Object.keys(clusterData[i].pools).length;
-                    } else if (clusterData[i].sds_name === 'glusterfs' && typeof clusterData[i].volumes !== "undefined") {
+                    } else if (clusterData[i].sds_name === 'gluster' && typeof clusterData[i].volumes !== "undefined") {
                         cluster.poolOrFileShareCount = Object.keys(clusterData[i].volumes).length;
                     }
                     cluster.iops = "IOPS-NA";
