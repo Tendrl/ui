@@ -49,15 +49,20 @@
                         url: "/landing-page",
                         template: "<div ng-if='!isAPINotFoundError' class='spinner spinner-lg'><div>",
                         resolve: {
-                            "landingPage": function($rootScope, $state, utils) {
+                            "landingPage": function($rootScope, $state, $interval, utils, eventStore, config) {
+                                var notificationTimer;
+
                                 $rootScope.isAPINotFoundError = false;
                                 $rootScope.clusterData = null;
+                                $rootScope.notificationList = null;
+
                                 utils.getObjectList("Cluster").then(function(list) {
                                     $rootScope.clusterData = list;
                                     if ($rootScope.clusterData !== null && $rootScope.clusterData.clusters.length !== 0) {
                                         /* Forward to cluster view if we have cluster data. */
                                         $rootScope.isNavigationShow = true;
-                                        $state.go("cluster");
+                                        getNotificationList();
+                                        $state.go("dashboard");
                                     } else {
                                         /* Forward to home view if we don't have cluster data. */
                                         $rootScope.isNavigationShow = false;
@@ -65,6 +70,29 @@
                                     }
                                 }).catch(function(error) {
                                     $rootScope.isAPINotFoundError = true;
+                                });
+
+                                function getNotificationList() {
+                                    eventStore.getNotificationList()
+                                        .then(function(notificationList) {
+                                            $interval.cancel(notificationTimer);
+                                            $rootScope.notificationList = notificationList;
+                                            $rootScope.$broadcast("GotNoticationData", $rootScope.notificationList);
+                                            startNotificationTimer();
+                                        })
+                                        .catch(function(error) {
+                                            $rootScope.notificationList = null;
+                                        });
+                                }
+
+                                function startNotificationTimer() {
+                                    notificationTimer = $interval(function() {
+                                        getNotificationList();
+                                    }, 1000 * config.eventsRefreshIntervalTime, 1);
+                                }
+
+                                $rootScope.$on("$destroy", function() {
+                                    $interval.cancel(notificationTimer);
                                 });
                             }
                         }
@@ -145,6 +173,12 @@
                         controller: "taskController",
                         controllerAs: "taskCntrl"
                     })
+                    .state("alerts", {
+                        url: "/alerts",
+                        templateUrl: "/modules/alerts/alerts.html",
+                        controller: "alertController",
+                        controllerAs: "alertCntrl"
+                    })
                     .state("task-detail", {
                         url: "/admin/tasks/:taskId",
                         templateUrl: "/modules/tasks/task-detail/task-detail.html",
@@ -165,8 +199,8 @@
                     });
 
             });
-            storageModule.run(function(utils, $rootScope, $location, $http, menuService, AuthManager) {
-                var restrictedPage, loggedIn;
+            storageModule.run(function($rootScope, $location, $http, $interval, menuService, AuthManager, utils, eventStore, config) {
+                var restrictedPage, loggedIn, notificationTimer;
 
                 $rootScope.$on("$locationChangeStart", function(event, current, next) {
                     // redirect to login page if not logged in and trying to access a restricted page
@@ -195,6 +229,7 @@
                     /* Tracking the current URI for navigation*/
                     $rootScope.isAPINotFoundError = false;
                     $rootScope.clusterData = null;
+                    $rootScope.notificationList = null;
 
                     var url = $location.path();
                     utils.getObjectList("Cluster").then(function(list) {
@@ -204,6 +239,7 @@
                         if ($rootScope.clusterData !== null && $rootScope.clusterData.clusters.length !== 0) {
                             /* Forward to cluster view if we have cluster data. */
                             $rootScope.isNavigationShow = true;
+                            getNotificationList();
                         } else {
                             /* Forward to home view if we don't have cluster data. */
                             $rootScope.isNavigationShow = false;
@@ -212,8 +248,30 @@
                         $rootScope.$broadcast("GotClusterData", $rootScope.clusterData); // going down!
                         $rootScope.isAPINotFoundError = true;
                     });
-
                 }
+
+                function getNotificationList() {
+                    eventStore.getNotificationList()
+                        .then(function(notificationList) {
+                            $interval.cancel(notificationTimer);
+                            $rootScope.notificationList = notificationList;
+                            $rootScope.$broadcast("GotNoticationData", $rootScope.notificationList);
+                            startNotificationTimer();
+                        })
+                        .catch(function(error) {
+                            $rootScope.notificationList = null;
+                        });
+                }
+
+                function startNotificationTimer() {
+                    notificationTimer = $interval(function() {
+                        getNotificationList();
+                    }, 1000 * config.eventsRefreshIntervalTime, 1);
+                }
+
+                $rootScope.$on("$destroy", function() {
+                    $interval.cancel(notificationTimer);
+                });
             });
 
         }, function(errorResponse) {

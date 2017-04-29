@@ -30,7 +30,7 @@
         function _setClusterDetail() {
             vm.clusterObj = utils.getClusterDetails($scope.clusterId);
             vm.clusterName = vm.clusterObj.cluster_name || "NA";
-            if (vm.clusterObj.sds_name === "glusterfs") {
+            if (vm.clusterObj.sds_name === "gluster") {
                 vm.tabList.FileShare = 2;
             } else {
                 vm.tabList.Pool = 2;

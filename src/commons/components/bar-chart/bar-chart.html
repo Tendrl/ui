@@ -6,7 +6,6 @@
 					<span>{{vm.chartTitleData.data.total}} {{vm.chartTitleData.title}}</span>
 					<span ng-if="!vm.chartTitleData.data.error && !vm.chartTitleData.data.warning && !vm.chartTitleData.data.down" class="pull-right">
 						<span class="pficon pficon-ok">
-							{{vm.chartTitleData.data.error}}
 						</span>
 					</span>
 					<p class="card-pf-aggregate-status-notifications pull-right" ng-if="vm.chartTitleData.data.error || vm.chartTitleData.data.warning || vm.chartTitleData.data.down">
@@ -35,7 +34,7 @@
 				</h2>
 			</div>
 			<div class="card-pf-body" ng-if="!vm.isHorizontalBarChartShow">
-				<div ng-repeat="barData in vm.dataArray" pf-utilization-bar-chart chart-data="barData.data" chart-title="barData.title" chart-footer="barData.footer" threshold-warning="vm.chartThresholds.warning" threshold-error="vm.chartThresholds.error">
+				<div ng-repeat="barData in vm.dataArray" pf-utilization-bar-chart chart-data="barData.data"  chart-title="barData.title" chart-footer="barData.footer" threshold-warning="vm.chartThresholds.warning" threshold-error="vm.chartThresholds.error">
 				</div>
 			</div>
 			<div id="horizontal-bar-chart"></div>

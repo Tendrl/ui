@@ -20,7 +20,6 @@
             len, 
             clusterObj;
 
-
         vm.takeAction = function(data, postUrl, formMethod, clusterId) {
             var url, actionRequest, request;
 
@@ -84,6 +83,7 @@
             // }
 
             url = config.baseUrl + "Get" + objectType +"List";
+            //url = "/api/GetClusterList.json";
 
             // // For testing purpose
             // if(objectType === "trends-chart") {
@@ -93,7 +93,13 @@
             // } else if(objectType === "heat-map") {
             //     url = "/api/heat-map.json";
             // } else if(objectType === "Disk") {
-            //     url = "/api/GetDiskList.json";   
+            //     url = "/api/GetDiskList.json";
+            // } else if(objectType === "ceph-cluster"){
+            //     url = "/api/GetCephData.json";
+            // } else if(objectType === "gluster-cluster"){
+            //     url = "/api/GetGlusterData.json";
+            // } else if(objectType ==="alerts"){
+            //     url = "/api/alerts.json"
             // }
 
             getObjectListRequest = {
@@ -110,6 +116,29 @@
                 throw e;
             });
         };
+
+        vm.getDashboardData = function(clusterType, utilization){
+            var url = "", getDashboardRequest, request;
+
+            if(utilization) {
+                url = config.baseUrl + "monitoring/system/" + clusterType + "/utilization";
+            } else {
+                url = config.baseUrl + "monitoring/system/" + clusterType;
+            }
+
+            getDashboardRequest = {
+                method: "GET",
+                url: url
+            };
+
+            request = angular.copy(getDashboardRequest);
+            return $http(request).then(function (response) {
+                return response.data.stats;
+            }, function(e) {
+                checkErrorCode(e);
+                console.log("Error Occurred: while fetching getDashboardRequest");
+            });
+        }
 
         vm.getJobList = function() {
             var url = "", getJobListRequest, request;
@@ -397,7 +426,8 @@
             request = angular.copy(getTaskLogsRequest);
             return $http(request).then(function (response) {
                 return response.data;
-            }, function() {
+            }, function(e) {
+                checkErrorCode(e);
                 console.log("Error Occurred: while fetching getTaskLogs");
                 return null;
             });
@@ -417,11 +447,64 @@
             request = angular.copy(getTaskStatusRequest);
             return $http(request).then(function (response) {
                 return response.data;
-            }, function() {
+            }, function(e) {
+                checkErrorCode(e);
                 console.log("Error Occurred: while fetching getTaskLogs");
                 return null;
             });
         };
-    }
 
+        vm.getAlertList = function() {
+            var url, getAlertListRequest, request;
+
+                //url = "/api/alerts.json";
+                url = config.baseUrl +  "alerts";
+
+                getAlertListRequest = {
+                    method: "GET",
+                    url: url
+                };
+
+                request = angular.copy(getAlertListRequest);
+                return $http(request).then(function (response) {
+                    return response.data;
+                }, function(e) {
+                    checkErrorCode(e);
+                    console.log("Error Occurred: while fetching getAlertList");
+                    return null;
+                });
+        };
+
+        vm.getAlertSeverityList= function(list) {
+            var filteredList = {};
+
+            filteredList.warningAlerts = $filter("filter")(list, {severity: "warning"});
+            filteredList.errorAlerts = $filter("filter")(list, {severity: "error"});
+            filteredList.infoAlerts = $filter("filter")(list, {severity: "info"});
+            return filteredList;
+        };
+
+        vm.getNotificationList = function() {
+            var url, getNotificationListRequest, request;
+
+                //url = "/api/notification.json";
+                url = config.baseUrl + "notifications";
+
+                getNotificationListRequest = {
+                    method: "GET",
+                    url: url
+                };
+
+                request = angular.copy(getNotificationListRequest);
+                return $http(request).then(function (response) {
+                    return response.data;
+                }, function(e) {
+                    checkErrorCode(e);
+                    console.log("Error Occurred: while fetching getNotificationList");
+                    return null;
+                });
+        };
+
+    };
+    
 })();

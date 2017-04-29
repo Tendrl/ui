@@ -6,18 +6,37 @@
     app.controller("headerController", headerController);
 
     /*@ngInject*/
-    function headerController($rootScope, $state, AuthManager) {
+    function headerController($rootScope, $state, $scope, AuthManager, utils) {
 
         var vm = this;
+
+        vm.showNotification = false;
+        vm.isNotificationExpanded = true;
         
         vm.notificationClose = notificationClose;
         vm.logout = logout;
         vm.homePage = homePage;
+        vm.setNotificationFlag = setNotificationFlag;
+        vm.expandNotificationList = expandNotificationList;
 
         $rootScope.notification = {
             "type": "",
             "message": ""
         };
+
+        $scope.$on("GotNoticationData", function(event, data) {
+            if ($rootScope.notificationList !== null && $rootScope.notificationList.length !== 0) {
+               vm.notificationList = $rootScope.notificationList;
+            }
+        });
+
+        function setNotificationFlag() {
+            vm.showNotification = !vm.showNotification;
+        }
+
+        function expandNotificationList() {
+            vm.isNotificationExpanded = !vm.isNotificationExpanded;
+        }
 
         function notificationClose() {
             $rootScope.notification.type = "";
