@@ -25,6 +25,7 @@
 @import "../../modules/tasks/task-detail/task-detail.scss";
 @import "../../modules/base/navigation/navigation.scss";
 @import "../../modules/alerts/alerts.scss";
+@import "../../modules/dashboard/dashboard.scss";
     
 .tendrl-app {
 
@@ -53,6 +54,7 @@
         cursor: pointer;
         text-decoration: none;
     }
+
     .list-group {
     margin-bottom: 0px !important;
     }
