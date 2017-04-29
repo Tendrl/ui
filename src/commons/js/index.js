@@ -62,7 +62,7 @@
                                         /* Forward to cluster view if we have cluster data. */
                                         $rootScope.isNavigationShow = true;
                                         getNotificationList();
-                                        $state.go("cluster");
+                                        $state.go("dashboard");
                                     } else {
                                         /* Forward to home view if we don't have cluster data. */
                                         $rootScope.isNavigationShow = false;

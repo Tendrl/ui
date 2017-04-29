@@ -65,13 +65,15 @@
         }
 
         function logout() {
+            authApiFactory.clearCredentials();
             var req = create_request("DELETE", "logout");
             return $http(req).then(function (response) {
-                authApiFactory.clearCredentials();
                 $http.defaults.headers.common["Authorization"] = "";
                 return response.data;
             })
             .catch(function (response) {
+                authApiFactory.clearCredentials();
+                $state.go("login");
                 return $q.reject({});
             });
         }

@@ -166,7 +166,11 @@
                     dataObject.dataAvailable = true;
                     dataObject.data = vm.chartData[i].data;
                     dataObject.title = vm.chartData[i].title;
-                    dataObject.footer = "<strong>" + $filter('bytes')(dataObject.data.used) + "</strong>";
+                    if(parseInt(dataObject.data.used)) {
+                        dataObject.footer = "<strong>" + $filter('bytes')(dataObject.data.used) + "</strong>";
+                    } else {
+                        dataObject.footer = "<strong> 0 bytes </strong>";
+                    }
                 } else {
                     dataObject.dataAvailable = false;
                 }

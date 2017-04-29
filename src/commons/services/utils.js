@@ -93,7 +93,13 @@
             // } else if(objectType === "heat-map") {
             //     url = "/api/heat-map.json";
             // } else if(objectType === "Disk") {
-            //     url = "/api/GetDiskList.json";   
+            //     url = "/api/GetDiskList.json";
+            // } else if(objectType === "ceph-cluster"){
+            //     url = "/api/GetCephData.json";
+            // } else if(objectType === "gluster-cluster"){
+            //     url = "/api/GetGlusterData.json";
+            // } else if(objectType ==="alerts"){
+            //     url = "/api/alerts.json"
             // }
 
             getObjectListRequest = {
@@ -110,6 +116,29 @@
                 throw e;
             });
         };
+
+        vm.getDashboardData = function(clusterType, utilization){
+            var url = "", getDashboardRequest, request;
+
+            if(utilization) {
+                url = config.baseUrl + "monitoring/system/" + clusterType + "/utilization";
+            } else {
+                url = config.baseUrl + "monitoring/system/" + clusterType;
+            }
+
+            getDashboardRequest = {
+                method: "GET",
+                url: url
+            };
+
+            request = angular.copy(getDashboardRequest);
+            return $http(request).then(function (response) {
+                return response.data.stats;
+            }, function(e) {
+                checkErrorCode(e);
+                console.log("Error Occurred: while fetching getDashboardRequest");
+            });
+        }
 
         vm.getJobList = function() {
             var url = "", getJobListRequest, request;
