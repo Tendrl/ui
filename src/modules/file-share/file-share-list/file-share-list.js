@@ -8,7 +8,7 @@
     /*@ngInject*/
     function fileShareController($scope, $rootScope, $state, $interval, utils, config) {
         var vm = this,
-            timer,
+            fileshareTimer,
             list,
             fileShareList,
             fileShare,
@@ -34,11 +34,11 @@
 
         function startTimer() {
 
-            timer = $interval(function() {
+            fileshareTimer = $interval(function() {
 
                 utils.getObjectList("Cluster")
                     .then(function(data) {
-                        $interval.cancel(timer);
+                        $interval.cancel(fileshareTimer);
                         $rootScope.clusterData = data;
                         init();
                     });
@@ -93,7 +93,7 @@
 
         /*Cancelling interval when scope is destroy*/
         $scope.$on('$destroy', function() {
-            $interval.cancel(timer);
+            $interval.cancel(fileshareTimer);
         });
 
         function createFileShare() {

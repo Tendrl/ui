@@ -9,7 +9,7 @@
     function hostController($scope, $rootScope, $state, $interval, utils, config) {
         var vm = this,
             clusterObj,
-            timer,
+            hostListTimer,
             associatedHosts = [];
 
         vm.isDataLoading = true;
@@ -35,11 +35,11 @@
 
         function startTimer() {
 
-            timer = $interval(function() {
+            hostListTimer = $interval(function() {
 
                 utils.getObjectList("Node")
                     .then(function(list) {
-                        $interval.cancel(timer);
+                        $interval.cancel(hostListTimer);
                         vm.isDataLoading = false;
                         vm.hostList = [];
                         if (list !== null) {
@@ -111,7 +111,7 @@
 
         /*Cancelling interval when scope is destroy*/
         $scope.$on('$destroy', function() {
-            $interval.cancel(timer);
+            $interval.cancel(hostListTimer);
         });
     }
 

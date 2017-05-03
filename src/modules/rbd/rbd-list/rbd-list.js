@@ -14,7 +14,7 @@
             rbd,
             list,
             i,
-            timer,
+            rbdListTimer,
             clusterObj;
 
         vm.createRbd = createRbd;
@@ -50,11 +50,11 @@
 
         function startTimer() {
 
-            timer = $interval(function() {
+            rbdListTimer = $interval(function() {
 
                 utils.getObjectList("Cluster")
                     .then(function(data) {
-                        $interval.cancel(timer);
+                        $interval.cancel(rbdListTimer);
                         $rootScope.clusterData = data;
                         list = utils.getRBDsDetails($scope.clusterId);
                         _createRbdList(list);
@@ -66,7 +66,7 @@
 
         /*Cancelling interval when scope is destroy*/
         $scope.$on("$destroy", function() {
-            $interval.cancel(timer);
+            $interval.cancel(rbdListTimer);
         });
 
 

@@ -1,0 +1,63 @@
+.tendrl-ceph-dashboard-view-container {
+    background-color: $color-light-grey;
+    padding-left: 30px;
+    padding-right: 20px;
+    margin-left: -20px;
+    margin-right: -20px;
+    .status-card-left {
+        text-align: left;
+    }
+    .status-card-hr {
+        border-bottom: 1px solid #d1d1d1;
+        padding: 0 5px 15px 0;
+    }
+    .padding-initial {
+        padding: initial;
+    }
+    .remove-right-margin {
+        margin-right: 10px;
+    }
+    .remove-padding-left {
+        padding-left: 0px;
+    }
+    .status-card-adjustment .card-pf-aggregate-status .card-pf-body {
+        margin-top: 28px;
+        padding-bottom: 29px;
+    }
+    .status-card-adjustment .card-pf-aggregate-status .card-pf-title {
+        font-size: 14px;
+        margin: 38px 0 0;
+    }
+    .status-card-adjustment .card-pf-aggregate-status .card-pf-title .card-pf-aggregate-status-count {
+        font-size: 20px;
+    }
+    .status-card-adjustment .card-pf-aggregate-status .card-pf-title .card-pf-aggregate-status-title {
+        font-size: 18px;
+    }
+    .status-card-adjustment .card-pf-aggregate-status .card-pf-body .pficon {
+        font-size: 24px;
+    }
+    .blank-slate-pf {
+        padding: 73px 120px;
+    }
+    .extra-padding {
+        padding-right: 30px;
+    }
+    .padding-right {
+        padding-right: 10px;
+    }
+    .blue-top-border {
+        border-top: 2px solid #39a5dc;
+    }
+    .card-bg {
+        background: #fff;
+        box-shadow: 0 1px 1px rgba(3, 3, 3, 0.175);
+    }
+    .bar-chart-component .card-pf-body {
+        min-height: 353px;
+    }
+    .reduce-padding {
+        padding-left: 10px;
+        padding-right: 10px;
+    }
+}

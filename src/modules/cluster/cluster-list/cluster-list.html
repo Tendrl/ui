@@ -66,7 +66,7 @@
             <div class="list-view-pf-left col-md-1">
                 <i class="pficon" ng-class="{'pficon-error-circle-o': (cluster.status === 'HEALTH_ERR'), 'pficon-ok': (cluster.status === 'HEALTH_OK'), 'pficon-warning-triangle-o': (cluster.status === 'HEALTH_WARN')}"></i>
             </div>
-            <div class="col-md-1 text-center cluster-name bold-text counts" ng-click="clusterCntrl.goToClusterDetail(cluster.id)" data-toggle="tooltip" data-placement="bottom" title="{{cluster.name}}">{{cluster.name}}</div>
+            <div class="col-md-1 text-center cluster-name bold-text counts" ng-click="clusterCntrl.goToClusterDetail(cluster.id)" uib-tooltip-html="'{{cluster.name}}'">{{cluster.name}}</div>
             <div class="col-md-3">
                 <donut-chart id="" id="utilization-donut-chart{{$index}}" class="list-view-pf-additional-info-item" chart-data="cluster.utilization"></donut-chart>
             </div>

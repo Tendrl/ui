@@ -1,0 +1,39 @@
+<div class="tendrl-ceph-dashboard-view-container">
+    <full-aggregate-status-card ng-show="vm.showClusterData" status="vm.clusterStatus" show-top-border="true"></full-aggregate-status-card>
+    <div class="col-md-12 padding-initial push-top">
+        <div class="col-md-4 card-bg" ng-class="{'blue-top-border': !vm.showClusterData}">
+            <div pf-utilization-trend-chart config="vm.rawStorageUtilizationConfig" chart-data="vm.rawStorageUtilizationData" center-label="vm.rawStorageUtilizationCenterLabel" donut-config="vm.rawStorageUtilizationDonutConfig" sparkline-config="vm.rawStorageUtilizationSparklineConfig" sparkline-chart-height="vm.rawStorageUtilizationCustChartHeight"></div>
+        </div>
+        <div class="col-md-4 status-card-adjustment" pf-aggregate-status-card status="vm.hostStatus" show-top-border="{{!vm.showClusterData}}"></div>
+        <div class="col-md-4 status-card-adjustment" pf-aggregate-status-card status="vm.monStatus" show-top-border="{{!vm.showClusterData}}"></div>
+        <div class="col-md-8 status-card-adjustment" pf-aggregate-status-card status="vm.osdStatus"></div>
+    </div>
+    <div class="row">
+        <div class="col-md-6 padding-right">
+            <!-- utilization bar chart component -->
+            <bar-chart chart-title-data="vm.poolBarChartTitleData" chart-data="vm.poolBarChartData"></bar-chart>
+        </div>
+        <div class="col-md-6 extra-padding">
+            <!-- horizontal bar chart -->
+            <bar-chart chart-title-data="vm.rbdBarChartTitleData" chart-data="vm.rbdBarChartData"></bar-chart>
+        </div>
+    </div>
+    <!-- Heat maps -->
+    <div class="row reduce-padding">
+        <div class="col-md-6" ng-if="vm.showSystemPerformance">
+            <div class="card-pf card-pf-utilization">
+                <h2 class="card-pf-title">{{vm.heatmapTitle}}</h2>
+                <div class="card-pf-body">
+                    <div class="row">
+                        <div class="col-xs-12 col-sm-6 col-md-6" ng-repeat="mapData in vm.heatMapData">
+                            <div pf-heatmap id="vm.id" chart-title="mapData.title" data="mapData.data" chart-data-available="vm.heatMapdataAvailable" show-legend="vm.showLegends" legend-labels="vm.legendLabels" max-block-size="40" block-padding="2" heatmap-color-pattern="vm.heatmapColorPattern" thresholds="vm.thresholds">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div ng-show="vm.systemPerformanceLegends;" pf-heatmap-legend legend="vm.legendLabels" legend-colors="vm.heatmapColorPattern">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -4,24 +4,36 @@
     <ol class="breadcrumb custom-breadcrumb">
         <li><a ui-sref="cluster">Cluster</a></li>
         <li>
-            <span>
+            <i class="pficon" ng-class="{'pficon-error-circle-o': (clusterDetail.clusterStatus === 'HEALTH_ERR'), 'pficon-ok': (clusterDetail.clusterStatus === 'HEALTH_OK'), 'pficon-warning-triangle-o': (clusterDetail.clusterStatus === 'HEALTH_WARN')}"></i>
+            <span uib-tooltip-html="'{{clusterDetail.clusterName}}'">
                 {{clusterDetail.clusterName}}
             </span>
         </li>
     </ol>
-    <ul class="nav nav-tabs">
-        <li ng-repeat="(key,value) in clusterDetail.tabList" ng-class="{'active': clusterDetail.isTabSet(value)}">
+    <ul class="nav nav-tabs cluster-detail-nav">
+        <li class="pointer" ng-repeat="(key,value) in clusterDetail.tabList" ng-class="{'active': clusterDetail.isTabSet(value)}">
             <a href="" ng-click="clusterDetail.setTab(value)">
-                {{key}}s
+                {{key}}
             </a>
         </li>
     </ul>
     
     <div ng-if="clusterDetail.activeTab !== undefined">
-        <cluster-host-list ng-if="clusterDetail.activeTab === 1"></cluster-host-list>
-        <cluster-file-share-list ng-if="clusterDetail.activeTab === 2 && clusterDetail.clusterObj.sds_name ==='gluster'"></cluster-file-share-list>
-        <cluster-pool-list ng-if="clusterDetail.activeTab === 2 && clusterDetail.clusterObj.sds_name !=='gluster'"></cluster-pool-list>
-        <cluster-rbd-list ng-if="clusterDetail.activeTab === 3 && clusterDetail.clusterObj.sds_name !=='gluster'"></cluster-rbd-list>
+        <div ng-if="clusterDetail.isDataLoading" class="spinner spinner-lg"></div>
+        <div ng-if="!clusterDetail.isDataLoading">
+            <div ng-if="clusterDetail.activeTab === 1 && clusterDetail.clusterObj.sds_name ==='gluster'">
+                <gluster-dashboard  show-cluster-data="false" gluster-cluster="clusterDetail.clusterData" chart-data="clusterDetail.chartData" volume-overview="clusterDetail.volOverviewData" brick-overview="clusterDetail.brickOverviewData" alerts="clusterDetail.alerts" show-system-performance="true"></gluster-dashboard>
+            </div>
+            <div ng-if="clusterDetail.activeTab === 1 && clusterDetail.clusterObj.sds_name !=='gluster'">
+                <ceph-dashboard  show-cluster-data="false" ceph-cluster="clusterDetail.cephCluster" chart-data="clusterDetail.cephChartData" show-system-performance="true"></ceph-dashboard>
+            </div>
+
+        </div>
+
+        <cluster-host-list ng-show="clusterDetail.activeTab === 2"></cluster-host-list>
+        <cluster-file-share-list ng-if="clusterDetail.activeTab === 3 && clusterDetail.clusterObj.sds_name ==='gluster'"></cluster-file-share-list>
+        <cluster-pool-list ng-show="clusterDetail.activeTab === 3 && clusterDetail.clusterObj.sds_name !=='gluster'"></cluster-pool-list>
+        <cluster-rbd-list ng-show="clusterDetail.activeTab === 4 && clusterDetail.clusterObj.sds_name !=='gluster'"></cluster-rbd-list>
     </div>
 
 </div>
