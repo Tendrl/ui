@@ -16,7 +16,7 @@
             deferred = $q.defer();
             utils.getAlertList()
                 .then(function(data) {
-                    list = _formatAlertData(data);
+                    list = data ? _formatAlertData(data) : [];
                     deferred.resolve(list);
                 });
 
@@ -43,6 +43,7 @@
                     temp.desc = data[i].tags.message;
                     temp.clusterId = data[i].tags.cluster_id ? data[i].tags.cluster_id : "";
                     temp.clusterName = data[i].tags.cluster_name ? data[i].tags.cluster_name : "";
+                    temp.sdsName = data[i].tags.sds_name ? data[i].tags.sds_name : "";
                     res.push(temp);
                 }
                 return res;
@@ -56,7 +57,7 @@
             deferred = $q.defer();
             utils.getNotificationList()
                 .then(function(data) {
-                    list = _formatNotificationData(data);
+                    list = data ? _formatNotificationData(data) : [];
                     deferred.resolve(list);
                 });
 

@@ -1,90 +1,78 @@
-<full-aggregate-status-card ng-show="vm.showClusterData" status="vm.clusterStatus" show-top-border="true"></full-aggregate-status-card>
-
-<div class="col-md-12 remove-padding-left">
-
-<div class="col-md-4 bg-white" pf-utilization-trend-chart config="vm.rawStorageUtilizationConfig"
-    chart-data="vm.rawStorageUtilizationData" center-label="vm.rawStorageUtilizationCenterLabel"
-    donut-config="vm.rawStorageUtilizationDonutConfig" sparkline-config="vm.rawStorageUtilizationSparklineConfig"
-    sparkline-chart-height="vm.rawStorageUtilizationCustChartHeight">
-</div>
-
-<div class="col-md-4 status-card-adjustment" pf-aggregate-status-card status="vm.hostStatus"></div>
-
-<div class="col-xs-6 col-sm-4 col-md-4 bg-white">
-    <div class="card-pf card-pf-aggregate-status status-card-left">
-        <h2 class="card-pf-title status-card-hr">
-            <span>Alerts</span>
-        </h2>
-        <center ng-show="!vm.alerts.length">
-            <div class="blank-slate-pf">
-                <div class="blank-slate-pf-icon">
-                    <i class="pficon pficon-info"></i>
-                </div>
-                <h2>No Alerts found.</h2>
+<div class="tendrl-dashboard-gluster-view-container">
+    <full-aggregate-status-card ng-show="vm.showClusterData" status="vm.clusterStatus" show-top-border="true"></full-aggregate-status-card>
+    <div class="col-md-12 remove-padding push-top">
+        <div class="col-md-8 remove-padding">
+            <div class="col-md-6 card-bg" ng-class="{'blue-top-border': !vm.showClusterData}">
+                <div pf-utilization-trend-chart config="vm.rawStorageUtilizationConfig" chart-data="vm.rawStorageUtilizationData" center-label="vm.rawStorageUtilizationCenterLabel" donut-config="vm.rawStorageUtilizationDonutConfig" sparkline-config="vm.rawStorageUtilizationSparklineConfig" sparkline-chart-height="vm.rawStorageUtilizationCustChartHeight"></div>
             </div>
-        </center>
-        <div class="card-pf-body div-with-scroll" ng-show="vm.alerts.length">
-            <div class="alert-summary" >
-            <div class="row remove-right-margin" ng-repeat="alert in vm.alerts">
-                    <div class="col-md-1"></div>
-                    <div class="col-md-1">
-                        <i ng-class="{'pficon pficon-error-circle-o': (alert.severity === 'error'), 'pficon pficon-info': (alert.severity === 'info'), 'pficon pficon-warning-triangle-o': (alert.severity === 'warning')}"></i>
-                    </div>
-                    <div class="col-md-1">
-                        {{alert.severity | capitalize}}
-                    </div>
-                    <div class="col-md-5 text-left ellipsis" title="{{alert.desc}}">
-                        <div>{{alert.desc || "NA"}}</div>
-                    </div>
-                    <div class="col-md-4 text-left">
-                        <p>{{alert.timeStamp| date: 'dd MMM yyyy HH:mm:ss'}}</p>
+            <div class="col-md-6 status-card-adjustment padding-right" pf-aggregate-status-card status="vm.hostStatus" show-top-border="{{!vm.showClusterData}}"></div>
+            <div class="col-md-6 status-card-adjustment padding-right" pf-aggregate-status-card status="vm.clientStatus"></div>
+        </div>
+        <div class="col-xs-12 col-sm-12 col-md-4">
+            <div class="bg-white">
+                <div class="card-pf card-pf-aggregate-status status-card-left" ng-class="{'card-pf-accented': !vm.showClusterData}">
+                    <h2 class="card-pf-title status-card-hr">
+                        <span>Alerts</span>
+                    </h2>
+                    <center class="div-with-scroll" ng-show="!vm.alerts.length">
+                        <div class="blank-slate-pf">
+                            <div class="blank-slate-pf-icon">
+                                <i class="pficon pficon-info"></i>
+                            </div>
+                            <h2>No Alerts found.</h2>
+                        </div>
+                    </center>
+                    <div class="card-pf-body div-with-scroll" ng-show="vm.alerts.length">
+                        <div class="alert-summary">
+                            <div class="row remove-right-margin" ng-repeat="alert in vm.alerts">
+                                <div class="col-md-1"></div>
+                                <div class="col-md-1">
+                                    <i ng-class="{'pficon pficon-error-circle-o': (alert.severity === 'error'), 'pficon pficon-info': (alert.severity === 'info'), 'pficon pficon-warning-triangle-o': (alert.severity === 'warning')}"></i>
+                                </div>
+                                <div class="col-md-1">
+                                    {{alert.severity | capitalize}}
+                                </div>
+                                <div class="col-md-5 text-left ellipsis" uib-tooltip-html="'{{alert.desc}}'">
+                                    <div>{{alert.desc || "NA"}}</div>
+                                </div>
+                                <div class="col-md-4 text-left">
+                                    <p>{{alert.timeStamp| date: 'dd MMM yyyy HH:mm:ss'}}</p>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
-</div>
-
-<div class="row">
-    <div class="col-md-6">
-        <!-- utilization bar chart component -->
-        <bar-chart ng-if="vm.fileShareChartData.length" chart-title-data="vm.fileshareChartTitleData" chart-data="vm.fileShareChartData"></bar-chart>
-    </div>
-    <div class="col-md-6">
-        <bar-chart ng-if="vm.rbdBarChartData.length" chart-title-data="vm.rbdBarChartTitleData" chart-data="vm.rbdBarChartData"></bar-chart>
-    </div>
-</div>
-
-<!-- <div class="container-cards-pf">
     <div class="row">
-        <div class="col-xs-6">
+        <div class="col-md-6 padding-right">
+            <!-- utilization bar chart component -->
+            <bar-chart chart-title-data="vm.fileshareChartTitleData" chart-data="vm.fileShareChartData"></bar-chart>
+        </div>
+        <div class="col-md-6 extra-padding">
+            <bar-chart chart-title-data="vm.bricksTitleData" chart-data="vm.bricksChartData"></bar-chart>
+        </div>
+    </div>
+    <div class="row reduce-padding">
+        <div class="col-md-6" ng-if="vm.showSystemPerformance">
             <div class="card-pf card-pf-utilization">
-                <h2 class="card-pf-title">{{dashboardCntrl.heatmapTitle}}</h2>
+                <h2 class="card-pf-title">{{vm.heatmapTitle}}</h2>
                 <div class="card-pf-body">
                     <div class="row">
-                        <div ng-if="dashboardCntrl.heatMapdataAvailable === false">
-                            <div class="col-xs-12 col-sm-6 col-md-6" ng-if="dashboardCntrl.heatMapdataAvailable === false">
-                                <div pf-heatmap id="id" chart-title="CPU" data="data" chart-data-available="false" show-legend="false"></div>
-                            </div>
-                            <div class="col-xs-12 col-sm-6 col-md-6">
-                                <div pf-heatmap id="id" chart-title="Storage" data="data" chart-data-available="false" show-legend="false"></div>
-                            </div>
-                        </div>
-                        <div class="col-xs-12 col-sm-6 col-md-6" ng-repeat="mapData in dashboardCntrl.heatMapData">
-                            <div pf-heatmap id="dashboardCntrl.id" chart-title="mapData.title" data="mapData.data" chart-data-available="dashboardCntrl.heatMapdataAvailable" show-legend="dashboardCntrl.showLegends" legend-labels="dashboardCntrl.legendLabels" max-block-size="40" block-padding="2" heatmap-color-pattern="dashboardCntrl.heatmapColorPattern" thresholds="dashboardCntrl.thresholds">
+                        <div class="col-xs-12 col-sm-6 col-md-6" ng-repeat="mapData in vm.heatMapData">
+                            <div pf-heatmap id="vm.id" chart-title="mapData.title" data="mapData.data" chart-data-available="vm.heatMapdataAvailable" show-legend="vm.showLegends" legend-labels="vm.legendLabels" max-block-size="40" block-padding="2" heatmap-color-pattern="vm.heatmapColorPattern" thresholds="vm.thresholds">
                             </div>
                         </div>
                     </div>
                 </div>
-                <div ng-if="dashboardCntrl.systemPerformanceLegends === true;" pf-heatmap-legend dashboardCntrl.legend="legendLabels" dashboardCntrl.legend-colors="heatmapColorPattern">
+                <div ng-show="vm.systemPerformanceLegends;" pf-heatmap-legend legend="vm.legendLabels" legend-colors="vm.heatmapColorPattern">
                 </div>
             </div>
         </div>
     </div>
-</div>
-
-<div pf-card head-title="Performance" show-top-border="false" show-titles-separator="false" style="width: 25%">
+    <!-- <div pf-card head-title="Performance" show-top-border="false" show-titles-separator="false" style="width: 25%">
     <trends-chart config="dashboardCntrl.configVirtual" chart-data="dashboardCntrl.chartData"></trends-chart>
     <trends-chart config="dashboardCntrl.configPhysical" chart-data="dashboardCntrl.chartData" show-top-border="true"></trends-chart>
 </div> -->
+</div>

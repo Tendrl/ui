@@ -82,8 +82,8 @@
                   <i class="fa fa-angle-right" aria-hidden="true"></i>
                 </div> -->
                 <div class="list-view-pf-left col-md-1">
-                    <span title="{{fileShare.status}}" ng-if="fileShare.status !=='Stopped'" class="pficon pficon-ok list-view-pf-icon-success"></span>
-                    <span title="{{fileShare.status}}" ng-if="fileShare.status ==='Stopped'" class="fa fa-arrow-circle-o-down list-view-icon-failure"></span>
+                    <span uib-tooltip-html="'{{fileShare.status}}'" ng-if="fileShare.status !=='Stopped'" class="pficon pficon-ok list-view-pf-icon-success"></span>
+                    <span uib-tooltip-html="'{{fileShare.status}}'" ng-if="fileShare.status ==='Stopped'" class="fa fa-arrow-circle-o-down list-view-icon-failure"></span>
                 </div>
                 <div class="list-view-pf-left col-md-2">
                     <h5>
@@ -103,7 +103,7 @@
                 <div  class="col-md-2">
                     <div class="list-view-pf-additional-info-item list-view-pf-additional-info-item-stacked">
                         <b>  Cluster  </b>
-                        <h5 class="capitalize cluster-name col-md-12" title="{{fileShare.cluster_name}}">
+                        <h5 class="capitalize cluster-name col-md-12" uib-tooltip-html="'{{fileShare.cluster_name}}'">
                             {{fileShare.cluster_name}}
                         </h5>
                     </div>

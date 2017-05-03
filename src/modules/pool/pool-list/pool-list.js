@@ -14,7 +14,7 @@
             pool,
             list,
             i,
-            timer,
+            poolListTimer,
             clusterObj,
             powValue = 7;
 
@@ -53,21 +53,20 @@
 
         function startTimer() {
 
-            timer = $interval(function() {
-
-                utils.getObjectList("Cluster")
-                    .then(function(data) {
-                        $interval.cancel(timer);
-                        $rootScope.clusterData = data;
-                        init();
-                    });
+            poolListTimer = $interval(function() {
+                    utils.getObjectList("Cluster")
+                        .then(function(data) {
+                            $interval.cancel(poolListTimer);
+                            $rootScope.clusterData = data;
+                            init();
+                        });
 
             }, 1000 * config.refreshIntervalTime, 1);
         }
 
         /*Cancelling interval when scope is destroy*/
         $scope.$on("$destroy", function() {
-            $interval.cancel(timer);
+            $interval.cancel(poolListTimer);
         });
 
 
