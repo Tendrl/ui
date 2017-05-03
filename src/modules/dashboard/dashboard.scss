@@ -1,67 +1,10 @@
 .tendrl-dashboard-view-container {
-	.bg-white {
-		background-color: $color-white;
-	}
-	.status-card-left{
-		text-align: left;
-	}
-	.status-card-hr{
-		border-bottom: 1px solid #d1d1d1;
-		padding: 0 5px 15px 0;
-	}
-    .alert-summary {
-    border: 1px solid $color-white-smoke;
-    .row {
-        padding: 10px 0;
-        &:nth-of-type(2n) {
-            background-color: $color-white-smoke;
-        	}
-   		}
-	}
-	.alert-summary:nth-of-type(2n) {
-	    background-color: red;
-	}
-
-	.div-with-scroll {
-	    max-height: 275px;
-	    overflow: scroll;
-	    overflow-x: hidden;
-	}
-
-	.pointer{
+	.pointer {
 		cursor: pointer;
 	}
 
-	.remove-right-margin{
-		margin-right: 0;
-	}
-
-	.remove-padding-left{
-		padding-left: 0px;
-		padding-right: 0px;
-	}
-
-	.status-card-adjustment .card-pf-aggregate-status .card-pf-body {
-	    margin-top: 29px;
-	    padding-bottom: 31px;
-	}
-
-	.status-card-adjustment .card-pf-aggregate-status .card-pf-title {
-	    font-size: 14px;
-	    margin: 38px 0 0;
-	}
-
-	.status-card-adjustment .card-pf-aggregate-status .card-pf-title .card-pf-aggregate-status-count {
-		font-size: 20px;
-	}
-	.status-card-adjustment .card-pf-aggregate-status .card-pf-title .card-pf-aggregate-status-title {
-		font-size: 18px;
-	}
-
-	.status-card-adjustment .card-pf-aggregate-status .card-pf-body .pficon {
-		font-size: 24px;
-	}
-	.blank-slate-pf {
-    	padding: 73px 120px;
+    .dashboard-nav > li.active > a, .dashboard-nav > li.active > a:focus {
+        background-color: $color-light-grey;
+        cursor: pointer;
     }
 }

@@ -1,27 +1,22 @@
-(function() {
+ (function() {
   "use strict";
 
   var app = angular.module("TendrlModule");
 
-  app.controller("glusterDashboardController", glusterDashboardController);
+  app.controller("cephDashboardController", cephDashboardController);
 
-  app.component("glusterDashboard", {
+  app.component("cephDashboard", {
     bindings: {
-      glusterCluster: "<",
+      cephCluster: "<",
       chartData: "=?",
-      alerts: "=?",
-      volumeOverview: "=?",
-      brickOverview: "=?",
       showClusterData: "=?",
-      showPerformanceData: "=?",
-      showHeatMapData: "=?",
     },
-    controller: "glusterDashboardController",
+    controller: "cephDashboardController",
     controllerAs: "vm",
-    templateUrl: "/commons/components/gluster-dashboard/gluster-dashboard.html"
+    templateUrl: "/commons/components/ceph-dashboard/ceph-dashboard.html"
   });
 
-  function glusterDashboardController($scope, $rootScope, utils){
+  function cephDashboardController($scope, $rootScope, dashboardStore){
     var vm = this,
     i,
     rawStorageUtilizationXData = ["percent"],
@@ -29,15 +24,16 @@
 
     vm.$onChanges = function(changesObj){
         if(vm.showClusterData){
-            clusterData(vm.glusterCluster);
+            clusterData(vm.cephCluster);
         }
-        clusterHost(vm.glusterCluster);
-        clusterClients(vm.glusterCluster);
-        vm.fileshareChartTitleData = fileshareChartTitleData(vm.volumeOverview);
-        vm.fileShareChartData = fileShareChartData();
-        vm.bricksTitleData = bricksTitleData(vm.brickOverview);
-        vm.bricksChartData = bricksChartData();
-        rawStorageUtilization(vm.glusterCluster);
+        clusterHost(vm.cephCluster);
+        clusterMon();
+        clusterOsd();
+        vm.poolBarChartTitleData = poolChartTitleData();
+        vm.poolBarChartData = poolBarChartData();
+        vm.rbdBarChartTitleData = rbdChartTitleData();
+        vm.rbdBarChartData = rbdBarChartData();
+        rawStorageUtilization(vm.cephCluster);
     };
 
     function clusterData(clusterData){
@@ -114,21 +110,56 @@
         }
     }
 
-    function clusterClients(clusterData){
-        vm.clientStatus = {
-        "title":"Clients",
-        "count":  clusterData.sds_det.connection_active ? clusterData.sds_det.connection_active : 0,
+    function clusterMon(){
+	    var monData = vm.cephCluster.sds_det.mon_counts;
+	    vm.monStatus = {
+	    "title":"Monitors",
+	    "count": monData.total,
+	    "href":"#",
+	    "notifications":[
+	    ]};
+
+	    if(!monData.outside_quorum){
+	        vm.monStatus.notifications.push({
+	            "iconClass":"pficon pficon-ok"
+	        })
+	    } else {
+	        if(monData.outside_quorum){
+	            vm.monStatus.notifications.push({
+	                "iconClass":"pficon pficon-flag",
+	                "count": (monData.outside_quorum ? monData.outside_quorum : 0)
+	            })
+	        }
+	    }
+	}
+
+	function clusterOsd(){
+        var osdData = vm.cephCluster.sds_det.osd_counts;
+        vm.osdStatus = {
+        "title":"OSDs",
+        "count": osdData.total,
+        "href":"#",
         "notifications":[
-            {
-                "iconClass":"pficon pficon-ok"
-            }
         ]};
+
+        if(!osdData.down){
+            vm.osdStatus.notifications.push({
+                "iconClass":"pficon pficon-ok"
+            })
+        } else {
+            if(osdData.down){
+                vm.osdStatus.notifications.push({
+                    "iconClass":"fa fa-arrow-circle-o-down",
+                    "count": (osdData.down ? osdData.down : 0)
+                })
+            }
+        }
     }
 
     function rawStorageUtilization(clusterData){
         var checkTime
         if(rawStorageUtilizationXData.length > 2){
-            checkTime = convertTime(vm.chartData[vm.chartData.length - 1][1]) > rawStorageUtilizationXData[rawStorageUtilizationXData.length -1];
+            checkTime = dashboardStore.convertTime(vm.chartData[vm.chartData.length - 1][1]) > rawStorageUtilizationXData[rawStorageUtilizationXData.length -1];
             if(checkTime){
                 rawStorageUtilizationYData.splice(1, 1);
                 rawStorageUtilizationXData.splice(1, 1);
@@ -150,9 +181,8 @@
             'units': "GB"
         };
 
-        
         for(var i = rawStorageUtilizationXData.length - 1; i < vm.chartData.length; i++){
-            rawStorageUtilizationXData.push(convertTime(vm.chartData[i][1]));
+            rawStorageUtilizationXData.push(dashboardStore.convertTime(vm.chartData[i][1]));
             rawStorageUtilizationYData.push(vm.chartData[i][0].toFixed(2));
         }
 
@@ -171,80 +201,59 @@
         vm.rawStorageUtilizationCenterLabel = "percent";
     }
 
-    function convertTime(epocTime){
-        var utcSeconds = epocTime,
-        d = new Date(0);
-        d.setUTCSeconds(utcSeconds);
-        return d;
-    }
-
-    function fileshareChartTitleData(volumeOverview){
-        var volData = volumeOverview;
+    function poolChartTitleData(){
         return {
-          "title": volData.total === 1 ? "File Share" : "File Shares",
+          "title": vm.cephCluster.sds_det.most_used_pools.length === 1 ? "Pool" : "Pools",
           "data": {
-              "total" : volData.total,
-              "error" : volData.critical_alerts,
-              "warning" : volData.warning_alerts
+              "total" : vm.cephCluster.sds_det.most_used_pools.length,
+              "error" : 0,
+              "warning" : 0
             }
         }
     }
 
-    function fileShareChartData(){
-        var mostUsedFileShare = [],
-        fileShareList = vm.glusterCluster.sds_det.most_used_volumes,
-        fileShareData,
-        i;
-        for(i = 0; i < fileShareList.length; i++){
-            fileShareData = {
-              "title" :  fileShareList[i].name,
+    function rbdChartTitleData(){
+        return {
+          "title": vm.cephCluster.sds_det.most_used_rbds.length === 1 ? "RBD" : "RBDs",
+          "data": {
+              "total" : vm.cephCluster.sds_det.most_used_rbds.length,
+              "error" : 0,
+              "warning" : 0
+            }
+        }
+    }
+
+    function poolBarChartData(){
+        var mostUsedPools = [],
+        poolList = vm.cephCluster.sds_det.most_used_pools;
+        for(var i = 0; i < poolList.length; i++){
+            var poolData = {
+              "title" : poolList[i].cluster_name + " : " + poolList[i].pool_name,
               "data" : {
-                  "used": fileShareList[i].used_capacity,
-                  "total": fileShareList[i].usable_capacity
+                  "used": poolList[i].percent_used,
+                  "total": "100"
                 }
             }
-            mostUsedFileShare.push(fileShareData);
+            mostUsedPools.push(poolData);
         }
-        return mostUsedFileShare;
+        return mostUsedPools;
     }
 
-    function bricksTitleData(brickOverview){
-        var brickData = brickOverview;
-        return {
-          "title": brickOverview.total === 1 ? "Brick" : "Bricks",
-          "data": {
-              "total" : brickData.total,
-              "error" : brickData.critical_alerts,
-              "warning" : brickData.warning_alerts
-            }
-        }
-    }
-
-    function bricksChartData(){
-        var mostUsedBricks = [],
-            bricksList,
-            brickData,
-            bricksListLen,
-            i,
-            used,
-            total;
-        if(vm.glusterCluster.sds_det.most_used_bricks){
-            bricksList = vm.glusterCluster.sds_det.most_used_bricks;
-            bricksListLen = bricksList.length;
-            for(i = 0; i < bricksListLen; i++){
-                used = utils.convertToBytes(bricksList[i].used,"GB");
-                total = utils.convertToBytes(bricksList[i].total,"GB");
-                brickData = {
-                  "title" :  bricksList[i].brick_path,
-                  "data" : {
-                      "used": used,
-                      "total": total
-                    }
+    function rbdBarChartData(){
+        var mostUsedRbds = [],
+        rbdsList = vm.cephCluster.sds_det.most_used_rbds,
+        rbdsListLen = rbdsList.length;
+        for(var i = 0; i < rbdsListLen; i++){
+            var rbdData = {
+              "title" : rbdsList[i].cluster_name + " : " + rbdsList[i].name,
+              "data" : {
+                  "used": rbdsList[i].used,
+                  "total": rbdsList[i].provisioned
                 }
-                mostUsedBricks.push(brickData);
             }
+            mostUsedRbds.push(rbdData);
         }
-        return mostUsedBricks;
+        return mostUsedRbds;
     }
   }
 }());

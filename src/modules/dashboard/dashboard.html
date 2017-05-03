@@ -1,83 +1,26 @@
 <div ng-if="clusterData === null && !isAPINotFoundError" class="spinner spinner-lg"></div>
 <div ng-if="clusterData !== null" class="tendrl-dashboard-view-container">
 
-    <ul class="nav nav-tabs">
-        <li ng-class="{active: (dashboardCntrl.clusterType === 'ceph')}" class="pointer">
-            <a ng-click="dashboardCntrl.changeType('ceph')">Ceph</a>
+    <ul class="nav nav-tabs dashboard-nav">
+        <li ng-class="{active: (dashboardCntrl.clusterType === 'ceph')}">
+            <a class="pointer" ng-click="dashboardCntrl.changeType('ceph')">Ceph</a>
         </li>
-        <li ng-class="{active: (dashboardCntrl.clusterType === 'gluster')}" class="pointer">
-            <a ng-click="dashboardCntrl.changeType('gluster')">Gluster</a>
+        <li ng-class="{active: (dashboardCntrl.clusterType === 'gluster')}">
+            <a class="pointer" ng-click="dashboardCntrl.changeType('gluster')">Gluster</a>
         </li>
     </ul>
 
     <!-- Ceph Dashboard-->
     <div ng-if="dashboardCntrl.isDataLoading" class="spinner spinner-lg"></div>
     <div ng-if="dashboardCntrl.clusterType === 'ceph' && !dashboardCntrl.isDataLoading">
-        <full-aggregate-status-card status="dashboardCntrl.clusterStatus" show-top-border="true"></full-aggregate-status-card>
-
-        <div class="col-md-12 remove-padding-left">
-            <div class="col-md-4 bg-white" pf-utilization-trend-chart config="dashboardCntrl.rawStorageUtilizationConfig"
-            chart-data="dashboardCntrl.rawStorageUtilizationData" center-label="dashboardCntrl.rawStorageUtilizationCenterLabel"
-            donut-config="dashboardCntrl.rawStorageUtilizationDonutConfig" sparkline-config="dashboardCntrl.rawStorageUtilizationSparklineConfig"
-            sparkline-chart-height="dashboardCntrl.rawStorageUtilizationCustChartHeight">
-        </div>
-        <div class="col-md-4 status-card-adjustment" pf-aggregate-status-card status="dashboardCntrl.hostStatus"></div>
-        <div class="col-md-4 status-card-adjustment" pf-aggregate-status-card status="dashboardCntrl.monStatus"></div>
-        <div class="col-md-8 status-card-adjustment" pf-aggregate-status-card status="dashboardCntrl.osdStatus"></div>
-        <!-- <div class="col-md-4" pf-aggregate-status-card status="dashboardCntrl.osdStatus"></div> -->
-    </div   >
-
-    <div class="row">
-        <div class="col-md-6">
-            <!-- utilization bar chart component -->
-            <bar-chart ng-if="dashboardCntrl.poolBarChartData.length" chart-title-data="dashboardCntrl.poolBarChartTitleData" chart-data="dashboardCntrl.poolBarChartData"></bar-chart>
-        </div>
-        <div class="col-md-6">
-            <!-- horizontal bar chart -->
-            <bar-chart ng-if="dashboardCntrl.rbdBarChartData.length" chart-title-data="dashboardCntrl.rbdBarChartTitleData" chart-data="dashboardCntrl.rbdBarChartData"></bar-chart>
-        </div>
-    </div>
-</div>
-
-<!-- Gluster Dashboard-->
-<div ng-if="dashboardCntrl.isDataLoading" class="spinner spinner-lg"></div>
-<div ng-if="!dashboardCntrl.isDataLoading && dashboardCntrl.clusterType === 'gluster'">
-
-    <gluster-dashboard show-cluster-data="true" gluster-cluster="dashboardCntrl.glusterCluster" chart-data="dashboardCntrl.chartData" alerts="dashboardCntrl.alerts"></gluster-dashboard>
-    
-</div>
-
-<!--     <div class="container-cards-pf">
-        <div class="row">
-            <div class="col-xs-6">
-                <div class="card-pf card-pf-utilization">
-                    <h2 class="card-pf-title">{{dashboardCntrl.heatmapTitle}}</h2>
-                    <div class="card-pf-body">
-                        <div class="row">
-                            <div ng-if="dashboardCntrl.heatMapdataAvailable === false">
-                                <div class="col-xs-12 col-sm-6 col-md-6" ng-if="dashboardCntrl.heatMapdataAvailable === false">
-                                    <div pf-heatmap id="id" chart-title="CPU" data="data" chart-data-available="false" show-legend="false"></div>
-                                </div>
-                                <div class="col-xs-12 col-sm-6 col-md-6">
-                                    <div pf-heatmap id="id" chart-title="Storage" data="data" chart-data-available="false" show-legend="false"></div>
-                                </div>
-                            </div>
-                            <div class="col-xs-12 col-sm-6 col-md-6" ng-repeat="mapData in dashboardCntrl.heatMapData">
-                                <div pf-heatmap id="dashboardCntrl.id" chart-title="mapData.title" data="mapData.data" chart-data-available="dashboardCntrl.heatMapdataAvailable" show-legend="dashboardCntrl.showLegends" legend-labels="dashboardCntrl.legendLabels" max-block-size="40" block-padding="2" heatmap-color-pattern="dashboardCntrl.heatmapColorPattern" thresholds="dashboardCntrl.thresholds">
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div ng-if="dashboardCntrl.systemPerformanceLegends === true;" pf-heatmap-legend dashboardCntrl.legend="legendLabels" dashboardCntrl.legend-colors="heatmapColorPattern">
-                    </div>
-                </div>
-            </div>
-        </div>
+        <ceph-dashboard show-cluster-data="true" ceph-cluster="dashboardCntrl.cephCluster" chart-data="dashboardCntrl.chartData"></ceph-dashboard>
     </div>
 
-    <div pf-card head-title="Performance" show-top-border="false" show-titles-separator="false" style="width: 25%">
-        <trends-chart config="dashboardCntrl.configVirtual" chart-data="dashboardCntrl.chartData"></trends-chart>
-        <trends-chart config="dashboardCntrl.configPhysical" chart-data="dashboardCntrl.chartData" show-top-border="true"></trends-chart>
+    <!-- Gluster Dashboard-->
+    <div ng-if="dashboardCntrl.isDataLoading" class="spinner spinner-lg"></div>
+    <div ng-if="!dashboardCntrl.isDataLoading && dashboardCntrl.clusterType === 'gluster'">
+
+        <gluster-dashboard show-cluster-data="true" gluster-cluster="dashboardCntrl.glusterCluster" chart-data="dashboardCntrl.chartData"volume-overview="dashboardCntrl.volOverviewData" brick-overview="dashboardCntrl.brickOverviewData" alerts="dashboardCntrl.alerts"></gluster-dashboard>
+
     </div>
--->
 </div>

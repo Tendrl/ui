@@ -26,6 +26,10 @@
 @import "../../modules/base/navigation/navigation.scss";
 @import "../../modules/alerts/alerts.scss";
 @import "../../modules/dashboard/dashboard.scss";
+@import "../../commons/components/gluster-dashboard/gluster-dashboard.scss";
+@import "../../commons/components/ceph-dashboard/ceph-dashboard.scss";
+@import "../../modules/cluster/cluster-detail/cluster-detail.scss";
+@import "../../commons/components/bar-chart/bar-chart.scss";
     
 .tendrl-app {
 

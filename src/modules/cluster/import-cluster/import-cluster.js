@@ -79,7 +79,6 @@
                 }
             }
             return { hosts: associatedHosts, sds_type: sds_type };
-
         }
 
         function getRole(tagsList){
@@ -128,8 +127,6 @@
                 $state.go("cluster");
             }
         }
-
-
     }
 
 })();

@@ -14,7 +14,7 @@
             temp = [],
             clusterData,
             cluster,
-            timer,
+            clusterListTimer,
             hostList,
             i;
 
@@ -52,11 +52,11 @@
 
         function startTimer() {
             
-            timer = $interval(function() {
+            clusterListTimer = $interval(function() {
 
                 utils.getObjectList("Cluster")
                 .then(function(data) {
-                    $interval.cancel(timer);
+                    $interval.cancel(clusterListTimer);
                     $rootScope.clusterData = data;
                     init();
                     startTimer();
@@ -67,7 +67,7 @@
 
         /*Cancelling interval when scope is destroy*/
         $scope.$on("$destroy", function() {
-            $interval.cancel(timer);
+            $interval.cancel(clusterListTimer);
         });
 
         function importCluster() {

@@ -1,4 +1,4 @@
-<div class="container-fluid container-cards-pf">
+<div class="container-fluid bar-chart-component">
 	<div class="row row-cards-pf">
 		<div class="card-pf">
 			<div class="card-pf-heading">
@@ -30,11 +30,29 @@
 								</span>
 							</a>
 						</span>
-				    </p>
+					</p>
 				</h2>
 			</div>
 			<div class="card-pf-body" ng-if="!vm.isHorizontalBarChartShow">
-				<div ng-repeat="barData in vm.dataArray" pf-utilization-bar-chart chart-data="barData.data"  chart-title="barData.title" chart-footer="barData.footer" threshold-warning="vm.chartThresholds.warning" threshold-error="vm.chartThresholds.error">
+				<ul class="nav nav-tabs nav-tabs-pf" ng-init="vm.barChartStep = 1">
+					<li ng-class="{active: (vm.barChartStep === 1)}"><a ng-click="vm.barChartStep = 1">Most Used</a></li>
+				</ul>
+				<div class="push-top">
+					<div ng-show="vm.barChartStep === 1">
+						<div ng-show="vm.chartData.length">
+							<div ng-repeat="barData in vm.dataArray" pf-utilization-bar-chart chart-data="barData.data"  chart-title="barData.title" chart-footer="barData.footer" threshold-warning="vm.chartThresholds.warning" threshold-error="vm.chartThresholds.error"></div>
+						</div>
+						<div ng-show="!vm.chartData.length">
+							<center>
+								<div class="blank-slate-pf">
+									<div class="blank-slate-pf-icon">
+										<i class="pficon pficon-info"></i>
+									</div>
+									<h2>No {{vm.chartTitleData.title}} found.</h2>
+								</div>
+							</center>
+						</div>
+					</div>
 				</div>
 			</div>
 			<div id="horizontal-bar-chart"></div>
