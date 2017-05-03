@@ -505,6 +505,30 @@
                 });
         };
 
+        vm.getClusterDashboardList = function(clusterId, utilization) {
+            var url, getClusterDashboardListRequest, request;
+
+                if(utilization) {
+                    url = config.baseUrl + "monitoring/cluster/" + clusterId + "/utilization";
+                } else {
+                    url = config.baseUrl + "monitoring/cluster/" + clusterId;
+                }
+
+                getClusterDashboardListRequest = {
+                    method: "GET",
+                    url: url
+                };
+
+                request = angular.copy(getClusterDashboardListRequest);
+                return $http(request).then(function (response) {
+                    return response.data;
+                }, function(e) {
+                    checkErrorCode(e);
+                    console.log("Error Occurred: while fetching getClusterDashboardList");
+                    return null;
+                });
+        };
+
     };
     
 })();
