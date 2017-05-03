@@ -63,14 +63,14 @@
                                         <tbody>
                                             <tr ng-repeat="brick in fileShareCntrl.filteredBrickList=(fileShareCntrl.brickList | filter: fileShareCntrl.searchByInModal)">
                                                 <td>
-                                                    <span title="{{brick.status}}" ng-if="brick.status ==='Started'" class="pficon pficon-ok list-view-pf-icon-success"></span>
-                                                    <span title="{{brick.status}}" ng-if="brick.status !=='Started'" class="fa fa-arrow-circle-o-down list-view-icon-failure"></span>
+                                                    <span uib-tooltip-html="'{{brick.status}}'" ng-if="brick.status ==='Started'" class="pficon pficon-ok list-view-pf-icon-success"></span>
+                                                    <span uib-tooltip-html="'{{brick.status}}'" ng-if="brick.status !=='Started'" class="fa fa-arrow-circle-o-down list-view-icon-failure"></span>
                                                     <span>{{brick.name}}</span>
                                                 </td>
                                                 <td>
                                                     <div class="progress-bar-height" ng-if="brick.usage !== 'NA'">
                                                         <div class="progress">
-                                                            <div class="progress-bar" role="progressbar" aria-valuenow="{{brick.usage}}" aria-valuemin="0" aria-valuemax="100" ng-style="{ width: brick.usage + '%' }" data-toggle="tooltip" title="{{brick.usage}}% Used">
+                                                            <div class="progress-bar" role="progressbar" aria-valuenow="{{brick.usage}}" aria-valuemin="0" aria-valuemax="100" ng-style="{ width: brick.usage + '%' }" data-toggle="tooltip" uib-tooltip-html="'{{brick.usage}}% Used'">
                                                                 <span class="sr-only">{{brick.usage}}% Used</span>
                                                             </div>
                                                             <div class="progress-bar progress-bar-remaining" role="progressbar" aria-valuenow="100-{{brick.usage}}" aria-valuemin="0" aria-valuemax="100" ng-style="{ width: (100-brick.usage) + '%' }" data-toggle="tooltip" title="(100-{{brick.usage}} )% Available">

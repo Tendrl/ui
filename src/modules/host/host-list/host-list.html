@@ -77,10 +77,10 @@
         <div ng-if="!hostCntrl.isDataLoading" class="list-group list-view-pf list-view-pf-equalized-column" ng-repeat="host in hostCntrl.filteredHostList=(hostCntrl.hostList | filter: hostCntrl.searchBy | orderBy : hostCntrl.ascOrder + hostCntrl.orderBy)">
             <div class="list-group-item">
                 <div class="col-md-1" ng-class="{ 'list-view-pf-left': clusterId === undefined }">
-                    <span title="{{host.status}}" ng-if="host.status ==='UP'" class="pficon pficon-ok list-view-pf-icon-success status-icons"></span>
-                    <span title="{{host.status}}" ng-if="host.status !=='UP'" class="fa fa-arrow-circle-o-down list-view-icon-failure status-icons"></span>
+                    <span uib-tooltip-html="'{{host.status}}'" ng-if="host.status ==='UP'" class="pficon pficon-ok list-view-pf-icon-success status-icons"></span>
+                    <span uib-tooltip-html="'{{host.status}}'" ng-if="host.status !=='UP'" class="fa fa-arrow-circle-o-down list-view-icon-failure status-icons"></span>
                 </div>
-                <div class="col-md-1 host-name" title="{{host.name}}">
+                <div class="col-md-1 host-name" uib-tooltip-html="'{{host.name}}'">
                     {{host.name}}
                 </div>
                 <div  class="col-md-2">
@@ -95,7 +95,7 @@
                 <div class="col-md-1">
                     <div class="list-view-pf-additional-info-item list-view-pf-additional-info-item-stacked">
                         <b>Cluster</b>
-                        <h5 class="capitalize cluster-name col-md-12" title="{{host.cluster_name}}">
+                        <h5 class="capitalize cluster-name col-md-12" uib-tooltip-html="'{{host.cluster_name}}'">
                             {{host.cluster_name || "NA"}}
                         </h5>
                     </div>

@@ -61,12 +61,12 @@
     </center>
     <div class="list-group list-view-pf list-view-pf-equalized-column" ng-repeat="rbd in rbdCntrl.filteredRbdList = (rbdCntrl.rbdList | filter: rbdCntrl.searchBy | orderBy: rbdCntrl.ascOrder + rbdCntrl.orderBy)">
         <div class="list-group-item">
-            <div class="list-view-pf-left col-md-1 bold-text rbd-name" title="{{rbd.name}}">
+            <div class="list-view-pf-left col-md-1 bold-text rbd-name" uib-tooltip-html="'{{rbd.name}}'">
                 {{rbd.name}}
             </div>
             <div class="col-md-1 connector">in</div>
             <div class="col-md-2">
-                <h5 class="pull-left counts cluster-name bold-text" ng-click="rbdCntrl.goToClusterDetail(rbd.clusterId)" title="{{rbd.clusterName}}">{{rbd.clusterName}}</h5>
+                <h5 class="pull-left counts cluster-name bold-text" ng-click="rbdCntrl.goToClusterDetail(rbd.clusterId)" uib-tooltip-html="'{{rbd.clusterName}}'">{{rbd.clusterName}}</h5>
             </div>
             <div class="col-md-3">
                 <donut-chart id="storage-donut-chart{{$index}}" class="list-view-pf-additional-info-item" chart-data="rbd.utilization"></donut-chart>
