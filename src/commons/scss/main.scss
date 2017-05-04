@@ -63,6 +63,10 @@
     margin-bottom: 0px !important;
     }
 
+    select {
+      -webkit-appearance: none;
+      -webkit-border-radius: 0px;
+    }
 }
 
 .navbar-pf-vertical .navbar-brand {
