@@ -128,19 +128,19 @@
                         controllerAs: "clusterDetail"
                     })
                     .state("host", {
-                        url: "/host",
+                        url: "/hosts",
                         templateUrl: "/modules/host/host-list/host-list.html",
                         controller: "hostController",
                         controllerAs: "hostCntrl"
                     })
                     .state("file-share", {
-                        url: "/file-share",
+                        url: "/file-shares",
                         templateUrl: "/modules/file-share/file-share-list/file-share-list.html",
                         controller: "fileShareController",
                         controllerAs: "fileShareCntrl"
                     })
                     .state("pool", {
-                        url: "/pool",
+                        url: "/pools",
                         templateUrl: "/modules/pool/pool-list/pool-list.html",
                         controller: "poolController",
                         controllerAs: "poolCntrl"
@@ -150,7 +150,7 @@
                         templateUrl: "/modules/pool/create-pool/create-pool.html",
                     })
                     .state("rbd", {
-                        url: "/rbd",
+                        url: "/rbds",
                         templateUrl: "/modules/rbd/rbd-list/rbd-list.html",
                         controller: "rbdController",
                         controllerAs: "rbdCntrl"
