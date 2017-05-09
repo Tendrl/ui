@@ -14,23 +14,6 @@
         <div class="col-md-4">
             <h5>{{createCephClusterCntrl.selectedNWHost.length}} of {{createCephClusterCntrl.filteredList.length}} Hosts Selected</h5><a href ng-click="createCephClusterCntrl.selectNWHost(true)"> Select All</a> <a href ng-click="createCephClusterCntrl.selectNWHost(false)"> Deselect All</a>
         </div>
-        <div class="col-md-7">
-                <div class="row toolbar-pf filter-section pull-right">
-                    <div class="col-md-6 form-group">
-                        <p class="col-md-6">Cluster Network</p>
-                        <div class="col-md-5">
-                            <select data-ng-options="network for network in createCephClusterCntrl.clusterNetwork" ng-model="createCephClusterCntrl.selectedClusterNetwork" class="form-control network" ng-change="createCephClusterCntrl.createPublicNetwork()"></select>
-                        </div>
-                    </div>
-                    <div class="col-md-6 form-group">
-                        <p class="col-md-6">Public Network</p>
-                        <div class="col-md-5">
-                            <select data-ng-options="network for network in createCephClusterCntrl.publicNetwork" ng-model="createCephClusterCntrl.selectedPublicNetwork" class="form-control network" ng-change="createCephClusterCntrl.filterHostByPN()"></select>
-                        </div>
-                    </div>
-                </div>
-        </div>
-        <!-- /col -->
     </div>
     <!-- list all host -->
     <div class="container-fluid">
@@ -43,6 +26,24 @@
             </div>
         </center>
         <div ng-if="createCephClusterCntrl.isDataLoading" class=""></div>
+        <div class="list-group list-view-pf list-view-pf-equalized-column filter-section">
+            <div class="list-group-item">
+                <div class="col-md-1"></div>
+                <div class="col-md-3"></div>
+                <div class="col-md-4">
+                    <p class="col-md-5">Cluster Network</p>
+                    <div class="col-md-5 cn-dropdown">
+                        <select data-ng-options="network for network in createCephClusterCntrl.clusterNetwork" ng-model="createCephClusterCntrl.selectedClusterNetwork" class="form-control network" ng-change="createCephClusterCntrl.createPublicNetwork()"></select>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <p class="col-md-5">Public Network</p>
+                    <div class="col-md-5 pn-dropdown">
+                        <select data-ng-options="network for network in createCephClusterCntrl.publicNetwork" ng-model="createCephClusterCntrl.selectedPublicNetwork" class="form-control network" ng-change="createCephClusterCntrl.filterHostByPN()"></select>
+                    </div>
+                </div>
+            </div>
+        </div>
         <div ng-if="!createCephClusterCntrl.isDataLoading" class="list-group list-view-pf list-view-pf-equalized-column" ng-repeat="host in createCephClusterCntrl.filteredList">
             <div class="list-group-item">
                 <div class="col-md-1">
@@ -53,54 +54,28 @@
                         <div class="bold-text">{{host.fqdn || "NA"}}</div>
                     </div>
                 </div>
-                <div class="col-md-2" ng-repeat="if in host.ifIPMapping">
-                    <div class="list-view-pf-additional-info-item list-view-pf-additional-info-item-stacked">
+                <div class="col-md-4 eth-ip-mapping" ng-repeat="if in createCephClusterCntrl.getIfIpMapping(host.ifIPMapping, 'cn')">
+                    <div class="list-view-pf-additional-info-item list-view-pf-additional-info-item-stacked pull-left">
                         <div class="bold-text">{{if.if}}</div>
                         <div>{{if.ip}}</div>
                     </div>
                 </div>
-                <!-- <div class="col-md-2">
-                    <div class="list-view-pf-additional-info-item list-view-pf-additional-info-item-stacked">
-                        <div class="bold-text">IP Address</div>
-                        <span ng-repeat="ip in host.hostIP">{{ip}}
-                            <span ng-if="$index !== (host.hostIP.length-1)">,</span>
-                        </span>
+                <div class="col-md-2 eth-ip-mapping" ng-repeat="if in createCephClusterCntrl.getIfIpMapping(host.ifIPMapping, 'pn')">
+                    <div class="list-view-pf-additional-info-item list-view-pf-additional-info-item-stacked pull-left">
+                        <div class="bold-text">{{if.if}}</div>
+                        <div>{{if.ip}}</div>
                     </div>
                 </div>
-                <div class="col-md-2">
-                    <div class="list-view-pf-additional-info-item list-view-pf-additional-info-item-stacked">
-                        <div class="bold-text">Interfaces</div>
-                        <span ng-repeat="interface in host.interfaces">{{interface}}
-                            <span ng-if="$index !== (host.interfaces.length-1)">,</span>
-                        </span>
-                    </div>
-                </div> -->
-               <!--  <div class="col-md-2">
-                    <div class="bold-text">Cluster Network</div>
-                    <div>{{createCephClusterCntrl.selectedClusterNetwork}}</div>
-                </div>
-                <div class="col-md-2">
-                    <div class="bold-text">Public Network</div>
-                    <div>{{createCephClusterCntrl.selectedPublicNetwork}}</div>
-                </div> -->
             </div>
         </div>
         <div class="row">
             <div class="col-md-12 horizontal-line"></div>
         </div>
-        <!-- <div class="row">
-            <div class="col-md-1">
-                <input type="checkbox" ng-model="createCephClusterCntrl.conditionFulfilled">
-            </div>
-            <div class="col-md-3" ng-if="createCephClusterCntrl.intendedUsage === 'production'">
-                3 nodes selected for Production
-            </div>
-        </div> -->
     </div>
-    <div class="row server-node" ng-if="createCephClusterCntrl.serverNodes.length">
+    <!-- <div class="row server-node" ng-if="createCephClusterCntrl.serverNodes.length">
         <div class="col-md-2 bold-text">Server Nodes:</div>
         <div class="col-md-6">
             <div class="row" ng-repeat="serverNode in createCephClusterCntrl.serverNodes">{{serverNode.fqdn}}</div>
         </div>
-    </div>
+    </div> -->
 </div>

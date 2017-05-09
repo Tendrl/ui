@@ -120,6 +120,10 @@
             width: 90%;
             padding: 10px;
             margin-left: 60px;
+
+            .osd {
+                width: 50%;
+            }
         }
 
         .angle-expand{
@@ -156,9 +160,30 @@
 
     .summary-view-container {
         .div-with-scroll {
-            height: 167px;
-            overflow: scroll;
+            max-height: 170px;
+            overflow: auto;
             overflow-x: hidden;
+        }
+
+        .osd-div-with-scroll {
+            max-height: 250px;
+            overflow: auto;
+            overflow-x: hidden;
+
+            .table-container {
+                width: 90%;
+                margin-left: 60px;
+                margin-top: 10px;
+            }
+
+            .angle-expand {
+                font-size: 20px;
+                cursor: pointer;
+            }
+        }
+
+        .list-group-line {
+            margin-bottom: 50px;
         }
     }
 
@@ -180,8 +205,20 @@
         }
 
         .filter-section {
-            margin-right: 0;
-            border-bottom: none;
+            border-top: none;
+
+            .list-group-item {
+                border-top: none;
+            }
+
+            .cn-dropdown, .pn-dropdown {
+                padding-left: 0;
+                margin-left: -35px;
+            }
+        }
+
+        .eth-ip-mapping {
+            padding-left: 42px;
         }
         
     }

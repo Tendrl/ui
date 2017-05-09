@@ -36,16 +36,16 @@
                 </div>
             </div>
             <div class="col-md-3">
-                <div class="list-view-pf-additional-info-item list-view-pf-additional-info-item-stacked remove-flex">
-                    <strong class="bold-text">Devices</strong>
+                <div class="list-view-pf-additional-info-item list-view-pf-additional-info-item-stacked">
+                    <strong class="bold-text">Available Devices</strong>
                     <h5 ng-modal="createCephClusterCntrl.totalDevices">{{createCephClusterCntrl.totalDevices}}</h5>
                     <!-- <i ng-if="(createCephClusterCntrl.deviceWarningSign > 0)" data-placement="top" title="{{createCephClusterCntrl.deviceWarningMsg}}" class="pficon pficon-warning-triangle-o warning-icon-adjustment" ng-modal='vm.deviceWarningSign'></i> -->
                 </div>
             </div>
             <div class="col-md-2">
                 <div class="list-view-pf-additional-info-item list-view-pf-additional-info-item-stacked">
-                    <div class="bold-text">Total Raw Capacity</div>
-                    <h5 class="pull-left">{{createCephClusterCntrl.hostSummary.totalRawCapacity | bytes}}</h5>
+                    <div class="bold-text">Total Available Capacity</div>
+                    <h5 class="pull-left">{{createCephClusterCntrl.totalAvailableCapacity | bytes}}</h5>
                 </div>
             </div>
         </div>
@@ -120,7 +120,7 @@
 <!--                 <div class="col-md-1">
                     <input type="checkbox" ng-model="host.checkboxSelected">
                 </div> -->
-                <div class="col-md-4">
+                <div class="col-md-3">
                     <div class="list-view-pf-additional-info-item list-view-pf-additional-info-item-stacked">
                         <div class="bold-text">{{host.fqdn || "NA"}}</div>
                         <!-- <h5 class="pull-left counts" ng-modal="host.name">{{host.ip || "NA"}}</h5> -->
@@ -132,11 +132,21 @@
                         <h5 class="pull-left counts">{{host.ifLength || "NA"}}</h5>
                     </div>
                 </div>
-                <div  class="col-md-1">
+                <div  class="col-md-2">
                     <div class="list-view-pf-additional-info-item list-view-pf-additional-info-item-stacked remove-stack col-md-12">
-                        <div class="bold-text row">Devices</div>
+                        <div class="bold-text row">Available Devices</div>
                         <div class="row">
-                            <h5 ng-modal="host.totalNodeInDevice" class="col-md-9">{{host.totalNodeInDevice || "NA"}}</h5>
+                            <h5 ng-modal="host.totalNodeInDevice" class="col-md-9">{{host.totalNodeInDevice}}</h5>
+                            <!-- <i ng-if="(host.usedDevices > 0)" data-placement="top" title="{{createCephClusterCntrl.deviceWarningMsg}}" class="pficon pficon-warning-triangle-o warning-icon-adjustment col-md-3"></i> -->
+                        </div>
+
+                    </div>
+                </div>
+                <div  class="col-md-2">
+                    <div class="list-view-pf-additional-info-item list-view-pf-additional-info-item-stacked remove-stack col-md-12">
+                        <div class="bold-text row">Free Devices</div>
+                        <div class="row">
+                            <h5 ng-modal="host.totalNodeInDevice" class="col-md-9">{{host.freeDevices}}</h5>
                             <!-- <i ng-if="(host.usedDevices > 0)" data-placement="top" title="{{createCephClusterCntrl.deviceWarningMsg}}" class="pficon pficon-warning-triangle-o warning-icon-adjustment col-md-3"></i> -->
                         </div>
 
@@ -144,21 +154,15 @@
                 </div>
                 <div  class="col-md-2">
                     <div class="list-view-pf-additional-info-item list-view-pf-additional-info-item-stacked">
-                        <div class="bold-text">Raw Capacity</div>
-                        <h5 class="pull-left counts" ng-modal="host.rawCapacity">{{(host.stats.storage.total || "NA")}}</h5>
-                    </div>
-                </div>
-                <div  class="col-md-2">
-                    <div class="list-view-pf-additional-info-item list-view-pf-additional-info-item-stacked">
-                        <div class="bold-text">Usable Capacity</div>
-                        <h5 class="pull-left counts" ng-modal="host.usableCapacity">{{((host.stats.storage.total - host.stats.storage.used) || "NA")}}</h5>
+                        <div class="bold-text">Available Capacity</div>
+                        <h5 class="pull-left counts" ng-modal="host.usableCapacity">{{host.availableCapacity | bytes}}</h5>
                     </div>
                 </div>
                 <div  class="col-md-2">
                     <div class="list-view-pf-additional-info-item list-view-pf-additional-info-item-stacked">
                         <b>Role</b>
                         <div class="col-sm-12 col-md-12">
-                            <select ng-options="role for role in createCephClusterCntrl.roles;" ng-model="host.selectedRole" class="form-control" data-id="create-host-role" ng-change="createCephClusterCntrl.updateOSDMonCount()"></select>
+                            <select ng-options="role for role in createCephClusterCntrl.roles;" ng-model="host.selectedRole" class="form-control" data-id="create-host-role" ng-change="createCephClusterCntrl.updateOSDMonCount()" ng-disabled="host.disableSelection === true"></select>
                         </div>
                     </div>
                 </div>

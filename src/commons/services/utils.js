@@ -459,15 +459,36 @@
             });
         };
 
-        vm.getJournalConf = function() {
-            var url, getJournalConfRequest, request;
+        vm.getTaskOutput = function(jobId) {
+            var url, getTaskOutputRequest, request;
 
-            url = "/api/journal-details.json";
+            url = config.baseUrl + "jobs/" + jobId + "/output";
             //url = "/api/GetStatus.json";
 
-            getJournalConfRequest = {
+            getTaskOutputRequest = {
                 method: "GET",
                 url: url
+            };
+
+            request = angular.copy(getTaskOutputRequest);
+            return $http(request).then(function(response) {
+                return response.data;
+            }, function() {
+                console.log("Error Occurred: while fetching getTaskLogs");
+                return null;
+            });
+        };
+
+        vm.generateJournalConf = function(requestData) {
+            var url, getJournalConfRequest, request;
+
+            //url = "/api/journal-details.json";
+            url = config.baseUrl + "GenerateJournalMapping";
+
+            getJournalConfRequest = {
+                method: "POST",
+                url: url,
+                data: requestData
             };
 
             request = angular.copy(getJournalConfRequest);
@@ -554,6 +575,27 @@
                     console.log("Error Occurred: while fetching getOverviewData");
                     return null;
                 });
+        };
+
+        vm.createCluster = function(postData) {
+            var url, createClusterRequest, request;
+
+            url = config.baseUrl + "CreateCluster";
+
+            createClusterRequest = {
+                method: "POST",
+                url: url,
+                data: postData
+            };
+
+            request = angular.copy(createClusterRequest);
+            return $http(request).then(function(response) {
+                return response.data;
+            }, function(e) {
+                checkErrorCode(e);
+                console.log("Error Occurred: while createCluster");
+                return null;
+            });
         };
     };
 })();

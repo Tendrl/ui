@@ -8,7 +8,8 @@
         </li>
     </ol>
     <h1 class="bold-text">Create Cluster</h1>
-    <div class="create-ceph-cluster-wizard" ng-if="!createCephClusterCntrl.taskSubmitted">
+    <div ng-if="createCephClusterCntrl.isNodeLoading" class="spinner spinner-lg"></div>
+    <div class="create-ceph-cluster-wizard" ng-if="!createCephClusterCntrl.taskSubmitted && !createCephClusterCntrl.isNodeLoading">
         <div class="wizard-pf">
             <div>
                 <div class="wizard-pf-body clearfix">
@@ -28,12 +29,9 @@
 
                             <div ng-include src="'../modules/cluster/create-cluster/create-ceph-cluster/step-third.html'"></div>
 
-                            <!-- <div ng-include src="'../modules/cluster/create-cluster/create-ceph-cluster/step-forth.html'"></div> -->
-
-                            <div ng-include src="'../modules/cluster/create-cluster/create-ceph-cluster/step-fifth.html'"></div>
-
                             <div ng-include src="'../modules/cluster/create-cluster/create-ceph-cluster/step-fourth.html'"></div>
 
+                            <div ng-include src="'../modules/cluster/create-cluster/create-ceph-cluster/step-fifth.html'"></div>
                         </div>
                         <!-- /.wizard-pf-main -->
                     </div>
