@@ -114,8 +114,7 @@
                 <h1>No Hosts Detected.</h1>
             </div>
         </center>
-        <div ng-if="createCephClusterCntrl.isDataLoading" class=""></div>
-        <div ng-if="!createCephClusterCntrl.isDataLoading" class="list-group list-view-pf list-view-pf-equalized-column" ng-repeat="host in createCephClusterCntrl.filteredHostForRole=(createCephClusterCntrl.availableHostForRole | filter: createCephClusterCntrl.searchBy | orderBy : createCephClusterCntrl.ascOrder + createCephClusterCntrl.orderBy)">
+        <div class="list-group list-view-pf list-view-pf-equalized-column" ng-repeat="host in createCephClusterCntrl.filteredHostForRole=(createCephClusterCntrl.availableHostForRole | filter: createCephClusterCntrl.searchBy | orderBy : createCephClusterCntrl.ascOrder + createCephClusterCntrl.orderBy)">
             <div class="list-group-item">
 <!--                 <div class="col-md-1">
                     <input type="checkbox" ng-model="host.checkboxSelected">

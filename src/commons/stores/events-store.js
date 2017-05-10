@@ -71,7 +71,7 @@
 
                 for (i = 0; i < len; i++) {
                     temp = {},
-                        temp.timeStamp = new Date(data[i].timestamp);
+                    temp.timeStamp = new Date(data[i].timestamp);
                     temp.priority = data[i].priority;
                     temp.message = data[i].message;
                     temp.message_id = data[i].message_id;

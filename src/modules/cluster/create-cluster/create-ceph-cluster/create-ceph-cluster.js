@@ -12,7 +12,9 @@
             date = new Date(),
             initialLoad = true,
             journaTimer,
-            journalJobId;
+            journalJobId,
+            counts = 0,
+            nodes;
 
         vm.selectedStep = 1;
         vm.storageService = "Ceph";
@@ -56,12 +58,15 @@
         vm.taskSubmitted = false;
         vm.journalFilterBy = "fqdn";
         vm.isNodeLoading = true;
+        vm.showJournalErrorMsg = false;
+        vm.journalErrorMsg = "";
 
         vm.clusterNetwork = [];
         vm.publicNetwork = [];
         vm.filteredList = [];
         vm.selectedNWHost = [];
         vm.selectedRoleHost = [];
+        //vm.availableHostForJournal = [];
         vm.journalFilterBy = {
             "property": "fqdn",
             "value": ""
@@ -90,16 +95,10 @@
 
         init();
 
-        /* Trigger this function when we have cluster data */
-        // $scope.$on("GotClusterData", function(event, data) {
-        //     init();
-        // });
-
         function init() {
             vm.totalDevices = 0
             vm.availableHostList = [];
             vm.updatedHostList = [];
-            vm.subnetList = [];
             vm.serverNodes = [];
 
             utils.getObjectList("Node").then(function(list) {
@@ -108,6 +107,7 @@
                     i;
 
                 vm.isNodeLoading = false;
+                nodes = hostList.slice(0);
 
                 if (list !== null && len !== 0) {
                     for (i = 0; i < len; i++) {
@@ -127,6 +127,27 @@
                     _setIntendedUsage();
                 }
             });
+        }
+
+        function _getHostList(list) {
+            var hostList = list,
+                len = hostList.length,
+                i;
+
+            vm.isNodeLoading = false;
+
+            if (list !== null && len !== 0) {
+                for (i = 0; i < len; i++) {
+                    if (JSON.parse(hostList[i].tags).indexOf("tendrl/central-store") !== -1) {
+                        vm.serverNodes.push(hostList[i]);
+                    } else if (!hostList[i].detectedcluster || (hostList[i].detectedcluster && hostList[i].detectedcluster.detected_cluster_id === "")) {
+                        //pushing available host for creating cluster
+                        vm.availableHostList.push(hostList[i]);
+                        _createHostList(hostList[i]);
+                        vm.createPublicNetwork();
+                    }
+                }
+            }
         }
 
         function getIfIpMapping(ifIPMapping, type) {
@@ -163,8 +184,6 @@
                 vm.enableProIntendedUsage = false;
                 vm.intendedUsage = "poc";
             }
-
-            initialLoad = false;
         }
 
         function validateFields() {
@@ -196,8 +215,8 @@
             } else if (vm.selectedStep === 3) {
 
                 if (vm.intendedUsage === "production") {
-                    //monFlag = vm.selectedMonitors < 3;
-                    monFlag = vm.selectedMonitors < 1;
+                    monFlag = vm.selectedMonitors < 3;
+                    //monFlag = vm.selectedMonitors < 1;
 
                     if (monFlag) {
                         vm.monSelectionMsg = "Minimum 3 monitors should be selected for Production";
@@ -212,6 +231,8 @@
                     }
                 }
                 return monFlag;
+            } else if (vm.selectedStep === 4) {
+                return vm.isDataLoading;
             }
         }
 
@@ -236,8 +257,6 @@
                     vm.selectedNWHost.splice(hostIndex, 1);
                 }
             }
-
-            console.log(vm.selectedNWHost, "selectedNWHost");
 
             vm.allNWHostChecked = vm.selectedNWHost.length === vm.filteredList.length;
         }
@@ -299,7 +318,7 @@
                     if (Object.keys(host.disks.free).indexOf(keys[i]) !== -1) {
                         temp = {};
                         temp.device = host.disks.all[keys[i]].device_name;
-                        temp.size = host.disks.all[keys[i]].size;
+                        temp.size = parseInt(host.disks.all[keys[i]].size) || 0;
                         temp.ssd = (host.disks.all[keys[i]].ssd === "True");
                         conf.push(temp);
                     }
@@ -391,10 +410,22 @@
         }
 
         function reset() {
-            init();
             vm.selectedNWHost = [];
             vm.availableHostForRole = [];
             vm.filteredList = [];
+            vm.availableHostForJournal = [];
+            vm.summaryHost = [];
+            vm.availableHostList = [];
+            vm.serverNodes = [];
+            var list = nodes.slice(0);
+            vm.clusterNetwork = [];
+            vm.publicNetwork = [];
+            vm.filterListByCN = [];
+            vm.filteredListByPN = [];
+            vm.selectedClusterNetwork = "";
+            vm.updatedHostList = [];
+            vm.totalDevices = 0;
+            _getHostList(list);
         }
 
         function _createClusterNetwork(subnet) {
@@ -433,12 +464,12 @@
         function _getRole(host) {
             var role = "";
 
-            if (host.totalNodeInDevice >= 1) {
+            if (host.freeDevices >= 1) {
                 role = "OSD Host";
                 host.disableSelection = false;
             } else {
                 role = "Monitor";
-                host.disableSelection = false;
+                host.disableSelection = true;
             }
 
             if (!host.totalNodeInDevice) {
@@ -479,11 +510,55 @@
             var len = journals.length,
                 i;
 
-            if (vm.intendedUsage === "production") {
+            // if (vm.intendedUsage === "production" || vm.intendedUsage === "") {
+            for (i = 0; i < len; i++) {
+                _updateDiskList(journals[i]);
+            }
+            //}
+        }
+
+        function _setSmallestJournalSize(type, host) {
+            var len = vm.availableHostForJournal.length,
+
+                i;
+            if (!type) {
                 for (i = 0; i < len; i++) {
-                    _updateDiskList(journals[i]);
+                    if (vm.availableHostForJournal[i].selectedRole === "OSD Host") {
+                        vm.availableHostForJournal[i].journalSizeList.sort();
+                        _updatePartionSize(vm.availableHostForJournal[i]);
+                    }
+                }
+            } else {
+
+                for (i = 0; i < len; i++) {
+                    if (vm.availableHostForJournal[i].node_id === host.node_id) {
+                        vm.availableHostForJournal[i].journalSizeList.sort();
+                        _updatePartionSize(vm.availableHostForJournal[i]);
+                    }
                 }
             }
+
+        }
+
+        function _updatePartionSize(host) {
+            var len = vm.availableHostForJournal.length,
+                val,
+                i;
+
+            // for (i = 0; i < len; i++) {
+            //     if (vm.availableHostForJournal[i].selectedRole === "OSD Host") {
+            val = Math.floor(utils.convertToBytes(host.journalSizeList[0]) / utils.convertToBytes(host.journalSize, host.customselectedUnit || "GB"));
+            if (val < 4) {
+                host.partitionSize = val;
+                host.reachedMaxLimit = true;
+                host.maxLimit = val;
+            } else {
+                host.maxLimit = val;
+                host.partitionSize = 4;
+                host.reachedMaxLimit = false;
+            }
+            //}
+            //}
         }
 
         //deleting journal disk from storage_disks
@@ -491,13 +566,18 @@
             var len = journal.storage_disks.length,
                 hostDisklen = host.storage_disks.length,
                 i,
-                j;
+                j,
+                present;
+
+            host.journalSizeList = [];
 
             for (i = 0; i < len; i++) {
                 for (j = 0; j < hostDisklen; j++) {
 
                     if (host.storage_disks[j].device === journal.storage_disks[i].journal) {
+                        host.journalSizeList.push(host.storage_disks[j].size);
                         host.storage_disks.splice(j, 1);
+                        hostDisklen = host.storage_disks.length;
                     }
                 }
             }
@@ -511,6 +591,7 @@
 
             for (i = 0; i < len; i++) {
                 if (vm.availableHostForJournal[i].node_id === journal.node_id) {
+                    vm.availableHostForJournal[i].journalSize = 5;
                     _deleteJournalDisks(journal, vm.availableHostForJournal[i]);
                     _upadateDisk(vm.availableHostForJournal[i], journal);
                     vm.availableHostForJournal[i].unallocated_disks = journal.unallocated_disks ? journal.unallocated_disks : [];
@@ -617,7 +698,7 @@
         };
 
         function _resetNodeDetails(host) {
-            var len = vm.availableHostForRole.length,
+            var len = vm.availableHostForJournal.length,
                 journal = "",
                 i;
 
@@ -639,13 +720,15 @@
 
         function getJournalMap(host, $event) {
             _resetNodeDetails(host);
+            vm.showJournalErrorMsg = false;
             if (host.selectedJournalConfigration === "Dedicated") {
+                //host.isDataLoading = true;
                 vm.isDataLoading = true;
-                nodeStore.generateJournalConf(vm.availableHostForJournal)
+                nodeStore.generateJournalConf(host)
                     .then(function(data) {
-                        journalJobId = data.job_id;
-                        _startJournalTimer(journalJobId);
-                        console.log(vm.availableHostForRole, "availableHostForRoleUpdated");
+                        host.journalJobId = data.job_id;
+                        host.counts = 0;
+                        _startJournalTimer(host.journalJobId, "singleHost", host);
                     });
             }
         }
@@ -687,13 +770,16 @@
                 ipIfLen = vm.availableHostForJournal[i].ifIPMapping.length;
 
                 for (j = 0; j < ipIfLen; j++) {
-                    //network = vm.availableHostForJournal[i].ifIPMapping[j].ip;
                     network = vm.getCNIfIp(vm.availableHostForJournal[i]).ip;
                     node_configuration[network] = {};
                     node_configuration[network].role = roleMapping[vm.availableHostForJournal[i].selectedRole];
                     node_configuration[network].provisioning_ip = network;
                     if (vm.availableHostForJournal[i].selectedRole === "OSD Host") {
-                        node_configuration[network].journal_size = vm.availableHostForJournal[i].journalSize;
+                        if (vm.availableHostForJournal[i].customselectedUnit === "GB") {
+                            node_configuration[network].journal_size = vm.availableHostForJournal[i].journalSize * 1024;
+                        } else {
+                            node_configuration[network].journal_size = vm.availableHostForJournal[i].journalSize;
+                        }
                         node_configuration[network].journal_colocation = vm.availableHostForJournal[i].selectedJournalConfigration === "Dedicated" ? false : true;
                         node_configuration[network].storage_disks = vm.availableHostForJournal[i].storage_disks;
                     } else if (vm.availableHostForJournal[i].selectedRole === "Monitor") {
@@ -702,7 +788,6 @@
                 }
             }
             postData.node_configuration = node_configuration;
-            console.log(postData);
             return postData;
         }
 
@@ -718,32 +803,48 @@
                 vm.selectedStep += 1;
 
                 if (vm.selectedStep === 3) {
-                    vm.availableHostForRole = vm.selectedNWHost;
+                    vm.availableHostForRole = vm.selectedNWHost.slice(0);
                     _calculateSummaryValues();
                 } else if (vm.selectedStep === 4) {
-                    equal = _isObjectEqual(vm.previousAvailableHostForRole, vm.availableHostForRole);
-                    if (!equal) {
-                        vm.previousAvailableHostForRole = angular.copy(vm.availableHostForRole);
-                        vm.isDataLoading = true;
-                        if (!_isOSDPresent()) {
-                            vm.selectedStep++;
+                    vm.isDataLoading = true;
+                    if (!_isOSDPresent()) {
+                        vm.selectedStep++;
+                        if (vm.availableHostForJournal) {
+                            vm.summaryHost = vm.availableHostForJournal.slice(0);
                         } else {
-                            vm.availableHostForJournal = angular.copy(vm.availableHostForRole);
-                            console.log(vm.availableHostForJournal, "availableHostForJournal");
-                            _setJournalConf();
-                            if (vm.intendedUsage === "production") {
-                                nodeStore.generateJournalConf(vm.availableHostForJournal)
-                                    .then(function(data) {
-                                        journalJobId = data.job_id;
-                                        _startJournalTimer(journalJobId);
-                                        console.log(vm.availableHostForRole, "availableHostForRoleUpdated");
-                                    });
-                            }
+                            vm.summaryHost = vm.availableHostForRole.slice(0);
+                        }
+                        _resetExpandProp(vm.summaryHost);
+                    } else {
+                        //if (!vm.availableHostForJournal) {
+                        //vm.availableHostForJournal = angular.copy(vm.availableHostForRole);
+                        vm.availableHostForJournal = vm.availableHostForRole.slice(0);
+                        _setJournalConf();
+                        //}
+                        if (vm.intendedUsage === "production") {
+                            //equal = _isObjectEqual(vm.previousAvailableHostForRole, vm.availableHostForRole);
+                            //if (!equal) {
+                            //vm.previousAvailableHostForRole = angular.copy(vm.availableHostForRole);
+                            nodeStore.generateJournalConf(vm.availableHostForJournal)
+                                .then(function(data) {
+                                    journalJobId = data.job_id;
+                                    counts = 0;
+                                    _startJournalTimer(journalJobId);
+                                });
+                            // } else {
+                            //     vm.isDataLoading = false;
+                            // }
+                        } else {
+                            vm.isDataLoading = false;
                         }
                     }
                 } else if (vm.selectedStep === 5) {
-                    vm.summaryHost = angular.copy(vm.availableHostForJournal);
-                    console.log(vm.summaryHost, "summaryHost");
+                    if (vm.availableHostForJournal) {
+                        vm.summaryHost = vm.availableHostForJournal.slice(0);
+                    } else {
+                        vm.summaryHost = vm.availableHostForRole.slice(0);
+                    }
+                    _resetExpandProp(vm.summaryHost);
                 } else if (vm.selectedStep === 6) {
                     postData = createClusterPostData();
                     utils.createCluster(postData)
@@ -754,6 +855,15 @@
                 }
             }
         };
+
+        function _resetExpandProp(list) {
+            var len = list.length,
+                i;
+
+            for (i = 0; i < len; i++) {
+                list[i].isExpanded = false;
+            }
+        }
 
         function _upadateAvailableHostForJournal() {
             var len = vm.availableHostForJournal.length,
@@ -766,7 +876,29 @@
             }
         }
 
-        function _startJournalTimer(journalJobId) {
+        function _setCollocatedJournal(type, host) {
+            var len = vm.availableHostForJournal.length,
+                i;
+            if (type) {
+
+                for (i = 0; i < len; i++) {
+                    if (vm.availableHostForJournal[i].node_id === host.node_id) {
+                        vm.availableHostForJournal[i].selectedJournalConfigration = "Colocated";
+                        break;
+                    }
+                }
+                //host.selectedJournalConfigration = "Colocated";
+            } else {
+
+                for (i = 0; i < len; i++) {
+                    if (vm.availableHostForJournal[i].selectedRole === "OSD Host") {
+                        vm.availableHostForJournal[i].selectedJournalConfigration = "Colocated";
+                    }
+                }
+            }
+        }
+
+        function _startJournalTimer(journalJobId, type, host) {
             journaTimer = $interval(function() {
 
                 utils.getTaskStatus(journalJobId)
@@ -774,13 +906,39 @@
                         $interval.cancel(journaTimer);
 
                         if (data.status !== "finished") {
-                            _startJournalTimer(journalJobId)
+                            if (type === "singleHost") {
+                                if (host.counts < 7) {
+                                    _startJournalTimer(journalJobId, type, host);
+                                    host.counts++;
+                                } else {
+                                    _setCollocatedJournal(type, host);
+                                    vm.isDataLoading = false;
+                                    vm.journalErrorMsg = "Not able to get the journal mapping of the OSD Node. Setting to Colocated journal."
+                                    vm.showJournalErrorMsg = true;
+                                }
+                            } else {
+                                if (counts < 7) {
+                                    _startJournalTimer(journalJobId);
+                                    counts++;
+                                } else {
+                                    _setCollocatedJournal();
+                                    vm.isDataLoading = false;
+                                    vm.journalErrorMsg = "Not able to get the journal mapping of all OSD Nodes. Setting to Colocated journal."
+                                    vm.showJournalErrorMsg = true;
+                                }
+                            }
                         } else {
                             taskStore.getTaskOutput(journalJobId)
                                 .then(function(data) {
-                                    vm.isDataLoading = false;
-                                    console.log(data, "result");
+                                    vm.showJournalErrorMsg = false;
+                                    if (type === "singleHost") {
+                                        //host.isDataLoading = false;
+                                        vm.isDataLoading = false;
+                                    } else {
+                                        vm.isDataLoading = false;
+                                    }
                                     _createJournalData(data);
+                                    _setSmallestJournalSize(type, host);
                                 });
                         }
                     });
@@ -804,15 +962,13 @@
         }
 
         function backStep(step) {
-            vm.selectedStep -= 1;
-
-            if (vm.selectedStep >= 3) {
-                closeExpandList();
-            }
+            vm.selectedStep--;
 
             if (vm.selectedStep === 4) {
                 if (!_isOSDPresent()) {
                     vm.selectedStep--;
+                } else {
+                    _resetExpandProp(vm.availableHostForJournal);
                 }
             }
         };
@@ -856,67 +1012,116 @@
             }
         }
 
-        function _isObjectEqual(x, y) {
+        // function _isObjectEqual(x, y) {
 
-            if (typeof x === "undefined" && typeof y === "undefined") {
-                return true;
-            } else if (typeof x === "undefined" || typeof y === "undefined") {
-                return false;
-            }
+        //     if (typeof x === "undefined" && typeof y === "undefined") {
+        //         return true;
+        //     } else if (typeof x === "undefined" || typeof y === "undefined") {
+        //         return false;
+        //     }
 
-            var obj1 = JSON.parse(JSON.stringify(x)),
-                obj2 = JSON.parse(JSON.stringify(y)),
-                keys1 = Object.keys(obj1),
-                keys2 = Object.keys(obj2),
-                i,
-                j,
-                ifLen,
-                len1 = keys1.length,
-                len2 = keys2.length;
+        //     var obj1 = JSON.parse(JSON.stringify(x)),
+        //         obj2 = JSON.parse(JSON.stringify(y)),
+        //         keys1 = Object.keys(obj1),
+        //         keys2 = Object.keys(obj2),
+        //         i,
+        //         j,
+        //         ifLen,
+        //         diskLen,
+        //         len1 = keys1.length,
+        //         len2 = keys2.length;
 
-            for (i = 0; i < len1; i++) {
-                if (obj1[keys1[i]].constructor === Object) {
-                    deleteUnwantedKeys(obj1[keys1[i]]);
-                    ifLen = obj1[keys1[i]].ifIPMapping.length;
+        //     for (i = 0; i < len1; i++) {
+        //         if (obj1[keys1[i]].constructor === Object) {
+        //             deleteUnwantedKeys(obj1[keys1[i]]);
+        //             ifLen = obj1[keys1[i]].ifIPMapping.length;
 
-                    for (j = 0; j < ifLen; j++) {
-                        deleteUnwantedKeys(obj1[keys1[i]].ifIPMapping[j]);
-                    }
-                }
-            }
+        //             for (j = 0; j < ifLen; j++) {
+        //                 deleteUnwantedKeys(obj1[keys1[i]].ifIPMapping[j]);
+        //             }
 
-            for (i = 0; i < len2; i++) {
-                if (obj2[keys2[i]].constructor === Object) {
-                    deleteUnwantedKeys(obj2[keys2[i]]);
-                    ifLen = obj2[keys2[i]].ifIPMapping.length;
+        //             diskLen = obj1[keys1[i]].storage_disks.length;
 
-                    for (j = 0; j < ifLen; j++) {
-                        deleteUnwantedKeys(obj2[keys2[i]].ifIPMapping[j]);
-                    }
-                }
-            }
+        //             for (j = 0; j < diskLen; j++) {
+        //                 deleteUnwantedKeys(obj1[keys1[i]].storage_disks[j]);
+        //             }
+        //         }
+        //     }
 
-            len1 = Object.keys(obj1).length;
-            len2 = Object.keys(obj2).length;
+        //     for (i = 0; i < len2; i++) {
+        //         if (obj2[keys2[i]].constructor === Object) {
+        //             deleteUnwantedKeys(obj2[keys2[i]]);
+        //             ifLen = obj2[keys2[i]].ifIPMapping.length;
 
-            if (len1 !== len2) {
-                return false;
-            }
+        //             for (j = 0; j < ifLen; j++) {
+        //                 deleteUnwantedKeys(obj2[keys2[i]].ifIPMapping[j]);
+        //             }
 
-            return JSON.stringify(obj1) === JSON.stringify(obj2);
+        //             diskLen = obj2[keys2[i]].storage_disks.length;
 
-            function deleteUnwantedKeys(obj) {
-                var index;
+        //             for (j = 0; j < diskLen; j++) {
+        //                 deleteUnwantedKeys(obj2[keys2[i]].storage_disks[j]);
+        //             }
+        //         }
+        //     }
 
-                if (obj.hasOwnProperty("$$hashKey")) {
-                    delete obj.$$hashKey;
-                }
+        //     len1 = Object.keys(obj1).length;
+        //     len2 = Object.keys(obj2).length;
 
-                if (obj.hasOwnProperty("isExpanded")) {
-                    delete obj.isExpanded;
-                }
-            }
-        };
+        //     if (len1 !== len2) {
+        //         return false;
+        //     }
+
+        //     return JSON.stringify(obj1) === JSON.stringify(obj2);
+
+        //     function deleteUnwantedKeys(obj) {
+        //         var index;
+
+        //         if (obj.hasOwnProperty("$$hashKey")) {
+        //             delete obj.$$hashKey;
+        //         }
+
+        //         if (obj.hasOwnProperty("isExpanded")) {
+        //             delete obj.isExpanded;
+        //         }
+
+        //         if(obj.hasOwnProperty("unallocated_disks")) {
+        //             delete obj.unallocated_disks;
+        //         }
+
+        //         if(obj.hasOwnProperty("partitionSize")) {
+        //             delete obj.partitionSize;
+        //         }
+
+        //         if(obj.hasOwnProperty("reachedMaxLimit")) {
+        //             delete obj.reachedMaxLimit;
+        //         }
+
+        //         if(obj.hasOwnProperty("selectedJournalConfigration")) {
+        //             delete obj.selectedJournalConfigration;
+        //         }
+
+        //         if(obj.hasOwnProperty("journalSize")) {
+        //             delete obj.journalSize;
+        //         }
+
+        //         if(obj.hasOwnProperty("customselectedUnit")) {
+        //             delete obj.customselectedUnit;
+        //         }
+
+        //         if(obj.hasOwnProperty("journalJobId")) {
+        //             delete obj.journalJobId;
+        //         }
+
+        //         if(obj.hasOwnProperty("counts")) {
+        //             delete obj.counts;
+        //         }
+
+        //         if(obj.hasOwnProperty("selectedPartitionType")) {
+        //             delete obj.selectedPartitionType;
+        //         }
+        //     }
+        // };
 
     }
 })();

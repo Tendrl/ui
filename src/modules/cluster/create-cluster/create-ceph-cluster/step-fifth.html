@@ -27,7 +27,7 @@
     
     <h3>{{createCephClusterCntrl.selectedMonitors}} Mon Hosts</h3>
     <div class="div-with-scroll">
-        <div class="list-group list-view-pf list-view-pf-equalized-column" ng-repeat="host in createCephClusterCntrl.availableHostForJournal" ng-if="host.selectedRole === 'Monitor'">
+        <div class="list-group list-view-pf list-view-pf-equalized-column" ng-repeat="host in createCephClusterCntrl.summaryHost" ng-if="host.selectedRole === 'Monitor'">
             <div class=" list-group-item ">
                 <div class="col-md-12 ">
                     <div class="col-md-4 ">
@@ -71,13 +71,13 @@
                             <div>{{createCephClusterCntrl.getCNIfIp(host).ip}}</div>
                         </div>
                     </div>
-                    <div class=" col-md-2">
+                    <div class="col-md-2">
                         <div class="list-view-pf-additional-info-item list-view-pf-additional-info-item-stacked ">
                             <strong>Journal Configration</strong>
                             <h5 id="SummaryJournalConfigration ">{{host.selectedJournalConfigration}}</h5>
                         </div>
                     </div>
-                    <div class=" col-md-2">
+                    <div class="col-md-2" ng-show="host.journalSize">
                         <div class="list-view-pf-additional-info-item list-view-pf-additional-info-item-stacked ">
                             <strong>Journal Size</strong>
                             <h5 id="SummaryjournalSize ">{{host.journalSize}} {{host.customselectedUnit}}</h5>

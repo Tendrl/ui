@@ -1,59 +1,46 @@
 .tendrl-create-ceph-cluster-container {
-	.wizard-pf {
-	    width: auto;
-	}
-	.create-ceph-cluster-wizard {
+    .wizard-pf {
+        width: auto;
+    }
+    .create-ceph-cluster-wizard {
         .wizard-pf {
             width: 100%;
-
             .wizard-pf-steps {
                 border: none;
             }
-
             .wizard-pf-row {
                 position: static;
-
                 .wizard-pf-main {
                     overflow: hidden;
                     padding: 0;
                     margin-left: 114px;
                     margin-right: 106px;
-
                     .wizard-pf-contents {
                         .form-horizontal .control-label {
                             text-align: left;
                         }
-
                         .list-group {
                             margin-bottom: 0;
                         }
-
                         .rbd-summary {
                             margin-bottom: 50px;
                             margin-left: 0;
-
                             .desc {
                                 margin-bottom: 30px;
                             }
-
                             .single-rbd-summary {
                                 border: 1px solid $color-white-smoke;
-
                                 .row {
                                     padding: 10px 0;
-                                    
                                     &:nth-of-type(2n) {
                                         background-color: $color-white-smoke;
                                     }
                                 }
-
                             }
-
                             .single-rbd-summary:nth-of-type(2n) {
                                 background-color: red;
                             }
                         }
-
                         .pool-summary {
                             .desc {
                                 margin-bottom: 30px;
@@ -61,15 +48,13 @@
                         }
                     }
                 }
-
                 @media screen and (min-width: 992px) {
-                    .wizard-pf-main {                        
+                    .wizard-pf-main {
                         margin-left: 253px;
                         margin-right: 253px;
                     }
                 }
             }
-
             .wizard-pf-footer {
                 border: none;
                 position: static;
@@ -97,129 +82,134 @@
             background-color: red;
         }
     }
-    .available-host-list{
-	    background-color: #ededed;
-	    border-left-color: transparent;
-	    border-right-color: transparent;
+    .available-host-list {
+        background-color: #ededed;
+        border-left-color: transparent;
+        border-right-color: transparent;
         padding: 10px;
     }
-    .remove-stack{
+    .remove-stack {
         display: inline;
         color: black;
     }
-    .stack-left{
+    .stack-left {
         text-align: left;
         display: initial;
     }
     .device-conf-view-container {
+
+        .list-group {
+            position:  relative;
+        }
         .list-group-item {
             padding: 10px;
         }
-
         .table-container {
             width: 90%;
             padding: 10px;
             margin-left: 60px;
-
             .osd {
                 width: 50%;
             }
         }
-
-        .angle-expand{
+        .angle-expand {
             font-size: 20px;
             cursor: pointer;
         }
-        .remove-padding{
+        .remove-padding {
             padding-left: 0;
             padding-right: 0;
         }
-
+        .max-limit {
+            padding: 2px 0 0 2px;
+        }
         .unallocated-disks {
             margin-left: 45px;
-
-            .unallocated-disks-name{
+            .unallocated-disks-name {
                 text-overflow: ellipsis;
                 white-space: nowrap;
                 overflow: hidden;
             }
         }
+        .overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 10;
+            background-color: $color-white-smoke;
+
+            .host-loader {
+                position: absolute;
+                transform: translate(-50%, -50%);
+                top: 50%;
+                left: 50%;
+                margin-top: -15px;
+            }
+        }
     }
-    .available-host-container{
+    .available-host-container {
         .warning-icon-adjustment {
             margin-top: 9px;
             margin-left: 6px;
             font-size: 14px;
-
         }
-        .remove-flex{
+        .remove-flex {
             display: table-caption;
-            padding-left:60px
+            padding-left: 60px
         }
     }
-
     .summary-view-container {
         .div-with-scroll {
             max-height: 170px;
             overflow: auto;
             overflow-x: hidden;
         }
-
         .osd-div-with-scroll {
             max-height: 250px;
             overflow: auto;
             overflow-x: hidden;
-
             .table-container {
                 width: 90%;
                 margin-left: 60px;
                 margin-top: 10px;
             }
-
             .angle-expand {
                 font-size: 20px;
                 cursor: pointer;
             }
         }
-
         .list-group-line {
             margin-bottom: 50px;
         }
     }
-
     .network-container {
         .network {
             width: initial;
         }
-
         .server-node {
             margin-top: 10px;
         }
-
         .select-deselect {
             border-top: none;
         }
-
         .toolbar-pf-filter {
             width: 29%;
         }
-
         .filter-section {
             border-top: none;
-
             .list-group-item {
                 border-top: none;
             }
-
-            .cn-dropdown, .pn-dropdown {
+            .cn-dropdown,
+            .pn-dropdown {
                 padding-left: 0;
                 margin-left: -35px;
             }
         }
-
         .eth-ip-mapping {
             padding-left: 42px;
         }
-        
     }
 }

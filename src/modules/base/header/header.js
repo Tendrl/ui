@@ -37,10 +37,6 @@
             vm.isNotificationExpanded = !vm.isNotificationExpanded;
         }
 
-        function expandNotificationList() {
-            vm.isNotificationExpanded = !vm.isNotificationExpanded;
-        }
-
         function notificationClose() {
             $rootScope.notification.type = "";
             $rootScope.notification.message = "";

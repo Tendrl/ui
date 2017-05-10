@@ -17,7 +17,7 @@
     </div>
     <!-- list all host -->
     <div class="container-fluid">
-        <center ng-if="createCephClusterCntrl.updatedHostList.length === 0 && !createCephClusterCntrl.isDataLoading">
+        <center ng-show="createCephClusterCntrl.filteredList.length === 0 && !createCephClusterCntrl.isDataLoading">
             <div class="blank-slate-pf">
                 <div class="blank-slate-pf-icon">
                     <i class="pficon pficon-container-node"></i>
@@ -44,7 +44,7 @@
                 </div>
             </div>
         </div>
-        <div ng-if="!createCephClusterCntrl.isDataLoading" class="list-group list-view-pf list-view-pf-equalized-column" ng-repeat="host in createCephClusterCntrl.filteredList">
+        <div class="list-group list-view-pf list-view-pf-equalized-column" ng-repeat="host in createCephClusterCntrl.filteredList">
             <div class="list-group-item">
                 <div class="col-md-1">
                     <input type="checkbox" ng-click="createCephClusterCntrl.selectNWHost(host)" ng-checked="createCephClusterCntrl.isSelectedNWHost(host)">

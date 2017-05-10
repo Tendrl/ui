@@ -1,5 +1,12 @@
 <div class="wizard-pf-contents device-conf-view-container" ng-if="createCephClusterCntrl.selectedStep === 4">
     <h3>Available Disk Device</h3>
+    <div class="alert alert-info alert-dismissable" ng-if="createCephClusterCntrl.showJournalErrorMsg">
+        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">
+            <span class="pficon pficon-close"></span>
+        </button>
+        <span class="pficon pficon-info"></span>
+        <strong>{{createCephClusterCntrl.journalErrorMsg}}</strong>
+    </div>
     <div class="row toolbar-pf">
         <div class="col-sm-12">
             <form class="toolbar-pf-actions">
@@ -25,7 +32,7 @@
     <div ng-if="createCephClusterCntrl.isDataLoading" class="spinner spinner-lg"></div>
     <!-- /row -->
     <div class="list-group list-view-pf list-view-pf-equalized-column" ng-repeat="host in createCephClusterCntrl.filteredDiskList=(createCephClusterCntrl.availableHostForJournal | filter: createCephClusterCntrl.filterList) track by $index" ng-if="host.selectedRole !== 'Monitor' &&  host.storage_disks.length && !createCephClusterCntrl.isDataLoading">
-        <div class="list-group-item" >
+        <div class="list-group-item">
             <div class="col-md-12">
                 <div class="col-md-1">
                     <i class="fa fa-angle-right angle-expand" aria-hidden="true" ng-click="createCephClusterCntrl.expandList(host)" ng-show="!host.isExpanded"></i>
@@ -63,20 +70,20 @@
                 <div class="list-view-pf-left col-md-3" ng-if="host.selectedJournalConfigration === 'Dedicated'">
                     <div class="list-view-pf-additional-info-item list-view-pf-additional-info-item-stacked">
                         <div class="bold-text">Partitions per Device</div>
-                        <div>
-                            <div class="col-md-4 remove-padding">
-                                <input class="form-control" min="0" type="number" data-id="partitionSize" ng-model="host.partitionSize" ng-init="host.partitionSize = 4" required>
+                        <div class="col-md-12">
+                            <div class="col-md-3 remove-padding">
+                                <input class="form-control" min="0" type="number" data-id="partitionSize" ng-model="host.partitionSize" max="{{host.maxLimit}}" required>
                             </div> 
                             <div class="col-md-2 remove-padding"><strong>per 1</strong></div>
-                            <div class="col-md-6 remove-padding">
+                            <div class="col-md-3 remove-padding">
                                 <select class="form-control" data-id="journal-configration" ng-change="createCephClusterCntrl.diskConf.partitionValue(host.SelectedpartitionType, host)" data-ng-options="type for type in createCephClusterCntrl.diskConf.partitionType" data-ng-model="host.selectedPartitionType" ng-init="host.selectedPartitionType = 'SSD'"></select>
                             </div>
+                            <div class="col-md-4 max-limit">Max = {{host.maxLimit}}</div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-        
         <div ng-class="{'horizontal-line': host.isExpanded}"></div>
         <div class="table-container" ng-if="host.isExpanded">
             <table class="table table-striped table-bordered table-hover" ng-if="host.selectedJournalConfigration === 'Dedicated'">
@@ -123,5 +130,9 @@
                 </span>
             </div>
         </div>
+        <!-- <div class="overlay" ng-show="host.isDataLoading" ng-init="host.isDataLoading = false">
+            <div class="spinner host-loader"></div>
+        </div> -->
+        
     </div>
 </div>
