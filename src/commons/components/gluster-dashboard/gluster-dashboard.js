@@ -14,6 +14,8 @@
             brickOverview: "=?",
             showClusterData: "=?",
             showSystemPerformance: "=?",
+            throughputData: "<",
+            showTrendChart: "=?"
         },
         controller: "glusterDashboardController",
         controllerAs: "vm",
@@ -42,6 +44,7 @@
                 defaultSystemPerformanceSettings(vm.glusterCluster.node_summaries);
                 vm.heatMapData = dashboardStore.systemPerformance(vm.glusterCluster.node_summaries);
             }
+            trendChartData();
         };
 
         function clusterData(clusterData) {
@@ -146,7 +149,6 @@
                 'units': "GB"
             };
 
-
             for (var i = rawStorageUtilizationXData.length - 1; i < vm.chartData.length; i++) {
                 rawStorageUtilizationXData.push(dashboardStore.convertTime(vm.chartData[i][1]));
                 rawStorageUtilizationYData.push(vm.chartData[i][0].toFixed(2));
@@ -242,6 +244,17 @@
                 }
             }
             return mostUsedBricks;
+        }
+
+        function trendChartData(){
+            vm.throughput = {
+                "chartId": "throughputTrendsChart",
+                "layout": "small",
+                "trendLabel": "Physical Disk I/O",
+                "units": "KBps",
+                "title": "Throughput",
+                "timeFrame": "Last 24 hours"
+            };
         }
     }
 }());

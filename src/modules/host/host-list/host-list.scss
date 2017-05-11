@@ -1,40 +1,33 @@
 .tendrl-host-list-view-container {
-
     .bold-text {
         font-weight: bold;
     }
-
     .list-group {
         margin-bottom: 0px;
-
-        .list-group-item{
+        .list-group-item {
             .list-view-pf-left {
                 text-align: left;
             }
-
             .cluster-name {
                 white-space: nowrap;
                 overflow: hidden;
                 text-overflow: ellipsis;
             }
         }
-
         .list-view-icon-failure {
             color: $color-red;
         }
     }
-
-    .host-name{
+    .host-name {
         white-space: nowrap;
         overflow: hidden;
         text-overflow: ellipsis;
         padding-left: 0;
         padding-right: 0;
         text-align: left;
+        color: #3A90AA;
     }
-
     .status-icons {
         font-size: 23px;
     }
-
 }

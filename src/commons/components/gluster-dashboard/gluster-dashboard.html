@@ -70,9 +70,11 @@
                 </div>
             </div>
         </div>
+        <div class="col-md-6 remove-padding padding-right" ng-if="vm.showTrendChart">
+            <div class="col-md-12" pf-card head-title="Network Trend" show-top-border="false" show-titles-separator="false">
+                <trends-chart config="vm.throughput" chart-data="vm.throughputData" tool-type="'KBps'"></trends-chart>
+            </div>
+        </div>
     </div>
-    <!-- <div pf-card head-title="Performance" show-top-border="false" show-titles-separator="false" style="width: 25%">
-    <trends-chart config="dashboardCntrl.configVirtual" chart-data="dashboardCntrl.chartData"></trends-chart>
-    <trends-chart config="dashboardCntrl.configPhysical" chart-data="dashboardCntrl.chartData" show-top-border="true"></trends-chart>
-</div> -->
+
 </div>
