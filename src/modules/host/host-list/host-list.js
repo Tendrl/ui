@@ -88,7 +88,7 @@
                     tags = tagsList[index].split("/");
                 }
 
-                host.cluster_name = "Unassigned";
+                host.cluster_id = list[i].tendrlcontext.cluster_id;
                 host.id = list[i].node_id;
                 host.status = list[i].status;
                 host.name = list[i].fqdn;

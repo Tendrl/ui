@@ -9,26 +9,29 @@
     function clusterDetailController($state, $stateParams, utils, $scope, $rootScope, dashboardStore, $interval, eventStore, config) {
 
         var vm = this,
-            clusterDetailTimer;
+            clusterDetailTimer,
+            alerts;
 
-        vm.tabList = {"Overview":1,
-                      "Hosts": 2
-                    };
+        vm.tabList = {
+            "Overview": 1,
+            "Hosts": 2
+        };
 
         vm.setTab = setTab;
         vm.isTabSet = isTabSet;
         vm.isDataLoading = true;
+        vm.activeTab = vm.tabList["Overview"];
 
         init();
         /* Adding clusterId in scope so that it will be accessible inside child directive */
-        function init(){
+        function init() {
             $scope.clusterId = $stateParams.clusterId;
             if (!$rootScope.clusterData) {
                 utils.getObjectList("Cluster")
                     .then(function(data) {
                         $rootScope.clusterData = data;
                         _setClusterDetail();
-                });
+                    });
             } else {
                 _setClusterDetail();
             }
@@ -47,10 +50,10 @@
                 vm.tabList.RBDs = 4;
                 _cephClusterSpecificData($scope.clusterId);
             }
-            vm.activeTab = vm.tabList["Overview"];
+
         }
 
-        function checkStatus(clusterObj){
+        function checkStatus(clusterObj) {
             var status;
             if (clusterObj.globaldetails.status === "healthy") {
                 status = "HEALTH_OK";
@@ -62,38 +65,63 @@
             return status;
         }
 
-        function _glusterClusterSpecificData(clusterId){
-            dashboardStore.getClusterDashboardList(clusterId)
-                .then(function(dashboardData){
+        function _glusterClusterSpecificData(clusterId) {
+            dashboardStore.getClusterDashboardList(clusterId, "cluster")
+                .then(function(dashboardData) {
                     $interval.cancel(clusterDetailTimer);
                     vm.clusterData = dashboardData;
                     vm.volOverviewData = vm.clusterData.sds_det.volume_status_wise_counts;
                     vm.brickOverviewData = vm.clusterData.sds_det.brick_status_wise_counts;
-                    dashboardStore.getClusterDashboardUtilizationList(clusterId)
-                        .then(function(chartData){
-                            vm.chartData = chartData;
-                            eventStore.getAlertList()
-                                .then(function(alertData){
-                                    vm.alerts = dashboardStore.filterAlerts(alertData, "gluster");
-                                    vm.isDataLoading = false;
-                                    startTimer();
-                            });
-                    });
-            });
+                    return dashboardStore.getClusterDashboardUtilizationList(clusterId, "cluster", "utilization")
+                })
+                .then(function(chartData) {
+                    vm.chartData = chartData;
+                    return eventStore.getAlertList()
+                })
+                .then(function(alertData) {
+                    vm.alerts = dashboardStore.filterAlerts(alertData, "cluster", "gluster");
+                    return dashboardStore.getClusterDashboardUtilizationList(clusterId, "cluster", "cluster_network")
+                })
+                .then(function(throughput) {
+                    vm.throughput = throughput;
+                    vm.isDataLoading = false;
+                    startTimer();
+                });
         }
 
-        function _cephClusterSpecificData(clusterId){
-            dashboardStore.getClusterDashboardList(clusterId)
-                .then(function(cephDashboardData){
+        function _cephClusterSpecificData(clusterId) {
+            dashboardStore.getClusterDashboardList(clusterId, "cluster")
+                .then(function(cephDashboardData) {
                     $interval.cancel(clusterDetailTimer);
                     vm.cephCluster = cephDashboardData;
-                    dashboardStore.getClusterDashboardUtilizationList(clusterId)
-                        .then(function(cephChartData){
-                            vm.cephChartData = cephChartData;
-                            vm.isDataLoading = false;
-                            startTimer();
-                    });
-            });
+                    return dashboardStore.getClusterDashboardUtilizationList(clusterId, "cluster", "utilization");
+                })
+                .then(function(cephChartData) {
+                    vm.cephChartData = cephChartData;
+                    return eventStore.getAlertList()
+                })
+                .then(function(alertData) {
+                    alerts = dashboardStore.filterAlerts(alertData, "gluster");
+                    vm.alerts = alerts;
+                    return dashboardStore.getClusterDashboardUtilizationList(clusterId, "cluster", "iops");
+                })
+                .then(function(iopsData) {
+                    vm.iops = iopsData;
+                    return dashboardStore.getClusterDashboardUtilizationList(clusterId, "cluster", "latency");
+                })
+                .then(function(latencyData) {
+                    vm.latency = latencyData;
+                    return dashboardStore.getClusterDashboardUtilizationList(clusterId, "cluster", "cluster_network");
+                })
+                .then(function(clusterNetworkData) {
+                    vm.clusterNetworkData = clusterNetworkData;
+                    return dashboardStore.getClusterDashboardUtilizationList(clusterId, "cluster", "public_network");
+                })
+                .then(function(publicNetworkData) {
+                    vm.publicNetworkData = publicNetworkData;
+                    vm.isDataLoading = false;
+                    startTimer();
+                });
         }
 
         function startTimer() {

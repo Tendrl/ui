@@ -10,7 +10,13 @@
             cephCluster: "<",
             chartData: "=?",
             showClusterData: "=?",
-            showSystemPerformance: "=?"
+            showSystemPerformance: "=?",
+            alerts: "=?",
+            iopsData: "=?",
+            latencyData: "=?",
+            clusterNetworkData: "=?",
+            publicNetworkData: "<",
+            showTrendChart: "=?"
         },
         controller: "cephDashboardController",
         controllerAs: "vm",
@@ -31,14 +37,22 @@
             clusterHost(vm.cephCluster);
             clusterMon();
             clusterOsd();
-            vm.poolBarChartTitleData = poolChartTitleData();
+            clusterPG(vm.cephCluster.sds_det.pg_status_wise_counts);
+            vm.poolBarChartTitleData = poolChartTitleData(vm.cephCluster.sds_det.pool_status_wise_counts);
             vm.poolBarChartData = poolBarChartData();
-            vm.rbdBarChartTitleData = rbdChartTitleData();
+            vm.rbdBarChartTitleData = rbdChartTitleData(vm.cephCluster.sds_det.rbd_status_wise_counts);
             vm.rbdBarChartData = rbdBarChartData();
             rawStorageUtilization(vm.cephCluster);
             if (vm.showSystemPerformance && vm.cephCluster) {
                 defaultSystemPerformanceSettings(vm.cephCluster.node_summaries);
                 vm.heatMapData = dashboardStore.systemPerformance(vm.cephCluster.node_summaries);
+            }
+            if(vm.showTrendChart){
+                trendChartData();
+                vm.cephIopsData = vm.iopsData;
+                vm.cephLatencyData = vm.latencyData;
+                vm.cephClusterNetworkData = vm.clusterNetworkData;
+                vm.cephPublicNetworkData = vm.publicNetworkData;
             }
         };
 
@@ -107,7 +121,7 @@
         }
 
         function clusterMon() {
-            var monData = vm.cephCluster.sds_det.mon_counts;
+            var monData = vm.cephCluster.sds_det.mon_status_wise_counts;
             vm.monStatus = {
                 "title": "Monitors",
                 "count": monData.total,
@@ -128,8 +142,37 @@
             }
         }
 
+        function clusterPG(pgOverview) {
+            var PGData = pgOverview,
+            pgTotal = PGData.warn + PGData.critical + PGData.ok;
+            vm.PGStatus = {
+                "title": "PGs",
+                "count": pgTotal,
+                "notifications": []
+            };
+
+            if (pgTotal === PGData.ok) {
+                vm.PGStatus.notifications.push({
+                    "iconClass": "pficon pficon-ok"
+                })
+            } else {
+                if (PGData.critical) {
+                    vm.PGStatus.notifications.push({
+                        "iconClass": "pficon pficon-error-circle-o",
+                        "count": (PGData.critical ? PGData.critical : 0)
+                    });
+                }
+                if (PGData.warn) {
+                    vm.PGStatus.notifications.push({
+                        "iconClass": "pficon pficon-warning-triangle-o",
+                        "count": (PGData.warn ? PGData.warn : 0)
+                    });
+                }
+            }
+        }
+
         function clusterOsd() {
-            var osdData = vm.cephCluster.sds_det.osd_counts;
+            var osdData = vm.cephCluster.sds_det.osd_status_wise_counts;
             vm.osdStatus = {
                 "title": "OSDs",
                 "count": osdData.total,
@@ -189,8 +232,8 @@
 
             vm.rawStorageUtilizationData = {
                 dataAvailable: checkDonutDataAvailable(),
-                used: (clusterData.utilization.used / Math.pow(1024, 3)).toFixed(0),
-                total: (clusterData.utilization.total / Math.pow(1024, 3)).toFixed(0),
+                used: (clusterData.utilization.used / Math.pow(1024, 3)).toFixed(2),
+                total: (clusterData.utilization.total / Math.pow(1024, 3)).toFixed(2),
                 xData: rawStorageUtilizationXData,
                 yData: rawStorageUtilizationYData
             };
@@ -206,24 +249,24 @@
             vm.systemPerformanceLegends = true;
         }
 
-        function poolChartTitleData() {
+        function poolChartTitleData(poolOverview) {
             return {
-                "title": vm.cephCluster.sds_det.most_used_pools.length === 1 ? "Pool" : "Pools",
+                "title": poolOverview.total === 1 ? "Pool" : "Pools",
                 "data": {
-                    "total": vm.cephCluster.sds_det.most_used_pools.length,
-                    "error": 0,
-                    "warning": 0
+                    "total": poolOverview.total ? poolOverview.total :vm.cephCluster.sds_det.most_used_pools.length,
+                    "error": poolOverview.critical_alerts,
+                    "warning": poolOverview.warning_alerts
                 }
             }
         }
 
-        function rbdChartTitleData() {
+        function rbdChartTitleData(rbdOverview) {
             return {
-                "title": vm.cephCluster.sds_det.most_used_rbds.length === 1 ? "RBD" : "RBDs",
+                "title": rbdOverview.total === 1 ? "RBD" : "RBDs",
                 "data": {
-                    "total": vm.cephCluster.sds_det.most_used_rbds.length,
-                    "error": 0,
-                    "warning": 0
+                    "total": rbdOverview.total ? rbdOverview.total :vm.cephCluster.sds_det.most_used_rbds.length,
+                    "error": rbdOverview.critical_alerts,
+                    "warning": rbdOverview.warning_alerts
                 }
             }
         }
@@ -259,6 +302,44 @@
                 mostUsedRbds.push(rbdData);
             }
             return mostUsedRbds;
+        }
+
+        function trendChartData(){
+            vm.iopsConfig = {
+                "chartId": "iopsTrendsChart",
+                "layout": "small",
+                "trendLabel": "Virtual Disk I/O",
+                "units": "K",
+                "title": "IOPS",
+                "timeFrame": "Last 24 hours"
+            };
+
+            vm.latencyConfig = {
+                "chartId": "latencyTrendsChart",
+                "layout": "small",
+                "trendLabel": "Physical Disk I/O",
+                "units": "ms",
+                "title": "Latency",
+                "timeFrame": "Last 24 hours"
+            };
+
+            vm.publicNetworkConfig = {
+                "chartId": "virtualTrendsChart",
+                "layout": "small",
+                "trendLabel": "Virtual Disk I/O",
+                "units": "KBps",
+                "title": "Public Network",
+                "timeFrame": "Last 24 hours"
+            };
+
+            vm.clusterNetworkConfig = {
+                "chartId": "physicalTrendsChart",
+                "layout": "small",
+                "trendLabel": "Physical Disk I/O",
+                "units": "KBps",
+                "title": "Cluster Network",
+                "timeFrame": "Last 24 hours"
+            };
         }
     }
 }());

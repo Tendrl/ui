@@ -505,13 +505,14 @@
                 });
         };
 
-        vm.getClusterDashboardList = function(clusterId, utilization) {
+        vm.getClusterDashboardList = function(id, componentType, type) {
             var url, getClusterDashboardListRequest, request;
-
-                if(utilization) {
-                    url = config.baseUrl + "monitoring/cluster/" + clusterId + "/utilization";
+                if(type === "public_network" || type === "cluster_network"){
+                    url = config.baseUrl + "monitoring/" + componentType + "/" + id + "/throughput?type=" + type;
+                } else if(type) {
+                    url = config.baseUrl + "monitoring/" + componentType + "/" + id + "/" + type;
                 } else {
-                    url = config.baseUrl + "monitoring/cluster/" + clusterId;
+                    url = config.baseUrl + "monitoring/" + componentType + "/" + id;
                 }
 
                 getClusterDashboardListRequest = {
@@ -524,7 +525,7 @@
                     return response.data;
                 }, function(e) {
                     checkErrorCode(e);
-                    console.log("Error Occurred: while fetching getClusterDashboardList");
+                    console.log("Error Occurred: while fetching getOverviewData");
                     return null;
                 });
         };

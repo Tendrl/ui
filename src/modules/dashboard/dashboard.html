@@ -13,7 +13,7 @@
     <!-- Ceph Dashboard-->
     <div ng-if="dashboardCntrl.isDataLoading" class="spinner spinner-lg"></div>
     <div ng-if="dashboardCntrl.clusterType === 'ceph' && !dashboardCntrl.isDataLoading">
-        <ceph-dashboard show-cluster-data="true" ceph-cluster="dashboardCntrl.cephCluster" chart-data="dashboardCntrl.chartData"></ceph-dashboard>
+        <ceph-dashboard show-cluster-data="true" ceph-cluster="dashboardCntrl.cephCluster" chart-data="dashboardCntrl.chartData" alerts="dashboardCntrl.alerts"></ceph-dashboard>
     </div>
 
     <!-- Gluster Dashboard-->
