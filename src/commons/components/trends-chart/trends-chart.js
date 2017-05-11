@@ -113,36 +113,38 @@
     app.controller("trendsChartController", trendsChartController);
 
     app.component("trendsChart", {
-            bindings: {
-                config: "=",
-                chartData: "=",
-                chartHeight: "=?",
-                showXAxis: "=?",
-                showYAxis: "=?"
-            },
-            controllerAs: "vm",
-            controller: "trendsChartController",
-            templateUrl: "/commons/components/trends-chart/trends-chart.html"
-        }
-    );
+        bindings: {
+            config: "=",
+            chartData: "<",
+            chartHeight: "=?",
+            showXAxis: "=?",
+            showYAxis: "=?",
+            toolType: "=?"
+        },
+        controllerAs: "vm",
+        controller: "trendsChartController",
+        templateUrl: "/commons/components/trends-chart/trends-chart.html"
+    });
 
     function trendsChartController($element, $scope) {
         var vm = this,
             SMALL = 30,
             LARGE = 60,
-            cData = {};
+            cData = {},
+            latestValue = 0;
+        vm.$onChanges = function(changesObj) {
+            setupChartData();
 
-        setupChartData();
+            function setupChartData() {
+                cData.total = "100";
 
-        function setupChartData() {
-            cData.total = "100";
+                cData.xData = _setupXData();
+                cData.yData = _setupYData();
+                cData.dataAvailable = vm.chartData.length > 0 ? true : false;
 
-            cData.xData = _setupXData();
-            cData.yData = _setupYData();
-            cData.dataAvailable = vm.chartData.length > 0 ? true : false;
-
-            vm.chartData = cData;
-        };
+                vm.chartData = cData;
+            };
+        }
 
         function _setupXData() {
             var len = vm.chartData.length,
@@ -150,7 +152,7 @@
                 i;
 
             for (i = 0; i < len; i++) {
-                if(vm.chartData[i][0] !== null) {
+                if (vm.chartData[i][1] !== null) {
                     xData.push(vm.chartData[i][1]);
                 }
             }
@@ -160,11 +162,11 @@
 
         function _setupYData() {
             var len = vm.chartData.length,
-                yData = ["used"],
+                yData = [vm.toolType],
                 i;
 
             for (i = 0; i < len; i++) {
-                if(vm.chartData[i][0] !== null) {
+                if (vm.chartData[i][0] !== null) {
                     yData.push(vm.chartData[i][0]);
                 }
             }
@@ -182,7 +184,6 @@
         };
 
         vm.getLatestValue = function() {
-            var latestValue = 0;
             if (vm.chartData.yData && vm.chartData.yData.length > 0) {
                 latestValue = vm.chartData.yData[vm.chartData.yData.length - 1];
             }

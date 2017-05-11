@@ -10,20 +10,20 @@
         var vm = this,
             dashboardTimer,
             rawStorageUtilizationXData = ["percent"],
-            rawStorageUtilizationYData = ["used"];
+            rawStorageUtilizationYData = ["used"],
+            alerts;
 
         vm.heatMapdataAvailable = false;
         vm.changeType = changeType;
         vm.clusterType = "ceph";
         vm.isDataLoading = true;
         
-
         init();
 
-        function init(){
-            if(vm.clusterType === "ceph"){
+        function init() {
+            if (vm.clusterType === "ceph") {
                 cephInit();
-            } else{
+            } else {
                 glusterInit();
             }
         }
@@ -33,36 +33,40 @@
                 .then(function(data) {
                     $interval.cancel(dashboardTimer);
                     vm.cephCluster = data;
-                    utils.getDashboardData("ceph", true)
-                        .then(function(data) {
-                            vm.chartData = data[0].datapoints;                            
-                            vm.isDataLoading = false;
-                            startTimer();
-                        });
-                });
+                    return utils.getDashboardData("ceph", "cluster", "utilization");
+                })
+                .then(function(data) {
+                    vm.chartData = data[0].datapoints;
+                    return eventStore.getAlertList();
+                })
+                .then(function(alertData) {
+                    alerts = dashboardStore.filterAlerts(alertData, "ceph");
+                    vm.alerts = alerts;
+                    vm.isDataLoading = false;
+                    startTimer();
+                })
         }
 
         function glusterInit() {
-            var alerts;
             utils.getDashboardData("gluster")
                 .then(function(data) {
                     $interval.cancel(dashboardTimer);
                     vm.glusterCluster = data;
-                    vm.volOverviewData = vm.glusterCluster.sds_det.volume_counts;
-                    vm.brickOverviewData = vm.glusterCluster.sds_det.brick_counts;
-                    utils.getDashboardData("gluster", true)
-                        .then(function(data) {
-                            if(data && data[0] && data[0].datapoints){
-                                vm.chartData = data[0].datapoints;
-                            }
-                            eventStore.getAlertList()
-                                .then(function(alertData){
-                                    alerts = dashboardStore.filterAlerts(alertData, "gluster");
-                                    vm.alerts = alerts;
-                                    vm.isDataLoading = false;          
-                                    startTimer();
-                                });
-                        });
+                    vm.volOverviewData = vm.glusterCluster.sds_det.most_used_volumes;
+                    vm.brickOverviewData = vm.glusterCluster.sds_det.most_used_bricks;
+                    return utils.getDashboardData("gluster", "cluster", "utilization");
+                })
+                .then(function(data) {
+                    if (data && data[0] && data[0].datapoints) {
+                        vm.chartData = data[0].datapoints;
+                    }
+                    return eventStore.getAlertList();
+                })
+                .then(function(alertData) {
+                    alerts = dashboardStore.filterAlerts(alertData, "gluster");
+                    vm.alerts = alerts;
+                    vm.isDataLoading = false;
+                    startTimer();
                 });
         }
 
@@ -77,7 +81,7 @@
             }, 1000 * config.dashboardIntervalTime, 1);
         }
 
-        function changeType(clusterType){
+        function changeType(clusterType) {
             vm.clusterType = clusterType;
             vm.isDataLoading = true;
             init();

@@ -7,15 +7,16 @@
 
     /*@ngInject*/
     function dashboardStore($state, $q, utils , $filter) {
-        var store = this;
+        var store = this,
+        hostUtilization;
 
-        store.getClusterDashboardList = function(cluster_id) {
+        store.getClusterDashboardList = function(cluster_id, componentType) {
             var list,
                 deferred;
 
             deferred = $q.defer();
 
-            utils.getClusterDashboardList(cluster_id)
+            utils.getClusterDashboardList(cluster_id, componentType)
                 .then(function(data) {
                     list = data.stats ? data.stats : [];
                     deferred.resolve(list);
@@ -24,12 +25,26 @@
             return deferred.promise;
         };
 
-        store.getClusterDashboardUtilizationList = function(cluster_id){
+        store.getClusterDashboardUtilizationList = function(id, componentType, type){
             var list,
                 deferred;
 
             deferred = $q.defer();
-            utils.getClusterDashboardList(cluster_id, true)
+            utils.getClusterDashboardList(id, componentType, type)
+                .then(function(data) {
+                    list = data && data.stats[0] && data.stats[0].datapoints ? data.stats[0].datapoints : [];
+                    deferred.resolve(list);
+                });
+
+            return deferred.promise;
+        };
+
+        store.getHostUtilizationList = function(id, componentType, type){
+            var list,
+                deferred;
+
+            deferred = $q.defer();
+            utils.getClusterDashboardList(id, componentType, type)
                 .then(function(data) {
                     list = data && data.stats[0] && data.stats[0].datapoints ? data.stats[0].datapoints : [];
                     deferred.resolve(list);
@@ -73,7 +88,7 @@
                 cpuUsage.id = i;
                 cpuUsage.value = node_summaries[i].cpu_usage.percent_used/100;
                 cpuUsage.tooltip = node_summaries[i].name + " " +
-                                    node_summaries[i].cpu_usage.percent_used +"%";
+                                    node_summaries[i].cpu_usage.percent_used + "%";
 
                 cpuHeatMapData.push(cpuUsage);
 

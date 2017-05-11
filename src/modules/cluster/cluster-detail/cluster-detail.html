@@ -22,10 +22,10 @@
         <div ng-if="clusterDetail.isDataLoading" class="spinner spinner-lg"></div>
         <div ng-if="!clusterDetail.isDataLoading">
             <div ng-if="clusterDetail.activeTab === 1 && clusterDetail.clusterObj.sds_name ==='gluster'">
-                <gluster-dashboard  show-cluster-data="false" gluster-cluster="clusterDetail.clusterData" chart-data="clusterDetail.chartData" volume-overview="clusterDetail.volOverviewData" brick-overview="clusterDetail.brickOverviewData" alerts="clusterDetail.alerts" show-system-performance="true"></gluster-dashboard>
+                <gluster-dashboard  show-cluster-data="false" gluster-cluster="clusterDetail.clusterData" chart-data="clusterDetail.chartData" volume-overview="clusterDetail.volOverviewData" brick-overview="clusterDetail.brickOverviewData" alerts="clusterDetail.alerts" show-system-performance="true" iops-data="clusterDetail.iops" throughput-data="clusterDetail.throughput" show-trend-chart="true"></gluster-dashboard>
             </div>
             <div ng-if="clusterDetail.activeTab === 1 && clusterDetail.clusterObj.sds_name !=='gluster'">
-                <ceph-dashboard  show-cluster-data="false" ceph-cluster="clusterDetail.cephCluster" chart-data="clusterDetail.cephChartData" show-system-performance="true"></ceph-dashboard>
+                <ceph-dashboard  show-cluster-data="false" ceph-cluster="clusterDetail.cephCluster" chart-data="clusterDetail.cephChartData" show-system-performance="true" iops-data="clusterDetail.iops" latency-data="clusterDetail.latency" cluster-network-data="clusterDetail.clusterNetworkData" public-network-data="clusterDetail.publicNetworkData" show-trend-chart="true" alerts="clusterDetail.alerts"></ceph-dashboard>
             </div>
 
         </div>
