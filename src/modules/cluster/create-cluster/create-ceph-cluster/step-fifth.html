@@ -1,0 +1,131 @@
+<div class="wizard-pf-contents summary-view-container" ng-if="createCephClusterCntrl.selectedStep === 5">
+    <div class="create-cluster-summary row">
+        <h3>Cluster Summary</h3>
+        <div class="col-md-12 col-sm-12 single-create-cluster-summary">
+            <div class="row">
+                <div class="col-md-6 col-sm-6">Name</div>
+                <div class="col-md-6 col-sm-6">{{createCephClusterCntrl.cephClusterName}}</div>
+            </div>
+            <div class="row">
+                <div class="col-md-6 col-sm-6">Available Devices</div>
+                <div class="col-md-6 col-sm-6">{{createCephClusterCntrl.totalDevices}}</div>
+            </div>
+            <div class="row">
+                <div class="col-md-6 col-sm-6">Available Capacity</div>
+                <div class="col-md-6 col-sm-6">{{createCephClusterCntrl.totalAvailableCapacity}}</div>
+            </div>
+            <div class="row">
+                <div class="col-md-6 col-sm-6">Public Network</div>
+                <div class="col-md-6 col-sm-6">{{createCephClusterCntrl.selectedClusterNetwork || "NA"}}</div>
+            </div>
+            <div class="row">
+                <div class="col-md-6 col-sm-6">Cluster Network</div>
+                <div class="col-md-6 col-sm-6">{{createCephClusterCntrl.selectedPublicNetwork || "NA"}}</div>
+            </div>
+        </div>
+    </div>
+    
+    <h3>{{createCephClusterCntrl.selectedMonitors}} Mon Hosts</h3>
+    <div class="div-with-scroll">
+        <div class="list-group list-view-pf list-view-pf-equalized-column" ng-repeat="host in createCephClusterCntrl.summaryHost" ng-if="host.selectedRole === 'Monitor'">
+            <div class=" list-group-item ">
+                <div class="col-md-12 ">
+                    <div class="col-md-4 ">
+                        <div class="list-view-pf-additional-info-item list-view-pf-additional-info-item-stacked stack-left ">
+                            <strong>{{host.fqdn}}</strong>
+                            <h5>{{host.ifIPMapping.length}} Interfaces, {{host.totalNodeInDevice}} Devices, {{host.availableCapacity | bytes}}</h5>
+                        </div>  
+                    </div>
+                    <div class="col-md-3 ">
+                        <div class="list-view-pf-additional-info-item list-view-pf-additional-info-item-stacked stack-left ">
+                            <strong>{{createCephClusterCntrl.getCNIfIp(host).if}}</strong>
+                            <div>{{createCephClusterCntrl.getCNIfIp(host).ip}}</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12 horizontal-line list-group-line"></div>
+    </div>
+
+    <h3>{{createCephClusterCntrl.selectedOSDs}} OSD Hosts</h3>
+    <div class="osd-div-with-scroll">
+        <div class="list-group list-view-pf list-view-pf-equalized-column " ng-repeat="host in createCephClusterCntrl.summaryHost " ng-if="host.selectedRole !=='Monitor'">
+            <div class="list-group-item ">
+                <div class="col-md-12 ">
+                    <div class="col-md-1">
+                        <i class="fa fa-angle-right angle-expand" aria-hidden="true" ng-click="createCephClusterCntrl.expandList(host)" ng-show="!host.isExpanded"></i>
+                        <i class="fa fa-angle-down angle-expand" aria-hidden="true" ng-click="createCephClusterCntrl.expandList(host)" ng-show="host.isExpanded"></i>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="list-view-pf-additional-info-item list-view-pf-additional-info-item-stacked stack-left ">
+                            <strong>{{host.fqdn}}</strong>
+                            <h5>{{host.ifIPMapping.length}} Interfaces, {{host.totalNodeInDevice}} Devices, {{host.availableCapacity | bytes}}</h5>
+                        </div>  
+                    </div>
+                    <div class="col-md-2">
+                        <div class="list-view-pf-additional-info-item list-view-pf-additional-info-item-stacked stack-left ">
+                            <strong>{{createCephClusterCntrl.getCNIfIp(host).if}}</strong>
+                            <div>{{createCephClusterCntrl.getCNIfIp(host).ip}}</div>
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="list-view-pf-additional-info-item list-view-pf-additional-info-item-stacked ">
+                            <strong>Journal Configration</strong>
+                            <h5 id="SummaryJournalConfigration ">{{host.selectedJournalConfigration}}</h5>
+                        </div>
+                    </div>
+                    <div class="col-md-2" ng-show="host.journalSize">
+                        <div class="list-view-pf-additional-info-item list-view-pf-additional-info-item-stacked ">
+                            <strong>Journal Size</strong>
+                            <h5 id="SummaryjournalSize ">{{host.journalSize}} {{host.customselectedUnit}}</h5>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div ng-class="{'horizontal-line': host.isExpanded}"></div>
+            <div class="table-container" ng-if="host.isExpanded">
+                <table class="table table-striped table-bordered table-hover" ng-if="host.selectedJournalConfigration === 'Dedicated'">
+                    <thead>
+                        <tr>
+                            <th>OSD</th>
+                            <th>Journal</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="disk in host.storage_disks">
+                            <td class="osd">
+                                <div class="bold-text">{{disk.device || "NA"}}</div>
+                                <div>{{(disk.ssd).toLowerCase() === "true" ? "SSD" : "NON-SSD"}}, {{(disk.size | bytes)}}</div>
+                            </td>
+                            <td>{{disk.journal || "NA"}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <table class="table table-striped table-bordered table-hover" ng-if="host.selectedJournalConfigration !== 'Dedicated'">
+                    <thead>
+                        <tr>
+                            <th>OSD</th>
+                            <th>Type</th>
+                            <th>Raw Capacity</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="disk in host.storage_disks">
+                            <td class="bold-text">
+                                {{disk.device || "NA"}}
+                            </td>
+                            <td>{{(disk.ssd).toLowerCase() === "true" ? "SSD" : "NON-SSD"}}</td>
+                            <td>{{(disk.size | bytes)}} </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12 horizontal-line list-group-line"></div>
+    </div>
+</div>

@@ -1,6 +1,6 @@
 {
   "clusters": [
-    {
+        {
       "fsid": "c221ccdb-51d6-4b57-9f10-bcf30c7fa351",
       "integration_id": "c221ccdb-51d6-4b57-9f10-bcf30c7fa353",
       "integration_name": "ceph",

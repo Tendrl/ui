@@ -37,7 +37,6 @@
             }
         }
 
-
         function _setClusterDetail() {
             vm.clusterObj = utils.getClusterDetails($scope.clusterId);
             vm.clusterName = vm.clusterObj.cluster_name || "NA";
