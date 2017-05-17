@@ -199,7 +199,6 @@
                     })
                     .state("create-cluster", {
                         url: "/create-cluster",
-                        //templateUrl: "/modules/cluster/create-cluster/create-cluster.html",
                         template: "",
                         controller: "createClusterController",
                         controllerAs: "createClusterCntrl"
@@ -212,7 +211,7 @@
                     })
                     .state("create-gluster-cluster", {
                         url: "/create-gluster-cluster",
-                        templateUrl: "/modules/cluster/create-cluster/create-gluster-cluster/create-cluster.html",
+                        templateUrl: "/modules/cluster/create-cluster/create-gluster-cluster/create-gluster-cluster.html",
                         controller: "createGlusterClusterController",
                         controllerAs: "createGlusterClusterCntrl"
                     })
