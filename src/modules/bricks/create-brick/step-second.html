@@ -1,0 +1,84 @@
+<div class="wizard-pf-contents devices-container" ng-show="vm.selectedStep === 2">
+    <div class="row toolbar-pf">
+        <div class="col-sm-12">
+            <form class="toolbar-pf-actions">
+                <div class="form-group toolbar-pf-filter">
+                    <label class="sr-only" for="filter">Name</label>
+                    <div class="input-group">
+                        <div class="input-group-btn">
+                            <select ng-disabled="vm.selectedCluster.nodes.length === 0" ng-model="vm.deviceFilterBy.property" class="btn btn-default dropdown-toggle">
+                                <option value="freeDevices.device">Device Name</option>
+                                <option value="fqdn">Host Name</option>
+                                <option value="freeDevices.size">Size</option>
+                            </select>
+                        </div>
+                        <input type="text" class="form-control" ng-model="vm.deviceFilterBy.value" placeholder="Filter By {{vm.deviceFilterBy.property}}...">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <a href ng-click="vm.expandList(true, vm.filteredDiskList)">Expand All </a> <a href ng-click="vm.expandList(false, vm.filteredDiskList)"> Collapse All</a>
+                </div>
+            </form>
+            <div class="row toolbar-pf-results">
+                <div class="col-sm-12">
+                    <h5 class="ng-binding">{{vm.selectedDiskCount}} Devices</h5>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="list-group list-view-pf list-view-pf-view list-container">
+        <div class="list-group-item" ng-class="{'list-view-pf-expand-active': host.isExpanded}" ng-repeat="host in vm.filteredDiskList=(vm.selectedCluster.nodes | filter: vm.filterList)">
+            <div class="list-group-item-header">
+                <div class="list-view-pf-expand">
+                    <span class="fa fa-angle-right" ng-click="vm.expandList(host)" ng-show="!host.isExpanded"></span>
+                    <span class="fa fa-angle-right fa-angle-down" ng-click="vm.expandList(host)" ng-show="host.isExpanded"></span>
+                </div>
+                <div class="list-view-pf-checkbox">
+                    <input type="checkbox" ng-click="vm.selectHost(host)" ng-checked="vm.isSelectedHost(host)">
+                </div>
+                <div class="list-view-pf-main-info">
+                    <div class="list-view-pf-body">
+                        <div class="col-md-5">{{host.fqdn}}</div>
+                        <div class="col-md-3">{{host.freeDevicesCount}} Devices</div>
+                        <div class="col-md-4">{{host.availableCapacity | bytes}} Total Raw Capacity</div>
+                    </div>
+                </div>
+            </div>
+            <div class="list-group-item-container container-fluid" ng-show="host.isExpanded">
+                <div class="close">
+                    <span class="pficon pficon-close" ng-click="vm.expandList(host)"></span>
+                </div>
+                <div class="row">
+                    <div class="list-group-item" ">
+                        <div class="table-container">
+                            <table class="table table-striped table-bordered table-hover" id="createBrickTable">
+                                <thead>
+                                    <tr>
+                                        <th>
+                                            <label class="sr-only" for="selectAll">Select all rows</label>
+                                            <input type="checkbox" id="selectAll" ng-click="vm.selectDisk('all', host)" name="selectAll" ng-checked="host.allDiskChecked">
+                                        </th>
+                                        <th>Device</th>
+                                        <th>Type</th>
+                                        <th>Raw Capacity</th>
+                                    </tr>
+                                </thead>
+                                <tbody> 
+                                    <tr ng-repeat="disk in host.freeDevices | filter: vm.filterDisk">
+                                        <td>
+                                            <label class="sr-only" for="select{{$index+1}}">Select row</label>
+                                            <input type="checkbox" ng-click="vm.selectDisk(disk, host)" id="select{{$index+1}}" name="select{{$index+1}}" ng-checked="vm.isSelectedDisk(disk, host)">
+                                        </td>
+                                        <td>{{disk.device || "NA"}}</td>
+                                        <td>{{disk.type}}</td>
+                                        <td>{{(disk.size || "NA") | bytes}}</td>
+                                    </tr>
+                                </tbody>           
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

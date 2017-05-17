@@ -1,6 +1,5 @@
 <div class="custom-modal-footer">
-  <div class="modal-footer">
-    <button type="button" class="btn {{vm.cancelButton.classname}}" ng-click="vm.cancelButtoncall()">{{vm.cancelButton.name}}</button>
-    <button type="button" class="btn {{vm.nextStepButton.classname}}" ng-click="vm.nextStep();">{{vm.nextStepButton.name}}</button>
+  <div class="modal-footer" >
+    <button ng-repeat="button in vm.modalFooter" type="button" class="btn {{button.classname}}" ng-click="button.onCall()">{{button.name}}</button>
   </div>
 </div>

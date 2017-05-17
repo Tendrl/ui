@@ -37,18 +37,28 @@
             "close": vm.closeModal
         };
 
-        vm.modalFooter = {
-        	"cancelButton": {
-                "name": "Cancel",
-                "classname": "btn-default",
-            },
-            "nextStepButton":{
-                "name": "Continue", 
-                "classname": "btn-primary",
-            },
-            "cancelButtonCall": vm.cancelModal,
-            "nextStepButtonCall": vm.createCluster
-        };
+        // vm.modalFooter = [{
+        // 	"cancelButton": {
+        //         "name": "Cancel",
+        //         "classname": "btn-default",
+        //     },
+        //     "nextStepButton":{
+        //         "name": "Continue", 
+        //         "classname": "btn-primary",
+        //     },
+        //     "cancelButtonCall": vm.cancelModal,
+        //     "nextStepButtonCall": vm.createCluster
+        // };
+
+        vm.modalFooter = [{
+            "name": "Cancel",
+            "classname": "btn-default",
+            "onCall": vm.cancelModal
+        },{
+            "name": "Next",
+            "classname": "btn-primary",
+            "onCall": vm.createCluster
+        }];
 
         vm.StorageServices = [{
             "name": "Ceph",
