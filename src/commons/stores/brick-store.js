@@ -9,13 +9,13 @@
     function brickStore($state, $q, utils) {
         var store = this;
 
-        store.createBrick = function(brickDetails) {
+        store.createBrick = function(brickDetails, cluster) {
             var deferred,
                 postData;
 
             deferred = $q.defer();
             postData = _formatData(brickDetails);
-            utils.createBrick(postData)
+            utils.createBrick(postData, cluster)
                 .then(function(data) {
                     deferred.resolve(data);
                 });

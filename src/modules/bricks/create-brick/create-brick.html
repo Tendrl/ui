@@ -28,7 +28,7 @@
                 </div>
             </div>
         </div>
-        <custom-modal-footer modal-footer="vm.modalFooter"></custom-modal-footer>
+        <custom-modal-footer modal-footer="vm.modalFooter" ng-show="!vm.isDataLoading" ></custom-modal-footer>
     </div>
     <div ng-show="vm.taskSubmitted" class="blank-slate-pf centered task-submit-screen">
         <div class="blank-slate-pf-icon">

@@ -113,6 +113,7 @@
             vm.selectedStep += 1;
 
             if (vm.selectedStep === 2) {
+                _reset();
                 _selectAllHost();
                 _selectAllDisk();
                 vm.expandList(true, vm.selectedHost);
@@ -125,7 +126,7 @@
                 _resetList(vm.brickCreationHost);
                 _updateBrickCreationHost();
             } else if (vm.selectedStep === 4) {
-                brickStore.createBrick(vm.brickCreationHost)
+                brickStore.createBrick(vm.brickCreationHost, vm.selectedCluster)
                     .then(function(data) {
                         vm.taskSubmitted = true;
                         vm.job= data.job_id;
@@ -137,7 +138,6 @@
             vm.selectedStep -= 1;
 
             if (vm.selectedStep === 2) {
-                _resetList(vm.selectedHost);
                 vm.deviceFilterBy = {
                     "property": "freeDevices.device",
                     "value": ""
@@ -293,6 +293,10 @@
 
 /*===================================Private Funtions==========================================*/
 
+        function _reset() {
+            vm.selectedDiskCount = 0;
+        }
+
         function _selectAllHost() {
             vm.selectedHost = vm.selectedCluster.nodes.slice(0);
             vm.allHostChecked = vm.selectedHost.length === vm.hostList.length;
@@ -307,6 +311,7 @@
                 vm.selectedHost[i].selectedDisk = vm.selectedHost[i].freeDevices.slice(0);
                 vm.selectedHost[i].allDiskChecked = vm.selectedHost[i].selectedDisk.length === vm.selectedHost[i].freeDevices.length;
                 vm.selectedDiskCount += vm.selectedHost[i].selectedDisk.length;
+                vm.selectedHost[i].freeDevicesCount = vm.selectedHost[i].selectedDisk.length;
             }
         }
 
@@ -326,8 +331,10 @@
                 j;
 
             for (i = 0; i < len; i++) {
-                if (!vm.brickCreationHost[i].selectedDisk.length) {
+                if (vm.brickCreationHost[i] && !vm.brickCreationHost[i].selectedDisk.length) {
                     vm.brickCreationHost.splice(i, 1);
+                    len--;
+                    i--;
                 } else {
                     diskLen = vm.brickCreationHost[i].selectedDisk.length;
                     for (j = 0; j < diskLen; j++) {
