@@ -140,7 +140,7 @@
 
                 cData.xData = _setupXData();
                 cData.yData = _setupYData();
-                cData.dataAvailable = vm.chartData.length > 0 ? true : false;
+                cData.dataAvailable = cData.xData.length > 1 && cData.yData.length > 1 ? true : false;
 
                 vm.chartData = cData;
             };
@@ -152,7 +152,7 @@
                 i;
 
             for (i = 0; i < len; i++) {
-                if (vm.chartData[i][1] !== null) {
+                if (vm.chartData[i][1] !== null && vm.chartData[i][0] !== null) {
                     xData.push(vm.chartData[i][1]);
                 }
             }
@@ -166,7 +166,7 @@
                 i;
 
             for (i = 0; i < len; i++) {
-                if (vm.chartData[i][0] !== null) {
+                if (vm.chartData[i][0] !== null && vm.chartData[i][1] !== null) {
                     yData.push(vm.chartData[i][0]);
                 }
             }

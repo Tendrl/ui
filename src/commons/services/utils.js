@@ -45,7 +45,7 @@
             return $http(request).then(function(response) {
                 return response.data;
             }, function(e) {
-                checkErrorCode(e);
+                vm.checkErrorCode(e);
             });
         };
 
@@ -68,7 +68,7 @@
             return $http(request).then(function(response) {
                 return response.data;
             }, function(e) {
-                checkErrorCode(e);
+                vm.checkErrorCode(e);
                 console.log("Error Occurred: while fetching getObjectWorkflows");
                 return null;
             });
@@ -78,30 +78,8 @@
             var url = "",
                 getObjectListRequest, request;
 
-            // will comment out once API is available
-            // if (clusterId === undefined || clusterId === "") {
-            //     url = config.baseUrl + "Get" + objectType +"List";
-            // }
-
             url = config.baseUrl + "Get" + objectType + "List";
             //url = "/api/GetClusterList.json";
-
-            // // For testing purpose
-            // if(objectType === "trends-chart") {
-            //     url = "/api/trends-chart.json";
-            // } else if(objectType === "bar-chart") {
-            //     url = "/api/bar-chart.json";
-            // } else if(objectType === "heat-map") {
-            //     url = "/api/heat-map.json";
-            // } else if(objectType === "Disk") {
-            //     url = "/api/GetDiskList.json";
-            // } else if(objectType === "ceph-cluster"){
-            //     url = "/api/GetCephData.json";
-            // } else if(objectType === "gluster-cluster"){
-            //     url = "/api/GetGlusterData.json";
-            // } else if(objectType ==="alerts"){
-            //     url = "/api/alerts.json"
-            // }
 
             getObjectListRequest = {
                 method: "GET",
@@ -112,7 +90,7 @@
             return $http(request).then(function(response) {
                 return response.data;
             }, function(e) {
-                checkErrorCode(e);
+                vm.checkErrorCode(e);
                 console.log("Error Occurred: while fetching getObjectList");
                 throw e;
             });
@@ -120,7 +98,8 @@
 
         vm.getDashboardData = function(clusterType, utilization) {
             var url = "",
-                getDashboardRequest, request;
+                getDashboardRequest,
+                request;
 
             if (utilization) {
                 url = config.baseUrl + "monitoring/system/" + clusterType + "/utilization";
@@ -137,14 +116,15 @@
             return $http(request).then(function(response) {
                 return response.data.stats;
             }, function(e) {
-                checkErrorCode(e);
+                vm.checkErrorCode(e);
                 console.log("Error Occurred: while fetching getDashboardRequest");
             });
         }
 
         vm.getJobList = function() {
             var url = "",
-                getJobListRequest, request;
+                getJobListRequest,
+                request;
 
             url = config.baseUrl + "jobs";
 
@@ -158,13 +138,15 @@
             return $http(request).then(function(response) {
                 return response.data.jobs;
             }, function(e) {
-                checkErrorCode(e);
+                vm.checkErrorCode(e);
                 console.log("Error Occurred: while fetching getJobListRequest");
             });
         };
 
         vm.importCluster = function(uri, data) {
-            var url, actionRequest, request;
+            var url,
+                actionRequest,
+                request;
 
             url = config.baseUrl + uri;
 
@@ -178,7 +160,7 @@
             return $http(request).then(function(response) {
                 return response.data;
             }, function(e) {
-                checkErrorCode(e);
+                vm.checkErrorCode(e);
             });
         };
 
@@ -203,7 +185,8 @@
 
         vm.getJobDetail = function(id) {
             var url = "",
-                getJobDetailRequest, request;
+                getJobDetailRequest,
+                request;
 
             url = config.baseUrl + "jobs/" + id;
 
@@ -217,7 +200,7 @@
             return $http(request).then(function(response) {
                 return response.data;
             }, function(e) {
-                checkErrorCode(e);
+                vm.checkErrorCode(e);
                 console.log("Error Occurred: while fetching getJobDetailRequest");
             });
         };
@@ -316,7 +299,8 @@
 
         vm.getRBDsDetails = function(clusterId) {
             var rbdList = [],
-                index1, index2;
+                index1,
+                index2;
 
             if ($rootScope.clusterData !== null) {
                 clusterData = $rootScope.clusterData.clusters;
@@ -400,7 +384,7 @@
             }
         };
 
-        var checkErrorCode = function(e) {
+        vm.checkErrorCode = function(e) {
             if (e.status === 401) {
                 AuthManager.handleUnauthApi();
             }
@@ -418,7 +402,9 @@
         }
 
         vm.getTaskLogs = function(jobId) {
-            var url, getTaskLogsRequest, request;
+            var url,
+                getTaskLogsRequest,
+                request;
 
             url = config.baseUrl + "jobs/" + jobId + "/messages";
             //url = "/api/GetMessageList.json";
@@ -432,14 +418,16 @@
             return $http(request).then(function(response) {
                 return response.data;
             }, function(e) {
-                checkErrorCode(e);
+                vm.checkErrorCode(e);
                 console.log("Error Occurred: while fetching getTaskLogs");
                 return null;
             });
         };
 
         vm.getTaskStatus = function(jobId) {
-            var url, getTaskStatusRequest, request;
+            var url,
+                getTaskStatusRequest,
+                request;
 
             url = config.baseUrl + "jobs/" + jobId + "/status";
             //url = "/api/GetStatus.json";
@@ -453,7 +441,7 @@
             return $http(request).then(function(response) {
                 return response.data;
             }, function(e) {
-                checkErrorCode(e);
+                vm.checkErrorCode(e);
                 console.log("Error Occurred: while fetching getTaskLogs");
                 return null;
             });
@@ -495,14 +483,16 @@
             return $http(request).then(function(response) {
                 return response.data;
             }, function(e) {
-                checkErrorCode(e);
+                vm.checkErrorCode(e);
                 console.log("Error Occurred: while fetching getTaskLogs");
                 return null;
             });
         };
 
         vm.getAlertList = function() {
-            var url, getAlertListRequest, request;
+            var url,
+                getAlertListRequest,
+                request;
 
             //url = "/api/alerts.json";
             url = config.baseUrl + "alerts";
@@ -516,7 +506,7 @@
             return $http(request).then(function(response) {
                 return response.data;
             }, function(e) {
-                checkErrorCode(e);
+                vm.checkErrorCode(e);
                 console.log("Error Occurred: while fetching getAlertList");
                 return null;
             });
@@ -532,7 +522,9 @@
         };
 
         vm.getNotificationList = function() {
-            var url, getNotificationListRequest, request;
+            var url,
+                getNotificationListRequest,
+                request;
 
             //url = "/api/notification.json";
             url = config.baseUrl + "notifications";
@@ -546,35 +538,38 @@
             return $http(request).then(function(response) {
                 return response.data;
             }, function(e) {
-                checkErrorCode(e);
+                vm.checkErrorCode(e);
                 console.log("Error Occurred: while fetching getNotificationList");
                 return null;
             });
         };
 
         vm.getClusterDashboardList = function(id, componentType, type) {
-            var url, getClusterDashboardListRequest, request;
-                if(type === "public_network" || type === "cluster_network"){
-                    url = config.baseUrl + "monitoring/" + componentType + "/" + id + "/throughput?type=" + type;
-                } else if(type) {
-                    url = config.baseUrl + "monitoring/" + componentType + "/" + id + "/" + type;
-                } else {
-                    url = config.baseUrl + "monitoring/" + componentType + "/" + id;
-                }
+            var url,
+                getClusterDashboardListRequest,
+                request;
 
-                getClusterDashboardListRequest = {
-                    method: "GET",
-                    url: url
-                };
+            if (type === "public_network" || type === "cluster_network") {
+                url = config.baseUrl + "monitoring/" + componentType + "/" + id + "/throughput?type=" + type;
+            } else if (type) {
+                url = config.baseUrl + "monitoring/" + componentType + "/" + id + "/" + type;
+            } else {
+                url = config.baseUrl + "monitoring/" + componentType + "/" + id;
+            }
 
-                request = angular.copy(getClusterDashboardListRequest);
-                return $http(request).then(function (response) {
-                    return response.data;
-                }, function(e) {
-                    checkErrorCode(e);
-                    console.log("Error Occurred: while fetching getOverviewData");
-                    return null;
-                });
+            getClusterDashboardListRequest = {
+                method: "GET",
+                url: url
+            };
+
+            request = angular.copy(getClusterDashboardListRequest);
+            return $http(request).then(function(response) {
+                return response.data;
+            }, function(e) {
+                vm.checkErrorCode(e);
+                console.log("Error Occurred: while fetching getOverviewData");
+                return null;
+            });
         };
 
         vm.createCluster = function(postData) {
@@ -592,10 +587,12 @@
             return $http(request).then(function(response) {
                 return response.data;
             }, function(e) {
-                checkErrorCode(e);
+                vm.checkErrorCode(e);
                 console.log("Error Occurred: while createCluster");
                 return null;
             });
         };
+
     };
+
 })();
