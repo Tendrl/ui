@@ -1,0 +1,14 @@
+<div class="tendrl-rename-pool-modal-container">
+    <custom-modal-header title="renamePoolCntrl.modalHeader.title" close="renamePoolCntrl.modalHeader.close"></custom-modal-header>
+    <div class="modal-body">
+        <p>Enter your new name for <strong>{{renamePoolCntrl.renamePoolData.name}}</strong> and click Rename.</p>
+        <div class="form-group required col-md-12">
+            <label class="col-sm-4 col-md-3 control-label" for="renamePool">Name</label>
+            <div class="col-sm-8 col-md-4">
+                <input type="text" data-id="pool-rename" class="form-control" name="renamePool" ng-model="renamePoolCntrl.renamePoolCopy.name">
+            </div>
+            <span ng-if="!renamePoolCntrl.renamePoolCopy.name.length" class="error-msg">* Pool name is required</span>
+        </div>
+    </div>
+    <custom-modal-footer cancel-button="renamePoolCntrl.modalFooter.cancelButton" cancel-button-call="renamePoolCntrl.modalFooter.cancelButtonCall" next-step-button="renamePoolCntrl.modalFooter.nextStepButton" next-step-button-call="renamePoolCntrl.modalFooter.nextStepButtonCall"></custom-modal-footer>
+</div>
