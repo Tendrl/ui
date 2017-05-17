@@ -214,6 +214,12 @@
                         templateUrl: "/modules/cluster/create-cluster/create-gluster-cluster/create-cluster.html",
                         controller: "createGlusterClusterController",
                         controllerAs: "createGlusterClusterCntrl"
+                    })
+                    .state("host-detail", {
+                        url: "/hosts/:hostId",
+                        templateUrl: "/modules/host/host-detail/host-detail.html",
+                        controller: "hostDetailController",
+                        controllerAs: "hostDetailCntrl"
                     });
 
             });
