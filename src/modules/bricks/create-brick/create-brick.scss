@@ -1,0 +1,84 @@
+.tendrl-create-brick-modal-container {
+    height: 781px;
+    .custom-modal-footer {
+        position: absolute;
+        right: 10px;
+        bottom: 10px;
+    }
+
+    .task-submit-screen {
+        padding-left: 0;
+        padding-right: 0;
+        width: 391px;
+
+        .submit-button {
+            width: 154px;
+            margin-right: 40px;
+        }
+    }
+
+    .create-brick-wizard {
+        .wizard-pf {
+            padding: 0;
+            width: auto;
+            .wizard-pf-row {
+                position: static;
+                .wizard-pf-main {
+                    margin-left: 0;
+                }
+            }
+        }
+    }
+    .devices-container {
+        .table-container {
+            width: 100%;
+        }
+        .list-group-item-container {
+            border-top: solid 1px $color-dark-gray;
+            .list-group-item {
+                margin-left: 15px;
+                padding-left: 0;
+            }
+        }
+        .toolbar-pf-filter {
+            width: 37%;
+        }
+        .list-container {
+            max-height: 42vh;
+            overflow: auto;
+            overflow-x: hidden;
+        }
+        .list-view-pf-expand-active {
+            border: solid 1px $color-dark-gray;
+            &:first-child {
+                border-top-color: #A9A9A9;
+            }
+        }
+    }
+    .review-container {
+        .table-container {
+            width: 100%;
+        }
+        .list-group-item-container {
+            border-top: solid 1px $color-dark-gray;
+            .list-group-item {
+                margin-left: 15px;
+                padding-left: 0;
+            }
+        }
+        .toolbar-pf-filter {
+            width: 37%;
+        }
+        .list-container {
+            max-height: 42vh;
+            overflow: auto;
+            overflow-x: hidden;
+        }
+        .list-view-pf-expand-active {
+            border: solid 1px $color-dark-gray;
+            &:first-child {
+                border-top-color: #A9A9A9;
+            }
+        }
+    }
+}

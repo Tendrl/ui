@@ -593,6 +593,25 @@
             });
         };
 
+        vm.createBrick = function(data) {
+            var url, actionRequest, request;
+
+            url = config.baseUrl + uri;
+
+            actionRequest = {
+                method: "POST",
+                url: url,
+                data: data
+            };
+            request = angular.copy(actionRequest);
+
+            return $http(request).then(function (response) {
+                return response.data;
+            }, function(e) {
+                checkErrorCode(e);
+            });
+        };
+
     };
 
 })();
