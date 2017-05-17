@@ -593,10 +593,10 @@
             });
         };
 
-        vm.createBrick = function(data) {
+        vm.createBrick = function(data, cluster) {
             var url, actionRequest, request;
 
-            url = config.baseUrl + uri;
+            url = config.baseUrl + cluster.cluster_id + "/GlusterCreateBrick";
 
             actionRequest = {
                 method: "POST",

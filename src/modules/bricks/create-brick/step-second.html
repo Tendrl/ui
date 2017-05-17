@@ -44,7 +44,7 @@
                     </div>
                 </div>
             </div>
-            <div class="list-group-item-container container-fluid" ng-show="host.isExpanded">
+            <div class="list-group-item-container container-fluid" ng-show="host.isExpanded" ng-if="host.freeDevices.length">
                 <div class="close">
                     <span class="pficon pficon-close" ng-click="vm.expandList(host)"></span>
                 </div>
