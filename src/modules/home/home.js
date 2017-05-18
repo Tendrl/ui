@@ -10,6 +10,7 @@
 
         var vm = this;
         vm.importCluster = importCluster;
+        vm.createCluster = createCluster;  
 
         init();
         
@@ -27,6 +28,10 @@
 
         function importCluster() {
             $state.go('import-cluster');
+        }
+
+        function createCluster() {
+            $state.go('create-cluster');
         }
         
     }

@@ -194,8 +194,32 @@
                     .state("create-file-share", {
                         url: "/create-file-share",
                         templateUrl: "/modules/file-share/create-file-share/create-file-share.html",
-                        controller: "createFileShareController",
-                        controllerAs: "createFileShareCntrl"
+                        controller: "CreateFileShareController",
+                        controllerAs: "vm"
+                    })
+                    .state("create-cluster", {
+                        url: "/create-cluster",
+                        template: "",
+                        controller: "createClusterController",
+                        controllerAs: "createClusterCntrl"
+                    })
+                    .state("create-ceph-cluster", {
+                        url: "/create-ceph-cluster",
+                        templateUrl: "/modules/cluster/create-cluster/create-ceph-cluster/create-ceph-cluster.html",
+                        controller: "createCephClusterController",
+                        controllerAs: "createCephClusterCntrl"
+                    })
+                    .state("create-gluster-cluster", {
+                        url: "/create-gluster-cluster",
+                        templateUrl: "/modules/cluster/create-cluster/create-gluster-cluster/create-gluster-cluster.html",
+                        controller: "createGlusterClusterController",
+                        controllerAs: "createGlusterClusterCntrl"
+                    })
+                    .state("host-detail", {
+                        url: "/hosts/:hostId",
+                        templateUrl: "/modules/host/host-detail/host-detail.html",
+                        controller: "hostDetailController",
+                        controllerAs: "hostDetailCntrl"
                     });
 
             });

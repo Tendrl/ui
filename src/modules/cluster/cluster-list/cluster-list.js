@@ -19,8 +19,8 @@
             i;
 
         vm.importCluster = importCluster;
-        vm.goToClusterDetail = goToClusterDetail;
         vm.createCluster = createCluster;
+        vm.goToClusterDetail = goToClusterDetail;
         vm.isDataLoading = true;
 
         init();

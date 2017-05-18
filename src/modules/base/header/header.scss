@@ -20,11 +20,9 @@
             margin-right: 0;
             margin-left: 0;
         }
-
         .notification-count {
-        	margin-left: 10px;
-    	}
-    	
+            margin-left: 10px;
+        }
         .angle-expand {
             font-size: 25px;
             margin-top: 20px;
@@ -32,7 +30,6 @@
             margin-left: 5px;
             cursor: pointer;
         }
-        
         .notification-list-container {
             /*border: 1px solid $color-black;*/
             max-height: 82vh;
@@ -41,7 +38,6 @@
                 padding-top: 10px;
                 padding-bottom: 10px;
             }
-
             .timestamp {
                 padding-right: 0;
             }
@@ -52,6 +48,4 @@
         overflow: hidden;
         text-overflow: ellipsis;
     }
-
-
 }
