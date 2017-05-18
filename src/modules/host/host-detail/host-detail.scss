@@ -1,0 +1,45 @@
+.tendrl-host-detail-container {
+    .host-detail-nav > li.active > a {
+        background-color: $color-light-grey;
+    }
+    .tendrl-host-detail-body {
+        background-color: $color-light-grey;
+        padding-right: 20px;
+        margin-left: -20px;
+        margin-right: -20px;
+        padding-top: 20px;
+        .alert-summary {
+            .row {
+                margin-left: 0;
+                margin-right: 0;
+                padding: 12px 0;
+                &:nth-of-type(2n) {
+                    background-color: $color-white-smoke;
+                }
+            }
+        }
+        .alert-summary:nth-of-type(2n) {
+            background-color: red;
+        }
+        .card-size {
+            max-height: 300px;
+            height: 230px;
+        }
+        .status-card-hr {
+            border-bottom: 1px solid #d1d1d1;
+            padding: 0 5px 15px 0;
+            text-align: left;
+        }
+        .container-card{
+            margin-left: 0px;
+            margin-right: 0px;
+        }
+        .host-name {
+	        white-space: nowrap;
+	        overflow: hidden;
+	        text-overflow: ellipsis;
+	        text-align: left;
+	    }
+    
+    }
+}
