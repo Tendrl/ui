@@ -1,4 +1,4 @@
-(function () {
+(function() {
     "use strict";
 
     var app = angular.module("TendrlModule");
@@ -12,7 +12,7 @@
         store.getJobList = function() {
             var list,
                 deferred;
-                
+
             deferred = $q.defer();
             utils.getJobList()
                 .then(function(data) {
@@ -41,7 +41,7 @@
             deferred = $q.defer();
             utils.getTaskLogs(jobId)
                 .then(function(data) {
-                    if(data) {
+                    if (data) {
                         logs = _formatData(data);
                     }
                     deferred.resolve(logs);
@@ -76,6 +76,33 @@
                 });
 
             return deferred.promise;
+        };
+
+        store.getTaskOutput = function(jobId) {
+            var deferred = $q.defer(),
+                 journal_details = [];
+
+            utils.getTaskOutput(jobId)
+                .then(function(data) {
+                    _updateJournalData(data);
+                    deferred.resolve(journal_details);
+                });
+
+            return deferred.promise;
+
+            function _updateJournalData(data) {
+                var keys = Object.keys(data[0].GenerateJournalMapping),
+                    len = keys.length,
+                    temp = {},
+                    i;
+
+                for ( i = 0; i < len; i++) {
+                    temp = {};
+                    temp.node_id = keys[i];
+                    temp.storage_disks = data[0].GenerateJournalMapping[keys[i]].storage_disks;
+                    journal_details.push(temp);
+                }
+            }
         };
     }
 

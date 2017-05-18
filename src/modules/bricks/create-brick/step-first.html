@@ -1,0 +1,24 @@
+<div class="wizard-pf-contents" ng-show="vm.selectedStep === 1">
+    <form class="form-horizontal">
+        <!-- replacing id with data-id to pass build errors -->
+        <div class="form-group required">
+            <label class="col-sm-4 col-md-3 control-label" for="clusterName">Cluster</label>
+            <div class="col-sm-8 col-md-3">
+                <select data-ng-options="cluster.cluster_name for cluster in vm.glusterClusterList" ng-model="vm.selectedCluster" class="form-control" name="clusterName"></select>
+            </div>
+        </div>
+        <div class="form-group required">
+            <label class="col-sm-4 col-md-3 control-label" for="brickPath">Brick Path</label>
+            <div class="col-sm-8 col-md-3">
+                <input type="text" class="form-control" ng-model="vm.brickPath" ng-disabled="true" name="brickPath" required>
+            </div>
+        </div>
+        <div class="form-group required">
+            <label class="col-sm-4 col-md-3 control-label" for="cluster-name">Brick Name</label>
+            <div class="col-sm-8 col-md-3">
+                <input type="text" class="form-control" ng-model="vm.brickName" name="brickPath" required>
+            </div>
+            <span ng-if="!vm.brickName.length" class="error-msg">* Brick name is required</span>
+        </div>
+    </form>
+</div>

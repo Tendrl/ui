@@ -6,7 +6,7 @@
     app.controller("hostController", hostController);
 
     /*@ngInject*/
-    function hostController($scope, $rootScope, $state, $interval, utils, config) {
+    function hostController($scope, $rootScope, $state, $interval, utils, config, nodeStore) {
         var vm = this,
             clusterObj,
             hostListTimer,
@@ -57,14 +57,9 @@
         }
 
         function setupHostListData(list, clusters) {
-            var role = {
-                    "mon": "Monitor",
-                    "osd": "OSD Host",
-                    "server": "Peer",
-                    "rados": "RADOS Gateway",
-                    "central-store": "Server Node"
-                },
-                i, j, length = list.length,
+            var i,
+                j,
+                length = list.length,
                 hostList = [],
                 tagsList,
                 index,
@@ -72,27 +67,12 @@
 
             for (i = 0; i < length; i++) {
                 host = {};
-
-                tagsList = JSON.parse(list[i].tags);
-                if (tagsList.indexOf("tendrl/central-store")!== -1){
-                    index = tagsList.indexOf("tendrl/central-store");
-                    tags = tagsList[index].split("/");
-                } else if (tagsList.indexOf("ceph/mon") !== -1){
-                    index = tagsList.indexOf("ceph/mon");
-                    tags = tagsList[index].split("/");
-                } else if (tagsList.indexOf("ceph/osd") !== -1){
-                    index = tagsList.indexOf("ceph/osd");
-                    tags = tagsList[index].split("/");
-                } else if (tagsList.indexOf("gluster/server") !== -1){
-                    index = tagsList.indexOf("gluster/server");
-                    tags = tagsList[index].split("/");
-                }
-
+                
                 host.cluster_id = list[i].tendrlcontext.cluster_id;
                 host.id = list[i].node_id;
                 host.status = list[i].status;
                 host.name = list[i].fqdn;
-                host.role = role[tags[1]];
+                host.role = nodeStore.findRole(list[i].tags);
                 host.cluster_name = list[i].tendrlcontext.cluster_name;
                 if (typeof list[i].stats !== "undefined") {
                     stats = list[i].stats;
