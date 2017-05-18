@@ -12,7 +12,6 @@
 
         vm.showNotification = false;
         vm.isNotificationExpanded = true;
-        
         vm.notificationClose = notificationClose;
         vm.logout = logout;
         vm.homePage = homePage;

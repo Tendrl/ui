@@ -1,23 +1,297 @@
 {
-  "clusters": [
-    {
-      "fsid": "c221ccdb-51d6-4b57-9f10-bcf30c7fa351",
-      "integration_id": "c221ccdb-51d6-4b57-9f10-bcf30c7fa353",
-      "integration_name": "ceph",
-      "sds_name": "ceph",
-      "sds_version": "10.2.5",
-      "cluster_id": "c221ccdb-51d6-4b57-9f10-bcf30c7fa353",
-      "utilization":{"available":"1221313213"},
-      "pools": {
-        "0": {
-          "percent_used": "0",
-          "pg_num": "64",
-          "pool_id": "0",
-          "pool_name": "rbd",
-          "used": "0",
-          "min_size": "2"
+    "clusters": [{
+        "cluster_id": "cc3b125e-4769-4071-a349-e82b380c11f4",
+        "cluster_name": "ceph",
+        "hash": "e00dac7154b0fb83cfc396a4f75d9e3d",
+        "integration_id": "cc3b125e-4769-4071-a349-e82b380c11f4",
+        "sds_name": "ceph",
+        "sds_version": "10.2.7",
+        "updated_at": "2017-05-09 17:23:01.633953+00:00",
+        "pools": {
+            "0": {
+                "erasure_code_profile": "",
+                "hash": "b1af5f349d525bdcccc7174ed4d58c37",
+                "min_size": "2",
+                "quota_max_bytes": "0",
+                "used": "114",
+                "pool_id": "0",
+                "pool_name": "rbd",
+                "size": "3",
+                "deleted": "",
+                "quota_enabled": "False",
+                "updated_at": "2017-05-09 18:08:32.179893+00:00",
+                "rbds": {
+                    "myblockdevice": {
+                        "used": "0",
+                        "flags": "",
+                        "hash": "5dcc144fd241080051aec016822a0310",
+                        "name": "MyBlockDevice",
+                        "pool_id": "0",
+                        "provisioned": "1073741824",
+                        "size": "1024",
+                        "updated_at": "2017-05-10 06:37:14.669954+00:00"
+                    },
+                    "myrbd": {
+                        "updated_at": "2017-05-10 06:37:15.412291+00:00",
+                        "used": "0",
+                        "flags": "",
+                        "hash": "435fab2455153be42c4cb5c3df9ccee0",
+                        "name": "myrbd",
+                        "pool_id": "0",
+                        "provisioned": "1073741824",
+                        "size": "1024"
+                    }
+                },
+                "percent_used": "0",
+                "pg_num": "64",
+                "quota_max_objects": "0",
+                "type": "replicated"
+            },
+            "1": {
+                "hash": "9514e662d1e5d3b776cc8dea11919d1c",
+                "quota_max_bytes": "0",
+                "deleted": "",
+                "percent_used": "0",
+                "quota_max_objects": "0",
+                "size": "3",
+                "type": "replicated",
+                "erasure_code_profile": "",
+                "pool_id": "1",
+                "updated_at": "2017-05-10 06:34:15.494912+00:00",
+                "used": "0",
+                "min_size": "2",
+                "pg_num": "128",
+                "pool_name": "MyPool",
+                "quota_enabled": "False"
+            }
+        },
+        "utilization": {
+            "used": "284164096",
+            "available": "85521858560",
+            "hash": "e62c1dcbc6d1338e9399e9942b17b676",
+            "pcnt_used": "0.33",
+            "total": "85806022656",
+            "updated_at": "2017-05-09 18:08:31.796064+00:00"
+        },
+        "globaldetails": {
+            "hash": "d743da40e9bf4775591ee2f99436c955",
+            "status": "HEALTH_WARN",
+            "updated_at": "2017-05-09 17:19:02.086043+00:00"
+        },
+        "nodes": {
+            "fb05e417-ab2c-47a5-b828-4a14680ccfdb": {
+                "updated_at": "2017-05-09 17:19:44.180125+00:00",
+                "fqdn": "dhcp43-69.lab.eng.blr.redhat.com",
+                "hash": "0f45948d154b251a927badfdfbff7967",
+                "machine_id": "feb37c9e9b95491a992c0399eb627269",
+                "node_id": "fb05e417-ab2c-47a5-b828-4a14680ccfdb",
+                "status": "UP",
+                "tags": "[\"provisioner/cc3b125e-4769-4071-a349-e82b380c11f4\", \"detected_cluster/b9754eea-771f-4a88-a9c8-9e03ee1ab59b\", \"ceph/osd\", \"tendrl/node\"]"
+            },
+            "08530c39-78eb-48f9-9404-e430d0b7ea48": {
+                "updated_at": "2017-05-09 17:20:05.498760+00:00",
+                "fqdn": "dhcp43-70.lab.eng.blr.redhat.com",
+                "hash": "f9ca758c2f01c5bd2db7c7d8a1dc963e",
+                "machine_id": "6bbb622c54e44eaba49d7dd1d4e6eb72",
+                "node_id": "08530c39-78eb-48f9-9404-e430d0b7ea48",
+                "status": "UP",
+                "tags": "[\"detected_cluster/b9754eea-771f-4a88-a9c8-9e03ee1ab59b\", \"ceph/osd\", \"tendrl/node\"]"
+            },
+            "692e324a-f1ee-4098-aae6-2284a3246667": {
+                "hash": "bff56b1784ce84269d61605225c358c0",
+                "machine_id": "c9296371d181498783540d02aedc6a46",
+                "node_id": "692e324a-f1ee-4098-aae6-2284a3246667",
+                "status": "UP",
+                "tags": "[\"tendrl/integration/cc3b125e-4769-4071-a349-e82b380c11f4\", \"ceph/mon\", \"detected_cluster/b9754eea-771f-4a88-a9c8-9e03ee1ab59b\", \"tendrl/integration/ceph\", \"tendrl/node\"]",
+                "updated_at": "2017-05-09 17:19:39.310123+00:00",
+                "fqdn": "dhcp43-71.lab.eng.blr.redhat.com"
+            }
         }
-      }
-    }
-  ]
+    }, {
+        "cluster_id": "gc3b125e-4769-4071-a349-e82b380c11f4",
+        "cluster_name": "gluster-77890de8452b9f22c4dd03b115f91ad73992ee796052ae214cacd6d4e0a7fd12",
+        "hash": "3dbf211206ffd80ce73bb4c6b79b4961",
+        "integration_id": "gc3b125e-4769-4071-a349-e82b380c11f4",
+        "sds_name": "gluster",
+        "sds_version": "3.9.1",
+        "updated_at": "2017-05-16 07:53:44.053905+00:00",
+        "volumes": {
+            "4b3b5dd4-efe1-4b4e-91c0-964d05ce4854": {
+                "rebal_skipped": "0",
+                "redundancy_count": "0",
+                "snap_count": "0",
+                "transport_type": "tcp",
+                "vol_id": "4b3b5dd4-efe1-4b4e-91c0-964d05ce4854",
+                "rebal_failures": "0",
+                "rebal_id": "00000000-0000-0000-0000-000000000000",
+                "status": "Started",
+                "usable_capacity": "85839060992",
+                "pcnt_used": "5",
+                "updated_at": "2017-05-16 08:16:07.215085+00:00",
+                "used_capacity": "4847517696",
+                "rebal_data": "0Bytes",
+                "name": "vol1",
+                "snapd_inited": "True",
+                "bricks": {
+                    "dhcp43-74.lab.eng.blr.redhat.com:_home_43-74_vol1_b1": {
+                        "port": "49152",
+                        "status": "Started",
+                        "updated_at": "2017-05-16 08:15:23.927342+00:00",
+                        "hash": "87a13587bfba8290c9215117164ddce4",
+                        "mount_opts": "",
+                        "path": "dhcp43-74.lab.eng.blr.redhat.com:/home/43-74_vol1_b1",
+                        "sequence_number": "3",
+                        "utilization": {
+                            "used_percent": "7.96112344774",
+                            "free": "15.6340255737",
+                            "metadata_used": "",
+                            "thinpool_size": "",
+                            "thinpool_used": "",
+                            "total_inode": "8910848",
+                            "used": "1.35230255127",
+                            "metadata_free": "",
+                            "mount_point": "/",
+                            "thinpool_used_percent": "",
+                            "used_inode": "37600",
+                            "free_inode": "8873248",
+                            "metadata_used_percent": "",
+                            "thinpool_free": "",
+                            "total": "16.986328125",
+                            "used_percent_inode": "0.421957595955",
+                            "metadata_size": ""
+                        },
+                        "vol_id": "4b3b5dd4-efe1-4b4e-91c0-964d05ce4854",
+                        "filesystem_type": "",
+                        "hostname": "dhcp43-74.lab.eng.blr.redhat.com"
+                    },
+                    "dhcp43-76.lab.eng.blr.redhat.com:_home_43-76_vol1_b1": {
+                        "utilization": {
+                            "thinpool_size": "",
+                            "total_inode": "13629440",
+                            "metadata_used": "",
+                            "thinpool_used": "",
+                            "used": "1.34798431396",
+                            "free": "24.6354179382",
+                            "metadata_size": "",
+                            "mount_point": "/",
+                            "thinpool_free": "",
+                            "thinpool_used_percent": "",
+                            "total": "25.9834022522",
+                            "used_inode": "37600",
+                            "metadata_free": "",
+                            "metadata_used_percent": "",
+                            "used_percent_inode": "0.275873403456",
+                            "free_inode": "13591840",
+                            "used_percent": "5.18786685778"
+                        },
+                        "vol_id": "4b3b5dd4-efe1-4b4e-91c0-964d05ce4854",
+                        "hash": "b118de5af444baeb52e4d58f0ab544a3",
+                        "sequence_number": "2",
+                        "mount_opts": "",
+                        "path": "dhcp43-76.lab.eng.blr.redhat.com:/home/43-76_vol1_b1",
+                        "port": "49152",
+                        "status": "Started",
+                        "updated_at": "2017-05-16 08:14:45.446957+00:00",
+                        "filesystem_type": "",
+                        "hostname": "dhcp43-76.lab.eng.blr.redhat.com"
+                    },
+                    "dhcp43-77.lab.eng.blr.redhat.com:_home_43-77_vol1_b1": {
+                        "hostname": "dhcp43-77.lab.eng.blr.redhat.com",
+                        "port": "49152",
+                        "status": "Started",
+                        "updated_at": "2017-05-16 08:15:01.870859+00:00",
+                        "vol_id": "4b3b5dd4-efe1-4b4e-91c0-964d05ce4854",
+                        "utilization": {
+                            "mount_point": "/",
+                            "thinpool_free": "",
+                            "used": "1.3519821167",
+                            "used_percent": "3.6565628532",
+                            "used_percent_inode": "0.193853327944",
+                            "free": "35.6221427917",
+                            "thinpool_used": "",
+                            "total_inode": "19394560",
+                            "free_inode": "19356963",
+                            "thinpool_used_percent": "",
+                            "total": "36.9741249084",
+                            "used_inode": "37597",
+                            "metadata_free": "",
+                            "metadata_size": "",
+                            "metadata_used": "",
+                            "metadata_used_percent": "",
+                            "thinpool_size": ""
+                        },
+                        "filesystem_type": "",
+                        "hash": "bb01e948ad162054de47901cd96fe159",
+                        "mount_opts": "",
+                        "path": "dhcp43-77.lab.eng.blr.redhat.com:/home/43-77_vol1_b1",
+                        "sequence_number": "1"
+                    }
+                },
+                "snapd_status": "Offline",
+                "stripe_count": "1",
+                "rebal_status": "not_started",
+                "hash": "fd8e697a6aca854b9c891ec07de1620d",
+                "rebal_lookedup": "0",
+                "brick_count": "3",
+                "deleted": "",
+                "options": {
+                    "nfs.disable": "on",
+                    "performance.readdir-ahead": "on",
+                    "transport.address-family": "inet"
+                },
+                "replica_count": "1",
+                "arbiter_count": "0",
+                "quorum_status": "not_applicable",
+                "rebal_files": "0",
+                "subvol_count": "3",
+                "vol_type": "Distribute",
+                "disperse_count": "0"
+            }
+        },
+        "utilization": {
+            "hash": "f4a4d65ce9c525d8b09c3807b971893a",
+            "pcnt_used": "5",
+            "raw_capacity": "85839060992",
+            "updated_at": "2017-05-16 08:16:04.794199+00:00",
+            "usable_capacity": "85839060992",
+            "used_capacity": "4847517696"
+        },
+        "globaldetails": {
+            "connection_active": "0",
+            "connection_count": "0",
+            "hash": "d98e86253027acb42abcda0f9c039dcb",
+            "status": "healthy",
+            "updated_at": "2017-05-16 08:00:59.656036+00:00",
+            "volume_up_degraded": "0"
+        },
+        "nodes": {
+            "1892e170-219a-4af3-a7db-a3a9f8815881": {
+                "updated_at": "2017-05-16 07:51:08.113904+00:00",
+                "fqdn": "dhcp43-76.lab.eng.blr.redhat.com",
+                "hash": "b907d88aab482b84dc4e452f213a82b1",
+                "machine_id": "48b9a4346aee481bba09e0490659fca7",
+                "node_id": "1892e170-219a-4af3-a7db-a3a9f8815881",
+                "status": "UP",
+                "tags": "[\"tendrl/integration/gluster\", \"tendrl/integration/gc3b125e-4769-4071-a349-e82b380c11f4\", \"gluster/server\", \"detected_cluster/ce3aa6eb2cb0de3e02d67bbd053831d0012ebc02a6e3f0635a47757c690d6df5\", \"detected_cluster/77890de8452b9f22c4dd03b115f91ad73992ee796052ae214cacd6d4e0a7fd12\", \"tendrl/node\"]"
+            },
+            "d1b224ad-f7f0-4d8a-9db0-982b8f25ee4a": {
+                "hash": "0fea7314e3aa9ade1b8c1cd306f99e93",
+                "machine_id": "77c300fd78f54e149ad9722698eabee4",
+                "node_id": "d1b224ad-f7f0-4d8a-9db0-982b8f25ee4a",
+                "status": "UP",
+                "tags": "[\"tendrl/integration/gluster\", \"tendrl/integration/gc3b125e-4769-4071-a349-e82b380c11f4\", \"gluster/server\", \"tendrl/node\", \"detected_cluster/77890de8452b9f22c4dd03b115f91ad73992ee796052ae214cacd6d4e0a7fd12\", \"detected_cluster/8cc6eccf18f8cf9df630a1f53b74b2e3b67a74eb5657908b8b5160a9e4f2f1f4\"]",
+                "updated_at": "2017-05-16 07:51:48.393922+00:00",
+                "fqdn": "dhcp43-77.lab.eng.blr.redhat.com"
+            },
+            "de4633fb-63ee-4df4-9da4-88f52ea745e9": {
+                "node_id": "de4633fb-63ee-4df4-9da4-88f52ea745e9",
+                "status": "UP",
+                "tags": "[\"tendrl/integration/gluster\", \"tendrl/integration/gc3b125e-4769-4071-a349-e82b380c11f4\", \"gluster/server\", \"detected_cluster/c8f4bbe680adf03b7dc5b085100c72c1120d7578c8638fc028b3b3961bc8c972\", \"detected_cluster/77890de8452b9f22c4dd03b115f91ad73992ee796052ae214cacd6d4e0a7fd12\", \"provisioner/gc3b125e-4769-4071-a349-e82b380c11f4\", \"tendrl/node\"]",
+                "updated_at": "2017-05-16 07:51:05.748447+00:00",
+                "fqdn": "dhcp43-74.lab.eng.blr.redhat.com",
+                "hash": "07a7add14fde64628eeab1728dde21ef",
+                "machine_id": "8fb90aad22f2493ea502db1942214df2"
+            }
+        }
+    }]
 }

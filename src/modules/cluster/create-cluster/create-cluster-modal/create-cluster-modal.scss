@@ -1,0 +1,17 @@
+.tendrl-create-cluster-modal-container{
+
+    ul > li:hover {
+        background-color: #bee1f4;
+        border-color: #bee1f4;
+    }
+
+    .selectedCluster{
+    	background-color: $color-curious-blue!important;
+	    border-color: $color-curious-blue!important;
+	    color: $color-white!important;
+    }
+
+    .list-group-item{
+    	cursor: pointer;
+    }
+}
