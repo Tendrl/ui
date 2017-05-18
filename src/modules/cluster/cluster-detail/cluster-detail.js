@@ -44,7 +44,7 @@
             vm.clusterStatus = checkStatus(vm.clusterObj);
             if (vm.clusterObj.sds_name === "gluster") {
                 vm.tabList.FileShares = 3;
-                _glusterClusterSpecificData($scope.clusterId);<<<<<<< develop
+                _glusterClusterSpecificData($scope.clusterId);
             } else {
                 vm.tabList.Pools = 3;
                 vm.tabList.RBDs = 4;
