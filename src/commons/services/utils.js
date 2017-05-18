@@ -612,6 +612,30 @@
             });
         };
 
-    };
+        vm.getClusterDashboardList = function(id, componentType, type) {
+            var url, getClusterDashboardListRequest, request;
+                if(type === "public_network" || type === "cluster_network"){
+                    url = config.baseUrl + "monitoring/" + componentType + "/" + id + "/throughput?type=" + type;
+                } else if(type) {
+                    url = config.baseUrl + "monitoring/" + componentType + "/" + id + "/" + type;
+                } else {
+                    url = config.baseUrl + "monitoring/" + componentType + "/" + id;
+                }
 
+                getClusterDashboardListRequest = {
+                    method: "GET",
+                    url: url
+                };
+
+                request = angular.copy(getClusterDashboardListRequest);
+                return $http(request).then(function (response) {
+                    return response.data;
+                }, function(e) {
+                    checkErrorCode(e);
+                    console.log("Error Occurred: while fetching getOverviewData");
+                    return null;
+                });
+        };
+
+    };
 })();

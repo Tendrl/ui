@@ -1,3 +1,4 @@
+
 (function() {
     "use strict";
 
@@ -66,12 +67,14 @@
             return clusterAlerts;
         }
 
+
         store.convertTime = function(epocTime) {
             var utcSeconds = epocTime,
                 d = new Date(0);
             d.setUTCSeconds(utcSeconds);
             return d;
         }
+
 
         store.systemPerformance = function(node_summaries) {
             var i,

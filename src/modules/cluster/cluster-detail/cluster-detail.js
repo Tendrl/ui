@@ -37,13 +37,14 @@
             }
         }
 
+
         function _setClusterDetail() {
             vm.clusterObj = utils.getClusterDetails($scope.clusterId);
             vm.clusterName = vm.clusterObj.cluster_name || "NA";
             vm.clusterStatus = checkStatus(vm.clusterObj);
             if (vm.clusterObj.sds_name === "gluster") {
                 vm.tabList.FileShares = 3;
-                _glusterClusterSpecificData($scope.clusterId);
+                _glusterClusterSpecificData($scope.clusterId);<<<<<<< develop
             } else {
                 vm.tabList.Pools = 3;
                 vm.tabList.RBDs = 4;
