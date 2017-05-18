@@ -1,6 +1,6 @@
 # store the current working directory
 NAME      := tendrl-dashboard
-VERSION   := 1.2.3
+VERSION   := 1.3.0
 RELEASE   := 1
 
 build-pkgs-dist:
