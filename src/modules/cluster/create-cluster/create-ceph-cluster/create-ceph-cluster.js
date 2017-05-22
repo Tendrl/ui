@@ -306,36 +306,43 @@
         }
 
         function _getDisks(host) {
-            var keys = Object.keys(host.disks.all),
+            var keys = host.blockdevices.free,
                 len = keys.length,
+                disks = host.disks,
                 temp,
                 conf = [],
-                i;
+                i,
+                disk;
 
-            if (host.disks.free) {
-                for (i = 0; i < len; i++) {
-                    //only free disks are allowed for journal mapping
-                    if (Object.keys(host.disks.free).indexOf(keys[i]) !== -1) {
+            for (i = 0; i < len; i++) {
+                for (disk in disks) {
+                    if (disks[disk].disk_name && disks[disk].disk_name === keys[i]) {
                         temp = {};
-                        temp.device = host.disks.all[keys[i]].device_name;
-                        temp.size = parseInt(host.disks.all[keys[i]].size) || 0;
-                        temp.ssd = (host.disks.all[keys[i]].ssd === "True");
+                        temp.device = disks[disk].disk_name;
+                        temp.size = parseInt(disks[disk].size) || 0;
+                        temp.ssd = (disks[disk].ssd === "True");
                         conf.push(temp);
                     }
                 }
             }
-
             return conf;
         }
 
         function _getACapacity(host) {
-            var keys = Object.keys(host.disks.free),
+            var keys = host.blockdevices.free,
                 len = keys.length,
+                disks = host.disks,
                 size = 0,
-                i;
+                i,
+                disk;
 
             for (i = 0; i < len; i++) {
-                size += parseInt(host.disks.all[keys[i]].size);
+                for (disk in disks) {
+                    if (disks[disk].disk_name && disks[disk].disk_name === keys[i]) {
+                        size += parseInt(disks[disk].size);
+                    }
+
+                }
             }
 
             return size;
@@ -368,12 +375,12 @@
                 obj.storage_disks = [];
                 obj.availableCapacity = 0;
             } else {
-                obj.freeDevices = host.disks.free ? Object.keys(host.disks.free).length : 0;
-                obj.usedDevices = host.disks.used ? Object.keys(host.disks.used).length : 0;
+                obj.freeDevices = host.blockdevices.free ? Object.keys(host.blockdevices.free).length : 0;
+                obj.usedDevices = host.blockdevices.used ? Object.keys(host.blockdevices.used).length : 0;
                 obj.totalNodeInDevice = obj.freeDevices + obj.usedDevices;
                 obj.selectedRole = _getRole(obj);
                 obj.storage_disks = _getDisks(host);
-                obj.availableCapacity = host.disks.free ? _getACapacity(host) : 0;
+                obj.availableCapacity = host.blockdevices.free ? _getACapacity(host) : 0;
             }
 
             //preparing interface and ip mapping, subnets
@@ -754,7 +761,7 @@
                     "OSD Host": "osd"
                 },
                 network,
-                len = vm.availableHostForJournal.length,
+                len = vm.summaryHost.length,
                 ipIfLen,
                 i,
                 j;
@@ -767,23 +774,23 @@
             postData.node_identifier = "ip";
 
             for (i = 0; i < len; i++) {
-                ipIfLen = vm.availableHostForJournal[i].ifIPMapping.length;
+                ipIfLen = vm.summaryHost[i].ifIPMapping.length;
 
                 for (j = 0; j < ipIfLen; j++) {
-                    network = vm.getCNIfIp(vm.availableHostForJournal[i]).ip;
+                    network = vm.getCNIfIp(vm.summaryHost[i]).ip;
                     node_configuration[network] = {};
-                    node_configuration[network].role = roleMapping[vm.availableHostForJournal[i].selectedRole];
+                    node_configuration[network].role = roleMapping[vm.summaryHost[i].selectedRole];
                     node_configuration[network].provisioning_ip = network;
-                    if (vm.availableHostForJournal[i].selectedRole === "OSD Host") {
-                        if (vm.availableHostForJournal[i].customselectedUnit === "GB") {
-                            node_configuration[network].journal_size = vm.availableHostForJournal[i].journalSize * 1024;
+                    if (vm.summaryHost[i].selectedRole === "OSD Host") {
+                        if (vm.summaryHost[i].customselectedUnit === "GB") {
+                            node_configuration[network].journal_size = vm.summaryHost[i].journalSize * 1024;
                         } else {
-                            node_configuration[network].journal_size = vm.availableHostForJournal[i].journalSize;
+                            node_configuration[network].journal_size = vm.summaryHost[i].journalSize;
                         }
-                        node_configuration[network].journal_colocation = vm.availableHostForJournal[i].selectedJournalConfigration === "Dedicated" ? false : true;
-                        node_configuration[network].storage_disks = vm.availableHostForJournal[i].storage_disks;
-                    } else if (vm.availableHostForJournal[i].selectedRole === "Monitor") {
-                        node_configuration[network].monitor_interface = vm.availableHostForJournal[i].ifIPMapping[j]["if"];
+                        node_configuration[network].journal_colocation = vm.summaryHost[i].selectedJournalConfigration === "Dedicated" ? false : true;
+                        node_configuration[network].storage_disks = vm.summaryHost[i].storage_disks;
+                    } else if (vm.summaryHost[i].selectedRole === "Monitor") {
+                        node_configuration[network].monitor_interface = vm.summaryHost[i].ifIPMapping[j]["if"];
                     }
                 }
             }
@@ -870,7 +877,7 @@
                 i;
 
             for (i = 0; i < len; i++) {
-                if (!vm.availableHostForJournal[i].disks.free || Object.keys(vm.availableHostForJournal[i].disks.free).length) {
+                if (!vm.availableHostForJournal[i].blockdevices.free || Object.keys(vm.availableHostForJournal[i].blockdevices.free).length) {
                     vm.availableHostForJournal.splice(i, 1);
                 }
             }

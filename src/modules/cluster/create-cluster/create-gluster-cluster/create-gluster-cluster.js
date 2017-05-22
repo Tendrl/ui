@@ -183,36 +183,43 @@
         }
 
         function _getDisks(host) {
-            var keys = Object.keys(host.disks.all),
+            var keys = host.blockdevices.free,
                 len = keys.length,
+                disks = host.disks,
                 temp,
                 conf = [],
-                i;
+                i,
+                disk;
 
-            if (host.disks.free) {
-                for (i = 0; i < len; i++) {
-                    //only free disks are allowed for journal mapping
-                    if (Object.keys(host.disks.free).indexOf(keys[i]) !== -1) {
+            for (i = 0; i < len; i++) {
+                for (disk in disks) {
+                    if (disks[disk].disk_name && disks[disk].disk_name === keys[i]) {
                         temp = {};
-                        temp.device = host.disks.all[keys[i]].device_name;
-                        temp.size = parseInt(host.disks.all[keys[i]].size) || 0;
-                        temp.ssd = (host.disks.all[keys[i]].ssd === "True");
+                        temp.device = disks[disk].disk_name;
+                        temp.size = parseInt(disks[disk].size) || 0;
+                        temp.ssd = (disks[disk].ssd === "True");
                         conf.push(temp);
                     }
                 }
             }
-
             return conf;
         }
 
         function _getACapacity(host) {
-            var keys = Object.keys(host.disks.free),
+            var keys = host.blockdevices.free,
                 len = keys.length,
+                disks = host.disks,
                 size = 0,
-                i;
+                i,
+                disk;
 
             for (i = 0; i < len; i++) {
-                size += parseInt(host.disks.all[keys[i]].size);
+                for (disk in disks) {
+                    if (disks[disk].disk_name && disks[disk].disk_name === keys[i]) {
+                        size += parseInt(disks[disk].size);
+                    }
+
+                }
             }
 
             return size;
@@ -244,11 +251,11 @@
                 obj.storage_disks = [];
                 obj.availableCapacity = 0;
             } else {
-                obj.freeDevices = host.disks.free ? Object.keys(host.disks.free).length : 0;
-                obj.usedDevices = host.disks.used ? Object.keys(host.disks.used).length : 0;
+                obj.freeDevices = host.blockdevices.free ? Object.keys(host.blockdevices.free).length : 0;
+                obj.usedDevices = host.blockdevices.used ? Object.keys(host.blockdevices.used).length : 0;
                 obj.totalNodeInDevice = obj.freeDevices + obj.usedDevices;
                 obj.storage_disks = _getDisks(host);
-                obj.availableCapacity = host.disks.free ? _getACapacity(host) : 0;
+                obj.availableCapacity = host.blockdevices.free ? _getACapacity(host) : 0;
             }
 
             //preparing interface and ip mapping, subnets

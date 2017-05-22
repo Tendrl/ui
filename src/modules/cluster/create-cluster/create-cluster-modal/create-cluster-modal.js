@@ -14,8 +14,8 @@
         vm.valueSelected = "ceph";
 
         vm.cancelModal = function () {
-            $state.go("landing-page");
             $rootScope.$emit('modal.done', 'cancel');
+            _redirectto();
         };
 
         vm.closeModal = function () {
@@ -34,7 +34,7 @@
 
         vm.modalHeader = {
             "title": "Select Storage Service",
-            "close": vm.closeModal
+            "close": vm.cancelModal
         };
 
         vm.modalFooter = [{
@@ -54,6 +54,14 @@
             "name": "Gluster",
             "value": "gluster"
         }];
+
+        function _redirectto(){
+            if($rootScope.clusterData === null || $rootScope.clusterData.clusters.length === 0){
+                $state.go("landing-page");
+            } else {
+                $state.go("cluster");
+            }
+        }
     }
 
 })();

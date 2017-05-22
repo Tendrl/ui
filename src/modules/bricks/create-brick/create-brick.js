@@ -129,7 +129,7 @@
                 brickStore.createBrick(vm.brickCreationHost, vm.selectedCluster)
                     .then(function(data) {
                         vm.taskSubmitted = true;
-                        vm.job= data.job_id;
+                        vm.job = data.job_id;
                     });
             }
         }
@@ -291,7 +291,7 @@
             $state.go("task-detail", { taskId: vm.jobId });
         }
 
-/*===================================Private Funtions==========================================*/
+        /*===================================Private Funtions==========================================*/
 
         function _reset() {
             vm.selectedDiskCount = 0;
@@ -406,46 +406,52 @@
                 host.freeDevices = [];
                 host.availableCapacity = 0;
             } else {
-                host.freeDevices = host.disks.free ? _getFreeDevices(host.disks) : [];
+                host.freeDevices = host.disks.free ? _getFreeDevices(host) : [];
                 host.availableCapacity = host.disks.free ? _getCapacity(host) : 0;
             }
 
             host.selectedDisk = [];
         }
 
-        function _getCapacity(host) {
-            var keys = Object.keys(host.disks.free),
+        function _getFreeDevices(host) {
+            var keys = host.blockdevices.free,
                 len = keys.length,
-                size = 0,
-                i;
-
-            for (i = 0; i < len; i++) {
-                size += parseInt(host.disks.all[keys[i]].size);
-            }
-
-            return size;
-        }
-
-        function _getFreeDevices(disks) {
-            var keys = Object.keys(disks.all),
-                freeKeys = Object.keys(disks.free),
-                len = keys.length,
+                disks = host.disks,
                 temp,
                 conf = [],
-                i;
+                i,
+                disk;
 
             for (i = 0; i < len; i++) {
-                //only free disks are allowed for journal mapping
-                if (freeKeys.indexOf(keys[i]) !== -1) {
-                    temp = {};
-                    temp.device = disks.all[keys[i]].device_name;
-                    temp.size = parseInt(disks.all[keys[i]].size) || 0;
-                    temp.type = (disks.all[keys[i]].ssd === "True") ? "SSD" : "HDD";
-                    conf.push(temp);
+                for (disk in disks) {
+                    if (disks[disk].disk_name && disks[disk].disk_name === keys[i]) {
+                        temp = {};
+                        temp.device = disks[disk].disk_name;
+                        temp.size = parseInt(disks[disk].size) || 0;
+                        temp.ssd = (disks[disk].ssd === "True") ? "SSD" : "HDD";
+                        conf.push(temp);
+                    }
                 }
             }
-
             return conf;
+        }
+
+        function _getCapacity(host) {
+            var keys = host.blockdevices.free,
+                len = keys.length,
+                disks = host.disks,
+                size = 0,
+                i,
+                disk;
+
+            for (i = 0; i < len; i++) {
+                for (disk in disks) {
+                    if (disks[disk].disk_name && disks[disk].disk_name === keys[i]) {
+                        size += parseInt(disks[disk].size);
+                    }
+                }
+            }
+            return size;
         }
 
     }
