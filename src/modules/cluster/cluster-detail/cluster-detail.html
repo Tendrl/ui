@@ -1,6 +1,5 @@
 <div ng-if="clusterData === null && !isAPINotFoundError" class="spinner spinner-lg"></div>
 <div ng-if="clusterData !== null" class="tendrl-cluster-detail-container container-fluid">
-    
     <ol class="breadcrumb custom-breadcrumb">
         <li><a ui-sref="cluster">Cluster</a></li>
         <li>
@@ -17,17 +16,17 @@
             </a>
         </li>
     </ul>
-    
     <div ng-if="clusterDetail.activeTab !== undefined">
-        <div ng-if="clusterDetail.isDataLoading" class="spinner spinner-lg"></div>
-        <div ng-if="!clusterDetail.isDataLoading">
-            <div ng-if="clusterDetail.activeTab === 1 && clusterDetail.clusterObj.sds_name ==='gluster'">
-                <gluster-dashboard  show-cluster-data="false" gluster-cluster="clusterDetail.clusterData" chart-data="clusterDetail.chartData" volume-overview="clusterDetail.volOverviewData" brick-overview="clusterDetail.brickOverviewData" alerts="clusterDetail.alerts" show-system-performance="true" iops-data="clusterDetail.iops" throughput-data="clusterDetail.throughput" show-trend-chart="true"></gluster-dashboard>
+        <div ng-show="clusterDetail.activeTab === 1">
+            <div ng-if="clusterDetail.isDataLoading" class="spinner spinner-lg"></div>
+            <div ng-if="!clusterDetail.isDataLoading">
+                <div ng-if="clusterDetail.activeTab === 1 && clusterDetail.clusterObj.sds_name ==='gluster'">
+                    <gluster-dashboard show-cluster-data="false" gluster-cluster="clusterDetail.clusterData" chart-data="clusterDetail.chartData" volume-overview="clusterDetail.volOverviewData" brick-overview="clusterDetail.brickOverviewData" alerts="clusterDetail.alerts" show-system-performance="true" iops-data="clusterDetail.iops" throughput-data="clusterDetail.throughput" show-trend-chart="true"></gluster-dashboard>
+                </div>
+                <div ng-if="clusterDetail.activeTab === 1 && clusterDetail.clusterObj.sds_name ==='ceph'">
+                    <ceph-dashboard show-cluster-data="false" ceph-cluster="clusterDetail.cephCluster" chart-data="clusterDetail.cephChartData" show-system-performance="true" iops-data="clusterDetail.iops" latency-data="clusterDetail.latency" cluster-network-data="clusterDetail.clusterNetworkData" public-network-data="clusterDetail.publicNetworkData" show-trend-chart="true" alerts="clusterDetail.alerts"></ceph-dashboard>
+                </div>
             </div>
-            <div ng-if="clusterDetail.activeTab === 1 && clusterDetail.clusterObj.sds_name !=='gluster'">
-                <ceph-dashboard  show-cluster-data="false" ceph-cluster="clusterDetail.cephCluster" chart-data="clusterDetail.cephChartData" show-system-performance="true" iops-data="clusterDetail.iops" latency-data="clusterDetail.latency" cluster-network-data="clusterDetail.clusterNetworkData" public-network-data="clusterDetail.publicNetworkData" show-trend-chart="true" alerts="clusterDetail.alerts"></ceph-dashboard>
-            </div>
-
         </div>
 
         <cluster-host-list ng-show="clusterDetail.activeTab === 2"></cluster-host-list>
@@ -35,5 +34,4 @@
         <cluster-pool-list ng-show="clusterDetail.activeTab === 3 && clusterDetail.clusterObj.sds_name !=='gluster'"></cluster-pool-list>
         <cluster-rbd-list ng-show="clusterDetail.activeTab === 4 && clusterDetail.clusterObj.sds_name !=='gluster'"></cluster-rbd-list>
     </div>
-
 </div>

@@ -6,7 +6,7 @@
     app.controller("createCephClusterController", createCephClusterController);
 
     /*@ngInject*/
-    function createCephClusterController($rootScope, $scope, $uibModal, $filter, $state, $interval, utils, nodeStore, config, taskStore) {
+    function createCephClusterController($rootScope, $scope, $uibModal, $filter, $state, $interval, utils, nodeStore, config, taskStore, clusterStore) {
 
         var vm = this,
             date = new Date(),
@@ -766,6 +766,7 @@
                 i,
                 j;
 
+            sds_parameters.cluster_id = clusterStore.generateUUID();
             sds_parameters.name = vm.cephClusterName;
             sds_parameters.public_network = vm.selectedPublicNetwork;
             sds_parameters.cluster_network = vm.selectedClusterNetwork;
