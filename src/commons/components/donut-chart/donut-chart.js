@@ -85,14 +85,17 @@
         };
 
         if(typeof vm.chartData !== "undefined") { 
-            if(vm.chartData.total !== undefined && vm.chartData.used !== undefined) {
-                vm.available = vm.chartData.total - vm.chartData.used;
-                vm.used = vm.chartData.used;
+            if(parseInt(vm.chartData.total) && parseInt(vm.chartData.used)) {
+                vm.available = parseInt(vm.chartData.total) - parseInt(vm.chartData.used);
+                vm.used = parseInt(vm.chartData.used);
             } else {
-                vm.available = 100 - vm.chartData["percent_used"];
-                vm.used = vm.chartData["percent_used"];
+                vm.available = 100 - parseInt(vm.chartData["percent_used"]);
+                vm.used = parseInt(vm.chartData["percent_used"]);
             }
             vm.chartData["percent_used"] = parseInt(vm.chartData["percent_used"]);
+        }
+        else {
+            vm.chartData = undefined
         }
 
         vm.getThresholdColor = function() {
