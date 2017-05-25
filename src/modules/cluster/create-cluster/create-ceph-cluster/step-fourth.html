@@ -69,16 +69,15 @@
                 </div>
                 <div class="list-view-pf-left col-md-3" ng-if="host.selectedJournalConfigration === 'Dedicated'">
                     <div class="list-view-pf-additional-info-item list-view-pf-additional-info-item-stacked">
-                        <div class="bold-text">Partitions per Device</div>
+                        <div class="bold-text">Partitions per Device (Max = {{host.maxLimit}})</div>
                         <div class="col-md-12">
-                            <div class="col-md-3 remove-padding">
+                            <div class="col-md-4 remove-padding">
                                 <input class="form-control" min="0" type="number" data-id="partitionSize" ng-model="host.partitionSize" max="{{host.maxLimit}}" required>
                             </div> 
-                            <div class="col-md-2 remove-padding"><strong>per 1</strong></div>
-                            <div class="col-md-3 remove-padding">
+                            <div class="col-md-3 remove-padding"><strong>per 1</strong></div>
+                            <div class="col-md-5 remove-padding">
                                 <select class="form-control" data-id="journal-configration" ng-change="createCephClusterCntrl.diskConf.partitionValue(host.SelectedpartitionType, host)" data-ng-options="type for type in createCephClusterCntrl.diskConf.partitionType" data-ng-model="host.selectedPartitionType" ng-init="host.selectedPartitionType = 'SSD'"></select>
                             </div>
-                            <div class="col-md-4 max-limit">Max = {{host.maxLimit}}</div>
                         </div>
                     </div>
                 </div>
