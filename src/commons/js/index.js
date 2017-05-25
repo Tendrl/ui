@@ -194,8 +194,8 @@
                     .state("create-file-share", {
                         url: "/create-file-share",
                         templateUrl: "/modules/file-share/create-file-share/create-file-share.html",
-                        controller: "CreateFileShareController",
-                        controllerAs: "vm"
+                        controller: "createFileShareController",
+                        controllerAs: "createFileShareCntrl"
                     })
                     .state("create-cluster", {
                         url: "/create-cluster",
