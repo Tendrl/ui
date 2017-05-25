@@ -270,7 +270,6 @@
             return count;
         }
 
-
         function _deselectNodes() {
             var availableHost;
             for (availableHost in vm.selectedCluster.nodes) {
