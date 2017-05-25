@@ -6,7 +6,7 @@
     app.controller("createFileShareController", createFileShareController);
 
     /*@ngInject*/
-    function createFileShareController($scope, $state, utils, $rootScope, nodeStore, $uibModal) {
+    function createFileShareController($scope, $state, $rootScope, $uibModal, nodeStore, utils, volumeCreationMapping) {
         var vm = this,
             multipleOfTwoBricksCount = 0;
 
@@ -29,7 +29,6 @@
         vm.expandList = expandList;
         vm.getBrickPath = getBrickPath;
         vm.checkNumberOfSelectedNodes = checkNumberOfSelectedNodes;
-
 
         vm.taskSubmitted = false;
         vm.glusterClusterList = [];
@@ -95,13 +94,17 @@
                 repDistrib = (vm.replicaCount * vm.distributionCount),
                 numberOfNodesToBeSelected;
 
-            numberOfNodesToBeSelected = hostNamesLen > repDistrib ? repDistrib : hostNamesLen;
-            multipleOfTwoBricksCount = numberOfNodesToBeSelected;
-            for (i = 0; i < hostNamesLen; i++) {
-                totalAvailableHosts[hostNames[i]].hostCheckBoxSelected = false;
-            }
-            for (i = 0; i < numberOfNodesToBeSelected; i++) {
-                totalAvailableHosts[hostNames[i]].hostCheckBoxSelected = true;
+            if (vm.hostAllCheckBoxSelected) {
+                numberOfNodesToBeSelected = hostNamesLen > repDistrib ? repDistrib : hostNamesLen;
+                multipleOfTwoBricksCount = numberOfNodesToBeSelected;
+                for (i = 0; i < hostNamesLen; i++) {
+                    totalAvailableHosts[hostNames[i]].hostCheckBoxSelected = false;
+                }
+                for (i = 0; i < numberOfNodesToBeSelected; i++) {
+                    totalAvailableHosts[hostNames[i]].hostCheckBoxSelected = true;
+                }
+            } else {
+                _deselectNodes();
             }
         }
 
@@ -146,6 +149,7 @@
                     vm.settings.step = 1;
                 } else if (vm.step === 1) {
                     vm.selectMultipleOfTwo = false;
+                    vm.exceededNumberOfNodes = false;
                 }
             }
         }
@@ -266,6 +270,14 @@
             return count;
         }
 
+
+        function _deselectNodes() {
+            var availableHost;
+            for (availableHost in vm.selectedCluster.nodes) {
+                vm.selectedCluster.nodes[availableHost].hostCheckBoxSelected = false;
+            }
+        }
+
         function _getGlusterClusterList() {
             var index,
                 clustersLength;
@@ -311,12 +323,9 @@
         }
 
         function _getVolumeCreationMapping() {
-            utils.getVolumeCreationMapping()
-                .then(function(mappingData) {
-                    vm.volumeMapping = mappingData;
-                    _validateVolumeMapping();
-                    _validateStep();
-                });
+            vm.volumeMapping = volumeCreationMapping.mapping;
+            _validateVolumeMapping();
+            _validateStep();
         }
 
         function _validateVolumeMapping() {
