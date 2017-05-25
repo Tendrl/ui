@@ -21,7 +21,7 @@
             <thead>
                 <tr>
                     <th>
-                        <input type="checkbox" ng-model="createFileShareCntrl.hostAllCheckBoxSelected" ng-click="createFileShareCntrl.selectHostsCheckBox(createFileShareCntrl.selectedCluster.nodes)">
+                        <input type="checkbox" ng-model="createFileShareCntrl.hostAllCheckBoxSelected" ng-click="createFileShareCntrl.selectHostsCheckBox(createFileShareCntrl.selectedCluster.nodes); createFileShareCntrl.multipleOfTwoBricks()">
                     </th>
                     <th>Hosts</th>
                     <!--                     <th>Total Raw Capacity</th> -->
