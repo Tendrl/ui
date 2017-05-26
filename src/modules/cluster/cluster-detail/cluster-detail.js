@@ -79,7 +79,7 @@
                     return eventStore.getAlertList()
                 })
                 .then(function(alertData) {
-                    vm.alerts = dashboardStore.filterAlerts(alertData, "cluster", "gluster");
+                    vm.alerts = dashboardStore.filterAlerts(alertData, "gluster");
                     return dashboardStore.getClusterDashboardUtilizationList(clusterId, "cluster", "cluster_network")
                 })
                 .then(function(throughput) {
@@ -101,7 +101,7 @@
                     return eventStore.getAlertList()
                 })
                 .then(function(alertData) {
-                    alerts = dashboardStore.filterAlerts(alertData, "gluster");
+                    alerts = dashboardStore.filterAlerts(alertData, "ceph");
                     vm.alerts = alerts;
                     return dashboardStore.getClusterDashboardUtilizationList(clusterId, "cluster", "iops");
                 })
