@@ -637,5 +637,45 @@
                 });
         };
 
+        vm.getVolumeCreationMapping = function() {
+            var url = "",
+                getObjectListRequest, request;
+
+            url = "/api/VolumeCreationMapping.json";
+
+            getObjectListRequest = {
+                method: "GET",
+                url: url
+            };
+
+            request = angular.copy(getObjectListRequest);
+            return $http(request).then(function(response) {
+                return response.data;
+            }, function(e) {
+                vm.checkErrorCode(e);
+                console.log("Error Occurred: while fetching VolumeCreationMapping");
+                throw e;
+            });
+        };
+
+        vm.createVolume = function(data, cluster){
+            var url, actionRequest, request;
+
+            url = config.baseUrl + cluster.cluster_id + "/GlusterCreateVolume";
+
+            actionRequest = {
+                method: "POST",
+                url: url,
+                data: data
+            };
+            request = angular.copy(actionRequest);
+
+            return $http(request).then(function (response) {
+                return response.data;
+            }, function(e) {
+                checkErrorCode(e);
+            });
+        }
+
     };
 })();

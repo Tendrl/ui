@@ -36,7 +36,11 @@
                     return utils.getDashboardData("ceph", "cluster", "utilization");
                 })
                 .then(function(data) {
-                    vm.chartData = data[0].datapoints;
+                    if(data.length) {
+                        vm.chartData = data[0].datapoints;
+                    } else {
+                        vm.chartData = [];
+                    }
                     return eventStore.getAlertList();
                 })
                 .then(function(alertData) {
@@ -59,6 +63,8 @@
                 .then(function(data) {
                     if (data && data[0] && data[0].datapoints) {
                         vm.chartData = data[0].datapoints;
+                    } else {
+                        vm.chartData = [];
                     }
                     return eventStore.getAlertList();
                 })

@@ -381,6 +381,8 @@
                 obj.selectedRole = _getRole(obj);
                 obj.storage_disks = _getDisks(host);
                 obj.availableCapacity = host.blockdevices.free ? _getACapacity(host) : 0;
+                obj.disks = host.disks;
+                obj.blockdevices = host.blockdevices;
             }
 
             //preparing interface and ip mapping, subnets
@@ -720,6 +722,11 @@
                     vm.availableHostForJournal[i].selectedJournalConfigration = journal;
                     vm.availableHostForJournal[i].journalSize = 5;
                     vm.availableHostForJournal[i].customselectedUnit = "GB";
+
+                    if (journal === "Colocated") {
+                        vm.availableHostForJournal[i].storage_disks = _getDisks(vm.availableHostForRole[i]);
+                    }
+
                     break;
                 }
             }
@@ -915,7 +922,7 @@
 
                         if (data.status !== "finished") {
                             if (type === "singleHost") {
-                                if (host.counts < 7) {
+                                if (host.counts < 25) {
                                     _startJournalTimer(journalJobId, type, host);
                                     host.counts++;
                                 } else {
@@ -925,7 +932,7 @@
                                     vm.showJournalErrorMsg = true;
                                 }
                             } else {
-                                if (counts < 7) {
+                                if (counts < 25) {
                                     _startJournalTimer(journalJobId);
                                     counts++;
                                 } else {

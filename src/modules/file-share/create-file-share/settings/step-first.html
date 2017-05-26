@@ -1,0 +1,72 @@
+<div class="wizard-pf-contents" ng-if="createFileShareCntrl.settings.step === 1">
+    <form class="form-horizontal">
+
+        <div class="form-group required">
+            <label class="col-sm-4 col-md-2 control-label">Access Protocols</label>
+            <div class="col-md-10 col-sm-8">
+                <div class="row">
+                    <div class="col-md-2 protocol-options">
+                        <label>
+                            <input type="checkbox" name="protocol1" id="protocol1" ng-click="createFileShareCntrl.updateProtocol('gluster')" ng-checked="createFileShareCntrl.isSelectedProtocol('gluster')" ng-disabled="true"> Gluster
+                        </label>
+                    </div>
+                    <div class="col-md-2 protocol-options" ng-hide="true">
+                        <label>
+                            <input type="checkbox" name="protocol2" id="protocol2" ng-click="createFileShareCntrl.updateProtocol('nfsv3')" ng-checked="createFileShareCntrl.isSelectedProtocol('nfsv3')"> NFSv3
+                        </label>
+                    </div>
+                    <div class="col-md-2 protocol-options" ng-hide="true">
+                        <label>
+                            <input type="checkbox" name="protocol3" id="protocol3" ng-click="createFileShareCntrl.updateProtocol('nfsv4')" ng-checked="createFileShareCntrl.isSelectedProtocol('nfsv4')"> NFSv4
+                        </label>
+                    </div>
+                    <div class="col-md-2 protocol-options" ng-hide="true">
+                        <label>
+                            <input type="checkbox" name="protocol4" id="protocol4" ng-click="createFileShareCntrl.updateProtocol('cifs')" ng-checked="createFileShareCntrl.isSelectedProtocol('cifs')"> CIFS
+                        </label>
+                    </div>
+                </div>
+                <div class="row italic-text">
+                    <p>One additional protocol may be selected</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- <div class="form-group required">
+            <label class="col-sm-4 col-md-2 control-label">Transport Type</label>
+            <div class="col-md-10 col-sm-8">
+                <div class="row">
+                    <div class="col-md-2 protocol-options">
+                        <label>
+                            <input type="checkbox" name="type1" id="type1" ng-click="createFileShareCntrl.updateTransportType('tcp')" ng-checked="createFileShareCntrl.isSelectedType('tcp')"> TCP
+                        </label>
+                    </div>
+                    <div class="col-md-2 protocol-options">
+                        <label>
+                            <input type="checkbox" name="type2" id="type2" ng-click="createFileShareCntrl.updateTransportType('rdma')" ng-checked="createFileShareCntrl.isSelectedType('rdma')"> RDMA
+                        </label>
+                    </div>
+                </div>
+                <div class="row" ng-if="createFileShareCntrl.settings.transportType.length === 0" class="error-message italic-text">
+                	Please select atleast one transport type to continue.
+            	</div>
+            </div>
+        </div>
+
+        <div class="form-group required">
+            <label class="col-sm-4 col-md-2 control-label">Allow Access From</label>
+            <div class="col-md-10 col-sm-8">
+                <div class="row">
+                    <div class="col-md-4 protocol-options">
+                        <label>
+                            <input type="text" name="accessFrom" id="accessFrom" ng-model="createFileShareCntrl.settings.accessFrom">
+                        </label>
+                    </div>
+                </div>
+                <div class="row italic-text">
+                	Enetr a comma separated list of IP addresses or hostnames
+            	</div>
+            </div>
+        </div> -->
+    </form>
+</div>
