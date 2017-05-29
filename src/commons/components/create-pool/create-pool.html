@@ -46,11 +46,11 @@
 			<button ng-if="createPoolCntrl.step !== 4" type="button" class="btn btn-primary wizard-pf-next" ng-click="createPoolCntrl.updateStep('inc')"  ng-disabled = "createPoolCntrl.poolName.length === 0 || createPoolCntrl.cephClusterList.length === 0 || createPoolCntrl.step === 3">
 				<span >Next <span class="i fa fa-angle-right"></span></span>
 			</button>
-			<button ng-if="createPoolCntrl.step !== 4" type="button" class="btn btn-primary wizard-pf-next" ng-click="createPoolCntrl.goToSummary()"  ng-disabled = "createPoolCntrl.poolName.length === 0 || createPoolCntrl.cephClusterList.length === 0">
+			<button ng-if="createPoolCntrl.step !== 4" type="button" class="btn btn-default wizard-pf-next" ng-click="createPoolCntrl.goToSummary()"  ng-disabled = "createPoolCntrl.poolName.length === 0 || createPoolCntrl.cephClusterList.length === 0">
 				<span>Create Pool <span class="i fa fa-angle-right"></span></span>
 			</button>
 			<button ng-if="createPoolCntrl.step === 4" type="button" class="btn btn-primary wizard-pf-next" ng-click="createPoolCntrl.updateStep('inc')" class="btn btn-default btn-create">Continue</button>
-			<button type="button" ng-click="createPoolCntrl.cancelCreate()" class="btn btn-default btn-cancel">Cancel</button>
+			<button type="button" ng-click="createPoolCntrl.cancelCreate()" class="btn btn-default btn-cancel cancel-button-padding">Cancel</button>
 		</div>
 		<!--footer -->
 	</div>

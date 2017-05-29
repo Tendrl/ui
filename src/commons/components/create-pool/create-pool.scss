@@ -40,15 +40,22 @@
         padding-top: 20px;
         padding-left: 20vw;
     }
+
     .create-pool-content {
         height: 100%;
         padding: 1em;
         vertical-align: top;
         padding-left: 16vw;
     }
+
     .wizard-pf-sidebar {
         border-top: 1px solid $color-light-grey;
     }
+
+    .cancel-button-padding{
+        margin-left: 20px;
+    }
+
 }
 
 .task-submitted {
