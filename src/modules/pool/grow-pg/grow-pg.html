@@ -73,13 +73,13 @@
                     </div>
                     <div>
                         <h1 class="text-center" ng-show="poolCntrl.errorInProcess"><label>Grow PGs Task failed.</label></h1>
-                        <div  ng-show="!poolCntrl.errorInProcess">
-	                        <h1 class="text-center"><label>Grow PGs Task Submitted</label></h1>
-	                        <div class="text-center"> A task has been submitted to increase
-	                            <label>
-	                                {{poolCntrl.growPGPool.name}} </label> in
-	                            <label>{{poolCntrl.growPGPool.clusterName}}</label> with additional placement groups (PGs). You will be notified when processing is complete.
-	                        </div>
+                        <div ng-show="!poolCntrl.errorInProcess">
+                            <h1 class="text-center"><label>Grow PGs Task Submitted</label></h1>
+                            <div class="text-center"> A task has been submitted to increase
+                                <label>
+                                    {{poolCntrl.growPGPool.name}} </label> in
+                                <label>{{poolCntrl.growPGPool.clusterName}}</label> with additional placement groups (PGs). You will be notified when processing is complete.
+                            </div>
                         </div>
                     </div>
                     <div class="view-task-progress">
