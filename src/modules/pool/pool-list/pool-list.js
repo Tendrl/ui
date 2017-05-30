@@ -6,7 +6,7 @@
     app.controller("poolController", poolController);
 
     /*@ngInject*/
-    function poolController($scope, $rootScope, $state, $interval, config, utils) {
+    function poolController($scope, $rootScope, $state, $interval, config, utils, $uibModal) {
         var vm = this,
             key,
             len,
@@ -26,6 +26,7 @@
         vm.viewTaskProgress = viewTaskProgress;
         vm.getpgCountValue = getpgCountValue;
         vm.revertReplicasValue = revertReplicasValue;
+        vm.renamePool = renamePool;
 
         vm.isDataLoading = true;
         vm.errorInProcess = false;
@@ -184,8 +185,6 @@
 
             utils.takeAction(postData, "CephUpdatePool", "PUT", vm.editPoolObj.clusterId)
                 .then(function(response) {
-                    // $rootScope.notification.type = "success";
-                    // $rootScope.notification.message = "JOB is under process. and JOB-ID is - " + response.job_id;
                     vm.editPoolStep = 4;
                     vm.jobId = response.job_id;
                 })
@@ -224,8 +223,6 @@
 
             utils.takeAction(postData, "CephUpdatePool", "PUT", vm.growPGPool.clusterId)
                 .then(function(response) {
-                    // $rootScope.notification.type = "success";
-                    // $rootScope.notification.message = "JOB is under process. and JOB-ID is - " + response.job_id;
                     vm.growPGStep = 2;
                     vm.jobId = response.job_id;
                 })
@@ -233,6 +230,32 @@
                     vm.errorInProcess = true;
                     vm.growPGStep = 2;
                 });
+        }
+
+        function renamePool(pool) {
+            var wizardDoneListener,
+                modalInstance = $uibModal.open({
+                    animation: true,
+                    backdrop: "static",
+                    templateUrl: "/modules/pool/rename-pool/rename-pool.html",
+                    controller: "renamePoolController",
+                    controllerAs: "renamePoolCntrl",
+                    size: 'md',
+                    resolve: {
+                        poolData: function() {
+                            return pool;
+                        }
+                    }
+                });
+
+            var closeWizard = function(e, reason) {
+                modalInstance.dismiss(reason);
+                wizardDoneListener();
+            };
+
+            modalInstance.result.then(function () { }, function () { });
+
+            wizardDoneListener = $rootScope.$on('modal.done', closeWizard);
         }
 
         function viewTaskProgress(modalId) {
@@ -247,5 +270,4 @@
             $state.go("create-pool");
         }
     }
-
 })();
