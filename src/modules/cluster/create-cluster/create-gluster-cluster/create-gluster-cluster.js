@@ -87,27 +87,6 @@
             });
         }
 
-        function _getHostList(list) {
-            var hostList = list,
-                len = hostList.length,
-                i;
-
-            vm.isNodeLoading = false;
-
-            if (list !== null && len !== 0) {
-                for (i = 0; i < len; i++) {
-                    if (JSON.parse(hostList[i].tags).indexOf("tendrl/central-store") !== -1) {
-                        vm.serverNodes.push(hostList[i]);
-                    } else if (!hostList[i].detectedcluster || (hostList[i].detectedcluster && hostList[i].detectedcluster.detected_cluster_id === "")) {
-                        //pushing available host for creating cluster
-                        vm.availableHostList.push(hostList[i]);
-                        _createHostList(hostList[i]);
-                        vm.createPublicNetwork();
-                    }
-                }
-            }
-        }
-
         function getIfIpMapping(ifIPMapping) {
             var len = ifIPMapping.length,
                 i,

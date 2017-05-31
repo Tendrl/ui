@@ -34,35 +34,42 @@
         vm.taskSubmitted = false;
         vm.isEditable = {};
         vm.editRbd = {};
+        vm.poolData = [];
 
         vm.isNextButtonDisabled = false;
 
-        $scope.$watch(angular.bind(this, function (rbdName) {
-          return vm.rbdName;
-        }), function () {
-            if(vm.rbdName.length === 0) {
+        $scope.$watch(angular.bind(this, function(rbdName) {
+            return vm.rbdName;
+        }), function() {
+            if (vm.rbdName.length === 0) {
                 vm.isNextButtonDisabled = true;
-            }else {
+            } else {
                 vm.isNextButtonDisabled = false;
             }
         });
 
-        if($rootScope.clusterData !== null && typeof $rootScope.clusterData !== "undefined") {
+        if ($rootScope.clusterData !== null && typeof $rootScope.clusterData !== "undefined") {
             init();
         }
 
         /* Trigger this function when we have cluster data */
-        $scope.$on("GotClusterData", function (event, data) {
-            /* Forward to home view if we don't have any cluster */    
-            if($rootScope.clusterData === null || $rootScope.clusterData.clusters.length === 0){
+        $scope.$on("GotClusterData", function(event, data) {
+            /* Forward to home view if we don't have any cluster */
+            if ($rootScope.clusterData === null || $rootScope.clusterData.clusters.length === 0) {
                 $state.go("home");
-            }else {
+            } else {
                 init();
             }
         });
 
+        $scope.$on("CreatedPoolData", function(event, data) {
+            vm.poolData = data;
+            vm.poolTaskSubmitted = true;
+            vm.updateStep("inc");
+        });
+
         function isSizeGreater() {
-            if(vm.selectedCluster.utilization && vm.selectedCluster.utilization.available){
+            if (vm.selectedCluster.utilization && vm.selectedCluster.utilization.available) {
                 var result = utils.convertToBytes(vm.targetSize * vm.rbdCount, vm.selectedUnit);
                 return result > vm.selectedCluster.utilization.available;
 
@@ -76,19 +83,19 @@
 
                 vm.step += 1;
 
-                if(vm.step === 2) {
+                if (vm.step === 2) {
                     poolList = utils.getPoolDetails(vm.selectedCluster.cluster_id);
                     _createPoolList(poolList);
-                    if(vm.poolList.length) {
+                    if (vm.poolList.length) {
                         vm.selectedPool = vm.poolList[0];
                     } else {
                         vm.isNextButtonDisabled = true;
                     }
                 }
 
-                if(vm.step === 3) {
+                if (vm.step === 3) {
                     vm.rbdList = [];
-                    for(i = 0; i < len; i++ ) {
+                    for (i = 0; i < len; i++) {
                         var rbd = {};
                         rbd.pool_id = vm.selectedPool.pool_id;
                         rbd.name = vm.rbdNames[i];
@@ -98,17 +105,17 @@
                         vm.rbdList.push(rbd)
                     }
                 }
-                
-                if(vm.step === 4) {
+
+                if (vm.step === 4) {
                     vm.createRBDs();
                 }
-            
+
             } else if (step === "dec") {
                 vm.step -= 1;
 
-                if(vm.step === 1) {
-                    vm.backingPool =  "existing"
-                    if(vm.rbdName.length) {
+                if (vm.step === 1) {
+                    vm.backingPool = "existing"
+                    if (vm.rbdName.length) {
                         vm.isNextButtonDisabled = false;
                     }
                 }
@@ -121,15 +128,15 @@
             vm.rbdNames = [];
 
             for (i = 0; i < vm.rbdCount; i++) {
-                if(vm.rbdCount === 1){
+                if (vm.rbdCount === 1) {
                     vm.rbdNames.push(vm.rbdName);
-                } else{
-                vm.rbdNames.push(vm.rbdName + (i + 1));
+                } else {
+                    vm.rbdNames.push(vm.rbdName + (i + 1));
                 }
             }
         }
 
-        function checkPoolList(){
+        function checkPoolList() {
             return (vm.step === 2 && vm.poolList.length === 0)
         }
 
@@ -148,14 +155,14 @@
             vm.selectedCluster = vm.cephClusterList[0];
             vm.selectedUnit = vm.sizeUnits[0];
             vm.updateRBDName();
-            
+
         }
 
-        function getCephClusterList(){
+        function getCephClusterList() {
             var index;
             var clustersLength = $rootScope.clusterData.clusters.length;
-            for(index = 0 ; index < clustersLength ; index++) {
-                if($rootScope.clusterData.clusters[index].sds_name === 'ceph') {
+            for (index = 0; index < clustersLength; index++) {
+                if ($rootScope.clusterData.clusters[index].sds_name === "ceph") {
                     vm.cephClusterList.push($rootScope.clusterData.clusters[index]);
                 }
             }
@@ -169,7 +176,7 @@
                 i;
 
             for (i = 0; i < len; i++) {
-                if(list[i].type === 'replicated' ) {
+                if (list[i].type === 'replicated') {
                     pool = {};
                     pool.pool_id = list[i].pool_id;
                     pool.name = list[i].pool_name;
@@ -180,22 +187,20 @@
                     pool.osdCount = list[i].osd_count;
                     pool.quotas = "NA";
                     pool.quota_enabled = list[i].quota_enabled;
-                    if(list[i].quota_enabled){
-                        if(list[i].quota_enabled.toLowerCase() === "false") {
+                    if (list[i].quota_enabled) {
+                        if (list[i].quota_enabled.toLowerCase() === "false") {
                             pool.quotas = "Disabled";
                             pool.quota_max_objects = list[i].quota_max_objects;
                             pool.quota_max_bytes = list[i].quota_max_bytes;
 
-                        } else if(list[i].quota_enabled.toLowerCase() === "true") {
+                        } else if (list[i].quota_enabled.toLowerCase() === "true") {
                             pool.quota_max_objects = list[i].quota_max_objects;
                             pool.quota_max_bytes = list[i].quota_max_bytes;
-                            if(pool.quota_max_bytes !== "0" && pool.quota_max_objects !=="0"){
+                            if (pool.quota_max_bytes !== "0" && pool.quota_max_objects !== "0") {
                                 pool.quotas = pool.quota_max_bytes + "%, " + pool.quota_max_objects + " objects"
-                            }
-                            else if(pool.quota_max_bytes !== "0"){
+                            } else if (pool.quota_max_bytes !== "0") {
                                 pool.quotas = pool.quota_max_bytes + "%";
-                            }
-                            else if(pool.quota_max_objects !== "0"){
+                            } else if (pool.quota_max_objects !== "0") {
                                 pool.quotas = pool.quota_max_objects + " objects";
                             }
                         }
@@ -209,34 +214,45 @@
         }
 
         function createRBDs() {
-            var i, len = vm.rbdList.length, sizeInBytes, sizeInMB, postData;
-            for(i = 0; i < len; i++) {
+            var i, len = vm.rbdList.length,
+                sizeInBytes, sizeInMB, postData;
+            for (i = 0; i < len; i++) {
 
                 sizeInBytes = utils.convertToBytes(vm.rbdList[i].size, vm.rbdList[i].unit);
-                sizeInMB = (sizeInBytes / (1024*1024)).toFixed(0);
+                sizeInMB = (sizeInBytes / (1024 * 1024)).toFixed(0);
                 vm.rbdList[i].size = parseInt(sizeInMB);
-                postData = { "Rbd.pool_id": parseInt(vm.rbdList[i].pool_id), "Rbd.name": vm.rbdList[i].name, "Rbd.size": vm.rbdList[i].size };
-                
+                postData = { "Rbd.name": vm.rbdList[i].name, "Rbd.size": vm.rbdList[i].size };
+
+                if (vm.backingPool === "new") {
+                    postData["Rbd.pool_min_size"] = vm.poolData["Pool.min_size"];
+                    postData["Rbd.pool_pg_num"] = vm.poolData["Pool.pg_num"];
+                    postData["Rbd.pool_size"] = vm.poolData["Pool.size"];
+                    postData["Rbd.pool_poolname"] = vm.poolData["Pool.poolname"];
+                    if (vm.poolData["Pool.quota_enabled"]) {
+                        postData["Rbd.pool_quota_enabled"] = vm.poolData["Pool.quota_enabled"];
+                        postData["Rbd.pool_quota_max_objects"] = vm.poolData["Pool.quota_max_objects"];
+                        postData["Rbd.pool_quota_max_bytes"] = vm.poolData["Pool.quota_max_bytes"];
+                    }
+                } else {
+                    postData["Rbd.pool_id"] = parseInt(vm.rbdList[i].pool_id);
+                }
                 utils.takeAction(postData, "CephCreateRbd", "POST", vm.selectedCluster.cluster_id).then(function(response) {
                     vm.jobId = response.job_id;
                     vm.taskSubmitted = true;
-                    //$rootScope.notification.type = "success";
-                    //$rootScope.notification.message = "JOB is under process. and JOB-ID is - " + response.job_id;
                 });
-
             }
-            
+
         }
 
         function editRBDsList(index, rbd) {
             var i, len = vm.rbdNames.length;
-            for(i = 0; i < len; i++ ) {
+            for (i = 0; i < len; i++) {
                 vm.isEditable[i] = false;
             }
             vm.isEditable[index] = true;
-            vm.editRbd.name =  rbd.name;
-            vm.editRbd.size =  rbd.size;
-            vm.editRbd.unit =  rbd.unit;
+            vm.editRbd.name = rbd.name;
+            vm.editRbd.size = rbd.size;
+            vm.editRbd.unit = rbd.unit;
         }
 
         function updateRBDsList(index, rbd) {
@@ -244,10 +260,10 @@
             rbd.size = vm.editRbd.size;
             rbd.unit = vm.editRbd.unit;
             vm.isEditable[index] = false;
-        }  
+        }
 
-        function viewTaskProgress(){
-            $state.go("task-detail", {taskId: vm.jobId});
+        function viewTaskProgress() {
+            $state.go("task-detail", { taskId: vm.jobId });
         };
     }
 

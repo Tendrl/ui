@@ -202,13 +202,16 @@
                         postData["Pool.erasure_code_profile"] = vm.poolList[i].erasure_code_profile;
                     }
                 }
-                utils.takeAction(postData, "CephCreatePool", "POST", vm.selectedCluster.cluster_id).then(function(response) {
+                if(vm.poolToCreate){
+                    utils.takeAction(postData, "CephCreatePool", "POST", vm.selectedCluster.cluster_id).then(function(response) {
+                        vm.taskSubmitted = true;
+                        vm.jobId = response.job_id;
+                    });
+                } else {
                     vm.taskSubmitted = true;
-                    vm.jobId = response.job_id;
-                    //$rootScope.notification.type = "success";
-                    //$rootScope.notification.message = "JOB is under process. and JOB-ID is - " + response.job_id;
-                });
-
+                    vm.poolData = postData;
+                    $rootScope.$broadcast("CreatedPoolData", vm.poolData);
+                }
             }
         }
 
