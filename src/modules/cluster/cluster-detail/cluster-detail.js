@@ -12,15 +12,10 @@
             clusterDetailTimer,
             alerts;
 
-        vm.tabList = {
-            "Overview": 1,
-            "Hosts": 2
-        };
 
         vm.setTab = setTab;
         vm.isTabSet = isTabSet;
         vm.isDataLoading = true;
-        vm.activeTab = vm.tabList["Overview"];
 
         init();
         /* Adding clusterId in scope so that it will be accessible inside child directive */
@@ -37,17 +32,13 @@
             }
         }
 
-
         function _setClusterDetail() {
             vm.clusterObj = utils.getClusterDetails($scope.clusterId);
             vm.clusterName = vm.clusterObj.cluster_name || "NA";
             vm.clusterStatus = checkStatus(vm.clusterObj);
             if (vm.clusterObj.sds_name === "gluster") {
-                vm.tabList.FileShares = 3;
                 _glusterClusterSpecificData($scope.clusterId);
             } else {
-                vm.tabList.Pools = 3;
-                vm.tabList.RBDs = 4;
                 _cephClusterSpecificData($scope.clusterId);
             }
 
@@ -70,8 +61,7 @@
                 .then(function(dashboardData) {
                     $interval.cancel(clusterDetailTimer);
                     vm.clusterData = dashboardData;
-                    vm.volOverviewData = vm.clusterData.sds_det.volume_status_wise_counts;
-                    vm.brickOverviewData = vm.clusterData.sds_det.brick_status_wise_counts;
+                    _makeGlusterTabList();
                     return dashboardStore.getClusterDashboardUtilizationList(clusterId, "cluster", "utilization")
                 })
                 .then(function(chartData) {
@@ -94,6 +84,7 @@
                 .then(function(cephDashboardData) {
                     $interval.cancel(clusterDetailTimer);
                     vm.cephCluster = cephDashboardData;
+                    _makeCephTabList();
                     return dashboardStore.getClusterDashboardUtilizationList(clusterId, "cluster", "utilization");
                 })
                 .then(function(cephChartData) {
@@ -122,6 +113,45 @@
                     vm.isDataLoading = false;
                     startTimer();
                 });
+        }
+
+        function _makeCephTabList(){
+            if(vm.cephCluster) {
+                vm.tabList = {
+                    "Overview": 1,
+                    "Hosts": 2,
+                    "Pools": 3,
+                    "RBDs": 4
+                };
+                vm.activeTab = vm.tabList["Overview"];
+            } else {
+                vm.tabList = {
+                    "Hosts": 2,
+                    "Pools": 3,
+                    "RBDs": 4
+                };
+                vm.activeTab = vm.tabList["Hosts"];
+            }
+        }
+
+        function _makeGlusterTabList() {
+            if(vm.clusterData) {
+                vm.volOverviewData = vm.clusterData.sds_det.volume_status_wise_counts;
+                vm.brickOverviewData = vm.clusterData.sds_det.brick_status_wise_counts;
+                vm.tabList = {
+                    "Overview": 1,
+                    "Hosts": 2,
+                    "FileShares": 3
+                };
+                vm.activeTab = vm.tabList["Overview"];
+            } else {
+                vm.tabList = {
+                    "Hosts": 2,
+                    "FileShares": 3
+                };
+                vm.activeTab = vm.tabList["Hosts"];
+            }
+
         }
 
         function startTimer() {
