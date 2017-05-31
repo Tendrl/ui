@@ -186,8 +186,8 @@
                     "Pool.poolname": pool.name,
                     "Pool.pg_num": pool.pgCount,
                     "Pool.size": pool.replicaCount,
-                    "Pool.min_size": pool.minSize,
-                }
+                    "Pool.min_size": pool.minSize
+                };
                 if (vm.checkboxModelQuotasValue){
                     postData["Pool.quota_enabled"] = vm.checkboxModelQuotasValue;
                     postData["Pool.quota_max_objects"] = pool.quotas[1];

@@ -23,6 +23,7 @@
         vm.editRBDsList = editRBDsList;
         vm.updateRBDsList = updateRBDsList;
         vm.viewTaskProgress = viewTaskProgress;
+        vm.changeBackingPool = changeBackingPool;
         vm.sizeUnits = ["GB", "TB"];
 
         //default values
@@ -64,6 +65,14 @@
 
         $scope.$on("CreatedPoolData", function(event, data) {
             vm.poolData = data;
+            vm.selectedPool = {
+                name: vm.poolData["Pool.poolname"],
+                type: "replicated",
+                replicaCount: vm.poolData["Pool.size"],
+                pgCount: vm.poolData["Pool.pg_num"],
+                quotas: vm.poolData["Pool.quota_enabled"] ? "Enabled" : "Disabled"
+
+            };
             vm.poolTaskSubmitted = true;
             vm.updateStep("inc");
         });
@@ -76,6 +85,20 @@
             }
         }
 
+        function changeBackingPool() {
+            if (vm.backingPool === "existing") {
+                poolList = utils.getPoolDetails(vm.selectedCluster.cluster_id);
+                _createPoolList(poolList);
+                if (vm.poolList.length) {
+                    vm.selectedPool = vm.poolList[0];
+                } else {
+                    vm.isNextButtonDisabled = true;
+                }
+            } else {
+                vm.selectedPool = {};
+            }
+        }
+
         function updateStep(step) {
             var i, len = vm.rbdNames.length;
 
@@ -84,20 +107,16 @@
                 vm.step += 1;
 
                 if (vm.step === 2) {
-                    poolList = utils.getPoolDetails(vm.selectedCluster.cluster_id);
-                    _createPoolList(poolList);
-                    if (vm.poolList.length) {
-                        vm.selectedPool = vm.poolList[0];
-                    } else {
-                        vm.isNextButtonDisabled = true;
-                    }
+                    vm.changeBackingPool();
                 }
 
                 if (vm.step === 3) {
                     vm.rbdList = [];
                     for (i = 0; i < len; i++) {
                         var rbd = {};
-                        rbd.pool_id = vm.selectedPool.pool_id;
+                        if (vm.backingPool === "existing") {
+                            rbd.pool_id = vm.selectedPool.pool_id;
+                        }
                         rbd.name = vm.rbdNames[i];
                         rbd.size = vm.targetSize;
                         rbd.unit = vm.selectedUnit;
@@ -176,7 +195,7 @@
                 i;
 
             for (i = 0; i < len; i++) {
-                if (list[i].type === 'replicated') {
+                if (list[i].type === "replicated") {
                     pool = {};
                     pool.pool_id = list[i].pool_id;
                     pool.name = list[i].pool_name;
