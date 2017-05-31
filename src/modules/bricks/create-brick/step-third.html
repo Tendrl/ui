@@ -60,7 +60,7 @@
                                 <tbody> 
                                     <tr ng-repeat="disk in host.selectedDisk | filter: vm.filterDisk "">
                         <td>{{disk.device || "NA"}}</td>
-                        <td>{{disk.type}}</td>
+                        <td>{{disk.ssd}}</td>
                         <td>{{disk.brickPath}}</td>
                         <td>{{(disk.size || "NA") | bytes}}</td>
                         </tr>
