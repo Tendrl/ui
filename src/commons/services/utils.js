@@ -102,9 +102,9 @@
                 request;
 
             if (utilization) {
-                url = config.baseUrl + "monitoring/system/" + clusterType + "/utilization";
+                url = config.baseUrl + "monitoring/system/" + clusterType + "/utilization" + "?interval=-6h";
             } else {
-                url = config.baseUrl + "monitoring/system/" + clusterType;
+                url = config.baseUrl + "monitoring/system/" + clusterType + "?interval=-6h";
             }
 
             getDashboardRequest = {
@@ -614,34 +614,34 @@
 
         vm.getClusterDashboardList = function(id, componentType, type) {
             var url, getClusterDashboardListRequest, request;
-                if(type === "public_network" || type === "cluster_network"){
-                    url = config.baseUrl + "monitoring/" + componentType + "/" + id + "/throughput?type=" + type;
-                } else if(type) {
-                    url = config.baseUrl + "monitoring/" + componentType + "/" + id + "/" + type;
-                } else {
-                    url = config.baseUrl + "monitoring/" + componentType + "/" + id;
-                }
+            if (type === "public_network" || type === "cluster_network") {
+                url = config.baseUrl + "monitoring/" + componentType + "/" + id + "/throughput?type=" + type + "&interval=-6h";
+            } else if (type) {
+                url = config.baseUrl + "monitoring/" + componentType + "/" + id + "/" + type + "?interval=-6h";
+            } else {
+                url = config.baseUrl + "monitoring/" + componentType + "/" + id + "?interval=-6h";
+            }
 
-                getClusterDashboardListRequest = {
-                    method: "GET",
-                    url: url
-                };
+            getClusterDashboardListRequest = {
+                method: "GET",
+                url: url
+            };
 
-                request = angular.copy(getClusterDashboardListRequest);
-                return $http(request).then(function (response) {
-                    return response.data;
-                }, function(e) {
-                    checkErrorCode(e);
-                    console.log("Error Occurred: while fetching getOverviewData");
-                    return null;
-                });
+            request = angular.copy(getClusterDashboardListRequest);
+            return $http(request).then(function (response) {
+                return response.data;
+            }, function(e) {
+                checkErrorCode(e);
+                console.log("Error Occurred: while fetching getOverviewData");
+                return null;
+            });
         };
 
-        vm.getVolumeCreationMapping = function() {
+        vm.ClusterIOPS = function(cluster_id, timeInterval) {
             var url = "",
                 getObjectListRequest, request;
 
-            url = "/api/VolumeCreationMapping.json";
+            url = config.baseUrl + "monitoring/clusters/iops?cluster_ids=" + cluster_id + "&interval=" + timeInterval;
 
             getObjectListRequest = {
                 method: "GET",
@@ -653,8 +653,8 @@
                 return response.data;
             }, function(e) {
                 vm.checkErrorCode(e);
-                console.log("Error Occurred: while fetching VolumeCreationMapping");
-                throw e;
+                console.log("Error Occurred: while fetching Cluster IOPS");
+                return null;
             });
         };
 
