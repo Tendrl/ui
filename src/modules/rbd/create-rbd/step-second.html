@@ -4,12 +4,12 @@
             <label class="col-sm-4 col-md-3 control-label" for="aliquam">What will you use for a backing pool?</label>
             <div class="radio col-md-2">
                 <label>
-                    <input type="radio" name="poolOptions" id="poolOption1" value="existing" checked ng-model="createRBDCntrl.backingPool"> Choose existing pool
+                    <input type="radio" name="poolOptions" id="poolOption1" value="existing" checked ng-model="createRBDCntrl.backingPool" ng-change="createRBDCntrl.changeBackingPool()"> Choose existing pool
                 </label>
             </div>
             <div class="radio col-md-2">
                 <label>
-                    <input type="radio" name="poolOptions" id="poolOption2" value="new" ng-model="createRBDCntrl.backingPool"> Create new pool
+                    <input type="radio" name="poolOptions" id="poolOption2" value="new" ng-model="createRBDCntrl.backingPool" ng-change="createRBDCntrl.changeBackingPool()"> Create new pool
                 </label>
             </div>
         </div>

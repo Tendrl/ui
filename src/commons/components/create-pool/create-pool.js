@@ -186,12 +186,12 @@
                     "Pool.poolname": pool.name,
                     "Pool.pg_num": pool.pgCount,
                     "Pool.size": pool.replicaCount,
-                    "Pool.min_size": pool.minSize,
-                }
+                    "Pool.min_size": pool.minSize
+                };
                 if (vm.checkboxModelQuotasValue){
                     postData["Pool.quota_enabled"] = vm.checkboxModelQuotasValue;
                     postData["Pool.quota_max_objects"] = pool.quotas[1];
-                    postData["Pool.quota_max_bytes"] = pool.quotas[0];
+                    postData["Pool.quota_max_bytes"] = ((vm.selectedCluster.utilization.available/100)*vm.quotasMaxPercentage).toFixed(0);
                 }
                 if(vm.poolList[i].type === "Erasure Coded"){
                     postData["Pool.type"] = "erasure";
@@ -202,13 +202,16 @@
                         postData["Pool.erasure_code_profile"] = vm.poolList[i].erasure_code_profile;
                     }
                 }
-                utils.takeAction(postData, "CephCreatePool", "POST", vm.selectedCluster.cluster_id).then(function(response) {
+                if(vm.poolToCreate){
+                    utils.takeAction(postData, "CephCreatePool", "POST", vm.selectedCluster.cluster_id).then(function(response) {
+                        vm.taskSubmitted = true;
+                        vm.jobId = response.job_id;
+                    });
+                } else {
                     vm.taskSubmitted = true;
-                    vm.jobId = response.job_id;
-                    //$rootScope.notification.type = "success";
-                    //$rootScope.notification.message = "JOB is under process. and JOB-ID is - " + response.job_id;
-                });
-
+                    vm.poolData = postData;
+                    $rootScope.$broadcast("CreatedPoolData", vm.poolData);
+                }
             }
         }
 
