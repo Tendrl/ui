@@ -116,11 +116,11 @@
         store.createDashboardUrl = function(id, componentType, type) {
             var url, getClusterDashboardListRequest, request;
             if (type === "public_network" || type === "cluster_network") {
-                url = config.baseUrl + "monitoring/" + componentType + "/" + id + "/throughput?type=" + type;
+                url = config.baseUrl + "monitoring/" + componentType + "/" + id + "/throughput?type=" + type + "&interval=-6h";
             } else if (type) {
-                url = config.baseUrl + "monitoring/" + componentType + "/" + id + "/" + type;
+                url = config.baseUrl + "monitoring/" + componentType + "/" + id + "/" + type + "?interval=-6h";
             } else {
-                url = config.baseUrl + "monitoring/" + componentType + "/" + id;
+                url = config.baseUrl + "monitoring/" + componentType + "/" + id + "?interval=-6h";
             }
             return url;
         }

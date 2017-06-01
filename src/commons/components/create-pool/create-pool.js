@@ -191,7 +191,7 @@
                 if (vm.checkboxModelQuotasValue){
                     postData["Pool.quota_enabled"] = vm.checkboxModelQuotasValue;
                     postData["Pool.quota_max_objects"] = pool.quotas[1];
-                    postData["Pool.quota_max_bytes"] = pool.quotas[0];
+                    postData["Pool.quota_max_bytes"] = ((vm.selectedCluster.utilization.available/100)*vm.quotasMaxPercentage).toFixed(0);
                 }
                 if(vm.poolList[i].type === "Erasure Coded"){
                     postData["Pool.type"] = "erasure";
