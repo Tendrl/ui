@@ -1,5 +1,5 @@
 Name: tendrl-dashboard
-Version: 1.3.0
+Version: 1.4.0
 Release: 1%{?dist}
 BuildArch: noarch
 Summary: GUI for Tendrl
@@ -36,6 +36,9 @@ cp -a ./dist/* $RPM_BUILD_ROOT/%{_localstatedir}/www/tendrl/
 %doc ./docs/*
 
 %changelog
+* Fri Jun 02 2017 Rohan Kanade <rkanade@redhat.com> - 1.4.0-1
+- Release tendrl-dashboard v1.4.0
+
 * Thu May 18 2017 <rkanade@redhat.com> 1.3.0-1
 - Release tendrl-dashboard v1.3.0
 
