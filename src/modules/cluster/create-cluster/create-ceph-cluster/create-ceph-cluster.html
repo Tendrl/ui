@@ -41,7 +41,7 @@
                     <button type="button" class="btn btn-default wizard-pf-back" ng-click="createCephClusterCntrl.backStep(createCephClusterCntrl.selectedStep)" ng-disabled="createCephClusterCntrl.selectedStep === 1">
                         <span class="i fa fa-angle-left"></span> Back
                     </button>
-                    <button type="button" class="btn btn-primary wizard-pf-next" ng-click="createCephClusterCntrl.nextStep(createCephClusterCntrl.selectedStep)" ng-disabled="createCephClusterCntrl.validateFields()">
+                    <button type="button" class="btn btn-primary wizard-pf-next" ng-click="createCephClusterCntrl.nextStep(createCephClusterCntrl.selectedStep)" ng-disabled="createCephClusterCntrl.validateFields() || createCephClusterCntrl.availableHostList.length === 0">
                         <span ng-if="createCephClusterCntrl.selectedStep !== 5">Next</span>
                         <span ng-if="createCephClusterCntrl.selectedStep === 5">Create Cluster</span>
                         <span class="i fa fa-angle-right"></span>

@@ -38,7 +38,7 @@
                     <button type="button" class="btn btn-default wizard-pf-back" ng-click="createGlusterClusterCntrl.backStep(createGlusterClusterCntrl.selectedStep)" ng-disabled="createGlusterClusterCntrl.selectedStep === 1">
                         <span class="i fa fa-angle-left"></span> Back
                     </button>
-                    <button type="button" class="btn btn-primary wizard-pf-next" ng-click="createGlusterClusterCntrl.nextStep(createGlusterClusterCntrl.selectedStep)" ng-disabled="createGlusterClusterCntrl.validateFields()">
+                    <button type="button" class="btn btn-primary wizard-pf-next" ng-click="createGlusterClusterCntrl.nextStep(createGlusterClusterCntrl.selectedStep)" ng-disabled="createGlusterClusterCntrl.validateFields() || createGlusterClusterCntrl.availableHostList.length === 0">
                         <span ng-if="createGlusterClusterCntrl.selectedStep !== 5">Next</span>
                         <span ng-if="createGlusterClusterCntrl.selectedStep === 5">Create Cluster</span>
                         <span class="i fa fa-angle-right"></span>

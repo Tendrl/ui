@@ -144,14 +144,14 @@
 
         function clusterPG(pgOverview) {
             var PGData = pgOverview,
-            pgTotal = PGData.warn + PGData.critical + PGData.ok;
+            pgTotal = PGData.warn ? PGData.warn : 0 + PGData.critical ? PGData.critical : 0 + PGData.ok ? PGData.ok : 0;
             vm.PGStatus = {
                 "title": "PGs",
                 "count": pgTotal,
                 "notifications": []
             };
 
-            if (pgTotal === PGData.ok) {
+            if (pgTotal === PGData.ok || !pgTotal) {
                 vm.PGStatus.notifications.push({
                     "iconClass": "pficon pficon-ok"
                 })
@@ -206,7 +206,7 @@
             }
 
             vm.rawStorageUtilizationConfig = {
-                title: "Memory",
+                title: "Raw Storage Utilization",
                 units: "GB"
             };
 
