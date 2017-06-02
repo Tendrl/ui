@@ -1,6 +1,6 @@
 Name: tendrl-dashboard
 Version: 1.4.0
-Release: 1%{?dist}
+Release: 2%{?dist}
 BuildArch: noarch
 Summary: GUI for Tendrl
 License: ASL 2.0
@@ -36,6 +36,9 @@ cp -a ./dist/* $RPM_BUILD_ROOT/%{_localstatedir}/www/tendrl/
 %doc ./docs/*
 
 %changelog
+* Fri Jun 02 2017 Rohan Kanade <rkanade@redhat.com> - 1.4.0-2
+- Fixes https://github.com/Tendrl/dashboard/pull/398
+
 * Fri Jun 02 2017 Rohan Kanade <rkanade@redhat.com> - 1.4.0-1
 - Release tendrl-dashboard v1.4.0
 
