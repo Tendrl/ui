@@ -138,8 +138,10 @@
 
             utils.ClusterIOPS(cluster.id, timeInterval)
                 .then(function(data) {
-                    iopsData = data && data.stats[0] && data.stats[0].datapoints ? data.stats[0].datapoints : [];
-                    _generateIopsTrendChart(iopsData, cluster);
+                    vm.iopsData = data && data.stats[0] && data.stats[0].datapoints ? data.stats[0].datapoints : [];
+                    if(vm.iopsData.length){
+                        _generateIopsTrendChart(vm.iopsData, cluster);
+                    }
                 });
         }
 

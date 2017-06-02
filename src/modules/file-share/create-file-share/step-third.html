@@ -3,11 +3,11 @@
     <div ng-if="createFileShareCntrl.nodeDataLoading" class="spinner spinner-lg"></div>
     <div ng-if="!createFileShareCntrl.nodeDataLoading">
         <div class="list-group list-view-pf list-view-pf-view list-container">
-            <div class="list-group-item" ng-class="{'list-view-pf-expand-active': set.isExpanded}" ng-repeat="set in createFileShareCntrl.brickDetails track by $index">
+            <div class="list-group-item" ng-click="createFileShareCntrl.expandList(set)" ng-class="{'list-view-pf-expand-active': set.isExpanded}" ng-repeat="set in createFileShareCntrl.brickDetails track by $index">
                 <div class="list-group-item-header">
                     <div class="list-view-pf-expand">
-                        <span class="fa fa-angle-right" ng-click="createFileShareCntrl.expandList(set)" ng-show="!set.isExpanded"></span>
-                        <span class="fa fa-angle-right fa-angle-down" ng-click="createFileShareCntrl.expandList(set)" ng-show="set.isExpanded"></span>
+                        <span class="fa fa-angle-right" ng-show="!set.isExpanded"></span>
+                        <span class="fa fa-angle-right fa-angle-down" ng-show="set.isExpanded"></span>
                     </div>
                     <div class="list-view-pf-main-info">
                         <div class="list-view-pf-body">
