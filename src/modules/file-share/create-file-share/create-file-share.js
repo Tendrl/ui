@@ -7,8 +7,7 @@
 
     /*@ngInject*/
     function createFileShareController($scope, $state, $rootScope, $uibModal, nodeStore, utils, volumeCreationMapping) {
-        var vm = this,
-            multipleOfTwoBricksCount = 0;
+        var vm = this;
 
         vm.step = 1;
         vm.settings = {};
@@ -96,9 +95,11 @@
 
             if (vm.hostAllCheckBoxSelected) {
                 numberOfNodesToBeSelected = hostNamesLen > repDistrib ? repDistrib : hostNamesLen;
-                multipleOfTwoBricksCount = numberOfNodesToBeSelected;
                 for (i = 0; i < hostNamesLen; i++) {
                     totalAvailableHosts[hostNames[i]].hostCheckBoxSelected = false;
+                }
+                if(numberOfNodesToBeSelected % 2 !== 0){
+                    numberOfNodesToBeSelected -= 1;
                 }
                 for (i = 0; i < numberOfNodesToBeSelected; i++) {
                     totalAvailableHosts[hostNames[i]].hostCheckBoxSelected = true;

@@ -9,8 +9,6 @@
     function dashboardController($scope, $rootScope, $state, $interval, utils, config, eventStore, dashboardStore) {
         var vm = this,
             dashboardTimer,
-            rawStorageUtilizationXData = ["percent"],
-            rawStorageUtilizationYData = ["used"],
             alerts;
 
         vm.heatMapdataAvailable = false;

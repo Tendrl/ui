@@ -1,4 +1,13 @@
 <div class="wizard-pf-contents" ng-if="createGlusterClusterCntrl.selectedStep === 1">
+    <div ng-show="createGlusterClusterCntrl.availableHostList.length === 0">
+        <div class="alert alert-danger alert-dismissable">
+            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">
+                <span class="pficon pficon-close"></span>
+            </button>
+            <span class="pficon pficon-error-circle-o"></span>
+            <strong>No Nodes are available for creating a Cluster.</strong>
+        </div>
+    </div>
     <form class="form-horizontal" name="createGlusterClusterCntrl.createCluster">
         <!-- replacing id with data-id to pass build errors -->
         <div class="form-group">

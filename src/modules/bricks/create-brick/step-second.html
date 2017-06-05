@@ -70,7 +70,7 @@
                                             <input type="checkbox" ng-click="vm.selectDisk(disk, host)" id="select{{$index+1}}" name="select{{$index+1}}" ng-checked="vm.isSelectedDisk(disk, host)">
                                         </td>
                                         <td>{{disk.device || "NA"}}</td>
-                                        <td>{{disk.type}}</td>
+                                        <td>{{disk.ssd}}</td>
                                         <td>{{(disk.size || "NA") | bytes}}</td>
                                     </tr>
                                 </tbody>           

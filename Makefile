@@ -1,7 +1,7 @@
 # store the current working directory
 NAME      := tendrl-dashboard
-VERSION   := 1.3.0
-RELEASE   := 1
+VERSION   := 1.4.0
+RELEASE   := 2
 
 build-pkgs-dist:
 	npm prune

@@ -1,4 +1,13 @@
 <div class="wizard-pf-contents" ng-if="createCephClusterCntrl.selectedStep === 1">
+    <div ng-show="createCephClusterCntrl.availableHostList.length === 0">
+        <div class="alert alert-danger alert-dismissable">
+            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">
+                <span class="pficon pficon-close"></span>
+            </button>
+            <span class="pficon pficon-error-circle-o"></span>
+            <strong>No Nodes are available for creating a Cluster.</strong>
+        </div>
+    </div>
     <form class="form-horizontal" name="createCephClusterCntrl.createCluster" >
         <!-- replacing id with data-id to pass build errors -->
         <div class="form-group">

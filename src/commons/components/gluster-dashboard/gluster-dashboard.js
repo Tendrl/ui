@@ -134,7 +134,7 @@
             }
 
             vm.rawStorageUtilizationConfig = {
-                title: "Memory",
+                title: "Utilization",
                 units: "GB"
             };
 

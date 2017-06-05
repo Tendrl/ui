@@ -19,4 +19,14 @@
         text-overflow: ellipsis;
     }
 
+    .fileshare-name {
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        padding-left: 0;
+        padding-right: 0;
+        color: #3A90AA;
+        font-weight: bold;
+    }
+
 }
