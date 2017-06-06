@@ -28,7 +28,7 @@
     }
     .div-with-scroll {
         max-height: 300px;
-        height: 294px;
+        height: 285px;
         overflow: scroll;
         overflow-x: hidden;
     }
@@ -78,5 +78,8 @@
     .reduce-padding {
         padding-left: 10px;
         padding-right: 10px;
+    }
+    .gluster-dashboard-not-available {
+        margin-left: -40px;
     }
 }

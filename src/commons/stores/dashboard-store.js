@@ -19,7 +19,7 @@
 
             utils.getClusterDashboardList(cluster_id, componentType)
                 .then(function(data) {
-                    list = data.stats ? data.stats : [];
+                    list = data ? data.stats : data;
                     deferred.resolve(list);
                 });
 
