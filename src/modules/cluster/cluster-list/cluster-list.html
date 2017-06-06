@@ -73,7 +73,7 @@
                 <donut-chart id="" id="utilization-donut-chart{{$index}}" class="list-view-pf-additional-info-item" chart-data="cluster.utilization"></donut-chart>
             </div>
             <div class="col-md-4">
-                <div class="text-center not-available" ng-if="cluster.sds_name ==='gluster' || clusterCntrl.iopsData === 0">
+                <div class="text-center not-available" ng-if="cluster.sds_name ==='gluster' || clusterCntrl.iopsData.length === 0">
                     <i class="pficon pficon-info"></i>
                     <div>IOPS Data Not Available</div>
                 </div>
