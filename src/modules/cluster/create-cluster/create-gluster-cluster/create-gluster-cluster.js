@@ -25,7 +25,7 @@
             "name": "General"
         }, {
             "number": 2,
-            "name": "Network & Host"
+            "name": "Network & Hosts"
         }, {
             "number": 3,
             "name": "Review"

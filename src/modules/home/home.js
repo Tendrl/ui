@@ -22,16 +22,16 @@
         function init() {
             if($rootScope.clusterData !== null && $rootScope.clusterData.clusters.length !== 0){
                 /* Forward to cluster view if we have don't have at least one cluster */
-                $state.go("cluster");
+                $state.go("dashboard");
             }
         }
 
         function importCluster() {
-            $state.go('import-cluster');
+            $state.go("import-cluster");
         }
 
         function createCluster() {
-            $state.go('create-cluster');
+            $state.go("create-cluster");
         }
         
     }
