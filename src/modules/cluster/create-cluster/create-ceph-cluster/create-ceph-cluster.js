@@ -32,7 +32,7 @@
             "name": "General"
         }, {
             "number": 2,
-            "name": "Network & Host"
+            "name": "Network & Hosts"
         }, {
             "number": 3,
             "name": "Roles"
@@ -373,7 +373,8 @@
                 obj.storage_disks = _getDisks(host);
                 obj.availableCapacity = host.localstorage.blockdevices.free ? _getACapacity(host) : 0;
                 obj.disks = host.disks;
-                obj.blockdevices = host.localstorage.blockdevices;
+                obj.localstorage = {};
+                obj.localstorage.blockdevices = host.localstorage.blockdevices;
             }
 
             //preparing interface and ip mapping, subnets
