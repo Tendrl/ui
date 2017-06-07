@@ -78,7 +78,7 @@
                     return utils.getDashboardData("ceph", "cluster", "utilization");
                 })
                 .then(function(data) {
-                    vm.chartData = data && data[0].datapoints ? data[0].datapoints : [];
+                    vm.chartData = data.length && data[0].datapoints ? data[0].datapoints : [];
                     return eventStore.getAlertList();
                 })
                 .then(function(alertData) {
@@ -101,7 +101,7 @@
                     return utils.getDashboardData("gluster", "cluster", "utilization");
                 })
                 .then(function(data) {
-                    vm.chartData = data && data[0].datapoints ? data[0].datapoints : [];
+                    vm.chartData = data.length && data[0].datapoints ? data[0].datapoints : [];
                     return eventStore.getAlertList();
                 })
                 .then(function(alertData) {
