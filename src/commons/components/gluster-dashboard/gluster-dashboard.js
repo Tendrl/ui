@@ -29,22 +29,26 @@
             rawStorageUtilizationXData = ["percent"],
             rawStorageUtilizationYData = ["used"];
 
+        vm.heatMapData = []
+
         vm.$onChanges = function(changesObj) {
-            if (vm.showClusterData) {
+            if (vm.showClusterData && vm.glusterCluster) {
                 clusterData(vm.glusterCluster);
             }
-            clusterHost(vm.glusterCluster);
-            clusterClients(vm.glusterCluster);
-            vm.fileshareChartTitleData = fileshareChartTitleData(vm.volumeOverview);
-            vm.fileShareChartData = fileShareChartData();
-            vm.bricksTitleData = bricksTitleData(vm.brickOverview);
-            vm.bricksChartData = bricksChartData();
-            rawStorageUtilization(vm.glusterCluster);
-            if (vm.showSystemPerformance) {
+            if(vm.glusterCluster){
+                clusterHost(vm.glusterCluster);
+                clusterClients(vm.glusterCluster);
+                vm.fileshareChartTitleData = fileshareChartTitleData(vm.volumeOverview);
+                vm.fileShareChartData = fileShareChartData();
+                vm.bricksTitleData = bricksTitleData(vm.brickOverview);
+                vm.bricksChartData = bricksChartData();
+                rawStorageUtilization(vm.glusterCluster);
+                trendChartData();
+            }
+            if (vm.showSystemPerformance && vm.throughputData.length) {
                 defaultSystemPerformanceSettings(vm.glusterCluster.node_summaries);
                 vm.heatMapData = dashboardStore.systemPerformance(vm.glusterCluster.node_summaries);
             }
-            trendChartData();
         };
 
         function clusterData(clusterData) {

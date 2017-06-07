@@ -31,18 +31,20 @@
             rawStorageUtilizationYData = ["used"];
 
         vm.$onChanges = function(changesObj) {
-            if (vm.showClusterData) {
+            if (vm.showClusterData && vm.cephCluster) {
                 clusterData(vm.cephCluster);
             }
-            clusterHost(vm.cephCluster);
-            clusterMon();
-            clusterOsd();
-            clusterPG(vm.cephCluster.sds_det.pg_status_wise_counts);
-            vm.poolBarChartTitleData = poolChartTitleData(vm.cephCluster.sds_det.pool_status_wise_counts);
-            vm.poolBarChartData = poolBarChartData();
-            vm.rbdBarChartTitleData = rbdChartTitleData(vm.cephCluster.sds_det.rbd_status_wise_counts);
-            vm.rbdBarChartData = rbdBarChartData();
-            rawStorageUtilization(vm.cephCluster);
+            if(vm.cephCluster){
+                clusterHost(vm.cephCluster);
+                clusterMon();
+                clusterOsd();
+                clusterPG(vm.cephCluster.sds_det.pg_status_wise_counts);
+                vm.poolBarChartTitleData = poolChartTitleData(vm.cephCluster.sds_det.pool_status_wise_counts);
+                vm.poolBarChartData = poolBarChartData();
+                vm.rbdBarChartTitleData = rbdChartTitleData(vm.cephCluster.sds_det.rbd_status_wise_counts);
+                vm.rbdBarChartData = rbdBarChartData();
+                rawStorageUtilization(vm.cephCluster);
+            }
             if (vm.showSystemPerformance && vm.cephCluster) {
                 defaultSystemPerformanceSettings(vm.cephCluster.node_summaries);
                 vm.heatMapData = dashboardStore.systemPerformance(vm.cephCluster.node_summaries);

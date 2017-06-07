@@ -118,6 +118,7 @@
             }, function(e) {
                 vm.checkErrorCode(e);
                 console.log("Error Occurred: while fetching getDashboardRequest");
+                return null;
             });
         }
 
@@ -605,10 +606,10 @@
             };
             request = angular.copy(actionRequest);
 
-            return $http(request).then(function (response) {
+            return $http(request).then(function(response) {
                 return response.data;
             }, function(e) {
-                checkErrorCode(e);
+                vm.checkErrorCode(e);
             });
         };
 
@@ -628,10 +629,11 @@
             };
 
             request = angular.copy(getClusterDashboardListRequest);
-            return $http(request).then(function (response) {
+
+            return $http(request).then(function(response) {
                 return response.data;
             }, function(e) {
-                checkErrorCode(e);
+                vm.checkErrorCode(e);
                 console.log("Error Occurred: while fetching getOverviewData");
                 return null;
             });
@@ -658,7 +660,7 @@
             });
         };
 
-        vm.createVolume = function(data, cluster){
+        vm.createVolume = function(data, cluster) {
             var url, actionRequest, request;
 
             url = config.baseUrl + cluster.cluster_id + "/GlusterCreateVolume";
@@ -670,10 +672,10 @@
             };
             request = angular.copy(actionRequest);
 
-            return $http(request).then(function (response) {
+            return $http(request).then(function(response) {
                 return response.data;
             }, function(e) {
-                checkErrorCode(e);
+                vm.checkErrorCode(e);
             });
         }
 
