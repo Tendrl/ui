@@ -96,7 +96,7 @@
                     <tr ng-repeat="disk in host.storage_disks">
                         <td class="osd">
                             <div class="bold-text">{{disk.device || "NA"}}</div>
-                            <div>{{(disk.ssd).toLowerCase() === "true" ? "SSD" : "NON-SSD"}}, {{(disk.size | bytes)}}</div>
+                            <div>{{(disk.ssd) === true ? "SSD" : "NON-SSD"}}, {{(disk.size | bytes)}}</div>
                         </td>
                         <td>{{disk.journal || "NA"}}</td>
                     </tr>
@@ -115,7 +115,7 @@
                         <td class="bold-text">
                             {{disk.device || "NA"}}
                         </td>
-                        <td>{{(disk.ssd).toLowerCase() === "true" ? "SSD" : "NON-SSD"}}</td>
+                        <td>{{(disk.ssd) === true ? "SSD" : "NON-SSD"}}</td>
                         <td>{{(disk.size | bytes)}} </td>
                     </tr>
                 </tbody>
