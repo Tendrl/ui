@@ -51,7 +51,7 @@
                         <div class="bold-text">Journal Size</div>
                         <div class="label">
                             <div class="col-md-6">
-                                <input min="1" class="form-control" type="number" data-id="journalSize" ng-model="host.journalSize" ng-init="host.journalSize = 5">
+                                <input min="1" class="form-control" type="number" data-id="journalSize" ng-model="host.journalSize" ng-init="host.journalSize = 5" ng-change="createCephClusterCntrl.changePartitionLimit(host)">
                             </div>
                             <div class="col-md-6">
                                 <select class="form-control" data-id="journal-size-unit" data-ng-options="unit for unit in createCephClusterCntrl.diskConf.diskUnits" data-ng-model="host.customselectedUnit" ng-init="host.customselectedUnit = 'GB'"></select>
@@ -67,20 +67,20 @@
                         </div>
                     </div>
                 </div>
-                <div class="list-view-pf-left col-md-3" ng-if="host.selectedJournalConfigration === 'Dedicated'">
+                <!-- <div class="list-view-pf-left col-md-3" ng-if="host.selectedJournalConfigration === 'Dedicated'">
                     <div class="list-view-pf-additional-info-item list-view-pf-additional-info-item-stacked">
                         <div class="bold-text">Partitions per Device (Max = {{host.maxLimit}})</div>
                         <div class="col-md-12">
                             <div class="col-md-4 remove-padding">
-                                <input class="form-control" min="0" type="number" data-id="partitionSize" ng-model="host.partitionSize" max="{{host.maxLimit}}" required>
+                                <input class="form-control" min="1" type="number" data-id="partitionSize" ng-model="host.partitionSize" max="{{host.maxLimit}}" required>
                             </div> 
                             <div class="col-md-3 remove-padding"><strong>per 1</strong></div>
                             <div class="col-md-5 remove-padding">
-                                <select class="form-control" data-id="journal-configration" ng-change="createCephClusterCntrl.diskConf.partitionValue(host.SelectedpartitionType, host)" data-ng-options="type for type in createCephClusterCntrl.diskConf.partitionType" data-ng-model="host.selectedPartitionType" ng-init="host.selectedPartitionType = 'SSD'"></select>
+                                <select class="form-control" data-id="journal-configration" ng-change="" data-ng-options="type for type in createCephClusterCntrl.diskConf.partitionType" data-ng-model="host.selectedPartitionType" ng-init="host.selectedPartitionType = 'SSD'"></select>
                             </div>
                         </div>
                     </div>
-                </div>
+                </div> -->
             </div>
         </div>
         <div ng-class="{'horizontal-line': host.isExpanded}"></div>
@@ -129,9 +129,5 @@
                 </span>
             </div>
         </div>
-        <!-- <div class="overlay" ng-show="host.isDataLoading" ng-init="host.isDataLoading = false">
-            <div class="spinner host-loader"></div>
-        </div> -->
-        
     </div>
 </div>
