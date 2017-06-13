@@ -116,7 +116,7 @@
         }
 
         function _makeCephTabList(){
-            if(vm.cephCluster) {
+            if(vm.cephCluster && !vm.tabList) {
                 vm.tabList = {
                     "Overview": 1,
                     "Hosts": 2,
@@ -124,7 +124,7 @@
                     "RBDs": 4
                 };
                 vm.activeTab = vm.tabList["Overview"];
-            } else {
+            } else if(!vm.tabList){
                 vm.tabList = {
                     "Hosts": 2,
                     "Pools": 3,
@@ -135,7 +135,7 @@
         }
 
         function _makeGlusterTabList() {
-            if(vm.clusterData) {
+            if(vm.clusterData && !vm.tabList) {
                 vm.volOverviewData = vm.clusterData.sds_det.volume_status_wise_counts;
                 vm.brickOverviewData = vm.clusterData.sds_det.brick_status_wise_counts;
                 vm.tabList = {
@@ -144,7 +144,7 @@
                     "FileShares": 3
                 };
                 vm.activeTab = vm.tabList["Overview"];
-            } else {
+            } else if(!vm.tabList) {
                 vm.tabList = {
                     "Hosts": 2,
                     "FileShares": 3

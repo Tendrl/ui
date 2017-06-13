@@ -123,6 +123,14 @@
                     </tbody>
                 </table>
             </div>
+            <div class="row unallocated-disks" ng-if="host.unallocated_disks.length && host.isExpanded">
+            <div class="col-md-2 bold-text">Unallocated Disks:</div>
+            <div class="col-md-10 unallocated-disks-name">
+                <span ng-repeat="disk in host.unallocated_disks">{{disk}}
+                    <span ng-if="$index !== (host.unallocated_disks.length-1)">, </span>
+                </span>
+            </div>
+        </div>
         </div>
     </div>
     <div class="row">
