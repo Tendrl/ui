@@ -13,6 +13,7 @@
             <div class="col-md-8 remove-padding">
                 <div class="col-md-6 card-bg" ng-class="{'blue-top-border': !vm.showClusterData}">
                     <div pf-utilization-trend-chart config="vm.rawStorageUtilizationConfig" chart-data="vm.rawStorageUtilizationData" center-label="vm.rawStorageUtilizationCenterLabel" donut-config="vm.rawStorageUtilizationDonutConfig" sparkline-config="vm.rawStorageUtilizationSparklineConfig" sparkline-chart-height="vm.rawStorageUtilizationCustChartHeight"></div>
+                    <span class="trend-footer-pf col-md-12 text-right time-frame">Last 6 hours</span>
                 </div>
                 <div class="col-md-6 status-card-adjustment padding-right" pf-aggregate-status-card status="vm.hostStatus" show-top-border="{{!vm.showClusterData}}"></div>
                 <div class="col-md-6 status-card-adjustment padding-right" pf-aggregate-status-card status="vm.clientStatus"></div>
@@ -26,12 +27,12 @@
                         <center class="div-with-scroll" ng-show="!vm.alerts.length">
                             <div class="blank-slate-pf">
                                 <div class="blank-slate-pf-icon">
-                                    <i class="pficon pficon-info"></i>
+                                    <i class="pficon pficon-ok"></i>
                                 </div>
                                 <h2>No Alerts found.</h2>
                             </div>
                         </center>
-                        <div class="card-pf-body div-with-scroll" ng-show="vm.alerts.length">
+                        <div class="div-with-scroll" ng-show="vm.alerts.length">
                             <div class="alert-summary">
                                 <div class="row remove-right-margin" ng-repeat="alert in vm.alerts">
                                     <div class="col-md-1"></div>

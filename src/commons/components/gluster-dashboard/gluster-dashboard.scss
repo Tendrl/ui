@@ -28,7 +28,7 @@
     }
     .div-with-scroll {
         max-height: 300px;
-        height: 285px;
+        height: 300px;
         overflow: scroll;
         overflow-x: hidden;
     }
@@ -43,8 +43,8 @@
         padding-right: 0px;
     }
     .status-card-adjustment .card-pf-aggregate-status .card-pf-body {
-        margin-top: 28px;
-        padding-bottom: 29px;
+        margin-top: 29px;
+        padding-bottom: 31px;
     }
     .status-card-adjustment .card-pf-aggregate-status .card-pf-title {
         font-size: 14px;
@@ -81,5 +81,9 @@
     }
     .gluster-dashboard-not-available {
         margin-left: -40px;
+    }
+    .time-frame {
+        padding-right: 25px;
+        margin-top: -8px;
     }
 }
