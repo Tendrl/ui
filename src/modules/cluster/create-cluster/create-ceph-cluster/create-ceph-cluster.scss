@@ -183,6 +183,14 @@
         .list-group-line {
             margin-bottom: 50px;
         }
+        .unallocated-disks {
+            margin-left: 45px;
+            .unallocated-disks-name {
+                text-overflow: ellipsis;
+                white-space: nowrap;
+                overflow: hidden;
+            }
+        }
     }
     .network-container {
         .network {

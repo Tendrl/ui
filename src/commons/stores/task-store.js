@@ -100,6 +100,7 @@
                     temp = {};
                     temp.node_id = keys[i];
                     temp.storage_disks = data[0].GenerateJournalMapping[keys[i]].storage_disks;
+                    temp.unallocated_disks = data[0].GenerateJournalMapping[keys[i]].unallocated_disks ? data[0].GenerateJournalMapping[keys[i]].unallocated_disks : [];
                     journal_details.push(temp);
                 }
             }
