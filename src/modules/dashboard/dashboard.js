@@ -18,10 +18,9 @@
 
         init();
 
-        function init(){
+        function init() {
             utils.getObjectList("Cluster")
                 .then(function(data) {
-                    vm.dashboardNavtabs = [];
                     _countTypeOfClusters(data.clusters);
                     _checkClusterType();
                 });
@@ -30,43 +29,46 @@
         function _checkClusterType() {
             if (vm.clusterType === "Ceph") {
                 cephInit();
-            } else if (vm.clusterType === "Gluster"){
+            } else if (vm.clusterType === "Gluster") {
                 glusterInit();
             }
         }
 
-        function _countTypeOfClusters(clusters){
+        function _countTypeOfClusters(clusters) {
             var i,
                 clusterslen = clusters.length,
                 cephCount = 0,
                 glusterCount = 0;
 
-            for (i = 0; i < clusterslen; i++){
-                if(!cephCount && clusters[i].sds_name === "ceph"){
+            for (i = 0; i < clusterslen; i++) {
+                if (!cephCount && clusters[i].sds_name === "ceph") {
                     cephCount += 1;
                 } else if (!glusterCount && clusters[i].sds_name === "gluster") {
                     glusterCount += 1;
                 }
-                if(cephCount && glusterCount){
+                if (cephCount && glusterCount) {
                     break;
                 }
             }
             _appendingDashboardNavTabs(cephCount, glusterCount);
         }
 
-        function _appendingDashboardNavTabs(cephCount, glusterCount){
-            if(cephCount && glusterCount){
-                vm.dashboardNavtabs.push({"clusterName": "Ceph"});
-                vm.dashboardNavtabs.push({"clusterName": "Gluster"});
-                vm.clusterType = "Ceph";
-            } else if(cephCount){
-                vm.dashboardNavtabs.push({"clusterName": "Ceph"});
-                vm.clusterType = "Ceph";
-            } else if(glusterCount){
-                vm.dashboardNavtabs.push({"clusterName": "Gluster"});
-                vm.clusterType = "Gluster";
-            } else {
-                vm.noClusterFound = true;
+        function _appendingDashboardNavTabs(cephCount, glusterCount) {
+            if (!vm.dashboardNavtabs) {
+                vm.dashboardNavtabs = [];
+                if (cephCount && glusterCount) {
+                    vm.dashboardNavtabs.push({ "clusterName": "Ceph" });
+                    vm.dashboardNavtabs.push({ "clusterName": "Gluster" });
+                    vm.clusterType = "Ceph";
+                } else if (cephCount) {
+                    vm.dashboardNavtabs.push({ "clusterName": "Ceph" });
+                    vm.clusterType = "Ceph";
+                } else if (glusterCount) {
+                    vm.dashboardNavtabs.push({ "clusterName": "Gluster" });
+                    vm.clusterType = "Gluster";
+                } else {
+                    vm.noClusterFound = true;
+                }
             }
         }
 
@@ -74,7 +76,7 @@
             utils.getDashboardData("ceph", false)
                 .then(function(data) {
                     $interval.cancel(dashboardTimer);
-                    vm.cephCluster =  data;
+                    vm.cephCluster = data;
                     return utils.getDashboardData("ceph", "cluster", "utilization");
                 })
                 .then(function(data) {
@@ -94,7 +96,7 @@
                 .then(function(data) {
                     $interval.cancel(dashboardTimer);
                     vm.glusterCluster = data;
-                    if(typeof vm.glusterCluster !== "undefined"){
+                    if (typeof vm.glusterCluster !== "undefined") {
                         vm.volOverviewData = vm.glusterCluster.sds_det.most_used_volumes;
                         vm.brickOverviewData = vm.glusterCluster.sds_det.most_used_bricks;
                     }
@@ -125,8 +127,8 @@
 
         function changeType(clusterType) {
             vm.clusterType = clusterType;
+            _checkClusterType();
             vm.isDataLoading = true;
-            init();
         }
     }
 })();
