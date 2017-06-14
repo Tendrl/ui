@@ -26,7 +26,7 @@
                         <h2 class="card-pf-title status-card-hr">
                         <span>Alerts</span>
                     </h2>
-                        <center class="div-with-scroll" ng-show="!vm.alerts.length">
+                        <center class="div-with-scroll" ng-show="!vm.cephAlerts.length">
                             <div class="blank-slate-pf">
                                 <div class="blank-slate-pf-icon">
                                     <i class="pficon pficon-ok"></i>
@@ -34,17 +34,17 @@
                                 <h2>No Alerts found.</h2>
                             </div>
                         </center>
-                        <div class="div-with-scroll" ng-show="vm.alerts.length">
+                        <div class="div-with-scroll" ng-show="vm.cephAlerts.length">
                             <div class="alert-summary">
-                                <div class="row remove-right-margin" ng-repeat="alert in vm.alerts">
+                                <div class="row remove-right-margin" ng-repeat="alert in vm.cephAlerts">
                                     <div class="col-md-1"></div>
                                     <div class="col-md-1">
                                         <i ng-class="{'pficon pficon-error-circle-o': (alert.severity === 'error'), 'pficon pficon-info': (alert.severity === 'info'), 'pficon pficon-warning-triangle-o': (alert.severity === 'warning')}"></i>
                                     </div>
-                                    <div class="col-md-1">
+                                    <div class="col-md-2">
                                         {{alert.severity | capitalize}}
                                     </div>
-                                    <div class="col-md-5 text-left ellipsis" uib-tooltip-html="'{{alert.desc}}'">
+                                    <div class="col-md-4 text-left ellipsis" uib-tooltip-html="'{{alert.desc}}'">
                                         <div>{{alert.desc || "NA"}}</div>
                                     </div>
                                     <div class="col-md-4 text-left">

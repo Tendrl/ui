@@ -137,8 +137,9 @@
 
         function back() {
             vm.selectedStep -= 1;
-
-            if (vm.selectedStep === 2) {
+            if (vm.selectedStep === 0){
+                vm.cancelModal();
+            }else if (vm.selectedStep === 2) {
                 vm.deviceFilterBy = {
                     "property": "freeDevices.device",
                     "value": ""

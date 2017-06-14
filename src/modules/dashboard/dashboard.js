@@ -96,14 +96,14 @@
                 .then(function(data) {
                     $interval.cancel(dashboardTimer);
                     vm.glusterCluster = data;
-                    if (typeof vm.glusterCluster !== "undefined") {
+                    if (vm.glusterCluster && vm.glusterCluster.length) {
                         vm.volOverviewData = vm.glusterCluster.sds_det.most_used_volumes;
                         vm.brickOverviewData = vm.glusterCluster.sds_det.most_used_bricks;
                     }
                     return utils.getDashboardData("gluster", "cluster", "utilization");
                 })
                 .then(function(data) {
-                    vm.chartData = data.length && data[0].datapoints ? data[0].datapoints : [];
+                    vm.chartData = data && data.length && data[0].datapoints ? data[0].datapoints : [];
                     return eventStore.getAlertList();
                 })
                 .then(function(alertData) {

@@ -167,11 +167,11 @@
                     dataObject.data = vm.chartData[i].data;
                     dataObject.title = vm.chartData[i].title;
                     if(parseInt(dataObject.data.total) === 100){
-                        dataObject.footer = "<strong>" + (dataObject.data.used) + "% </strong>";
+                        dataObject.footer = "<strong>" + (dataObject.data.used) + "% used </strong>";
                     } else if(parseInt(dataObject.data.used)) {
                         dataObject.footer = "<strong>" + $filter('bytes')(dataObject.data.used) + " of " + $filter('bytes')(dataObject.data.total) + "</strong>";
                     } else {
-                        dataObject.footer = "<strong> 0 % </strong>";
+                        dataObject.footer = "<strong> 0% used </strong>";
                     }
                 } else {
                     dataObject.dataAvailable = false;
