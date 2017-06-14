@@ -234,8 +234,8 @@
 
             vm.rawStorageUtilizationData = {
                 dataAvailable: checkDonutDataAvailable(),
-                used: (clusterData.utilization.used / Math.pow(1024, 3)).toFixed(2),
-                total: (clusterData.utilization.total / Math.pow(1024, 3)).toFixed(2),
+                used: (clusterData.utilization.used / Math.pow(1024, 3)).toFixed(0),
+                total: (clusterData.utilization.total / Math.pow(1024, 3)).toFixed(0),
                 xData: rawStorageUtilizationXData,
                 yData: rawStorageUtilizationYData
             };

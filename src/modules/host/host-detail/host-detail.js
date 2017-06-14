@@ -151,7 +151,7 @@
 
             vm.hostUtilizationConfig[title] = {
                 title: $filter("uppercase")(title),
-                units: "%"
+                units: ""
             };
 
             vm.hostUtilizationDonutConfig[title] = {
@@ -161,7 +161,7 @@
 
             vm.hostUtilizationSparklineConfig[title] = {
                 "chartId": title + "-Sparkline",
-                "tooltipType": "percent",
+                "tooltipType": "percentage",
                 "units": "%"
             };
 
