@@ -1,11 +1,10 @@
 <span class="chart"></span>
 <span class="desc" ng-if="vm.chartData !== undefined">
 	<b ng-if="vm.chartTitle !== undefined">{{ vm.chartTitle }}</b>
-	<h5 ng-if="vm.chartData.used !== undefined && vm.used > 0">{{ vm.chartData.used | bytes }}</h5>
-	<h5 ng-if="vm.chartData.used !== undefined && vm.used === 0">{{ vm.chartData.used }} %</h5>
+	<h5 ng-if="vm.chartData.used !== undefined && vm.used >= 0">{{ vm.chartData.used | bytes }}</h5>
 	<h5 ng-if="vm.chartData.used === undefined"> {{ vm.chartData.percent_used }} %</h5>
 	<span>
-		<span ng-if="vm.chartData.total !== undefined && vm.used > 0">
+		<span ng-if="vm.chartData.total !== undefined && vm.used >= 0">
 			of {{vm.chartData.total | bytes}}
 		</span>
 		used
