@@ -96,7 +96,7 @@
     <div ng-if="alertCntrl.isDataLoading" class="spinner spinner-lg"></div>
     
     <div class="alert-list-table">
-        <div class="list-group list-view-pf list-view-pf-equalized-column" ng-repeat="alert in alertCntrl.filteredAlertList = (alertCntrl.alertList | filter: alertCntrl.filterByCreatedDate| filter: alertCntrl.filterBySeverity | filter: alertCntrl.searchByDesc | filter: alertCntrl.searchBy | orderBy: ['-created_at', 'alert_id'])">
+        <div class="list-group list-view-pf list-view-pf-equalized-column" ng-repeat="alert in alertCntrl.filteredAlertList = (alertCntrl.alertList | filter: alertCntrl.filterByCreatedDate| filter: alertCntrl.filterBySeverity | filter: alertCntrl.searchByDesc | filter: alertCntrl.searchBy | orderBy: ['-timeStamp', 'alertId'])">
             <div class="list-group-item">
                 <div class="list-view-pf-left col-md-1">
                     <i ng-class="{'pficon pficon-error-circle-o': (alert.severity === 'error'), 'pficon pficon-info': (alert.severity === 'info'), 'pficon pficon-warning-triangle-o': (alert.severity === 'warning')}"></i>
