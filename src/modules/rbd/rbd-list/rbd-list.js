@@ -90,8 +90,11 @@
                     rbd.clusterName = clusterObj.cluster_name;
                 }
                 if (typeof list[i].used !== "undefined" && typeof list[i].provisioned !== "undefined") {
-                    utilization_percent = ((parseInt(list[i].used) * 100) / parseInt(list[i].provisioned));
-                    rbd.utilization = { "percent_used": utilization_percent };
+                    rbd.utilization = {};
+                    rbd.utilization["used"] = parseInt(list[i].used);
+                    rbd.utilization["total"] = parseInt(list[i].provisioned);
+                    utilization_percent = (rbd.utilization["used"] * 100) / rbd.utilization["total"];
+                    rbd.utilization["percent_used"] = utilization_percent;
                 }
                 rbd.backingPool = list[i].backingPool;
                 rbd.isBackingPoolShared = list[i].isBackingPoolShared;
