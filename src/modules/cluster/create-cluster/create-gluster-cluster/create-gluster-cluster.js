@@ -111,6 +111,7 @@
             if (vm.selectedStep === 2) {
 
                 flag = vm.selectedNWHost.length < 4;
+                //flag = vm.selectedNWHost.length < 1;
 
                 if (flag) {
                     vm.hostSelectionMsg = "Minimum 4 hosts should be selected";

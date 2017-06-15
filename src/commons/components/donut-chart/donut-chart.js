@@ -85,7 +85,7 @@
         };
 
         if(typeof vm.chartData !== "undefined") { 
-            if(parseInt(vm.chartData.total) && parseInt(vm.chartData.used)) {
+            if(parseInt(vm.chartData.total) && (parseInt(vm.chartData.used) || parseInt(vm.chartData.used) === 0)) {
                 vm.available = parseInt(vm.chartData.total) - parseInt(vm.chartData.used);
                 vm.used = parseInt(vm.chartData.used);
             } else {
