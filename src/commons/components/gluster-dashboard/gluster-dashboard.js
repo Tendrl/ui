@@ -44,6 +44,7 @@
                 vm.bricksChartData = bricksChartData();
                 rawStorageUtilization(vm.glusterCluster);
                 trendChartData();
+                vm.glusterAlerts = vm.alerts;
             }
             if (vm.showSystemPerformance && vm.throughputData.length) {
                 defaultSystemPerformanceSettings(vm.glusterCluster.node_summaries);

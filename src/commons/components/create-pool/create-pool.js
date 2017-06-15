@@ -10,8 +10,8 @@
         taskSubmitted: "=?",
         poolToCreate: "=?"
     },
-    templateUrl: '/commons/components/create-pool/create-pool.html',
-    controller: 'createPoolController',
+    templateUrl: "/commons/components/create-pool/create-pool.html",
+    controller: "createPoolController",
     controllerAs: "createPoolCntrl"
     });
 

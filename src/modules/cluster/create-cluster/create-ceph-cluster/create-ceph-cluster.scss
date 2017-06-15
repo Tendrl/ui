@@ -48,8 +48,14 @@
                         }
                     }
                 }
-                @media screen and (min-width: 992px) {
-                    .wizard-pf-main {
+                .wizard-pf-main {
+                    margin-left: 100px;
+                    margin-right: 100px;
+                    @media screen and (min-width: 1224px) and (max-device-width: 1823px) {
+                        margin-left: 170px;
+                        margin-right: 170px;
+                    }
+                    @media screen and (min-width: 1824px) {
                         margin-left: 253px;
                         margin-right: 253px;
                     }
@@ -97,9 +103,8 @@
         display: initial;
     }
     .device-conf-view-container {
-
         .list-group {
-            position:  relative;
+            position: relative;
         }
         .list-group-item {
             padding: 10px;
@@ -139,7 +144,6 @@
             height: 100%;
             z-index: 10;
             background-color: $color-white-smoke;
-
             .host-loader {
                 position: absolute;
                 transform: translate(-50%, -50%);

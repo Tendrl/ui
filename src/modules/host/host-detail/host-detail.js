@@ -161,7 +161,7 @@
 
             vm.hostUtilizationSparklineConfig[title] = {
                 "chartId": title + "-Sparkline",
-                "tooltipType": "percent",
+                "tooltipType": "percentage",
                 "units": "%"
             };
 

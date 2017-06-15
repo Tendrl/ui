@@ -44,6 +44,7 @@
                 vm.rbdBarChartTitleData = rbdChartTitleData(vm.cephCluster.sds_det.rbd_status_wise_counts);
                 vm.rbdBarChartData = rbdBarChartData();
                 rawStorageUtilization(vm.cephCluster);
+                vm.cephAlerts = vm.alerts;
             }
             if (vm.showSystemPerformance && vm.cephCluster) {
                 defaultSystemPerformanceSettings(vm.cephCluster.node_summaries);
