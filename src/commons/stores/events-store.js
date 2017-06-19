@@ -28,7 +28,7 @@
                     temp = {},
                     severity = {
                         CRITICAL: "error",
-                        OK: "info",
+                        INFO: "info",
                         WARNING: "warning"
                     },
                     i;
