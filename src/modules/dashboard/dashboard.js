@@ -96,7 +96,7 @@
                 .then(function(data) {
                     $interval.cancel(dashboardTimer);
                     vm.glusterCluster = data;
-                    if (vm.glusterCluster && vm.glusterCluster.length) {
+                    if (vm.glusterCluster) {
                         vm.volOverviewData = vm.glusterCluster.sds_det.most_used_volumes;
                         vm.brickOverviewData = vm.glusterCluster.sds_det.most_used_bricks;
                     }
