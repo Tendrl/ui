@@ -6,7 +6,7 @@
     app.controller("fileShareController", fileShareController);
 
     /*@ngInject*/
-    function fileShareController($scope, $rootScope, $state, $interval, utils, config) {
+    function fileShareController($scope, $rootScope, $state, $interval, $uibModal, utils, volumeStore, config) {
         var vm = this,
             fileshareTimer,
             list,
@@ -23,6 +23,8 @@
         vm.onOpenFileShareDeleteModal = onOpenFileShareDeleteModal;
         vm.onDeleteFileShare = onDeleteFileShare;
         vm.viewTaskProgress = viewTaskProgress;
+        vm.stopVolume = stopVolume;
+        vm.startVolume = startVolume;
 
         init();
 
@@ -139,6 +141,42 @@
             setTimeout(function() {
                 $state.go("task");
             },1000);
+        }
+
+        function stopVolume(volume) {
+            var wizardDoneListener,
+                modalInstance,
+                closeWizard;
+
+            modalInstance = $uibModal.open({
+                animation: true,
+                backdrop: "static",
+                templateUrl: "/modules/file-share/stop-volume/stop-volume.html",
+                controller: "StopVolumeController",
+                controllerAs: "vm",
+                size: "md",
+                resolve: {
+                    selectedVolume: function() {
+                        return volume;
+                    }
+                }
+            });
+
+            closeWizard = function(e, reason) {
+                modalInstance.dismiss(reason);
+                wizardDoneListener();
+            };
+
+            modalInstance.result.then(function() {}, function() {});
+
+            wizardDoneListener = $rootScope.$on("modal.done", closeWizard);
+        }
+
+        function startVolume(volume) {
+            volumeStore.doActionOnVolume(volume, "start")
+                .then(function(data) {
+                    vm.jobId = data.job_id;
+                });
         }
     }
 

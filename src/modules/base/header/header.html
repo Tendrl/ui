@@ -81,7 +81,7 @@
             <div class="list-group list-view-pf list-view-pf-equalized-column" ng-repeat="notice in header.notificationList" ng-show="header.isNotificationExpanded">
                 <div class="list-group-item">
                     <div class="col-md-6">
-                        <p class="notice-name" data-toggle="tooltip" data-placement="top" uib-tooltip-html="'{{notice.message}}'">{{notice.message}}</p>
+                        <p class="notice-name" data-toggle="tooltip" tooltip-placement="right" uib-tooltip-html="'{{notice.message}}'">{{notice.message}}</p>
                     </div>
                     <div class="col-md-6 timestamp">
                         {{notice.timeStamp| date: 'dd MMM yyyy HH:mm:ss'}}

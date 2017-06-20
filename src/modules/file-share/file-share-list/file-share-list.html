@@ -131,7 +131,8 @@
                           </button>
                           <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownKebabRight12">
                               <li><a ng-class="{disabled: true}">Edit</a></li>
-                              <li><a ng-class="{disabled: true}">Stop</a></li>
+                              <li><a ng-click="fileShareCntrl.startVolume(fileShare)" ng-show="fileShare.status === 'Stopped'">Start</a></li>
+                              <li><a ng-click="fileShareCntrl.stopVolume(fileShare)" ng-show="fileShare.status !== 'Stopped'">Stop</a></li>
                               <li><a ng-class="{disabled: true}">Rebalance</a></li>
                               <li ng-class="{disabled: true}"><a>Delete</a></li>
                           </ul>

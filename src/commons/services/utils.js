@@ -677,7 +677,7 @@
             }, function(e) {
                 vm.checkErrorCode(e);
             });
-        }
+        };
 
     };
 })();
