@@ -3,7 +3,7 @@
     <div class="container-fluid">
         <!-- heading section-->
         <!-- heading section-->
-        <h1 class="bold-text">File Shares</h1>
+        <h1 class="bold-text">Volumes</h1>
         
         <!-- Actions section -->
         <div class="row toolbar-pf">
@@ -55,7 +55,7 @@
             <!-- result row -->
             <div class="row toolbar-pf-results">
               <div class="col-sm-12">
-                <h5>{{fileShareCntrl.filteredFileShareList.length}} File Shares</h5>
+                <h5>{{fileShareCntrl.filteredFileShareList.length}} Volumes</h5>
               </div><!-- /col -->
             </div>
 
@@ -70,9 +70,9 @@
                 <div class="blank-slate-pf-icon">
                     <i class="pficon pficon-volume"></i>
                 </div>
-                <h1>No File Shares Detected</h1>
-                <p>File Shares are detected when you <a ui-sref="create-gluster-cluster">Create</a> or <a ui-sref="import-cluster">Import</a> a Gluster cluster.</p>
-                <p>If no File Shares are detected after creating or importing a Gluster cluster, reconfigure the File Shares correctly.
+                <h1>No Volumes Detected</h1>
+                <p>Volumes are detected when you <a ui-sref="create-gluster-cluster">Create</a> or <a ui-sref="import-cluster">Import</a> a Gluster cluster.</p>
+                <p>If no Volumes are detected after creating or importing a Gluster cluster, reconfigure the Volumes correctly.
                 </p>
             </div>
         </center>
@@ -147,5 +147,4 @@
     </div>
 </div>
 
-<div ng-include src="'../modules/file-share/file-share-delete/file-share-delete.html'"></div>
-
+<!-- <div ng-include src="'../modules/file-share/file-share-delete/file-share-delete.html'"></div> -->
