@@ -73,6 +73,7 @@
             })
             .catch(function (response) {
                 authApiFactory.clearCredentials();
+                authApiFactory.setFlags();
                 $state.go("login");
                 return $q.reject({});
             });
