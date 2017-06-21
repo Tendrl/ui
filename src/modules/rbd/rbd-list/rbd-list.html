@@ -59,7 +59,8 @@
             </p>
         </div>
     </center>
-    <div class="list-group list-view-pf list-view-pf-equalized-column" ng-repeat="rbd in rbdCntrl.filteredRbdList = (rbdCntrl.rbdList | filter: rbdCntrl.searchBy | orderBy: rbdCntrl.ascOrder + rbdCntrl.orderBy)">
+    <div ng-if="rbdCntrl.isDataLoading" class="spinner spinner-lg"></div>
+    <div ng-if="!rbdCntrl.isDataLoading"class="list-group list-view-pf list-view-pf-equalized-column" ng-repeat="rbd in rbdCntrl.filteredRbdList = (rbdCntrl.rbdList | filter: rbdCntrl.searchBy | orderBy: rbdCntrl.ascOrder + rbdCntrl.orderBy)">
         <div class="list-group-item">
             <div class="list-view-pf-left col-md-1 bold-text rbd-name" uib-tooltip-html="'{{rbd.name}}'">
                 {{rbd.name}}
