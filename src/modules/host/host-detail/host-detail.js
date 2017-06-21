@@ -30,6 +30,7 @@
         vm.setTab = setTab;
         vm.isTabSet = isTabSet;
         vm.isDataLoading = true;
+        vm.hostOverviewDataNotFound = false;
         vm.activeTab = vm.tabList["Overview"];
         vm.utilization = {};
         vm.hostDataAvailable = false;
@@ -103,15 +104,20 @@
 
             dashboardStore.getHostDetailData(vm.hostPageUtilization)
                 .then(function(hostUtilizationData) {
-                    _hostUtilizationTrend(returnStats(hostUtilizationData[6].data), "cpu");
-                    _hostUtilizationTrend(returnStats(hostUtilizationData[0].data), "memory");
-                    _hostUtilizationTrend(returnStats(hostUtilizationData[1].data), "swap");
-                    _hostUtilizationTrend(returnStats(hostUtilizationData[5].data), "storage");
-                    _hostTrendChartData();
-                    vm.hostClusterNetwork = returnStats(hostUtilizationData[2].data);
-                    vm.hostPublicNetwork = returnStats(hostUtilizationData[3].data);
-                    vm.hostIops = returnStats(hostUtilizationData[4].data);
-                    vm.isDataLoading = false;
+                    if(hostUtilizationData !== null){
+                        _hostUtilizationTrend(returnStats(hostUtilizationData[6].data), "cpu");
+                        _hostUtilizationTrend(returnStats(hostUtilizationData[0].data), "memory");
+                        _hostUtilizationTrend(returnStats(hostUtilizationData[1].data), "swap");
+                        _hostUtilizationTrend(returnStats(hostUtilizationData[5].data), "storage");
+                        _hostTrendChartData();
+                        vm.hostClusterNetwork = returnStats(hostUtilizationData[2].data);
+                        vm.hostPublicNetwork = returnStats(hostUtilizationData[3].data);
+                        vm.hostIops = returnStats(hostUtilizationData[4].data);
+                        vm.isDataLoading = false;
+                    } else {
+                        vm.hostOverviewDataNotFound = true;
+                        vm.isDataLoading = false;
+                    }
                 });
         }
 
