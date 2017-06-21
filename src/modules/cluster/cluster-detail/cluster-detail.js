@@ -141,13 +141,13 @@
                 vm.tabList = {
                     "Overview": 1,
                     "Hosts": 2,
-                    "FileShares": 3
+                    "Volumes": 3
                 };
                 vm.activeTab = vm.tabList["Overview"];
             } else if(!vm.tabList) {
                 vm.tabList = {
                     "Hosts": 2,
-                    "FileShares": 3
+                    "Volumes": 3
                 };
                 vm.activeTab = vm.tabList["Hosts"];
             }

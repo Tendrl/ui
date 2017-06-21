@@ -13,7 +13,7 @@
             var deferred;
                 
             deferred = $q.defer();
-            volumeFactory.doActionOnFileShare(volume, mode)
+            volumeFactory.doActionOnVolume(volume, mode)
                 .then(function(data) {
                     deferred.resolve(data);
                 });

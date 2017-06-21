@@ -36,10 +36,16 @@
         init();
 
         function init() {
-            list = utils.getPoolDetails($scope.clusterId);
-            _createPoolList(list);
-            vm.isDataLoading = false;
-            startTimer();
+            utils.getObjectList("Cluster")
+                .then(function(data) {
+                    $interval.cancel(poolListTimer);
+                    $rootScope.clusterData = data;
+                    list = utils.getPoolDetails($scope.clusterId);
+                    _createPoolList(list);
+                    vm.isDataLoading = false;
+                    startTimer();
+                });
+
         }
 
         /* Trigger this function when we have cluster data */
@@ -55,13 +61,7 @@
         function startTimer() {
 
             poolListTimer = $interval(function() {
-                utils.getObjectList("Cluster")
-                    .then(function(data) {
-                        $interval.cancel(poolListTimer);
-                        $rootScope.clusterData = data;
-                        init();
-                    });
-
+                init();
             }, 1000 * config.refreshIntervalTime, 1);
         }
 
