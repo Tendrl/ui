@@ -6,7 +6,7 @@
     app.controller("poolController", poolController);
 
     /*@ngInject*/
-    function poolController($scope, $rootScope, $state, $interval, config, utils, $uibModal) {
+    function poolController($scope, $rootScope, $state, $interval, config, utils, $uibModal, $filter) {
         var vm = this,
             key,
             len,
@@ -70,7 +70,6 @@
             $interval.cancel(poolListTimer);
         });
 
-
         function _createPoolList(list) {
 
             len = list.length;
@@ -106,7 +105,9 @@
                 pool.minReplicaCount = list[i].min_size;
                 pool.osdCount = "NA";
                 pool.quotas = "NA";
+                pool.totalSize = list[i].totalSize;
                 pool.quota_enabled = list[i].quota_enabled;
+                pool.quota_max_bytes_percentage = 0;
                 if (list[i].quota_enabled) {
                     if (list[i].quota_enabled.toLowerCase() === "false") {
                         pool.quotas = "Disabled";
@@ -116,10 +117,11 @@
                     } else if (list[i].quota_enabled.toLowerCase() === "true") {
                         pool.quota_max_objects = list[i].quota_max_objects;
                         pool.quota_max_bytes = list[i].quota_max_bytes;
+                        pool.quota_max_bytes_percentage = ((parseInt(list[i].quota_max_bytes)/parseInt(list[i].totalSize))*100).toFixed(0);
                         if (pool.quota_max_bytes !== "0" && pool.quota_max_objects !== "0") {
-                            pool.quotas = pool.quota_max_bytes + "%, " + pool.quota_max_objects + " objects"
+                            pool.quotas = $filter("bytes")(pool.quota_max_bytes) + " (" + pool.quota_max_bytes_percentage + "%), " + pool.quota_max_objects + " objects"
                         } else if (pool.quota_max_bytes !== "0") {
-                            pool.quotas = pool.quota_max_bytes + "%";
+                            pool.quotas = $filter("bytes")(pool.quota_max_bytes) + " (" + pool.quota_max_bytes_percentage + "%)";
                         } else if (pool.quota_max_objects !== "0") {
                             pool.quotas = pool.quota_max_objects + " objects";
                         }
@@ -133,25 +135,34 @@
             vm.poolList = poolList;
         }
 
-
         function onOpenPoolEditModal(pool) {
             vm.editPoolObj = {};
             vm.editPoolStep = 1;
-            vm.editPoolObj = pool;
+            vm.editPoolObj = angular.copy(pool);
             vm.editPoolObj.poolName = pool.name;
             vm.editPoolObj.pgCount = pool.pgCount;
-            vm.editPoolObj.utilization = pool.utilizationAvailable;
-            vm.editPoolObj.quota_max_bytes = 1;
+            vm.editPoolObj.utilization = pool.totalSize;
             vm.editPoolObj.checkboxModelQuotasValue = (vm.editPoolObj.quota_enabled === "True") ? true : false;
-            vm.editPoolObj.checkboxModelQuotasMaxObjectValue = false;
-            vm.editPoolObj.checkboxModelQuotasMaxPercentageValue = false;
+            if(vm.editPoolObj.checkboxModelQuotasValue) {
+                if(pool.quota_max_objects !== "0" && pool.quota_max_bytes_percentage !== "0") {
+                    vm.editPoolObj.checkboxModelQuotasMaxObjectValue = true;
+                    vm.editPoolObj.checkboxModelQuotasMaxPercentageValue = true;
+                } else if(vm.editPoolObj.quota_max_objects !== "0") {
+                    vm.editPoolObj.checkboxModelQuotasMaxObjectValue = true;
+                } else if(vm.editPoolObj.quota_max_bytes_percentage !== "0") {
+                    vm.editPoolObj.checkboxModelQuotasMaxPercentageValue = true;
+                }
+            } else {
+                vm.editPoolObj.quota_max_objects = 0;
+                vm.editPoolObj.quota_max_bytes = 0;
+            }
+            vm.editPoolObj.quota_max_objects = parseInt(vm.editPoolObj.quota_max_objects);
+            vm.editPoolObj.quota_max_bytes = parseInt(vm.editPoolObj.quota_max_bytes_percentage);
             vm.editPoolObj.checkboxModelReplicas = false;
             vm.editPoolObj.defaultReplicaCount = parseInt(pool.replicaCount);
             vm.editPoolObj.defaultMinReplicaCount = parseInt(pool.minReplicaCount);
             vm.editPoolObj.editReplicaCount = parseInt(pool.replicaCount);
             vm.editPoolObj.editMinReplicaCount = parseInt(pool.minReplicaCount);
-            vm.editPoolObj.quota_max_objects = parseInt(vm.editPoolObj.quota_max_objects);
-            vm.editPoolObj.quota_max_bytes = parseInt(vm.editPoolObj.quota_max_bytes);
             vm.editPoolObj.checkboxModelNoChange = false;
             vm.editPoolObj.checkboxModelNoDelete = false;
             vm.editPoolObj.checkboxModelNoScrub = false;
@@ -174,13 +185,18 @@
                 "Pool.size": parseInt(vm.editPoolObj.editReplicaCount)
             };
             if (vm.editPoolObj.checkboxModelQuotasValue) {
-                postData["Pool.quota_enabled"] = vm.editPoolObj.checkboxModelQuotasValue;
+                postData["Pool.quota_max_bytes"] = 0;
+                postData["Pool.quota_max_objects"] = 0;
                 if (vm.editPoolObj.checkboxModelQuotasMaxPercentageValue) {
-                    postData["Pool.quota_max_bytes"] = vm.editPoolObj.quota_max_bytes;
+                    postData["Pool.quota_max_bytes"] = (vm.editPoolObj.quota_max_bytes*(parseInt(vm.editPoolObj.utilization)/100)).toFixed(0);
                 }
                 if (vm.editPoolObj.checkboxModelQuotasMaxObjectValue) {
                     postData["Pool.quota_max_objects"] = vm.editPoolObj.quota_max_objects;
                 }
+            } else {
+                postData["Pool.quota_enabled"] = vm.editPoolObj.checkboxModelQuotasValue;
+                postData["Pool.quota_max_bytes"] = 0;
+                postData["Pool.quota_max_objects"] = 0;
             }
 
             utils.takeAction(postData, "CephUpdatePool", "PUT", vm.editPoolObj.clusterId)
