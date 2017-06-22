@@ -6,7 +6,7 @@
     app.controller("fileShareController", fileShareController);
 
     /*@ngInject*/
-    function fileShareController($scope, $rootScope, $state, $interval, $uibModal, utils, volumeStore, config) {
+    function fileShareController($scope, $rootScope, $state, $interval, $uibModal, $filter, utils, volumeStore, config) {
         var vm = this,
             fileshareTimer,
             list,
@@ -25,6 +25,8 @@
         vm.viewTaskProgress = viewTaskProgress;
         vm.stopVolume = stopVolume;
         vm.startVolume = startVolume;
+        vm.rebalanceVolume = rebalanceVolume;
+        vm.isRebalanceAllowed = isRebalanceAllowed;
 
         init();
 
@@ -85,7 +87,11 @@
                     }
                     fileShare.brick_count = fileShareObj.brick_count;
                     fileShare.alert_count = "NA"
-                    fileShare.last_rebalance = "NA";
+                    // if(fileShareObj.rebalancedetails.rebal_status === "not_started") {
+                    //     fileShare.last_rebalance = $filter("date", fileShareObj.rebalancedetails.updated_at, "MMM dd yyyy");
+                    // } else {
+                    //     fileShare.last_rebalance = "Rebalance in Progress";
+                    // }
                     fileShare.bricks = fileShareObj.bricks;
                     fileShareList.push(fileShare);
                 }
@@ -177,6 +183,39 @@
                 .then(function(data) {
                     vm.jobId = data.job_id;
                 });
+        }
+
+        function rebalanceVolume(volume) {
+            var wizardDoneListener,
+                modalInstance,
+                closeWizard;
+
+            modalInstance = $uibModal.open({
+                animation: true,
+                backdrop: "static",
+                templateUrl: "/modules/file-share/rebalance-volume/rebalance-volume.html",
+                controller: "RebalanceVolumeController",
+                controllerAs: "vm",
+                size: "lg",
+                resolve: {
+                    selectedVolume: function() {
+                        return volume;
+                    }
+                }
+            });
+
+            closeWizard = function(e, reason) {
+                modalInstance.dismiss(reason);
+                wizardDoneListener();
+            };
+
+            modalInstance.result.then(function() {}, function() {});
+
+            wizardDoneListener = $rootScope.$on("modal.done", closeWizard);
+        }
+
+        function isRebalanceAllowed(volume) {
+            return volume.type.startsWith("Distribute");
         }
     }
 
