@@ -1,11 +1,11 @@
-<!-- File share delete's Modal -->
+<!-- Volume delete's Modal -->
 <div class="modal fade tendrl-file-share-delete-view-container" id="fileShareDeleteModal" role="dialog">
     <div class="modal-dialog modal-lg">
         <!-- Modal content-->
         <div class="modal-content modal-lg">
             <div class="modal-header">
                 <a class="close" data-dismiss="modal">&times;</a>
-                <h4>Delete File Share</h4>
+                <h4>Delete Volume</h4>
             </div>
             <div class="modal-body">
                 <!-- step first -->
@@ -18,7 +18,7 @@
                             </div>
                             <div class="col-md-11">
                                 This action will be permanantly remove
-                                <label>{{fileShareCntrl.selectedFileShare.name}}</label>. upon clicking delete, this file share will be stopped, {{fileShareCntrl.connectedClients}} clients / hosts will be disconnected, and a removal task will be submitted.
+                                <label>{{fileShareCntrl.selectedFileShare.name}}</label>. upon clicking delete, this Volume will be stopped, {{fileShareCntrl.connectedClients}} clients / hosts will be disconnected, and a removal task will be submitted.
                             </div>
                         </div>
                         <!-- brick section -->
@@ -113,17 +113,17 @@
                                         <label for="dataRemainFalse">Delete data from all bricks</label>
                                         <div>
                                             <small>
-                                                Delete this file share and permanently delete the data on all the bricks,
+                                                Delete this Volume and permanently delete the data on all the bricks,
                                                  Bricks will be freed up for re-use.
                                             </small>
                                         </div>
                                         <div class="radio">
                                             <input type="radio" name="poolOptions" id="dataRemainTrue" value="true" ng-model="fileShareCntrl.isDataRemain">
                                         </div>
-                                        <label for="dataRemainTrue">Delete file share but let data remain</label>
+                                        <label for="dataRemainTrue">Delete volume but let data remain</label>
                                         <div>
                                             <small>
-                                                Delete this file share but retain data on bricks that are currently in use.
+                                                Delete this Volume but retain data on bricks that are currently in use.
                                             </small>
                                         </div>
                                     </div>
@@ -140,10 +140,10 @@
                         <i class="pficon" ng-class="{'pficon-error-circle-o': fileShareCntrl.errorInProcess, 'pficon-ok': !fileShareCntrl.errorInProcess}"></i>
                     </div>
                     <div>
-                        <h1 class="text-center" ng-show="fileShareCntrl.errorInProcess"><label>Delete File Share Task failed.</label></h1>
+                        <h1 class="text-center" ng-show="fileShareCntrl.errorInProcess"><label>Delete Volume Task failed.</label></h1>
                         <div ng-show="!fileShareCntrl.errorInProcess">
-                            <h1 class="text-center"><label>Delete File Share Task Submitted</label></h1>
-                            <div class="text-center"> A Delete File Share task has been submitted to complete the removal of
+                            <h1 class="text-center"><label>Delete Volume Task Submitted</label></h1>
+                            <div class="text-center"> A Delete Volume task has been submitted to complete the removal of
                                 <label> {{fileShareCntrl.selectedFileShare.name}} </label>. you will be notified when processing is complete.
                             </div>
                         </div>

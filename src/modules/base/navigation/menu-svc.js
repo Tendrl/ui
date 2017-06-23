@@ -33,7 +33,7 @@
             active: false,
             hasSubMenus: false
         }, {
-            label: "File Shares",
+            label: "Volumes",
             id: "file-share",
             href: "file-share",
             icon: "pficon pficon-volume",

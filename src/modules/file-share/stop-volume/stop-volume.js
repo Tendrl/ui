@@ -15,7 +15,7 @@
         vm.next = next;
 
         vm.modalHeader = {
-            "title": "Stop File Share",
+            "title": "Stop Volume",
             "close": vm.closeModal
         };
 

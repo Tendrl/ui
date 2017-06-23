@@ -185,7 +185,7 @@
         function fileshareChartTitleData(volumeOverview) {
             var volData = volumeOverview;
             return {
-                "title": volData.total === 1 ? "File Share" : "File Shares",
+                "title": volData.total === 1 ? "Volume" : "Volumes",
                 "data": {
                     "total": volData.total,
                     "error": volData.critical_alerts,
