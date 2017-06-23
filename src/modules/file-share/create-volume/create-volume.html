@@ -8,9 +8,9 @@
         </li>
     </ol>
     <h1 class="bold-text">Create File Share</h1>
-    <div ng-if="createFileShareCntrl.isDataLoading" class="spinner spinner-lg"></div>
-    <div ng-if="!createFileShareCntrl.isDataLoading">
-        <center ng-if="createFileShareCntrl.glusterClusterList.length === 0">
+    <div ng-if="createVolumeCntrl.isDataLoading" class="spinner spinner-lg"></div>
+    <div ng-if="!createVolumeCntrl.isDataLoading">
+        <center ng-if="createVolumeCntrl.glusterClusterList.length === 0">
             <div class="blank-slate-pf">
                 <div class="blank-slate-pf-icon">
                     <i class="pficon pficon-cluster"></i>
@@ -21,58 +21,58 @@
                 </p>
             </div>
         </center>
-        <div class="create-file-share-wizard" ng-if="!createFileShareCntrl.taskSubmitted && createFileShareCntrl.glusterClusterList.length !== 0">
+        <div class="create-file-share-wizard" ng-if="!createVolumeCntrl.taskSubmitted && createVolumeCntrl.glusterClusterList.length !== 0">
             <div class="wizard-pf">
                 <div>
                     <div class="wizard-pf-body clearfix">
                         <div class="wizard-pf-steps">
                             <ul class="wizard-pf-steps-indicator">
-                                <li class="wizard-pf-step active" ng-class="{active: (createFileShareCntrl.step === 1)}" data-tabgroup="1">
+                                <li class="wizard-pf-step active" ng-class="{active: (createVolumeCntrl.step === 1)}" data-tabgroup="1">
                                     <a><span class="wizard-pf-step-number">1</span><span class="wizard-pf-step-title">General Settings</span></a>
                                 </li>
-                                <li class="wizard-pf-step" data-tabgroup="2" ng-class="{active: (createFileShareCntrl.step === 2)}">
+                                <li class="wizard-pf-step" data-tabgroup="2" ng-class="{active: (createVolumeCntrl.step === 2)}">
                                     <a><span class="wizard-pf-step-number">2</span><span class="wizard-pf-step-title">Hosts</span></a>
                                 </li>
-                                <li class="wizard-pf-step" data-tabgroup="3" ng-class="{active: (createFileShareCntrl.step === 3)}">
+                                <li class="wizard-pf-step" data-tabgroup="3" ng-class="{active: (createVolumeCntrl.step === 3)}">
                                     <a><span class="wizard-pf-step-number">3</span><span class="wizard-pf-step-title">Bricks Layout</span></a>
                                 </li>
-                                <li class="wizard-pf-step" data-tabgroup="4" ng-class="{active: (createFileShareCntrl.step === 4)}">
+                                <li class="wizard-pf-step" data-tabgroup="4" ng-class="{active: (createVolumeCntrl.step === 4)}">
                                     <a><span class="wizard-pf-step-number">4</span><span class="wizard-pf-step-title">Advanced Settings</span></a>
                                 </li>
-                                <li class="wizard-pf-step" data-tabgroup="5" ng-class="{active: (createFileShareCntrl.step === 5)}">
+                                <li class="wizard-pf-step" data-tabgroup="5" ng-class="{active: (createVolumeCntrl.step === 5)}">
                                     <a><span class="wizard-pf-step-number">5</span><span class="wizard-pf-step-title">Review</span></a>
                                 </li>
                             </ul>
                         </div>
                         <div class="wizard-pf-row">
                             <div class="wizard-pf-main">
-                                <div ng-include src="'../modules/file-share/create-file-share/step-first.html'"></div>
-                                <div ng-include src="'../modules/file-share/create-file-share/step-second.html'"></div>
-                                <div ng-include src="'../modules/file-share/create-file-share/step-third.html'"></div>
-                                <div ng-include src="'../modules/file-share/create-file-share/step-fourth.html'"></div>
-                                <div ng-include src="'../modules/file-share/create-file-share/step-fifth.html'"></div>
+                                <div ng-include src="'../modules/file-share/create-volume/step-first.html'"></div>
+                                <div ng-include src="'../modules/file-share/create-volume/step-second.html'"></div>
+                                <div ng-include src="'../modules/file-share/create-volume/step-third.html'"></div>
+                                <div ng-include src="'../modules/file-share/create-volume/step-fourth.html'"></div>
+                                <div ng-include src="'../modules/file-share/create-volume/step-fifth.html'"></div>
                             </div>
                             <!-- /.wizard-pf-main -->
                         </div>
                     </div>
                     <!-- /.wizard-pf-body -->
-                    <div class="modal-footer wizard-pf-footer" ng-show="createFileShareCntrl.step !== 4">
-                        <button type="button" class="btn btn-default wizard-pf-back" ng-click="createFileShareCntrl.updateStep('dec')" ng-disabled="createFileShareCntrl.step === 1">
+                    <div class="modal-footer wizard-pf-footer" ng-show="createVolumeCntrl.step !== 4">
+                        <button type="button" class="btn btn-default wizard-pf-back" ng-click="createVolumeCntrl.updateStep('dec')" ng-disabled="createVolumeCntrl.step === 1">
                             <span class="i fa fa-angle-left"></span> Back
                         </button>
-                        <button type="button" class="btn btn-primary wizard-pf-next" ng-click="createFileShareCntrl.updateStep('inc')" ng-disabled="createFileShareCntrl.validateAvaialbleBricks() || createFileShareCntrl.selectMultipleOfTwo">
-                            <span ng-if="createFileShareCntrl.step !== 5">Next</span>
-                            <span ng-if="createFileShareCntrl.step === 5">Create File Share</span>
+                        <button type="button" class="btn btn-primary wizard-pf-next" ng-click="createVolumeCntrl.updateStep('inc')" ng-disabled="createVolumeCntrl.buttonEnabled">
+                            <span ng-if="createVolumeCntrl.step !== 5">Next</span>
+                            <span ng-if="createVolumeCntrl.step === 5">Create File Share</span>
                             <span class="i fa fa-angle-right"></span>
                         </button>
-                        <a type="button" class="btn btn-default btn-cancel wizard-pf-cancel wizard-pf-dismiss" ui-sref="file-share" ng-click="createFileShareCntrl.cancelCreate()">Cancel</a>
+                        <a type="button" class="btn btn-default btn-cancel wizard-pf-cancel wizard-pf-dismiss" ui-sref="file-share" ng-click="createVolumeCntrl.cancelCreate()">Cancel</a>
                     </div>
                     <!-- /.wizard-pf-footer -->
                 </div>
             </div>
         </div>
     </div>
-    <div ng-if="createFileShareCntrl.taskSubmitted" class="blank-slate-pf centered">
+    <div ng-if="createVolumeCntrl.taskSubmitted" class="blank-slate-pf centered">
         <div class="blank-slate-pf-icon">
             <i class="pficon pficon-ok"></i>
         </div>
@@ -82,8 +82,8 @@
             <div>If you want to create another File Share, click Create Another</div>
         </div>
         <div class="blank-slate-pf-main-action">
-            <button class="btn btn-primary btn-lg task-progress-button" ng-click="createFileShareCntrl.viewTaskProgress()">View Task Progress</button>
-            <button class="btn btn-lg" ng-click="createFileShareCntrl.goToFileShareCreateView()">Create Another</button>
+            <button class="btn btn-primary btn-lg task-progress-button" ng-click="createVolumeCntrl.viewTaskProgress()">View Task Progress</button>
+            <button class="btn btn-lg" ng-click="createVolumeCntrl.goToFileShareCreateView()">Create Another</button>
         </div>
     </div>
 </div>

@@ -102,7 +102,7 @@
         }
 
         function cancelModal() {
-            $state.go("create-file-share");
+            $state.go("create-volume");
             $rootScope.$emit("modal.done", "cancel");
         }
 

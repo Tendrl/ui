@@ -1,0 +1,33 @@
+<div class="wizard-pf-contents" ng-if="createVolumeCntrl.step === 2">
+    <div class="alert alert-danger alert-dismissable" ng-show="createVolumeCntrl.minimumThreeHostSelected()">
+        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">
+            <span class="pficon pficon-close"></span>
+        </button>
+        <span class="pficon pficon-error-circle-o"></span>
+        <strong>Minimum number of <b>3</b> Nodes are not selected to create a volume</strong>.
+    </div>
+    <div class="table-container">
+        <table class="table table-striped table-bordered table-hover">
+            <thead>
+                <tr>
+                    <th>
+                        <input type="checkbox" ng-model="createVolumeCntrl.hostAllCheckBoxSelected" ng-click="createVolumeCntrl.selectHostsCheckBox(); createVolumeCntrl.minimumThreeHostSelected();">
+                    </th>
+                    <th>Hosts</th>
+                    <th>Total Raw Capacity</th>
+                    <th>Available Bricks</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="node in createVolumeCntrl.selectedCluster.nodes">
+                    <td>
+                        <input type="checkbox" ng-model="node.hostCheckBoxSelected" ng-click="createVolumeCntrl.markTopLevelCheckbox(); createVolumeCntrl.minimumThreeHostSelected();">
+                    </td>
+                    <td>{{node.fqdn || "NA"}}</td>
+                    <td>{{node.rawCapacity | bytes }}</td>
+                    <td>{{node.bricksAvaialble}}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

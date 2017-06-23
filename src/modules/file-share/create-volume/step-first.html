@@ -1,0 +1,62 @@
+<div class="wizard-pf-contents" ng-if="createVolumeCntrl.step === 1">
+    <div class="alert alert-danger alert-dismissable" ng-show="createVolumeCntrl.validateTotalHosts">
+        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">
+            <span class="pficon pficon-close"></span>
+        </button>
+        <span class="pficon pficon-error-circle-o"></span>
+        <strong>Minimum <b>3</b> Nodes with <b>1</b> Brick are required to Create a Volume.</strong>
+    </div>
+    <div class="alert alert-danger alert-dismissable" ng-show="createVolumeCntrl.validateAvailablebricks">
+        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">
+            <span class="pficon pficon-close"></span>
+        </button>
+        <span class="pficon pficon-error-circle-o"></span>
+        <strong>There are not enough bricks available in this cluster to continue.</strong>
+        <button type="button" class="btn btn-default wizard-pf-back" ng-click="createVolumeCntrl.onCreateBrickModal()">
+            Create Brick
+        </button>
+    </div>
+    <form class="form-horizontal">
+        <!-- replacing id with data-id to pass build errors -->
+        <div class="form-group required">
+            <label class="col-sm-3 col-md-2 control-label" for="cluster-name">Cluster</label>
+            <div class="col-sm-8 col-md-3">
+                <select class="form-control" data-id="cluster-name" ng-options="cluster.cluster_name for cluster in createVolumeCntrl.glusterClusterList" ng-model="createVolumeCntrl.selectedCluster" ng-change="createVolumeCntrl.changeSelectedCluster()"></select>
+            </div>
+        </div>
+        <div class="form-group required">
+            <label class="col-sm-3 col-md-2 control-label" for="volumeName">Name</label>
+            <div class="col-sm-8 col-md-3">
+                <input type="text" data-id="volumeName" class="form-control" name="volumeName" ng-model="createVolumeCntrl.volumeName">
+                <span ng-if="!createVolumeCntrl.volumeName.length" class="error-msg">* File Share name is required</span>
+            </div>
+            <div class="col-md-3">
+                <span><b>{{createVolumeCntrl.totalBricks}}</b> unclaimed bricks</span>
+            </div>
+        </div>
+        <div class="form-group required">
+            <label class="col-sm-3 col-md-2 control-label" for="file-share-name">Type</label>
+            <div class="col-sm-8 col-md-3">
+                <select ng-options="type for type in createVolumeCntrl.volumeTypes" ng-model="createVolumeCntrl.selectedType" ng-change="createVolumeCntrl.validateAvaialbleBricks()" class="form-control" data-id="file-share-name"></select>
+            </div>
+        </div>
+        <div class="form-group required" ng-if="createVolumeCntrl.selectedType === createVolumeCntrl.volumeTypes[1]">
+            <label class="col-sm-3 col-md-2 control-label" for="ec-profile">EC Profile</label>
+            <div class="col-sm-8 col-md-3">
+                <select data-ng-options="profile for profile in createVolumeCntrl.ecProfiles" data-ng-model="createVolumeCntrl.selectedProfile" class="form-control" data-id="ec-profile"></select>
+            </div>
+        </div>
+        <!--         <div class="form-group required">
+            <label class="col-sm-2 col-md-2 control-label" for="replica-count">Replica Count</label>
+            <div class="col-sm-4 col-md-2">
+                <input type="number" data-id="replica-count" min=2 max=3 class="form-control" ng-model="createVolumeCntrl.replicaCount" ng-change="createVolumeCntrl.validateAvaialbleBricks()" required>
+            </div>
+        </div>
+        <div class="form-group required">
+            <label class="col-sm-2 col-md-2 control-label" for="replica-count">Distribution Count</label>
+            <div class="col-sm-4 col-md-2">
+                <input type="number" data-id="Distribution-count" min=1 max=4 class="form-control" ng-model="createVolumeCntrl.distributionCount" ng-change="createVolumeCntrl.validateAvaialbleBricks()" required>
+            </div>
+        </div> -->
+    </form>
+</div>
