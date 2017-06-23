@@ -8,7 +8,7 @@
     /*@ngInject*/
     function fileShareController($scope, $rootScope, $state, $interval, $uibModal, $filter, utils, volumeStore, config) {
         var vm = this,
-            fileshareTimer,
+            volumeTimer,
             list,
             fileShareList,
             fileShare,
@@ -19,6 +19,7 @@
 
         vm.deleteFileShareStep = 1;
         vm.selectedFileShare = null;
+        vm.isDataLoading = true;
         vm.createFileShare = createFileShare;
         vm.onOpenFileShareDeleteModal = onOpenFileShareDeleteModal;
         vm.onDeleteFileShare = onDeleteFileShare;
@@ -31,22 +32,20 @@
         init();
 
         function init() {
-            list = utils.getFileShareDetails($scope.clusterId);
-            vm.fileShareList = setupFileShareListData(list);
-            startTimer();
+            utils.getObjectList("Cluster")
+                .then(function(data) {
+                    $interval.cancel(volumeTimer);
+                    $rootScope.clusterData = data;
+                    list = utils.getFileShareDetails($scope.clusterId);
+                    vm.fileShareList = setupFileShareListData(list);
+                    vm.isDataLoading = false;
+                    startTimer();
+                });
         }
 
         function startTimer() {
-
-            fileshareTimer = $interval(function() {
-
-                utils.getObjectList("Cluster")
-                    .then(function(data) {
-                        $interval.cancel(fileshareTimer);
-                        $rootScope.clusterData = data;
-                        init();
-                    });
-
+            volumeTimer = $interval(function() {
+                init();
             }, 1000 * config.refreshIntervalTime, 1);
         }
 

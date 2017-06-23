@@ -76,7 +76,8 @@
                 </p>
             </div>
         </center>
-        <div class="list-group list-view-pf list-view-pf-equalized-column" ng-repeat="volume in fileShareCntrl.filteredFileShareList=(fileShareCntrl.fileShareList | filter: fileShareCntrl.searchBy | orderBy : fileShareCntrl.ascOrder + fileShareCntrl.orderBy)">
+        <div ng-if="fileShareCntrl.isDataLoading" class="spinner spinner-lg"></div>
+        <div ng-if="!fileShareCntrl.isDataLoading" class="list-group list-view-pf list-view-pf-equalized-column" ng-repeat="fileShare in fileShareCntrl.filteredFileShareList=(fileShareCntrl.fileShareList | filter: fileShareCntrl.searchBy | orderBy : fileShareCntrl.ascOrder + fileShareCntrl.orderBy)">
             <div class="list-group-item">
                 <!-- <div class="list-view-pf-left col-md-1">
                   <i class="fa fa-angle-right" aria-hidden="true"></i>
