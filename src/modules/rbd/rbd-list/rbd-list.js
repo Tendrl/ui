@@ -29,13 +29,20 @@
         vm.sizeUnits = ["GB", "TB"];
         vm.resizeRBDtaskSubmitted = false;
         vm.resizeRBDstep = 1;
+        vm.isDataLoading = true;
 
         init();
 
         function init() {
-            list = utils.getRBDsDetails($scope.clusterId);
-            _createRbdList(list);
-            startTimer();
+            utils.getObjectList("Cluster")
+                .then(function(data) {
+                    $interval.cancel(rbdListTimer);
+                    $rootScope.clusterData = data;
+                    list = utils.getRBDsDetails($scope.clusterId);
+                    _createRbdList(list);
+                    vm.isDataLoading = false;
+                    startTimer();
+                });
         }
 
         /* Trigger this function when we have cluster data */
@@ -51,16 +58,7 @@
         function startTimer() {
 
             rbdListTimer = $interval(function() {
-
-                utils.getObjectList("Cluster")
-                    .then(function(data) {
-                        $interval.cancel(rbdListTimer);
-                        $rootScope.clusterData = data;
-                        list = utils.getRBDsDetails($scope.clusterId);
-                        _createRbdList(list);
-                        startTimer();
-                    });
-
+                init();
             }, 1000 * config.refreshIntervalTime, 1);
         }
 

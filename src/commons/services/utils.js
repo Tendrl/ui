@@ -274,6 +274,7 @@
 
                             for (index in clusterData[i].pools) {
                                 clusterData[i].pools[index].cluster_id = clusterData[i].cluster_id;
+                                clusterData[i].pools[index].totalSize = clusterData[i].utilization.total;
                                 poolList.push(clusterData[i].pools[index]);
                             }
 
@@ -281,6 +282,7 @@
 
                             for (index in clusterData[i].pools) {
                                 clusterData[i].pools[index].cluster_id = clusterData[i].cluster_id;
+                                clusterData[i].pools[index].totalSize = clusterData[i].utilization.total;
                                 poolList.push(clusterData[i].pools[index]);
                             }
                         }

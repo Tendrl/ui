@@ -24,20 +24,16 @@
         vm.isDataLoading = true;
 
         init();
-        startTimer();
 
         function init() {
-            if ($rootScope.clusterData && !$rootScope.clusterData.clusters.length) {
-                utils.getObjectList("Cluster")
-                    .then(function(data) {
-                        $rootScope.clusterData = data;
-                        _createClusterList();
-                        vm.isDataLoading = false;
-                    });
-            } else {
-                vm.isDataLoading = false;
-                _createClusterList();
-            }
+            utils.getObjectList("Cluster")
+                .then(function(data) {
+                    $interval.cancel(clusterListTimer);
+                    $rootScope.clusterData = data;
+                    _createClusterList();
+                    vm.isDataLoading = false;
+                    startTimer();
+                });
         }
 
         /* Trigger this function when we have cluster data */
@@ -53,15 +49,7 @@
         function startTimer() {
 
             clusterListTimer = $interval(function() {
-
-                utils.getObjectList("Cluster")
-                    .then(function(data) {
-                        $interval.cancel(clusterListTimer);
-                        $rootScope.clusterData = data;
-                        init();
-                        startTimer();
-                    });
-
+                init();
             }, 1000 * config.refreshIntervalTime, 1);
         }
 

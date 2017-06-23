@@ -146,7 +146,7 @@
             }, function (e) {
                 utils.checkErrorCode(e);
                 console.log("Error Occurred: while fetching HostDetailUtilization");
-                return null;
+                deferred.resolve(null);
             })
             return deferred.promise;
         }

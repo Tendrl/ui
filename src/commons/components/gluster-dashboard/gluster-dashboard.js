@@ -77,7 +77,7 @@
                 }, {
                     "iconClass": "pficon pficon-flag",
                     "count": 0,
-                    "text": " Cluster have host quorum"
+                    "text": " Cluster have lost quorum"
                 }]
             };
         }

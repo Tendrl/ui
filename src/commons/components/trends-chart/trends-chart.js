@@ -167,7 +167,7 @@
 
             for (i = 0; i < len; i++) {
                 if (vm.chartData[i][0] !== null && vm.chartData[i][1] !== null) {
-                    yData.push(vm.chartData[i][0].toFixed(2));
+                    yData.push(vm.chartData[i][0].toFixed(1));
                 }
             }
 
