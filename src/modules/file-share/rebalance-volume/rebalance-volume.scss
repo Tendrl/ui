@@ -1,0 +1,27 @@
+.tendrl-rebalance-volume-modal-container {
+	.row {
+		margin: 0;
+	}
+
+	.mode-label {
+		vertical-align: top;
+	}
+
+	.desc-row {
+		margin-bottom: 10px;
+
+		.mode-desc {
+			margin-left: 15px;
+		}
+	}
+
+    .blank-slate-pf-main-action {
+    	.btn-primary {
+    		margin-right: 45px;
+    	}
+
+    	.close-btn {
+    		width: 153px;
+    	}
+    }
+}

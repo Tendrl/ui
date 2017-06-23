@@ -44,13 +44,12 @@
         vm.taskSubmitted = false;
         vm.disableFilter = false;
         vm.powValue = 7;
+        vm.isDataLoading = true;
 
         vm.getpgCountValue = getpgCountValue;
         vm.pgCountEveryPool = pgCountEveryPool;
 
-        if($rootScope.clusterData !== null && typeof $rootScope.clusterData !== "undefined") {
-            init();
-        }
+        init();
 
         /* Trigger this function when we have cluster data */
         $scope.$on("GotClusterData", function (event, data) {
@@ -97,22 +96,12 @@
         }
 
         function init() {
-
-            if (typeof $rootScope.clusterData !== "undefined") {
-                getCephClusterList();
-            } else {
-                utils.getObjectList("Cluster")
+            utils.getObjectList("Cluster")
                 .then(function(data) {
                     $rootScope.clusterData = data;
                     getCephClusterList();
+                    vm.isDataLoading = false;
                 });
-            }
-
-            vm.selectedCluster = vm.cephClusterList[0];
-            vm.selectedType = vm.poolType[0];
-            vm.selectedEC = vm.ECType[0];
-            vm.selectedOwner = vm.owners[0];
-            vm.updatePoolName();
         }
 
         function getpgCountValue(pgCount){
@@ -145,6 +134,15 @@
                     vm.cephClusterList.push($rootScope.clusterData.clusters[index]);
                 }
             }
+            _setDefaultValues();
+        }
+
+        function _setDefaultValues() {
+            vm.selectedCluster = vm.cephClusterList[0];
+            vm.selectedType = vm.poolType[0];
+            vm.selectedEC = vm.ECType[0];
+            vm.selectedOwner = vm.owners[0];
+            vm.updatePoolName();
         }
 
         function poolList() {
@@ -191,7 +189,7 @@
                 if (vm.checkboxModelQuotasValue){
                     postData["Pool.quota_enabled"] = vm.checkboxModelQuotasValue;
                     postData["Pool.quota_max_objects"] = pool.quotas[1];
-                    postData["Pool.quota_max_bytes"] = ((vm.selectedCluster.utilization.available/100)*vm.quotasMaxPercentage).toFixed(0);
+                    postData["Pool.quota_max_bytes"] = ((vm.selectedCluster.utilization.total/100)*vm.quotasMaxPercentage).toFixed(0);
                 }
                 if(vm.poolList[i].type === "Erasure Coded"){
                     postData["Pool.type"] = "erasure";
