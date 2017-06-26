@@ -1,0 +1,37 @@
+.tendrl-expand-cluster-modal-container {
+    min-height: 492px;
+    .row {
+        margin: 0;
+    }
+    .summary-list {
+        background-color: #ededed;
+        border-left-color: transparent;
+        border-right-color: transparent;
+        padding: 10px;
+    }
+    .container-fluid {
+    	max-height: 45vh;
+		overflow: auto;
+
+        .list-group-item {
+            padding: 10px;
+        }
+    }
+    .blank-slate-pf-main-action {
+        .btn-primary {
+            margin-right: 45px;
+        }
+        .close-btn {
+            width: 153px;
+        }
+    }
+    .custom-modal-footer {
+    	position: fixed;
+    	bottom: 10px;
+    	right: 10px;
+
+    	button {
+    		width: 90px;
+    	}
+    }
+}

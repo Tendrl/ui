@@ -94,6 +94,10 @@
                                 $rootScope.$on("$destroy", function() {
                                     $interval.cancel(notificationTimer);
                                 });
+
+                                $rootScope.$on("UserLogsOut", function() {
+                                    $interval.cancel(notificationTimer);
+                                });
                             }
                         }
                     })
@@ -294,6 +298,10 @@
                 }
 
                 $rootScope.$on("$destroy", function() {
+                    $interval.cancel(notificationTimer);
+                });
+
+                $rootScope.$on("UserLogsOut", function() {
                     $interval.cancel(notificationTimer);
                 });
             });

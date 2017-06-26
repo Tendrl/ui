@@ -309,7 +309,7 @@
             } else {
                 return item;
             }
-        };
+        }
 
         function _createClusterPostData() {
             var postData = {

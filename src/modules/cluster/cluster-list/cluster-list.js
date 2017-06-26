@@ -6,7 +6,7 @@
     app.controller("clusterController", clusterController);
 
     /*@ngInject*/
-    function clusterController($scope, $state, $interval, config, utils, $rootScope, $filter) {
+    function clusterController($scope, $state, $interval, $rootScope, $filter, $uibModal, config, utils) {
 
         var vm = this,
             key,
@@ -18,10 +18,11 @@
             hostList,
             i;
 
+        vm.isDataLoading = true;
         vm.importCluster = importCluster;
         vm.createCluster = createCluster;
         vm.goToClusterDetail = goToClusterDetail;
-        vm.isDataLoading = true;
+        vm.expandGlusterCluster = expandGlusterCluster;
 
         init();
 
@@ -82,6 +83,13 @@
                     cluster.sds_name = clusterData[i].sds_name;
                     cluster.status = "NA";
 
+                    if (cluster.sds_name === "ceph") {
+                        cluster.publicNetwork = clusterData[i].public_network;
+                        cluster.clusterNetwork = clusterData[i].cluster_network;
+                    } else if (cluster.sds_name === "gluster") {
+                        cluster.clusterNetwork = clusterData[i].cluster_network;
+                    }
+
                     if (typeof clusterData[i].utilization !== "undefined") {
 
                         if (cluster.sds_name === "ceph") {
@@ -112,7 +120,6 @@
                     } else if (clusterData[i].sds_name === 'gluster' && typeof clusterData[i].volumes !== "undefined") {
                         cluster.poolOrFileShareCount = Object.keys(clusterData[i].volumes).length;
                     }
-                    cluster.iops = "IOPS-NA";
 
                     temp.push(cluster);
                 }
@@ -127,7 +134,7 @@
             utils.ClusterIOPS(cluster.id, timeInterval)
                 .then(function(data) {
                     vm.iopsData = data && data.stats[0] && data.stats[0].datapoints ? data.stats[0].datapoints : [];
-                    if(vm.iopsData.length){
+                    if (vm.iopsData.length) {
                         _generateIopsTrendChart(vm.iopsData, cluster);
                     }
                 });
@@ -179,6 +186,35 @@
 
         function goToClusterDetail(cluster_id) {
             $state.go("cluster-detail", { clusterId: cluster_id });
+        }
+
+        function expandGlusterCluster(cluster) {
+            var wizardDoneListener,
+                modalInstance,
+                closeWizard;
+
+            modalInstance = $uibModal.open({
+                animation: true,
+                backdrop: "static",
+                templateUrl: "/modules/cluster/expand-gluster-cluster/expand-gluster-cluster.html",
+                controller: "ExpandGlusterController",
+                controllerAs: "vm",
+                size: "lg",
+                resolve: {
+                    selectedCluster: function() {
+                        return cluster;
+                    }
+                }
+            });
+
+            closeWizard = function(e, reason) {
+                modalInstance.dismiss(reason);
+                wizardDoneListener();
+            };
+
+            modalInstance.result.then(function() {}, function() {});
+
+            wizardDoneListener = $rootScope.$on("modal.done", closeWizard);
         }
     }
 
