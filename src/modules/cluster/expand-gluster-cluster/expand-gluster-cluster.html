@@ -1,0 +1,120 @@
+<div class="tendrl-expand-cluster-modal-container">
+    <div>
+        <custom-modal-header title="vm.modalHeader.title" close="vm.modalHeader.close" ng-show="!vm.taskSubmitted"></custom-modal-header>
+        <div class="modal-body row" ng-show="!vm.taskSubmitted">
+            <div ng-show="vm.isNodeLoading" class="spinner spinner-lg"></div>
+            <div ng-show="!vm.isNodeLoading">
+                <h3>Host Summary</h3>
+                <div class="alert alert-warning alert-dismissable " ng-show="vm.availableHostList.length <= 0">
+                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">
+                        <span class="pficon pficon-close"></span>
+                    </button>
+                    <span class="pficon pficon-warning-triangle-o"></span>
+                    <strong>No host available for adding to gluster cluster</strong>.
+                </div>
+                <div class="list-group list-view-pf list-view-pf-equalized-column">
+                    <div class="list-group-item summary-list">
+                        <div class="col-md-3">
+                            <div class="list-view-pf-additional-info-item list-view-pf-additional-info-item-stacked">
+                                <div class="bold-text">Hosts</div>
+                                <div ng-modal="vm.hosts">{{vm.selectedHost.length}} <span class="error-message">(of {{vm.getMaxCount()}} maximum)</span></div>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="list-view-pf-additional-info-item list-view-pf-additional-info-item-stacked">
+                                <strong class="bold-text">Available Disks</strong>
+                                <h5 ng-modal="vm.totalDevices">{{vm.totalDevices}}</h5>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="list-view-pf-additional-info-item list-view-pf-additional-info-item-stacked">
+                                <div class="bold-text">Total Available Capacity</div>
+                                <h5 class="pull-left">{{vm.totalAvailableCapacity | bytes}}</h5>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <h3>Available Hosts</h3>
+                <div class="row toolbar-pf">
+                    <div class="col-md-12">
+                        <form class="toolbar-pf-actions">
+                            <div class="form-group toolbar-pf-filter">
+                                <label class="sr-only" for="filter">Name</label>
+                                <div class="input-group">
+                                    <div class="input-group-btn">
+                                        <!-- Search By -->
+                                        <select ng-disabled="vm.availableHostList.length === 0" ng-model="vm.hostFilterBy.property" class="btn btn-default dropdown-toggle">
+                                            <option value="fqdn">Name</option>
+                                        </select>
+                                    </div>
+                                    <!-- /btn-group -->
+                                    <input ng-disabled="vm.availableHostList.length === 0" type="text" class="form-control" id="filter" placeholder="Filter By {{vm.hostFilterBy.property}}..." ng-model="vm.hostFilterBy.value">
+                                </div>
+                                <!-- /input-group -->
+                            </div>
+                            <div class="form-group bold-text">
+                                {{vm.selectedHost.length}} of {{vm.availableHostList.length}} Hosts Selected
+                            </div>
+                            <div class="form-group">
+                                <a href ng-click="vm.selectHost(true)"> Select All</a> <a href ng-click="vm.selectHost(false)"> Deselect All</a>
+                            </div>
+                            <div class="form-group pull-right">
+                                <button class="btn btn-lg close-btn" ng-click="vm.refreshHost()">Refresh</button>
+                            </div>
+                        </form>
+                    </div>
+                    <!-- /col -->
+                </div>
+                <div class="container-fluid">
+                    <div class="list-group list-view-pf list-view-pf-equalized-column" ng-repeat="host in vm.updatedHostList | filter: vm.filterList">
+                        <div class="list-group-item">
+                            <div class="col-md-1">
+                                <input type="checkbox" ng-click="vm.selectHost(host)" ng-checked="vm.isSelectedHost(host)">
+                            </div>
+                            <div class="col-md-4" uib-tooltip-html="'{{host.fqdn}}'">
+                                <div class="list-view-pf-additional-info-item list-view-pf-additional-info-item-stacked">
+                                    <div class="bold-text">{{host.fqdn || "NA"}}</div>
+                                </div>
+                            </div>
+                            <div class="col-md-2 eth-ip-mapping">
+                                <div class="list-view-pf-additional-info-item list-view-pf-additional-info-item-stacked pull-left">
+                                    <div class="bold-text">Interfaces</div>
+                                    <div>{{host.ifIPMapping.length}}</div>
+                                </div>
+                            </div>
+                            <div class="col-md-2 eth-ip-mapping">
+                                <div class="list-view-pf-additional-info-item list-view-pf-additional-info-item-stacked pull-left">
+                                    <div class="bold-text">Free Disks</div>
+                                    <div>{{host.freeDevices}}</div>
+                                </div>
+                            </div>
+                            <div class="col-md-3 eth-ip-mapping">
+                                <div class="list-view-pf-additional-info-item list-view-pf-additional-info-item-stacked pull-left">
+                                    <div class="bold-text">Available Capacity</div>
+                                    <div>{{host.availableCapacity | bytes}}</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12 horizontal-line"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div ng-show="vm.taskSubmitted" class="blank-slate-pf modal-body">
+            <div class="blank-slate-pf-icon">
+                <i class="pficon pficon-ok"></i>
+            </div>
+            <div>
+                <h1><label>Expand Cluster Started</label></h1>
+                <div class="text-center">Expanding of cluster {{vm.cluster.name}} has begun. You will be notified when processing is complete. You can check progress at any time by viewing details of this cluster.</div>
+            </div>
+            <div class="blank-slate-pf-main-action">
+                <button class="btn btn-primary btn-lg" ng-click="vm.viewTaskProgress()">View Task Progress</button>
+                <button class="btn btn-lg close-btn" ng-click="vm.closeModal()">Close</button>
+            </div>
+        </div>
+        <custom-modal-footer modal-footer="vm.modalFooter" ng-show="!vm.taskSubmitted"></custom-modal-footer>
+    </div>
+</div>
