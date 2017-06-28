@@ -46,7 +46,7 @@
             }
         };
 
-        store.glusterBrickMapping = function(cluster, selectedSubVolume) {
+        store.glusterBrickMapping = function(cluster, brickCount, subVolume) {
             var deferred,
                 postData;
 
@@ -63,19 +63,16 @@
                 var bricksPostData = {},
                     nodesForBricks = {},
                     allNodes = cluster.nodes,
-                    node,
-                    totalBricksForCreatingVolume = 0,
-                    nodeWithMinBrick = 0;
+                    node;
 
                 for (node in allNodes) {
                     if(allNodes[node].hostCheckBoxSelected === true) {
                         nodesForBricks[node] = null;
-                        totalBricksForCreatingVolume += allNodes[node].bricksAvaialble;
                     }
                 }
                 bricksPostData["Cluster.node_configuration"] = nodesForBricks;
-                bricksPostData["Volume.brick_count"] = totalBricksForCreatingVolume;
-                bricksPostData["Volume.subvol_size"] = selectedSubVolume;
+                bricksPostData["Volume.brick_count"] = brickCount;
+                bricksPostData["Volume.subvol_size"] = subVolume;
                 return bricksPostData;
             }
         };
@@ -86,7 +83,7 @@
 
             utils.getTaskOutput(jobId)
                 .then(function(data) {
-                    brickMapping = data && data[0] && data[0].GenerateBrickMapping && data[0].GenerateBrickMapping.result ? data[0].GenerateBrickMapping.result : [];
+                    brickMapping = data && data[0] && data[0].GenerateBrickMapping ? data[0].GenerateBrickMapping : [];
                     deferred.resolve(brickMapping);
                 });
 
