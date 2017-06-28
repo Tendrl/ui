@@ -100,7 +100,7 @@
 
         /*Cancelling interval when scope is destroy*/
         $scope.$on('$destroy', function() {
-            $interval.cancel(fileshareTimer);
+            $interval.cancel(volumeTimer);
         });
 
         function createFileShare() {
