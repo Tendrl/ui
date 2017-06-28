@@ -1,6 +1,13 @@
 <div class="wizard-pf-contents" ng-show="vm.selectedStep === 1">
     <form class="form-horizontal">
         <!-- replacing id with data-id to pass build errors -->
+        <div class="alert alert-danger alert-dismissable" ng-show="!vm.selectedCluster.nodes.length">
+            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">
+                <span class="pficon pficon-close"></span>
+            </button>
+            <span class="pficon pficon-error-circle-o"></span>
+            <strong>No free devices present to create brick.</strong>
+        </div>
         <div class="form-group required">
             <label class="col-sm-4 col-md-3 control-label" for="clusterName">Cluster</label>
             <div class="col-sm-8 col-md-3">

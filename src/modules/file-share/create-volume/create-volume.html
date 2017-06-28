@@ -2,12 +2,12 @@
 <div ng-if="clusterData !== null" class="tendrl-create-file-share-container container-fluid">
     <ol class="breadcrumb">
         <li>
-            <a ui-sref="file-share">File Shares</a>
+            <a ui-sref="file-share">Volumes</a>
         </li>
-        <li class="active"> <strong>Create File Share</strong>
+        <li class="active"> <strong>Create Volume</strong>
         </li>
     </ol>
-    <h1 class="bold-text">Create File Share</h1>
+    <h1 class="bold-text">Create Volume</h1>
     <div ng-if="createVolumeCntrl.isDataLoading" class="spinner spinner-lg"></div>
     <div ng-if="!createVolumeCntrl.isDataLoading">
         <center ng-if="createVolumeCntrl.glusterClusterList.length === 0">
@@ -62,7 +62,7 @@
                         </button>
                         <button type="button" class="btn btn-primary wizard-pf-next" ng-click="createVolumeCntrl.updateStep('inc')" ng-disabled="createVolumeCntrl.buttonEnabled">
                             <span ng-if="createVolumeCntrl.step !== 5">Next</span>
-                            <span ng-if="createVolumeCntrl.step === 5">Create File Share</span>
+                            <span ng-if="createVolumeCntrl.step === 5">Create Volume</span>
                             <span class="i fa fa-angle-right"></span>
                         </button>
                         <a type="button" class="btn btn-default btn-cancel wizard-pf-cancel wizard-pf-dismiss" ui-sref="file-share" ng-click="createVolumeCntrl.cancelCreate()">Cancel</a>
@@ -77,9 +77,9 @@
             <i class="pficon pficon-ok"></i>
         </div>
         <div>
-            <h1><label>Create File Share Submitted</label></h1>
-            <div class="text-center"> A task has been submitted to the background for each File Share requested. You will be notified when processing is complete and the new file share are ready for use. </div>
-            <div>If you want to create another File Share, click Create Another</div>
+            <h1><label>Create Volume Submitted</label></h1>
+            <div class="text-center"> A task has been submitted to the background for each Volume requested. You will be notified when processing is complete and the new volume are ready for use. </div>
+            <div>If you want to create another Volume, click Create Another</div>
         </div>
         <div class="blank-slate-pf-main-action">
             <button class="btn btn-primary btn-lg task-progress-button" ng-click="createVolumeCntrl.viewTaskProgress()">View Task Progress</button>
