@@ -77,7 +77,7 @@
             </div>
         </center>
         <div ng-if="fileShareCntrl.isDataLoading" class="spinner spinner-lg"></div>
-        <div ng-if="!fileShareCntrl.isDataLoading" class="list-group list-view-pf list-view-pf-equalized-column" ng-repeat="fileShare in fileShareCntrl.filteredFileShareList=(fileShareCntrl.fileShareList | filter: fileShareCntrl.searchBy | orderBy : fileShareCntrl.ascOrder + fileShareCntrl.orderBy)">
+        <div ng-if="!fileShareCntrl.isDataLoading" class="list-group list-view-pf list-view-pf-equalized-column" ng-repeat="volume in fileShareCntrl.filteredFileShareList=(fileShareCntrl.fileShareList | filter: fileShareCntrl.searchBy | orderBy : fileShareCntrl.ascOrder + fileShareCntrl.orderBy)">
             <div class="list-group-item">
                 <!-- <div class="list-view-pf-left col-md-1">
                   <i class="fa fa-angle-right" aria-hidden="true"></i>
@@ -109,24 +109,30 @@
                         </h5>
                     </div>
                 </div>
-                <div class="col-md-2">
+                <div class="col-md-1">
                     <div class="list-view-pf-additional-info-item list-view-pf-additional-info-item-stacked">
                         <b>  Bricks  </b>
                         <h5 class="counts">{{volume.brick_count}}</h5>
                     </div>
                 </div>
-                <div class="col-md-2">
+                <div class="col-md-1">
                     <div class="list-view-pf-additional-info-item list-view-pf-additional-info-item-stacked">
                         <b>  Alerts  </b>
                         <h5 class="counts">{{volume.alert_count}}</h5>
                     </div>
                 </div>
-                <!-- <div class="col-md-2">
+                <div class="col-md-1">
                     <div class="list-view-pf-additional-info-item list-view-pf-additional-info-item-stacked">
-                        <b>  Last Rebalance  </b>
-                        <h5>{{volume.last_rebalance | date : 'MMM d yyyy'}}</h5>
+                        <b>  Running  </b>
+                        <h5>{{volume.status === 'Stopped'? "No": "Yes"}}</h5>
                     </div>
-                </div> -->
+                </div>
+                <div class="col-md-1">
+                    <div class="list-view-pf-additional-info-item list-view-pf-additional-info-item-stacked" ng-show="fileShareCntrl.isRebalanceAllowed(volume)">
+                        <b>  Last Rebalance  </b>
+                        <h5>{{fileShareCntrl.getRebalStatus(volume)}}</h5>
+                    </div>
+                </div>
                 <div class="col-md-1">
                     <div class="list-view-pf-actions">
                         <div class="dropdown pull-right dropdown-kebab-pf">
