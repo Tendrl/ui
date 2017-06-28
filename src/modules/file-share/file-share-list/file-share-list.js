@@ -28,6 +28,7 @@
         vm.startVolume = startVolume;
         vm.rebalanceVolume = rebalanceVolume;
         vm.isRebalanceAllowed = isRebalanceAllowed;
+        vm.getRebalStatus = getRebalStatus;
 
         init();
 
@@ -59,6 +60,26 @@
             }
         });
 
+        function getRebalStatus(volume) {
+            switch(volume.rebalStatus) {
+                case "completed": return "Completed";
+                                    break
+                case "not_started": return "Not Started";
+                                    break
+                case "not started": return "Not Started";
+                                    break;
+                case "in progress": return "In Progress";
+                                    break;
+                case "in_progress": return "In Progress";
+                                    break;
+                case "failed": return "Failed";
+                                break;
+                case "stopped": return "Stopped";
+                                break;
+                default: return "NA";
+            }
+        }
+
         function setupFileShareListData(list) {
             fileShareList = [];
             len = list.length;
@@ -77,6 +98,7 @@
                     fileShare.name = fileShareObj.name;
                     fileShare.type = fileShareObj.vol_type;
                     fileShare.cluster_id = fileShareObj.cluster_id;
+                    fileShare.rebalStatus = fileShareObj.rebal_status;
                     if(fileShareObj.usable_capacity && fileShareObj.used_capacity){
                         fileShare.storage = {"total":fileShareObj.usable_capacity,"used":fileShareObj.used_capacity,"percent_used":fileShareObj.pcnt_used};
                     }
@@ -86,11 +108,6 @@
                     }
                     fileShare.brick_count = fileShareObj.brick_count;
                     fileShare.alert_count = "NA"
-                    // if(fileShareObj.rebalancedetails.rebal_status === "not_started") {
-                    //     fileShare.last_rebalance = $filter("date", fileShareObj.rebalancedetails.updated_at, "MMM dd yyyy");
-                    // } else {
-                    //     fileShare.last_rebalance = "Rebalance in Progress";
-                    // }
                     fileShare.bricks = fileShareObj.bricks;
                     fileShareList.push(fileShare);
                 }
