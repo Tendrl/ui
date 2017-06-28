@@ -1,0 +1,45 @@
+<div class="wizard-pf-contents review-container" ng-if="createVolumeCntrl.step === 5">
+    <div class="bold-text">File Share will be created on {{createVolumeCntrl.selectedCluster.cluster_name}}</div>
+    <div class="col-md-8 review-table">
+        <div class="row">
+            <div class="col-md-6 review-field-title">
+                <label>Name</label>
+            </div>
+            <div class="col-md-6 review-field-value">
+                <label class="value">{{createVolumeCntrl.volumeName}}</label>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6 review-field-title">
+                <label>Type</label>
+            </div>
+            <div class="col-md-6 review-field-value">
+                <label class="value">{{createVolumeCntrl.selectedType}}</label>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6 review-field-title">
+                <label>Replics Sets</label>
+            </div>
+            <div class="col-md-6 review-field-value">
+                <label class="value">{{createVolumeCntrl.brickMapping.length || "NA"}} Replica Sets</label>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6 review-field-title">
+                <label>Bricks in Replics Set</label>
+            </div>
+            <div class="col-md-6 review-field-value">
+                <label class="value">{{createVolumeCntrl.totalBrickCount}} Bricks, {{createVolumeCntrl.totalBrickSize | bytes}} Total Size</label>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6 review-field-title">
+                <label>Access Protocols</label>
+            </div>
+            <div class="col-md-6 review-field-value">
+                <label class="value">{{createVolumeCntrl.settings.protocol}}</label>
+            </div>
+        </div>
+    </div>
+</div>

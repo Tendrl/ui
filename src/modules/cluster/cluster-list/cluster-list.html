@@ -33,7 +33,7 @@
                     <div class="form-group toolbar-pf-view-selector">
                         <div class="row">
                             <div class="col-md-6">
-                                <button class="btn pull-right" ng-click="clusterCntrl.createCluster()">Create</button>
+                                <button class="btn btn-primary pull-right" ng-click="clusterCntrl.createCluster()">Create</button>
                             </div>
                             <div class="col-md-6">
                                 <button class="btn pull-right" ng-click="clusterCntrl.importCluster()">Import</button>
@@ -91,7 +91,7 @@
                 <div class="list-view-pf-additional-info-item list-view-pf-additional-info-item-stacked">
                     <div class="bold-text">
                         <span ng-if="cluster.sds_name === 'ceph'">Pools</span>
-                        <span ng-if="cluster.sds_name === 'gluster'">File Shares</span>
+                        <span ng-if="cluster.sds_name === 'gluster'">Volumes</span>
                     </div>
                     <h5 class="pull-left counts">
                         {{cluster.poolOrFileShareCount}}
@@ -111,7 +111,7 @@
                             <span class="fa fa-ellipsis-v"></span>
                         </button>
                         <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownKebabRight12">
-                            <li><a ng-class="{disabled: true}">Expand</a></li>
+                            <li><a ng-class="{disabled: (cluster.sds_name === 'ceph')}" ng-click="clusterCntrl.expandGlusterCluster(cluster)">Expand</a></li>
                             <li><a ng-class="{disabled: true}">Shrink</a></li>
                             <li><a ng-class="{disabled: true}">Unmanage</a></li>
                         </ul>

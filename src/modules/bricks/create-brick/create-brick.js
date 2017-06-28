@@ -81,11 +81,14 @@
                 })
                 .then(function(data) {
 
+                    var glusterClusterListLen,
+                        i;
+
                     vm.hostList = data.nodes;
                     _getGlusterClusterList();
                     vm.isDataLoading = false;
-                    var glusterClusterListLen = vm.glusterClusterList.length,
-                        i;
+                    glusterClusterListLen = vm.glusterClusterList.length;
+
                     if (typeof selectedCluster !== "undefined") {
                         for (i = 0; i < glusterClusterListLen; i++) {
                             if (vm.glusterClusterList[i].cluster_id === selectedCluster.cluster_id) {
@@ -102,7 +105,7 @@
         }
 
         function cancelModal() {
-            $state.go("create-file-share");
+            $state.go("create-volume");
             $rootScope.$emit("modal.done", "cancel");
         }
 
@@ -137,9 +140,9 @@
 
         function back() {
             vm.selectedStep -= 1;
-            if (vm.selectedStep === 0){
+            if (vm.selectedStep === 0) {
                 vm.cancelModal();
-            }else if (vm.selectedStep === 2) {
+            } else if (vm.selectedStep === 2) {
                 vm.deviceFilterBy = {
                     "property": "freeDevices.device",
                     "value": ""
@@ -396,7 +399,10 @@
                 for (j = 0; j < hostLen; j++) {
                     if (vm.hostList[j].node_id === nodes[i]) {
                         _updateHost(vm.hostList[j]);
-                        vm.glusterClusterList[index].nodes.push(vm.hostList[j]);
+
+                        if (vm.hostList[j].freeDevices > 0) {
+                            vm.glusterClusterList[index].nodes.push(vm.hostList[j]);
+                        }
                     }
                 }
             }

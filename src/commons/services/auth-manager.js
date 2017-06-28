@@ -69,10 +69,12 @@
             var req = create_request("DELETE", "logout");
             return $http(req).then(function (response) {
                 $http.defaults.headers.common["Authorization"] = "";
+                $rootScope.$broadcast("UserLogsOut");
                 return response.data;
             })
             .catch(function (response) {
                 authApiFactory.clearCredentials();
+                authApiFactory.setFlags();
                 $state.go("login");
                 return $q.reject({});
             });

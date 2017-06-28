@@ -45,6 +45,50 @@
                 return obj;
             }
         };
+
+        store.glusterBrickMapping = function(cluster, brickCount, subVolume) {
+            var deferred,
+                postData;
+
+            deferred = $q.defer();
+            postData = _generatePostDataForBrickLayout();
+            utils.glusterBrickMapping(postData, cluster)
+                .then(function(data) {
+                    deferred.resolve(data);
+                });
+
+            return deferred.promise;
+
+            function _generatePostDataForBrickLayout(){
+                var bricksPostData = {},
+                    nodesForBricks = {},
+                    allNodes = cluster.nodes,
+                    node;
+
+                for (node in allNodes) {
+                    if(allNodes[node].hostCheckBoxSelected === true) {
+                        nodesForBricks[node] = null;
+                    }
+                }
+                bricksPostData["Cluster.node_configuration"] = nodesForBricks;
+                bricksPostData["Volume.brick_count"] = brickCount;
+                bricksPostData["Volume.subvol_size"] = subVolume;
+                return bricksPostData;
+            }
+        };
+
+        store.getTaskOutput = function(jobId) {
+            var deferred = $q.defer(),
+                 brickMapping;
+
+            utils.getTaskOutput(jobId)
+                .then(function(data) {
+                    brickMapping = data && data[0] && data[0].GenerateBrickMapping ? data[0].GenerateBrickMapping : [];
+                    deferred.resolve(brickMapping);
+                });
+
+            return deferred.promise;
+        };
     }
 
 })();

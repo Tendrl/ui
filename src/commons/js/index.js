@@ -94,6 +94,10 @@
                                 $rootScope.$on("$destroy", function() {
                                     $interval.cancel(notificationTimer);
                                 });
+
+                                $rootScope.$on("UserLogsOut", function() {
+                                    $interval.cancel(notificationTimer);
+                                });
                             }
                         }
                     })
@@ -191,11 +195,11 @@
                         controller: "dashboardController",
                         controllerAs: "dashboardCntrl"
                     })
-                    .state("create-file-share", {
-                        url: "/create-file-share",
-                        templateUrl: "/modules/file-share/create-file-share/create-file-share.html",
-                        controller: "createFileShareController",
-                        controllerAs: "createFileShareCntrl"
+                    .state("create-volume", {
+                        url: "/create-volume",
+                        templateUrl: "/modules/file-share/create-volume/create-volume.html",
+                        controller: "createVolumeController",
+                        controllerAs: "createVolumeCntrl"
                     })
                     .state("create-cluster", {
                         url: "/create-cluster",
@@ -294,6 +298,10 @@
                 }
 
                 $rootScope.$on("$destroy", function() {
+                    $interval.cancel(notificationTimer);
+                });
+
+                $rootScope.$on("UserLogsOut", function() {
                     $interval.cancel(notificationTimer);
                 });
             });

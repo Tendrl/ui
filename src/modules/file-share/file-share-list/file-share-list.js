@@ -6,9 +6,9 @@
     app.controller("fileShareController", fileShareController);
 
     /*@ngInject*/
-    function fileShareController($scope, $rootScope, $state, $interval, utils, config) {
+    function fileShareController($scope, $rootScope, $state, $interval, $uibModal, $filter, utils, volumeStore, config) {
         var vm = this,
-            fileshareTimer,
+            volumeTimer,
             list,
             fileShareList,
             fileShare,
@@ -19,30 +19,34 @@
 
         vm.deleteFileShareStep = 1;
         vm.selectedFileShare = null;
+        vm.isDataLoading = true;
         vm.createFileShare = createFileShare;
         vm.onOpenFileShareDeleteModal = onOpenFileShareDeleteModal;
         vm.onDeleteFileShare = onDeleteFileShare;
         vm.viewTaskProgress = viewTaskProgress;
+        vm.stopVolume = stopVolume;
+        vm.startVolume = startVolume;
+        vm.rebalanceVolume = rebalanceVolume;
+        vm.isRebalanceAllowed = isRebalanceAllowed;
+        vm.getRebalStatus = getRebalStatus;
 
         init();
 
         function init() {
-            list = utils.getFileShareDetails($scope.clusterId);
-            vm.fileShareList = setupFileShareListData(list);
-            startTimer();
+            utils.getObjectList("Cluster")
+                .then(function(data) {
+                    $interval.cancel(volumeTimer);
+                    $rootScope.clusterData = data;
+                    list = utils.getFileShareDetails($scope.clusterId);
+                    vm.fileShareList = setupFileShareListData(list);
+                    vm.isDataLoading = false;
+                    startTimer();
+                });
         }
 
         function startTimer() {
-
-            fileshareTimer = $interval(function() {
-
-                utils.getObjectList("Cluster")
-                    .then(function(data) {
-                        $interval.cancel(fileshareTimer);
-                        $rootScope.clusterData = data;
-                        init();
-                    });
-
+            volumeTimer = $interval(function() {
+                init();
             }, 1000 * config.refreshIntervalTime, 1);
         }
 
@@ -55,6 +59,26 @@
                 init();
             }
         });
+
+        function getRebalStatus(volume) {
+            switch(volume.rebalStatus) {
+                case "completed": return "Completed";
+                                    break
+                case "not_started": return "Not Started";
+                                    break
+                case "not started": return "Not Started";
+                                    break;
+                case "in progress": return "In Progress";
+                                    break;
+                case "in_progress": return "In Progress";
+                                    break;
+                case "failed": return "Failed";
+                                break;
+                case "stopped": return "Stopped";
+                                break;
+                default: return "NA";
+            }
+        }
 
         function setupFileShareListData(list) {
             fileShareList = [];
@@ -74,6 +98,7 @@
                     fileShare.name = fileShareObj.name;
                     fileShare.type = fileShareObj.vol_type;
                     fileShare.cluster_id = fileShareObj.cluster_id;
+                    fileShare.rebalStatus = fileShareObj.rebal_status;
                     if(fileShareObj.usable_capacity && fileShareObj.used_capacity){
                         fileShare.storage = {"total":fileShareObj.usable_capacity,"used":fileShareObj.used_capacity,"percent_used":fileShareObj.pcnt_used};
                     }
@@ -83,7 +108,6 @@
                     }
                     fileShare.brick_count = fileShareObj.brick_count;
                     fileShare.alert_count = "NA"
-                    fileShare.last_rebalance = "NA";
                     fileShare.bricks = fileShareObj.bricks;
                     fileShareList.push(fileShare);
                 }
@@ -93,12 +117,12 @@
 
         /*Cancelling interval when scope is destroy*/
         $scope.$on('$destroy', function() {
-            $interval.cancel(fileshareTimer);
+            $interval.cancel(volumeTimer);
         });
 
         function createFileShare() {
             //$state.go("add-inventory",{ clusterId: $scope.clusterId });
-            $state.go("create-file-share");
+            $state.go("create-volume");
         }
 
         function onOpenFileShareDeleteModal(fileShare) {
@@ -139,6 +163,75 @@
             setTimeout(function() {
                 $state.go("task");
             },1000);
+        }
+
+        function stopVolume(volume) {
+            var wizardDoneListener,
+                modalInstance,
+                closeWizard;
+
+            modalInstance = $uibModal.open({
+                animation: true,
+                backdrop: "static",
+                templateUrl: "/modules/file-share/stop-volume/stop-volume.html",
+                controller: "StopVolumeController",
+                controllerAs: "vm",
+                size: "md",
+                resolve: {
+                    selectedVolume: function() {
+                        return volume;
+                    }
+                }
+            });
+
+            closeWizard = function(e, reason) {
+                modalInstance.dismiss(reason);
+                wizardDoneListener();
+            };
+
+            modalInstance.result.then(function() {}, function() {});
+
+            wizardDoneListener = $rootScope.$on("modal.done", closeWizard);
+        }
+
+        function startVolume(volume) {
+            volumeStore.doActionOnVolume(volume, "start")
+                .then(function(data) {
+                    vm.jobId = data.job_id;
+                });
+        }
+
+        function rebalanceVolume(volume) {
+            var wizardDoneListener,
+                modalInstance,
+                closeWizard;
+
+            modalInstance = $uibModal.open({
+                animation: true,
+                backdrop: "static",
+                templateUrl: "/modules/file-share/rebalance-volume/rebalance-volume.html",
+                controller: "RebalanceVolumeController",
+                controllerAs: "vm",
+                size: "lg",
+                resolve: {
+                    selectedVolume: function() {
+                        return volume;
+                    }
+                }
+            });
+
+            closeWizard = function(e, reason) {
+                modalInstance.dismiss(reason);
+                wizardDoneListener();
+            };
+
+            modalInstance.result.then(function() {}, function() {});
+
+            wizardDoneListener = $rootScope.$on("modal.done", closeWizard);
+        }
+
+        function isRebalanceAllowed(volume) {
+            return volume.type.startsWith("Distribute");
         }
     }
 

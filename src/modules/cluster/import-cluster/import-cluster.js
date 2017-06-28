@@ -69,8 +69,10 @@
                         host = {};
                         if (hostList[j].tags !== "undefined" && hostList[j].tags) {
                             release = getRole(JSON.parse(hostList[j].tags));
-                            host.release = release[0] + " " + vm.selectedClusterVersion;
-                            host.role = role[release[release.length - 1]];
+                            if(release) {
+                                host.release = release[0] + " " + vm.selectedClusterVersion;
+                                host.role = role[release[release.length - 1]];
+                            }
                         }
                         host.name = hostList[j].fqdn;
                         associatedHosts.push(host);
@@ -83,7 +85,7 @@
 
         function getRole(tagsList){
             var index,
-                tags;
+                tags = "";
             if (tagsList.indexOf("tendrl/central-store")!== -1){
                 index = tagsList.indexOf("tendrl/central-store");
                 tags = tagsList[index].split("/");

@@ -1,4 +1,5 @@
-<div class="create-pool-wizard">
+<div ng-if="createPoolCntrl.isDataLoading" class="spinner spinner-lg"></div>
+<div ng-if="!createPoolCntrl.isDataLoading"class="create-pool-wizard">
 	<div ng-class="{'wizard-pf': (createPoolCntrl.step !== 4)}">
 		<div class="wizard-pf-body clearfix">
 			<div class="wizard-pf-sidebar" ng-class="{hide: (createPoolCntrl.step >= 4)}">

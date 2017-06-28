@@ -114,10 +114,12 @@
                             vm.serverNodes.push(hostList[i]);
                         } else if (!hostList[i].detectedcluster || (hostList[i].detectedcluster && hostList[i].detectedcluster.detected_cluster_id === "")) {
                             //pushing available host for creating cluster
-                            vm.availableHostList.push(hostList[i]);
-                            changeIntoArray(hostList[i]);
-                            _createHostList(hostList[i]);
-                            vm.createPublicNetwork();
+                            if (hostList[i].networks && hostList[i].localstorage) {
+                                vm.availableHostList.push(hostList[i]);
+                                changeIntoArray(hostList[i]);
+                                _createHostList(hostList[i]);
+                                vm.createPublicNetwork();
+                            }
                         }
                     }
                 }

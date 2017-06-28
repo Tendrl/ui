@@ -19,7 +19,7 @@
 @import "../../commons/components/trends-chart/trends-chart.scss";
 @import "../../commons/components/full-aggregate-status-card/full-aggregate-status-card.scss";
 @import "../../modules/file-share/file-share-delete/file-share-delete.scss";
-@import "../../modules/file-share/create-file-share/create-file-share.scss";
+@import "../../modules/file-share/create-volume/create-volume.scss";
 @import "../../modules/login/login.scss";
 @import "../../modules/tasks/tasks.scss";
 @import "../../modules/tasks/task-detail/task-detail.scss";
@@ -39,6 +39,9 @@
 @import "../../modules/host/host-detail/host-detail.scss";
 @import "../../modules/bricks/create-brick/create-brick.scss";
 @import "../../modules/pool/rename-pool/rename-pool.scss";
+@import "../../modules/file-share/stop-volume/stop-volume.scss";
+@import "../../modules/file-share/rebalance-volume/rebalance-volume.scss";
+@import "../../modules/cluster/expand-gluster-cluster/expand-gluster-cluster.scss";
     
 .tendrl-app {
     .centered {
