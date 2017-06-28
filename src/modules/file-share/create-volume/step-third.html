@@ -4,7 +4,7 @@
         <div class="form-group required">
             <label class="col-sm-3 col-md-2 control-label" for="file-share-name">Bricks per Host</label>
             <div class="col-sm-8 col-md-2">
-                <select ng-options="value for value in createVolumeCntrl.bricksPerHostValues" ng-model="createVolumeCntrl.selectedSubVolume" ng-change="createVolumeCntrl.sendglusterBrickMappingPostReq()" class="form-control" data-id="file-share-name"></select>
+                <select ng-options="value for value in createVolumeCntrl.bricksPerHostValues" ng-model="createVolumeCntrl.selectedSubVolume" ng-change="createVolumeCntrl.sendglusterBrickMappingPostReq()" class="form-control" data-id="file-share-name" ng-disabled="createVolumeCntrl.brickPerHostDropdown"></select>
             </div>
             <div class="col-sm-3 col-md-2">
                 <p>Maximum = {{createVolumeCntrl.maxBricksPerHost}}</p>
@@ -20,7 +20,7 @@
             <span class="pficon pficon-info"></span>
             <strong>{{createVolumeCntrl.brickMappingErrorMsg}}<a href="" ng-click="createVolumeCntrl.sendglusterBrickMappingPostReq()"> Please Try Again</a></strong>.
         </div>
-        <strong>{{createVolumeCntrl.brickLayoutInfo}}</strong>
+        <strong ng-if="!createVolumeCntrl.showBrickMappingErrorMsg">{{createVolumeCntrl.brickLayoutInfo}}</strong>
         <div class="list-group list-view-pf list-container div-with-scroll" ng-if="!createVolumeCntrl.showBrickMappingErrorMsg">
             <div class="list-group-item" ng-class="{'list-view-pf-expand-active': set.isExpanded}" ng-repeat="set in createVolumeCntrl.brickMapping track by $index">
                 <div class="list-group-item-header" ng-click="createVolumeCntrl.expandList(set)">

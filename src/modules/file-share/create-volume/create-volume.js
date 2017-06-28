@@ -96,11 +96,14 @@
         total number of hosts avaiable */
         function validateAvaialbleBricks() {
             if (vm.selectedType === vm.volumeTypes[0]) {
+                vm.nodeRequired = vm.valueMapping[vm.selectedType];
                 vm.validateAvailablebricks = vm.valueMapping[vm.selectedType] > vm.totalBricks;
+                vm.validateTotalHosts = vm.valueMapping[vm.selectedType] > Object.keys(vm.selectedCluster.nodes).length;
             } else if (vm.selectedType === vm.volumeTypes[1]) {
+                vm.nodeRequired = vm.valueMapping[vm.selectedProfile];
                 vm.validateAvailablebricks = vm.valueMapping[vm.selectedProfile] > vm.totalBricks;
+                vm.validateTotalHosts = vm.valueMapping[vm.selectedProfile] > Object.keys(vm.selectedCluster.nodes).length;
             }
-            vm.validateTotalHosts = vm.valueMapping[vm.selectedProfile] > Object.keys(vm.selectedCluster.nodes).length;
 
             vm.buttonEnabled = vm.validateAvailablebricks || vm.validateTotalHosts;
         }
@@ -117,7 +120,7 @@
         and sets flag accordingly */
         function minimumThreeHostSelected() {
             var count = _countNumberOfNodesSelected();
-            vm.buttonEnabled = 3 > count;
+            vm.buttonEnabled = vm.nodeRequired > count;
             return vm.buttonEnabled;
         }
 
@@ -135,11 +138,19 @@
         /* Step-3: Sends the request for getting
         the Bricks mapping for the selected nodes */
         function sendglusterBrickMappingPostReq() {
-            var brickMappingJobId;
+            var brickMappingJobId,
+            subVolume;
             brickMappingCounter = 0;
             vm.nodeDataLoading = true;
             vm.buttonEnabled = true;
-            brickStore.glusterBrickMapping(vm.selectedCluster, vm.selectedSubVolume)
+            vm.brickPerHostDropdown = true;
+
+            if (vm.selectedType === vm.volumeTypes[0]) {
+                subVolume = vm.valueMapping[vm.selectedType];
+            } else if (vm.selectedType === vm.volumeTypes[1]) {
+                subVolume = vm.valueMapping[vm.selectedProfile];
+            }
+            brickStore.glusterBrickMapping(vm.selectedCluster, vm.selectedSubVolume, subVolume)
                 .then(function(data) {
                     brickMappingJobId = data.job_id;
                     _startBrickMappingTimer(brickMappingJobId);
@@ -329,8 +340,8 @@
         function _getNodesWithFreeBricks(selectedCluster) {
             var totalAvailableHosts,
                 availableHost;
-            vm.totalBricks = Object.keys(selectedCluster.bricks.free).length;
-            if (selectedCluster) {
+            vm.totalBricks = selectedCluster.bricks ? Object.keys(selectedCluster.bricks.free).length : 0;
+            if (selectedCluster && vm.totalBricks) {
                 totalAvailableHosts = selectedCluster.nodes;
                 for (availableHost in totalAvailableHosts) {
                     totalAvailableHosts[availableHost].bricksAvaialble = 0;
@@ -369,7 +380,7 @@
                     brickPerNodeArray.push(allNodes[node].bricksAvaialble);
                 }
             }
-            vm.maxBricksPerHost = Math.min(brickPerNodeArray);
+            vm.maxBricksPerHost = Math.min.apply(null, brickPerNodeArray);
             vm.bricksPerHostValues = _createBricksPerHostArray(vm.maxBricksPerHost);
             vm.selectedSubVolume = vm.bricksPerHostValues[0];
         }
@@ -409,6 +420,7 @@
                     vm.brickMappingErrorMsg = "Not able to get the Brick mapping."
                     vm.showBrickMappingErrorMsg = true;
                     vm.buttonEnabled = true;
+                    vm.brickPerHostDropdown = false;
                 }
             } else {
                 _getBrickMappingOutput(brickMappingJobId);
@@ -420,9 +432,12 @@
         function _getBrickMappingOutput(brickMappingJobId) {
             brickStore.getTaskOutput(brickMappingJobId)
                 .then(function(data) {
-                    vm.brickMapping = _structureBrickMappingData(data);
+                    vm.optimal = data.optimal;
+                    vm.brickMapping = _structureBrickMappingData(data.result);
                     vm.nodeDataLoading = false;
                     vm.buttonEnabled = false;
+                    vm.brickPerHostDropdown = false;
+                    vm.showBrickMappingErrorMsg = false;
                 });
         }
 
@@ -436,18 +451,22 @@
                 i,
                 j;
 
+            vm.totalBrickSize = 0;
+            vm.totalBrickCount = 0;
+
             for (i = 0; i < brickMappingDataLen; i++) {
                 var brickMappingSet = [],
                     postBrickMappingSet = [],
                     bricksLen = brickMappingData[i].length;
+                    vm.totalBrickCount += bricksLen;
                 for (j = 0; j < bricksLen; j++) {
                     var brickValues = {},
                         postBrickValues = {},
-                        fullBrickName = brickMappingData[i][j];
+                        fullBrickName = brickMappingData[i][j].toLowerCase();
 
                     brickNameArr = fullBrickName.split(":");
-                    postBrickValues[brickNameArr[0]] = brickNameArr[1].replace(/_/gi, "/");
-                    brickValues["name"] = brickNameArr[1].replace(/_/gi, "/");
+                    postBrickValues[brickNameArr[0]] = vm.selectedCluster.bricks.all[fullBrickName].brick_path;
+                    brickValues["name"] = fullBrickName;
                     brickValues["capacity"] = vm.selectedCluster.bricks.free[fullBrickName].size || "NA";
                     brickValues["device"] = vm.selectedCluster.bricks.free[fullBrickName].disk || "NA";
                     vm.totalBrickSize += parseInt(brickValues["capacity"]);
@@ -457,7 +476,7 @@
                 brickMapping.push(brickMappingSet);
                 postBrickMapping.push(postBrickMappingSet);
             }
-            vm.brickLayoutInfo = brickMappingDataLen + " Replica Sets (" + brickMappingDataLen * vm.selectedSubVolume + " Bricks with " + vm.selectedSubVolume + " Bricks per Replica Set)"
+            vm.brickLayoutInfo = brickMappingDataLen + " Replica Sets (" + vm.totalBrickCount + " Bricks with " + vm.nodeRequired + " Bricks per Replica Set)"
             vm.postBrickMapping = postBrickMapping;
             return brickMapping;
         }

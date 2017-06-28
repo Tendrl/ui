@@ -4,7 +4,7 @@
             <span class="pficon pficon-close"></span>
         </button>
         <span class="pficon pficon-error-circle-o"></span>
-        <strong>Minimum <b>3</b> Nodes with <b>1</b> Brick are required to Create a Volume.</strong>
+        <strong>Minimum <b>{{createVolumeCntrl.nodeRequired}}</b> Nodes with <b>1</b> Brick are required to Create a Volume.</strong>
     </div>
     <div class="alert alert-danger alert-dismissable" ng-show="createVolumeCntrl.validateAvailablebricks">
         <button type="button" class="close" data-dismiss="alert" aria-hidden="true">
@@ -43,7 +43,7 @@
         <div class="form-group required" ng-if="createVolumeCntrl.selectedType === createVolumeCntrl.volumeTypes[1]">
             <label class="col-sm-3 col-md-2 control-label" for="ec-profile">EC Profile</label>
             <div class="col-sm-8 col-md-3">
-                <select data-ng-options="profile for profile in createVolumeCntrl.ecProfiles" data-ng-model="createVolumeCntrl.selectedProfile" class="form-control" data-id="ec-profile"></select>
+                <select data-ng-options="profile for profile in createVolumeCntrl.ecProfiles" data-ng-model="createVolumeCntrl.selectedProfile" class="form-control" data-id="ec-profile" ng-change="createVolumeCntrl.validateAvaialbleBricks()"></select>
             </div>
         </div>
         <!--         <div class="form-group required">
