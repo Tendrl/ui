@@ -100,7 +100,7 @@
                     } else {
                         vm.selectedCluster = vm.glusterClusterList[0];
                     }
-
+                    _createBrickCountOfHost();
                 });
         }
 
@@ -299,6 +299,35 @@
 
         /*===================================Private Funtions==========================================*/
 
+        /* calculates the total bricks available for each selected host so that the name of next brick in that host should 
+            start from that count */
+        function _createBrickCountOfHost() {
+            var keys = Object.keys(vm.selectedCluster.bricks.all),
+                len = keys.length,
+                brickName,
+                i;
+
+            vm.hostBrickMap = {};
+
+            for (i = 0; i < len; i++) {
+                brickName = keys[i].split(":");
+                if(vm.hostBrickMap[brickName[0]]) {
+                    vm.hostBrickMap[brickName[0]] += 1;
+                } else {
+                    vm.hostBrickMap[brickName[0]] = 1;
+                }
+            }
+        }
+
+        //Get the number bricks present in the host
+        function _getBrickCountOfHost(host) {
+            if(vm.hostBrickMap[host.fqdn]) {
+                return vm.hostBrickMap[host.fqdn];
+            } else {
+                return 0;
+            }
+        }
+
         function _reset() {
             vm.selectedDiskCount = 0;
         }
@@ -333,10 +362,12 @@
         function _updateBrickCreationHost() {
             var len = vm.brickCreationHost.length,
                 diskLen,
+                count = 0,
                 i,
                 j;
 
             for (i = 0; i < len; i++) {
+                count = _getBrickCountOfHost(vm.brickCreationHost[i]);
                 if (vm.brickCreationHost[i] && !vm.brickCreationHost[i].selectedDisk.length) {
                     vm.brickCreationHost.splice(i, 1);
                     len--;
@@ -344,7 +375,7 @@
                 } else {
                     diskLen = vm.brickCreationHost[i].selectedDisk.length;
                     for (j = 0; j < diskLen; j++) {
-                        vm.brickCreationHost[i].selectedDisk[j].brickName = vm.brickName + (j + 1);
+                        vm.brickCreationHost[i].selectedDisk[j].brickName = vm.brickName + (count + j + 1);
                         vm.brickCreationHost[i].selectedDisk[j].brickPath = vm.brickPath + "/" + vm.brickCreationHost[i].selectedDisk[j].brickName + "_mount/" + vm.brickCreationHost[i].selectedDisk[j].brickName;
                     }
                 }
@@ -400,7 +431,7 @@
                     if (vm.hostList[j].node_id === nodes[i]) {
                         _updateHost(vm.hostList[j]);
 
-                        if (vm.hostList[j].freeDevices > 0) {
+                        if (vm.hostList[j].freeDevices.length > 0) {
                             vm.glusterClusterList[index].nodes.push(vm.hostList[j]);
                         }
                     }
