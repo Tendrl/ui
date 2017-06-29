@@ -95,7 +95,7 @@
             utils.getDashboardData("gluster")
                 .then(function(data) {
                     $interval.cancel(dashboardTimer);
-                    vm.glusterCluster = data.constructor !== Array ? data : null;
+                    vm.glusterCluster = data && data.constructor !== Array ? data : null;
                     if (vm.glusterCluster) {
                         vm.volOverviewData = vm.glusterCluster.sds_det.most_used_volumes;
                         vm.brickOverviewData = vm.glusterCluster.sds_det.most_used_bricks;
