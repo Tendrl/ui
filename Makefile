@@ -2,6 +2,8 @@
 NAME      := tendrl-dashboard
 VERSION   := 1.4.2
 RELEASE   := 1
+COMMIT := $(shell git rev-parse HEAD)
+SHORTCOMMIT := $(shell echo $(COMMIT) | cut -c1-7)
 
 build-pkgs-dist:
 	npm prune
@@ -29,7 +31,7 @@ rpm:    srpm
 
 update-release:
 	sed -i tendrl-dashboard.spec \
-	  -e "/^Release:/cRelease: $(shell date +"%m_%d_%Y_%H_%M_%S")"
+	  -e "/^Release:/cRelease: $(shell date +"%Y%m%dT%H%M%S").$(SHORTCOMMIT)"
 
 snapshot: update-release srpm
 
