@@ -19,10 +19,7 @@
             i;
 
         vm.isDataLoading = true;
-        vm.importCluster = importCluster;
-        vm.createCluster = createCluster;
-        vm.goToClusterDetail = goToClusterDetail;
-        vm.expandGlusterCluster = expandGlusterCluster;
+        vm.clusterNotPresent = false;
 
         init();
 
@@ -41,7 +38,7 @@
         $scope.$on("GotClusterData", function(event, data) {
             /* Forward to home view if we don't have any cluster */
             if ($rootScope.clusterData === null || $rootScope.clusterData.clusters.length === 0) {
-                $state.go("home");
+                vm.clusterNotPresent = true;
             } else {
                 init();
             }
@@ -58,14 +55,6 @@
         $scope.$on("$destroy", function() {
             $interval.cancel(clusterListTimer);
         });
-
-        function importCluster() {
-            $state.go("import-cluster");
-        }
-
-        function createCluster() {
-            $state.go("create-cluster");
-        }
 
         function _createClusterList() {
 
@@ -184,38 +173,6 @@
             return yData;
         }
 
-        function goToClusterDetail(cluster_id) {
-            $state.go("cluster-detail", { clusterId: cluster_id });
-        }
-
-        function expandGlusterCluster(cluster) {
-            var wizardDoneListener,
-                modalInstance,
-                closeWizard;
-
-            modalInstance = $uibModal.open({
-                animation: true,
-                backdrop: "static",
-                templateUrl: "/modules/cluster/expand-gluster-cluster/expand-gluster-cluster.html",
-                controller: "ExpandGlusterController",
-                controllerAs: "vm",
-                size: "lg",
-                resolve: {
-                    selectedCluster: function() {
-                        return cluster;
-                    }
-                }
-            });
-
-            closeWizard = function(e, reason) {
-                modalInstance.dismiss(reason);
-                wizardDoneListener();
-            };
-
-            modalInstance.result.then(function() {}, function() {});
-
-            wizardDoneListener = $rootScope.$on("modal.done", closeWizard);
-        }
     }
 
 })();
