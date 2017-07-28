@@ -85,7 +85,6 @@
                             cluster.utilization = clusterData[i].utilization;
                             cluster.utilization.percent_used = clusterData[i].utilization.pcnt_used;
                             cluster.status = clusterData[i].globaldetails.status || "NA";
-                            _clusterIopsTrend(cluster);
                         } else if (cluster.sds_name === "gluster") {
                             cluster.utilization = {};
                             cluster.utilization.percent_used = clusterData[i].utilization.pcnt_used;
@@ -114,63 +113,6 @@
                 }
                 vm.clusterList = temp;
             }
-        }
-
-        function _clusterIopsTrend(cluster) {
-            var iopsData,
-                timeInterval = "-6h";
-
-            utils.ClusterIOPS(cluster.id, timeInterval)
-                .then(function(data) {
-                    vm.iopsData = data && data.stats[0] && data.stats[0].datapoints ? data.stats[0].datapoints : [];
-                    if (vm.iopsData.length) {
-                        _generateIopsTrendChart(vm.iopsData, cluster);
-                    }
-                });
-        }
-
-        function _generateIopsTrendChart(iopsData, cluster) {
-            cluster.dataIOPS = {
-                "xData": _setupXData(iopsData),
-                "yData": _setupYData(iopsData)
-            };
-
-            cluster.configIOPS = {
-                "chartId": "Iops" + cluster.id + "TrendsChart",
-                "title": "IOPS",
-                "layout": "compact",
-                "valueType": "actual",
-                "units": "K",
-                "tooltipType": "K"
-            };
-        }
-
-        function _setupXData(iopsData) {
-            var len = iopsData.length,
-                i,
-                xData = ["dates"];
-
-            for (i = 0; i < len; i++) {
-                if (iopsData[i][1] !== null && iopsData[i][0] !== null) {
-                    xData.push(iopsData[i][1]);
-                }
-            }
-
-            return xData;
-        }
-
-        function _setupYData(iopsData) {
-            var len = iopsData.length,
-                i,
-                yData = ["K"];
-
-            for (i = 0; i < len; i++) {
-                if (iopsData[i][0] !== null && iopsData[i][1] !== null) {
-                    yData.push(iopsData[i][0]);
-                }
-            }
-
-            return yData;
         }
 
     }
