@@ -1,11 +1,8 @@
 (function() {
     "use strict";
 
-    var app = angular.module("TendrlModule");
-
-    app.controller("customModalFooterController", customModalFooterController);
-
-    app.component("customModalFooter", {
+    angular.module("TendrlModule")
+        .component("customModalFooter", {
         bindings: {
             modalFooter: "="
         },

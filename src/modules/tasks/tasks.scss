@@ -12,6 +12,11 @@
 	.task-list-table {
 		max-height: 65vh;
 		overflow: auto;
+
+		.list-group-item {
+			padding-top: 20px;
+			padding-bottom: 20px;
+		}
 	}
 
 	.filter-section {

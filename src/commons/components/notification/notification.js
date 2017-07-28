@@ -1,45 +1,37 @@
-(function () {
+(function() {
     "use strict";
 
-    var app = angular.module("TendrlModule");
+    angular.module("TendrlModule")
+        .component("notification", {
+            bindings: {
+                notificationType: "@",
+                notificationMessage: "@",
+                notificationCloseCallBack: "&"
+            },
 
-    app.directive("notification", notification);
+            controller: function() {
+                var vm = this;
 
-    function notification() {
+                vm.notificationCssStyle = {
+                    "info": "pficon-info",
+                    "success": "pficon-ok",
+                    "warning": "pficon-warning-triangle-o",
+                    "danger": "pficon-error-circle-o"
+                }
 
-        return  {
-                restrict: "E",
+                vm.closeNotification = function() {
+                    vm.notificationCloseCallBack();
+                }
 
-                scope: {
-                    notificationType: "@",
-                    notificationMessage: "@",
-                    notificationCloseCallBack: '&'
-                },
-
-                replace: false,
-
-                controller: function($scope) {
-
-                    $scope.notificationCssStyle = {
-                        "info" : "pficon-info",
-                        "success" : "pficon-ok",
-                        "warning" : "pficon-warning-triangle-o",
-                        "danger" : "pficon-error-circle-o"
-                    }
-
-                    $scope.closeNotification = function() {
-                        $scope.notificationCloseCallBack();
-                    }
-
-                },
-                template:   "<div ng-if='notificationMessage.length' class='toast-pf alert alert-{{notificationType}} alert-dismissable'>" +
-                                "<button type='button' class='close' data-dismiss='alert' aria-hidden='true'>" +
-                                    "<span class='pficon pficon-close' ng-click='closeNotification()'></span>" +
-                                "</button>" +
-                                "<span class='pficon {{notificationCssStyle[notificationType]}}'></span>" + 
-                                "{{notificationMessage}}" +
-                            "</div>"
-        }
-    }
+            },
+            controllerAs: "vm",
+            template: "<div ng-if='vm.notificationMessage.length' class='toast-pf alert alert-{{vm.notificationType}} alert-dismissable'>" +
+                "<button type='button' class='close' data-dismiss='alert' aria-hidden='true'>" +
+                "<span class='pficon pficon-close' ng-click='vm.closeNotification()'></span>" +
+                "</button>" +
+                "<span class='pficon {{vm.notificationCssStyle[notificationType]}}'></span>" +
+                "{{vm.notificationMessage}}" +
+                "</div>"
+        });
 
 }());

@@ -1,9 +1,15 @@
 (function () {
     "use strict";
 
-    var app = angular.module("TendrlModule");
+    angular.module("TendrlModule")
+        .component("login", {
 
-    app.controller("LoginController", LoginController);
+            restrict: "E",
+            templateUrl: "/modules/login/login.html",
+            bindings: {},
+            controller: LoginController,
+            controllerAs: "loginCntrl"
+        });
 
     /*@ngInject*/
     function LoginController($scope, $window, $location, $state, $rootScope, AuthManager) {

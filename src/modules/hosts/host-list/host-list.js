@@ -1,9 +1,15 @@
 (function() {
     "use strict";
 
-    var app = angular.module("TendrlModule");
+    angular.module("TendrlModule")
+        .component("hostList", {
 
-    app.controller("hostController", hostController);
+            restrict: "E",
+            templateUrl: "/modules/hosts/host-list/host-list.html",
+            bindings: {},
+            controller: hostController,
+            controllerAs: "hostCntrl"
+        });
 
     /*@ngInject*/
     function hostController($scope, $rootScope, $state, $interval, utils, config, nodeStore) {

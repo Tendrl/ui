@@ -1,9 +1,15 @@
 (function() {
     "use strict";
 
-    var app = angular.module("TendrlModule");
+    angular.module("TendrlModule")
+        .component("taskDetail", {
 
-    app.controller("taskDetailController", taskDetailController);
+            restrict: "E",
+            templateUrl: "/modules/tasks/task-detail/task-detail.html",
+            bindings: {},
+            controller: taskDetailController,
+            controllerAs: "taskDetailCntrl"
+        });
 
     /*@ngInject*/
     function taskDetailController($rootScope, $scope, $interval, $state, $stateParams, taskStore, config, utils) {
