@@ -1,12 +1,12 @@
 # store the current working directory
-NAME      := tendrl-dashboard
+NAME      := tendrl-ui
 VERSION   := 1.4.2
 RELEASE   := 1
 
 build-pkgs-dist:
 	npm prune
 	npm install
-	tar -zcf tendrl-dashboard-build-pkgs.tar.gz node_modules
+	tar -zcf tendrl-ui-build-pkgs.tar.gz node_modules
 
 dist:
 	mkdir -p $(NAME)-$(VERSION)
