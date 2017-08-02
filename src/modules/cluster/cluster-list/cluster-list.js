@@ -19,10 +19,7 @@
             i;
 
         vm.isDataLoading = true;
-        vm.importCluster = importCluster;
-        vm.createCluster = createCluster;
-        vm.goToClusterDetail = goToClusterDetail;
-        vm.expandGlusterCluster = expandGlusterCluster;
+        vm.clusterNotPresent = false;
 
         init();
 
@@ -41,7 +38,7 @@
         $scope.$on("GotClusterData", function(event, data) {
             /* Forward to home view if we don't have any cluster */
             if ($rootScope.clusterData === null || $rootScope.clusterData.clusters.length === 0) {
-                $state.go("home");
+                vm.clusterNotPresent = true;
             } else {
                 init();
             }
@@ -58,14 +55,6 @@
         $scope.$on("$destroy", function() {
             $interval.cancel(clusterListTimer);
         });
-
-        function importCluster() {
-            $state.go("import-cluster");
-        }
-
-        function createCluster() {
-            $state.go("create-cluster");
-        }
 
         function _createClusterList() {
 
@@ -96,7 +85,6 @@
                             cluster.utilization = clusterData[i].utilization;
                             cluster.utilization.percent_used = clusterData[i].utilization.pcnt_used;
                             cluster.status = clusterData[i].globaldetails.status || "NA";
-                            _clusterIopsTrend(cluster);
                         } else if (cluster.sds_name === "gluster") {
                             cluster.utilization = {};
                             cluster.utilization.percent_used = clusterData[i].utilization.pcnt_used;
@@ -127,95 +115,6 @@
             }
         }
 
-        function _clusterIopsTrend(cluster) {
-            var iopsData,
-                timeInterval = "-6h";
-
-            utils.ClusterIOPS(cluster.id, timeInterval)
-                .then(function(data) {
-                    vm.iopsData = data && data.stats[0] && data.stats[0].datapoints ? data.stats[0].datapoints : [];
-                    if (vm.iopsData.length) {
-                        _generateIopsTrendChart(vm.iopsData, cluster);
-                    }
-                });
-        }
-
-        function _generateIopsTrendChart(iopsData, cluster) {
-            cluster.dataIOPS = {
-                "xData": _setupXData(iopsData),
-                "yData": _setupYData(iopsData)
-            };
-
-            cluster.configIOPS = {
-                "chartId": "Iops" + cluster.id + "TrendsChart",
-                "title": "IOPS",
-                "layout": "compact",
-                "valueType": "actual",
-                "units": "K",
-                "tooltipType": "K"
-            };
-        }
-
-        function _setupXData(iopsData) {
-            var len = iopsData.length,
-                i,
-                xData = ["dates"];
-
-            for (i = 0; i < len; i++) {
-                if (iopsData[i][1] !== null && iopsData[i][0] !== null) {
-                    xData.push(iopsData[i][1]);
-                }
-            }
-
-            return xData;
-        }
-
-        function _setupYData(iopsData) {
-            var len = iopsData.length,
-                i,
-                yData = ["K"];
-
-            for (i = 0; i < len; i++) {
-                if (iopsData[i][0] !== null && iopsData[i][1] !== null) {
-                    yData.push(iopsData[i][0]);
-                }
-            }
-
-            return yData;
-        }
-
-        function goToClusterDetail(cluster_id) {
-            $state.go("cluster-detail", { clusterId: cluster_id });
-        }
-
-        function expandGlusterCluster(cluster) {
-            var wizardDoneListener,
-                modalInstance,
-                closeWizard;
-
-            modalInstance = $uibModal.open({
-                animation: true,
-                backdrop: "static",
-                templateUrl: "/modules/cluster/expand-gluster-cluster/expand-gluster-cluster.html",
-                controller: "ExpandGlusterController",
-                controllerAs: "vm",
-                size: "lg",
-                resolve: {
-                    selectedCluster: function() {
-                        return cluster;
-                    }
-                }
-            });
-
-            closeWizard = function(e, reason) {
-                modalInstance.dismiss(reason);
-                wizardDoneListener();
-            };
-
-            modalInstance.result.then(function() {}, function() {});
-
-            wizardDoneListener = $rootScope.$on("modal.done", closeWizard);
-        }
     }
 
 })();

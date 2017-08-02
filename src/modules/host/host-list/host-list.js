@@ -74,15 +74,6 @@
                 host.name = list[i].fqdn;
                 host.role = nodeStore.findRole(list[i].tags);
                 host.cluster_name = list[i].tendrlcontext.cluster_name;
-                if (typeof list[i].stats !== "undefined") {
-                    stats = list[i].stats;
-                    host.storage = stats.storage_usage && stats.storage_usage.total && stats.storage_usage.used && stats.storage_usage.percent_used? stats.storage_usage : undefined;
-                    host.cpu = stats.cpu_usage && stats.cpu_usage.percent_used ? stats.cpu_usage : undefined;
-                    host.memory = stats.memory_usage && stats.memory_usage.total && stats.memory_usage.used && stats.memory_usage.percent_used? stats.memory_usage : undefined;
-                    host.alert_count = stats.alert_count;
-                } else {
-                    host.alert_count = "NA";
-                }
 
                 hostList.push(host);
             }

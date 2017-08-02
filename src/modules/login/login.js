@@ -13,7 +13,7 @@
         $rootScope.isAPINotFoundError = false;
 
         if(AuthManager.isUserLoggedIn){
-            $state.go("landing-page")
+            $state.go("cluster")
         }
 
         vm.user = {};
@@ -33,7 +33,8 @@
                     AuthManager.setAuthHeader();
                 })
                 .then(function () {
-                    $state.go("landing-page");
+                    $state.go("cluster");
+                    $rootScope.isNavigationShow = true;
                 })
                 .catch(function(){
                     AuthManager.isUserLoggedIn = false;

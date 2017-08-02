@@ -43,15 +43,6 @@
                   </span>
                         </button>
                     </div>
-                    <!-- <div class="toolbar-pf-action-right">
-                <div class="form-group toolbar-pf-view-selector">
-                    <div class="row">
-                        <div class="col-md-offset-6 col-md-6">
-                            <button class="btn btn-primary pull-right">Add</button>
-                        </div>
-                    </div>
-                </div>
-              </div> -->
                 </form>
                 <!-- result row -->
                 <div class="row toolbar-pf-results">
@@ -85,19 +76,10 @@
                         <span uib-tooltip-html="'{{host.status}}'" ng-if="host.status !=='UP'" class="fa fa-arrow-circle-o-down list-view-icon-failure status-icons"></span>
                     </div>
                     <div class="col-md-9">
-                        <div class="host-name" uib-tooltip-html="'{{host.name}}'" ui-sref="host-detail({hostId: host.id})">
+                        <div class="host-name" uib-tooltip-html="'{{host.name}}'">
                             {{host.name}}
                         </div>
                     </div>
-                </div>
-                <div class="col-md-2">
-                    <donut-chart id="storage-donut-chart{{$index}}" class="list-view-pf-additional-info-item" chart-title="Storage" chart-data="host.storage"></donut-chart>
-                </div>
-                <div class="col-md-2">
-                    <donut-chart id="cpu-donut-chart{{$index}}" class="list-view-pf-additional-info-item" chart-title="CPU" chart-data="host.cpu"></donut-chart>
-                </div>
-                <div class="col-md-2">
-                    <donut-chart id="memory-donut-chart{{$index}}" class="list-view-pf-additional-info-item" chart-title="Memory" chart-data="host.memory"></donut-chart>
                 </div>
                 <div class="col-md-1">
                     <div class="list-view-pf-additional-info-item list-view-pf-additional-info-item-stacked">
@@ -111,26 +93,6 @@
                     <div ng-show="host.cluster_name !== 'Unassigned'" class="list-view-pf-additional-info-item list-view-pf-additional-info-item-stacked">
                         <b>  Role  </b>
                         <h5>{{ host.role || "NA" }}</h5>
-                    </div>
-                </div>
-                <div class="col-md-1">
-                    <div ng-show="host.cluster_name !== 'Unassigned'" class="list-view-pf-additional-info-item list-view-pf-additional-info-item-stacked">
-                        <b>  Alerts  </b>
-                        <h5 class="counts">{{host.alert_count}}</h5>
-                    </div>
-                </div>
-                <div class="col-md-1">
-                    <div class="list-view-pf-actions">
-                        <div class="dropdown pull-right dropdown-kebab-pf">
-                            <button class="btn btn-link dropdown-toggle" type="button" id="dropdownKebabRight12" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                                <span class="fa fa-ellipsis-v"></span>
-                            </button>
-                            <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownKebabRight12">
-                                <li><a ng-class="{disabled: true}">Forget</a></li>
-                                <li><a ng-class="{disabled: true}">Remove</a></li>
-                                <li><a ng-class="{disabled: true}">Replace</a></li>
-                            </ul>
-                        </div>
                     </div>
                 </div>
             </div>
