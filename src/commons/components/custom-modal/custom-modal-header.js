@@ -1,22 +1,19 @@
- (function() {
-  "use strict";
+(function() {
+    "use strict";
 
-  var app = angular.module("TendrlModule");
+    angular.module("TendrlModule")
+        .component("customModalHeader", {
+            bindings: {
+                title: '=',
+                close: "=?"
+            },
+            controllerAs: "vm",
+            controller: "customModalHeaderController",
+            templateUrl: "/commons/components/custom-modal/custom-modal-header.html"
+        });
 
-  app.controller("customModalHeaderController", customModalHeaderController);
-
-  app.component("customModalHeader", {
-    bindings: {
-      title: '=',
-      close: "=?"
-    },
-    controllerAs: "vm",
-    controller: "customModalHeaderController",
-    templateUrl: "/commons/components/custom-modal/custom-modal-header.html"
-  });
-
-  function customModalHeaderController($element, $scope){
-    var vm = this;
-    vm.closeModal = vm.close;
-  };
+    function customModalHeaderController($element, $scope) {
+        var vm = this;
+        vm.closeModal = vm.close;
+    };
 }());
