@@ -1,4 +1,4 @@
-Name: tendrl-dashboard
+Name: tendrl-ui
 Version: 1.4.2
 Release: 1%{?dist}
 BuildArch: noarch
@@ -6,8 +6,8 @@ Summary: GUI for Tendrl
 License: ASL 2.0
 Group:   Applications/System
 Source0: %{name}-%{version}.tar.gz
-Source1: tendrl-dashboard-build-pkgs.tar.gz
-URL: https://github.com/Tendrl/dashboard
+Source1: tendrl-ui-build-pkgs.tar.gz
+URL: https://github.com/Tendrl/ui
 
 Requires: tendrl-api-httpd
 BuildRequires: npm
