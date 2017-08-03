@@ -46,39 +46,27 @@
                 $stateProvider
                     .state("login", {
                         url: "/login",
-                        templateUrl: "/modules/login/login.html",
-                        controller: "LoginController",
-                        controllerAs: "loginCntrl"
+                        template: "<login></login>"
                     })
                     .state("cluster", {
                         url: "/clusters",
-                        templateUrl: "/modules/cluster/cluster-list/cluster-list.html",
-                        controller: "clusterController",
-                        controllerAs: "clusterCntrl"
+                        template: "<cluster-list></cluster-list>"
                     })
                     .state("host", {
                         url: "/hosts",
-                        templateUrl: "/modules/host/host-list/host-list.html",
-                        controller: "hostController",
-                        controllerAs: "hostCntrl"
+                        template: "<host-list></host-list>"
                     })
                     .state("tasks", {
                         url: "/admin/tasks",
-                        templateUrl: "/modules/tasks/tasks.html",
-                        controller: "taskController",
-                        controllerAs: "taskCntrl"
+                        template: "<tasks></tasks>"
                     })
                     .state("alerts", {
                         url: "/alerts",
-                        templateUrl: "/modules/alerts/alerts.html",
-                        controller: "alertController",
-                        controllerAs: "alertCntrl"
+                        template: "<alerts></alerts>"
                     })
                     .state("task-detail", {
                         url: "/admin/tasks/:taskId",
-                        templateUrl: "/modules/tasks/task-detail/task-detail.html",
-                        controller: "taskDetailController",
-                        controllerAs: "taskDetailCntrl"
+                        template: "<task-detail></task-detail>"
                     });
 
             });

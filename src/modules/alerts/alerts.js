@@ -1,9 +1,15 @@
 (function() {
     "use strict";
 
-    var app = angular.module("TendrlModule");
+    angular.module("TendrlModule")
+        .component("alerts", {
 
-    app.controller("alertController", alertController);
+            restrict: "E",
+            templateUrl: "/modules/alerts/alerts.html",
+            bindings: {},
+            controller: alertController,
+            controllerAs: "alertCntrl"
+        });
 
     /*@ngInject*/
     function alertController($rootScope, $scope, $interval, $state, $timeout, $filter, config, eventStore, utils) {
