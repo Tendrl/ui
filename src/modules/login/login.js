@@ -1,9 +1,15 @@
 (function () {
     "use strict";
 
-    var app = angular.module("TendrlModule");
+    angular.module("TendrlModule")
+        .component("login", {
 
-    app.controller("LoginController", LoginController);
+            restrict: "E",
+            templateUrl: "/modules/login/login.html",
+            bindings: {},
+            controller: LoginController,
+            controllerAs: "loginCntrl"
+        });
 
     /*@ngInject*/
     function LoginController($scope, $window, $location, $state, $rootScope, AuthManager) {
@@ -13,7 +19,7 @@
         $rootScope.isAPINotFoundError = false;
 
         if(AuthManager.isUserLoggedIn){
-            $state.go("landing-page")
+            $state.go("cluster")
         }
 
         vm.user = {};
@@ -33,7 +39,8 @@
                     AuthManager.setAuthHeader();
                 })
                 .then(function () {
-                    $state.go("landing-page");
+                    $state.go("cluster");
+                    $rootScope.isNavigationShow = true;
                 })
                 .catch(function(){
                     AuthManager.isUserLoggedIn = false;

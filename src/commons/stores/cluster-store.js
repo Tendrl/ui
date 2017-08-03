@@ -6,56 +6,81 @@
     app.service("clusterStore", clusterStore);
 
     /*@ngInject*/
-    function clusterStore($state, $q, clusterFactory) {
+    function clusterStore($state, $q, utils, nodeStore) {
         var store = this;
 
-        store.generateUUID = function() { // Public Domain/MIT
-            var d = new Date().getTime();
-            if (typeof performance !== 'undefined' && typeof performance.now === 'function') {
-                d += performance.now(); //use high-precision timer if available
-            }
-            return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
-                var r = (d + Math.random() * 16) % 16 | 0;
-                d = Math.floor(d / 16);
-                return (c === 'x' ? r : (r & 0x3 | 0x8)).toString(16);
-            });
-        };
-
-        store.addHost = function(selectedHost, selectedCluster) {
-
-            console.log(selectedHost, "selectedHost");
-            var postData,
+        /**
+         * @name getClusterList
+         * @desc store for GetClusterList
+         * @memberOf clusterStore
+         */
+        store.getClusterList = function() {
+            var list,
                 deferred;
 
             deferred = $q.defer();
-            _createPostData();
-            clusterFactory.addHost(postData, selectedCluster)
+            utils.getObjectList("Cluster")
                 .then(function(data) {
-                    deferred.resolve(data);
+                    list = data ? _formatClusterData(data.clusters) : [];
+                    deferred.resolve(list);
                 });
 
             return deferred.promise;
 
-            function _createPostData() {
-                var len = selectedHost.length,
-                    nodeConfiguration = {},
+            function _formatClusterData(data) {
+                var len = data.length,
+                    res = [],
+                    temp = {},
                     i;
 
-                postData = {
-                    "sds_name": "gluster",
-                    "Cluster.node_configuration": {}
-                };
-
                 for (i = 0; i < len; i++) {
-                    nodeConfiguration[selectedHost[i].node_id] = {};
-                    nodeConfiguration[selectedHost[i].node_id].role = "glusterfs/node";
-                    nodeConfiguration[selectedHost[i].node_id].provisioning_ip = selectedHost[i].provisioningIP;
+                    temp = {};
+                    temp.integrationId = data[i].integration_id;
+                    temp.sdsVersion = data[i].sds_version;
+                    temp.sdsName = data[i].sds_name;
+                    temp.name = data[i].cluster_name;
+                    temp.clusterId = data[i].cluster_id;
+                    if (temp.sdsName === "gluster") {
+                        if (data[i].globaldetails.status === "healthy") {
+                            temp.status = "HEALTH_OK";
+                        } else if (data[i].globaldetails.status === "unhealthy") {
+                            temp.status = "HEALTH_ERR";
+                        }
+                    } else {
+                        temp.status = data[i].globaldetails.status;
+                    }
+                    temp.managed = "Yes";
+                    temp.hosts = store.getAssociatedHosts(data[i]);
+                    res.push(temp);
                 }
+                return res;
+            }
+        };
 
-                postData["Cluster.node_configuration"] = nodeConfiguration;
-                return postData;
+        /**
+         * @name getAssociatedHosts
+         * @desc returns the associated host with a cluster
+         * @memberOf clusterStore
+         */
+        store.getAssociatedHosts = function(data) {
+            var hostList = [],
+                keys = Object.keys(data.nodes),
+                len = keys.length,
+                temp,
+                obj,
+                i;
+
+            for (i = 0; i < len; i++) {
+                obj = data.nodes[keys[i]];
+                temp = {},
+                    temp.nodeId = obj.node_id;
+                temp.fqdn = obj.fqdn;
+                temp.status = obj.status;
+                temp.role = nodeStore.findRole(obj.tags);
+                hostList.push(temp)
             }
 
+            return hostList;
         };
     }
 

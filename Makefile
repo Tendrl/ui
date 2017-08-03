@@ -2,6 +2,10 @@
 NAME      := tendrl-ui
 VERSION   := 1.4.2
 RELEASE   := 1
+COMMIT := $(shell git rev-parse HEAD)
+SHORTCOMMIT := $(shell echo $(COMMIT) | cut -c1-7)
+
+all: srpm
 
 build-pkgs-dist:
 	npm prune
@@ -27,4 +31,10 @@ srpm:   dist build-pkgs-dist
 rpm:    srpm
 	mock -r epel-7-x86_64 rebuild $(NAME)-$(VERSION)-$(RELEASE).el7.src.rpm --resultdir=. --define "dist .el7"
 
-.PHONY: dist rpm srpm
+update-release:
+	sed -i $(NAME).spec \
+	  -e "/^Release:/cRelease: $(shell date +"%Y%m%dT%H%M%S").$(SHORTCOMMIT)"
+
+snapshot: update-release srpm
+
+.PHONY: dist rpm srpm update-release snapshot
