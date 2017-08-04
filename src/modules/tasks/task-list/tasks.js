@@ -1,11 +1,12 @@
 (function() {
     "use strict";
 
-    angular.module("TendrlModule")
+    angular
+        .module("TendrlModule")
         .component("tasks", {
 
             restrict: "E",
-            templateUrl: "/modules/tasks/tasks.html",
+            templateUrl: "/modules/tasks/task-list/tasks.html",
             bindings: {},
             controller: taskController,
             controllerAs: "taskCntrl"

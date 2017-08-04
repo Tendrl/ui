@@ -1,7 +1,8 @@
 (function() {
     "use strict";
 
-    angular.module("TendrlModule")
+    angular
+        .module("TendrlModule")
         .component("clusterList", {
 
             restrict: "E",

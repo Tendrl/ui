@@ -1,9 +1,9 @@
 (function() {
     "use strict";
 
-    var app = angular.module("TendrlModule");
-
-    app.service("utils", utils);
+    angular
+        .module("TendrlModule")
+        .service("utils", utils);
 
     /*@ngInject*/
     function utils($http, $rootScope, $filter, config, AuthManager) {

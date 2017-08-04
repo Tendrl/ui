@@ -1,7 +1,8 @@
-(function () {
+(function() {
     "use strict";
 
-    angular.module("TendrlModule")
+    angular
+        .module("TendrlModule")
         .component("login", {
 
             restrict: "E",
@@ -12,13 +13,15 @@
         });
 
     /*@ngInject*/
-    function LoginController($scope, $window, $location, $state, $rootScope, AuthManager) {
+    function LoginController($state, $rootScope, $interval,AuthManager, eventStore, config) {
 
         /* Controller instance */
-        var vm = this;
+        var vm = this,
+            notificeTimer;
+
         $rootScope.isAPINotFoundError = false;
 
-        if(AuthManager.isUserLoggedIn){
+        if (AuthManager.isUserLoggedIn) {
             $state.go("cluster")
         }
 
@@ -34,30 +37,31 @@
             if (validateUiFields()) {
 
                 AuthManager.authenticateUser(vm.user)
-                .then(function (data) {
-                    AuthManager.isUserLoggedIn = true;
-                    AuthManager.setAuthHeader();
-                })
-                .then(function () {
-                    $state.go("cluster");
-                    $rootScope.isNavigationShow = true;
-                })
-                .catch(function(){
-                    AuthManager.isUserLoggedIn = false;
-                    vm.errorMsg = "The username or password you entered does not match our records. Please try again.";
-                    vm.user.password = "";
-                })
-                .finally(function () {
-                    vm.formSubmitInProgress = false;
-                });
+                    .then(function(data) {
+                        AuthManager.isUserLoggedIn = true;
+                        AuthManager.setAuthHeader();
+                    })
+                    .then(function() {
+                        $state.go("cluster");
+                        getNotificationList();
+                        $rootScope.isNavigationShow = true;
+                    })
+                    .catch(function() {
+                        AuthManager.isUserLoggedIn = false;
+                        vm.errorMsg = "The username or password you entered does not match our records. Please try again.";
+                        vm.user.password = "";
+                    })
+                    .finally(function() {
+                        vm.formSubmitInProgress = false;
+                    });
             } else {
                 vm.formSubmitInProgress = false;
             }
-        };
+        }
 
         function validateUiFields() {
             var isFormValid = true,
-            form = vm.signInForm;
+                form = vm.signInForm;
 
             if (form.username.$invalid) {
                 vm.invalidFormMessage = "Please specify valid email id.";
@@ -69,6 +73,25 @@
 
             return isFormValid;
 
+        }
+
+        function getNotificationList() {
+            eventStore.getNotificationList()
+                .then(function(notificationList) {
+                    $interval.cancel(notificeTimer);
+                    $rootScope.notificationList = notificationList;
+                    $rootScope.$broadcast("GotNoticationData", $rootScope.notificationList);
+                    startNotificationTimer();
+                })
+                .catch(function(error) {
+                    $rootScope.notificationList = null;
+                });
+        }
+
+        function startNotificationTimer() {
+            notificeTimer = $interval(function() {
+                getNotificationList();
+            }, 1000 * config.eventsRefreshIntervalTime, 1);
         }
 
     }
