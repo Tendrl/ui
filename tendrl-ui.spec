@@ -36,7 +36,7 @@ cp -a ./dist/* $RPM_BUILD_ROOT/%{_localstatedir}/www/tendrl/
 %doc ./docs/*
 
 %changelog
-* Fri Aug 08 2017 Rohan Kanade <rkanade@redhat.com> - 1.5.0-1
+* Fri Aug 04 2017 Rohan Kanade <rkanade@redhat.com> - 1.5.0-1
 - Release tendrl-dashboard v1.5.0
 
 * Thu Jun 08 2017 Rohan Kanade <rkanade@redhat.com> - 1.4.1-1
