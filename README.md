@@ -1,10 +1,10 @@
-# Dashboard [![Build Status](https://travis-ci.org/Tendrl/dashboard.svg?branch=master)](https://travis-ci.org/Tendrl/dashboard) [![Dependency Status](https://david-dm.org/Tendrl/dashboard.svg)](https://david-dm.org/Tendrl/dashboard) [![Issue Stats](http://issuestats.com/github/Tendrl/dashboard/badge/pr?style=flat)](http://issuestats.com/github/Tendrl/dashboard)
+# UI [![Build Status](https://travis-ci.org/Tendrl/ui.svg?branch=master)](https://travis-ci.org/Tendrl/ui) [![Dependency Status](https://david-dm.org/Tendrl/ui.svg)](https://david-dm.org/Tendrl/ui) [![Issue Stats](http://issuestats.com/github/Tendrl/ui/badge/pr?style=flat)](http://issuestats.com/github/Tendrl/ui)
 
-Dashboard is a graphical user interface for [Tendrl](https://github.com/Tendrl), a modern, extensible web-based storage management platform, using RESTFul API to communicate with Tendrl API server.
+UI is a graphical user interface for [Tendrl](https://github.com/Tendrl), a modern, extensible web-based storage management platform, using RESTFul API to communicate with Tendrl API server.
 
-# Dashboard: Development #
+# UI: Development #
 
-Dashboard is a static webapp, built from a Node.js project. This document details how to contribute to the project as a developer.
+UI is a static webapp, built from a Node.js project. This document details how to contribute to the project as a developer.
 
 ## Prerequisites ##
 
@@ -27,7 +27,7 @@ $ sudo dnf install -y git nodejs npm
 
 ## Obtaining the source ##
 
-Fork the [upstream repo](https://github.com/Tendrl/dashboard) to your own GitHub account.
+Fork the [upstream repo](https://github.com/Tendrl/ui) to your own GitHub account.
 
 *This is required.*
 
@@ -36,8 +36,8 @@ You will be working/making changes on your own repo, and create [pull requests](
 Once forked, you can clone the repo to your workstation for development:
 
 ```sh
-$ git clone git@github.com:GitHubUsername/dashboard.git
-$ cd dashboard
+$ git clone git@github.com:GitHubUsername/ui.git
+$ cd ui
 ```
 
 ### Reaching out ###
@@ -50,7 +50,7 @@ To communicate with the existing developers, ask for help/clarifications etc. se
 
 Follow standard frontend development best practices to work on the code.Consult [this](http://taitems.github.io/Front-End-Development-Guidelines/) and [this](https://isobar-idev.github.io/code-standards/) consolidated guides for further details.
 
-In case of confusion or conflict of opinions, please [create an issue](https://github.com/Tendrl/dashboard/issues/new) to start the discussion.
+In case of confusion or conflict of opinions, please [create an issue](https://github.com/Tendrl/ui/issues/new) to start the discussion.
 
 ### Building from source ###
 
@@ -116,15 +116,15 @@ Rejoice!
 
 ## Next steps ##
 
-If you enjoyed contributing to Dashboard, pick up another issue. If you need help, reach out to us on mailing list. If you've successfully submitted a few changes, feel free to ask to be a member of the GitHub org.
+If you enjoyed contributing to UI, pick up another issue. If you need help, reach out to us on mailing list. If you've successfully submitted a few changes, feel free to ask to be a member of the GitHub org.
 
 _May the source be with you._
 
 
 
-# Dashboard: Deployment #
+# UI: Deployment #
 
-Dashboard is a static webapp, built from a Node.js project. This document details how to build from the source, and then how to configure the webhost to serve the app.
+UI is a static webapp, built from a Node.js project. This document details how to build from the source, and then how to configure the webhost to serve the app.
 
 ## Basic Requirements ##
 
@@ -149,7 +149,7 @@ Installed with distro's package manager: `git`, `nodejs`, `npm` + Installed with
 
 ## How to Deploy ##
 
-To deploy Dashboard, you may want to build from source, or install the package.
+To deploy UI, you may want to build from source, or install the package.
 
 * *If installing from package*, skip the "Building from source" section
 * *If building from source*, likewise, skip "Installing from repo" section
@@ -183,8 +183,8 @@ $ sudo dnf install -y git nodejs npm
 Then we need the frontend source
 
 ```sh
-$ git clone https://github.com/Tendrl/dashboard.git
-$ cd dashboard
+$ git clone https://github.com/Tendrl/ui.git
+$ cd ui
 ```
 
 Next we will install the dependencies for the package to build
