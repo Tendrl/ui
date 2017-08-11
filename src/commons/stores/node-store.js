@@ -1,9 +1,9 @@
 (function () {
     "use strict";
 
-    var app = angular.module("TendrlModule");
-
-    app.service("nodeStore", nodeStore);
+    angular
+        .module("TendrlModule")
+        .service("nodeStore", nodeStore);
 
     /*@ngInject*/
     function nodeStore($state, $q, utils) {

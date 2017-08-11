@@ -1,9 +1,9 @@
 (function() {
     "use strict";
 
-    var app = angular.module("TendrlModule");
-
-    app.service("taskStore", taskStore);
+    angular
+        .module("TendrlModule")
+        .service("taskStore", taskStore);
 
     /*@ngInject*/
     function taskStore($state, $q, utils) {

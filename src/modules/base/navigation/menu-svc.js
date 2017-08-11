@@ -1,9 +1,9 @@
 (function() {
     "use strict";
 
-    var app = angular.module("TendrlModule");
-
-    app.service("menuService", menuService);
+    angular
+        .module("TendrlModule")
+        .service("menuService", menuService);
 
     /*@ngInject*/
     function menuService($state, $rootScope, $http, AuthManager) {

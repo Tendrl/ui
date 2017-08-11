@@ -1,3 +1,38 @@
 .nav-pf-vertical-with-secondary-nav {
-	top: 56px;
+    top: 56px;
+}
+
+.nav-pf-vertical .list-group-item sub-menu a {
+    background-color: transparent;
+    color: #d1d1d1;
+    cursor: pointer;
+    display: block;
+    font-size: 14px;
+    font-weight: 400;
+    height: 63px;
+    line-height: 26px;
+    outline: 0;
+    padding: 17px 20px 17px 25px;
+    position: relative;
+    white-space: nowrap;
+    width: 200px;
+}
+
+.nav-pf-vertical .list-group-item sub-menu a {
+    display: -ms-flexbox;
+    display: flex;
+    padding-right: 0;
+}
+
+.nav-pf-vertical .list-group-item.active sub-menu a,
+.nav-pf-vertical .list-group-item:hover sub-menu a {
+    background-color: #393f44;
+    color: #fff;
+    font-weight: 600;
+}
+
+.sub-menu-container .angle-icons {
+    padding-right: 15px;
+    padding-top: 3px;
+    font-size: 20px;
 }

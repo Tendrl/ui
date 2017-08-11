@@ -1,9 +1,9 @@
 (function() {
     "use strict";
 
-    var app = angular.module("TendrlModule");
-
-    app.service("clusterStore", clusterStore);
+    angular
+        .module("TendrlModule")
+        .service("clusterStore", clusterStore);
 
     /*@ngInject*/
     function clusterStore($state, $q, utils, nodeStore) {

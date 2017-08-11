@@ -1,9 +1,9 @@
 (function () {
     "use strict";
 
-    var app = angular.module("TendrlModule");
-
-    app.service("eventStore", eventStore);
+    angular
+        .module("TendrlModule")
+        .service("eventStore", eventStore);
 
     /*@ngInject*/
     function eventStore($state, $q, utils) {
