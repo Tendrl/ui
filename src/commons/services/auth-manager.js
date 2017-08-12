@@ -1,9 +1,9 @@
 (function () {
     "use strict";
 
-    var app = angular.module("TendrlModule");
-
-    app.factory("AuthManager", AuthManager);
+    angular
+        .module("TendrlModule")
+        .factory("AuthManager", AuthManager);
 
     /*@ngInject*/
     function AuthManager($http, $q, $state, $rootScope, config, $timeout) {

@@ -1,6 +1,6 @@
-<nav class="navbar-pf-vertical tendrl-header-container" ng-controller="headerController as header" ng-if="isHeaderShow">
+<nav class="navbar-pf-vertical tendrl-header-container">
     <div class="navbar-header">
-        <button class="navbar-toggle" type="button" href="" ng-if="isNavigationShow">
+        <button class="navbar-toggle" type="button" href="" ng-if="header.isNavigationShow">
             <span class="sr-only">Toggle navigation</span>
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
@@ -44,7 +44,7 @@
                     <i class="pficon pficon-user"></i>
                 </a>
                 <ul class="dropdown-menu" role="menu" aria-labelledby="usermenu">
-                    <li role="presentation"><a href="" role="menuitem" tabindex="-1" ng-click = "header.logout()">Logout</a></li>
+                    <li role="presentation"><a href="" role="menuitem" tabindex="-1" ng-click="header.logout()">Logout</a></li>
                 </ul>
             </li>
         </ul>
@@ -64,12 +64,12 @@
             <div class="col-md-12 horizontal-line"></div>
         </div>
         <div class="row notification-count">
-            <h5 class="bold-text">{{notificationList.length}} Notifications</h5>
+            <h5 class="bold-text">{{header.notificationList.length}} Notifications</h5>
         </div>
         <div class="row">
             <div class="col-md-12 horizontal-line"></div>
         </div>
-        <center ng-if="header.notificationList.length === 0 || !notificationList">
+        <center ng-if="header.notificationList.length === 0">
             <div class="blank-slate-pf">
                 <div class="blank-slate-pf-icon">
                     <i class="pficon pficon-cluster"></i>

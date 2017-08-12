@@ -1,30 +1,34 @@
 (function() {
     "use strict";
 
-    var app = angular.module("TendrlModule");
+    angular
+        .module("TendrlModule")
+        .component("tendrlNav", {
 
-    app.controller("navController", navController);
-    app.directive("toggleSubmenu", toggleSubmenu);
+            restrict: "E",
+            templateUrl: "/modules/base/navigation/navigation.html",
+            bindings: {},
+            controller: navController,
+            controllerAs: "navCtrl"
+        });
 
-    /*@ngInject*/
-    function toggleSubmenu() {
+    angular
+        .module("TendrlModule")
+        .component("subMenu", {
 
-        return  {
-                restrict: "EA",
-                scope: true,
-                controller: "navController",
-                controllerAs: "navCtrl",
-                templateUrl: "/modules/base/navigation/sub-menu.html"
-            }
-        }
+            restrict: "E",
+            templateUrl: "/modules/base/navigation/sub-menu.html",
+            bindings: {
+                menu: "="
+            },
+            controller: subMenuController,
+            controllerAs: "subMenuCtrl"
+        });
 
     /*@ngInject*/
     function navController($scope, $rootScope, menuService) {
 
         var vm = this;
-        vm.toggleSubmenu = function(){
-            vm.isSubmenuExpand = !vm.isSubmenuExpand;
-        }
         vm.menus = menuService.getMenus();
 
         /* fixed for navigation slide issue*/
@@ -35,6 +39,14 @@
             }, 0);
             deregisterfn();
         });
+    }
+
+    function subMenuController($scope, $rootScope, menuService) {
+
+        var vm = this;
+        vm.toggleSubmenu = function(){
+            vm.isSubmenuExpand = !vm.isSubmenuExpand;
+        }
     }
 
 })();

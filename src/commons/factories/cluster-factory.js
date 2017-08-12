@@ -1,9 +1,9 @@
 (function() {
     "use strict";
 
-    var app = angular.module("TendrlModule");
-
-    app.service("clusterFactory", clusterFactory);
+    angular
+        .module("TendrlModule")
+        .service("clusterFactory", clusterFactory);
 
     /*@ngInject*/
     function clusterFactory($state, $q, $http, utils, config) {

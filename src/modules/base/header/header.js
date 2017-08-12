@@ -1,9 +1,18 @@
 (function() {
     "use strict";
 
-    var app = angular.module("TendrlModule");
+    angular
+        .module("TendrlModule")
+        .component("header", {
 
-    app.controller("headerController", headerController);
+            restrict: "E",
+            templateUrl: "/modules/base/header/header.html",
+            bindings: {
+                isNavigationShow: "="
+            },
+            controller: headerController,
+            controllerAs: "header"
+        });
 
     /*@ngInject*/
     function headerController($rootScope, $state, $scope, AuthManager, utils) {
@@ -24,7 +33,7 @@
         };
 
         $scope.$on("GotNoticationData", function(event, data) {
-            if ($rootScope.notificationList !== null && $rootScope.notificationList.length !== 0) {
+            if ($rootScope.notificationList !== null) {
                vm.notificationList = $rootScope.notificationList;
             }
         });
@@ -57,7 +66,7 @@
         }
 
         function homePage(){
-            $state.go("landing-page");
+            $state.go("cluster");
         }
     }
 

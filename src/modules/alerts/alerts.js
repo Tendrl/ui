@@ -1,7 +1,8 @@
 (function() {
     "use strict";
 
-    angular.module("TendrlModule")
+    angular
+        .module("TendrlModule")
         .component("alerts", {
 
             restrict: "E",
@@ -78,25 +79,24 @@
             $interval.cancel(alertTimer);
         });
 
-        $scope.$watch(angular.bind(this, function(filteredAlertList){
+        $scope.$watch(angular.bind(this, function(filteredAlertList) {
             return vm.filteredAlertList;
-        }),function(newVal, oldVal){
-            if(newVal !== oldVal) {
+        }), function(newVal, oldVal) {
+            if (newVal !== oldVal) {
                 vm.severityList = utils.getAlertSeverityList(vm.filteredAlertList);
             }
         }, true);
 
         function filterByCreatedDate(list) {
-            if(count === 1 && vm.date.fromDate && vm.date.toDate) {
+            if (count === 1 && vm.date.fromDate && vm.date.toDate) {
                 checkValidDates();
             }
 
-            if(vm.date.fromDate && vm.date.toDate) {
-                return Date.parse(list.timeStamp) >= Date.parse(vm.date.fromDate) 
-                    && Date.parse(list.timeStamp) <= Date.parse(vm.date.toDate);
-            } else if(vm.date.fromDate) {
+            if (vm.date.fromDate && vm.date.toDate) {
+                return Date.parse(list.timeStamp) >= Date.parse(vm.date.fromDate) && Date.parse(list.timeStamp) <= Date.parse(vm.date.toDate);
+            } else if (vm.date.fromDate) {
                 return Date.parse(list.timeStamp) >= Date.parse(vm.date.fromDate);
-            } else if(vm.date.toDate) {
+            } else if (vm.date.toDate) {
                 return Date.parse(list.timeStamp) <= Date.parse(vm.date.toDate);
             } else {
                 return list;
@@ -104,13 +104,13 @@
         }
 
         function checkValidDates() {
-            if(Date.parse(vm.date.toDate) < Date.parse(vm.date.fromDate)) {
+            if (Date.parse(vm.date.toDate) < Date.parse(vm.date.fromDate)) {
                 vm.date.toDate = "";
                 vm.invalidToDate = true;
                 count++;
             } else {
                 vm.invalidToDate = false;
-            }   
+            }
         }
 
         function resetCount() {
@@ -118,9 +118,9 @@
         }
 
         function filterBySeverity(list) {
-            if(!vm.severity) {
+            if (!vm.severity) {
                 return list;
-            } else if(list.severity === vm.severity) {
+            } else if (list.severity === vm.severity) {
                 return list;
             }
         }
@@ -130,27 +130,28 @@
         }
 
         function searchByDesc(list) {
-            if(!vm.searchDescText) {
+            if (!vm.searchDescText) {
                 return list;
-            } else if(vm.searchDescText && (list.desc.toLowerCase()).indexOf(vm.searchDescText.toLowerCase()) !== -1) {
+            } else if (vm.searchDescText && (list.desc.toLowerCase()).indexOf(vm.searchDescText.toLowerCase()) !== -1) {
                 return list;
             }
         }
 
         function clearAllFilters() {
-           vm.searchBy[vm.filterBy] = "";
-           vm.date.toDate = "";
-           vm.date.fromDate = "";
-           vm.searchDescText = "";
+            vm.searchBy[vm.filterBy] = "";
+            vm.date.toDate = "";
+            vm.date.fromDate = "";
+            vm.searchDescText = "";
         }
 
         function clearDate(type) {
-            if(type === "from") {
+            if (type === "from") {
                 vm.date.fromDate = "";
-            } else if(type === "to") {
+            } else if (type === "to") {
                 vm.date.toDate = "";
-            }   
+            }
         }
+
     }
 
 })();
