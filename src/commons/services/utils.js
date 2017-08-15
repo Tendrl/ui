@@ -250,6 +250,30 @@
             });
         };
 
+        vm.getUserList = function(){
+            var url,
+                getUserRequest,
+                request;
+
+            //url = config.baseUrl + "jobs/" + jobId + "/messages";
+            url = "/api/GetUserList.json";
+
+            getUserRequest = {
+                method: "GET",
+                url: url
+            };
+
+            request = angular.copy(getUserRequest);
+            return $http(request).then(function(response) {
+                return response.data;
+            }, function(e) {
+                vm.checkErrorCode(e);
+                console.log("Error Occurred: while fetching getUserList");
+                return null;
+            });
+
+        }
+
         vm.ClusterIOPS = function(cluster_id, timeInterval) {
             var url = "",
                 getObjectListRequest, request;

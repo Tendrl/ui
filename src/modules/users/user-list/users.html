@@ -1,0 +1,32 @@
+<!--<div ng-if="clusterData === null && !isAPINotFoundError" class="spinner spinner-lg"></div>-->
+<div class="tendrl-user-list-view-controller">
+	<div class="container-fluid">
+		<!--Heading section -->
+		<h1 class="bold-text">Users</h1>
+		<!-- Actions section -->
+		<div class="row toolbar-pf">
+			<div class="col-sm-12">
+				<form class="toolbar-pf-actions">
+					<div class="form-group toolbar-pf-filter">
+						<label class="sr-only" for="filter">User Name</label>
+						<div class="input-group">
+							<div class="input-group-btn">
+								<!--search By -->
+								<select ng-init="userCntrl.filterBy = 'username'" ng-disabled="userCntrl.userList.length === 0" ng-model="userCntrl.filterBy" class="btn btn-default dropdown-toggle" ng-change="userCntrl.searchBy = {}">
+									<option value="username">User Name</option>
+									<option value="lastName">Last Name</option>
+									<option value="status">Status</option>
+									<option value="role">Role</option>
+								</select>
+							</div>
+							<!-- btn-group-->
+							<input ng-disabled="userCntrl.userList.length === 0" type="text" class="form-control" id="filter" ng-model="userCntrl.searchBy[userCntrl.filterBy]" placeholder="Filter By {{userCntrl.filterBy}}...">
+						</div>
+						<!--/input group-->
+					</div>
+
+				</form>
+			</div>
+		</div>
+	</div>
+</div>
