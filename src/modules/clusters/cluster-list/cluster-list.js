@@ -33,6 +33,7 @@
 
         vm.expandCluster = expandCluster;
         vm.closeExpandedView = closeExpandedView;
+        vm.goToImportFlow = goToImportFlow;
 
         init();
 
@@ -106,6 +107,11 @@
          */
         function closeExpandedView(cluster) {
             cluster.isExpanded = false;
+        }
+
+        function goToImportFlow(cluster) {
+            $rootScope.clusterTobeImported = cluster;
+            $state.go("import-cluster", {clusterName: cluster.name})
         }
 
 

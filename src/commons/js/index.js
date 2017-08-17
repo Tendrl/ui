@@ -48,11 +48,15 @@
                         url: "/login",
                         template: "<login></login>"
                     })
-                    .state("cluster", {
+                    .state("clusters", {
                         url: "/clusters",
                         template: "<cluster-list></cluster-list>"
                     })
-                    .state("host", {
+                    .state("import-cluster", {
+                        url: "/import-cluster/:clusterName",
+                        template: "<import-cluster cluster='clusterTobeImported'></import-cluster>"
+                    })
+                    .state("hosts", {
                         url: "/hosts",
                         template: "<host-list></host-list>"
                     })

@@ -60,9 +60,10 @@
                         <span class="fa fa-angle-right" ng-show="!cluster.isExpanded" ng-click="clusterCntrl.expandCluster($event,cluster)"></span>
                          <span class="fa fa-angle-down" ng-show="cluster.isExpanded" ng-click="clusterCntrl.expandCluster($event, cluster)"></span>
                     </div>
-                    <!-- <div class="list-view-pf-actions">
-                        <button class="btn btn-default">Launch Dashboard</button>
-                    </div> -->
+                    <div class="list-view-pf-actions">
+                        <button class="btn btn-default" ng-show="cluster.managed === 'Yes'">Cluster Details</button>
+                        <button class="btn btn-default" ng-show="cluster.managed === 'No'" ng-disabled="cluster.message === 'Cluster Misconfigured'" ng-click="clusterCntrl.goToImportFlow(cluster)">Import Cluster</button>
+                    </div>
                     <div class="list-view-pf-main-info">
                         <div class="list-view-pf-left">
                             <i class="pficon" ng-class="{'pficon-error-circle-o': (cluster.status === 'HEALTH_ERR'), 'pficon-ok': (cluster.status === 'HEALTH_OK'), 'pficon-warning-triangle-o': (cluster.status === 'HEALTH_WARN')}"></i>
@@ -72,8 +73,8 @@
                                 <div class="list-group-item-heading cluster-name bold-text counts" uib-tooltip-html="'{{cluster.name}}'" tooltip-placement="auto bottom-left">
                                     {{cluster.name}}
                                 </div>
-                                <div class="list-group-item-text">
-                                    Ready to use!!!
+                                <div class="list-group-item-text" ng-class="{'error-message': (cluster.message === 'Cluster Misconfigured')}">
+                                    {{cluster.message}}
                                 </div>
                             </div>
                             <div class="list-view-pf-additional-info">

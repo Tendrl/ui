@@ -23,14 +23,21 @@
         .list-group {
             margin-bottom: 0px;
             .list-group-item {
-                .list-view-pf-expand {
-                    margin-top: 30px;
-                    .fa-angle-down {
-                        cursor: pointer;
-                        font-size: 17px;
-                        margin-right: 5px;
-                        margin-top: 2px;
-                        width: 10px;
+
+                .list-group-item-header {
+                    .list-view-pf-expand {
+                        margin-top: 30px;
+                        .fa-angle-down {
+                            cursor: pointer;
+                            font-size: 17px;
+                            margin-right: 5px;
+                            margin-top: 2px;
+                            width: 10px;
+                        }
+                    }
+
+                    .list-view-pf-main-info .list-view-pf-body .error-message {
+                        color: $color-red !important;
                     }
                 }
                 &.list-view-pf-expand-active {

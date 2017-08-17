@@ -6,7 +6,7 @@
         .service("clusterStore", clusterStore);
 
     /*@ngInject*/
-    function clusterStore($state, $q, utils, nodeStore) {
+    function clusterStore($state, $q, utils, nodeStore, clusterFactory) {
         var store = this;
 
         /**
@@ -49,7 +49,13 @@
                     } else {
                         temp.status = data[i].globaldetails.status;
                     }
-                    temp.managed = "Yes";
+                    temp.managed = data[i].is_managed ? "Yes" : "No";
+
+                    if (temp.managed === "No") {
+                        temp.message = data[i].errors.length ? "Cluster Misconfigured" : "Ready to Import";
+                    } else {
+                        temp.message = "Ready to Use";
+                    }
                     temp.hosts = store.getAssociatedHosts(data[i]);
                     res.push(temp);
                 }
@@ -68,6 +74,7 @@
                 len = keys.length,
                 temp,
                 obj,
+                tags,
                 i;
 
             for (i = 0; i < len; i++) {
@@ -76,11 +83,34 @@
                     temp.nodeId = obj.node_id;
                 temp.fqdn = obj.fqdn;
                 temp.status = obj.status;
-                temp.role = nodeStore.findRole(obj.tags);
+                tags = nodeStore.findRole(obj.tags);
+                temp.role = tags.role;
+                temp.release = tags.release + " " + data.sds_version;
                 hostList.push(temp)
             }
 
             return hostList;
+        };
+
+        /**
+         * @name importCluster
+         * @desc store for import cluster
+         * @memberOf clusterStore
+         */
+        store.importCluster = function(cluster, enableProfiling) {
+            var requestData = {
+                    sds_type: cluster.sdsName,
+                    enableProfiling: enableProfiling
+                },
+                deferred;
+
+            deferred = $q.defer();
+            clusterFactory.importCluster(requestData)
+                .then(function(data) {
+                    deferred.resolve(data);
+                });
+
+            return deferred.promise;
         };
     }
 

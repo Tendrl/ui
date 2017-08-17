@@ -1,4 +1,4 @@
-(function () {
+(function() {
     "use strict";
 
     angular
@@ -33,7 +33,11 @@
                 index = tagsList.indexOf("gluster/server");
                 tags = tagsList[index].split("/");
             }
-            return role[tags[1]];
+
+            return {
+                role: role[tags[1]],
+                release: tags[0]
+            };
         }
 
     }
