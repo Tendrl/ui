@@ -44,6 +44,12 @@
                 href: "tasks",
                 icon: "fa fa-cog",
                 active: false
+            },{
+                label: "Users",
+                id: "users",
+                href: "users",
+                icon: "fa fa-cog",
+                active: false
             }]
         }];
 

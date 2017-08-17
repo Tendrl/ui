@@ -60,6 +60,10 @@
                         url: "/admin/tasks",
                         template: "<tasks></tasks>"
                     })
+                    .state("users",{
+                        url: "/admin/users",
+                        template: "<users></users>"
+                    })
                     .state("alerts", {
                         url: "/alerts",
                         template: "<alerts></alerts>"
