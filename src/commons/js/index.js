@@ -60,9 +60,17 @@
                         url: "/admin/tasks",
                         template: "<tasks></tasks>"
                     })
-                    .state("users",{
+                    .state("users", {
                         url: "/admin/users",
                         template: "<users></users>"
+                    })
+                    .state("add-user", {
+                        url: "/admin/users/add",
+                        template: "<add-user></add-user>"
+                    })
+                    .state("edit-user", {
+                        url: "/admin/users/edit/:userId",
+                        template: "<edit-user></edit-user>"
                     })
                     .state("alerts", {
                         url: "/alerts",

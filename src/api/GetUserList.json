@@ -1,15 +1,17 @@
-[{
-	"username": "JDoe1",
-	"name": "John Doe",
-	"status": "true",
-	"role": "admin",
-	"notification": "false",
-	"email": "jdoe@tendrl.org"
-},{
-	"username": "JDoe2",
-	"name": "John Doe",
-	"status": "false",
-	"role": "normal",
-	"notification": "true",
-	"email": "jdoe@tendrl.org"
+[
+{
+    "username": "JDoe1",
+    "name": "John Doe",
+    "status": "true",
+    "role": "admin",
+    "email_notifications": "false",
+    "email": "jdoe@tendrl.org"
+},
+{
+    "username": "JDoe2",
+    "name": "Jona Do",
+    "status": "false",
+    "role": "normal",
+    "email_notifications": "true",
+    "email": "doe@tendrl.org"
 }]
