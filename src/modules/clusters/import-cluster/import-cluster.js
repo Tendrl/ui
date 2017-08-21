@@ -37,7 +37,7 @@
          * @memberOf importClusterController
          */
         function init() {
-            if(!$rootScope.clusterTobeImported) {
+            if (!$rootScope.clusterTobeImported) {
                 $state.go("clusters");
             } else {
                 vm.hostList = vm.cluster.hosts;
@@ -50,12 +50,11 @@
          * @memberOf importClusterController
          */
         function importCluster() {
-            // clusterStore.importCluster($rootScope.clusterTobeImported, vm.enableProfiling)
-            //     .then(function(data) {
-            //         vm.taskInitiated = true;
-            //         vm.jobId = data.job_id;
-            //     });
-            vm.taskInitiated = true;
+            clusterStore.importCluster($rootScope.clusterTobeImported, vm.enableProfiling)
+                .then(function(data) {
+                    vm.taskInitiated = true;
+                    vm.jobId = data.job_id;
+                });
         }
 
         /**

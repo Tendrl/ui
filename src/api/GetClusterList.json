@@ -9,6 +9,7 @@
         "updated_at": "2017-08-11 05:10:13.852508+00:00",
         "is_managed": true,
         "errors": [],
+        "enable_volume_profiling": true,
         "utilization": {
             "hash": "ef3302ea7e4e23fd037e8cfd3edb25ca",
             "pcnt_used": "0",
@@ -83,7 +84,8 @@
         "sds_version": "4.0dev",
         "updated_at": "2017-08-11 05:10:13.852508+00:00",
         "is_managed": false,
-        "errors": ["not configured"],
+        "errors": ["Message 1",  "Message 2", "Message 3", "Message 4"],
+        "enable_volume_profiling": false,
         "utilization": {
             "hash": "ef3302ea7e4e23fd037e8cfd3edb25ca",
             "pcnt_used": "0",
@@ -159,6 +161,7 @@
         "updated_at": "2017-08-11 05:10:13.852508+00:00",
         "is_managed": false,
         "errors": [],
+        "enable_volume_profiling": true,
         "utilization": {
             "hash": "ef3302ea7e4e23fd037e8cfd3edb25ca",
             "pcnt_used": "0",

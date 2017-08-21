@@ -11,8 +11,8 @@
         </a>
     </div>
     <nav class="collapse navbar-collapse">
-        <span class="pull-right" ng-if="notification.message.length">
-            <notification notification-type="{{notification.type}}" notification-message="{{notification.message}}" notification-close-call-back="header.notificationClose()"></notification>
+        <span class="pull-right">
+            <notification notification-type="{{$root.notification.type}}" notification-message="{{$root.notification.message}}" notification-close-call-back="header.notificationClose()"></notification>
         </span>
         <ul class="nav navbar-nav navbar-right navbar-iconic" ng-if="!notification.message.length">
             <li class="dropdown">

@@ -53,8 +53,12 @@
                         template: "<cluster-list></cluster-list>"
                     })
                     .state("import-cluster", {
-                        url: "/import-cluster/:clusterName",
+                        url: "/import-cluster/:clusterId",
                         template: "<import-cluster cluster='clusterTobeImported'></import-cluster>"
+                    })
+                    .state("cluster-detail", {
+                        url: "/cluster-detail/:clusterId",
+                        template: "<cluster-detail></cluster-detail>"
                     })
                     .state("hosts", {
                         url: "/hosts",
@@ -74,7 +78,7 @@
                     });
 
             });
-            storageModule.run(function($rootScope, $location, $http, $interval, menuService, AuthManager, utils, eventStore, config) {
+            storageModule.run(function($rootScope, $location, $http, $interval, menuService, AuthManager, utils, eventStore, config, clusterStore) {
                 var restrictedPage, loggedIn, notificationTimer;
 
                 $rootScope.$on("$locationChangeStart", function(event, current, next) {
@@ -107,11 +111,11 @@
                     $rootScope.notificationList = null;
 
                     var url = $location.path();
-                    utils.getObjectList("Cluster").then(function(list) {
+                    clusterStore.getClusterList().then(function(list) {
                         $rootScope.clusterData = list;
                         /* Setting up manual broadcast event for ClusterData*/
                         $rootScope.$broadcast("GotClusterData", $rootScope.clusterData); // going down!
-                        if ($rootScope.clusterData !== null && $rootScope.clusterData.clusters.length !== 0) {
+                        if ($rootScope.clusterData !== null && $rootScope.clusterData.length !== 0) {
                             /* Forward to cluster view if we have cluster data. */
                             getNotificationList();
                         }
