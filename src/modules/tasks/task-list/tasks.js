@@ -98,27 +98,6 @@
             }
         }
 
-        // function _updateTaskStatus() {
-        //     var len = vm.taskList.length,
-        //         i,
-        //         j,
-        //         task;
-
-        //     for( i = 0; i < len; i++) {
-        //         (function(j) {
-        //             //j = i;
-        //             task = vm.taskList[j];
-        //             taskStore.getTaskStatus(task.job_id)
-        //                 .then(function(data) {
-        //                     console.log(j);
-        //                     task.status = data.status;
-        //                     console.log(j, vm.taskList[j].status);
-        //                 });
-                
-        //         })(i);
-        //     }
-        // }
-
         $scope.$on("$destroy", function() {
             $interval.cancel(jobTimer);
         });

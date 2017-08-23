@@ -10,6 +10,10 @@
 @import "../../modules/alerts/alerts.scss";
 @import "../../modules/base/navigation/navigation.scss";
 @import "../../modules/alerts/alerts.scss";
+@import "../../modules/clusters/import-cluster/import-cluster.scss";
+@import "../../modules/clusters/cluster-detail/cluster-detail.scss";
+@import "../../modules/volumes/volume-list/volume-list.scss";
+
     
 .tendrl-app {
     .centered {
