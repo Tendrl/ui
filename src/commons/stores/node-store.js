@@ -8,7 +8,6 @@
     /*@ngInject*/
     function nodeStore($state, $q, utils, hostFactory) {
         var store = this,
-            tagsList,
             index;
 
         /**
@@ -25,19 +24,18 @@
                 "central-store": "Server Node"
             };
             if (tags) {
-                tagsList = JSON.parse(tags);
-                if (tagsList.indexOf("tendrl/central-store") !== -1) {
-                    index = tagsList.indexOf("tendrl/central-store");
-                    tags = tagsList[index].split("/");
-                } else if (tagsList.indexOf("ceph/mon") !== -1) {
-                    index = tagsList.indexOf("ceph/mon");
-                    tags = tagsList[index].split("/");
-                } else if (tagsList.indexOf("ceph/osd") !== -1) {
-                    index = tagsList.indexOf("ceph/osd");
-                    tags = tagsList[index].split("/");
-                } else if (tagsList.indexOf("gluster/server") !== -1) {
-                    index = tagsList.indexOf("gluster/server");
-                    tags = tagsList[index].split("/");
+                if (tags.indexOf("tendrl/central-store") !== -1) {
+                    index = tags.indexOf("tendrl/central-store");
+                    tags = tags[index].split("/");
+                } else if (tags.indexOf("ceph/mon") !== -1) {
+                    index = tags.indexOf("ceph/mon");
+                    tags = tags[index].split("/");
+                } else if (tags.indexOf("ceph/osd") !== -1) {
+                    index = tags.indexOf("ceph/osd");
+                    tags = tags[index].split("/");
+                } else if (tags.indexOf("gluster/server") !== -1) {
+                    index = tags.indexOf("gluster/server");
+                    tags = tags[index].split("/");
                 }
             }
 
