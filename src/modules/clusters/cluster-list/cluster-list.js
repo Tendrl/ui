@@ -156,7 +156,11 @@
         function doProfilingAction($event, cluster, action) {
             clusterStore.doProfilingAction(cluster.clusterId, action)
                 .then(function(data) {
-                    vm.jobId = data.jobId;
+                    $rootScope.notification.type = "success";
+                    $rootScope.notification.message = "Volume profiling updated successfully.";
+                }).catch(function(error) {
+                    $rootScope.notification.type = "error";
+                    $rootScope.notification.message = "Failed to update volume profile.";
                 });
             $event.stopPropagation();
         }
