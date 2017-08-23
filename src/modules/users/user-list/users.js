@@ -30,7 +30,6 @@
         function init() {
             userStore.getUserList()
                 .then(function(data) {
-
                     vm.isDataLoading = false;
                     vm.userList = [];
                     if (data !== null) {

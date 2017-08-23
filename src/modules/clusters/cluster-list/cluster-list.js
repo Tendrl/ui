@@ -33,6 +33,12 @@
 
         vm.expandCluster = expandCluster;
         vm.closeExpandedView = closeExpandedView;
+        vm.goToImportFlow = goToImportFlow;
+        vm.goToClusterDetail = goToClusterDetail;
+        vm.showKababMenu = showKababMenu;
+        vm.doProfilingAction = doProfilingAction;
+        vm.setTab = setTab;
+        vm.isTabSet = isTabSet;
 
         init();
 
@@ -44,6 +50,7 @@
         function init() {
             clusterStore.getClusterList()
                 .then(function(data) {
+                    data = clusterStore.formatClusterData(data);
                     $interval.cancel(clusterListTimer);
 
                     if (vm.clusterList.length) {
@@ -60,7 +67,7 @@
         /* Trigger this function when we have cluster data */
         $scope.$on("GotClusterData", function(event, data) {
             /* Forward to home view if we don't have any cluster */
-            if ($rootScope.clusterData === null || $rootScope.clusterData.clusters.length === 0) {
+            if ($rootScope.clusterData === null || $rootScope.clusterData.length === 0) {
                 vm.clusterNotPresent = true;
             } else {
                 init();
@@ -96,7 +103,7 @@
             } else {
                 cluster.isExpanded = true;
             }
-             $event.stopPropagation();
+            $event.stopPropagation();
         }
 
         /**
@@ -108,6 +115,73 @@
             cluster.isExpanded = false;
         }
 
+        /**
+         * @name goToImportFlow
+         * @desc takes user to import cluster flow
+         * @memberOf clusterController
+         */
+        function goToImportFlow(cluster) {
+            $rootScope.clusterTobeImported = cluster;
+            $state.go("import-cluster", { clusterId: cluster.cluster_id });
+        }
+
+        /**
+         * @name goToClusterDetail
+         * @desc takes user to cluster detail page
+         * @memberOf clusterController
+         */
+        function goToClusterDetail(cluster) {
+            $state.go("cluster-detail", { clusterId: cluster.clusterId });
+        }
+
+        /**
+         * @name showKababMenu
+         * @desc hide/show kabab menu
+         * @memberOf clusterController
+         */
+        function showKababMenu($event, cluster) {
+            if (cluster.isKababOpened) {
+                cluster.isKababOpened = false;
+            } else {
+                cluster.isKababOpened = true;
+            }
+            $event.stopPropagation();
+        }
+
+        /**
+         * @name doProfilingAction
+         * @desc enable/disable volume profile for cluster
+         * @memberOf clusterController
+         */
+        function doProfilingAction($event, cluster, action) {
+            clusterStore.doProfilingAction(cluster.clusterId, action)
+                .then(function(data) {
+                    $rootScope.notification.type = "success";
+                    $rootScope.notification.message = "Volume profiling updated successfully.";
+                }).catch(function(error) {
+                    $rootScope.notification.type = "error";
+                    $rootScope.notification.message = "Failed to update volume profile.";
+                });
+            $event.stopPropagation();
+        }
+
+        /**
+         * @name setTab
+         * @desc set tab for a cluster
+         * @memberOf clusterController
+         */
+        function setTab(cluster, newTab) {
+            cluster.activeTab = newTab;
+        }
+
+        /**
+         * @name isTabSet
+         * @desc check if the mentioned tab is set or not
+         * @memberOf clusterController
+         */
+        function isTabSet(cluster, tabNum) {
+            return cluster.activeTab === tabNum;
+        }
 
         /***Private Functions***/
 
@@ -130,6 +204,7 @@
 
                 if (cluster !== -999) {
                     vm.clusterList[cluster.index].isExpanded = cluster.cluster.isExpanded;
+                    vm.clusterList[cluster.index].activeTab = cluster.cluster.activeTab;
                 }
             }
         }

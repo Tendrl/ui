@@ -25,7 +25,7 @@
                 });
 
             function _generateName(name) {
-                var userName = [],
+                var userName = {},
                     temp1 = [];
 
                 temp1 = name.split(" ");
@@ -106,9 +106,7 @@
                 if (store.users[i].username === username) {
                     userDetail = store.users[i];
                     break;
-                } else {
-                    continue;
-                }
+                } 
             }
 
             return userDetail;

@@ -30,34 +30,25 @@
                             <select ng-init="hostCntrl.orderBy = 'name'" ng-disabled="hostCntrl.hostList.length === 0" ng-model="hostCntrl.orderBy" class="btn btn-default dropdown-toggle">
                                 <option value="name">Name</option>
                                 <option value="cluster_name">Cluster</option>
-                                <option value="storage['percent_used']">Storage</option>
-                                <option value="cpu['percent_used']">CPU</option>
-                                <option value="memory['percent_used']">Memory</option>
                                 <option value="role">Role</option>
                             </select>
                         </div>
                         <button ng-init="hostCntrl.ascOrder = ''" ng-disabled="hostCntrl.hostList.length === 0" class="btn btn-link" type="button">
                             <span ng-if="hostCntrl.ascOrder !== ''" class="fa fa-sort-alpha-desc" ng-click="hostCntrl.ascOrder = ''">
-                  </span>
+                            </span>
                             <span ng-if="hostCntrl.ascOrder !== '-'" class="fa fa-sort-alpha-asc" ng-click="hostCntrl.ascOrder = '-'">
-                  </span>
+                            </span>
                         </button>
                     </div>
                 </form>
-                <!-- result row -->
                 <div class="row toolbar-pf-results">
                     <div class="col-sm-12">
                         <h5 ng-if="hostCntrl.hostList.length !== 0">{{hostCntrl.filteredHostList.length}} Hosts</h5>
                     </div>
-                    <!-- /col -->
                 </div>
             </div>
-            <!-- /col -->
         </div>
-        <!-- /row -->
     </div>
-    <!-- /container -->
-    <!-- list all host -->
     <div class="container-fluid">
         <center ng-if="hostCntrl.hostList.length === 0">
             <div class="blank-slate-pf">
@@ -67,38 +58,30 @@
                 <h1>No Hosts Detected.</h1>
             </div>
         </center>
-        <div ng-if="hostCntrl.isDataLoading" class="spinner spinner-lg"></div>
-        <div ng-if="!hostCntrl.isDataLoading" class="list-group list-view-pf list-view-pf-equalized-column" ng-repeat="host in hostCntrl.filteredHostList=(hostCntrl.hostList | filter: hostCntrl.searchBy | orderBy : hostCntrl.ascOrder + hostCntrl.orderBy)">
-            <div class="list-group-item">
-                <div class="col-md-4" ng-class="{ 'list-view-pf-left': clusterId === undefined }">
-                    <div class="col-md-3">
-                        <span uib-tooltip-html="'{{host.status}}'" ng-if="host.status ==='UP'" class="pficon pficon-ok list-view-pf-icon-success status-icons"></span>
-                        <span uib-tooltip-html="'{{host.status}}'" ng-if="host.status !=='UP'" class="fa fa-arrow-circle-o-down list-view-icon-failure status-icons"></span>
-                    </div>
-                    <div class="col-md-9">
-                        <div class="host-name" uib-tooltip-html="'{{host.name}}'">
-                            {{host.name}}
-                        </div>
-                    </div>
+        <div ng-show="hostCntrl.isDataLoading" class="spinner spinner-lg"></div>
+        <div class="flex-table list-group list-view-pf list-view-pf-view" ng-show="!hostCntrl.isDataLoading">
+            <div class="ft-row list-group-item " ng-repeat="host in hostCntrl.filteredHostList=(hostCntrl.hostList | filter: hostCntrl.searchBy | orderBy : hostCntrl.ascOrder + hostCntrl.orderBy)">
+                <div class="ft-column ft-icon">
+                    <i class="pficon" ng-class="{'pficon-error-circle-o': (host.status !=='UP'), 'pficon-ok': (host.status ==='UP')}" uib-tooltip-html="'{{host.status}}'" tooltip-placement="auto bottom-left"></i>
                 </div>
-                <div class="col-md-2">
-                    <div class="list-view-pf-additional-info-item list-view-pf-additional-info-item-stacked">
-                        <b>Cluster</b>
-                        <h5 class="capitalize cluster-name col-md-12" uib-tooltip-html="'{{host.cluster_name}}'">
-                            {{host.cluster_name || "NA"}}
-                        </h5>
-                    </div>
+                <div class="ft-column ft-main host-name bold-text" uib-tooltip-html="'{{host.name}}'" tooltip-placement="auto bottom-left">{{host.name}}</div>
+                <div class="ft-column list-view-pf-additional-info-item list-view-pf-additional-info-item-stacked">
+                    <div class="bold-text">Cluster</div>
+                    <div class="pull-left cluster-name" uib-tooltip-html="'{{host.cluster_name}}'" tooltip-placement="auto bottom-left">{{host.cluster_name || "NA"}}</div>
                 </div>
-                <div class="col-md-2">
-                    <div ng-show="host.cluster_name !== 'Unassigned'" class="list-view-pf-additional-info-item list-view-pf-additional-info-item-stacked">
-                        <b>  Role  </b>
-                        <h5>{{ host.role || "NA" }}</h5>
-                    </div>
+                <div class="ft-column list-view-pf-additional-info-item list-view-pf-additional-info-item-stacked">
+                    <div class="bold-text">Role</div>
+                    <div class="pull-left">{{host.role}}</div>
+                </div>
+                <div class="ft-column list-view-pf-additional-info-item list-view-pf-additional-info-item-stacked">
+                    <div class="bold-text">Alerts</div>
+                    <div class="pull-left counts">{{host.alerts || "NA"}}</div>
                 </div>
             </div>
         </div>
-        <div class="row">
-            <div class="col-md-12 horizontal-line"></div>
-        </div>
     </div>
+    <div class="row">
+        <div class="col-md-12 horizontal-line"></div>
+    </div>
+</div>
 </div>

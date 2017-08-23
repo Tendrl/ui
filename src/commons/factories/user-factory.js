@@ -53,7 +53,7 @@
             return $http(request).then(function(response) {
                 return response.data;
             }, function(e) {
-                vm.checkErrorCode(e);
+                utils.checkErrorCode(e);
             });
         };
 
@@ -74,7 +74,7 @@
             return $http(request).then(function(response) {
                 return response.data;
             }, function(e) {
-                vm.checkErrorCode(e);
+                utils.checkErrorCode(e);
             });
         };
     }
