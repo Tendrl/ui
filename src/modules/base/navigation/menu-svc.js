@@ -13,14 +13,14 @@
         vm.menus = [{
             label: "Clusters",
             id: "cluster",
-            href: "cluster",
+            href: "clusters",
             icon: "pficon pficon-cluster",
             active: false,
             hasSubMenus: false
         }, {
             label: "Hosts",
             id: "host",
-            href: "host",
+            href: "hosts",
             icon: "pficon pficon-container-node",
             active: false,
             hasSubMenus: false

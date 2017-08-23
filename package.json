@@ -72,7 +72,7 @@
         "resources": {
             "../node_modules/patternfly/dist/fonts/*.*": "fonts/",
             "../node_modules/font-awesome/fonts/*.*": "fonts/",
-            "../node_modules/patternfly/components/font-awesome/fonts/*.*": "dist/components/font-awesome/fonts"
+            "../node_modules/patternfly/node_modules/font-awesome/fonts/*.*": "dist/components/font-awesome/fonts"
         },
         "targetBrowsers": [
             "last 2 version"
