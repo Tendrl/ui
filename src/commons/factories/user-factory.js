@@ -19,8 +19,8 @@
                 userRequest,
                 request;
 
-            //url = config.baseUrl + "users";
-            url = "/api/GetUserList.json";
+            url = config.baseUrl + "users";
+            // url = "/api/GetUserList.json";
 
             userRequest = {
                 method: "GET",
@@ -37,7 +37,7 @@
             });
         };
 
-        vm.createUser = function(data) {
+        vm.createUser = function(user) {
             var url,
                 actionRequest,
                 request;
@@ -47,14 +47,31 @@
             actionRequest = {
                 method: "POST",
                 url: url,
-                data: data
+                data: user
             };
             request = angular.copy(actionRequest);
-            console.log(request);
-
             return $http(request).then(function(response) {
-                console.log(request);
-                console.log(response);
+                return response.data;
+            }, function(e) {
+                vm.checkErrorCode(e);
+            });
+        };
+
+        vm.editUser = function(user) {
+            var url,
+                actionRequest,
+                request;
+
+            url = config.baseUrl + "users/" + user.username;
+
+            actionRequest = {
+                method: "PUT",
+                url: url,
+                data: user
+            };
+
+            request = angular.copy(actionRequest);
+            return $http(request).then(function(response) {
                 return response.data;
             }, function(e) {
                 vm.checkErrorCode(e);

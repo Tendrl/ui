@@ -50,7 +50,6 @@
 
             getJobListRequest = {
                 method: "GET",
-                //url: "jobs"
                 url: url
             };
 

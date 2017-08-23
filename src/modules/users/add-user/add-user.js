@@ -39,17 +39,14 @@
 
                 userStore.createUser(vm.user)
                     .then(function(data) {
-                        vm.jobId = data.job_id;
+                        $rootScope.notification.type = "success";
+                        $rootScope.notification.message = "New User Added Succesfully.";
                         $state.go("users");
+                    }).catch(function(error) {
                         $rootScope.notification.type = "error";
-                        $rootScope.notification.message = "Please specify valid User Id.";
-                    });
-                $state.go("users");
-                $rootScope.notification.type = "success";
-                $rootScope.notification.message = "New User Added Succesfully.";
-
+                        $rootScope.notification.message = "Failed to create User.";
+                    });;
             } else {
-                console.log("failed");
                 vm.formSubmitInProgress = false;
             }
         }

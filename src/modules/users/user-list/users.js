@@ -50,13 +50,8 @@
         }
 
         function editUserDetail(username) {
-            console.log("clicked");
-            $state.go("edit-user", { username: userId });
+            $state.go("edit-user", { userId: username });
         }
-
-
-
-
     }
 
 })();

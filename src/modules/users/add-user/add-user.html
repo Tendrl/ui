@@ -43,13 +43,13 @@
                 </div>
                 <label class="col-sm-2 col-md-2 control-label" for="email-notification">Email Notifications</label>
                 <div class="col-sm-8 col-md-4">
-                    <input bs-switch ng-model="addUserCntrl.user.emailNotification" data-id="email-notification" type="checkbox" value="addUserCntrl.emailNotificationValue" ng-true-value="true" ng-false-value="false">
+                    <input bs-switch ng-model="addUserCntrl.user.emailNotification" data-id="email-notification" type="checkbox" value="addUserCntrl.user.emailNotification" ng-true-value="true" ng-false-value="false">
                 </div>
             </div>
             <div class="form-group">
                 <label class="col-sm-2 col-md-1 control-label" for="password">Password</label>
                 <div class="col-sm-8 col-md-6 inner-addon">
-                    <input type="{{ addUserCntrl.typePassword ? 'text' : 'password' }}" data-id="password" aria-describedby="passwordStatus" name="password" ng-model="addUserCntrl.user.password" required/>
+                    <input type="{{ addUserCntrl.typePassword ? 'text' : 'password' }}" data-id="password" aria-describedby="passwordStatus" name="password" ng-model="addUserCntrl.user.password" minlength="8" required/>
                     <span id="passwordStatus" class="showPassword" ng-click="addUserCntrl.toggleTypePassword()">
                         <span ng-if="addUserCntrl.typePassword == 1">
                             <i class="glyphicon glyphicon-eye-open" aria-hidden="true"></i>
@@ -63,7 +63,7 @@
             <div class="form-group required">
                 <label class="col-sm-2 col-md-1 control-label cp-padding" for="password">Confirm Password</label>
                 <div class="col-sm-8 col-md-6 inner-addon">
-                    <input type="{{ addUserCntrl.confirmPassword ? 'text' : 'password' }}" data-id="password" aria-describedby="passwordStatus" name="confirmPassword" ng-model="addUserCntrl.user.confirmPassword" required/>
+                    <input type="{{ addUserCntrl.confirmPassword ? 'text' : 'password' }}" data-id="password" aria-describedby="passwordStatus" name="confirmPassword" ng-model="addUserCntrl.user.confirmPassword" minlength="8" required/>
                     <span id="passwordStatus" class="showPassword" ng-click="addUserCntrl.toggleConfirmPassword()">
                         <span ng-if="addUserCntrl.confirmPassword == 1">
                             <i class="glyphicon glyphicon-eye-open" aria-hidden="true"></i>
@@ -74,8 +74,8 @@
                     </span>
                 </div>
             </div>
-            <div class="form-group required">
-                <label class="col-sm-2 col-md-1 control-label" for="password">Select a Role</label>
+            <div class="form-group">
+                <label class="col-sm-2 col-md-1 control-label" for="role">Select a Role</label>
                 <div class="col-sm-8 col-md-6">
                     <div class="radio radio-class">
                         <label>
@@ -100,12 +100,10 @@
             <div class="form-group form-inline bottom-button">
                 <div class="col-xs-4 col-md-1 col-sm-4 submit">
                     <button type="submit" class="btn btn-primary btn-lg submit-button">
-                        <i class="glyphicon glyphicon-refresh glyphicon-refresh-animate hidden" data-ng-class="{'hidden': addUserCntrl.formSubmitInProgress !== true }">
-                                </i>
                         <span class="submit-button-text">Save</span>
                     </button>
                 </div>
-                <div class="col-xs-4 col-md-1 col-sm-4 Cancel">
+                <div class="col-xs-4 col-md-1 col-sm-4 cancel">
                     <button ui-sref="users" class="btn btn-default btn-lg">Cancel</button>
                 </div>
             </div>
