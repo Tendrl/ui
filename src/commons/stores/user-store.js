@@ -8,20 +8,21 @@
     /*@ngInject*/
     function userStore($state, $q, userFactory) {
         var store = this;
+        store.users = [];
 
         store.getUserList = function() {
             var list,
-                deffered;
+                deferred;
 
-            deffered = $q.defer();
+            deferred = $q.defer();
             userFactory.getUserList()
                 .then(function(data) {
                     if (data) {
                         list = _setupUserListData(data);
+                        store.users = list;
                     }
-                    deffered.resolve(list);
+                    deferred.resolve(list);
                 });
-
 
             function _generateName(name) {
                 var userName = [],
@@ -31,9 +32,7 @@
                 userName.firstName = temp1[0];
                 userName.lastName = temp1[1];
                 return userName;
-            };
-
-
+            }
 
             function _setupUserListData(data) {
                 var i,
@@ -63,43 +62,73 @@
                     userList.push(user);
                 }
                 return userList;
-            };
+            }
 
-            return deffered.promise;
+            return deferred.promise;
         };
 
         store.createUser = function(user) {
             var list,
-                deffered;
-            var newUser = _createUserData(user);
-            deffered = $q.defer();
+                deferred,
+                newUser;
+
+            newUser = _createUserData(user);
+            deferred = $q.defer();
             userFactory.createUser(newUser)
                 .then(function(response) {
-                    return response;
+                    deferred.resolve(response);;
                 });
 
-
-            function _createUserData(user) {
-                var data = {};
-                data.name = _getUserName(user.firstName, user.lastName);
-                data.username = user.username;
-                data.email = user.email;
-                data.role = user.role;
-                data.password = user.password;
-                data.password_confirmation = user.confirmPassword;
-                data.email_notification = user.emailNotification;
-                return data;
-            };
-
-
-
-            function _getUserName(first, last) {
-                return (first + " " + last);
-            };
-
-            return deffered.promise;
-
+            return deferred.promise;
         };
+
+        store.editUser = function(user) {
+            var updateUser,
+                deferred;
+
+            updateUser = _createUserData(user);
+            deferred = $q.defer();
+            userFactory.editUser(updateUser)
+                .then(function(response) {
+                    deferred.resolve(response);
+                });
+
+            return deferred.promise;
+        };
+
+        store.getUserDetail = function(username) {
+            var i,
+                userDetail = {},
+                length = store.users.length;
+
+            for (i = 0; i < length; i++) {
+
+                if (store.users[i].username === username) {
+                    userDetail = store.users[i];
+                    break;
+                } else {
+                    continue;
+                }
+            }
+
+            return userDetail;
+        };
+
+        function _createUserData(user) {
+            var data = {};
+            data.name = _getUserName(user.firstName, user.lastName);
+            data.username = user.username;
+            data.email = user.email;
+            data.role = user.role;
+            data.password = user.password;
+            data.password_confirmation = user.confirmPassword;
+            data.email_notifications = user.emailNotification;
+            return data;
+        }
+
+        function _getUserName(first, last) {
+            return (first + " " + last);
+        }
 
     }
 })();

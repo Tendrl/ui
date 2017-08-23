@@ -1,5 +1,5 @@
-<!--<div ng-if="clusterData === null && !isAPINotFoundError" class="spinner spinner-lg"></div>-->
-<div class="tendrl-user-list-view-container">
+<div ng-if="clusterData === null && !isAPINotFoundError" class="spinner spinner-lg"></div>
+<div ng-if="clusterData !== null" class="tendrl-user-list-view-container">
     <div class="container-fluid">
         <!--Heading section -->
         <h1 class="bold-text">Users</h1>
@@ -28,7 +28,7 @@
                         <div class="form-group toolbar-pf-view-selector">
                             <div class="row">
                                 <div class="col-md-12">
-                                    <button class="btn btn-primary pull-right" ng-click="userCntrl.addNewUser()">Add</button>
+                                    <button class="btn-lg btn-primary pull-right" ng-click="userCntrl.addNewUser()">Add</button>
                                 </div>
                             </div>
                         </div>
@@ -39,7 +39,7 @@
     </div>
     <div ng-if="userCntrl.isDataLoading" class="spinner spinner-lg"></div>
     <!-- Table HTML -->
-    <div class="container-fluid">
+    <div class="container-fluid" ng-if="!userCntrl.isDataLoading">
         <table class="table table-striped table-bordered table-hover tool">
             <thead>
                 <tr>
@@ -67,16 +67,14 @@
                     </td> -->
                     <td class="text-capitalize">{{ user.role }}</td>
                     <td class="text-capitalize">
-                        <div class="col-md-3">
                             <span uib-tooltip-html="'{{user.notification}}'" ng-if="user.notification ==='enabled'" class="pficon pficon-ok list-view-pf-icon-success status-icons"></span>
                             <span uib-tooltip-html="'{{user.notification}}'" ng-if="user.notification ==='disabled'" class="pficon pficon-error-circle-o list-view-icon-failure status-icons"></span>
-                        </div>
-                        {{ user.notification }}
+                            {{ user.notification }}
                     </td>
                     <td>{{ user.email }}</td>
                     <td class="table-view-pf-actions">
                         <div class="table-view-pf-btn">
-                            <button class="btn btn-default edit-button" type="button" ng-click="userCntrl.editUserDetails(user.username)">Edit</button>
+                            <button class="btn btn-default edit-button" type="button" ng-click="userCntrl.editUserDetail(user.username)">Edit</button>
                         </div>
                     </td>
                     <td class=" table-view-pf-actions">
