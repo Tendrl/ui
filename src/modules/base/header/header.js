@@ -66,7 +66,7 @@
         }
 
         function homePage(){
-            $state.go("cluster");
+            $state.go("clusters");
         }
     }
 

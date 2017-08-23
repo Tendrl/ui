@@ -10,7 +10,7 @@
                 notificationCloseCallBack: "&"
             },
 
-            controller: function() {
+            controller: function($scope, $rootScope) {
                 var vm = this;
 
                 vm.notificationCssStyle = {
@@ -22,15 +22,14 @@
 
                 vm.closeNotification = function() {
                     vm.notificationCloseCallBack();
-                }
-
+                };
             },
             controllerAs: "vm",
-            template: "<div ng-if='vm.notificationMessage.length' class='toast-pf alert alert-{{vm.notificationType}} alert-dismissable'>" +
+            template: "<div ng-show='vm.notificationMessage.length' class='toast-pf alert alert-{{vm.notificationType}} alert-dismissable'>" +
                 "<button type='button' class='close' data-dismiss='alert' aria-hidden='true'>" +
                 "<span class='pficon pficon-close' ng-click='vm.closeNotification()'></span>" +
                 "</button>" +
-                "<span class='pficon {{vm.notificationCssStyle[notificationType]}}'></span>" +
+                "<span class='pficon {{vm.notificationCssStyle[vm.notificationType]}}'></span>" +
                 "{{vm.notificationMessage}}" +
                 "</div>"
         });

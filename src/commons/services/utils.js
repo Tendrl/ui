@@ -20,11 +20,11 @@
             len,
             clusterObj;
 
-        vm.getObjectList = function(objectType, clusterId) {
+        vm.getObjectList = function() {
             var url = "",
                 getObjectListRequest, request;
 
-            url = config.baseUrl + "Get" + objectType + "List";
+            url = config.baseUrl + "clusters";
 
             getObjectListRequest = {
                 method: "GET",
@@ -89,7 +89,7 @@
             hostList = [];
             len = hostListArray.length;
             for (i = 0; i < len; i++) {
-                if (hostListArray[i].tendrlcontext.integration_id === clusterId) {
+                if (hostListArray[i].cluster.integration_id === clusterId) {
                     hostList.push(hostListArray[i]);
                 }
             }
