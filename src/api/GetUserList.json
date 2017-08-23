@@ -1,0 +1,17 @@
+[
+{
+    "username": "JDoe1",
+    "name": "John Doe",
+    "status": "true",
+    "role": "admin",
+    "email_notifications": "false",
+    "email": "jdoe@tendrl.org"
+},
+{
+    "username": "JDoe2",
+    "name": "Jona Do",
+    "status": "false",
+    "role": "normal",
+    "email_notifications": "true",
+    "email": "doe@tendrl.org"
+}]

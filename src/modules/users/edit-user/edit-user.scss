@@ -1,0 +1,38 @@
+.tendrl-edit-add-view-container {
+	.width-full {
+        width: 100%;
+    }
+
+    .inner-addon {
+
+        .glyphicon {
+            cursor: pointer;
+        }
+    }
+
+    .radio-class {
+        margin-bottom: 10px;
+    }
+
+    .bottom-button {
+        position: fixed;
+        bottom: 20px;
+        width: 100%;
+
+        .submit {
+            padding-left: 0;
+            padding-right: 0;
+        }
+
+        .cancel {
+            padding-left: 0;
+            padding-right: 0;
+            margin-left: -60px;
+        }
+    }
+
+    .cp-padding {
+        padding-left: 0px;
+    }
+	
+}
