@@ -1,0 +1,29 @@
+[{
+    "cluster_id": "00ad590f-a926-47c2-a644-628e5619f4ea",
+    "deleted": "",
+    "name": "vol1",
+    "status": "Stopped",
+    "vol_id": "80e98588-176c-4220-b41c-e95cd7137aff",
+    "vol_type": "Distribute",
+    "mount_opts": "",
+    "path": "tendrl.lab.example:/root/bricks/vol1_b2",
+    "port": "49152",
+    "fs_type": "",
+    "hostname": "tendrl.lab.example",
+    "brick_count": "2",
+    "rebal_status": "in progress"
+}, {
+    "name": "Volume_009",
+    "status": "None",
+    "vol_id": "b0d4daa8-2ba6-4ea4-b510-c486c1b62e9f",
+    "vol_type": "Distribute",
+    "hostname": "tendrl.lab.example",
+    "mount_opts": "",
+    "path": "tendrl.lab.example:/root/bricks/vol9_b1",
+    "port": "None",
+    "cluster_id": "00ad590f-a926-47c2-a644-628e5619f4ea",
+    "fs_type": "None",
+    "brick_count": "1",
+    "deleted": "",
+    "rebal_status": "completed"
+}]
