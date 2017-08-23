@@ -1,10 +1,7 @@
-.tendrl-host-list-view-container {
-    .bold-text {
-        font-weight: bold;
-    }
+.tendrl-volume-list-view-container {
     .list-view-pf-view {
         .list-group-item {
-            .host-name {
+            .vol-name {
                 cursor: pointer;
                 white-space: nowrap;
                 overflow: hidden;
@@ -14,17 +11,8 @@
                 color: $color-boston-blue;
                 float: left;
             }
-        }
-    }
-
-    .flex-table {
-        .ft-column {
-            >.cluster-name {
-                cursor: pointer;
-                white-space: nowrap;
-                overflow: hidden;
-                text-overflow: ellipsis;
-                width: 50%;
+            .vol-type {
+                font-weight: normal;
             }
         }
     }

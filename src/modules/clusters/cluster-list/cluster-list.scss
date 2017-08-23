@@ -23,14 +23,25 @@
         .list-group {
             margin-bottom: 0px;
             .list-group-item {
-                .list-view-pf-expand {
-                    margin-top: 30px;
-                    .fa-angle-down {
-                        cursor: pointer;
-                        font-size: 17px;
-                        margin-right: 5px;
-                        margin-top: 2px;
-                        width: 10px;
+
+                .list-group-item-header {
+                    .list-view-pf-expand {
+                        margin-top: 30px;
+                        .fa-angle-down {
+                            cursor: pointer;
+                            font-size: 17px;
+                            margin-right: 5px;
+                            margin-top: 2px;
+                            width: 10px;
+                        }
+                    }
+
+                    .display {
+                        display: block;
+                    }
+
+                    .list-view-pf-main-info .list-view-pf-body .error-message {
+                        color: $color-red !important;
                     }
                 }
                 &.list-view-pf-expand-active {
@@ -52,8 +63,32 @@
                         }
                     }
                 }
-                .list-view-pf-main-info .pficon-error-circle-o {
-                    padding-left: 5px;
+                .list-view-pf-main-info {
+                    .pficon-error-circle-o {
+                        padding-left: 5px;
+                    }
+
+                    .list-view-pf-description {
+                        width: 20%;
+                        flex: 1 0 15%;
+
+                        .list-group-item-heading {
+                            width: calc(25% - 20px);
+                        }
+
+                        .list-group-item-text {
+                            width: calc(65% - 125px);
+                        }
+                    }
+
+                    .list-view-pf-additional-info {
+                        flex: 1 0 50%;
+                        width: 123%;
+
+                        .list-view-pf-additional-info-item {
+                            flex: 1 0;
+                        }
+                    }
                 }
             }
         }

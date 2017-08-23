@@ -1,0 +1,24 @@
+<div ng-if="clusterData === null && !isAPINotFoundError" class="spinner spinner-lg"></div>
+<div ng-if="clusterData !== null" class="tendrl-cluster-detail-container container-fluid">
+    <ol class="breadcrumb custom-breadcrumb">
+        <li><a ui-sref="cluster">Cluster</a></li>
+        <li>
+            <i class="pficon" ng-class="{'pficon-error-circle-o': (vm.clusterStatus === 'HEALTH_ERR'), 'pficon-ok': (vm.clusterStatus === 'HEALTH_OK'), 'pficon-warning-triangle-o': (vm.clusterStatus === 'HEALTH_WARN')}"></i>
+            <span uib-tooltip-html="'{{vm.clusterName}}'">
+                {{vm.clusterName}}
+            </span>
+        </li>
+    </ol>
+    <div ng-if="vm.isDataLoading" class="spinner spinner-lg"></div>
+    <div ng-if="!vm.isDataLoading">
+        <ul class="nav nav-tabs cluster-detail-nav">
+            <li class="pointer" ng-repeat="(key,value) in vm.tabList" ng-class="{'active': vm.isTabSet(value)}">
+                <a href="" ng-click="vm.setTab(value)">
+                {{key}}
+            </a>
+            </li>
+        </ul>
+        <host-list ng-show="vm.activeTab === 1" cluster-id="vm.clusterId"></host-list>
+        <volume-list ng-show="vm.activeTab === 2 && vm.clusterObj.sds_name ==='gluster'" cluster-id="vm.clusterId"></volume-list>
+    </div>
+</div>

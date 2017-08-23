@@ -5,9 +5,9 @@
 }
 
 .spinner-lg {
-    position : fixed;
+    position: fixed;
     z-index: 100;
-    background-position : center;
+    background-position: center;
     left: 50%;
     top: 50%;
     size: 100%;
@@ -23,7 +23,6 @@
     font-weight: bold;
 }
 
-
 .dropdown-menu > li > a.disabled {
     cursor: not-allowed;
     pointer-events: none;
@@ -31,22 +30,23 @@
 }
 
 .modal {
-  text-align: center;
-  padding: 0!important;
+    text-align: center;
+    padding: 0!important;
 }
 
 .modal:before {
-  content: '';
-  display: inline-block;
-  height: 100%;
-  vertical-align: middle;
-  margin-right: -4px; /* Adjusts for spacing */
+    content: '';
+    display: inline-block;
+    height: 100%;
+    vertical-align: middle;
+    margin-right: -4px;
+    /* Adjusts for spacing */
 }
 
 .modal-dialog {
-  display: inline-block;
-  text-align: left;
-  vertical-align: middle;
+    display: inline-block;
+    text-align: left;
+    vertical-align: middle;
 }
 
 .error-message {
@@ -56,8 +56,66 @@
 .italic-text {
     font-style: italic;
 }
-.ellipsis{
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  overflow: hidden;
+
+.ellipsis {
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+}
+
+.flex-table {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    justify-content: space-between;
+    margin-bottom: 30px;
+    .ft-row {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: nowrap;
+        justify-content: flex-start;
+        &.list-group-item {
+            padding-top: 10px;
+            padding-bottom: 10px;
+        }
+    }
+    .ft-column {
+        flex-basis: 0;
+        flex-grow: 1;
+        padding: 4px;
+        @media screen and (min-width: 768px) {
+            padding: 6px;
+        }
+        text-overflow: ellipsis;
+        overflow: hidden;
+        &.ft-icon {
+            display: flex;
+            justify-content: center;
+            max-width: 34px;
+            font-size: 25px;
+            @media screen and (min-width: 768px) {
+                max-width: 50px;
+            }
+        }
+        &.ft-main {
+            flex-grow: 2;
+            word-wrap: break-word;
+            @media screen and (min-width: 768px) {
+                flex-grow: 2;
+            }
+        }
+    }
+
+    &.list-view-pf-view {
+        margin-top: 10px;
+        .list-group-item {
+            padding-top: 10px;
+            padding-bottom: 10px;
+            &.list-header {
+                padding-top: 0px;
+                padding-bottom: 0px;
+                height: 30px;
+            }
+        }
+    }
 }

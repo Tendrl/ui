@@ -13,7 +13,7 @@
         });
 
     /*@ngInject*/
-    function LoginController($state, $rootScope, $interval,AuthManager, eventStore, config) {
+    function LoginController($state, $rootScope, $interval, AuthManager, eventStore, config) {
 
         /* Controller instance */
         var vm = this,
@@ -22,7 +22,7 @@
         $rootScope.isAPINotFoundError = false;
 
         if (AuthManager.isUserLoggedIn) {
-            $state.go("cluster")
+            $state.go("clusters")
         }
 
         vm.user = {};
@@ -42,13 +42,19 @@
                         AuthManager.setAuthHeader();
                     })
                     .then(function() {
-                        $state.go("cluster");
+                        $state.go("clusters");
                         getNotificationList();
                         $rootScope.isNavigationShow = true;
                     })
-                    .catch(function() {
+                    .catch(function(error) {
                         AuthManager.isUserLoggedIn = false;
-                        vm.errorMsg = "The username or password you entered does not match our records. Please try again.";
+
+                        if (error.status === 503) {
+                            vm.errorMsg = "Tendrl API is not reachable. Please restart the Tendrl API server by before logging in.";
+                        } else {
+                            vm.errorMsg = "The username or password you entered does not match our records. Please try again.";
+                        }
+
                         vm.user.password = "";
                     })
                     .finally(function() {
