@@ -77,6 +77,8 @@
             userFactory.createUser(newUser)
                 .then(function(response) {
                     deferred.resolve(response);;
+                }).catch(function(e){
+                    deferred.reject(e);
                 });
 
             return deferred.promise;
@@ -91,6 +93,8 @@
             userFactory.editUser(updateUser)
                 .then(function(response) {
                     deferred.resolve(response);
+                }).catch(function(e){
+                    deferred.reject(e);
                 });
 
             return deferred.promise;

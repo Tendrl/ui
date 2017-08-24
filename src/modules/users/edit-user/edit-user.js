@@ -37,13 +37,13 @@
                     .then(function(data) {
                         vm.isDataLoading = false;
                         vm.user = userStore.getUserDetail(vm.username);
-                        vm.user.emailNotification = vm.user.emailNotification === "enabled" ? true : false;
+                        vm.user.emailNotification = vm.user.notification === "enabled" ? true : false;
                         vm.user.status = vm.user.status === "enabled" ? true : false;
                     });
             } else {
                 vm.isDataLoading = false;
                 vm.user = userStore.getUserDetail(vm.username);
-                vm.user.emailNotification = vm.user.emailNotification === "enabled" ? true : false;
+                vm.user.emailNotification = vm.user.notification === "enabled" ? true : false;
                 vm.user.status = vm.user.status === "enabled" ? true : false;
             }
         }
@@ -56,8 +56,15 @@
                         $rootScope.notification.message = "User Succesfully Updated.";
                         $state.go("users");
                     }).catch(function(e) {
-                        $rootScope.notification.type = "error";
-                        $rootScope.notification.message = "Failed to update User.";
+                        var keys;
+
+                        if (e.status === 422) {
+                            keys = Object.keys(e.data.errors);
+                            if (keys.indexOf("email") !== -1) {
+                                vm.errorMsg = "Email is already taken. Please use different one.";
+                            }
+                        }
+
                     });
             } else {
                 vm.formSubmitInProgress = false;
@@ -81,9 +88,6 @@
 
             if (form.firstName.$invalid) {
                 vm.errorMsg = "Please specify valid First Name."
-                isFormValid = false;
-            } else if (form.password.$invalid || form.confirmPassword.$invalid) {
-                vm.errorMsg = "Please specify valid Password."
                 isFormValid = false;
             } else if (!_isPasswordSame()) {
                 vm.errorMsg = "Password and Confirm Password doesn't match.";
