@@ -52,8 +52,9 @@
             request = angular.copy(actionRequest);
             return $http(request).then(function(response) {
                 return response.data;
-            }, function(e) {
+            }).catch(function(e) {
                 utils.checkErrorCode(e);
+                throw e;
             });
         };
 
@@ -73,8 +74,9 @@
             request = angular.copy(actionRequest);
             return $http(request).then(function(response) {
                 return response.data;
-            }, function(e) {
+            }).catch(function(e) {
                 utils.checkErrorCode(e);
+                throw e;
             });
         };
     }

@@ -42,10 +42,21 @@
                         $rootScope.notification.type = "success";
                         $rootScope.notification.message = "New User Added Succesfully.";
                         $state.go("users");
-                    }).catch(function(error) {
-                        $rootScope.notification.type = "error";
-                        $rootScope.notification.message = "Failed to create User.";
-                    });;
+                    }).catch(function(e) {
+                        var keys;
+
+                        if (e.status === 422) {
+                            keys = Object.keys(e.data.errors);
+                            if ((keys.indexOf("email") !== -1) && (keys.indexOf("username") !== -1)) {
+                                vm.errorMsg = "Email and User Id are already taken. Please use different one.";
+                            } else if (keys.indexOf("email") !== -1) {
+                                vm.errorMsg = "Email is already taken. Please use different one.";
+                            } else if (keys.indexOf("username") !== -1) {
+                                vm.errorMsg = "Username is already taken. Please use different one.";
+                            }
+                        }
+
+                    });
             } else {
                 vm.formSubmitInProgress = false;
             }
