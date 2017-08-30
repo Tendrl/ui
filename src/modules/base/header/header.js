@@ -15,7 +15,7 @@
         });
 
     /*@ngInject*/
-    function headerController($rootScope, $state, $scope, AuthManager, utils) {
+    function headerController($rootScope, $state, $scope, AuthManager, utils, Notifications) {
 
         var vm = this;
 
@@ -27,14 +27,11 @@
         vm.setNotificationFlag = setNotificationFlag;
         vm.expandNotificationList = expandNotificationList;
 
-        $rootScope.notification = {
-            "type": "",
-            "message": ""
-        };
+        $rootScope.notification = Notifications.data;
 
         $scope.$on("GotNoticationData", function(event, data) {
             if ($rootScope.notificationList !== null) {
-               vm.notificationList = $rootScope.notificationList;
+                vm.notificationList = $rootScope.notificationList;
             }
         });
 
@@ -46,26 +43,25 @@
             vm.isNotificationExpanded = !vm.isNotificationExpanded;
         }
 
-        function notificationClose() {
-            $rootScope.notification.type = "";
-            $rootScope.notification.message = "";
+        function notificationClose(data) {
+            Notifications.remove(data);
         }
 
-        function logout(){
+        function logout() {
             AuthManager.logout()
-            .then(function (data) {
-                AuthManager.setFlags();
-            })
-            .then(function () {
-                $state.go("login");
-            })
-            .catch(function (e) {
-                AuthManager.isUserLoggedIn = true;
-                console.log("Logout Error: Logout Not Successful");
-            });
+                .then(function(data) {
+                    AuthManager.setFlags();
+                })
+                .then(function() {
+                    $state.go("login");
+                })
+                .catch(function(e) {
+                    AuthManager.isUserLoggedIn = true;
+                    console.log("Logout Error: Logout Not Successful");
+                });
         }
 
-        function homePage(){
+        function homePage() {
             $state.go("clusters");
         }
     }

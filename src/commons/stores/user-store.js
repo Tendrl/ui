@@ -30,7 +30,7 @@
 
                 temp1 = name.split(" ");
                 userName.firstName = temp1[0];
-                userName.lastName = temp1[1];
+                userName.lastName = temp1[1] || "";
                 return userName;
             }
 
@@ -118,7 +118,7 @@
 
         function _createUserData(user) {
             var data = {};
-            data.name = _getUserName(user.firstName, user.lastName);
+            data.name = _getUserName(user.firstName, user.lastName || "");
             data.username = user.username;
             data.email = user.email;
             data.role = user.role;

@@ -13,7 +13,7 @@
         });
 
     /*@ngInject*/
-    function clusterController($scope, $state, $interval, $rootScope, $filter, config, clusterStore) {
+    function clusterController($scope, $state, $interval, $rootScope, $filter, config, clusterStore, Notifications) {
 
         var vm = this,
             key,
@@ -156,11 +156,9 @@
         function doProfilingAction($event, cluster, action) {
             clusterStore.doProfilingAction(cluster.clusterId, action)
                 .then(function(data) {
-                    $rootScope.notification.type = "success";
-                    $rootScope.notification.message = "Volume profiling updated successfully.";
+                    Notifications.message("success", "", "Volume profiling " + (action === "Enable" ? "enabled" : "disabled") + " successfully.");
                 }).catch(function(error) {
-                    $rootScope.notification.type = "error";
-                    $rootScope.notification.message = "Failed to update volume profile.";
+                    Notifications.message("error", "", "Failed to " + (action === "Enable" ? "enable" : "disable") + " volume profile.");
                 });
             $event.stopPropagation();
         }
