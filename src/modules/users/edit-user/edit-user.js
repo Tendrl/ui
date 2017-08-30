@@ -13,7 +13,7 @@
         });
 
     /*@ngInject*/
-    function editUserController($rootScope, $scope, $interval, $state, $stateParams, userStore, config, utils) {
+    function editUserController($rootScope, $scope, $interval, $state, $stateParams, userStore, config, utils, Notifications) {
 
         var vm = this,
             userDetail;
@@ -52,8 +52,7 @@
             if (_validateUIFields()) {
                 userStore.editUser(vm.user)
                     .then(function(data) {
-                        $rootScope.notification.type = "success";
-                        $rootScope.notification.message = "User Succesfully Updated.";
+                        Notifications.message("success", "", "User Succesfully Updated.");
                         $state.go("users");
                     }).catch(function(e) {
                         var keys;

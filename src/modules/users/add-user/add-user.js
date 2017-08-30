@@ -13,7 +13,7 @@
         });
 
     /*@ngInject*/
-    function addUserController($scope, $rootScope, $state, $stateParams, userStore, config, utils) {
+    function addUserController($scope, $rootScope, $state, $stateParams, userStore, config, utils, Notifications) {
 
         var vm = this,
             typePassword,
@@ -39,8 +39,7 @@
 
                 userStore.createUser(vm.user)
                     .then(function(data) {
-                        $rootScope.notification.type = "success";
-                        $rootScope.notification.message = "New User Added Succesfully.";
+                        Notifications.message("success", "", "New User Added Succesfully.");
                         $state.go("users");
                     }).catch(function(e) {
                         var keys;
