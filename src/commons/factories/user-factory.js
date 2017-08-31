@@ -6,7 +6,7 @@
         .service("userFactory", userFactory);
 
     /*@ngInject*/
-    function userFactory($state, $q, $http, utils, config) {
+    function userFactory($state, $q, $http, utils, config, AuthManager) {
         var vm = this;
 
         /**
@@ -77,6 +77,25 @@
             }).catch(function(e) {
                 utils.checkErrorCode(e);
                 throw e;
+            });
+        };
+
+        vm.getUserInfo = function(userId) {
+            var url, request, getUserDetailsRequest;
+
+            url = config.baseUrl + "current_user";
+            //url = "/api/GetUserDetails.json";
+
+            getUserDetailsRequest = {
+                method: "GET",
+                url: url
+            };
+
+            request = angular.copy(getUserDetailsRequest);
+            return $http(request).then(function(response) {
+                return response.data;
+            }, function(e) {
+                utils.checkErrorCode(e);
             });
         };
     }

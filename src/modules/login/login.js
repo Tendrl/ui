@@ -13,7 +13,7 @@
         });
 
     /*@ngInject*/
-    function LoginController($state, $rootScope, $interval, AuthManager, eventStore, config) {
+    function LoginController($state, $rootScope, $interval, AuthManager, eventStore, config, menuService, userStore) {
 
         /* Controller instance */
         var vm = this,
@@ -41,11 +41,6 @@
                         AuthManager.isUserLoggedIn = true;
                         AuthManager.setAuthHeader();
                     })
-                    .then(function() {
-                        $state.go("clusters");
-                        getNotificationList();
-                        $rootScope.isNavigationShow = true;
-                    })
                     .catch(function(error) {
                         AuthManager.isUserLoggedIn = false;
 
@@ -56,6 +51,20 @@
                         }
 
                         vm.user.password = "";
+                    })
+                    .then(function() {
+                        return userStore.getUserInfo();
+                    })
+                    .catch(function() {
+                        console.log("error in getting user details");
+                    })
+                    .then(function() {
+                        menuService.setMenus();
+                        $state.go("clusters");
+                    })
+                    .then(function() {
+                        getNotificationList();
+                        $rootScope.isNavigationShow = true;
                     })
                     .finally(function() {
                         vm.formSubmitInProgress = false;
@@ -99,6 +108,10 @@
                 getNotificationList();
             }, 1000 * config.eventsRefreshIntervalTime, 1);
         }
+
+        $rootScope.$on("UserLogsOut", function() {
+            $interval.cancel(notificeTimer);
+        });
 
     }
 

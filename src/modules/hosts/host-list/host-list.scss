@@ -5,7 +5,6 @@
     .list-view-pf-view {
         .list-group-item {
             .host-name {
-                cursor: pointer;
                 white-space: nowrap;
                 overflow: hidden;
                 text-overflow: ellipsis;
@@ -20,7 +19,6 @@
     .flex-table {
         .ft-column {
             >.cluster-name {
-                cursor: pointer;
                 white-space: nowrap;
                 overflow: hidden;
                 text-overflow: ellipsis;

@@ -13,15 +13,15 @@
                                 <option value="fqdn">Host Name</option>
                             </select>
                         </div>
-                        <input type="text" class="form-control" id="filter" ng-model="alertCntrl.searchBy[alertCntrl.filterBy]" placeholder="Filter By {{alertCntrl.filterBy}}...">
+                        <input type="text" class="form-control" id="filter" ng-model="alertCntrl.searchBy[alertCntrl.filterBy]" placeholder="Filter By {{alertCntrl.filterBy}}..." ng-readonly="alertCntrl.alertList.length === 0">
                     </div>
                 </div>
-                <div class="form-group date-selector">
+                <div class="form-group date-selector" ng-class="{'disable-picker': (alertCntrl.alertList.length === 0)}">
                     From:
                     <div pf-datepicker options="alertCntrl.fromDateOptions" date="alertCntrl.date.fromDate" ng-model="alertCntrl.date.fromDate" ng-click="alertCntrl.resetCount()" class="from-selector"></div>
                     <i class="pficon pficon-close" ng-click="alertCntrl.clearDate('from')" ng-show="alertCntrl.date.fromDate"></i>
                 </div>
-                <div class="form-group date-selector">
+                <div class="form-group date-selector" ng-class="{'disable-picker': (alertCntrl.alertList.length === 0)}">
                     To:
                     <div pf-datepicker options="alertCntrl.toDateOptions" date="alertCntrl.date.toDate" ng-model="alertCntrl.date.toDate" ng-click="alertCntrl.resetCount()" class="to-selector"></div>
                     <i class="pficon pficon-close" ng-click="alertCntrl.clearDate('to')" ng-show="alertCntrl.date.toDate"></i>
@@ -38,10 +38,10 @@
                     </div>
                 </div>
             </form>
-            
             <div class="row toolbar-pf-results">
                 <h5 class="col-md-1">
-                    {{alertCntrl.filteredAlertList.length}} Alerts
+                    {{alertCntrl.filteredAlertList.length}} 
+                    <ng-pluralize count="alertCntrl.filteredAlertList.length" when="{'one': 'Alert', 'other': 'Alerts'}"></ng-pluralize>
                 </h5>
                 <div class="col-md-2 severity-counts">
                     <div class="row">
@@ -83,7 +83,6 @@
             </div>
         </div>
     </div>
-    
     <center ng-if="alertCntrl.filteredAlertList.length === 0">
         <div class="blank-slate-pf">
             <div class="blank-slate-pf-icon">
@@ -92,9 +91,7 @@
             <h1>No Alerts Detected.</h1>
         </div>
     </center>
-    
     <div ng-if="alertCntrl.isDataLoading" class="spinner spinner-lg"></div>
-    
     <div class="alert-list-table">
         <div class="list-group list-view-pf list-view-pf-equalized-column" ng-repeat="alert in alertCntrl.filteredAlertList = (alertCntrl.alertList | filter: alertCntrl.filterByCreatedDate| filter: alertCntrl.filterBySeverity | filter: alertCntrl.searchByDesc | filter: alertCntrl.searchBy | orderBy: ['-timeStamp', 'alertId'])">
             <div class="list-group-item">
