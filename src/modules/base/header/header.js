@@ -26,8 +26,11 @@
         vm.homePage = homePage;
         vm.setNotificationFlag = setNotificationFlag;
         vm.expandNotificationList = expandNotificationList;
+        vm.goToClusterPage = goToClusterPage;
+        vm.getClusterName = getClusterName;
 
         $rootScope.notification = Notifications.data;
+        $rootScope.selectedClusterOption = "allClusters";
 
         $scope.$on("GotNoticationData", function(event, data) {
             if ($rootScope.notificationList !== null) {
@@ -63,6 +66,31 @@
 
         function homePage() {
             $state.go("clusters");
+        }
+
+        function goToClusterPage() {
+            if ($rootScope.selectedClusterOption === "allClusters") {
+                $state.go("clusters");
+            } else {
+                $state.go("cluster-detail", { clusterId: $rootScope.selectedClusterOption });
+            }
+        }
+
+        function getClusterName(id) {
+            if (id === "allClusters") {
+                return "All Clusters";
+            } else {
+
+                var data = $rootScope.clusterData,
+                    len = data.length,
+                    i;
+
+                for (i = 0; i < len; i++) {
+                    if (id === data[i].cluster_id) {
+                        return data[i].cluster_name;
+                    }
+                }
+            }
         }
     }
 

@@ -62,6 +62,8 @@
                             if (keys.indexOf("email") !== -1) {
                                 vm.errorMsg = "Email is already taken. Please use different one.";
                             }
+                        } else {
+                            vm.errorMsg = "Failed to update user.";
                         }
 
                     });
