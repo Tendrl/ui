@@ -65,7 +65,7 @@
                         template: "<host-list></host-list>"
                     })
                     .state("tasks", {
-                        url: "/admin/tasks",
+                        url: "/tasks",
                         template: "<tasks></tasks>"
                     })
                     .state("users", {
@@ -87,10 +87,14 @@
                     .state("task-detail", {
                         url: "/admin/tasks/:taskId",
                         template: "<task-detail></task-detail>"
+                    })
+                    .state("forbidden", {
+                        url: "/forbidden",
+                        template: "<div class='un-auth-user'>You are not authorised to see this view.<div>"
                     });
 
             });
-            storageModule.run(function($rootScope, $location, $http, $interval, menuService, AuthManager, utils, eventStore, config, clusterStore) {
+            storageModule.run(function($rootScope, $location, $http, $interval, menuService, AuthManager, utils, eventStore, config, clusterStore, userStore) {
                 var restrictedPage, loggedIn, notificationTimer;
 
                 $rootScope.$on("$locationChangeStart", function(event, current, next) {
@@ -111,9 +115,16 @@
                     menuService.setActive(current.name);
                 });
 
+                $rootScope.$on("$stateChangeStart", function(event, next, current) {
+                    if (AuthManager.isAuthenticated(next.name)) {
+                        $location.path("/forbidden");
+                    }
+                });
+
                 if (JSON.parse(localStorage.getItem("userInfo")) && JSON.parse(localStorage.getItem("userInfo")).username && JSON.parse(localStorage.getItem("userInfo")).accessToken) {
                     AuthManager.isUserLoggedIn = true;
                     AuthManager.setAuthHeader();
+                    $rootScope.userRole = AuthManager.getUserRole();
                 }
 
                 if (AuthManager.isUserLoggedIn) {
@@ -121,6 +132,7 @@
                     $rootScope.isAPINotFoundError = false;
                     $rootScope.clusterData = null;
                     $rootScope.notificationList = null;
+                    menuService.setMenus();
 
                     var url = $location.path();
                     clusterStore.getClusterList().then(function(list) {

@@ -7,7 +7,7 @@
         "sds_name": "gluster",
         "sds_version": "4.0dev",
         "updated_at": "2017-08-11 05:10:13.852508+00:00",
-        "is_managed": true,
+        "is_managed": "yes",
         "errors": [],
         "enable_volume_profiling": true,
         "utilization": {
@@ -83,7 +83,7 @@
         "sds_name": "gluster",
         "sds_version": "4.0dev",
         "updated_at": "2017-08-11 05:10:13.852508+00:00",
-        "is_managed": false,
+        "is_managed": "no",
         "errors": ["Message 1",  "Message 2", "Message 3", "Message 4"],
         "enable_volume_profiling": false,
         "utilization": {
@@ -159,7 +159,7 @@
         "sds_name": "gluster",
         "sds_version": "4.0dev",
         "updated_at": "2017-08-11 05:10:13.852508+00:00",
-        "is_managed": false,
+        "is_managed": "no",
         "errors": [],
         "enable_volume_profiling": true,
         "utilization": {

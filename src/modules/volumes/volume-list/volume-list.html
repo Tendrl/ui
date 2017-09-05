@@ -41,7 +41,9 @@
                 </form>
                 <div class="row toolbar-pf-results">
                     <div class="col-sm-12">
-                        <h5 ng-if="volumeCntrl.volumeList.length !== 0">{{volumeCntrl.filteredVolumeList.length}} Volumes</h5>
+                        <h5 ng-if="volumeCntrl.volumeList.length !== 0">{{volumeCntrl.filteredVolumeList.length}} 
+                            <ng-pluralize count="volumeCntrl.filteredVolumeList.length" when="{'one': 'Volume', 'other': 'Volumes'}"></ng-pluralize>
+                       </h5>
                     </div>
                 </div>
             </div>
@@ -62,7 +64,7 @@
                 <div class="ft-column ft-icon">
                     <i class="pficon" ng-class="{'pficon-error-circle-o': (volume.status === 'Stopped'), 'pficon-ok': (volume.status !=='Stopped')}" uib-tooltip-html="'{{volume.status}}'" tooltip-placement="auto bottom-left"></i>
                 </div>
-                <div class="ft-column ft-main volume-name bold-text"  list-view-pf-additional-info-item-stacked>
+                <div class="ft-column ft-main volume-name bold-text" list-view-pf-additional-info-item-stacked>
                     <div class="bold-text" uib-tooltip-html="'{{volume.name}}'" tooltip-placement="auto bottom-left">{{volume.name}}</div>
                     <div class="pull-left vol-type">{{volume.type}}</div>
                 </div>

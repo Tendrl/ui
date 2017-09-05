@@ -55,7 +55,7 @@
             </thead>
             <tbody>
                 <tr ng-repeat="user in userCntrl.filteredUserList=(userCntrl.userList | filter: userCntrl.searchBy | orderBy: 'username')">
-                    <td class="text-capitalize">{{ user.username }}</td>
+                    <td>{{ user.username }}</td>
                     <td class="text-capitalize">{{ user.firstName }}</td>
                     <td class="text-capitalize">{{ user.lastName || "-"}}</td>
                     <!-- <td class="text-capitalize">

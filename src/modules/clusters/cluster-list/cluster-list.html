@@ -34,7 +34,10 @@
                 </form>
                 <div class="row toolbar-pf-results">
                     <div class="col-sm-12">
-                        <h5 ng-if="clusterCntrl.clusterList.length !== 0">{{clusterCntrl.filteredClusteredList.length}} Clusters</h5>
+                        <h5 ng-if="clusterCntrl.clusterList.length !== 0">{{clusterCntrl.filteredClusteredList.length}} 
+                            <ng-pluralize count="clusterCntrl.clusterList.length" when="{'one': 'Cluster',
+                       'other': 'Clusters'}"></ng-pluralize>
+                        </h5>
                     </div>
                 </div>
                 <!-- /row -->
@@ -65,8 +68,8 @@
                     </div>
                     <div class="list-view-pf-actions">
                         <button class="btn btn-default" ng-show="cluster.managed === 'Yes'" ng-click="clusterCntrl.goToClusterDetail(cluster)">Cluster Details</button>
-                        <button class="btn btn-default" ng-show="cluster.managed === 'No'" ng-disabled="cluster.message === 'Cluster Misconfigured'" ng-click="clusterCntrl.goToImportFlow(cluster)">Import Cluster</button>
-                        <div class="dropdown pull-right dropdown-kebab-pf" ng-show="cluster.managed === 'Yes'">
+                        <button class="btn btn-default" ng-show="cluster.managed === 'No'" ng-disabled="cluster.message === 'Cluster Misconfigured'" ng-click="clusterCntrl.goToImportFlow(cluster)" ng-class="{'hide-button': ($root.userRole ==='limited')}">Import Cluster</button>
+                        <div class="dropdown pull-right dropdown-kebab-pf" ng-show="(cluster.managed === 'Yes') && ($root.userRole !== 'limited')">
                             <button class="btn btn-link dropdown-toggle" type="button" id="dropdownKebabRight12" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" ng-click="clusterCntrl.showKababMenu($event, cluster)">
                                 <span class="fa fa-ellipsis-v"></span>
                             </button>
