@@ -15,7 +15,7 @@
                     <input type="checkbox" name="volumeProfile" ng-model="vm.enableProfiling"> Enable Volume profiling. Enabling cluster wide volume profiling will enable profiling for all exisiting and new volumes of the cluster.
                 </div>
             </div>
-            <h2>Discovered Hosts</h2>
+            <h2>Discovered Host(s)</h2>
             <div class="row toolbar-pf">
                 <div class="col-sm-12">
                     <form class="toolbar-pf-actions">
@@ -50,7 +50,10 @@
                 <!-- /col -->
             </div>
             <div class="row" ng-show="vm.hostList.length">
-                <h3 class="col-sm-12">{{vm.hostList.length}} Hosts Discovered</h3>
+                <h3 class="col-sm-12">{{vm.hostList.length}} 
+                    <ng-pluralize count="vm.hostList.length" when="{'one': 'Host',
+                       'other': 'Hosts'}"></ng-pluralize> 
+                Discovered</h3>
             </div>
             <center ng-show="vm.hostList.length === 0">
                 <div class="blank-slate-pf">

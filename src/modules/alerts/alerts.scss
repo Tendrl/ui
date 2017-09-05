@@ -17,7 +17,8 @@
     }
     .date-selector {
         position: relative;
-        .from-selector + .pficon, .to-selector + .pficon {
+        .from-selector + .pficon,
+        .to-selector + .pficon {
             position: absolute;
             top: 27px;
             right: 48px;
@@ -25,6 +26,9 @@
             font-size: 13px;
             cursor: pointer;
         }
+    }
+    .disable-picker {
+        pointer-events: none;
     }
     .severity-counts {
         padding: 10px 0;
@@ -36,19 +40,16 @@
     .filter-section {
         margin-top: 20px;
     }
-
     .toolbar-pf-action-right {
-        margin-top:20px;
+        margin-top: 20px;
         margin-right: 12px;
         position: relative;
-
         .btn-find {
             position: absolute;
             right: 1px;
-            top:0;
+            top: 0;
         }
     }
-
     .to-date-calendar {
         border-right: none;
     }

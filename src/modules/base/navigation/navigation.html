@@ -1,6 +1,6 @@
 <nav class="nav-pf-vertical nav-pf-vertical-with-secondary-nav hidden-icons-pf">
     <ul class="list-group">
-	    <li class="list-group-item" ng-repeat="menu in navCtrl.menus" ng-class="{'active':menu.active, 'persistent-secondary':menu.hasSubMenus}" data-target="#{{menu.label}}"><sub-menu menu="menu"></sub-menu>
+	    <li class="list-group-item" ng-repeat="menu in navCtrl.menus" ng-class="{'active':menu.active, 'persistent-secondary':menu.hasSubMenus}" data-target="#{{menu.label}}"><sub-menu menu="menu" ng-if="menu.show"></sub-menu>
         </li>
     </ul>
 </nav>

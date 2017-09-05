@@ -6,7 +6,7 @@
         .service("userStore", userStore);
 
     /*@ngInject*/
-    function userStore($state, $q, userFactory) {
+    function userStore($state, $q, userFactory, AuthManager) {
         var store = this;
         store.users = [];
 
@@ -77,7 +77,7 @@
             userFactory.createUser(newUser)
                 .then(function(response) {
                     deferred.resolve(response);;
-                }).catch(function(e){
+                }).catch(function(e) {
                     deferred.reject(e);
                 });
 
@@ -93,7 +93,7 @@
             userFactory.editUser(updateUser)
                 .then(function(response) {
                     deferred.resolve(response);
-                }).catch(function(e){
+                }).catch(function(e) {
                     deferred.reject(e);
                 });
 
@@ -110,10 +110,23 @@
                 if (store.users[i].username === username) {
                     userDetail = store.users[i];
                     break;
-                } 
+                }
             }
 
             return userDetail;
+        };
+
+        store.getUserInfo = function() {
+            var deferred;
+
+            deferred = $q.defer();
+            userFactory.getUserInfo()
+                .then(function(data) {
+                    AuthManager.setUserRole(data.role);
+                    deferred.resolve(data);
+                });
+
+            return deferred.promise;
         };
 
         function _createUserData(user) {
