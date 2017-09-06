@@ -27,25 +27,31 @@
                     <span class="error-msg">*To date cannot be greater than from date</span>
                 </div>
             </form>
+            <div class="row">
+                <div class="col-md-12 horizontal-line"></div>
+            </div>
             <div class="row toolbar-pf-results">
-                <div class="col-md-1 status-options">
+                <div class="status-options">
                     Show:
                 </div>
-                <div class="col-md-1 status-options">
+                <div class="status-options">
                     <label>
                         <input type="checkbox" name="status1" id="status1" ng-click="taskCntrl.updateStatus('processing')" ng-checked="createFileShareCntrl.isSelectedStatus('processing')"> In progress
                     </label>
                 </div>
-                <div class="col-md-1 status-options">
+                <div class="status-options">
                     <label>
                         <input type="checkbox" name="status2" id="status2" ng-click="taskCntrl.updateStatus('finished')" ng-checked="createFileShareCntrl.isSelectedStatus('finished')"> Succeeded
                     </label>
                 </div>
-                <div class="col-md-1 status-options">
+                <div class="status-options">
                     <label>
                         <input type="checkbox" name="status3" id="status3" ng-click="taskCntrl.updateStatus('failed')" ng-checked="createFileShareCntrl.isSelectedStatus('failed')"> Failed
                     </label>
                 </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12 horizontal-line"></div>
             </div>
             <div class="row toolbar-pf-results">
                 <div class="col-sm-12">
@@ -66,28 +72,25 @@
         </div>
     </center>
     <div ng-if="taskCntrl.isDataLoading" class="spinner spinner-lg"></div>
-    <div class="task-list-table">
-        <div class="list-group list-view-pf list-view-pf-equalized-column" ng-repeat="task in taskCntrl.filteredTaskList = (taskCntrl.taskList | filter: taskCntrl.searchBy | filter:taskCntrl.filterByStatus | filter: taskCntrl.filterByCreatedDate| orderBy: ['-created_at', 'job_id'])">
-            <div class="list-group-item">
-                <div class="list-view-pf-left col-md-1">
-                    <i ng-class="{'pficon pficon-error-circle-o': (task.status === 'failed'), 'pficon pficon-ok': (task.status === 'finished'), 'pficon pficon-warning-triangle-o': (task.status === 'warning'), 'fa fa-spinner': (task.status === 'processing' || task.status === 'new')}"></i>
+    
+    <div class="flex-table list-group list-view-pf list-view-pf-view task-list-table" ng-show="!hostCntrl.isDataLoading">
+        <div class="ft-row list-group-item " ng-repeat="task in taskCntrl.filteredTaskList = (taskCntrl.taskList | filter: taskCntrl.searchBy | filter:taskCntrl.filterByStatus | filter: taskCntrl.filterByCreatedDate| orderBy: ['-created_at', 'job_id'])" ">
+                <div class="ft-column ft-icon ">
+                    <i ng-class="{ 'pficon pficon-error-circle-o': (task.status==='failed' ), 'pficon pficon-ok': (task.status==='finished' ), 'pficon pficon-warning-triangle-o': (task.status==='warning' ), 'fa fa-spinner': (task.status==='processing' || task.status==='new' )} "></i>
                 </div>
-                <div class="col-md-3 text-left">
-                    <a href="" ng-click="taskCntrl.goToTaskDetail(task.job_id)" ng-if="task.flow" class="bold-text">{{task.flow}}</a>
-                    <div class="bold-text" ng-if="!task.flow">NA</div>
-                    <p>Task ID: {{task.job_id || "NA"}} </p>
+                <div class="ft-column ft-main list-view-pf-additional-info-item list-view-pf-additional-info-item-stacked task-flow ">
+                    <a href=" " class="bold-text " ng-click="taskCntrl.goToTaskDetail(task.job_id) " ng-show="task.flow " >{{task.flow}}</a>
+                    <div class="bold-text " ng-if="!task.flow ">NA</div>
+                    <p>Task ID: {{task.job_id || "NA "}} </p>
                 </div>
-                <div class="col-md-3 text-left">
-                    <p class="bold-text">Submitted</p>
-                    <p>{{task.created_at| date: 'dd MMM yyyy HH:mm:ss'}}</p>
+                <div class="ft-column list-view-pf-additional-info-item list-view-pf-additional-info-item-stacked ">
+                    <div class="bold-text ">Submitted</div>
+                    <div class="pull-left ">{{task.created_at| date: 'dd MMM yyyy HH:mm:ss'}}</div>
                 </div>
-                <div class="col-md-3 text-left">
-                    <p class="bold-text">{{taskCntrl.getStatusText(task.status)}}</p>
-                </div>
+                <div class="ft-column bold-text ">{{taskCntrl.getStatusText(task.status)}}</div>
             </div>
         </div>
-    </div>
-    <div class="row">
-        <div class="col-md-12 horizontal-line"></div>
+    <div class="row ">
+        <div class="col-md-12 horizontal-line "></div>
     </div>
 </div>

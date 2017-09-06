@@ -21,6 +21,7 @@
             clusterFactory.getClusterList()
                 .then(function(data) {
                     //list = data ? _formatClusterData(data.clusters) : [];
+                    $rootScope.clusterData = data.clusters;
                     deferred.resolve(data.clusters);
                 });
 
@@ -161,6 +162,7 @@
 
             return deferred.promise;
         };
+
     }
 
 })();

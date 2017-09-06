@@ -15,7 +15,7 @@
         vm.setMenus = function() {
             vm.menus = [{
                 label: "Clusters",
-                id: "cluster",
+                id: "clusters",
                 href: "clusters",
                 icon: "pficon pficon-cluster",
                 active: false,
@@ -23,7 +23,7 @@
                 show: true
             }, {
                 label: "Hosts",
-                id: "host",
+                id: "hosts",
                 href: "hosts",
                 icon: "pficon pficon-container-node",
                 active: false,
@@ -62,6 +62,7 @@
                 }]
             }];
         };
+
         vm.setActive = function(menuId) {
 
             if (JSON.parse(localStorage.getItem("userInfo"))) {
