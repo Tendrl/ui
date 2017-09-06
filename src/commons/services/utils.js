@@ -47,6 +47,7 @@
                 request;
 
             url = config.baseUrl + "jobs";
+            //url = "/api/jobs.json";
 
             getJobListRequest = {
                 method: "GET",

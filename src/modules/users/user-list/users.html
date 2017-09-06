@@ -13,7 +13,7 @@
                             <div class="input-group-btn">
                                 <!--search By -->
                                 <select ng-init="userCntrl.filterBy = 'username'" ng-disabled="userCntrl.userList.length === 0" ng-model="userCntrl.filterBy" class="btn btn-default dropdown-toggle" ng-change="userCntrl.searchBy = {}">
-                                    <option value="username">User id {{userCntrl.userList.name}}</option>
+                                    <option value="username">User Id</option>
                                     <option value="lastName">Last Name</option>
                                     <!-- <option value="status">Status</option> -->
                                     <option value="role">Role</option>
@@ -67,9 +67,8 @@
                     </td> -->
                     <td class="text-capitalize">{{ user.role }}</td>
                     <td class="text-capitalize">
-                            <span uib-tooltip-html="'{{user.notification}}'" ng-if="user.notification ==='enabled'" class="pficon pficon-ok list-view-pf-icon-success status-icons"></span>
-                            <span uib-tooltip-html="'{{user.notification}}'" ng-if="user.notification ==='disabled'" class="pficon pficon-error-circle-o list-view-icon-failure status-icons"></span>
-                            {{ user.notification }}
+                        <span uib-tooltip-html="'{{user.notification}}'" ng-if="user.notification ==='enabled'" class="pficon pficon-ok list-view-pf-icon-success status-icons"></span>
+                        <span uib-tooltip-html="'{{user.notification}}'" ng-if="user.notification ==='disabled'" class="pficon pficon-error-circle-o list-view-icon-failure status-icons"></span> {{ user.notification }}
                     </td>
                     <td>{{ user.email }}</td>
                     <td class="table-view-pf-actions">

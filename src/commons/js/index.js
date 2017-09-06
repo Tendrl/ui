@@ -132,6 +132,7 @@
                     $rootScope.isAPINotFoundError = false;
                     $rootScope.clusterData = null;
                     $rootScope.notificationList = null;
+                    $rootScope.selectedClusterOption = "allClusters";
                     menuService.setMenus();
 
                     var url = $location.path();

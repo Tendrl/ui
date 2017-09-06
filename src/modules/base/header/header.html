@@ -9,6 +9,10 @@
         <a class="navbar-brand" ng-click="header.homePage()" class="nav-brand-name-link">
             <img class="nav-brand-name brand-name-img" src="../images/name.png" alt="tendrl | Unified Storage Manager" />
         </a>
+        <select id="repeatSelect" ng-model="$root.selectedClusterOption" class="cluster-options btn btn-default dropdown-toggle" ng-change="header.goToClusterPage()" uib-tooltip-html="header.getClusterName($root.selectedClusterOption)" tooltip-placement="auto bottom">
+            <option value="allClusters" ng-selected="$root.selectedClusterOption === 'allClusters'">All Clusters</option>
+            <option ng-repeat="cluster in $root.clusterData" value="{{cluster.cluster_id}}" ng-selected="$root.selectedClusterOption === '{{cluster.cluster_id}}'" >{{cluster.cluster_name}}</option>
+        </select>
     </div>
     <nav class="collapse navbar-collapse">
         <span class="pull-right">
@@ -21,7 +25,7 @@
                     <span class="badge"></span>
                 </a>
             </li>
-<!--             <li class="dropdown">
+            <!--             <li class="dropdown">
                 <a class="nav-item-iconic" ng-href="" title="Node Discovery">
                     <i class="pficon pficon-container-node"></i>
                     <span class="badge"></span>
@@ -39,8 +43,7 @@
                 </a>
             </li> -->
             <li class="dropdown user">
-                <a class="dropdown-toggle nav-item-iconic" bs-dropdown="dropdown" href="" data-template=""
-                data-animation="am-fade-and-slide-top" title="User" id="usermenu" data-toggle="dropdown">
+                <a class="dropdown-toggle nav-item-iconic" bs-dropdown="dropdown" href="" data-template="" data-animation="am-fade-and-slide-top" title="User" id="usermenu" data-toggle="dropdown">
                     <i class="pficon pficon-user"></i>
                 </a>
                 <ul class="dropdown-menu" role="menu" aria-labelledby="usermenu">
@@ -49,7 +52,6 @@
             </li>
         </ul>
     </nav>
-
     <div ng-if="header.showNotification" class="notification-container">
         <div class="row">
             <div class="col-md-2">
