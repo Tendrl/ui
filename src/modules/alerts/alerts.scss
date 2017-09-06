@@ -33,6 +33,7 @@
     }
     .disable-picker {
         pointer-events: none;
+        color: $color-gray;
     }
     .severity-counts {
         padding: 10px 0;

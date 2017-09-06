@@ -17,68 +17,67 @@
     .host-name {
         text-transform: initial;
     }
-    .container-fluid {
-        margin-top: 15px;
-        .list-group {
-            margin-bottom: 0px;
-            .list-group-item {
-                .list-group-item-header {
-                    .list-view-pf-expand {
-                        margin-top: 30px;
-                        .fa-angle-down {
-                            cursor: pointer;
-                            font-size: 17px;
-                            margin-right: 5px;
-                            margin-top: 2px;
-                            width: 10px;
-                        }
-                    }
-                    .display {
-                        display: block;
-                    }
-                    .list-view-pf-main-info .list-view-pf-body .error-message {
-                        color: $color-red !important;
-                    }
+    .list-view-pf-description {
+        flex: 1 0 15%;
+        max-width: 320px;
+        @media screen and (min-width: 1024px) and (max-device-width: 1224px) {
+            flex: 1 0 0%;
+             max-width: 277px;
+        }
+        .list-group-item-text {
+            @media screen and (min-width: 1024px) and (max-device-width: 1224px) {
+                margin-right: 0;
+            }
+            width: calc(27% - 40px);
+        }
+    }
+    .list-view-pf-additional-info {
+        justify-content: space-evenly;
+        @media screen and (min-width: 1024px) and (max-device-width: 1224px) {
+            flex: 1 0 20%;
+        }
+        @media screen and (min-width: 1224px) and (max-device-width: 1280px) {
+            flex: 1 0 20%;
+        }
+        @media screen and (min-width: 768px) and (max-device-width: 1024px) {
+            flex: 1 0 49%;
+        }
+    }
+    .list-group {
+        margin-bottom: 0;
+        margin-top: 0;
+        .list-group-item {
+            .list-view-pf-expand {
+                .fa-angle-down {
+                    cursor: pointer;
+                    font-size: 17px;
+                    margin-right: 5px;
+                    margin-top: 2px;
+                    width: 10px;
                 }
-                &.list-view-pf-expand-active {
-                    border-color: $color-silver;
+            }
+            .list-view-pf-actions {
+                .display {
+                    display: block;
                 }
-                .list-group-item-container {
-                    border-top-color: $color-silver;
-                    max-height: 265px;
-                    overflow: auto;
+                .btn-default {
+                    width: 124px;
+                }
+            }
+            .list-view-pf-main-info {
+                padding-top: 10px;
+                .error-message {
+                    color: $color-red !important;
+                }
+            }
+            .nav-tabs {
+                margin-left: 5px;
+            }
+            .list-group-item-container {
+                .list-group {
+                    margin: 0 5px;
                     .list-view-pf-main-info {
-                        padding-top: 10px;
-                        padding-bottom: 10px;
-                    }
-                    .row {
-                        margin-left: 0;
-                        margin-right: 0;
-                        .list-view-pf-description {
-                            flex: 1 0 15%;
-                        }
-                    }
-                }
-                .list-view-pf-main-info {
-                    .pficon-error-circle-o {
-                        padding-left: 5px;
-                    }
-                    .list-view-pf-description {
-                        width: 20%;
-                        flex: 1 0 15%;
-                        .list-group-item-heading {
-                            width: calc(25% - 20px);
-                        }
-                        .list-group-item-text {
-                            width: calc(65% - 125px);
-                        }
-                    }
-                    .list-view-pf-additional-info {
-                        flex: 1 0 50%;
-                        width: 123%;
-                        .list-view-pf-additional-info-item {
-                            flex: 1 0;
-                        }
+                        padding: 5px;
                     }
                 }
             }
@@ -86,13 +85,5 @@
     }
     .not-available {
         margin-left: 38px;
-    }
-    .container-fluid {
-        .list-view-pf-view {
-            margin-top: 0;
-        }
-    }
-    .import-btn {
-        width: 110px;
     }
 }
