@@ -84,6 +84,9 @@
                     <div class="bold-text">Last Rebalance</div>
                     <div class="pull-left counts">{{volumeCntrl.getRebalStatus(volume)}}</div>
                 </div>
+                <div class="ft-column list-view-pf-additional-info-item list-view-pf-additional-info-item-stacked">
+                    <button class="btn btn-default" ng-click="volumeCntrl.redirectToGrafana(volume, $event)">Grafana Dashboard</button>
+                </div>
             </div>
         </div>
     </div>

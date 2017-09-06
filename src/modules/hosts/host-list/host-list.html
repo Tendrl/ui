@@ -80,6 +80,9 @@
                     <div class="bold-text">Alerts</div>
                     <div class="pull-left counts">{{host.alerts || "NA"}}</div>
                 </div>
+                <div class="ft-column list-view-pf-additional-info-item list-view-pf-additional-info-item-stacked">
+                    <button class="btn btn-default" ng-click="hostCntrl.redirectToGrafana(host, $event)">Grafana Dashboard</button>
+                </div>
             </div>
         </div>
     </div>

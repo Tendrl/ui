@@ -6,7 +6,7 @@
         .service("utils", utils);
 
     /*@ngInject*/
-    function utils($http, $rootScope, $filter, config, AuthManager) {
+    function utils($http, $rootScope, $filter, config, AuthManager, $location) {
 
         /* Cache the reference to this pointer */
         var vm = this,
@@ -270,5 +270,33 @@
                 return null;
             });
         };
+
+        vm.redirectToGrafana = function(dashboardName, $event, grafanaObj){
+            var ip,
+                initialUrl,
+                dashboardTypes,
+                uri;
+
+            dashboardTypes = {
+                glance: "tendrl-gluster-at-a-glance",
+                volumes: "tendrl-gluster-volumes",
+                hosts: "tendrl-gluster-hosts",
+                bricks: "tendrl-gluster-bricks"
+            };
+            ip = $location.absUrl().split(':')[1];
+            initialUrl = "http:"+ ip +":3000/dashboard/db/" + dashboardTypes[dashboardName];
+
+            if(dashboardName === "glance"){
+                uri = initialUrl + "?var-cluster_id="+ grafanaObj.clusterId;
+            } else if(dashboardName === "volumes") {
+                uri = initialUrl + "?var-cluster_id="+ grafanaObj.clusterId + "&var-volume_name=" + grafanaObj.volumeName;
+            } else if(dashboardName === "hosts") {
+                uri = initialUrl + "?var-cluster_id="+ grafanaObj.clusterId + "&var-host_name=" + grafanaObj.hostName;
+            } else if(dashboardName === "bricks") {
+                uri = initialUrl + "?var-cluster_id="+ grafanaObj.clusterId + "&var-volume_name=" + grafanaObj.volumeName + "&var-host_name=" + grafanaObj.hostsName; + "&var-brick_path=" + grafanaObj.brickName;
+            }
+            window.open(uri);
+            $event.stopPropagation();
+        }
     };
 })();

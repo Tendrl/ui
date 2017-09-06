@@ -25,6 +25,7 @@
         vm.isDataLoading = true;
         vm.isRebalanceAllowed = isRebalanceAllowed;
         vm.getRebalStatus = volumeStore.getRebalStatus;
+        vm.redirectToGrafana = redirectToGrafana;
 
         init();
 
@@ -58,6 +59,11 @@
         $scope.$on('$destroy', function() {
             $interval.cancel(volumeTimer);
         });
+
+        function redirectToGrafana(volume, $event){
+            utils.redirectToGrafana("volumes", $event, {clusterId: vm.clusterId,
+                                                        volumeName: volume.name});
+        }
 
         function isRebalanceAllowed(volume) {
             return volume.type.startsWith("Distribute");
