@@ -31,7 +31,7 @@
             isAuthenticated: isAuthenticated,
             setUserRole: setUserRole,
             getUserRole: getUserRole,
-            clearUserRole: clearUserRole
+            clearUserRole: clearUserRole,
         };
 
         function setAuthHeader() {

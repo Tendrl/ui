@@ -70,8 +70,8 @@
             if (form.username.$invalid) {
                 vm.errorMsg = "Please specify valid User Id.";
                 isFormValid = false;
-            } else if (form.firstName.$invalid) {
-                vm.errorMsg = "Please specify valid First Name."
+            } else if (form.name.$invalid) {
+                vm.errorMsg = "Please specify valid Name."
                 isFormValid = false;
             } else if (form.password.$invalid || form.confirmPassword.$invalid) {
                 vm.errorMsg = "Please specify valid Password."

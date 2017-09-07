@@ -25,15 +25,9 @@
                 </div>
             </div>
             <div class="form-group">
-                <label class="col-sm-2 col-md-1 control-label" for="first-name">First Name</label>
+                <label class="col-sm-2 col-md-1 control-label" for="name">Name</label>
                 <div class="col-sm-8 col-md-6">
-                    <input type="text" class="form-control" data-id="first-name" name="firstName" ng-model="addUserCntrl.user.firstName" required/>
-                </div>
-            </div>
-            <div class="form-group">
-                <label class="col-sm-2 col-md-1 control-label" for="last-name">Last Name</label>
-                <div class="col-sm-8 col-md-6">
-                    <input type="text" class="form-control" data-id="last-name" name="lastName" ng-model="addUserCntrl.user.lastName" />
+                    <input type="text" class="form-control" data-id="name" name="name" ng-model="addUserCntrl.user.name" required/>
                 </div>
             </div>
             <div class="form-inline form-group">
@@ -91,8 +85,8 @@
                     </div>
                     <div class="radio radio-class">
                         <label>
-                            <input type="radio" name="role" id="role3" value="limited" ng-model="addUserCntrl.user.role"> <strong>Limited User</strong>
-                            <br> The Limited user role permits the user to access Tendrl in read-only mode, which means the user cannot actively manage storage. This role is ideal for users interested in monitoring the storage.
+                            <input type="radio" name="role" id="role3" value="limited" ng-model="addUserCntrl.user.role"> <strong>Read-only User</strong>
+                            <br> The Read-only user role permits the user to access Tendrl in read-only mode, which means the user cannot actively manage storage. This role is ideal for users interested in monitoring the storage.
                         </label>
                     </div>
                 </div>
