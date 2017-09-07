@@ -13,7 +13,7 @@
         });
 
     /*@ngInject*/
-    function clusterController($scope, $state, $interval, $rootScope, $filter, config, clusterStore, Notifications) {
+    function clusterController($scope, $state, $interval, $rootScope, $filter, config, clusterStore, Notifications, utils) {
 
         var vm = this,
             key,
@@ -39,6 +39,7 @@
         vm.doProfilingAction = doProfilingAction;
         vm.setTab = setTab;
         vm.isTabSet = isTabSet;
+        vm.redirectToGrafana = redirectToGrafana;
 
         init();
 
@@ -132,6 +133,10 @@
          */
         function goToClusterDetail(cluster) {
             $state.go("cluster-detail", { clusterId: cluster.clusterId });
+        }
+
+        function redirectToGrafana(cluster, $event){
+            utils.redirectToGrafana("glance", $event, {clusterId: cluster.clusterId});
         }
 
         /**

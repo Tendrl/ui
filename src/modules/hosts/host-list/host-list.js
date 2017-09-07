@@ -21,6 +21,7 @@
             hostListTimer;            
 
         vm.isDataLoading = true;
+        vm.redirectToGrafana = redirectToGrafana;
 
         init();
 
@@ -44,6 +45,11 @@
             hostListTimer = $interval(function() {
                 init();
             }, 1000 * config.nodeRefreshIntervalTime, 1);
+        }
+
+        function redirectToGrafana(host, $event){
+            utils.redirectToGrafana("hosts", $event, {clusterId: vm.clusterId,
+                                                    hostName: host.name.split(".").join("_")});
         }
 
         /*Cancelling interval when scope is destroy*/
