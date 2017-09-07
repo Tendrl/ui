@@ -67,6 +67,7 @@
                         <span class="fa fa-angle-down" ng-show="cluster.isExpanded" ng-click="clusterCntrl.expandCluster($event, cluster)"></span>
                     </div>
                     <div class="list-view-pf-actions">
+                        <button class="btn btn-default" ng-show="cluster.managed === 'Yes'" ng-click="clusterCntrl.redirectToGrafana(cluster, $event)">Grafana Dashboard</button>
                         <button class="btn btn-default" ng-show="cluster.managed === 'Yes'" ng-click="clusterCntrl.goToClusterDetail(cluster)">Cluster Details</button>
                         <button class="btn btn-default" ng-show="cluster.managed === 'No'" ng-disabled="cluster.message === 'Cluster Misconfigured'" ng-click="clusterCntrl.goToImportFlow(cluster)" ng-class="{'hide-button': ($root.userRole ==='limited')}">Import Cluster</button>
                         <div class="dropdown pull-right dropdown-kebab-pf" ng-show="(cluster.managed === 'Yes') && ($root.userRole !== 'limited')">
