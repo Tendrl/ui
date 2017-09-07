@@ -1,5 +1,5 @@
 <div class="custom-modal-footer">
   <div class="modal-footer" >
-    <button ng-repeat="button in vm.modalFooter" type="button" class="btn {{button.classname}}" ng-click="button.onCall()">{{button.name}}</button>
+    <button ng-repeat="button in vm.modalFooter" type="{{button.type}}" class="btn {{button.classname}}" ng-click="button.onCall()">{{button.name}}</button>
   </div>
 </div>
