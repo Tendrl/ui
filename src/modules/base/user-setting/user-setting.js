@@ -3,33 +3,17 @@
 
     angular
         .module("TendrlModule")
-        .component("editUser", {
-
-            restrict: "E",
-            templateUrl: "/modules/users/edit-user/edit-user.html",
-            bindings: {},
-            controller: editUserController,
-            controllerAs: "editUserCntrl"
-        });
+        .controller("userSettingController", userSettingController);
 
     /*@ngInject*/
-    function editUserController($rootScope, $scope, $interval, $state, $stateParams, userStore, config, utils, Notifications) {
+    function userSettingController($rootScope, $scope, $state, userStore, loggedUser, Notifications) {
 
-        var vm = this,
-            userDetail;
+        var vm = this;
 
-        vm.typePassword = false;
-        vm.confirmPassword = false;
-        vm.userDetail = [];
+        vm.cancelModal = cancelModal;
+        vm.closeModal = closeModal;
+        vm.confirmModal = confirmModal;
         vm.isDataLoading = true;
-        vm.user = {};
-        vm.errorMsg = "";
-        vm.username = $stateParams.userId;
-        vm.toggleTypePassword = toggleTypePassword;
-        vm.toggleConfirmPassword = toggleConfirmPassword;
-        vm.editUser = editUser;
-
-        init();
 
         function init() {
             if (!userStore.users.length) {
@@ -48,61 +32,65 @@
             }
         }
 
-        function editUser() {
-            if (_validateUIFields()) {
-                userStore.editUser(vm.user)
-                    .then(function(data) {
-                        Notifications.message("success", "", "User Succesfully Updated.");
-                        $state.go("users");
-                    }).catch(function(e) {
-                        var keys;
+        vm.modalHeader = {
+            "title": "My Settings",
+            "close": vm.closeModal
+        };
 
-                        if (e.status === 422) {
-                            keys = Object.keys(e.data.errors);
-                            if (keys.indexOf("email") !== -1) {
-                                vm.errorMsg = "Email is already taken. Please use different one.";
+        vm.modalFooter = [{
+            "name": "Cancel",
+            "classname": "btn-default",
+            "onCall": vm.cancelModal
+        }, {
+            "name": "Save",
+            "classname": "btn-primary",
+            "onCall": vm.confirmModal
+        }];
+
+        /**
+         * @name cancelModal
+         * @desc cancels the modal
+         * @memberOf StopVolumeController
+         */
+
+        function cancelModal() {
+            $rootScope.$emit("modal.done", "cancel");
+        }
+
+        /**
+         * @name closeModal
+         * @desc close the modal
+         * @memberOf StopVolumeController
+         */
+        function closeModal() {
+            $rootScope.$emit("modal.done", "close");
+        }
+
+        /**
+         * @name next
+         * @desc takes to next step
+         * @memberOf StopVolumeController
+         */
+        function confirmModal() {
+            userStore.doActionOnUser(loggedUser.username)
+                .then(function(data) {
+                    vm.closeModal();
+                    userStore.getUserList()
+                        .then(function(data) {
+                            if (data !== null) {
+                                selectedUser.userList = data;
                             }
-                        }
+                            $rootScope.$broadcast("UpdatedUserList", selectedUser.userList);
+                            Notifications.message("success", "", selectedUser.username + " deleted Succesfully.");
+                        });
 
-                    });
-            } else {
-                vm.formSubmitInProgress = false;
-            }
+                }).catch(function(e) {
+                    vm.closeModal();
+                    Notifications.message("danger", "", "Error deleting " + selectedUser.username);
+                });
+
         }
 
-        function toggleTypePassword() {
-            vm.typePassword = !vm.typePassword;
-        }
-
-        function toggleConfirmPassword() {
-            vm.confirmPassword = !vm.confirmPassword;
-        }
-
-
-        /***Private Functions***/
-
-        function _validateUIFields() {
-            var isFormValid = true,
-                form = vm.editUserForm;
-
-            if (form.firstName.$invalid) {
-                vm.errorMsg = "Please specify valid First Name."
-                isFormValid = false;
-            } else if (!_isPasswordSame()) {
-                vm.errorMsg = "Password and Confirm Password doesn't match.";
-                isFormValid = false;
-            }
-
-            return isFormValid;
-        }
-
-        function _isPasswordSame() {
-            if (vm.user.password == vm.user.confirmPassword) {
-                return true;
-            } else {
-                return false;
-            }
-        }
     }
 
 })();
