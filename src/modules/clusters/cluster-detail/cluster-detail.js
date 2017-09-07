@@ -122,6 +122,25 @@
             vm.clusterStatus = checkStatus(vm.clusterObj);
         }
 
+        $scope.$on("GotClusterData", function(event, data) {
+            var clusterData,
+                len,
+                i;
+
+            if ($rootScope.clusterData !== null && typeof vm.clusterId !== "undefined") {
+                clusterData = $rootScope.clusterData;
+                len = clusterData.length;
+
+                for (i = 0; i < len; i++) {
+
+                    if (clusterData[i].cluster_id === vm.clusterId) {
+                        $rootScope.selectedClusterOption = clusterData[i].cluster_id;
+                        break;
+                    }
+                }
+            }
+            });
+
     }
 
 })();

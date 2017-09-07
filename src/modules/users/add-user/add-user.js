@@ -53,6 +53,8 @@
                             } else if (keys.indexOf("username") !== -1) {
                                 vm.errorMsg = "Username is already taken. Please use different one.";
                             }
+                        } else {
+                            vm.errorMsg = "Failed to create user.";
                         }
 
                     });
