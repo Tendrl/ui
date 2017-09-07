@@ -14,7 +14,7 @@
                                 <!--search By -->
                                 <select ng-init="userCntrl.filterBy = 'username'" ng-disabled="userCntrl.userList.length === 0" ng-model="userCntrl.filterBy" class="btn btn-default dropdown-toggle" ng-change="userCntrl.searchBy = {}">
                                     <option value="username">User id {{userCntrl.userList.name}}</option>
-                                    <option value="lastName">Last Name</option>
+                                    <option value="name">Name</option>
                                     <!-- <option value="status">Status</option> -->
                                     <option value="role">Role</option>
                                 </select>
@@ -44,8 +44,7 @@
             <thead>
                 <tr>
                     <th class="sorting" aria-sort="ascending" aria-label="Rendering Engine: activate to sort column descending">User ID</th>
-                    <th>First Name</th>
-                    <th>Last Name</th>
+                    <th>Name</th>
                     <!-- <th>Status</th> -->
                     <th>Role(s)</th>
                     <th>Notification</th>
@@ -56,8 +55,7 @@
             <tbody>
                 <tr ng-repeat="user in userCntrl.filteredUserList=(userCntrl.userList | filter: userCntrl.searchBy | orderBy: 'username')">
                     <td>{{ user.username }}</td>
-                    <td class="text-capitalize">{{ user.firstName }}</td>
-                    <td class="text-capitalize">{{ user.lastName || "-"}}</td>
+                    <td class="text-capitalize">{{ user.name }}</td>
                     <!-- <td class="text-capitalize">
                         <div class="col-md-3">
                             <span uib-tooltip-html="'{{user.status}}'" ng-if="user.status ==='enabled'" class="pficon pficon-ok list-view-pf-icon-success status-icons"></span>
@@ -67,9 +65,8 @@
                     </td> -->
                     <td class="text-capitalize">{{ user.role }}</td>
                     <td class="text-capitalize">
-                            <span uib-tooltip-html="'{{user.notification}}'" ng-if="user.notification ==='enabled'" class="pficon pficon-ok list-view-pf-icon-success status-icons"></span>
-                            <span uib-tooltip-html="'{{user.notification}}'" ng-if="user.notification ==='disabled'" class="pficon pficon-error-circle-o list-view-icon-failure status-icons"></span>
-                            {{ user.notification }}
+                        <span uib-tooltip-html="'{{user.notification}}'" ng-if="user.notification ==='enabled'" class="pficon pficon-ok list-view-pf-icon-success status-icons"></span>
+                        <span uib-tooltip-html="'{{user.notification}}'" ng-if="user.notification ==='disabled'" class="pficon pficon-error-circle-o list-view-icon-failure status-icons"></span> {{ user.notification }}
                     </td>
                     <td>{{ user.email }}</td>
                     <td class="table-view-pf-actions">
@@ -77,19 +74,19 @@
                             <button class="btn btn-default edit-button" type="button" ng-click="userCntrl.editUserDetail(user.username)">Edit</button>
                         </div>
                     </td>
-                    <td class=" table-view-pf-actions">
-                        <!--                         <div class="dropdown dropdown-kebab-pf ">
+                    <td class="table-view-pf-actions">
+                        <div class="dropdown dropdown-kebab-pf ">
                             <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
                                 <span class="fa fa-ellipsis-v"></span>
                             </button>
                             <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownKebabRight">
-                                <li ng-if="(user.status | lowercase) == 'enabled'"><a href="#">Disable User</a></li>
+                                <!-- <li ng-if="(user.status | lowercase) == 'enabled'"><a href="#">Disable User</a></li>
                                 <li ng-if="(user.status | lowercase) == 'disabled'"><a href="#">Enable User</a></li>
                                 <li ng-if="(user.notification | lowercase) == 'enabled'"><a href="#">Disable Notification</a></li>
-                                <li ng-if="(user.notification | lowercase) == 'disabled'"><a href="#">Enable Notification</a></li>
-                                <li><a href="#">Delete User</a></li>
+                                <li ng-if="(user.notification | lowercase) == 'disabled'"><a href="#">Enable Notification</a></li> -->
+                                <li ng-if="(user.username | lowercase) != (userCntrl.currentUser | lowercase)"><a ng-click="userCntrl.deleteUser(user.username)">Delete User</a></li>
                             </ul>
-                        </div> -->
+                        </div>
                     </td>
                 </tr>
             </tbody>

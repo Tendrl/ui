@@ -9,7 +9,7 @@
                 close: "=?"
             },
             controllerAs: "vm",
-            controller: "customModalHeaderController",
+            controller: customModalHeaderController,
             templateUrl: "/commons/components/custom-modal/custom-modal-header.html"
         });
 

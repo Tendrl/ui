@@ -8,7 +8,7 @@
             modalFooter: "="
         },
         controllerAs: "vm",
-        controller: "customModalFooterController",
+        controller: customModalFooterController,
         templateUrl: "/commons/components/custom-modal/custom-modal-footer.html"
     });
 

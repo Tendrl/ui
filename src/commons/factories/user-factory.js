@@ -98,6 +98,29 @@
                 utils.checkErrorCode(e);
             });
         };
+
+        vm.doActionOnUser = function(username) {
+            var url, actionRequest, request;
+
+
+            url = config.baseUrl + "users/" + username;
+
+
+            actionRequest = {
+                method: "DELETE",
+                url: url,
+                data: username
+            };
+
+            request = angular.copy(actionRequest);
+
+            return $http(request).then(function(response) {
+                return response.data;
+            }).catch(function(e) {
+                utils.checkErrorCode(e);
+                throw e;
+            });
+        };
     }
 
 })();

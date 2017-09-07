@@ -5,7 +5,6 @@
         .module("TendrlModule")
         .component("header", {
 
-            restrict: "E",
             templateUrl: "/modules/base/header/header.html",
             bindings: {
                 isNavigationShow: "="
@@ -59,6 +58,34 @@
                     AuthManager.isUserLoggedIn = true;
                     console.log("Logout Error: Logout Not Successful");
                 });
+        }
+
+        function userSetting(username) {
+            var wizardDoneListener,
+                modalInstance,
+                closeWizard;
+
+            modalInstance = $uibModal.open({
+                animation: true,
+                backdrop: "static",
+                templateUrl: "/modules/users/deleteUser/deleteUser.html",
+                controller: "deleteUserController",
+                controllerAs: "vm",
+                size: "md",
+                resolve: {
+                    selectedUser: function() {
+                        return username;
+                    }
+                }
+            });
+
+            closeWizard = function(e, reason) {
+                modalInstance.dismiss(reason);
+                wizardDoneListener();
+            };
+
+            modalInstance.result.then(function() {}, function() {});
+            wizardDoneListener = $rootScope.$on("modal.done", closeWizard);
         }
 
         function homePage() {

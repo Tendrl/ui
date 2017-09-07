@@ -85,8 +85,8 @@
             var isFormValid = true,
                 form = vm.editUserForm;
 
-            if (form.name.$invalid) {
-                vm.errorMsg = "Please specify valid Name."
+            if (form.firstName.$invalid) {
+                vm.errorMsg = "Please specify valid First Name."
                 isFormValid = false;
             } else if (!_isPasswordSame()) {
                 vm.errorMsg = "Password and Confirm Password doesn't match.";
