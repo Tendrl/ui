@@ -38,7 +38,10 @@
                     </div>
                 </div>
             </form>
-            <div class="row toolbar-pf-results">
+            <div class="row">
+                <div class="col-md-12 horizontal-line"></div>
+            </div>
+            <!-- <div class="row toolbar-pf-results">
                 <h5 class="col-md-1">
                     {{alertCntrl.filteredAlertList.length}} 
                     <ng-pluralize count="alertCntrl.filteredAlertList.length" when="{'one': 'Alert', 'other': 'Alerts'}"></ng-pluralize>
@@ -57,28 +60,25 @@
                     </div>
                 </div>
                 <div>
-                    <!-- <p>Active filters:</p>
-                    <ul class="list-inline">
-                        <li>
-                            <span class="label label-info">
-                      Name: nameofthething
-                      <a href="#"><span class="pficon pficon-close"></span></a>
-                            </span>
-                        </li>
-                        <li>
-                            <span class="label label-info">
-                      Name: nameofthething
-                      <a href="#"><span class="pficon pficon-close"></span></a>
-                            </span>
-                        </li>
-                        <li>
-                            <span class="label label-info">
-                      Name: nameofthething
-                      <a href="#"><span class="pficon pficon-close"></span></a>
-                            </span>
-                        </li>
-                    </ul> -->
                     <p><a href="" ng-click="alertCntrl.clearAllFilters()">Clear All Filters</a></p>
+                </div>
+            </div> -->
+            <div class="row toolbar-pf-results">
+                <div class="severity-counts">
+                    {{alertCntrl.filteredAlertList.length}}
+                    <ng-pluralize count="alertCntrl.filteredAlertList.length" when="{'one': 'Alert', 'other': 'Alerts'}"></ng-pluralize>
+                </div>
+                <div class="severity-counts" ng-show="alertCntrl.severityList.warningAlerts.length">
+                    <i class="pficon pficon pficon-warning-triangle-o"></i> {{alertCntrl.severityList.warningAlerts.length}}
+                </div>
+                <div class="severity-counts" ng-show="alertCntrl.severityList.errorAlerts.length">
+                    <i class="pficon pficon-error-circle-o"></i> {{alertCntrl.severityList.errorAlerts.length}}
+                </div>
+                <div class="severity-counts" ng-show="alertCntrl.severityList.infoAlerts.length">
+                    <i class="pficon pficon-info"></i> {{alertCntrl.severityList.infoAlerts.length}}
+                </div>
+                <div class="severity-counts">
+                    <a href="" ng-click="alertCntrl.clearAllFilters()">Clear All Filters</a>
                 </div>
             </div>
         </div>
@@ -92,21 +92,19 @@
         </div>
     </center>
     <div ng-if="alertCntrl.isDataLoading" class="spinner spinner-lg"></div>
-    <div class="alert-list-table">
-        <div class="list-group list-view-pf list-view-pf-equalized-column" ng-repeat="alert in alertCntrl.filteredAlertList = (alertCntrl.alertList | filter: alertCntrl.filterByCreatedDate| filter: alertCntrl.filterBySeverity | filter: alertCntrl.searchByDesc | filter: alertCntrl.searchBy | orderBy: ['-timeStamp', 'alertId'])">
-            <div class="list-group-item">
-                <div class="list-view-pf-left col-md-1">
-                    <i ng-class="{'pficon pficon-error-circle-o': (alert.severity === 'error'), 'pficon pficon-info': (alert.severity === 'info'), 'pficon pficon-warning-triangle-o': (alert.severity === 'warning')}"></i>
-                </div>
-                <div class="col-md-1">
-                    {{alert.severity | capitalize}}
-                </div>
-                <div class="col-md-5 text-left">
-                    <div>{{alert.desc || "NA"}}</div>
-                </div>
-                <div class="col-md-3 text-left">
-                    <p>{{alert.timeStamp| date: 'dd MMM yyyy HH:mm:ss'}}</p>
-                </div>
+    <div class="flex-table list-group list-view-pf list-view-pf-view alert-list-table" ng-show="!alertCntrl.isDataLoading">
+        <div class="ft-row list-group-item " ng-repeat="alert in alertCntrl.filteredAlertList = (alertCntrl.alertList | filter: alertCntrl.filterByCreatedDate| filter: alertCntrl.filterBySeverity | filter: alertCntrl.searchByDesc | filter: alertCntrl.searchBy | orderBy: ['-timeStamp', 'alertId'])">
+            <div class="ft-column ft-icon">
+                <i ng-class="{'pficon pficon-error-circle-o': (alert.severity === 'error'), 'pficon pficon-info': (alert.severity === 'info'), 'pficon pficon-warning-triangle-o': (alert.severity === 'warning')}"></i>
+            </div>
+            <div class="ft-column alert-type">
+                {{alert.severity | capitalize}}
+            </div>
+            <div class="ft-column">
+                <div>{{alert.desc || "NA"}}</div>
+            </div>
+            <div class="ft-column">
+                <p>{{alert.timeStamp| date: 'dd MMM yyyy HH:mm:ss'}}</p>
             </div>
         </div>
     </div>

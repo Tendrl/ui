@@ -26,10 +26,12 @@
         vm.isRebalanceAllowed = isRebalanceAllowed;
         vm.getRebalStatus = volumeStore.getRebalStatus;
         vm.redirectToGrafana = redirectToGrafana;
+        vm.goToVolumeDetail = goToVolumeDetail;
 
         init();
 
         function init() {
+
             volumeStore.getVolumeList(vm.clusterId)
                 .then(function(data) {
                     $interval.cancel(volumeTimer);
@@ -46,11 +48,11 @@
         }
 
         /* Trigger this function when we have cluster data */
-        $scope.$on("GotClusterData", function (event, data) {
-            /* Forward to home view if we don't have any cluster */    
-            if($rootScope.clusterData === null || $rootScope.clusterData.clusters.length === 0){
+        $scope.$on("GotClusterData", function(event, data) {
+            /* Forward to home view if we don't have any cluster */
+            if ($rootScope.clusterData === null || $rootScope.clusterData.clusters.length === 0) {
                 $state.go("clusters");
-            }else {
+            } else {
                 init();
             }
         });
@@ -67,6 +69,12 @@
 
         function isRebalanceAllowed(volume) {
             return volume.type.startsWith("Distribute");
+        }
+
+        function goToVolumeDetail(volume) {
+            if (vm.clusterId) {
+                $state.go("volume-detail", { clusterId: vm.clusterId, volumeId: volume.volumeId });
+            }
         }
     }
 

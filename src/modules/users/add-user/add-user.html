@@ -45,10 +45,10 @@
                 <div class="col-sm-8 col-md-6 inner-addon">
                     <input type="{{ addUserCntrl.typePassword ? 'text' : 'password' }}" data-id="password" aria-describedby="passwordStatus" name="password" ng-model="addUserCntrl.user.password" minlength="8" required/>
                     <span id="passwordStatus" class="showPassword" ng-click="addUserCntrl.toggleTypePassword()">
-                        <span ng-if="addUserCntrl.typePassword == 1">
+                        <span ng-if="addUserCntrl.typePassword === 1">
                             <i class="glyphicon glyphicon-eye-open" aria-hidden="true"></i>
                         </span>
-                    <span ng-if="addUserCntrl.typePassword == 0">
+                    <span ng-if="addUserCntrl.typePassword === 0">
                             <i class="glyphicon glyphicon-eye-close" aria-hidden="true"></i>
                         </span>
                     </span>
@@ -59,10 +59,10 @@
                 <div class="col-sm-8 col-md-6 inner-addon">
                     <input type="{{ addUserCntrl.confirmPassword ? 'text' : 'password' }}" data-id="password" aria-describedby="passwordStatus" name="confirmPassword" ng-model="addUserCntrl.user.confirmPassword" minlength="8" required/>
                     <span id="passwordStatus" class="showPassword" ng-click="addUserCntrl.toggleConfirmPassword()">
-                        <span ng-if="addUserCntrl.confirmPassword == 1">
+                        <span ng-if="addUserCntrl.confirmPassword === 1">
                             <i class="glyphicon glyphicon-eye-open" aria-hidden="true"></i>
                         </span>
-                    <span ng-if="addUserCntrl.confirmPassword == 0">
+                    <span ng-if="addUserCntrl.confirmPassword === 0">
                             <i class="glyphicon glyphicon-eye-close" aria-hidden="true"></i>
                         </span>
                     </span>

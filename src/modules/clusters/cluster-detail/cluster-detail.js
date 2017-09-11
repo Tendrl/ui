@@ -33,6 +33,7 @@
          */
         function init() {
             vm.clusterId = $stateParams.clusterId;
+
             if (!$rootScope.clusterData) {
                 clusterStore.getClusterList()
                     .then(function(data) {
@@ -48,23 +49,6 @@
             }
         }
 
-        /**
-         * @name checkStatus
-         * @desc returns status 
-         * @memberOf clusterDetailController
-         */
-        function checkStatus(clusterObj) {
-            var status;
-            if (clusterObj.globaldetails.status === "healthy") {
-                status = "HEALTH_OK";
-            } else if (clusterObj.globaldetails.status === "unhealthy") {
-                status = "HEALTH_ERR";
-            } else {
-                status = clusterObj.globaldetails.status;
-            }
-            return status;
-        }
-
         /*Cancelling interval when scope is destroy*/
         $scope.$on("$destroy", function() {
             $interval.cancel(clusterDetailTimer);
@@ -77,6 +61,7 @@
          */
         function setTab(newTab) {
             vm.activeTab = newTab;
+            clusterStore.selectedTab = newTab;
         }
 
         /**
@@ -96,8 +81,8 @@
          * @memberOf clusterDetailController
          */
         function _makeTabList() {
-            if(vm.clusterObj.sds_name === "gluster") {
-                 vm.tabList = {
+            if (vm.clusterObj.sds_name === "gluster") {
+                vm.tabList = {
                     "Hosts": 1,
                     "Volumes": 2
                 };
@@ -108,7 +93,11 @@
                     "RBDs": 3
                 };
             }
-            vm.activeTab = vm.tabList["Hosts"];
+            if (!clusterStore.selectedTab) {
+                vm.activeTab = vm.tabList["Hosts"];
+            } else {
+                vm.activeTab = clusterStore.selectedTab;
+            }
         }
 
         /**
@@ -119,7 +108,7 @@
         function _setClusterDetail() {
             vm.clusterObj = clusterStore.getClusterDetails(vm.clusterId);
             vm.clusterName = vm.clusterObj.cluster_name || "NA";
-            vm.clusterStatus = checkStatus(vm.clusterObj);
+            vm.clusterStatus = clusterStore.checkStatus(vm.clusterObj);
         }
 
         $scope.$on("GotClusterData", function(event, data) {
@@ -139,7 +128,7 @@
                     }
                 }
             }
-            });
+        });
 
     }
 

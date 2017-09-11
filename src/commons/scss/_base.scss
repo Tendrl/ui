@@ -77,6 +77,11 @@
         &.list-group-item {
             padding-top: 10px;
             padding-bottom: 10px;
+            &.ft-header {
+                font-weight: bold;
+                padding-top: 0;
+                padding-bottom: 0;
+            }
         }
     }
     .ft-column {
@@ -104,8 +109,20 @@
                 flex-grow: 2;
             }
         }
+        &.ft-actions {
+            display: flex;
+            flex-direction: row;
+            flex-wrap: nowrap;
+            justify-content: space-between;
+            .btn {
+                width: 90px;
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                margin-left: 5px;
+            }
+        }
     }
-
     &.list-view-pf-view {
         margin-top: 10px;
         .list-group-item {
@@ -129,4 +146,13 @@
 
 .hide-button {
     visibility: hidden;
+}
+
+.tendrl-app .container-fluid.container-cards-pf {
+    @media screen and (max-device-width: 1024px) {
+        width: 100%;
+    }
+    @media screen and (max-device-width: 480px) {
+        width: 145%;
+    }
 }

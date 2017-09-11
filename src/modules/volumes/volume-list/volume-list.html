@@ -64,9 +64,9 @@
                 <div class="ft-column ft-icon">
                     <i class="pficon" ng-class="{'pficon-error-circle-o': (volume.status === 'Stopped'), 'pficon-ok': (volume.status !=='Stopped')}" uib-tooltip-html="'{{volume.status}}'" tooltip-placement="auto bottom-left"></i>
                 </div>
-                <div class="ft-column ft-main volume-name bold-text" list-view-pf-additional-info-item-stacked>
+                <div class="ft-column volume-name bold-text" list-view-pf-additional-info-item-stacked>
                     <div class="bold-text" uib-tooltip-html="'{{volume.name}}'" tooltip-placement="auto bottom-left">{{volume.name}}</div>
-                    <div class="pull-left vol-type">{{volume.type}}</div>
+                    <div class="pull-left vol-type">{{volume.type | capitalize}}</div>
                 </div>
                 <div class="ft-column list-view-pf-additional-info-item list-view-pf-additional-info-item-stacked">
                     <div class="bold-text">Bricks</div>
@@ -84,8 +84,9 @@
                     <div class="bold-text">Last Rebalance</div>
                     <div class="pull-left counts">{{volumeCntrl.getRebalStatus(volume)}}</div>
                 </div>
-                <div class="ft-column list-view-pf-additional-info-item list-view-pf-additional-info-item-stacked">
-                    <button class="btn btn-default" ng-click="volumeCntrl.redirectToGrafana(volume, $event)">Grafana Dashboard</button>
+                <div class="ft-column ft-actions">
+                    <button class="btn btn-default dashboard-btn" ng-click="volumeCntrl.goToVolumeDetail(volume)" uib-tooltip="Volume Details" tooltip-placement="auto bottom-left">Volume Details</button>
+                    <button class="btn btn-default dashboard-btn" uib-tooltip="Launch Dashboard" tooltip-placement="auto bottom-left" ng-click="volumeCntrl.redirectToGrafana(volume, $event)">Launch Dashboard</button>
                 </div>
             </div>
         </div>

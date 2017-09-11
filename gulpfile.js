@@ -25,7 +25,7 @@ var request = require("request");
 var cssimport = require("gulp-cssimport");
 var sass = require("gulp-sass");
 var minifyCSS = require("gulp-minify-css");
-var autoprefixer = require("autoprefixer-core");
+var autoprefixer = require("autoprefixer");
 var postCss = require("gulp-postcss");
 
 // JavaScript related modules

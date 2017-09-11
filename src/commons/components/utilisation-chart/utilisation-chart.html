@@ -1,0 +1,12 @@
+<div class="tendrl-utilisation-chart">
+	<div>{{vm.used}}% Used</div>
+    <div class="progress">
+        <div class="progress-bar" role="progressbar" aria-valuenow="{{vm.used}}" aria-valuemin="0" aria-valuemax="100" style="width: {{vm.used}}%;" data-toggle="tooltip" title="{{vm.used}}% Used">
+            <span class="sr-only">{{vm.used}}% Used</span>
+        </div>
+        <div class="progress-bar progress-bar-remaining" role="progressbar" aria-valuenow="{{100-vm.used}}" aria-valuemin="0" aria-valuemax="100" style="width: {{100-vm.used}}%;" data-toggle="tooltip" title="{{100-vm.used}}% Available">
+            <span class="sr-only">{{100-vm.used}}% Available</span>
+        </div>
+    </div>
+    <div>{{vm.total}}</div>
+</div>

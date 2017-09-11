@@ -29,7 +29,7 @@
 
             request = angular.copy(getVolumeListRequest);
             return $http(request).then(function(response) {
-                return response.data;
+                return response.data.volumes;
             }, function(e) {
                 utils.checkErrorCode(e);
                 console.log("Error Occurred: while fetching volume list");

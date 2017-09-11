@@ -1,0 +1,146 @@
+<div ng-if="clusterData === null && !isAPINotFoundError" class="spinner spinner-lg"></div>
+<div ng-if="clusterData !== null" class="tendrl-volume-bricks-view-container container-fluid">
+    <h1 class="bold-text">Brick Details</h1>
+    <div class="container-fluid">
+        <div class="row toolbar-pf">
+            <div class="col-sm-12">
+                <!-- <form class="toolbar-pf-actions">
+                    <div class="form-group toolbar-pf-filter">
+                        <label class="sr-only" for="filter">Name</label>
+                        <div class="input-group">
+                            <div class="input-group-btn">
+                                <select ng-init="vm.filterBy = 'brickPath'" ng-disabled="vm.subVolumeList.length === 0" ng-model="vm.filterBy" class="btn btn-default dropdown-toggle" ng-change="vm.searchBy = {}">
+                                    <option value="brickPath">Brick Path</option>
+                                    <option value="status">Brick Status</option>
+                                    <option value="fqdn">Host Name</option>
+                                </select>
+                            </div>
+                            <input ng-disabled="vm.subVolumeList.length === 0" type="text" class="form-control" id="filter" ng-model="vm.searchBy[vm.filterBy]" placeholder="Filter By {{vm.filterBy}}...">
+                        </div>
+                    </div>
+                </form> -->
+                <div class="row toolbar-pf-results">
+                    <div class="col-sm-12">
+                        <h5 ng-if="vm.subVolumeList.length !== 0">{{vm.totalBrick}} 
+                            <ng-pluralize count="vm.totalBrick" when="{'one': 'Brick',
+                       'other': 'Bricks'}"></ng-pluralize>
+                        </h5>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- /row -->
+    </div>
+    <!-- /container -->
+    <center ng-if="vm.filteredSubVolumeList.length === 0">
+        <div class="blank-slate-pf">
+            <div class="blank-slate-pf-icon">
+                <i class="pficon pficon-container-node"></i>
+            </div>
+            <h1>No Bricks Detected.</h1>
+        </div>
+    </center>
+    <div ng-if="vm.isDataLoading" class="spinner spinner-lg"></div>
+    <div class="container-fluid" ng-if="!vm.isDataLoading">
+        <div class="list-group list-view-pf list-view-pf-view" ng-repeat="subVolume in vm.filteredSubVolumeList=(vm.subVolumeList | filter: vm.searchBy | orderBy: 'sequenceNumber') track by $index">
+            <div class="list-group-item" ng-class="{'list-view-pf-expand-active': subVolume.isExpanded}">
+                <div class="list-group-item-header" ng-click="vm.expandSubVolume($event, subVolume)">
+                    <div class="list-view-pf-expand">
+                        <span class="fa fa-angle-right" ng-show="!subVolume.isExpanded" ng-click="vm.expandSubVolume($event, subVolume)"></span>
+                        <span class="fa fa-angle-down" ng-show="subVolume.isExpanded" ng-click="vm.expandSubVolume($event, subVolume)"></span>
+                    </div>
+                    <div class="list-view-pf-main-info">
+                        <div class="list-view-pf-body">
+                            <div class="list-view-pf-description">
+                                <div class="list-group-item-heading bold-text">
+                                    {{subVolume.subVolumeName}}
+                                </div>
+                                <div class="list-group-item-text bold-text">
+                                    {{subVolume.bricks.length}}
+                                    <ng-pluralize count="subVolume.bricks.length" when="{'one': 'Brick',
+                       'other': 'Bricks'}"></ng-pluralize>
+                                </div>
+                            </div>
+                            <div class="list-view-pf-additional-info">
+                                <div class="list-view-pf-additional-info-item utilisation-chart">
+                                    <utilisation-chart used="subVolume.utilization.used" total="subVolume.utilization.total | bytes: 2"></utilisation-chart>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="list-group-item-container container-fluid" ng-show="subVolume.isExpanded">
+                    <div class="close">
+                        <span class="pficon pficon-close" ng-click="vm.closeExpandedView(subVolume)"></span>
+                    </div>
+                    <div>
+                        <div class="list-group list-view-pf list-view-pf-view list-header">
+                            <div class="list-group-item">
+                                <div class="list-view-pf-actions">
+                                    <button class="btn btn-default hide-btn">Launch Dashboard</button>
+                                </div>
+                                <div class="list-view-pf-main-info">
+                                    <div class="list-view-pf-body">
+                                        <div class="list-view-pf-description">
+                                            <div class="list-group-item-heading cluster-name host-name bold-text counts" uib-tooltip-html="'{{brick.name}}'" tooltip-placement="auto">
+                                                Host Name
+                                            </div>
+                                        </div>
+                                        <div class="list-view-pf-additional-info">
+                                            <div class="list-view-pf-additional-info-item">
+                                                <div>
+                                                    Brick Path
+                                                </div>
+                                            </div>
+                                            <div class="list-view-pf-additional-info-item utilisation-chart">Utilization </div>
+                                            <div class="list-view-pf-additional-info-item">
+                                                Disk Device Path
+                                            </div>
+                                            <div class="list-view-pf-additional-info-item">
+                                                Port
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="list-group list-view-pf list-view-pf-view " ng-repeat="brick in subVolume.bricks | orderBy: 'fqdn'">
+                            <div class="list-group-item">
+                                <div class="list-view-pf-actions">
+                                    <button class="btn btn-default" ng-click="vm.redirectToGrafana(brick, $event)">Launch Dashboard</button>
+                                </div>
+                                <div class="list-view-pf-main-info">
+                                    <div class="list-view-pf-body">
+                                        <div class="list-view-pf-description">
+                                            <div class="list-group-item-heading cluster-name host-name bold-text counts" uib-tooltip-html="'{{brick.name}}'" tooltip-placement="auto">
+                                                {{brick.fqdn}}
+                                            </div>
+                                        </div>
+                                        <div class="list-view-pf-additional-info">
+                                            <div class="list-view-pf-additional-info-item">
+                                                <div>
+                                                    <i class="pficon status-icons pull-left" ng-class="{'pficon-error-circle-o': (brick.status !=='started'), 'pficon-ok': (brick.status ==='started')}" uib-tooltip-html="'{{brick.status}}'" tooltip-placement="auto bottom-left"></i>
+                                                    <div class="brick-path" uib-tooltip-html="'{{brick.brickPath}}'" tooltip-placement="auto">{{brick.brickPath.split(":")[1]}}</div>
+                                                </div>
+                                            </div>
+                                            <div class="list-view-pf-additional-info-item utilisation-chart">
+                                                <utilisation-chart used="brick.utilization.used" total="brick.utilization.total| bytes: 2"></utilisation-chart>
+                                            </div>
+                                            <div class="list-view-pf-additional-info-item">
+                                                <span ng-show="!brick.devices.length">0</span>
+                                                <span ng-repeat="device in brick.devices">{{device}}<span ng-show="$index !== (brick.devices.length-1)">, </span></span>
+                                            </div>
+                                            <div class="list-view-pf-additional-info-item">
+                                                {{brick.port}}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

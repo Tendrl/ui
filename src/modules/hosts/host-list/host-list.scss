@@ -24,6 +24,12 @@
                 text-overflow: ellipsis;
                 width: 50%;
             }
+
+            &.ft-actions {
+                .dashboard-btn {
+                    width: 125px;
+                }
+            }
         }
     }
 }

@@ -9,6 +9,8 @@
     function clusterStore($state, $q, $rootScope, nodeStore, clusterFactory) {
         var store = this;
 
+        store.selectedTab = 1;
+
         /**
          * @name getClusterList
          * @desc store for GetClusterList
@@ -162,6 +164,23 @@
 
             return deferred.promise;
         };
+
+        /**
+         * @name checkStatus
+         * @desc returns status 
+         * @memberOf clusterStore
+         */
+        store.checkStatus = function(clusterObj) {
+            var status;
+            if (clusterObj.globaldetails.status === "healthy") {
+                status = "HEALTH_OK";
+            } else if (clusterObj.globaldetails.status === "unhealthy") {
+                status = "HEALTH_ERR";
+            } else {
+                status = clusterObj.globaldetails.status;
+            }
+            return status;
+        }
 
     }
 
