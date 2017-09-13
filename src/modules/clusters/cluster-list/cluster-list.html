@@ -59,7 +59,7 @@
     </center>
     <div ng-if="clusterCntrl.isDataLoading" class="spinner spinner-lg"></div>
     <div class="container-fluid" ng-if="!clusterCntrl.isDataLoading">
-        <div class="list-group list-view-pf list-view-pf-view" ng-repeat="cluster in clusterCntrl.filteredClusteredList = (clusterCntrl.clusterList | filter: clusterCntrl.searchBy | orderBy: clusterCntrl.ascOrder + clusterCntrl.orderBy) track by $index">
+        <div class="list-group list-view-pf list-view-pf-view" ng-repeat="cluster in clusterCntrl.filteredClusteredList = (clusterCntrl.clusterList | filter: clusterCntrl.searchBy | orderBy: clusterCntrl.ascOrder + clusterCntrl.orderBy + 'name') track by $index">
             <div class="list-group-item" ng-class="{'list-view-pf-expand-active': cluster.isExpanded}">
                 <div class="list-group-item-header" ng-click="clusterCntrl.expandCluster($event, cluster)">
                     <div class="list-view-pf-expand">
@@ -67,10 +67,10 @@
                         <span class="fa fa-angle-down" ng-show="cluster.isExpanded" ng-click="clusterCntrl.expandCluster($event, cluster)"></span>
                     </div>
                     <div class="list-view-pf-actions">
-                        <button class="btn btn-default" ng-show="cluster.managed === 'Yes'" ng-click="clusterCntrl.goToClusterDetail(cluster)" ng-class="{'hide-button': cluster.managed !== 'Yes'}">Cluster Details</button>
-                        <button class="btn btn-default" ng-show="cluster.managed === 'No'" ng-disabled="cluster.message === 'Cluster Misconfigured'" ng-click="clusterCntrl.goToImportFlow(cluster)" ng-class="{'hide-button': ($root.userRole ==='limited')}">Import Cluster</button>
-                        <button class="btn btn-default" ng-show="cluster.managed === 'Yes'" ng-click="clusterCntrl.redirectToGrafana(cluster, $event)" ng-class="{'hide-button': cluster.managed !== 'Yes'}">Launch Dashboard</button>
-                        <div class="dropdown pull-right dropdown-kebab-pf" ng-show="(cluster.managed === 'Yes') && ($root.userRole !== 'limited')">
+                        <button class="btn btn-default" ng-click="clusterCntrl.goToClusterDetail(cluster)" ng-class="{'hide-button': cluster.managed !== 'Yes'}">Cluster Details</button>
+                        <button class="btn btn-default import-btn" ng-show="cluster.managed === 'No'" ng-disabled="cluster.message === 'Cluster Misconfigured'" ng-click="clusterCntrl.goToImportFlow(cluster)" ng-class="{'hide-button': ($root.userRole ==='limited' || cluster.managed !== 'No')}">Import Cluster</button>
+                        <button class="btn btn-default" ng-show="cluster.managed === 'Yes'" ng-click="clusterCntrl.redirectToGrafana(cluster, $event)">Launch Dashboard</button>
+                        <div class="dropdown pull-right dropdown-kebab-pf" ng-class="{'hide-button': (cluster.managed !== 'Yes' || $root.userRole === 'limited')}">
                             <button class="btn btn-link dropdown-toggle" type="button" id="dropdownKebabRight12" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" ng-click="clusterCntrl.showKababMenu($event, cluster)">
                                 <span class="fa fa-ellipsis-v"></span>
                             </button>
@@ -117,7 +117,7 @@
                     <div class="row">
                         <ul class="nav nav-tabs">
                             <li ng-class="{'active': clusterCntrl.isTabSet(cluster, 1)}"><a href="" ng-click="clusterCntrl.setTab(cluster, 1)">Hosts</a></li>
-                            <li ng-class="{'active': clusterCntrl.isTabSet(cluster, 2)}"><a href="" ng-click="clusterCntrl.setTab(cluster, 2)">Messages</a></li>
+                            <li ng-class="{'active': clusterCntrl.isTabSet(cluster, 2)}" ng-show="cluster.errors.length"><a href="" ng-click="clusterCntrl.setTab(cluster, 2)">Messages</a></li>
                         </ul>
                         <div class="list-group list-view-pf list-view-pf-view" ng-repeat="host in cluster.hosts | orderBy: 'fqdn'" ng-show="cluster.activeTab === 1">
                             <div class="list-group-item">
