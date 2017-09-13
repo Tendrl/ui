@@ -126,7 +126,7 @@
 
                 for (i = 0; i < len; i++) {
                     if (id === data[i].cluster_id) {
-                        return data[i].cluster_name;
+                        return data[i].cluster_id;
                     }
                 }
             }

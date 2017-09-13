@@ -107,7 +107,7 @@
          */
         function _setClusterDetail() {
             vm.clusterObj = clusterStore.getClusterDetails(vm.clusterId);
-            vm.clusterName = vm.clusterObj.cluster_name || "NA";
+            vm.clusterName = vm.clusterObj.cluster_id || "NA";
             vm.clusterStatus = clusterStore.checkStatus(vm.clusterObj);
         }
 

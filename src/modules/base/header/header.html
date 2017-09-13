@@ -11,7 +11,7 @@
         </a>
         <select id="repeatSelect" ng-model="$root.selectedClusterOption" class="cluster-options btn btn-default dropdown-toggle" ng-change="header.goToClusterPage()" uib-tooltip-html="header.getClusterName($root.selectedClusterOption)" tooltip-placement="auto bottom">
             <option value="allClusters" ng-selected="$root.selectedClusterOption === 'allClusters'">All Clusters</option>
-            <option ng-repeat="cluster in $root.clusterData" value="{{cluster.cluster_id}}" ng-selected="$root.selectedClusterOption === '{{cluster.cluster_id}}'" >{{cluster.cluster_name}}</option>
+            <option ng-repeat="cluster in $root.clusterData" value="{{cluster.cluster_id}}" ng-selected="$root.selectedClusterOption === '{{cluster.cluster_id}}'" >{{cluster.cluster_id}}</option>
         </select>
     </div>
     <nav class="collapse navbar-collapse">
