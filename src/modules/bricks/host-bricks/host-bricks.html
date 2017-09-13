@@ -61,7 +61,7 @@
                 <div class="ft-column">{{brick.volName}}</div>
                 <div class="ft-column">
                     <i class="pficon status-icons pull-left" ng-class="{'pficon-error-circle-o': (brick.status !=='started'), 'pficon-ok': (brick.status ==='started')}" uib-tooltip-html="'{{brick.status}}'" tooltip-placement="auto bottom-left"></i>
-                    <div class="brick-path" uib-tooltip-html="'{{brick.brickPath}}'" tooltip-placement="auto bottom-left">{{brick.brickPath.split(":")[1]}}</div>
+                    <div class="brick-path" uib-tooltip-html="'{{brick.brickPath.split(':')[1]}}'" tooltip-placement="auto bottom-left">{{brick.brickPath.split(":")[1]}}</div>
                 </div>
                 <div class="ft-column ft-main">
                     <utilisation-chart used="brick.utilization.used" total="brick.utilization.total"></utilisation-chart>

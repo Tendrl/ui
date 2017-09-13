@@ -112,21 +112,25 @@
                     temp = {},
                     vol = volumeStore.getVolumeObject($stateParams.volumeId),
                     index,
-                    prefix = _getSubVolPrefix(vol.type),
+                    prefix = "",
                     i;
 
-                for (i = 0; i < len; i++) {
-                    if (list[i].subvolume) {
-                        temp = {};
-                        temp.sequenceNumber = parseInt(list[i].subvolume.split("volume")[1]) + 1;
-                        temp.subVolumeName = prefix + temp.sequenceNumber;
-                        index = _isSubVolPresent(temp.sequenceNumber);
-                        if (index !== -999) {
-                            subVolumes[index].bricks.push(_formatBrickData(list[i]));
-                        } else {
-                            subVolumes.push(temp);
-                            subVolumes[subVolumes.length - 1].bricks = [];
-                            subVolumes[subVolumes.length - 1].bricks.push(_formatBrickData(list[i]));
+                if (vol !== null) {
+                    prefix = _getSubVolPrefix(vol.type);
+
+                    for (i = 0; i < len; i++) {
+                        if (list[i].subvolume) {
+                            temp = {};
+                            temp.sequenceNumber = parseInt(list[i].subvolume.split("volume")[1]) + 1;
+                            temp.subVolumeName = prefix + temp.sequenceNumber;
+                            index = _isSubVolPresent(temp.sequenceNumber);
+                            if (index !== -999) {
+                                subVolumes[index].bricks.push(_formatBrickData(list[i]));
+                            } else {
+                                subVolumes.push(temp);
+                                subVolumes[subVolumes.length - 1].bricks = [];
+                                subVolumes[subVolumes.length - 1].bricks.push(_formatBrickData(list[i]));
+                            }
                         }
                     }
                 }
