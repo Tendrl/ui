@@ -293,7 +293,7 @@
             } else if(dashboardName === "hosts") {
                 uri = initialUrl + "?var-cluster_id="+ grafanaObj.clusterId + "&var-host_name=" + grafanaObj.hostName;
             } else if(dashboardName === "bricks") {
-                uri = initialUrl + "?var-cluster_id="+ grafanaObj.clusterId + "&var-volume_name=" + grafanaObj.volumeName + "&var-host_name=" + grafanaObj.hostsName; + "&var-brick_path=" + grafanaObj.brickName;
+                uri = initialUrl + "?var-cluster_id="+ grafanaObj.clusterId + "&var-volume_name=" + grafanaObj.volumeName + "&var-host_name=" + grafanaObj.hostName + "&var-brick_path=" + grafanaObj.brickName;
             }
             window.open(uri);
             $event.stopPropagation();
