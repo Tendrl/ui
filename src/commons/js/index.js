@@ -152,6 +152,7 @@
                     });
                 }
 
+
                 function getNotificationList() {
                     eventStore.getNotificationList()
                         .then(function(notificationList) {

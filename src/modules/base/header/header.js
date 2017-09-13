@@ -5,7 +5,6 @@
         .module("TendrlModule")
         .component("header", {
 
-            restrict: "E",
             templateUrl: "/modules/base/header/header.html",
             bindings: {
                 isNavigationShow: "="
@@ -15,9 +14,10 @@
         });
 
     /*@ngInject*/
-    function headerController($rootScope, $state, $scope, AuthManager, utils, Notifications) {
+    function headerController($rootScope, $state, $scope, $uibModal, AuthManager, utils, Notifications, userStore) {
 
-        var vm = this;
+        var vm = this,
+            currentUser;
 
         vm.showNotification = false;
         vm.isNotificationExpanded = true;
@@ -28,6 +28,7 @@
         vm.expandNotificationList = expandNotificationList;
         vm.goToClusterPage = goToClusterPage;
         vm.getClusterName = getClusterName;
+        vm.userSetting = userSetting;
 
         $rootScope.notification = Notifications.data;
         $rootScope.selectedClusterOption = "allClusters";
@@ -37,6 +38,21 @@
                 vm.notificationList = $rootScope.notificationList;
             }
         });
+
+        init();
+
+        function init(){
+            _getUserName();
+        }
+
+        function _getUserName(){
+            if (!userStore.users.length) {
+                userStore.getUserInfo()
+                    .then(function(data) {
+                        vm.currentUser = data.name;
+                    });
+            }
+        }
 
         function setNotificationFlag() {
             vm.showNotification = !vm.showNotification;
@@ -62,6 +78,29 @@
                     AuthManager.isUserLoggedIn = true;
                     console.log("Logout Error: Logout Not Successful");
                 });
+        }
+
+        function userSetting(username) {
+            var wizardDoneListener,
+                modalInstance,
+                closeWizard;
+
+            modalInstance = $uibModal.open({
+                animation: true,
+                backdrop: "static",
+                templateUrl: "/modules/base/user-setting/user-setting.html",
+                controller: "userSettingController",
+                controllerAs: "vm",
+                size: "md"
+            });
+
+            closeWizard = function(e, reason) {
+                modalInstance.dismiss(reason);
+                wizardDoneListener();
+            };
+
+            modalInstance.result.then(function() {}, function() {});
+            wizardDoneListener = $rootScope.$on("modal.done", closeWizard);
         }
 
         function homePage() {
