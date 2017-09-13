@@ -64,6 +64,14 @@
                         url: "/hosts",
                         template: "<host-list></host-list>"
                     })
+                    .state("host-detail", {
+                        url: "/cluster-detail/:clusterId/host-detail/:hostId",
+                        template: "<host-detail></host-detail>"
+                    })
+                    .state("volume-detail", {
+                        url: "/cluster-detail/:clusterId/volume-detail/:volumeId",
+                        template: "<volume-detail></volume-detail>"
+                    })
                     .state("tasks", {
                         url: "/tasks",
                         template: "<tasks></tasks>"
@@ -151,6 +159,7 @@
                         $rootScope.isNavigationShow = true;
                     });
                 }
+
 
                 function getNotificationList() {
                     eventStore.getNotificationList()

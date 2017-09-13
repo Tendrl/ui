@@ -14,4 +14,12 @@
     .toolbar-pf-filter {
         border-right: none;
     }
+    .table-view-pf-actions {
+        li {
+            cursor: pointer;
+        }
+        .toolbar-pf-filter {
+            border-right: none;
+        }
+    }
 }

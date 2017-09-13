@@ -1,0 +1,103 @@
+.tendrl-volume-bricks-view-container {
+    .container-fluid {
+        margin-top: 15px;
+        .list-group {
+            margin-bottom: 0px;
+            .list-group-item {
+                .list-group-item-header {
+                    .list-view-pf-expand {
+                        margin-top: 16px;
+                        margin-bottom: 16px;
+                        .fa-angle-down {
+                            cursor: pointer;
+                            font-size: 17px;
+                            margin-right: 5px;
+                            margin-top: 2px;
+                            width: 10px;
+                        }
+                    }
+                    .display {
+                        display: block;
+                    }
+                }
+                &.list-view-pf-expand-active {
+                    border-color: $color-silver;
+                }
+                .list-view-pf-main-info {
+                    .list-view-pf-description {
+                        width: 20%;
+                        flex: 1 0 15%;
+                        .list-group-item-heading {
+                            width: calc(25% - 20px);
+                            text-transform: capitalize;
+                        }
+                        .list-group-item-text {
+                            width: calc(65% - 125px);
+                            text-overflow: ellipsis;
+                        }
+                    }
+                    .list-view-pf-additional-info {
+                        flex: 1 0 50%;
+                        width: 123%;
+                        .list-view-pf-additional-info-item {
+                            flex: 1 0;
+                            display: block;
+                            max-width: 400px;
+                            overflow: hidden;
+                        }
+                    }
+                }
+                .list-group-item-container {
+                    max-height: 242px;
+                    overflow: auto;
+                    margin-top: 25px;
+                    border-top-color: $color-silver;
+                    .list-group-item {
+                        padding-top: 5px;
+                        padding-bottom: 5px;
+                    }
+                    .list-header {
+                        font-weight: bold;
+                        margin-top: 20px;
+                        .list-group-item {
+                            padding-top: 0;
+                            padding-bottom: 0;
+                            height: 40px;
+                        }
+                        .hide-btn {
+                            visibility: hidden;
+                        }
+                    }
+                    .list-view-pf-main-info {
+                        padding-top: 13px;
+                        padding-bottom: 13px;
+                        .list-view-pf-description {
+                            flex: 1 0 1%;
+                            .list-group-item-heading {
+                                text-transform: none;
+                            }
+                        }
+                        .utilisation-chart {
+                            flex: 1.5 !important;
+                            display: block;
+                            padding-left: 20px;
+                        }
+                    }
+                    .brick-path {
+                        white-space: nowrap;
+                        overflow: hidden;
+                        text-overflow: ellipsis;
+                        padding-left: 0;
+                        padding-right: 0;
+                        text-align: start;
+                    }
+                }
+            }
+        }
+    }
+    .container-fluid {
+        .list-view-pf-view {
+            margin-top: 0;
+        }
+    }
+}

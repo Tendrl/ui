@@ -25,28 +25,14 @@
                     <span class="badge"></span>
                 </a>
             </li>
-            <!--             <li class="dropdown">
-                <a class="nav-item-iconic" ng-href="" title="Node Discovery">
-                    <i class="pficon pficon-container-node"></i>
-                    <span class="badge"></span>
-                </a>
-            </li>
-            <li class="dropdown">
-                <a data-toggle="dropdown" class="dropdown-toggle nav-item-iconic" bs-dropdown="dropdown" href="" data-template="" data-animation="am-fade-and-slide-top" bs-dropdown="" title="Tasks">
-                    <i class="pficon pficon-flag"></i>
-                    <span class="badge"></span>
-                </a>
-            </li>
-            <li class="dropdown">
-                <a data-toggle="modal" class="nav-item-iconic" title="About">
-                    <i class="pficon pficon-help"></i>
-                </a>
-            </li> -->
             <li class="dropdown user">
                 <a class="dropdown-toggle nav-item-iconic" bs-dropdown="dropdown" href="" data-template="" data-animation="am-fade-and-slide-top" title="User" id="usermenu" data-toggle="dropdown">
                     <i class="pficon pficon-user"></i>
+                    <span class="headerName">{{ header.currentUser }}</span>
                 </a>
+
                 <ul class="dropdown-menu" role="menu" aria-labelledby="usermenu">
+                    <li role="presentation"><a href="" role="menuitem" tabindex="-1" ng-click="header.userSetting(header.currentUser)">My Settings</a></li>
                     <li role="presentation"><a href="" role="menuitem" tabindex="-1" ng-click="header.logout()">Logout</a></li>
                 </ul>
             </li>
@@ -83,7 +69,7 @@
             <div class="list-group list-view-pf list-view-pf-equalized-column" ng-repeat="notice in header.notificationList" ng-show="header.isNotificationExpanded">
                 <div class="list-group-item">
                     <div class="col-md-6">
-                        <p class="notice-name" data-toggle="tooltip" tooltip-placement="auto right" uib-tooltip-html="'{{notice.message}}'">{{notice.message}}</p>
+                        <p class="notice-name" data-toggle="tooltip" tooltip-placement="auto" uib-tooltip-html="'{{notice.message}}'">{{notice.message}}</p>
                     </div>
                     <div class="col-md-6 timestamp">
                         {{notice.timeStamp| date: 'dd MMM yyyy HH:mm:ss'}}

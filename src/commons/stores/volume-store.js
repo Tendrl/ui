@@ -6,9 +6,10 @@
         .service("volumeStore", volumeStore);
 
     /*@ngInject*/
-    function volumeStore($state, $q, $rootScope, utils, nodeStore, volumeFactory) {
+    function volumeStore($state, $q, $rootScope, $stateParams, utils, nodeStore, volumeFactory) {
         var store = this;
 
+        store.volumeList = [];
         /**
          * @name getVolumeList
          * @desc store for getVolumeList
@@ -22,6 +23,7 @@
             volumeFactory.getVolumeList(clusterId)
                 .then(function(data) {
                     list = data ? _formatVolumeData(data) : [];
+                    store.volumeList = list;
                     deferred.resolve(list);
                 });
 
@@ -57,23 +59,46 @@
          * @memberOf volumeStore
          */
         store.getRebalStatus = function(volume) {
-            switch(volume.rebalStatus) {
-                case "completed": return "Completed";
-                                    break
-                case "not_started": return "Not Started";
-                                    break
-                case "not started": return "Not Started";
-                                    break;
-                case "in progress": return "In Progress";
-                                    break;
-                case "in_progress": return "In Progress";
-                                    break;
-                case "failed": return "Failed";
-                                break;
-                case "stopped": return "Stopped";
-                                break;
-                default: return "NA";
+            switch (volume.rebalStatus) {
+                case "completed":
+                    return "Completed";
+                    break;
+
+                case "not_started":
+                case "not started":
+                    return "Not Started";
+                    break;
+
+                case "in progress":
+                case "in_progress":
+                    return "In Progress";
+                    break;
+
+                case "failed":
+                    return "Failed";
+                    break;
+
+                case "stopped":
+                    return "Stopped";
+                    break;
+
+                default:
+                    return "NA";
             }
+        };
+
+        store.getVolumeObject = function(volId) {
+            var len = store.volumeList.length,
+                i;
+
+            for (i = 0; i < len; i++) {
+                if (store.volumeList[i].volumeId === volId) {
+                    return store.volumeList[i];
+                }
+            }
+
+            return null;
+
         }
     }
 

@@ -37,14 +37,10 @@
                     .then(function(data) {
                         vm.isDataLoading = false;
                         vm.user = userStore.getUserDetail(vm.username);
-                        vm.user.emailNotification = vm.user.notification === "enabled" ? true : false;
-                        vm.user.status = vm.user.status === "enabled" ? true : false;
                     });
             } else {
                 vm.isDataLoading = false;
                 vm.user = userStore.getUserDetail(vm.username);
-                vm.user.emailNotification = vm.user.notification === "enabled" ? true : false;
-                vm.user.status = vm.user.status === "enabled" ? true : false;
             }
         }
 
@@ -55,15 +51,22 @@
                         Notifications.message("success", "", "User Succesfully Updated.");
                         $state.go("users");
                     }).catch(function(e) {
-                        var keys;
+                        var keys,
+                            messages;
 
                         if (e.status === 422) {
                             keys = Object.keys(e.data.errors);
+                            messages = Object.values(e.data.errors)[0];
                             if (keys.indexOf("email") !== -1) {
-                                vm.errorMsg = "Email is already taken. Please use different one.";
+                                if (messages.indexOf("is taken") !== -1){
+                                    vm.errorMsg = "Email is already taken. Please use different one.";
+                                } else if (messages.indexOf("is invalid") !== -1){
+                                    vm.errorMsg = "Please enter a valid Email Id";
+                                }
                             }
                         } else {
-                            vm.errorMsg = "Failed to update user.";
+                            Notifications.message("danger", "", "Failed to update user.");
+                            $state.go("users");
                         }
 
                     });
@@ -87,8 +90,8 @@
             var isFormValid = true,
                 form = vm.editUserForm;
 
-            if (form.firstName.$invalid) {
-                vm.errorMsg = "Please specify valid First Name."
+            if (form.name.$invalid) {
+                vm.errorMsg = "Please specify valid Name."
                 isFormValid = false;
             } else if (!_isPasswordSame()) {
                 vm.errorMsg = "Password and Confirm Password doesn't match.";

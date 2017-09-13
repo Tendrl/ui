@@ -24,15 +24,6 @@
                     deferred.resolve(list);
                 });
 
-            function _generateName(name) {
-                var userName = {},
-                    temp1 = [];
-
-                temp1 = name.split(" ");
-                userName.firstName = temp1[0];
-                userName.lastName = temp1[1] || "";
-                return userName;
-            }
 
             function _setupUserListData(data) {
                 var i,
@@ -45,19 +36,14 @@
                 for (i = 0; i < length; i++) {
                     user = {};
                     user.username = data[i].username;
-                    user.firstName = _generateName(data[i].name).firstName;
-                    user.lastName = _generateName(data[i].name).lastName;
+                    user.name = data[i].name;
                     if (data[i].status === "true") {
                         user.status = "enabled";
                     } else if (data[i].status === "false") {
                         user.status = "disabled";
                     }
                     user.role = data[i].role;
-                    if (data[i].email_notifications === "true") {
-                        user.notification = "enabled";
-                    } else if (data[i].email_notifications === "false") {
-                        user.notification = "disabled";
-                    }
+                    user.notification = data[i].email_notifications;
                     user.email = data[i].email;
                     userList.push(user);
                 }
@@ -84,11 +70,11 @@
             return deferred.promise;
         };
 
-        store.editUser = function(user) {
+        store.editUser = function(user, toggleNotification) {
             var updateUser,
                 deferred;
 
-            updateUser = _createUserData(user);
+            updateUser = _createUserData(user, toggleNotification);
             deferred = $q.defer();
             userFactory.editUser(updateUser)
                 .then(function(response) {
@@ -103,16 +89,16 @@
         store.getUserDetail = function(username) {
             var i,
                 userDetail = {},
-                length = store.users.length;
+                users = JSON.parse(JSON.stringify(store.users)),
+                length = users.length;
 
             for (i = 0; i < length; i++) {
 
-                if (store.users[i].username === username) {
-                    userDetail = store.users[i];
+                if (users[i].username === username) {
+                    userDetail = users[i];
                     break;
                 }
             }
-
             return userDetail;
         };
 
@@ -129,20 +115,35 @@
             return deferred.promise;
         };
 
-        function _createUserData(user) {
+        store.deleteUser = function(username) {
+            var deferred;
+
+            deferred = $q.defer();
+            userFactory.deleteUser(username)
+                .then(function(data) {
+                    deferred.resolve(data);
+                }).catch(function(e) {
+                    deferred.reject(e);
+                });
+
+            return deferred.promise;
+        };
+
+
+        function _createUserData(user, toggleNotification) {
             var data = {};
-            data.name = _getUserName(user.firstName, user.lastName || "");
+            data.name = user.name;
             data.username = user.username;
             data.email = user.email;
             data.role = user.role;
             data.password = user.password;
             data.password_confirmation = user.confirmPassword;
-            data.email_notifications = user.emailNotification;
+            if(toggleNotification) {
+                data.email_notifications = !user.notification;
+            } else {
+                data.email_notifications = user.notification;
+            }
             return data;
-        }
-
-        function _getUserName(first, last) {
-            return (first + " " + last);
         }
 
     }

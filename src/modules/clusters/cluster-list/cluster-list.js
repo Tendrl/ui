@@ -49,6 +49,8 @@
          * @memberOf clusterController
          */
         function init() {
+            $rootScope.selectedClusterOption = "allClusters";
+            clusterStore.selectedTab = 1;
             clusterStore.getClusterList()
                 .then(function(data) {
                     data = clusterStore.formatClusterData(data);

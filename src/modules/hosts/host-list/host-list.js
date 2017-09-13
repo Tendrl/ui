@@ -23,6 +23,8 @@
         vm.isDataLoading = true;
         vm.redirectToGrafana = redirectToGrafana;
 
+        vm.goToHostDetail = goToHostDetail;
+
         init();
 
         /**
@@ -56,6 +58,12 @@
         $scope.$on("$destroy", function() {
             $interval.cancel(hostListTimer);
         });
+
+        function goToHostDetail(host) {
+            if(vm.clusterId) {
+                $state.go("host-detail", { clusterId: vm.clusterId , hostId: host.id});
+            }
+        }
     }
 
 })();

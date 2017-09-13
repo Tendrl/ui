@@ -1,0 +1,19 @@
+[{
+	"vol_name": "Vol 1",
+	"vol_id": 111,
+	"brick_path": "/rhgs/brick7",
+	"status": "Stopped",
+	"utilization": "{\"metadata_used\": null, \"used_percent\": 24.187038068981693, \"thinpool_used_percent\": null, \"used\": 3242778624, \"free_inode\": 6493230, \"used_inode\": 58322, \"used_percent_inode\": 0.8902012836042559, \"free\": 10164314112, \"total_inode\": 6551552, \"mount_point\": \"/\", \"metadata_used_percent\": null, \"metadata_free\": null, \"thinpool_used\": null, \"total\": 13407092736, \"thinpool_size\": null, \"thinpool_free\": null, \"metadata_size\": null}",
+	"devices": ["/dev/sda6", "/dev/sda8"],
+	"port": 19,
+	"name": "brick 1"
+}, {
+	"vol_name": "Vol 2",
+	"vol_id": 111,
+	"brick_path": "/rhgs/brick6",
+	"status": "Started",
+	"utilization": "{\"metadata_used\": null, \"used_percent\": 24.187038068981693, \"thinpool_used_percent\": null, \"used\": 3242778624, \"free_inode\": 6493230, \"used_inode\": 58322, \"used_percent_inode\": 0.8902012836042559, \"free\": 10164314112, \"total_inode\": 6551552, \"mount_point\": \"/\", \"metadata_used_percent\": null, \"metadata_free\": null, \"thinpool_used\": null, \"total\": 13407092736, \"thinpool_size\": null, \"thinpool_free\": null, \"metadata_size\": null}",
+	"devices": ["/dev/sda6", "/dev/sda9"],
+	"port": 19,
+	"name": "brick 2"
+}]

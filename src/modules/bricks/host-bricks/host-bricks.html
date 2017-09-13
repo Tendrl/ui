@@ -1,0 +1,85 @@
+<div ng-if="clusterData === null && !isAPINotFoundError" class="spinner spinner-lg"></div>
+<div ng-if="clusterData !== null" class="tendrl-host-bricks-view-container">
+    <div class="container-fluid">
+        <!-- heading section-->
+        <h1 class="bold-text">Brick Details</h1>
+        <!-- Actions section -->
+        <div class="row toolbar-pf">
+            <div class="col-sm-12">
+                <form class="toolbar-pf-actions">
+                    <div class="form-group toolbar-pf-filter">
+                        <label class="sr-only" for="filter">Name</label>
+                        <div class="input-group">
+                            <div class="input-group-btn">
+                                <!-- Search By -->
+                                <select ng-init="vm.filterBy = 'brickPath'" ng-disabled="vm.brickList.length === 0" ng-model="vm.filterBy" class="btn btn-default dropdown-toggle" ng-change="vm.searchBy = {}">
+                                    <option value="brickPath">Brick Path</option>
+                                    <option value="status">Brick Status</option>
+                                    <!-- <option value="role">Utilization More Than</option>
+                                    <option value="status">Utilization Less Than</option>
+                                    <option value="status">Disk Device Path</option> -->
+                                </select>
+                            </div>
+                            <!-- /btn-group -->
+                            <input ng-disabled="vm.brickList.length === 0" type="text" class="form-control" id="filter" ng-model="vm.searchBy[vm.filterBy]" placeholder="Filter By {{vm.filterBy}}...">
+                        </div>
+                        <!-- /input-group -->
+                    </div>
+                </form>
+                
+                <div class="row toolbar-pf-results">
+                    <div class="col-sm-12">
+                        <h5 ng-if="vm.brickList.length !== 0">{{vm.filteredbrickList.length}} 
+                            <ng-pluralize count="vm.filteredbrickList.length" when="{'one': 'Brick',
+                       'other': 'Bricks'}"></ng-pluralize>
+                        </h5>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container-fluid">
+        <center ng-if="vm.brickList.length === 0">
+            <div class="blank-slate-pf">
+                <div class="blank-slate-pf-icon">
+                    <i class="pficon pficon-container-node"></i>
+                </div>
+                <h1>No Bricks Detected.</h1>
+            </div>
+        </center>
+        <div ng-show="vm.isDataLoading" class="spinner spinner-lg"></div>
+        <div class="flex-table list-group list-view-pf list-view-pf-view" ng-show="!vm.isDataLoading">
+            <div class="ft-row list-group-item ft-header">
+                <div class="ft-column">Volume</div>
+                <div class="ft-column">Brick Path</div>
+                <div class="ft-column ft-main">Utilisation</div>
+                <div class="ft-column">Devices</div>
+                <div class="ft-column">Port</div>
+                <div class="ft-column ft-actions"></div>
+            </div>
+            <div class="ft-row list-group-item" ng-repeat="brick in vm.filteredbrickList=(vm.brickList | filter: vm.searchBy)">
+                <div class="ft-column">{{brick.volName}}</div>
+                <div class="ft-column">
+                    <i class="pficon status-icons pull-left" ng-class="{'pficon-error-circle-o': (brick.status !=='started'), 'pficon-ok': (brick.status ==='started')}" uib-tooltip-html="'{{brick.status}}'" tooltip-placement="auto bottom-left"></i>
+                    <div class="brick-path" uib-tooltip-html="'{{brick.brickPath}}'" tooltip-placement="auto bottom-left">{{brick.brickPath.split(":")[1]}}</div>
+                </div>
+                <div class="ft-column ft-main">
+                    <utilisation-chart used="brick.utilization.used" total="brick.utilization.total"></utilisation-chart>
+                </div>
+                <div class="ft-column">
+                    <span ng-show="!brick.devices.length">0</span>
+                    <span ng-repeat="device in brick.devices">{{device}}<span ng-show="$index !== (brick.devices.length-1)">, </span></span>
+                </div>
+                <div class="ft-column">
+                    {{brick.port}}
+                </div>
+                <div class="ft-column ft-actions">
+                    <button class="btn btn-default launch-btn" ng-click="vm.redirectToGrafana(brick, $event)" uib-tooltip="Launch Dashboard" tooltip-placement="auto bottom-left">Launch Dashboard</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12 horizontal-line"></div>
+    </div>
+</div>

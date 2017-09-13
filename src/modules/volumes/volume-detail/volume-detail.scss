@@ -1,0 +1,40 @@
+.tendrl-volume-detail-container {
+    .custom-breadcrumb {
+        list-style: none;
+        min-width: 50px;
+        width: 700px;
+        margin: auto;
+        display: inline-table;
+        margin-right: 5px;
+        overflow: visible;
+        li {
+            position: relative;
+            .pficon {
+                vertical-align: inherit;
+            }
+            .cluster-name {
+                display: inline-block;
+                height: 25px;
+                line-height: 25px;
+                text-align: center;
+                width: 225px;
+                white-space: nowrap;
+                text-overflow: ellipsis;
+                overflow: hidden;
+                vertical-align: top;
+                text-align: left;
+            }
+            .tip {
+                display: none;
+            }
+            &:hover .tip {
+                display: block;
+                position: absolute;
+                z-index: 1;
+                top: 20px;
+                left: 20px;
+                width: 800px;
+            }
+        }
+    }
+}
