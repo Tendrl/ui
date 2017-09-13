@@ -1,12 +1,22 @@
 .tendrl-user-setting-modal-container {
+    min-height:375px;
     .width-full {
         width: 100%;
     }
 
     .inner-addon {
 
+        input {
+            width : 100%;
+        }
+
         .glyphicon {
             cursor: pointer;
+            position: absolute;
+            z-index: 1000;
+            top: 30%;
+            right: 8%;
+            background-color : $color-white;
         }
     }
 
@@ -34,5 +44,4 @@
     .cp-padding {
         padding-left: 0px;
     }
-    
 }

@@ -1,7 +1,7 @@
 
 <div class="tendrl-user-setting-modal-container">
+<div ng-if="vm.isDataLoading" class="spinner spinner-lg"></div>
     <div>
-        
         <custom-modal-header title="vm.modalHeader.title" close="vm.modalHeader.close"></custom-modal-header>
         <div class="modal-body row">
             <div class="row">
@@ -50,14 +50,14 @@
                 <div class="form-group">
                     <label class="col-sm-2 col-md-offset-1 col-md-3 control-label cp-padding" for="password">Confirm Password</label>
                     <div class="col-sm-8 col-md-6 inner-addon">
-                        <input type="{{ vm.confirmPassword ? 'text' : 'password' }}" data-id="password" aria-describedby="passwordStatus" name="confirmPassword" ng-model="vm.user.confirmPassword" minlength="8" />
+                        <input type="{{ vm.confirmPassword ? 'text' : 'password' }}" data-id="password" aria-describedby="passwordStatus" name="confirmPassword" ng-model="vm.user.confirmPassword" minlength="8"/>
                         <i class="glyphicon glyphicon-eye-open" aria-hidden="true" ng-if="vm.confirmPassword == 1" ng-click="vm.toggleConfirmPassword()"></i>
                         <i class="glyphicon glyphicon-eye-close" aria-hidden="true" ng-if="vm.confirmPassword == 0" ng-click="vm.toggleConfirmPassword()"></i>
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="col-sm-4 col-md-offset-1 col-md-3 control-label" for="email">Email</label>
-                    <div class="col-sm-8 col-md-3">
+                    <label class="col-sm-2 col-md-offset-1 col-md-3 control-label" for="email">Email</label>
+                    <div class="col-sm-8 col-md-6 inner-addon">
                         <input type="email" class="form-control width-full" data-id="email" name="userEmail" ng-model="vm.user.email" required/>
                     </div>
                 </div>

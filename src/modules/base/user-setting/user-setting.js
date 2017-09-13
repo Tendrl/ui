@@ -87,6 +87,7 @@
 
 
         function confirmModal() {
+            vm.formSubmitInProgress = true;
             if (_validateUIFields()) {
                 vm.user.notification = vm.user.email_notifications;
                 userStore.editUser(vm.user)
@@ -98,7 +99,7 @@
                                     if (data !== null) {
                                         $rootScope.$broadcast("UpdatedUserList", data);
                                     }
-                                    
+
                                 });
                         }
                         Notifications.message("success", "", " Profile updated Succesfully.");
@@ -108,20 +109,22 @@
 
                         if (e.status === 422) {
                             keys = Object.keys(e.data.errors);
+                            messages = Object.values(e.data.errors)[0];
+
                             if (keys.indexOf("email") !== -1) {
-                                vm.errorMsg = "Email is already taken. Please use different one.";
-                            } else if (keys.indexOf("name") !== -1) {
                                 if (messages.indexOf("is taken") !== -1) {
                                     vm.errorMsg = "Email is already taken. Please use different one.";
                                 } else if (messages.indexOf("is invalid") !== -1) {
                                     vm.errorMsg = "Please enter a valid Email Id";
                                 }
+                            } else if (keys.indexOf("name") !== -1) {
+                                vm.errorMsg = "Name is too short (minimum is 4 characters).";
                             }
                         } else {
                             vm.closeModal();
                             Notifications.message("danger", "", " Failed to update profile.");
                         }
-                        });
+                    });
 
 
             } else {
@@ -149,6 +152,12 @@
                 isFormValid = false;
             } else if (!_isPasswordSame()) {
                 vm.errorMsg = "Password and Confirm Password doesn't match.";
+                isFormValid = false;
+            } else if (form.password.$invalid) {
+                vm.errorMsg = "Password should be 8 characters minimum";
+                isFormValid = false;
+            } else if (form.userEmail.$invalid) {
+                vm.errorMsg = "Please enter Email id.";
                 isFormValid = false;
             }
 

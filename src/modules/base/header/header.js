@@ -80,7 +80,7 @@
                 });
         }
 
-        function userSetting(username) {
+        function userSetting() {
             var wizardDoneListener,
                 modalInstance,
                 closeWizard;
