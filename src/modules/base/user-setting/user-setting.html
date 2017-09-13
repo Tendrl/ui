@@ -1,0 +1,74 @@
+
+<div class="tendrl-user-setting-modal-container">
+    <div>
+        
+        <custom-modal-header title="vm.modalHeader.title" close="vm.modalHeader.close"></custom-modal-header>
+        <div class="modal-body row">
+            <div class="row">
+                <div class="alert alert-danger col-md-offset-1 col-md-7" ng-if="vm.errorMsg.length > 0">
+                    <span class="pficon pficon-error-circle-o"></span>
+                    <label ng-bind="vm.errorMsg"></label>
+                </div>
+            </div>
+            <form class="form-horizontal" name="vm.userSettingForm" ng-submit="vm.confirmModal()" ng-if="!vm.isDataLoading">
+                <div class="form-group">
+                    <label class="col-sm-2 col-md-offset-1 col-md-3 control-label">User ID</label>
+                    <div class="col-sm-8 col-md-6">
+                        <p>{{vm.user.username}}</p>
+                    </div>
+                </div>
+                <!--             <div class="form-inline form-group">
+                <label class="col-sm-4 col-md-1 control-label">Type</label>
+                <div class="col-sm-8 col-md-3">
+                    <p>Internal</p>
+                </div>
+                <label class="col-sm-2 col-md-2 control-label" for="status">Status</label>
+                <div class="col-sm-8 col-md-4">
+                    <input bs-switch ng-model="editUserCntrl.user.status" data-id="status" type="checkbox" value="editUserCntrl.user.status" ng-true-value="true" ng-false-value="false">
+                </div>
+            </div> -->
+                <div class="form-group">
+                    <label class="col-sm-2 col-md-offset-1 col-md-3 control-label" for="name">Name</label>
+                    <div class="col-sm-8 col-md-6">
+                        <input type="text" class="form-control" data-id="name" name="name" ng-model="vm.user.name" required/>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 col-md-offset-1 col-md-3 control-label cp-padding" for="password">New Password</label>
+                    <div class="col-sm-8 col-md-6 inner-addon">
+                        <input type="{{ vm.typePassword ? 'text' : 'password' }}" data-id="password" name="password" ng-model="vm.user.password" minlength="8" />
+                        <span id="passwordStatus" class="showPassword" ng-click="vm.toggleTypePassword()">
+                        <span ng-if="vm.typePassword == 1">
+                            <i class="glyphicon glyphicon-eye-open" aria-hidden="true"></i>
+                        </span>
+                        <span ng-if="vm.typePassword == 0">
+                            <i class="glyphicon glyphicon-eye-close" aria-hidden="true"></i>
+                        </span>
+                        </span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 col-md-offset-1 col-md-3 control-label cp-padding" for="password">Confirm Password</label>
+                    <div class="col-sm-8 col-md-6 inner-addon">
+                        <input type="{{ vm.confirmPassword ? 'text' : 'password' }}" data-id="password" aria-describedby="passwordStatus" name="confirmPassword" ng-model="vm.user.confirmPassword" minlength="8" />
+                        <i class="glyphicon glyphicon-eye-open" aria-hidden="true" ng-if="vm.confirmPassword == 1" ng-click="vm.toggleConfirmPassword()"></i>
+                        <i class="glyphicon glyphicon-eye-close" aria-hidden="true" ng-if="vm.confirmPassword == 0" ng-click="vm.toggleConfirmPassword()"></i>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-4 col-md-offset-1 col-md-3 control-label" for="email">Email</label>
+                    <div class="col-sm-8 col-md-3">
+                        <input type="email" class="form-control width-full" data-id="email" name="userEmail" ng-model="vm.user.email" required/>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 col-md-offset-1 col-md-3 control-label" for="email-notification">Email Notifications</label>
+                    <div class="col-sm-8 col-md-4">
+                        <input ng-model="vm.user.email_notifications" type="checkbox" ng-true-value="true" ng-false-value="false">
+                    </div>
+                </div>
+                <custom-modal-footer modal-footer="vm.modalFooter"></custom-modal-footer>
+            </form>
+        </div>
+    </div>
+</div>

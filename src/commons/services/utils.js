@@ -113,7 +113,7 @@
         };
 
         vm.checkErrorCode = function(e) {
-            if (e.status === 401) {
+            if ((e.status === 401) || (e.status === 403)) {
                 AuthManager.handleUnauthApi();
             }
         };

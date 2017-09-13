@@ -43,6 +43,7 @@
                 request;
 
             url = config.baseUrl + "users";
+            // url = "/api/GetUserList.json";
 
             actionRequest = {
                 method: "POST",
@@ -96,6 +97,28 @@
                 return response.data;
             }, function(e) {
                 utils.checkErrorCode(e);
+            });
+        };
+
+        vm.deleteUser = function(username) {
+            var url, deleteUserRequest, request;
+
+            url = config.baseUrl + "users/" + username;
+            // url = "/api/GetUserList.json";
+
+            deleteUserRequest = {
+                method: "DELETE",
+                url: url,
+                data: username
+            };
+
+            request = angular.copy(deleteUserRequest);
+
+            return $http(request).then(function(response) {
+                return response.data;
+            }).catch(function(e) {
+                utils.checkErrorCode(e);
+                throw e;
             });
         };
     }

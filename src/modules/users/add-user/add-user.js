@@ -17,14 +17,13 @@
 
         var vm = this,
             typePassword,
-            confirmPassword,
-            emailNotificationValue;
+            confirmPassword;
 
         vm.typePassword = false;
         vm.confirmPassword = false;
         vm.errorMsg = "";
         vm.user = {};
-        vm.user.emailNotification = true;
+        vm.user.notification = true;
         vm.user.role = "admin";
 
         vm.toggleTypePassword = toggleTypePassword;
@@ -42,14 +41,20 @@
                         Notifications.message("success", "", "New User Added Succesfully.");
                         $state.go("users");
                     }).catch(function(e) {
-                        var keys;
+                        var keys,
+                            messages;
 
                         if (e.status === 422) {
                             keys = Object.keys(e.data.errors);
+                            messages = Object.values(e.data.errors)[0];
                             if ((keys.indexOf("email") !== -1) && (keys.indexOf("username") !== -1)) {
                                 vm.errorMsg = "Email and User Id are already taken. Please use different one.";
                             } else if (keys.indexOf("email") !== -1) {
-                                vm.errorMsg = "Email is already taken. Please use different one.";
+                                if (messages.indexOf("is taken") !== -1){
+                                    vm.errorMsg = "Email is already taken. Please use different one.";
+                                } else if (messages.indexOf("is invalid") !== -1){
+                                    vm.errorMsg = "Please enter a valid Email Id";
+                                }
                             } else if (keys.indexOf("username") !== -1) {
                                 vm.errorMsg = "Username is already taken. Please use different one.";
                             }
@@ -70,8 +75,8 @@
             if (form.username.$invalid) {
                 vm.errorMsg = "Please specify valid User Id.";
                 isFormValid = false;
-            } else if (form.firstName.$invalid) {
-                vm.errorMsg = "Please specify valid First Name."
+            } else if (form.name.$invalid) {
+                vm.errorMsg = "Please specify valid Name."
                 isFormValid = false;
             } else if (form.password.$invalid || form.confirmPassword.$invalid) {
                 vm.errorMsg = "Please specify valid Password."
