@@ -23,16 +23,6 @@
                     <p>{{editUserCntrl.user.username}}</p>
                 </div>
             </div>
-            <!--             <div class="form-inline form-group">
-                <label class="col-sm-4 col-md-1 control-label">Type</label>
-                <div class="col-sm-8 col-md-3">
-                    <p>Internal</p>
-                </div>
-                <label class="col-sm-2 col-md-2 control-label" for="status">Status</label>
-                <div class="col-sm-8 col-md-4">
-                    <input bs-switch ng-model="editUserCntrl.user.status" data-id="status" type="checkbox" value="editUserCntrl.user.status" ng-true-value="true" ng-false-value="false">
-                </div>
-            </div> -->
             <div class="form-group">
                 <label class="col-sm-2 col-md-1 control-label" for="name">Name</label>
                 <div class="col-sm-8 col-md-6">
@@ -45,7 +35,7 @@
                     <input type="email" class="form-control width-full" data-id="email" name="userEmail" ng-model="editUserCntrl.user.email" required>
                 </div>
                 <label class="col-sm-2 col-md-2 control-label" for="email-notification">Email Notifications</label>
-                <div class="col-sm-8 col-md-4">
+                <div class="col-sm-8 col-md-4 email_padding">
                     <input bs-switch type="checkbox" ng-model="editUserCntrl.user.notification" ng-true-value="true" ng-false-value="false">
                 </div>
             </div>
@@ -100,15 +90,14 @@
                     </div>
                 </div>
             </div> -->
+            <br/>
             <div class="form-group form-inline bottom-button">
-                <div class="col-xs-4 col-md-1 col-sm-4 submit">
-                    <button type="submit" class="btn btn-primary btn-lg submit-button">
-                        <span class="submit-button-text">Save</span>
-                    </button>
-                </div>
-                <div class="col-xs-4 col-md-1 col-sm-4 cancel">
-                    <button ui-sref="users" class="btn btn-default btn-lg">Cancel</button>
-                </div>
+                <button type="submit" class="btn btn-primary btn-lg submit-button">
+                    <i class="glyphicon glyphicon-refresh glyphicon-refresh-animate hidden" data-ng-class="{'hidden': editUserCntrl.formSubmitInProgress !== true }">
+                    </i>
+                    <span>Save</span>
+                </button>
+                <button ui-sref="users" class="btn btn-default btn-lg">Cancel</button>
             </div>
         </form>
     </div>

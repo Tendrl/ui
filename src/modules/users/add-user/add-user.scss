@@ -3,9 +3,22 @@
         width: 100%;
     }
     .inner-addon {
+
+        input {
+            width : 100%;
+        }
+
         .glyphicon {
             cursor: pointer;
+            position: absolute;
+            z-index: 1000;
+            top: 30%;
+            right: 4%;
+            background-color : $color-white;
         }
+    }
+    .email_padding{
+        padding-left : 0px;
     }
     .radio-class {
         margin-bottom: 10px;

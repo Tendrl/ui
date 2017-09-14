@@ -25,7 +25,6 @@
         vm.user = {};
         vm.user.notification = true;
         vm.user.role = "admin";
-
         vm.toggleTypePassword = toggleTypePassword;
         vm.toggleConfirmPassword = toggleConfirmPassword;
         vm.addUser = addUser;
@@ -38,7 +37,7 @@
 
                 userStore.createUser(vm.user)
                     .then(function(data) {
-                        Notifications.message("success", "", "New User Added Succesfully.");
+                        Notifications.message("success", "", "New User Added Successfully.");
                         $state.go("users");
                     }).catch(function(e) {
                         var keys,
@@ -50,13 +49,15 @@
                             if ((keys.indexOf("email") !== -1) && (keys.indexOf("username") !== -1)) {
                                 vm.errorMsg = "Email and User Id are already taken. Please use different one.";
                             } else if (keys.indexOf("email") !== -1) {
-                                if (messages.indexOf("is taken") !== -1){
+                                if (messages.indexOf("is taken") !== -1) {
                                     vm.errorMsg = "Email is already taken. Please use different one.";
-                                } else if (messages.indexOf("is invalid") !== -1){
+                                } else if (messages.indexOf("is invalid") !== -1) {
                                     vm.errorMsg = "Please enter a valid Email Id";
                                 }
                             } else if (keys.indexOf("username") !== -1) {
                                 vm.errorMsg = "Username is already taken. Please use different one.";
+                            } else if (keys.indexOf("name") !== -1) {
+                                vm.errorMsg = "Name is too short (minimum is 4 characters).";
                             }
                         } else {
                             vm.errorMsg = "Failed to create user.";
