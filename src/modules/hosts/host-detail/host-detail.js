@@ -13,7 +13,7 @@
         });
 
     /*@ngInject*/
-    function hostDetailController($stateParams, $scope, $rootScope, $interval, $state, brickStore, clusterStore, config) {
+    function hostDetailController($stateParams, $scope, $rootScope, $interval, $state, brickStore, clusterStore, config, nodeStore) {
 
         var vm = this;
 
@@ -32,14 +32,24 @@
          */
         function init() {
             vm.clusterId = $stateParams.clusterId;
-            vm.hostName = $stateParams.hostId;
+            vm.hostId = $stateParams.hostId;
 
             if ($rootScope.clusterData) {
                 _makeTabList();
                 vm.isDataLoading = false;
                 vm.clusterObj = clusterStore.getClusterDetails(vm.clusterId);
-                vm.clusterName = vm.clusterObj.cluster_name || "NA";
+                vm.clusterName = vm.clusterObj.cluster_id || "NA";
                 vm.clusterStatus = clusterStore.checkStatus(vm.clusterObj);
+                if (!nodeStore.nodeList.length) {
+                    nodeStore.getNodeList()
+                        .then(function(data) {
+                            vm.hostName = nodeStore.getNodeObject(vm.hostId).name;
+                            vm.isDataLoading = false;
+                        });
+                } else {
+                    vm.hostName = nodeStore.getNodeObject(vm.hostId).name;
+                    vm.isDataLoading = false;
+                }
 
             } else {
                 clusterStore.getClusterList()
@@ -48,8 +58,18 @@
                         _makeTabList();
                         vm.isDataLoading = false;
                         vm.clusterObj = clusterStore.getClusterDetails(vm.clusterId);
-                        vm.clusterName = vm.clusterObj.cluster_name || "NA";
+                        vm.clusterName = vm.clusterObj.cluster_id || "NA";
                         vm.clusterStatus = clusterStore.checkStatus(vm.clusterObj);
+                        if (!nodeStore.nodeList.length) {
+                            nodeStore.getNodeList()
+                                .then(function(data) {
+                                    vm.hostName = nodeStore.getNodeObject(vm.hostId).name;
+                                    vm.isDataLoading = false;
+                                });
+                        } else {
+                            vm.hostName = nodeStore.getNodeObject(vm.hostId).name;
+                            vm.isDataLoading = false;
+                        }
                     });
             }
         }
@@ -73,7 +93,7 @@
         }
 
         function goToClusterDetail() {
-            $state.go("cluster-detail", {clusterId: vm.clusterId});
+            $state.go("cluster-detail", { clusterId: vm.clusterId });
         }
 
         $scope.$on("GotClusterData", function(event, data) {

@@ -41,8 +41,8 @@
                     temp.nodeId = data[i].node_id;
                     temp.fqdn = data[i].tags.fqdn;
                     temp.desc = data[i].tags.message;
-                    temp.clusterId = data[i].tags.cluster_id ? data[i].tags.cluster_id : "";
-                    temp.clusterName = data[i].tags.cluster_name ? data[i].tags.cluster_name : "";
+                    temp.clusterId = data[i].tags.integration_id ? data[i].tags.integration_id : "";
+                    temp.clusterName = data[i].tags.integration_id ? data[i].tags.integration_id : "";
                     temp.sdsName = data[i].tags.sds_name ? data[i].tags.sds_name : "";
                     res.push(temp);
                 }

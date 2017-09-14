@@ -18,7 +18,7 @@
     function hostController($scope, $rootScope, $state, $interval, utils, config, nodeStore) {
         var vm = this,
             clusterObj,
-            hostListTimer;            
+            hostListTimer;
 
         vm.isDataLoading = true;
         vm.redirectToGrafana = redirectToGrafana;
@@ -33,8 +33,8 @@
          * @memberOf hostController
          */
         function init() {
-            vm.showDetailBtn = vm.clusterId ? true: false;
-            
+            vm.showDetailBtn = vm.clusterId ? true : false;
+
             nodeStore.getNodeList(vm.clusterId)
                 .then(function(list) {
                     $interval.cancel(hostListTimer);
@@ -51,9 +51,11 @@
             }, 1000 * config.nodeRefreshIntervalTime, 1);
         }
 
-        function redirectToGrafana(host, $event){
-            utils.redirectToGrafana("hosts", $event, {clusterId: vm.clusterId,
-                                                    hostName: host.name.split(".").join("_")});
+        function redirectToGrafana(host, $event) {
+            utils.redirectToGrafana("hosts", $event, {
+                clusterId: vm.clusterId,
+                hostName: host.name.split(".").join("_")
+            });
         }
 
         /*Cancelling interval when scope is destroy*/
@@ -62,8 +64,8 @@
         });
 
         function goToHostDetail(host) {
-            if(vm.clusterId) {
-                $state.go("host-detail", { clusterId: vm.clusterId , hostId: host.id});
+            if (vm.clusterId) {
+                $state.go("host-detail", { clusterId: vm.clusterId, hostId: host.id });
             }
         }
     }

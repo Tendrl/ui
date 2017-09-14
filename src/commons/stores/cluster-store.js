@@ -41,7 +41,7 @@
                 temp.integrationId = data[i].integration_id;
                 temp.sdsVersion = data[i].sds_version;
                 temp.sdsName = data[i].sds_name;
-                temp.name = data[i].cluster_name;
+                temp.name = data[i].cluster_id;
                 temp.clusterId = data[i].cluster_id;
                 temp.isProfilingEnabled = data[i].enable_volume_profiling === "yes" ? "Enabled" : "Disabled";
                 temp.managed = data[i].is_managed === "yes" ? "Yes" : "No";

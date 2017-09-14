@@ -9,7 +9,7 @@
             templateUrl: "/modules/bricks/host-bricks/host-bricks.html",
             bindings: {
                 clusterId: "=",
-                hostName: "="
+                hostId: "="
             },
             controller: hostBrickController,
             controllerAs: "vm"
@@ -34,10 +34,10 @@
          */
         function init() {
             vm.clusterId = $stateParams.clusterId;
-            vm.hostName = $stateParams.hostId;
+            vm.hostId = $stateParams.hostId;
 
             if ($rootScope.clusterData) {
-                brickStore.getHostBrickList(vm.clusterId, vm.hostName)
+                brickStore.getHostBrickList(vm.clusterId, vm.hostId)
                     .then(function(data) {
                         vm.brickList = data;
                         $interval.cancel(hostBrickTimer);
@@ -45,7 +45,7 @@
                         startTimer();
                     });
             } else {
-                clusterStore.getClusterList(vm.clusterId, vm.hostName)
+                clusterStore.getClusterList(vm.clusterId, vm.hostId)
                     .then(function(data) {
                         $rootScope.clusterData = data;
                         brickStore.getHostBrickList()

@@ -10,6 +10,8 @@
         var store = this,
             index;
 
+        store.nodeList = [];
+
         /**
          * @name findRole
          * @desc returns the role for a node
@@ -66,6 +68,7 @@
                             list = _formatHostData(data.nodes);
 
                         }
+                        store.nodeList = list;
                     }
                     deferred.resolve(list);
                 });
@@ -85,7 +88,7 @@
                     host = {};
 
                     host.cluster_id = list[i].cluster.cluster_id || "NA";
-                    host.cluster_name = list[i].cluster.cluster_name;
+                    host.cluster_name = list[i].cluster.cluster_id;
                     host.id = list[i].node_id;
                     host.status = list[i].status;
                     host.name = list[i].fqdn;
@@ -95,6 +98,20 @@
                 }
                 return hostList;
             }
+        };
+
+        store.getNodeObject = function(hostId) {
+            var len = store.nodeList.length,
+                i;
+
+            for (i = 0; i < len; i++) {
+                if (store.nodeList[i].id === hostId) {
+                    return store.nodeList[i];
+                }
+            }
+
+            return null;
+
         };
 
     }
