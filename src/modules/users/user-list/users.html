@@ -12,13 +12,13 @@
                             <div class="input-group-btn">
                                 <!--search By -->
                                 <select ng-init="userCntrl.filterBy = 'username'" ng-disabled="userCntrl.userList.length === 0" ng-model="userCntrl.filterBy" class="btn btn-default dropdown-toggle" ng-change="userCntrl.searchBy = {}">
-                                    <option value="username">User id {{userCntrl.userList.name}}</option>
+                                    <option value="username">User Id {{userCntrl.userList.name}}</option>
                                     <option value="name">Name</option>
                                     <option value="role">Role</option>
                                 </select>
                             </div>
                             <!-- btn-group-->
-                            <input ng-disabled="userCntrl.userList.length === 0" type="text" class="form-control" id="filter" ng-model="userCntrl.searchBy[userCntrl.filterBy]" placeholder="Filter By {{userCntrl.filterBy}}...">
+                            <input ng-disabled="userCntrl.userList.length === 0" type="text" class="form-control" id="filter" ng-model="userCntrl.searchBy[userCntrl.filterBy]" placeholder="Filter By {{userCntrl.filterBy === 'username'? 'User Id': userCntrl.filterBy }}...">
                         </div>
                         <!--/input group-->
                     </div>
