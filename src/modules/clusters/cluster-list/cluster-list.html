@@ -68,7 +68,7 @@
                     </div>
                     <div class="list-view-pf-actions">
                         <button class="btn btn-default" ng-click="clusterCntrl.goToClusterDetail(cluster)" ng-class="{'hide-button': cluster.managed !== 'Yes'}">Cluster Details</button>
-                        <button class="btn btn-default import-btn" ng-show="cluster.managed === 'No'" ng-disabled="cluster.message === 'Cluster Misconfigured'" ng-click="clusterCntrl.goToImportFlow(cluster)" ng-class="{'hide-button': ($root.userRole ==='limited' || cluster.managed !== 'No')}">Import Cluster</button>
+                        <button class="btn btn-default import-btn" ng-show="cluster.managed === 'No'" ng-disabled="cluster.message === 'Cluster Misconfigured' || cluster.importStatus === 'in_progress'" ng-click="clusterCntrl.goToImportFlow(cluster)" ng-class="{'hide-button': ($root.userRole ==='limited' || cluster.managed !== 'No')}">Import Cluster</button>
                         <button class="btn btn-default" ng-show="cluster.managed === 'Yes'" ng-click="clusterCntrl.redirectToGrafana(cluster, $event)">Launch Dashboard</button>
                         <div class="dropdown pull-right dropdown-kebab-pf" ng-class="{'hide-button': (cluster.managed !== 'Yes' || $root.userRole === 'limited')}">
                             <button class="btn btn-link dropdown-toggle" type="button" id="dropdownKebabRight12" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" ng-click="clusterCntrl.showKababMenu($event, cluster)">
