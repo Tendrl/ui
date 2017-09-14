@@ -13,6 +13,7 @@
         vm.cancelModal = cancelModal;
         vm.closeModal = closeModal;
         vm.confirmModal = confirmModal;
+        vm.userId = selectedUser;
 
         vm.modalHeader = {
             "title": "Delete User",
@@ -25,9 +26,9 @@
             "classname": "btn-default",
             "onCall": vm.cancelModal
         }, {
-            "name": "Yes",
+            "name": "Delete",
             "type": "submit",
-            "classname": "btn-primary",
+            "classname": "btn-danger",
             "onCall": vm.confirmModal
         }];
 

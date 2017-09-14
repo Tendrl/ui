@@ -45,6 +45,7 @@
                 temp.clusterId = data[i].cluster_id;
                 temp.isProfilingEnabled = data[i].enable_volume_profiling === "yes" ? "Enabled" : "Disabled";
                 temp.managed = data[i].is_managed === "yes" ? "Yes" : "No";
+                temp.importStatus = data[i].import_status;
 
                 if (temp.managed === "Yes") {
                     if (temp.sdsName === "gluster") {
