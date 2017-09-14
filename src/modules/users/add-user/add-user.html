@@ -36,7 +36,7 @@
                     <input type="email" class="form-control width-full" data-id="email" name="userEmail" ng-model="addUserCntrl.user.email" required/>
                 </div>
                 <label class="col-sm-2 col-md-2 control-label" for="email-notification">Email Notifications</label>
-                <div class="col-sm-8 col-md-4">
+                <div class="col-sm-8 col-md-4 email_padding">
                     <input bs-switch ng-model="addUserCntrl.user.notification" data-id="email-notification" type="checkbox" value="addUserCntrl.user.notification" ng-true-value="true" ng-false-value="false">
                 </div>
             </div>
@@ -92,8 +92,12 @@
                 </div>
             </div>
             <div class="form-group form-inline bottom-button">
-                    <button type="submit" class="btn btn-primary btn-lg submit-button">Save</button>
-                    <button ui-sref="users" class="btn btn-default btn-lg">Cancel</button>
+                <button type="submit" class="btn btn-primary btn-lg submit-button">
+                    <i class="glyphicon glyphicon-refresh glyphicon-refresh-animate hidden" data-ng-class="{'hidden': addUserCntrl.formSubmitInProgress !== true }">
+                    </i>
+                    <span>Save</span>
+                </button>
+                <button ui-sref="users" class="btn btn-default btn-lg">Cancel</button>
             </div>
         </form>
     </div>

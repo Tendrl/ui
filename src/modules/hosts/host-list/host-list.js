@@ -33,6 +33,8 @@
          * @memberOf hostController
          */
         function init() {
+            vm.showDetailBtn = vm.clusterId ? true: false;
+            
             nodeStore.getNodeList(vm.clusterId)
                 .then(function(list) {
                     $interval.cancel(hostListTimer);

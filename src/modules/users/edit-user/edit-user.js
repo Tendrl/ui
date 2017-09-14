@@ -45,10 +45,11 @@
         }
 
         function editUser() {
+            vm.formSubmitInProgress = true;
             if (_validateUIFields()) {
                 userStore.editUser(vm.user)
                     .then(function(data) {
-                        Notifications.message("success", "", "User Succesfully Updated.");
+                        Notifications.message("success", "", "User Successfully Updated.");
                         $state.go("users");
                     }).catch(function(e) {
                         var keys,
@@ -58,11 +59,13 @@
                             keys = Object.keys(e.data.errors);
                             messages = Object.values(e.data.errors)[0];
                             if (keys.indexOf("email") !== -1) {
-                                if (messages.indexOf("is taken") !== -1){
+                                if (messages.indexOf("is taken") !== -1) {
                                     vm.errorMsg = "Email is already taken. Please use different one.";
-                                } else if (messages.indexOf("is invalid") !== -1){
+                                } else if (messages.indexOf("is invalid") !== -1) {
                                     vm.errorMsg = "Please enter a valid Email Id";
                                 }
+                            } else if (keys.indexOf("name") !== -1) {
+                                vm.errorMsg = "Name is too short (minimum is 4 characters).";
                             }
                         } else {
                             Notifications.message("danger", "", "Failed to update user.");
