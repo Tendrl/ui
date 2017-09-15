@@ -43,11 +43,11 @@
                 if (!volumeStore.volumeList.length) {
                     volumeStore.getVolumeList(vm.clusterId)
                         .then(function(data) {
-                            vm.volName = volumeStore.getVolumeObject(vm.volumeId).name;
+                            vm.volName = volumeStore.getVolumeObject(vm.volumeId).name ? volumeStore.getVolumeObject(vm.volumeId).name : vm.volumeId;
                             vm.isDataLoading = false;
                         });
                 } else {
-                    vm.volName = volumeStore.getVolumeObject(vm.volumeId).name;
+                    vm.volName = volumeStore.getVolumeObject(vm.volumeId).name ? volumeStore.getVolumeObject(vm.volumeId).name : vm.volumeId;
                     vm.isDataLoading = false;
                 }
 
@@ -64,11 +64,11 @@
                         if (!volumeStore.volumeList.length) {
                             volumeStore.getVolumeList(vm.clusterId)
                                 .then(function(data) {
-                                    vm.volName = volumeStore.getVolumeObject(vm.volumeId).name;
+                                    vm.volName = volumeStore.getVolumeObject(vm.volumeId).name ? volumeStore.getVolumeObject(vm.volumeId).name : vm.volumeId;
                                     vm.isDataLoading = false;
                                 });
                         } else {
-                            vm.volName = volumeStore.getVolumeObject(vm.volumeId).name;
+                            vm.volName = volumeStore.getVolumeObject(vm.volumeId).name ? volumeStore.getVolumeObject(vm.volumeId).name : vm.volumeId;
                             vm.isDataLoading = false;
                         }
                     });

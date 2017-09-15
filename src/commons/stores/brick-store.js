@@ -151,24 +151,28 @@
                 function _getSubVolPrefix(type) {
                     var prefix = "";
 
-                    switch (type.toLowerCase()) {
+                    if (type) {
+                        switch (type.toLowerCase()) {
 
 
-                        case "replicate":
-                        case "distributed-replicate":
-                        case "arbiter":
-                            prefix = "Replica Set ";
-                            break;
+                            case "replicate":
+                            case "distributed-replicate":
+                            case "arbiter":
+                                prefix = "Replica Set ";
+                                break;
 
-                        case "disperse":
-                        case "distributed-dispersed":
-                            prefix = "Dispersed Set ";
-                            break;
+                            case "disperse":
+                            case "distributed-dispersed":
+                                prefix = "Dispersed Set ";
+                                break;
 
-                        case "distribute":
-                        default:
-                            prefix = "Subvolume ";
-                            break;
+                            case "distribute":
+                            default:
+                                prefix = "Subvolume ";
+                                break;
+                        }
+                    } else {
+                        prefix = "Subvolume ";
                     }
 
                     return prefix;
