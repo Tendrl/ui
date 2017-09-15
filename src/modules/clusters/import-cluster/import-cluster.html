@@ -12,7 +12,7 @@
             </div>
             <div class="row">
                 <div class="col-sm-12 volume-profile">
-                    <input type="checkbox" name="volumeProfile" ng-model="vm.enableProfiling"> Enable Volume profiling. Enabling cluster wide volume profiling will enable profiling for all exisiting and new volumes of the cluster.
+                    <input type="checkbox" name="volumeProfile" ng-model="vm.enableProfiling"> Enable Volume profiling. <i class="pficon pficon-info" uib-tooltip-template="'../modules/clusters/import-cluster/import-cluster-tooltip.html'" tooltip-placement="bottom-left"></i>
                 </div>
             </div>
             <h2>Discovered Host(s)</h2>
@@ -63,43 +63,21 @@
                     <h1>No Hosts Detected.</h1>
                 </div>
             </center>
-            <div class="list-group list-view-pf list-view-pf-view">
-                <div class="list-group-item list-header">
-                    <div class="list-view-pf-main-info">
-                        <div class="list-view-pf-body">
-                            <div class="list-view-pf-description">
-                                <div class="list-group-item-heading bold-text counts">
-                                    Host
-                                </div>
-                            </div>
-                            <div class="list-view-pf-additional-info">
-                                <div class="list-view-pf-additional-info-item bold-text">
-                                    Release
-                                </div>
-                                <div class="list-view-pf-additional-info-item bold-text">
-                                    Role
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+            <div class="flex-table list-group list-view-pf list-view-pf-view">
+                <div class="ft-row list-group-item ft-header">
+                    <div class="ft-column">Host</div>
+                    <div class="ft-column">Version</div>
+                    <div class="ft-column">Role</div>
                 </div>
-                <div class="list-group-item" ng-repeat="host in vm.filteredHostList = (vm.hostList | filter: vm.searchBy | orderBy: vm.ascOrder + vm.orderBy) track by $index">
-                    <div class="list-view-pf-main-info">
-                        <div class="list-view-pf-body">
-                            <div class="list-view-pf-description">
-                                <div class="list-group-item-heading host-name bold-text counts" uib-tooltip-html="'{{host.fqdn}}'" tooltip-placement="auto bottom-left">
-                                    {{host.fqdn}}
-                                </div>
-                            </div>
-                            <div class="list-view-pf-additional-info">
-                                <div class="list-view-pf-additional-info-item host-release">
-                                    {{host.release}}
-                                </div>
-                                <div class="list-view-pf-additional-info-item">
-                                    {{host.role}}
-                                </div>
-                            </div>
-                        </div>
+                <div class="ft-row list-group-item" ng-repeat="host in vm.filteredHostList = (vm.hostList | filter: vm.searchBy | orderBy: vm.ascOrder + vm.orderBy) track by $index">
+                    <div class="ft-column host-name bold-text" uib-tooltip-html="'{{host.fqdn}}'" tooltip-placement="auto bottom-left">
+                        {{host.fqdn}}
+                    </div>
+                    <div class="ft-column">
+                        {{host.release}}
+                    </div>
+                    <div class="ft-column">
+                        {{host.role}}
                     </div>
                 </div>
             </div>

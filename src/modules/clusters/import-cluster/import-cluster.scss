@@ -6,23 +6,6 @@
             padding-top: 10px;
             padding-bottom: 10px;
 
-            &.list-header {
-                padding-top: 0px;
-                padding-bottom: 0px;
-                height: 30px;
-            }
-
-            .list-view-pf-description {
-                flex: 1 0 10%;
-            }
-            
-            .list-view-pf-additional-info {
-                text-transform: capitalize;
-            }
-
-            .list-view-pf-additional-info-item {
-                flex: 1 0;
-            }
             .host-name {
                 cursor: pointer;
                 white-space: nowrap;
@@ -44,6 +27,15 @@
 
         input[type=checkbox] {
             vertical-align: sub;
+        }
+
+        .pficon-info {
+            color: $color-curious-blue;
+            vertical-align: middle;
+        }
+
+        .tooltip-inner {
+            max-width: 270px;
         }
     }
 }

@@ -53,9 +53,11 @@
                             temp.status = "HEALTH_OK";
                         } else if (data[i].globaldetails.status === "unhealthy") {
                             temp.status = "HEALTH_ERR";
+                        } else {
+                            temp.status = "NA";
                         }
                     } else {
-                        temp.status = data[i].globaldetails.status;
+                        temp.status = data[i].globaldetails ? data[i].globaldetails.status : "NA";
                     }
                 }
 
