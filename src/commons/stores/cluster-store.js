@@ -35,7 +35,7 @@
                 res = [],
                 temp = {},
                 i;
-
+                
             for (i = 0; i < len; i++) {
                 temp = {};
                 temp.integrationId = data[i].integration_id;

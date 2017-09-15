@@ -160,10 +160,12 @@
          * @desc enable/disable volume profile for cluster
          * @memberOf clusterController
          */
-        function doProfilingAction($event, cluster, action) {
+        function doProfilingAction($event, cluster, action, clusterId) {
             clusterStore.doProfilingAction(cluster.clusterId, action)
                 .then(function(data) {
                     Notifications.message("success", "", "Volume profiling " + (action === "Enable" ? "enabled" : "disabled") + " successfully.");
+                    cluster = _isClusterPresent(data, clusterId);
+                    vm.clusterList[cluster.index].isProfilingEnabled = data.enable_volume_profiling === "yes" ? "Enabled" : "Disabled";
                 }).catch(function(error) {
                     Notifications.message("error", "", "Failed to " + (action === "Enable" ? "enable" : "disable") + " volume profile.");
                 });
@@ -219,13 +221,16 @@
          * @desc checks if cluster is present in vm.clusterList
          * @memberOf clusterController
          */
-        function _isClusterPresent(cluster) {
+        function _isClusterPresent(cluster, profilingId) {
             var len = vm.clusterList.length,
                 found = false,
                 i;
 
             for (i = 0; i < len; i++) {
-                if (vm.clusterList[i].clusterId === cluster.clusterId) {
+
+                if (profilingId && vm.clusterList[i].clusterId === profilingId){
+                    return { index: i, cluster: cluster };
+                }else if (vm.clusterList[i].clusterId === cluster.clusterId) {
                     found = true;
                     return { index: i, cluster: cluster };
                 }

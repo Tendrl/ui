@@ -63,7 +63,7 @@
                 <tr ng-repeat="user in userCntrl.filteredUserList=(userCntrl.userList | filter: userCntrl.searchBy | orderBy: 'username')">
                     <td>{{ user.username }}</td>
                     <td class="text-capitalize">{{ user.name }}</td>
-                    <td class="text-capitalize">{{ user.role }}</td>
+                    <td class="text-capitalize">{{ user.role === 'limited' ? 'Read-Only' : user.role }}</td>
                     <td class="text-capitalize">
                         <span ng-if="user.notification === true" uib-tooltip-html="'Enabled'" class="pficon pficon-ok list-view-pf-icon-success status-icons"></span>
                         <span ng-if="user.notification === false" uib-tooltip-html="'Disabled'" class="pficon pficon-error-circle-o list-view-icon-failure status-icons"></span> {{ user.notification === true ? 'Enabled' : 'Disabled' }}
