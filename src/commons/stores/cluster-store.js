@@ -49,9 +49,9 @@
 
                 if (temp.managed === "Yes") {
                     if (temp.sdsName === "gluster") {
-                        if (data[i].globaldetails.status === "healthy") {
+                        if (data[i].globaldetails && data[i].globaldetails.status === "healthy") {
                             temp.status = "HEALTH_OK";
-                        } else if (data[i].globaldetails.status === "unhealthy") {
+                        } else if (data[i].globaldetails && data[i].globaldetails.status === "unhealthy") {
                             temp.status = "HEALTH_ERR";
                         } else {
                             temp.status = "NA";
@@ -175,12 +175,12 @@
          */
         store.checkStatus = function(clusterObj) {
             var status;
-            if (clusterObj.globaldetails.status === "healthy") {
+            if (clusterObj.globaldetails && clusterObj.globaldetails.status === "healthy") {
                 status = "HEALTH_OK";
-            } else if (clusterObj.globaldetails.status === "unhealthy") {
+            } else if (clusterObj.globaldetails && clusterObj.globaldetails.status === "unhealthy") {
                 status = "HEALTH_ERR";
             } else {
-                status = clusterObj.globaldetails.status;
+                status = clusterObj.globaldetails ? clusterObj.globaldetails.status : "NA";
             }
             return status;
         }
