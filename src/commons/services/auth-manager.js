@@ -129,6 +129,7 @@
             $state.go("login");
         }
 
+
         function isAuthenticated(state) {
             var unAuthStates = ["users", "edit-user", "add-user"],
                 i,
