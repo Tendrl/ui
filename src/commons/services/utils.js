@@ -6,7 +6,7 @@
         .service("utils", utils);
 
     /*@ngInject*/
-    function utils($http, $rootScope, $filter, config, AuthManager, $location) {
+    function utils($http, $rootScope, $state, $filter, config, AuthManager, $location) {
 
         /* Cache the reference to this pointer */
         var vm = this,
@@ -113,8 +113,10 @@
         };
 
         vm.checkErrorCode = function(e) {
-            if ((e.status === 401) || (e.status === 403)) {
+            if (e.status === 401) {
                 AuthManager.handleUnauthApi();
+            } else if ((e.status === 500) || (e.status === 403)) {
+                $state.go("clusters");
             }
         };
 
