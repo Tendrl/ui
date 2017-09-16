@@ -63,7 +63,9 @@
                         $state.go("clusters");
                     })
                     .then(function() {
-                        getNotificationList();
+                        if (AuthManager.isUserLoggedIn) {
+                            getNotificationList();
+                        }
                         $rootScope.isNavigationShow = true;
                     })
                     .finally(function() {
