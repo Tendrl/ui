@@ -56,7 +56,7 @@
                         startTimer();
                     });
             } else if (volumeStore.volumeList.length && !$rootScope.clusterData) {
-                clusterStore.getClusterList(vm.clusterId, vm.volumeId)
+                clusterStore.getClusterList()
                     .then(function(data) {
                         $rootScope.clusterData = data;
                         brickStore.getVolumeBrickList(vm.clusterId, vm.volumeId)
@@ -91,7 +91,7 @@
                             });
                     });
             } else {
-                clusterStore.getClusterList(vm.clusterId, vm.volumeId)
+                clusterStore.getClusterList()
                     .then(function(data) {
                         $rootScope.clusterData = data;
                         return volumeStore.getVolumeList(vm.clusterId);

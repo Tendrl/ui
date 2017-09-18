@@ -82,7 +82,7 @@
                 </div>
                 <div class="ft-column ft-actions">
                     <button class="btn btn-default" ng-click="hostCntrl.goToHostDetail(host)" uib-tooltip="Host Details" tooltip-placement="auto bottom-left" ng-show="hostCntrl.showDetailBtn">Host Details</button>
-                    <button ng-show ="host.role !== 'Server Node'" class="btn btn-default dashboard-btn" uib-tooltip="Launch Dashboard" tooltip-placement="auto bottom-left" ng-click="hostCntrl.redirectToGrafana(host, $event)">Launch Dashboard</button>
+                    <button ng-show ="host.role !== 'Server Node'" class="btn btn-default dashboard-btn" uib-tooltip="Launch Dashboard" tooltip-placement="auto bottom-left" ng-click="hostCntrl.redirectToGrafana(host, $event)" ng-disabled="host.managed !== 'Yes'">Launch Dashboard</button>
                 </div>
             </div>
         </div>

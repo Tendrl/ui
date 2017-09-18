@@ -52,7 +52,7 @@
          * @desc returns list of nodes present in Tendrl/cluster
          * @memberOf nodeStore
          */
-        store.getNodeList = function(clusterId) {
+        store.getNodeList = function(clusters, clusterId) {
             var list,
                 deferred,
                 associatedHosts = [];
@@ -88,11 +88,13 @@
                     host = {};
 
                     host.cluster_id = list[i].cluster.cluster_id || "NA";
-                    host.cluster_name = list[i].cluster.cluster_id;
+                    host.cluster_name = list[i].cluster.integration_id;
                     host.id = list[i].node_id;
                     host.status = list[i].status;
                     host.name = list[i].fqdn;
                     host.role = store.findRole(list[i].tags).role;
+                    host.integrationId = list[i].cluster.integration_id;
+                    host.managed = _getManagedState(clusters, host);
 
                     hostList.push(host);
                 }
@@ -113,6 +115,17 @@
             return null;
 
         };
+
+        function _getManagedState(clusters, host) {
+            var len = clusters.length,
+                i;
+
+            for (i = 0; i < len; i++) {
+                if(clusters[i].clusterId === host.integrationId) {
+                    return clusters[i].managed;
+                }
+            }
+        }
 
     }
 

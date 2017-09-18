@@ -15,7 +15,7 @@
         });
 
     /*@ngInject*/
-    function hostController($scope, $rootScope, $state, $interval, utils, config, nodeStore) {
+    function hostController($scope, $rootScope, $state, $interval, utils, config, nodeStore, clusterStore) {
         var vm = this,
             clusterObj,
             hostListTimer;
@@ -35,13 +35,34 @@
         function init() {
             vm.showDetailBtn = vm.clusterId ? true : false;
 
-            nodeStore.getNodeList(vm.clusterId)
-                .then(function(list) {
-                    $interval.cancel(hostListTimer);
-                    vm.isDataLoading = false;
-                    vm.hostList = list;
-                    startTimer();
-                });
+            if ($rootScope.clusterData && $rootScope.clusterData.length) {
+                var clusters;
+                clusters = clusterStore.formatClusterData($rootScope.clusterData);
+                
+                nodeStore.getNodeList(clusters, vm.clusterId)
+                    .then(function(list) {
+                        $interval.cancel(hostListTimer);
+                        vm.isDataLoading = false;
+                        vm.hostList = list;
+                        startTimer();
+                    });
+            } else {
+                clusterStore.getClusterList()
+                    .then(function(data) {
+                        
+                        var clusters;
+                        $rootScope.clusterData = data;
+                        clusters = clusterStore.formatClusterData($rootScope.clusterData);
+                        
+                        nodeStore.getNodeList(clusters, vm.clusterId)
+                            .then(function(list) {
+                                $interval.cancel(hostListTimer);
+                                vm.isDataLoading = false;
+                                vm.hostList = list;
+                                startTimer();
+                            });
+                    });
+            }
         }
 
         function startTimer() {
@@ -53,7 +74,7 @@
 
         function redirectToGrafana(host, $event) {
             utils.redirectToGrafana("hosts", $event, {
-                clusterId: vm.clusterId,
+                clusterId: host.integrationId,
                 hostName: host.name.split(".").join("_")
             });
         }
