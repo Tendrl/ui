@@ -154,7 +154,6 @@
                     if (type) {
                         switch (type.toLowerCase()) {
 
-
                             case "replicate":
                             case "distributed-replicate":
                             case "arbiter":

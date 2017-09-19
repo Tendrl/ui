@@ -45,10 +45,10 @@
                         startTimer();
                     });
             } else {
-                clusterStore.getClusterList(vm.clusterId, vm.hostId)
+                clusterStore.getClusterList()
                     .then(function(data) {
                         $rootScope.clusterData = data;
-                        brickStore.getHostBrickList()
+                        brickStore.getHostBrickList(vm.clusterId, vm.hostId)
                             .then(function(data) {
                                 vm.brickList = data;
                                 $interval.cancel(hostBrickTimer);

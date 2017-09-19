@@ -17,7 +17,7 @@
 
         /* Controller instance */
         var vm = this,
-            notificeTimer;
+            noticeTimer;
 
         $rootScope.isAPINotFoundError = false;
 
@@ -93,7 +93,7 @@
         function getNotificationList() {
             eventStore.getNotificationList()
                 .then(function(notificationList) {
-                    $interval.cancel(notificeTimer);
+                    $interval.cancel(noticeTimer);
                     $rootScope.notificationList = notificationList;
                     $rootScope.$broadcast("GotNoticationData", $rootScope.notificationList);
                     startNotificationTimer();
@@ -104,13 +104,13 @@
         }
 
         function startNotificationTimer() {
-            notificeTimer = $interval(function() {
+            noticeTimer = $interval(function() {
                 getNotificationList();
             }, 1000 * config.eventsRefreshIntervalTime, 1);
         }
 
         $rootScope.$on("UserLogsOut", function() {
-            $interval.cancel(notificeTimer);
+            $interval.cancel(noticeTimer);
         });
 
     }
