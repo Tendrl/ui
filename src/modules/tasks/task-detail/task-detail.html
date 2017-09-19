@@ -31,9 +31,9 @@
         <div class="row bold-text table-heading">
             Events
         </div>
-        <div class="row list-group-item logs" ng-repeat="log in taskDetailCntrl.taskDetail.logs" id="log-list-group-item-{{$index+1}}">
+        <div class="row list-group-item logs" ng-repeat="log in taskDetailCntrl.taskDetail.logs | orderBy: ['-date']" id="log-list-group-item-{{$index+1}}">
             <div class="list-view-pf-left col-md-1">
-                    <i ng-class="{'pficon pficon-error-circle-o': (log.type === 'error'), 'pficon pficon-warning-triangle-o': (log.type === 'warning')}"></i>
+                <i ng-class="{'pficon pficon-error-circle-o': (log.type === 'error'), 'pficon pficon-warning-triangle-o': (log.type === 'warning')}"></i>
             </div>
             <div class="col-md-1">
                 {{log.type}}
@@ -47,4 +47,5 @@
         </div>
     </div>
     <div ng-if="taskDetailCntrl.isDataLoading" class="spinner spinner-lg"></div>
+    <div ng-if="taskDetailCntrl.isMessagesLoading" class="spinner spinner-lg"></div>
 </div>
