@@ -21,9 +21,9 @@
             var role = {
                 "mon": "Monitor",
                 "osd": "OSD Host",
-                "server": "Peer",
+                "server": "Gluster Peer",
                 "rados": "RADOS Gateway",
-                "central-store": "Server Node"
+                "central-store": "Tendrl Server"
             };
             if (tags) {
                 if (tags.indexOf("tendrl/central-store") !== -1) {
