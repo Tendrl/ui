@@ -17,9 +17,11 @@
 
         var vm = this,
             statusTimer,
-            msgTimer;
+            msgTimer,
+            isMessagesLoading;
 
         vm.isDataLoading = true;
+        vm.isMessagesLoading = true;
 
         init();
 
@@ -29,6 +31,7 @@
                     $interval.cancel(msgTimer);
                     if(typeof vm.taskDetail !== "undefined") {
                         vm.taskDetail.logs = response;
+                        vm.isMessagesLoading = false;
                     }
                     startMessageTimer();
                 });
