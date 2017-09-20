@@ -92,12 +92,15 @@
                 </div>
             </div>
             <div class="form-group form-inline bottom-button">
-                <button type="submit" class="btn btn-primary btn-lg submit-button">
-                    <i class="glyphicon glyphicon-refresh glyphicon-refresh-animate hidden" data-ng-class="{'hidden': addUserCntrl.formSubmitInProgress !== true }">
+                <label class="col-sm-2 col-md-1 control-label"></label>
+                <div class="col-sm-8 col-md-6">
+                    <button type="submit" class="btn btn-primary btn-lg submit-button">
+                        <i class="glyphicon glyphicon-refresh glyphicon-refresh-animate hidden" data-ng-class="{'hidden': addUserCntrl.formSubmitInProgress !== true }">
                     </i>
-                    <span>Save</span>
-                </button>
-                <button ui-sref="users" class="btn btn-default btn-lg">Cancel</button>
+                        <span>Save</span>
+                    </button>
+                    <button ui-sref="users" class="btn btn-default btn-lg">Cancel</button>
+                </div>
             </div>
         </form>
     </div>
