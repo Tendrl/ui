@@ -20,15 +20,14 @@
             currentUser;
 
         vm.showNotification = false;
-        vm.isNotificationExpanded = true;
         vm.notificationClose = notificationClose;
         vm.logout = logout;
         vm.homePage = homePage;
         vm.setNotificationFlag = setNotificationFlag;
-        vm.expandNotificationList = expandNotificationList;
         vm.goToClusterPage = goToClusterPage;
         vm.getClusterName = getClusterName;
         vm.userSetting = userSetting;
+        vm.closeNotificationBar = closeNotificationBar;
 
         $rootScope.notification = Notifications.data;
         $rootScope.selectedClusterOption = "allClusters";
@@ -58,12 +57,12 @@
             vm.showNotification = !vm.showNotification;
         }
 
-        function expandNotificationList() {
-            vm.isNotificationExpanded = !vm.isNotificationExpanded;
-        }
-
         function notificationClose(data) {
             Notifications.remove(data);
+        }
+
+        function closeNotificationBar() {
+            vm.showNotification = false;
         }
 
         function logout() {

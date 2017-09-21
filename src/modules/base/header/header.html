@@ -11,7 +11,7 @@
         </a>
         <select id="repeatSelect" ng-model="$root.selectedClusterOption" class="cluster-options btn btn-default dropdown-toggle" ng-change="header.goToClusterPage()" uib-tooltip-html="header.getClusterName($root.selectedClusterOption)" tooltip-placement="auto bottom">
             <option value="allClusters" ng-selected="$root.selectedClusterOption === 'allClusters'">All Clusters</option>
-            <option ng-repeat="cluster in $root.clusterData" value="{{cluster.cluster_id}}" ng-selected="$root.selectedClusterOption === '{{cluster.cluster_id}}'" >{{cluster.cluster_id}}</option>
+            <option ng-repeat="cluster in $root.clusterData" value="{{cluster.cluster_id}}" ng-selected="$root.selectedClusterOption === '{{cluster.cluster_id}}'">{{cluster.cluster_id}}</option>
         </select>
     </div>
     <nav class="collapse navbar-collapse">
@@ -30,7 +30,6 @@
                     <i class="pficon pficon-user"></i>
                     <span class="headerName">{{ header.currentUser }}</span>
                 </a>
-
                 <ul class="dropdown-menu" role="menu" aria-labelledby="usermenu">
                     <li role="presentation"><a href="" role="menuitem" tabindex="-1" ng-click="header.userSetting()">My Settings</a></li>
                     <li role="presentation"><a href="" role="menuitem" tabindex="-1" ng-click="header.logout()">Logout</a></li>
@@ -39,13 +38,12 @@
         </ul>
     </nav>
     <div ng-if="header.showNotification" class="notification-container">
-        <div class="row">
-            <div class="col-md-2">
-                <i class="fa fa-angle-right angle-expand" aria-hidden="true" ng-click="header.expandNotificationList(true)" ng-show="!header.isNotificationExpanded"></i>
-                <i class="fa fa-angle-down angle-expand" aria-hidden="true" ng-click="header.expandNotificationList(false)" ng-show="header.isNotificationExpanded"></i>
-            </div>
-            <div class="col-md-4">
+        <div class="row vertical-align">
+            <div class="col-md-9">
                 <h2 class="bold-text">Notifications</h2>
+            </div>
+            <div class="col-md-3 notification_close">
+                <h4><i class="pficon pficon-close" aria-hidden="true" ng-click="header.closeNotificationBar()"></i></h4>
             </div>
         </div>
         <div class="row">
@@ -66,7 +64,7 @@
             </div>
         </center>
         <div class="notification-list-container">
-            <div class="list-group list-view-pf list-view-pf-equalized-column" ng-repeat="notice in header.notificationList" ng-show="header.isNotificationExpanded">
+            <div class="list-group list-view-pf list-view-pf-equalized-column" ng-repeat="notice in header.notificationList">
                 <div class="list-group-item">
                     <div class="col-md-6">
                         <p class="notice-name" data-toggle="tooltip" data-placement="auto" title="{{notice.message}}">{{notice.message}}</p>

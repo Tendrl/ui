@@ -78,7 +78,7 @@
                     <i ng-class="{ 'pficon pficon-error-circle-o': (task.status==='failed' ), 'pficon pficon-ok': (task.status==='finished' ), 'pficon pficon-warning-triangle-o': (task.status==='warning' ), 'fa fa-spinner': (task.status==='processing' || task.status==='new' )} "></i>
                 </div>
                 <div class="ft-column ft-main list-view-pf-additional-info-item list-view-pf-additional-info-item-stacked task-flow ">
-                    <a href="" class="bold-text " ng-click="taskCntrl.goToTaskDetail(task.job_id) " ng-show="task.flow ">{{task.flow}}</a>
+                    <p class="bold-text" ng-show="task.flow ">{{task.flow}}</p>
                     <div class="bold-text " ng-if="!task.flow ">NA</div>
                     <p>Task ID: {{task.job_id || "NA "}} </p>
                 </div>
@@ -87,6 +87,9 @@
                     <div class="pull-left ">{{task.created_at| date: 'dd MMM yyyy HH:mm:ss'}}</div>
                 </div>
                 <div class="ft-column bold-text ">{{taskCntrl.getStatusText(task.status)}}</div>
+                <div class="ft-column ft-actions">
+                    <button class="btn btn-default" ng-click="taskCntrl.goToTaskDetail(task.job_id)">Task Details</button>
+                </div>
         </div>
     </div>
     <div class="row ">
