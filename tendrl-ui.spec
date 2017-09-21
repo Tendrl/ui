@@ -3,7 +3,7 @@ Version: 1.5.2
 Release: 1%{?dist}
 BuildArch: noarch
 Summary: GUI for Tendrl
-License: ASL 2.0
+License: LGPLv2+
 Group:   Applications/System
 Source0: %{name}-%{version}.tar.gz
 Source1: tendrl-ui-build-pkgs.tar.gz
@@ -34,6 +34,7 @@ cp -a ./dist/* $RPM_BUILD_ROOT/%{_localstatedir}/www/tendrl/
 %files
 %{_localstatedir}/www/tendrl/
 %doc ./docs/*
+%license LICENSE
 
 %changelog
 * Fri Sep 15 2017 Rohan Kanade <rkanade@redhat.com> - 1.5.2-1
