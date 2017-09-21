@@ -14,7 +14,7 @@ build-pkgs-dist:
 
 dist:
 	mkdir -p $(NAME)-$(VERSION)
-	cp *.js package.json README.md $(NAME)-$(VERSION)/
+	cp *.js package.json LICENSE README.md $(NAME)-$(VERSION)/
 	cp -r docs $(NAME)-$(VERSION)/
 	cp -r src $(NAME)-$(VERSION)/
 	tar -zcf $(NAME)-$(VERSION).tar.gz $(NAME)-$(VERSION)
