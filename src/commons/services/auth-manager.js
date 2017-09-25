@@ -126,6 +126,7 @@
         function handleUnauthApi() {
             authApiFactory.clearCredentials();
             authApiFactory.setFlags();
+            $rootScope.$broadcast("UserLogsOut");
             $state.go("login");
         }
 
