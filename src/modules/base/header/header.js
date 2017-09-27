@@ -28,6 +28,7 @@
         vm.getClusterName = getClusterName;
         vm.userSetting = userSetting;
         vm.closeNotificationBar = closeNotificationBar;
+        vm.showNav = showNav;
 
         $rootScope.notification = Notifications.data;
         $rootScope.selectedClusterOption = "allClusters";
@@ -51,6 +52,10 @@
                         vm.currentUser = data.name;
                     });
             }
+        }
+
+        function showNav(){
+            $rootScope.isNavigationShow = !$rootScope.isNavigationShow;
         }
 
         function setNotificationFlag() {

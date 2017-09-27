@@ -23,7 +23,7 @@
 @import "../../modules/bricks/volume-bricks/volume-bricks.scss";
 @import "../../modules/hosts/host-detail/host-detail.scss";
 @import "../../modules/volumes/volume-detail/volume-detail.scss";
-    
+
 .tendrl-app {
     .centered {
         position: fixed;
@@ -52,20 +52,24 @@
     }
 
     .list-group {
-    margin-bottom: 0px !important;
+        margin-bottom: 0px !important;
     }
+}
 
+.margin-fix {
+    margin-left: 0px;
+    transition: 0.25s;
 }
 
 .navbar-pf-vertical .navbar-brand {
     padding: 18px 0 12px;
 }
 
-.navbar-pf-vertical .nav-pf-persistent-secondary li > a {
+.navbar-pf-vertical .nav-pf-persistent-secondary li>a {
     background-color: transparent;
 }
 
-.nav-pf-vertical .list-group-item:hover > a:before{
+.nav-pf-vertical .list-group-item:hover>a:before {
     background: #39a5dc;
     content: " ";
     height: 100%;
@@ -74,6 +78,7 @@
     top: 0;
     width: 3px;
 }
+
 .error-msg {
     color: $color-red;
 }
