@@ -4,7 +4,7 @@
 
 .nav-pf-vertical .list-group-item sub-menu a {
     background-color: transparent;
-    color: #d1d1d1;
+    color: $color-light-grey;
     cursor: pointer;
     display: block;
     font-size: 14px;
@@ -26,8 +26,8 @@
 
 .nav-pf-vertical .list-group-item.active sub-menu a,
 .nav-pf-vertical .list-group-item:hover sub-menu a {
-    background-color: #393f44;
-    color: #fff;
+    background-color: $color-blackopaque;
+    color: $color-white;
     font-weight: 600;
 }
 

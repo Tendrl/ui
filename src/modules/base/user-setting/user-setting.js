@@ -102,7 +102,7 @@
 
                                 });
                         }
-                        Notifications.message("success", "", " Profile updated Succesfully.");
+                        Notifications.message("success", "", " Profile updated Successfully.");
                     }).catch(function(e) {
                         var keys,
                             messages;
