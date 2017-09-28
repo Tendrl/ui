@@ -143,7 +143,7 @@
 
         /**
          * @name showKababMenu
-         * @desc hide/show kabab menu
+         * @desc hide/show kebab menu
          * @memberOf clusterController
          */
         function showKababMenu($event, cluster) {

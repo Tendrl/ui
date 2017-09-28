@@ -38,7 +38,7 @@
     .login-page {
         background-image: url(../../images/bg-login.jpg);;
         background-size: auto;
-        color: #fff;
+        color: $color-white;
     }
     @media (min-width: 768px) {
         .login-page {
@@ -46,7 +46,7 @@
         }
     }
     .login-page .container {
-        background-color: #181818;
+        background-color: $color-nero-grey;
         background-color: rgba(255, 255, 255, 0.055);
         clear: right;
         padding-bottom: 40px;
@@ -90,7 +90,7 @@
         margin-bottom: 0;
     }
     .login-page .container {
-        color: #fff;
+        color: $color-white;
     }
     @media (min-width: 768px) {
         .login-page .container .login {
@@ -108,10 +108,10 @@
         left: 0;
     }
     .red-font {
-        color: red;
+        color: $color-red;
     }
     .text-heading {
-        color: white;
+        color: $color-white;
         font-size: large;
     }
     #brand{
