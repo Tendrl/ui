@@ -26,10 +26,11 @@
         });
 
     /*@ngInject*/
-    function navController($scope, $rootScope, menuService) {
+    function navController($scope, $rootScope, $stateParams, menuService) {
 
         var vm = this;
-        vm.menus = menuService.getMenus();
+        vm.clusterId = $stateParams.clusterId;
+        vm.menus = menuService.getMenus(vm.clusterId);
 
         /* fixed for navigation slide issue*/
         var deregisterfn = $rootScope.$on("$viewContentLoaded", function() {

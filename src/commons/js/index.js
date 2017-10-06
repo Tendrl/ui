@@ -7,7 +7,7 @@
     storageModule.provider("config", function() {
 
         /*Ideally this config should only contain
-        configuration related stuff . it should not hold 
+        configuration related stuff . it should not hold
         cluster data */
         var config = {};
 
@@ -155,8 +155,6 @@
                     }).catch(function(error) {
                         $rootScope.$broadcast("GotClusterData", $rootScope.clusterData); // going down!
                         $rootScope.isAPINotFoundError = true;
-                    }).finally(function() {
-                        $rootScope.isNavigationShow = true;
                     });
                 }
 

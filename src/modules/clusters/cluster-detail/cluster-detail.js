@@ -33,6 +33,7 @@
          */
         function init() {
             vm.clusterId = $stateParams.clusterId;
+            $rootScope.isNavigationShow = true;
 
             if (!$rootScope.clusterData) {
                 clusterStore.getClusterList()

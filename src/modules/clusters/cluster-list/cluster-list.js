@@ -50,6 +50,7 @@
          */
         function init() {
             $rootScope.selectedClusterOption = "allClusters";
+            $rootScope.isNavigationShow = false;
             clusterStore.selectedTab = 1;
             clusterStore.getClusterList()
                 .then(function(data) {

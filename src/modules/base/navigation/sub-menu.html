@@ -1,5 +1,5 @@
 <div class="sub-menu-container">
-    <a ui-sref="{{subMenuCtrl.menu.href}}" class="cursor-pointer" ng-if="subMenuCtrl.menu.hasSubMenus === false">
+    <a ui-sref="{{subMenuCtrl.menu.href}}({{subMenuCtrl.menu.stateParams | json}})" class="cursor-pointer" ng-if="subMenuCtrl.menu.hasSubMenus === false">
         <span class="list-group-item-value">{{subMenuCtrl.menu.label}}</span>
     </a>
     <a ng-click="subMenuCtrl.toggleSubmenu()" class="cursor-pointer" role="button" data-toggle="collapse" ng-if="subMenuCtrl.menu.hasSubMenus">
