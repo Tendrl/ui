@@ -25,8 +25,13 @@
         margin-top: 10px;
         font-size: 14px;
 
-        input[type=checkbox] {
-            vertical-align: sub;
+        input[type=checkbox],i {
+            padding: 2px;
+        }
+
+        label {
+            padding: 2px;
+            font-weight: normal;
         }
 
         .pficon-info {
