@@ -74,7 +74,7 @@
                 </div>
                 <div class="ft-column list-view-pf-additional-info-item list-view-pf-additional-info-item-stacked">
                     <div class="bold-text">Alerts</div>
-                    <div class="pull-left counts">{{volume.alertCount || "NA"}}</div>
+                    <div class="pull-left counts">{{volume.alertCount}}</div>
                 </div>
                 <div class="ft-column list-view-pf-additional-info-item list-view-pf-additional-info-item-stacked">
                     <div class="bold-text">Running</div>
@@ -85,8 +85,8 @@
                     <div class="pull-left counts">{{volumeCntrl.getRebalStatus(volume)}}</div>
                 </div>
                 <div class="ft-column ft-actions">
-                    <button class="btn btn-default dashboard-btn" ng-click="volumeCntrl.goToVolumeDetail(volume)" uib-tooltip="Volume Details" tooltip-placement="auto bottom-left">Volume Details</button>
-                    <button class="btn btn-default dashboard-btn" uib-tooltip="Launch Dashboard" tooltip-placement="auto bottom-left" ng-click="volumeCntrl.redirectToGrafana(volume, $event)">Launch Dashboard</button>
+                    <button class="btn btn-default dashboard-btn" ng-click="volumeCntrl.goToVolumeDetail(volume)">Details</button>
+                    <button class="btn btn-default dashboard-btn" ng-click="volumeCntrl.redirectToGrafana(volume, $event)">Dashboard</button>
                 </div>
             </div>
         </div>

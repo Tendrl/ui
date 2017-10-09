@@ -59,9 +59,15 @@
                 .display {
                     display: block;
                 }
-                .btn-default {
+                /*.btn-default {
                     width: 124px;
                     overflow: hidden;
+                }*/
+                .btn {
+                    white-space: nowrap;
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+                    margin-left: 5px;
                 }
             }
             .list-view-pf-main-info {
