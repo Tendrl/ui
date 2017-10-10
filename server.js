@@ -23,12 +23,16 @@ function serve() {
         bsOptions.middleware = [{
             route: "/api",
             handle: function (req, res, next) {
-                req.url = "/api" + req.url;
-                console.log("\x1b[35m" + "proxying request:", req.url + "\x1b[0m");
-                proxy.web(req, res, {
-                    target: options.P,
-                    changeOrigin: false
-                });
+                if (req.url.indexOf('.json') > -1) {
+                    next();
+                } else {
+                    req.url = "/api" + req.url;
+                    console.log("\x1b[35m" + "proxying request:", req.url + "\x1b[0m");
+                    proxy.web(req, res, {
+                        target: options.P,
+                        changeOrigin: false
+                    });
+                }
             }
         }];
     }
