@@ -66,7 +66,7 @@
             <div class="flex-table list-group list-view-pf list-view-pf-view">
                 <div class="ft-row list-group-item ft-header">
                     <div class="ft-column">Host</div>
-                    <div class="ft-column">Version</div>
+                    <div class="ft-column">Cluster Version</div>
                     <div class="ft-column">Role</div>
                 </div>
                 <div class="ft-row list-group-item" ng-repeat="host in vm.filteredHostList = (vm.hostList | filter: vm.searchBy | orderBy: vm.ascOrder + vm.orderBy) track by $index">
@@ -82,11 +82,9 @@
                 </div>
             </div>
             <div class="row action-button">
-                <div class="col-xs-6 col-sm-2 col-md-1">
+                <div class="col-sm-8 col-md-6">
                     <button class="btn btn-primary btn-lg" ng-click="vm.importCluster()">Import</button>
-                </div>
-                <div class="col-xs-6 col-sm-10 col-md-1">
-                    <button class="btn btn-default btn-lg" ng-click="vm.importCancel()">Cancel</button>
+                    <button class="btn btn-default btn-lg cancel-button" ng-click="vm.importCancel()">Cancel</button>
                 </div>
             </div>
         </div>
@@ -101,7 +99,7 @@
         </div>
         <div class="blank-slate-pf-main-action">
             <button class="btn btn-default btn-lg" ng-click="vm.importCancel()">Return</button>
-            <button class="btn btn-primary btn-lg" ng-click="vm.viewTaskProgress()">View Task Progress</button>
+            <button class="btn btn-primary btn-lg cancel-button" ng-click="vm.viewTaskProgress()">View Task Progress</button>
         </div>
     </div>
 </div>
