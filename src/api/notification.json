@@ -1,31 +1,74 @@
-[{
-        "message": "Job queue failure 1",
-        "message_id": 1,
-        "priority": "notice",
-        "timestamp": "2017-04-26 07:08:18.145112+00:00"
-}, {
-        "message": "Job queue failure 2",
-        "message_id": 2,
-        "priority": "notice",
-        "timestamp": "2017-04-26 07:08:18.145112+00:00"
-}, {
-        "message": "Job queue failure 3",
-        "message_id": 3,
-        "priority": "notice",
-        "timestamp": "2017-04-26 07:08:18.145112+00:00"
-},{
-        "message": "Job queue failure 4",
-        "message_id": 4,
-        "priority": "notice",
-        "timestamp": "2017-04-26 07:08:18.145112+00:00"
-},{
-        "message": "Job queue failure 5",
-        "message_id": 5,
-        "priority": "notice",
-        "timestamp": "2017-04-26 07:08:18.145112+00:00"
-},{
-        "message": "Job queue failure 6",
-        "message_id": 6,
-        "priority": "notice",
-        "timestamp": "2017-04-26 07:08:18.145112+00:00"
-}]
+[
+   {
+      "message_id":"09b9315a-41f0-4d26-b17f-8668efaaec0b",
+      "timestamp":"2017-10-10T10:40:47.266703+00:00",
+      "priority":"notice",
+      "message":"Status of peer: node2 changed from Disconnected to Connected"
+   },
+   {
+      "message_id":"8669f6b9-8193-4db0-8013-2ececf8e2e32",
+      "timestamp":"2017-10-10T10:37:59.983701+00:00",
+      "priority":"notice",
+      "message":"Job finished successfully (job_id: 9c40af03-c524-42d5-9121-f9f2220c433d)"
+   },
+   {
+      "message_id":"f51f414a-a04a-4de8-a755-e3ccbbeb200e",
+      "timestamp":"2017-10-10T10:37:51.207364+00:00",
+      "priority":"notice",
+      "message":"Job finished successfully (job_id: 57ac062b-d68e-48ad-a470-e13b14654524)"
+   },
+   {
+      "message_id":"0ff75075-bb04-421b-a83b-e8427201ad76",
+      "timestamp":"2017-10-10T10:37:51.199512+00:00",
+      "priority":"notice",
+      "message":"Job finished successfully (job_id: 85d20889-a6dd-485d-a390-0d8c280d5d3a)"
+   },
+   {
+      "message_id":"e1d80a88-f4fb-4b30-a099-886e2bdd9b05",
+      "timestamp":"2017-10-10T10:37:31.196236+00:00",
+      "priority":"notice",
+      "message":"Status of peer: node2 changed from Connected to Disconnected"
+   },
+   {
+      "message_id":"4d492863-e9ec-4bcd-befc-17d79b3a876c",
+      "timestamp":"2017-10-09T20:57:16.047687+00:00",
+      "priority":"notice",
+      "message":"Status of peer: node1 changed from Connected to Disconnected"
+   },
+   {
+      "message_id":"3a9b5f35-fe6c-4cba-822f-bd978d339b7e",
+      "timestamp":"2017-10-09T20:56:48.816188+00:00",
+      "priority":"notice",
+      "message":"Job finished successfully (job_id: 50b93592-731b-4ee5-b960-575321e2f931)"
+   },
+   {
+      "message_id":"63de67ae-7193-4739-b5e0-3b5187a5815f",
+      "timestamp":"2017-10-09T20:56:46.207895+00:00",
+      "priority":"notice",
+      "message":"Job finished successfully (job_id: 268b51a7-5f36-4d5e-9bee-229e782bad17)"
+   },
+   {
+      "message_id":"297f5ec3-e627-4d98-ab41-5344bdd765d9",
+      "timestamp":"2017-10-09T20:56:46.206116+00:00",
+      "priority":"notice",
+      "message":"Job finished successfully (job_id: 19f620de-639f-4509-b555-b6a32f92b3f1)"
+   },
+   {
+      "message_id":"a7d9156a-bc7f-494b-aef2-bd2d58c80735",
+      "timestamp":"2017-10-09T20:36:01.035529+00:00",
+      "priority":"notice",
+      "message":"Status of brick: node1:/bricks/brick1 under volume myvolume changed from Stopped to Started"
+   },
+   {
+      "message_id":"5720ec4b-c843-412b-9fcc-b072ea07ebd8",
+      "timestamp":"2017-10-09T20:30:19.373764+00:00",
+      "priority":"notice",
+      "message":"Service: glustershd is connected"
+   },
+   {
+      "message_id":"01efca50-ef80-484c-a6dd-8d03a7e6536f",
+      "timestamp":"2017-10-09T20:29:55.696179+00:00",
+      "priority":"notice",
+      "message":"Status of brick: node1:/bricks/brick1 under volume myvolume changed from Started to Stopped"
+   }
+]
