@@ -21,7 +21,7 @@
         max-width: 320px;
         @media screen and (min-width: 1024px) and (max-device-width: 1224px) {
             flex: 1 0 0%;
-             max-width: 277px;
+            max-width: 277px;
         }
         .list-group-item-text {
             @media screen and (min-width: 1024px) and (max-device-width: 1224px) {
@@ -56,6 +56,8 @@
                 }
             }
             .list-view-pf-actions {
+                width: 258px;
+                text-align: right;
                 .display {
                     display: block;
                 }
@@ -75,6 +77,9 @@
                 .error-message {
                     color: $color-red !important;
                 }
+                .cluster-text {
+                    width: 125px;
+                }
             }
             .nav-tabs {
                 margin-left: 5px;
@@ -91,5 +96,8 @@
     }
     .not-available {
         margin-left: 38px;
+    }
+    .fa-question {
+        width: 24px;
     }
 }
