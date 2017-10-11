@@ -15,7 +15,7 @@
         vm.setMenus = function() {
             vm.menus = [{
                 label: "Hosts",
-                id: "hosts",
+                id: "cluster-hosts",
                 href: "cluster-hosts",
                 stateParams: { clusterId: vm.clusterId },
                 icon: "pficon pficon-container-node",
@@ -24,7 +24,7 @@
                 show: true
             }, {
                 label: "Volumes",
-                id: "volumes",
+                id: "cluster-volumes",
                 href: "cluster-volumes",
                 stateParams: { clusterId: vm.clusterId },
                 icon: "pficon pficon-container-node",
@@ -35,6 +35,15 @@
                 label: "Events",
                 id: "cluster-events",
                 href: "cluster-events",
+                stateParams: { clusterId: vm.clusterId },
+                icon: "fa fa-cog",
+                active: false,
+                hasSubMenus: false,
+                show: true
+            }, {
+                label: "Alerts",
+                id: "alerts",
+                href: "alerts",
                 stateParams: { clusterId: vm.clusterId },
                 icon: "fa fa-cog",
                 active: false,

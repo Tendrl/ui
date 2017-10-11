@@ -35,7 +35,7 @@
                 </form>
                 <div class="row toolbar-pf-results">
                     <div class="col-sm-12">
-                        <h5 ng-if="clusterCntrl.clusterList.length !== 0">{{clusterCntrl.filteredClusteredList.length}} 
+                        <h5 ng-if="clusterCntrl.clusterList.length !== 0">{{clusterCntrl.filteredClusteredList.length}}
                             <ng-pluralize count="clusterCntrl.clusterList.length" when="{'one': 'Cluster',
                        'other': 'Clusters'}"></ng-pluralize>
                         </h5>
@@ -67,7 +67,6 @@
                     <span class="fa fa-angle-down" ng-show="cluster.isExpanded" ng-click="clusterCntrl.expandCluster($event, cluster)"></span>
                 </div>
                 <div class="list-view-pf-actions">
-                    <button class="btn btn-default" ng-click="clusterCntrl.goToClusterDetail(cluster)" ng-class="{'hide-button': cluster.managed !== 'Yes'}">Cluster Details</button>
                     <button class="btn btn-default import-btn" ng-show="cluster.managed === 'No'" ng-disabled="cluster.message === 'Cluster Misconfigured' || cluster.importStatus === 'in_progress'" ng-click="clusterCntrl.goToImportFlow(cluster)" ng-class="{'hide-button': ($root.userRole ==='limited' || cluster.managed !== 'No')}">Import Cluster</button>
                     <button class="btn btn-default" ng-show="cluster.managed === 'Yes'" ng-click="clusterCntrl.redirectToGrafana(cluster, $event)">Launch Dashboard</button>
                     <div class="dropdown pull-right dropdown-kebab-pf" ng-class="{'hide-button': (cluster.managed !== 'Yes' || $root.userRole === 'limited')}">
@@ -87,7 +86,7 @@
                     <div class="list-view-pf-body">
                         <div class="list-view-pf-description">
                             <div class="list-group-item-heading cluster-name bold-text counts" uib-tooltip-html="'{{cluster.name}}'" tooltip-placement="auto bottom-left">
-                                {{cluster.name}}
+                                <a ui-sref="cluster-hosts({clusterId: cluster.name})">{{cluster.name}}</a>
                             </div>
                             <div class="list-group-item-text" ng-class="{'error-message': (cluster.message === 'Cluster Misconfigured')}">
                                 {{cluster.message}}

@@ -28,7 +28,8 @@
         vm.getClusterName = getClusterName;
         vm.userSetting = userSetting;
         vm.closeNotificationBar = closeNotificationBar;
-        vm.showNav = showNav;
+        vm.toggleNav = toggleNav;
+        vm.getUserRole = getUserRole;
 
         $rootScope.notification = Notifications.data;
         $rootScope.selectedClusterOption = "allClusters";
@@ -54,8 +55,17 @@
             }
         }
 
-        function showNav(){
-            $rootScope.isNavigationShow = !$rootScope.isNavigationShow;
+        function getUserRole() {
+            return AuthManager.getUserRole();
+        }
+
+        function toggleNav(event){
+            if ($rootScope.selectedClusterOption !== 'allClusters') {
+                $rootScope.isNavigationShow = !$rootScope.isNavigationShow;
+            } else {
+                event.stopPropagation();
+                event.stopImmediatePropagation();
+            }
         }
 
         function setNotificationFlag() {
@@ -115,7 +125,7 @@
             if ($rootScope.selectedClusterOption === "allClusters") {
                 $state.go("clusters");
             } else {
-                $state.go("cluster-detail", { clusterId: $rootScope.selectedClusterOption });
+                $state.go("cluster-hosts", { clusterId: $rootScope.selectedClusterOption });
             }
         }
 

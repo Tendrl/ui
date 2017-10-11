@@ -20,8 +20,10 @@
     .flex-table {
         .ft-actions {
             flex-grow: 1.2;
+            overflow: visible;
             .dashboard-btn {
-                width: 125px;
+                width: auto;
+                overflow: visible;
             }
         }
     }

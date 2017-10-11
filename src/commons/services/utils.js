@@ -202,8 +202,8 @@
                 getAlertListRequest,
                 request;
 
-            //url = "/api/alerts.json";
-            url = config.baseUrl + "alerts";
+            url = "/api/alerts.json";
+            // url = config.baseUrl + "notifications";
 
             getAlertListRequest = {
                 method: "GET",
@@ -234,8 +234,8 @@
                 getNotificationListRequest,
                 request;
 
-            //url = "/api/notification.json";
-            url = config.baseUrl + "notifications";
+            url = "/api/notification.json";
+            // url = config.baseUrl + "alerts";
 
             getNotificationListRequest = {
                 method: "GET",

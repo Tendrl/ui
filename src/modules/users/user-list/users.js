@@ -21,6 +21,7 @@
             updatedNotification;
 
 
+        $rootScope.selectedClusterOption = "allClusters";
         vm.userList = [];
         vm.isDataLoading = true;
         vm.addNewUser = addNewUser;

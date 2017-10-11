@@ -3,25 +3,23 @@
 
     angular
         .module("TendrlModule")
-        .component("clusterDetail", {
+        .component("clusterVolumes", {
 
             restrict: "E",
-            templateUrl: "/modules/clusters/cluster-detail/cluster-detail.html",
+            templateUrl: "/modules/clusters/cluster-volumes/cluster-volumes.html",
             bindings: {},
-            controller: clusterDetailController,
+            controller: clusterVolumesController,
             controllerAs: "vm"
         });
 
     /*@ngInject*/
-    function clusterDetailController($stateParams, $scope, $rootScope, $interval, utils, clusterStore, config) {
+    function clusterVolumesController($stateParams, $scope, $rootScope, $interval, utils, clusterStore, config) {
 
         var vm = this,
             clusterDetailTimer,
             alerts;
 
 
-        vm.setTab = setTab;
-        vm.isTabSet = isTabSet;
         vm.isDataLoading = true;
 
         init();
@@ -29,23 +27,21 @@
         /**
          * @name init
          * @desc contains the initialisation logic
-         * @memberOf clusterDetailController
+         * @memberOf clusterVolumesController
          */
         function init() {
             vm.clusterId = $stateParams.clusterId;
             $rootScope.selectedClusterOption = vm.clusterId;
-
+            
             if (!$rootScope.clusterData) {
                 clusterStore.getClusterList()
                     .then(function(data) {
                         $rootScope.clusterData = data;
                         _setClusterDetail();
-                        _makeTabList();
                         vm.isDataLoading = false;
                     });
             } else {
                 _setClusterDetail();
-                _makeTabList();
                 vm.isDataLoading = false;
             }
         }
@@ -55,51 +51,7 @@
             $interval.cancel(clusterDetailTimer);
         });
 
-        /**
-         * @name setTab
-         * @desc set tab for a cluster
-         * @memberOf clusterDetailController
-         */
-        function setTab(newTab) {
-            vm.activeTab = newTab;
-            clusterStore.selectedTab = newTab;
-        }
-
-        /**
-         * @name isTabSet
-         * @desc check if the mentioned tab is set or not
-         * @memberOf clusterDetailController
-         */
-        function isTabSet(tabNum) {
-            return vm.activeTab === tabNum;
-        }
-
         /***Private Functions***/
-
-        /**
-         * @name _makeTabList
-         * @desc returns tab list based on sds name
-         * @memberOf clusterDetailController
-         */
-        function _makeTabList() {
-            if (vm.clusterObj.sds_name === "gluster") {
-                vm.tabList = {
-                    "Hosts": 1,
-                    "Volumes": 2
-                };
-            } else {
-                vm.tabList = {
-                    "Hosts": 1,
-                    "Pools": 2,
-                    "RBDs": 3
-                };
-            }
-            if (!clusterStore.selectedTab) {
-                vm.activeTab = vm.tabList["Hosts"];
-            } else {
-                vm.activeTab = clusterStore.selectedTab;
-            }
-        }
 
         /**
          * @name _setClusterDetail

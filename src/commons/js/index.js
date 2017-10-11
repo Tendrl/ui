@@ -60,6 +60,18 @@
                         url: "/cluster-detail/:clusterId",
                         template: "<cluster-detail></cluster-detail>"
                     })
+                    .state("cluster-hosts", {
+                        url: "/cluster-hosts/:clusterId",
+                        template: "<cluster-hosts></cluster-hosts>"
+                    })
+                    .state("cluster-volumes", {
+                        url: "/cluster-volumes/:clusterId",
+                        template: "<cluster-volumes></cluster-volumes>"
+                    })
+                    .state("cluster-events", {
+                        url: "/cluster-events/:clusterId",
+                        template: "<cluster-events></cluster-events>"
+                    })
                     .state("hosts", {
                         url: "/hosts",
                         template: "<host-list></host-list>"
@@ -89,7 +101,7 @@
                         template: "<edit-user></edit-user>"
                     })
                     .state("alerts", {
-                        url: "/alerts",
+                        url: "/alerts/:clusterId",
                         template: "<alerts></alerts>"
                     })
                     .state("task-detail", {
@@ -140,6 +152,7 @@
                     $rootScope.isAPINotFoundError = false;
                     $rootScope.clusterData = null;
                     $rootScope.notificationList = null;
+                    $rootScope.isNavigationShow = false;
                     $rootScope.selectedClusterOption = "allClusters";
                     menuService.setMenus();
 
