@@ -81,9 +81,6 @@
                             <div class="list-group-item-heading cluster-name bold-text counts" uib-tooltip-html="'{{cluster.name}}'" tooltip-placement="auto bottom-left">
                                 {{cluster.name}}
                             </div>
-                            <div class="list-group-item-text" ng-class="{'error-message': (cluster.message === 'Cluster Misconfigured')}">
-                                {{cluster.message}}
-                            </div>
                         </div>
                         <div class="list-view-pf-additional-info">
                             <div class="list-view-pf-additional-info-item list-view-pf-additional-info-item-stacked">
@@ -97,6 +94,9 @@
                             <div class="list-view-pf-additional-info-item list-view-pf-additional-info-item-stacked">
                                 <div class="bold-text">Volume Profiling</div>
                                 <h5 class="pull-left counts">{{cluster.isProfilingEnabled}}</h5>
+                            </div>
+                            <div class="list-view-pf-additional-info-item" ng-class="{'error-message': (cluster.message === 'Cluster Misconfigured')}">
+                                {{cluster.message}}
                             </div>
                         </div>
                     </div>

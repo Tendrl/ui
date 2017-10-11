@@ -37,17 +37,17 @@
                 </div>
                 <div class="status-options">
                     <label>
-                        <input type="checkbox" name="status1" id="status1" ng-click="taskCntrl.updateStatus('processing')" ng-checked="createFileShareCntrl.isSelectedStatus('processing')"> In progress
+                        <input type="checkbox" name="status1" id="status1" ng-click="taskCntrl.updateStatus('processing')" ng-checked="taskCntrl.isSelectedStatus('processing')"> In progress
                     </label>
                 </div>
                 <div class="status-options">
                     <label>
-                        <input type="checkbox" name="status2" id="status2" ng-click="taskCntrl.updateStatus('finished')" ng-checked="createFileShareCntrl.isSelectedStatus('finished')"> Succeeded
+                        <input type="checkbox" name="status2" id="status2" ng-click="taskCntrl.updateStatus('finished')" ng-checked="taskCntrl.isSelectedStatus('finished')"> Succeeded
                     </label>
                 </div>
                 <div class="status-options">
                     <label>
-                        <input type="checkbox" name="status3" id="status3" ng-click="taskCntrl.updateStatus('failed')" ng-checked="createFileShareCntrl.isSelectedStatus('failed')"> Failed
+                        <input type="checkbox" name="status3" id="status3" ng-click="taskCntrl.updateStatus('failed')" ng-checked="taskCntrl.isSelectedStatus('failed')"> Failed
                     </label>
                 </div>
             </div>
@@ -64,7 +64,7 @@
             </div>
         </div>
     </div>
-    <center ng-if="taskCntrl.taskList.length === 0">
+    <center ng-if="taskCntrl.filteredTaskList.length === 0">
         <div class="blank-slate-pf">
             <div class="blank-slate-pf-icon">
                 <i class="pficon pficon-cluster"></i>
