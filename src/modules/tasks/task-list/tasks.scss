@@ -36,6 +36,12 @@
                 align-items: left;
                 flex: 1;
             }
+            .status-col {
+                flex-grow: 0.5;
+            }
+            .task-btn {
+                width: auto;
+            }
         }
     }
     .filter-section {

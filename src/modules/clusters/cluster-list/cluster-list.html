@@ -67,43 +67,36 @@
                     <span class="fa fa-angle-down" ng-show="cluster.isExpanded" ng-click="clusterCntrl.expandCluster($event, cluster)"></span>
                 </div>
                 <div class="list-view-pf-actions">
-                    <button class="btn btn-default import-btn" ng-show="cluster.managed === 'No'" ng-disabled="cluster.message === 'Cluster Misconfigured' || cluster.importStatus === 'in_progress'" ng-click="clusterCntrl.goToImportFlow(cluster)" ng-class="{'hide-button': ($root.userRole ==='limited' || cluster.managed !== 'No')}">Import Cluster</button>
-                    <button class="btn btn-default" ng-show="cluster.managed === 'Yes'" ng-click="clusterCntrl.redirectToGrafana(cluster, $event)">Launch Dashboard</button>
-                    <div class="dropdown pull-right dropdown-kebab-pf" ng-class="{'hide-button': (cluster.managed !== 'Yes' || $root.userRole === 'limited')}">
-                        <button class="btn btn-link dropdown-toggle" type="button" id="dropdownKebabRight12" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" ng-click="clusterCntrl.showKababMenu($event, cluster)">
-                            <span class="fa fa-ellipsis-v"></span>
-                        </button>
-                        <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownKebabRight12" ng-class="{display: cluster.isKababOpened}">
-                            <li><a ng-show="cluster.isProfilingEnabled === 'Enabled'" ng-click="clusterCntrl.doProfilingAction($event, cluster, 'Disable', cluster.clusterId)">Disable Profiling</a></li>
-                            <li><a ng-show="cluster.isProfilingEnabled !== 'Enabled'" ng-click="clusterCntrl.doProfilingAction($event, cluster, 'Enable',  cluster.clusterId)">Enable Profiling</a></li>
-                        </ul>
-                    </div>
+                    <button class="btn btn-default" ng-show="cluster.managed === 'Yes'" ng-click="clusterCntrl.redirectToGrafana(cluster, $event)">Dashboard</button>
+                    <button class="btn btn-default" ng-disabled="$root.userRole === 'limited'" ng-show="cluster.managed === 'Yes'" ng-click="clusterCntrl.doProfilingAction($event, cluster, cluster.isProfilingEnabled === 'Enabled' ? 'Disable' : 'Enable', cluster.clusterId)">{{cluster.isProfilingEnabled === 'Enabled' ? "Disable Profiling" : "Enable Profiling"}}</button>
+                    <button class="btn btn-default" ng-show="cluster.managed === 'Yes'" ng-click="clusterCntrl.goToClusterDetail(cluster)">Details</button>
+                    <button class="btn btn-default import-btn" ng-show="cluster.managed === 'No' && $root.userRole !=='limited'" ng-disabled="cluster.message === 'Cluster Misconfigured' || cluster.importStatus === 'in_progress' || cluster.managed === 'Yes'" ng-click="clusterCntrl.goToImportFlow(cluster)">Import&nbsp;</button>
                 </div>
                 <div class="list-view-pf-main-info">
                     <div class="list-view-pf-left">
-                        <i class="pficon" ng-class="{'pficon-error-circle-o': (cluster.status === 'HEALTH_ERR'), 'pficon-ok': (cluster.status === 'HEALTH_OK'), 'pficon-warning-triangle-o': (cluster.status === 'HEALTH_WARN'), 'hide-button': cluster.managed !== 'Yes', 'pficon-ok': cluster.status !== ('HEALTH_ERR' && 'HEALTH_OK' && 'HEALTH_WARN')}"></i>
+                        <i ng-class="{'pficon pficon-error-circle-o': (cluster.status === 'HEALTH_ERR'), 'pficon pficon-ok': (cluster.status === 'HEALTH_OK'), 'pficon pficon-warning-triangle-o': (cluster.status === 'HEALTH_WARN'), 'fa fa-question': (cluster.managed !== 'Yes')}"></i>
                     </div>
                     <div class="list-view-pf-body">
                         <div class="list-view-pf-description">
                             <div class="list-group-item-heading cluster-name bold-text counts" uib-tooltip-html="'{{cluster.name}}'" tooltip-placement="auto bottom-left">
                                 <a ui-sref="cluster-hosts({clusterId: cluster.name})">{{cluster.name}}</a>
                             </div>
-                            <div class="list-group-item-text" ng-class="{'error-message': (cluster.message === 'Cluster Misconfigured')}">
-                                {{cluster.message}}
-                            </div>
                         </div>
                         <div class="list-view-pf-additional-info">
                             <div class="list-view-pf-additional-info-item list-view-pf-additional-info-item-stacked">
                                 <div class="bold-text">Cluster Version</div>
-                                <h5 class="pull-left counts">{{cluster.sdsVersion}}</h5>
+                                <h5 class="pull-left counts">{{cluster.sdsName}} {{cluster.sdsVersion}}</h5>
                             </div>
                             <div class="list-view-pf-additional-info-item list-view-pf-additional-info-item-stacked">
                                 <div class="bold-text">Managed</div>
                                 <h5 class="pull-left counts">{{cluster.managed}}</h5>
                             </div>
                             <div class="list-view-pf-additional-info-item list-view-pf-additional-info-item-stacked">
-                                <div class="bold-text">Volume Profile</div>
+                                <div class="bold-text">Volume Profiling</div>
                                 <h5 class="pull-left counts">{{cluster.isProfilingEnabled}}</h5>
+                            </div>
+                            <div class="list-view-pf-additional-info-item cluster-text" ng-class="{'error-message': (cluster.message === 'Cluster Misconfigured')}">
+                                {{cluster.message}}
                             </div>
                         </div>
                     </div>
@@ -123,7 +116,7 @@
                             <div class="list-view-pf-main-info">
                                 <div class="list-view-pf-left">
                                     <span uib-tooltip-html="'{{host.status}}'" ng-if="host.status ==='UP'" class="pficon pficon-ok list-view-pf-icon-success status-icons"></span>
-                                    <span uib-tooltip-html="'{{host.status}}'" ng-if="host.status !=='UP'" class="fa fa-arrow-circle-o-down list-view-icon-failure status-icons"></span>
+                                    <span uib-tooltip-html="'{{host.status}}'" ng-if="host.status ==='DOWN'" class="fa fa-arrow-circle-o-down list-view-icon-failure status-icons"></span>
                                 </div>
                                 <div class="list-view-pf-body">
                                     <div class="list-view-pf-description">

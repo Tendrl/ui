@@ -113,9 +113,9 @@
             display: flex;
             flex-direction: row;
             flex-wrap: nowrap;
-            justify-content: space-between;
+            justify-content: space-evenly;
             .btn {
-                width: 90px;
+                /*width: 90px;*/
                 white-space: nowrap;
                 overflow: hidden;
                 text-overflow: ellipsis;

@@ -63,9 +63,11 @@
                     } else {
                         vm.clusterList = data;
                     }
-
-                    vm.isDataLoading = false;
                     startTimer();
+                }).catch(function(e) {
+                    vm.clusterList = [];
+                }).finally(function() {
+                    vm.isDataLoading = false;
                 });
         }
 
@@ -139,8 +141,8 @@
             $state.go("cluster-detail", { clusterId: cluster.clusterId });
         }
 
-        function redirectToGrafana(cluster, $event){
-            utils.redirectToGrafana("glance", $event, {clusterId: cluster.clusterId});
+        function redirectToGrafana(cluster, $event) {
+            utils.redirectToGrafana("glance", $event, { clusterId: cluster.clusterId });
         }
 
         /**
@@ -169,7 +171,7 @@
                     cluster = _isClusterPresent(data, clusterId);
                     vm.clusterList[cluster.index].isProfilingEnabled = data.enable_volume_profiling === "yes" ? "Enabled" : "Disabled";
                 }).catch(function(error) {
-                    Notifications.message("error", "", "Failed to " + (action === "Enable" ? "enable" : "disable") + " volume profile.");
+                    Notifications.message("danger", "", "Failed to " + (action === "Enable" ? "enable" : "disable") + " volume profile.");
                 });
             $event.stopPropagation();
         }
@@ -230,9 +232,9 @@
 
             for (i = 0; i < len; i++) {
 
-                if (profilingId && vm.clusterList[i].clusterId === profilingId){
+                if (profilingId && vm.clusterList[i].clusterId === profilingId) {
                     return { index: i, cluster: cluster };
-                }else if (vm.clusterList[i].clusterId === cluster.clusterId) {
+                } else if (vm.clusterList[i].clusterId === cluster.clusterId) {
                     found = true;
                     return { index: i, cluster: cluster };
                 }

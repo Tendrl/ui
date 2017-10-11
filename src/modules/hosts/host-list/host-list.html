@@ -5,7 +5,7 @@
         <h1 class="bold-text">Hosts</h1>
         <!-- Actions section -->
         <div class="row toolbar-pf">
-            <div class="col-sm-12">
+            <div class="col-md-12">
                 <form class="toolbar-pf-actions">
                     <div class="form-group toolbar-pf-filter">
                         <label class="sr-only" for="filter">Name</label>
@@ -65,12 +65,12 @@
         <div class="flex-table list-group list-view-pf list-view-pf-view" ng-show="!hostCntrl.isDataLoading">
             <div class="ft-row list-group-item " ng-repeat="host in hostCntrl.filteredHostList=(hostCntrl.hostList | filter: hostCntrl.searchBy | orderBy : hostCntrl.ascOrder + hostCntrl.orderBy)">
                 <div class="ft-column ft-icon">
-                    <i class="pficon" ng-class="{'pficon-error-circle-o': (host.status !=='UP'), 'pficon-ok': (host.status ==='UP')}" uib-tooltip-html="'{{host.status}}'" tooltip-placement="auto bottom-left"></i>
+                    <i ng-class="{'fa fa-arrow-circle-o-down': (host.status ==='DOWN'), 'pficon pficon-ok': (host.status ==='UP')}" uib-tooltip-html="'{{host.status}}'" tooltip-placement="auto bottom-left"></i>
                 </div>
                 <div class="ft-column ft-main host-name bold-text" uib-tooltip-html="'{{host.name}}'" tooltip-placement="auto bottom-left">{{host.name}}</div>
                 <div class="ft-column list-view-pf-additional-info-item list-view-pf-additional-info-item-stacked">
                     <div class="bold-text">Cluster</div>
-                    <div class="pull-left cluster-name" uib-tooltip-html="'{{host.cluster_name}}'" tooltip-placement="auto bottom-left">{{host.cluster_name || "NA"}}</div>
+                    <div class="pull-left cluster-name" uib-tooltip-html="'{{host.cluster_name}}'" tooltip-placement="auto bottom-left">{{host.cluster_name || "None"}}</div>
                 </div>
                 <div class="ft-column list-view-pf-additional-info-item list-view-pf-additional-info-item-stacked">
                     <div class="bold-text">Role</div>
@@ -78,11 +78,11 @@
                 </div>
                 <div class="ft-column list-view-pf-additional-info-item list-view-pf-additional-info-item-stacked">
                     <div class="bold-text">Alerts</div>
-                    <div class="pull-left counts">{{host.alerts || "NA"}}</div>
+                    <div class="pull-left counts">{{host.alerts}}</div>
                 </div>
                 <div class="ft-column ft-actions">
-                    <button class="btn btn-default" ng-click="hostCntrl.goToHostDetail(host)" uib-tooltip="Host Details" tooltip-placement="auto bottom-left" ng-show="hostCntrl.showDetailBtn">Host Details</button>
-                    <button ng-show ="host.role !== 'Tendrl Server'" class="btn btn-default dashboard-btn" uib-tooltip="Launch Dashboard" tooltip-placement="auto bottom-left" ng-click="hostCntrl.redirectToGrafana(host, $event)" ng-disabled="host.managed !== 'Yes'">Launch Dashboard</button>
+                    <button class="btn btn-default" ng-click="hostCntrl.goToHostDetail(host)" ng-show="hostCntrl.showDetailBtn">Details</button>
+                    <button ng-show ="host.role !== 'Tendrl Server'" class="btn btn-default dashboard-btn" ng-click="hostCntrl.redirectToGrafana(host, $event)" ng-disabled="host.managed !== 'Yes'">Dashboard</button>
                 </div>
             </div>
         </div>

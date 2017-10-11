@@ -46,7 +46,7 @@
                     temp.clusterId = data[i].cluster_id;
                     temp.rebalStatus = data[i].rebal_status;
                     temp.brickCount = data[i].brick_count;
-                    temp.alertCount = data[i].alert_count;
+                    temp.alertCount = data[i].alert_count ? data[i].alert_count : "No Data";
                     volumeList.push(temp);
                 }
                 return volumeList;

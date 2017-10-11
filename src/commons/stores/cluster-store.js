@@ -25,6 +25,8 @@
                     //list = data ? _formatClusterData(data.clusters) : [];
                     $rootScope.clusterData = data.clusters;
                     deferred.resolve(data.clusters);
+                }).catch(function(e) {
+                    deferred.reject(e);
                 });
 
             return deferred.promise;
@@ -111,7 +113,7 @@
          */
         store.importCluster = function(cluster, enableProfiling) {
             var requestData = {
-                    "Cluster.enable_volume_profiling": enableProfiling ? "yes" : "no"
+                    "enable_volume_profiling": enableProfiling ? "yes" : "no"
                 },
                 deferred;
 
@@ -163,6 +165,8 @@
             clusterFactory.doProfilingAction(clusterId, action)
                 .then(function(data) {
                     deferred.resolve(data);
+                }).catch(function(e) {
+                    deferred.reject(e);
                 });
 
             return deferred.promise;

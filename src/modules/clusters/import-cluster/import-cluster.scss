@@ -11,8 +11,6 @@
                 white-space: nowrap;
                 overflow: hidden;
                 text-overflow: ellipsis;
-                padding-left: 0;
-                padding-right: 0;
             }
         }
     }
@@ -25,8 +23,14 @@
         margin-top: 10px;
         font-size: 14px;
 
-        input[type=checkbox] {
-            vertical-align: sub;
+        input[type=checkbox],
+        i {
+            padding: 2px;
+        }
+
+        label {
+            padding: 2px;
+            font-weight: normal;
         }
 
         .pficon-info {
@@ -36,6 +40,16 @@
 
         .tooltip-inner {
             max-width: 270px;
+        }
+    }
+
+    .cancel-button {
+        margin-left: 5px;
+    }
+
+    @media screen and (max-width: 576px) {
+        .centered .cancel-button {
+            margin-top: 10px;
         }
     }
 }
