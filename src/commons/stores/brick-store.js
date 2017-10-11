@@ -94,14 +94,19 @@
             function _calcUtilization(bricks) {
                 var len = bricks.length,
                     utilization = { used: 0, total: 0 },
-                    i;
+                    i,
+                    percent_used,
+                    used,
+                    total;
 
                 for (i = 0; i < len; i++) {
-                    utilization.used += parseFloat(bricks[i].utilization.used);
+                    used = parseFloat(bricks[i].utilization.used);
+                    total = parseFloat(bricks[i].utilization.total);
+                    utilization.used += (used * total) / 100;
                     utilization.total += parseFloat(bricks[i].utilization.total);
                 }
-
-                utilization.used = utilization.used.toFixed(2);
+                percent_used = (utilization.used / utilization.total) * 100;
+                utilization.used = percent_used.toFixed(2);
                 utilization.total = utilization.total;
 
                 return utilization;

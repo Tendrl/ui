@@ -111,7 +111,7 @@
          */
         store.importCluster = function(cluster, enableProfiling) {
             var requestData = {
-                    "Cluster.enable_volume_profiling": enableProfiling ? "yes" : "no"
+                    "enable_volume_profiling": enableProfiling ? "yes" : "no"
                 },
                 deferred;
 
