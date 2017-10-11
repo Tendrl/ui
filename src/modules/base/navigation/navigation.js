@@ -31,18 +31,18 @@
         var vm = this;
         vm.isNavigationShow = $rootScope.isNavigationShow;
         updateMenus($rootScope.selectedClusterOption);
-        $rootScope.$watch('selectedClusterOption', function(newValue, oldValue) {
+        $rootScope.$watch("selectedClusterOption", function(newValue, oldValue) {
             updateMenus(newValue);
         });
 
-        $rootScope.$watch('isNavigationShow', function(newValue, oldValue) {
+        $rootScope.$watch("isNavigationShow", function(newValue, oldValue) {
             vm.isNavigationShow = $rootScope.isNavigationShow;
         });
 
         function updateMenus(clusterId) {
             vm.menus = menuService.getMenus(clusterId);
             menuService.setActive($state.current.name);
-            $rootScope.isNavigationShow = clusterId !== 'allClusters';
+            $rootScope.isNavigationShow = clusterId !== "allClusters";
         }
 
         /* fixed for navigation slide issue*/
@@ -50,9 +50,9 @@
             var _$= $();
             $timeout(function() {
                 if ($rootScope.isNavigationShow) {
-                    localStorage.setItem('patternfly-navigation-primary', 'expanded');
+                    localStorage.setItem("patternfly-navigation-primary", "expanded");
                 } else {
-                    localStorage.setItem('patternfly-navigation-primary', 'collapsed');
+                    localStorage.setItem("patternfly-navigation-primary", "collapsed");
                 }
                 _$.setupVerticalNavigation(true);
             }, 0);

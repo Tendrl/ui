@@ -60,7 +60,7 @@
         }
 
         function toggleNav(event){
-            if ($rootScope.selectedClusterOption !== 'allClusters') {
+            if ($rootScope.selectedClusterOption !== "allClusters") {
                 $rootScope.isNavigationShow = !$rootScope.isNavigationShow;
             } else {
                 event.stopPropagation();

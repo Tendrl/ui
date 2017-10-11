@@ -17,13 +17,13 @@ function serve() {
     var bsOptions = {
         server: "dist",
         files: "dist/**/*.*",
-    }
+    };
     if (options.P) {
         console.log("\x1b[35m" + "Setting up a /api proxy for", options.P + "\x1b[0m");
         bsOptions.middleware = [{
             route: "/api",
-            handle: function (req, res, next) {
-                if (req.url.indexOf('.json') > -1) {
+            handle(req, res, next) {
+                if (req.url.indexOf(".json") > -1) {
                     next();
                 } else {
                     req.url = "/api" + req.url;

@@ -73,7 +73,7 @@
         };
 
         vm.getMenus = function(clusterId) {
-            if (clusterId != vm.clusterId) {
+            if (clusterId !== vm.clusterId) {
                 vm.clusterId = clusterId;
                 vm.setMenus();
             }
