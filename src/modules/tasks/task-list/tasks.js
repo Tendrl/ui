@@ -20,6 +20,8 @@
             toDate,
             count;
 
+        vm.tasksStatus = ["processing", "finished", "failed"];
+
         vm.goToTaskDetail = goToTaskDetail;
         vm.getStatusText = getStatusText;
         vm.updateStatus = updateStatus;
@@ -27,7 +29,6 @@
         vm.filterByStatus = filterByStatus;
         vm.filterByCreatedDate = filterByCreatedDate;
 
-        vm.tasksStatus = [];
         vm.isDataLoading = true;
         count = 1;
 
@@ -139,8 +140,6 @@
 
             if (vm.tasksStatus.length) {
                 return vm.tasksStatus.indexOf(list.status) > -1;
-            } else {
-                return list;
             }
         }
 

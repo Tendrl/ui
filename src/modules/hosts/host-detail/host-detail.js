@@ -41,7 +41,7 @@
                 vm.clusterName = vm.clusterObj.cluster_id || "NA";
                 vm.clusterStatus = clusterStore.checkStatus(vm.clusterObj);
                 if (!nodeStore.nodeList.length) {
-                    nodeStore.getNodeList()
+                    nodeStore.getNodeList($rootScope.clusterData)
                         .then(function(data) {
                             vm.hostName = nodeStore.getNodeObject(vm.hostId).name;
                             vm.isDataLoading = false;
@@ -61,7 +61,7 @@
                         vm.clusterName = vm.clusterObj.cluster_id || "NA";
                         vm.clusterStatus = clusterStore.checkStatus(vm.clusterObj);
                         if (!nodeStore.nodeList.length) {
-                            nodeStore.getNodeList()
+                            nodeStore.getNodeList($rootScope.clusterData)
                                 .then(function(data) {
                                     vm.hostName = nodeStore.getNodeObject(vm.hostId).name;
                                     vm.isDataLoading = false;
