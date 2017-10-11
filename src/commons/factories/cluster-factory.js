@@ -63,7 +63,7 @@
             }, function(e) {
                 utils.checkErrorCode(e);
                 console.log("Error Occurred: while enabling/disabling profiling");
-                return null;
+                throw e;
             });
         };
 

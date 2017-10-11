@@ -67,14 +67,14 @@
                     <span class="fa fa-angle-down" ng-show="cluster.isExpanded" ng-click="clusterCntrl.expandCluster($event, cluster)"></span>
                 </div>
                 <div class="list-view-pf-actions">
-                    <button class="btn btn-default" ng-click="clusterCntrl.goToClusterDetail(cluster)" ng-class="{'hide-button': cluster.managed !== 'Yes'}">Details</button>
-                    <button class="btn btn-default import-btn" ng-show="cluster.managed === 'No'" ng-disabled="cluster.message === 'Cluster Misconfigured' || cluster.importStatus === 'in_progress'" ng-click="clusterCntrl.goToImportFlow(cluster)" ng-class="{'hide-button': ($root.userRole ==='limited' || cluster.managed !== 'No')}">Import</button>
                     <button class="btn btn-default" ng-show="cluster.managed === 'Yes'" ng-click="clusterCntrl.redirectToGrafana(cluster, $event)">Dashboard</button>
-                    <button class="btn btn-default" ng-class="{'hide-button': (cluster.managed !== 'Yes' || $root.userRole === 'limited')}" ng-show="cluster.managed === 'Yes'" ng-click="clusterCntrl.doProfilingAction($event, cluster, cluster.isProfilingEnabled === 'Enabled' ? 'Disable' : 'Enable', cluster.clusterId)">{{cluster.isProfilingEnabled === 'Enabled' ? "Disable Profiling" : "Enable Profiling"}}</button>
+                    <button class="btn btn-default" ng-disabled="$root.userRole === 'limited'" ng-show="cluster.managed === 'Yes'" ng-click="clusterCntrl.doProfilingAction($event, cluster, cluster.isProfilingEnabled === 'Enabled' ? 'Disable' : 'Enable', cluster.clusterId)">{{cluster.isProfilingEnabled === 'Enabled' ? "Disable Profiling" : "Enable Profiling"}}</button>
+                    <button class="btn btn-default" ng-show="cluster.managed === 'Yes'" ng-click="clusterCntrl.goToClusterDetail(cluster)">Details</button>
+                    <button class="btn btn-default import-btn" ng-show="cluster.managed === 'No' && $root.userRole !=='limited'" ng-disabled="cluster.message === 'Cluster Misconfigured' || cluster.importStatus === 'in_progress' || cluster.managed === 'Yes'" ng-click="clusterCntrl.goToImportFlow(cluster)">Import&nbsp;</button>
                 </div>
                 <div class="list-view-pf-main-info">
                     <div class="list-view-pf-left">
-                        <i class="pficon" ng-class="{'pficon-error-circle-o': (cluster.status === 'HEALTH_ERR'), 'pficon-ok': (cluster.status === 'HEALTH_OK'), 'pficon-warning-triangle-o': (cluster.status === 'HEALTH_WARN'), 'hide-button': cluster.managed !== 'Yes', 'pficon-ok': cluster.status !== ('HEALTH_ERR' && 'HEALTH_OK' && 'HEALTH_WARN')}"></i>
+                        <i ng-class="{'pficon pficon-error-circle-o': (cluster.status === 'HEALTH_ERR'), 'pficon pficon-ok': (cluster.status === 'HEALTH_OK'), 'pficon pficon-warning-triangle-o': (cluster.status === 'HEALTH_WARN'), 'fa fa-question': (cluster.managed !== 'Yes')}"></i>
                     </div>
                     <div class="list-view-pf-body">
                         <div class="list-view-pf-description">
@@ -95,7 +95,7 @@
                                 <div class="bold-text">Volume Profiling</div>
                                 <h5 class="pull-left counts">{{cluster.isProfilingEnabled}}</h5>
                             </div>
-                            <div class="list-view-pf-additional-info-item" ng-class="{'error-message': (cluster.message === 'Cluster Misconfigured')}">
+                            <div class="list-view-pf-additional-info-item cluster-text" ng-class="{'error-message': (cluster.message === 'Cluster Misconfigured')}">
                                 {{cluster.message}}
                             </div>
                         </div>
