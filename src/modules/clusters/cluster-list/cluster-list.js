@@ -30,6 +30,7 @@
         vm.filterBy = "name";
         vm.orderBy = "name";
         vm.clusterList = [];
+        vm.profilingButtonClick = false;
 
         vm.expandCluster = expandCluster;
         vm.closeExpandedView = closeExpandedView;
@@ -163,6 +164,7 @@
          * @memberOf clusterController
          */
         function doProfilingAction($event, cluster, action, clusterId) {
+            vm.profilingButtonClick = true;
             clusterStore.doProfilingAction(cluster.clusterId, action)
                 .then(function(data) {
                     Notifications.message("success", "", "Volume profiling " + (action === "Enable" ? "enabled" : "disabled") + " successfully.");
@@ -170,6 +172,8 @@
                     vm.clusterList[cluster.index].isProfilingEnabled = data.enable_volume_profiling === "yes" ? "Enabled" : "Disabled";
                 }).catch(function(error) {
                     Notifications.message("danger", "", "Failed to " + (action === "Enable" ? "enable" : "disable") + " volume profile.");
+                }).finally(function(){
+                    vm.profilingButtonClick = false;
                 });
             $event.stopPropagation();
         }
