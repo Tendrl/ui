@@ -24,7 +24,7 @@
         vm.orderBy = "fqdn";
         vm.enableProfiling = true;
         vm.taskInitiated = false;
-
+        vm.importIcon = false;
         vm.importCluster = importCluster;
         vm.importCancel = importCancel;
         vm.viewTaskProgress = viewTaskProgress;
@@ -50,6 +50,7 @@
          * @memberOf importClusterController
          */
         function importCluster() {
+            vm.importIcon = true;
             clusterStore.importCluster($rootScope.clusterTobeImported, vm.enableProfiling)
                 .then(function(data) {
                     vm.taskInitiated = true;
