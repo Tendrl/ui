@@ -48,7 +48,7 @@
             </div>
         </center>
         <div ng-show="vm.isDataLoading" class="spinner spinner-lg"></div>
-        <div class="flex-table list-group list-view-pf list-view-pf-view" ng-show="!vm.isDataLoading">
+        <div class="flex-table list-group list-view-pf list-view-pf-view" ng-show="!vm.isDataLoading && vm.brickList.length !== 0">
             <div class="ft-row list-group-item ft-header">
                 <div class="ft-column">Volume</div>
                 <div class="ft-column">Brick Path</div>
