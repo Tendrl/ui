@@ -1,4 +1,12 @@
 .tendrl-volume-bricks-view-container {
+    .sub-volume,
+    .host-name {
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        padding-left: 0;
+        padding-right: 0;
+    }
     .container-fluid {
         margin-top: 15px;
         .list-group {
@@ -19,6 +27,9 @@
                     .display {
                         display: block;
                     }
+                    .list-group-item-heading {
+                        width: 100% !important;
+                    }
                 }
                 &.list-view-pf-expand-active {
                     border-color: $color-silver;
@@ -27,6 +38,9 @@
                     .list-view-pf-description {
                         width: 20%;
                         flex: 1 0 15%;
+                        @media screen and (max-device-width: 1024px) {
+                            float: left;
+                        }
                         .list-group-item-heading {
                             width: calc(25% - 20px);
                             text-transform: capitalize;
@@ -39,11 +53,15 @@
                     .list-view-pf-additional-info {
                         flex: 1 0 50%;
                         width: 123%;
+                        @media screen and (max-device-width: 1024px) {
+                            width: 80%;
+                        }
                         .list-view-pf-additional-info-item {
                             flex: 1 0;
                             display: block;
                             max-width: 400px;
                             overflow: hidden;
+                            text-align: left;
                         }
                     }
                 }
@@ -73,8 +91,30 @@
                         padding-bottom: 13px;
                         .list-view-pf-description {
                             flex: 1 0 1%;
+                            @media screen and (max-device-width: 1024px) {
+                                float: left;
+                            }
                             .list-group-item-heading {
                                 text-transform: none;
+                                @media screen and (max-device-width: 1024px) {
+                                    width: 85px;
+                                    font-size: 12px;
+                                }
+                                @media screen and (min-width: 1024px) and (max-device-width: 1540px) {
+                                    width: 85px;
+                                    font-size: 12px;
+                                }
+                            }
+                        }
+                        .list-view-pf-additional-info {
+                            @media screen and (max-device-width: 1024px) {
+                                width: 80%;
+                                height: 25px;
+                            }
+                            .disk-label {
+                                white-space: nowrap;
+                                overflow: hidden;
+                                text-overflow: ellipsis;
                             }
                         }
                         .utilisation-chart {
@@ -98,6 +138,14 @@
     .container-fluid {
         .list-view-pf-view {
             margin-top: 0;
+        }
+        .list-view-pf-description {
+            flex: 1;
+            max-width: 320px;
+            @media screen and (min-width: 1024px) and (max-device-width: 1224px) {
+                flex: 1 0 0%;
+                max-width: 277px;
+            }
         }
     }
 }

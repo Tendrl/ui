@@ -52,16 +52,16 @@
                     <div class="list-view-pf-main-info">
                         <div class="list-view-pf-body">
                             <div class="list-view-pf-description">
-                                <div class="list-group-item-heading bold-text">
+                                <div class="list-group-item-heading bold-text sub-volume" uib-tooltip-html="'{{subVolume.subVolumeName}}'" tooltip-placement="auto bottom-left">
                                     {{subVolume.subVolumeName}}
                                 </div>
-                                <div class="list-group-item-text bold-text">
+                            </div>
+                            <div class="list-view-pf-additional-info">
+                                <div class="list-view-pf-additional-info-item">
                                     {{subVolume.bricks.length}}
                                     <ng-pluralize count="subVolume.bricks.length" when="{'one': 'Brick',
                        'other': 'Bricks'}"></ng-pluralize>
                                 </div>
-                            </div>
-                            <div class="list-view-pf-additional-info">
                                 <div class="list-view-pf-additional-info-item utilisation-chart">
                                     <utilisation-chart used="subVolume.utilization.used" total="subVolume.utilization.total | bytes: 2"></utilisation-chart>
                                 </div>
@@ -77,23 +77,21 @@
                         <div class="list-group list-view-pf list-view-pf-view list-header">
                             <div class="list-group-item">
                                 <div class="list-view-pf-actions">
-                                    <button class="btn btn-default hide-btn">Launch Dashboard</button>
+                                    <button class="btn btn-default hide-btn">Dashboard</button>
                                 </div>
                                 <div class="list-view-pf-main-info">
                                     <div class="list-view-pf-body">
                                         <div class="list-view-pf-description">
-                                            <div class="list-group-item-heading cluster-name host-name bold-text counts" uib-tooltip-html="'{{brick.name}}'" tooltip-placement="auto">
+                                            <div class="list-group-item-heading cluster-name host-name bold-text counts">
                                                 Host Name
                                             </div>
                                         </div>
                                         <div class="list-view-pf-additional-info">
-                                            <div class="list-view-pf-additional-info-item">
-                                                <div>
-                                                    Brick Path
-                                                </div>
+                                            <div class="list-view-pf-additional-info-item disk-label">
+                                                Brick Path
                                             </div>
                                             <div class="list-view-pf-additional-info-item utilisation-chart">Utilization </div>
-                                            <div class="list-view-pf-additional-info-item">
+                                            <div class="list-view-pf-additional-info-item disk-label">
                                                 Disk Device Path
                                             </div>
                                             <div class="list-view-pf-additional-info-item">
@@ -112,16 +110,14 @@
                                 <div class="list-view-pf-main-info">
                                     <div class="list-view-pf-body">
                                         <div class="list-view-pf-description">
-                                            <div class="list-group-item-heading cluster-name host-name bold-text counts" uib-tooltip-html="'{{brick.fqdn}}'" tooltip-placement="auto">
+                                            <div class="list-group-item-heading cluster-name host-name bold-text counts" uib-tooltip-html="'{{brick.fqdn}}'" tooltip-placement="top-left">
                                                 {{brick.fqdn}}
                                             </div>
                                         </div>
                                         <div class="list-view-pf-additional-info">
                                             <div class="list-view-pf-additional-info-item">
-                                                <div>
-                                                    <i class="pficon status-icons pull-left" ng-class="{'pficon-error-circle-o': (brick.status !=='started'), 'pficon-ok': (brick.status ==='started')}" uib-tooltip-html="'{{brick.status}}'" tooltip-placement="auto bottom-left"></i>
-                                                    <div class="brick-path" uib-tooltip-html="'{{brick.brickPath.split(':')[1]}}'" tooltip-placement="auto">{{brick.brickPath.split(":")[1]}}</div>
-                                                </div>
+                                                    <i class="pficon status-icons pull-left" ng-class="{'pficon-error-circle-o': (brick.status !=='started'), 'pficon-ok': (brick.status ==='started')}" uib-tooltip-html="'{{brick.status}}'" tooltip-placement="top-left"></i>
+                                                    <div class="brick-path" uib-tooltip-html="'{{brick.brickPath.split(':')[1]}}'" tooltip-placement="top-left">{{brick.brickPath.split(":")[1]}}</div>
                                             </div>
                                             <div class="list-view-pf-additional-info-item utilisation-chart">
                                                 <utilisation-chart used="brick.utilization.used" total="brick.utilization.total| bytes: 2"></utilisation-chart>
