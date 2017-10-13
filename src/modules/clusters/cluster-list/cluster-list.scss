@@ -6,7 +6,6 @@
         border-right: none;
     }
     .cluster-name {
-        cursor: pointer;
         white-space: nowrap;
         overflow: hidden;
         text-overflow: ellipsis;
@@ -56,7 +55,7 @@
                 }
             }
             .list-view-pf-actions {
-                width: 258px;
+                width: 275px;
                 text-align: right;
                 .display {
                     display: block;

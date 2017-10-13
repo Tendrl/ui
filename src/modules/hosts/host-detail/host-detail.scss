@@ -2,7 +2,7 @@
     .custom-breadcrumb {
         list-style: none;
         min-width: 50px;
-        width: 700px;
+        width: 100%;
         margin: auto;
         display: inline-table;
         margin-right: 5px;
@@ -15,7 +15,6 @@
             .cluster-name {
                 display: inline-block;
                 height: 25px;
-                line-height: 25px;
                 text-align: center;
                 width: 225px;
                 white-space: nowrap;

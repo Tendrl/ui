@@ -82,7 +82,7 @@
                 </div>
                 <div class="ft-column ft-actions">
                     <button class="btn btn-default" ng-click="hostCntrl.goToHostDetail(host)" ng-show="hostCntrl.showDetailBtn">Details</button>
-                    <button ng-show ="host.role !== 'Tendrl Server'" class="btn btn-default dashboard-btn" ng-click="hostCntrl.redirectToGrafana(host, $event)" ng-disabled="host.managed !== 'Yes'">Dashboard</button>
+                    <button ng-show ="host.role !== 'Tendrl Server' && host.managed === 'Yes'" class="btn btn-default dashboard-btn" ng-click="hostCntrl.redirectToGrafana(host, $event)">Dashboard</button>
                 </div>
             </div>
         </div>

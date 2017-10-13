@@ -83,7 +83,11 @@
             </div>
             <div class="row action-button">
                 <div class="col-sm-8 col-md-6">
-                    <button class="btn btn-primary btn-lg" ng-click="vm.importCluster()">Import</button>
+                    <button class="btn btn-primary btn-lg" ng-click="vm.importCluster()" ng-disabled="vm.importIcon">
+                        <i class="glyphicon glyphicon-refresh glyphicon-refresh-animate" data-ng-class="{'hidden': vm.importIcon !== true }">
+                        </i>
+                        <span>Import</span>
+                    </button>
                     <button class="btn btn-default btn-lg cancel-button" ng-click="vm.importCancel()">Cancel</button>
                 </div>
             </div>
