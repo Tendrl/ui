@@ -1,5 +1,5 @@
 <div class="tendrl-utilisation-chart">
-	<div>{{vm.used}}% Used</div>
+    <div class="used-percentage" uib-tooltip-html="'{{vm.used}}% Used'" tooltip-placement="auto">{{vm.used}}% Used</div>
     <div class="progress">
         <div class="progress-bar" role="progressbar" aria-valuenow="{{vm.used}}" aria-valuemin="0" aria-valuemax="100" style="width: {{vm.used}}%;" data-toggle="tooltip" title="{{vm.used}}% Used">
             <span class="sr-only">{{vm.used}}% Used</span>
@@ -8,5 +8,5 @@
             <span class="sr-only">{{100-vm.used}}% Available</span>
         </div>
     </div>
-    <div>{{vm.total}}</div>
+    <div class="used-percentage" uib-tooltip-html="'{{vm.total}}'" tooltip-placement="auto">{{vm.total}}</div>
 </div>
