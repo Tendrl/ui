@@ -22,7 +22,7 @@
 
         vm.isDataLoading = true;
         vm.redirectToGrafana = redirectToGrafana;
-
+        vm.hostList = [];
         vm.goToHostDetail = goToHostDetail;
 
         init();

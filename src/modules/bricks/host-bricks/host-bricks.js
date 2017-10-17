@@ -22,7 +22,7 @@
             hostBrickTimer;
 
         vm.isDataLoading = true;
-
+        vm.brickList = [];
         vm.redirectToGrafana = redirectToGrafana;
 
         init();

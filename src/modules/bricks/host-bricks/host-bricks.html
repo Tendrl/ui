@@ -12,7 +12,7 @@
                         <div class="input-group">
                             <div class="input-group-btn">
                                 <!-- Search By -->
-                                <select ng-init="vm.filterBy = 'brickPath'" ng-disabled="vm.brickList.length === 0" ng-model="vm.filterBy" class="btn btn-default dropdown-toggle" ng-change="vm.searchBy = {}">
+                                <select ng-init="vm.filterBy = 'brickPath'" ng-disabled="vm.brickList.length === 0" ng-model="vm.filterBy" class="btn btn-default dropdown-toggle filterSelect" ng-change="vm.searchBy = {}">
                                     <option value="brickPath">Brick Path</option>
                                     <option value="status">Brick Status</option>
                                     <!-- <option value="role">Utilization More Than</option>
@@ -39,7 +39,7 @@
         </div>
     </div>
     <div class="container-fluid">
-        <center ng-if="vm.brickList.length === 0">
+        <center ng-if="!vm.isDataLoading && vm.brickList.length === 0">
             <div class="blank-slate-pf">
                 <div class="blank-slate-pf-icon">
                     <i class="pficon pficon-container-node"></i>

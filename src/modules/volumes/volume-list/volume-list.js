@@ -27,6 +27,7 @@
         vm.getRebalStatus = volumeStore.getRebalStatus;
         vm.redirectToGrafana = redirectToGrafana;
         vm.goToVolumeDetail = goToVolumeDetail;
+        vm.volumeList = [];
 
         init();
 

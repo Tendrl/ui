@@ -8,7 +8,7 @@
                     <label class="sr-only" for="filter">Name</label>
                     <div class="input-group">
                         <div class="input-group-btn">
-                            <select ng-init="taskCntrl.filterBy = 'job_id'" ng-disabled="taskCntrl.taskList.length === 0" ng-model="taskCntrl.filterBy" class="btn btn-default dropdown-toggle" ng-change="taskCntrl.searchBy = {}">
+                            <select ng-init="taskCntrl.filterBy = 'job_id'" ng-disabled="taskCntrl.taskList.length === 0" ng-model="taskCntrl.filterBy" class="btn btn-default dropdown-toggle filterSelect" ng-change="taskCntrl.searchBy = {}">
                                 <option value="job_id">Task ID</option>
                                 <option value="flow">Task</option>
                             </select>
@@ -37,17 +37,17 @@
                 </div>
                 <div class="status-options">
                     <label>
-                        <input type="checkbox" name="status1" id="status1" ng-click="taskCntrl.updateStatus('processing')" ng-checked="taskCntrl.isSelectedStatus('processing')"> In progress
+                        <input type="checkbox" name="status1" id="status1" ng-click="taskCntrl.updateStatus('processing')" ng-checked="taskCntrl.isSelectedStatus('processing')" ng-disabled="taskCntrl.taskList.length === 0"> In progress
                     </label>
                 </div>
                 <div class="status-options">
                     <label>
-                        <input type="checkbox" name="status2" id="status2" ng-click="taskCntrl.updateStatus('finished')" ng-checked="taskCntrl.isSelectedStatus('finished')"> Succeeded
+                        <input type="checkbox" name="status2" id="status2" ng-click="taskCntrl.updateStatus('finished')" ng-checked="taskCntrl.isSelectedStatus('finished')" ng-disabled="taskCntrl.taskList.length === 0"> Succeeded
                     </label>
                 </div>
                 <div class="status-options">
                     <label>
-                        <input type="checkbox" name="status3" id="status3" ng-click="taskCntrl.updateStatus('failed')" ng-checked="taskCntrl.isSelectedStatus('failed')"> Failed
+                        <input type="checkbox" name="status3" id="status3" ng-click="taskCntrl.updateStatus('failed')" ng-checked="taskCntrl.isSelectedStatus('failed')" ng-disabled="taskCntrl.taskList.length === 0"> Failed
                     </label>
                 </div>
             </div>
@@ -64,7 +64,7 @@
             </div>
         </div>
     </div>
-    <center ng-if="taskCntrl.filteredTaskList.length === 0">
+    <center ng-if="!taskCntrl.isDataLoading && taskCntrl.filteredTaskList.length === 0">
         <div class="blank-slate-pf">
             <div class="blank-slate-pf-icon">
                 <i class="pficon pficon-cluster"></i>
