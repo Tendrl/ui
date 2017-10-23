@@ -27,7 +27,7 @@
         vm.searchDescText = "";
         vm.filterBy = "clusterName";
         vm.searchBy = {};
-
+        vm.alertList = [];
         vm.filterByCreatedDate = filterByCreatedDate;
         vm.resetCount = resetCount;
         vm.setSeverity = setSeverity;

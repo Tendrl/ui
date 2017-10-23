@@ -13,7 +13,12 @@
         </li>
         <li><a href="" ng-click="vm.goToClusterDetail()">Volumes</a></li>
         <li>
-            <span uib-tooltip-html="'{{vm.volName}}'" tooltip-placement="auto bottom-left" class="cluster-name">{{vm.volName}}</span>
+            <span class="cluster-name">
+                {{vm.volName}}
+            </span>
+            <span class="tip">
+                {{vm.volName}}
+            </span>
         </li>
     </ul>
     <div ng-if="vm.isDataLoading" class="spinner spinner-lg"></div>

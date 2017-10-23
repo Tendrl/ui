@@ -8,7 +8,7 @@
                     <label class="sr-only" for="filter">Name</label>
                     <div class="input-group">
                         <div class="input-group-btn">
-                            <select ng-disabled="alertCntrl.alertList.length === 0" ng-model="alertCntrl.filterBy" class="btn btn-default dropdown-toggle" ng-change="alertCntrl.searchBy = {}">
+                            <select ng-disabled="alertCntrl.alertList.length === 0" ng-model="alertCntrl.filterBy" class="btn btn-default dropdown-toggle filterSelect" ng-change="alertCntrl.searchBy = {}">
                                 <option value="clusterName">Cluster Name</option>
                                 <option value="fqdn">Host Name</option>
                             </select>
@@ -83,7 +83,7 @@
             </div>
         </div>
     </div>
-    <center ng-if="alertCntrl.filteredAlertList.length === 0">
+    <center ng-if="!alertCntrl.isDataLoading && alertCntrl.filteredAlertList.length === 0">
         <div class="blank-slate-pf">
             <div class="blank-slate-pf-icon">
                 <i class="pficon pficon-cluster"></i>

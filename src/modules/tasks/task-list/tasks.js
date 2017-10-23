@@ -28,7 +28,7 @@
         vm.isSelectedStatus = isSelectedStatus;
         vm.filterByStatus = filterByStatus;
         vm.filterByCreatedDate = filterByCreatedDate;
-
+        vm.taskList = [];
         vm.isDataLoading = true;
         count = 1;
 

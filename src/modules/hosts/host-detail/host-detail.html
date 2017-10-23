@@ -11,7 +11,10 @@
         </li>
         <li><a href="" ng-click="vm.goToClusterDetail()">Hosts</a></li>
         <li>
-            <span uib-tooltip-html="'{{vm.hostName}}'" tooltip-placement="auto bottom-left" class="cluster-name">{{vm.hostName}}</span>
+            <span class="cluster-name">
+                {{vm.hostName}}
+            </span>
+            <span class="tip">{{vm.hostName}}</span>
         </li>
     </ul>
     <div ng-if="vm.isDataLoading" class="spinner spinner-lg"></div>

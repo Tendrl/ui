@@ -23,7 +23,7 @@
                             <label class="sr-only" for="filter">Name</label>
                             <div class="input-group">
                                 <div class="input-group-btn">
-                                    <select ng-disabled="!vm.hostList.length" ng-model="vm.filterBy" class="btn btn-default dropdown-toggle" ng-change="vm.searchBy = {}">
+                                    <select ng-disabled="!vm.hostList.length" ng-model="vm.filterBy" class="btn btn-default dropdown-toggle filterSelect" ng-change="vm.searchBy = {}">
                                         <option value="fqdn">Name</option>
                                         <option value="role">Role</option>
                                     </select>
@@ -35,7 +35,7 @@
                         </div>
                         <div class="form-group">
                             <div class="dropdown btn-group">
-                                <select ng-disabled="vm.hostList.length === 0" ng-model="vm.orderBy" class="btn btn-default dropdown-toggle">
+                                <select ng-disabled="vm.hostList.length === 0" ng-model="vm.orderBy" class="btn btn-default dropdown-toggle filterSelect">
                                     <option value="fqdn">Name</option>
                                     <option value="role">Role</option>
                                 </select>
