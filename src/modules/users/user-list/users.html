@@ -18,7 +18,7 @@
                                 </select>
                             </div>
                             <!-- btn-group-->
-                            <input ng-disabled="userCntrl.userList.length === 0" type="text" class="form-control" id="filter" ng-model="userCntrl.searchBy[userCntrl.filterBy]" placeholder="Filter By {{userCntrl.filterBy === 'username'? 'User Id': userCntrl.filterBy }}...">
+                            <input ng-disabled="userCntrl.userList.length === 0" type="text" class="form-control" id="filter" ng-model="userCntrl.searchBy[userCntrl.filterBy]" placeholder="Filter by {{userCntrl.filterBy === 'username'? 'User Id': userCntrl.filterBy | capitalize}}">
                         </div>
                         <!--/input group-->
                     </div>

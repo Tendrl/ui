@@ -14,7 +14,7 @@
                                 </select>
                             </div>
                             <!-- /btn-group -->
-                            <input type="text" class="form-control" id="filter" ng-model="clusterCntrl.searchBy[clusterCntrl.filterBy]" placeholder="Filter By {{clusterCntrl.filterBy}}...">
+                            <input type="text" class="form-control" id="filter" ng-model="clusterCntrl.searchBy[clusterCntrl.filterBy]" placeholder="Filter by {{clusterCntrl.filterBy | capitalize}}">
                         </div>
                         <!-- /input-group -->
                     </div>
@@ -68,13 +68,10 @@
                 </div>
                 <div class="list-view-pf-actions">
                     <button class="btn btn-default" ng-show="cluster.managed === 'Yes'" ng-click="clusterCntrl.goToClusterDetail(cluster)">Details</button>
-
                     <button class="btn btn-default" ng-show="cluster.managed === 'Yes'" ng-click="clusterCntrl.redirectToGrafana(cluster, $event)">Dashboard</button>
-
                     <button class="btn btn-default" ng-disabled="$root.userRole === 'limited' || clusterCntrl.profilingButtonClick" ng-show="cluster.managed === 'Yes'" ng-click="clusterCntrl.doProfilingAction($event, cluster, cluster.isProfilingEnabled === 'Enabled' ? 'Disable' : 'Enable', cluster.clusterId)">{{cluster.isProfilingEnabled === 'Enabled' ? "Disable Profiling" : "Enable Profiling"}}
-                    <i class="glyphicon glyphicon-refresh glyphicon-refresh-animate" data-ng-class="{'hidden': clusterCntrl.profilingButtonClick !== true }"></i>
+                        <i class="glyphicon glyphicon-refresh glyphicon-refresh-animate" data-ng-class="{'hidden': clusterCntrl.profilingButtonClick !== true }"></i>
                     </button>
-
                     <button class="btn btn-default import-btn" ng-show="cluster.managed === 'No' && $root.userRole !=='limited'" ng-disabled="cluster.message === 'Cluster Misconfigured' || cluster.importStatus === 'in_progress' || cluster.managed === 'Yes'" ng-click="clusterCntrl.goToImportFlow(cluster)">Import&nbsp;</button>
                 </div>
                 <div class="list-view-pf-main-info">
