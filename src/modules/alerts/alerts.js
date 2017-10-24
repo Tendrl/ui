@@ -26,6 +26,7 @@
         vm.severity = "";
         vm.searchDescText = "";
         vm.filterBy = "clusterName";
+        vm.filterByText = "Filter by Cluster Name";
         vm.searchBy = {};
         vm.alertList = [];
         vm.filterByCreatedDate = filterByCreatedDate;
@@ -35,6 +36,7 @@
         vm.searchByDesc = searchByDesc;
         vm.clearAllFilters = clearAllFilters;
         vm.clearDate = clearDate;
+        vm.changeOption = changeOption;
 
         vm.date = {
             fromDate: "",
@@ -87,6 +89,12 @@
             }
         }, true);
 
+        $scope.$watch(angular.bind(this, function() {
+            return vm.searchBy.severity;
+        }), function(newVal, oldVal) {
+            vm.severity = vm.searchBy.severity;
+        });
+
         function filterByCreatedDate(list) {
             if (count === 1 && vm.date.fromDate && vm.date.toDate) {
                 checkValidDates();
@@ -120,13 +128,34 @@
         function filterBySeverity(list) {
             if (!vm.severity) {
                 return list;
-            } else if (list.severity === vm.severity) {
+            } else if (list.severity.charAt(0) === vm.severity.charAt(0)) {
                 return list;
             }
         }
 
         function setSeverity(value) {
+            vm.changeOption();
             vm.severity = value;
+            vm.filterBy = "severity";
+            vm.searchBy[vm.filterBy] = value;
+        }
+
+        function changeOption() {
+            vm.searchBy = {};
+
+            switch (vm.filterBy) {
+                case "clusterName":
+                    vm.filterByText = "Filter by Cluster name";
+                    break;
+
+                case "fqdn":
+                    vm.filterByText = "Filter by Host name";
+                    break;
+
+                case "severity":
+                    vm.filterByText = "Filter by Severity";
+                    break;
+            }
         }
 
         function searchByDesc(list) {
@@ -142,6 +171,10 @@
             vm.date.toDate = "";
             vm.date.fromDate = "";
             vm.searchDescText = "";
+            vm.filterBy = "clusterName";
+            vm.severity = "";
+            vm.filterByText = "Filter by Cluster name";
+            vm.invalidToDate = false;
         }
 
         function clearDate(type) {
