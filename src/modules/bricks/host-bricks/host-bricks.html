@@ -21,7 +21,7 @@
                                 </select>
                             </div>
                             <!-- /btn-group -->
-                            <input ng-disabled="vm.brickList.length === 0" type="text" class="form-control" id="filter" ng-model="vm.searchBy[vm.filterBy]" placeholder="Filter By {{vm.filterBy}}...">
+                            <input ng-disabled="vm.brickList.length === 0" type="text" class="form-control" id="filter" ng-model="vm.searchBy[vm.filterBy]" placeholder="Filter by {{vm.filterBy | capitalize}}">
                         </div>
                         <!-- /input-group -->
                     </div>

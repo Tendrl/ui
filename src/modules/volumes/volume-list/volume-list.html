@@ -19,7 +19,7 @@
                                 </select>
                             </div>
                             <!-- /btn-group -->
-                            <input ng-disabled="volumeCntrl.volumeList.length === 0" type="text" class="form-control" id="filter" ng-model="volumeCntrl.searchBy[volumeCntrl.filterBy]" placeholder="Filter By {{volumeCntrl.filterBy}}...">
+                            <input ng-disabled="volumeCntrl.volumeList.length === 0" type="text" class="form-control" id="filter" ng-model="volumeCntrl.searchBy[volumeCntrl.filterBy]" placeholder="Filter by {{volumeCntrl.filterBy | capitalize}}">
                         </div>
                         <!-- /input-group -->
                     </div>

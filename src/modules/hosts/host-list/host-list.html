@@ -20,7 +20,7 @@
                                 </select>
                             </div>
                             <!-- /btn-group -->
-                            <input ng-disabled="hostCntrl.hostList.length === 0" type="text" class="form-control" id="filter" ng-model="hostCntrl.searchBy[hostCntrl.filterBy]" placeholder="Filter By {{hostCntrl.filterBy}}...">
+                            <input ng-disabled="hostCntrl.hostList.length === 0" type="text" class="form-control" id="filter" ng-model="hostCntrl.searchBy[hostCntrl.filterBy]" placeholder="Filter by {{hostCntrl.filterBy | capitalize}}">
                         </div>
                         <!-- /input-group -->
                     </div>
