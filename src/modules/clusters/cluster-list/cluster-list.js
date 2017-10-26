@@ -41,6 +41,8 @@
         vm.setTab = setTab;
         vm.isTabSet = isTabSet;
         vm.redirectToGrafana = redirectToGrafana;
+        vm.addTooltip = addTooltip;
+        vm.flag = false;
 
         init();
 
@@ -246,6 +248,10 @@
                 return -999;
             }
 
+        }
+
+        function addTooltip($event) {
+            vm.flag = utils.tooltip($event);
         }
 
     }

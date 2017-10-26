@@ -20,6 +20,7 @@
             len,
             clusterObj;
 
+
         vm.getObjectList = function() {
             var url = "",
                 getObjectListRequest, request;
@@ -129,7 +130,7 @@
             }
 
             return list;
-        }
+        };
 
         vm.getTaskLogs = function(jobId) {
             var url,
@@ -299,6 +300,15 @@
             }
             window.open(uri);
             $event.stopPropagation();
-        }
+        };
+
+        vm.tooltip = function($event) {
+            if ($event.target.clientWidth < $event.target.scrollWidth) {
+                return true;
+            } else {
+                return false;
+            }
+
+        };
     };
 })();

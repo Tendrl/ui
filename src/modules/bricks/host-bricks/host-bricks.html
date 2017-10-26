@@ -74,7 +74,7 @@
                     {{brick.port}}
                 </div>
                 <div class="ft-column ft-actions">
-                    <button class="btn btn-default launch-btn" ng-click="vm.redirectToGrafana(brick, $event)">Dashboard</button>
+                    <button class="btn btn-default launch-btn" ng-click="vm.redirectToGrafana(brick, $event)" tooltip-enable="vm.flag" ng-mouseover="vm.addTooltip($event)" uib-tooltip="Dashboard">Dashboard</button>
                 </div>
             </div>
         </div>

@@ -81,8 +81,8 @@
                     <div class="pull-left counts">{{host.alerts}}</div>
                 </div>
                 <div class="ft-column ft-actions">
-                    <button class="btn btn-default" ng-click="hostCntrl.goToHostDetail(host)" ng-show="hostCntrl.showDetailBtn">Details</button>
-                    <button ng-show ="host.role !== 'Tendrl Server' && host.managed === 'Yes'" class="btn btn-default dashboard-btn" ng-click="hostCntrl.redirectToGrafana(host, $event)">Dashboard</button>
+                    <button class="btn btn-default" ng-click="hostCntrl.goToHostDetail(host)" ng-show="hostCntrl.showDetailBtn" tooltip-enable="hostCntrl.flag" ng-mouseover="hostCntrl.addTooltip($event)" uib-tooltip="Details">Details</button>
+                    <button ng-show ="host.role !== 'Tendrl Server' && host.managed === 'Yes'" class="btn btn-default dashboard-btn" ng-click="hostCntrl.redirectToGrafana(host, $event)" tooltip-enable="hostCntrl.flag" ng-mouseover="hostCntrl.addTooltip($event)" uib-tooltip="Dashboard">Dashboard</button>
                 </div>
             </div>
         </div>
