@@ -85,8 +85,8 @@
                     <div class="pull-left counts">{{volumeCntrl.getRebalStatus(volume)}}</div>
                 </div>
                 <div class="ft-column ft-actions">
-                    <button class="btn btn-default dashboard-btn" ng-click="volumeCntrl.goToVolumeDetail(volume)">Details</button>
-                    <button class="btn btn-default dashboard-btn" ng-click="volumeCntrl.redirectToGrafana(volume, $event)">Dashboard</button>
+                    <button class="btn btn-default dashboard-btn" ng-click="volumeCntrl.goToVolumeDetail(volume)" tooltip-enable="volumeCntrl.flag" ng-mouseover="volumeCntrl.addTooltip($event)" uib-tooltip="Details">Details</button>
+                    <button class="btn btn-default dashboard-btn" ng-click="volumeCntrl.redirectToGrafana(volume, $event)" tooltip-enable="volumeCntrl.flag" ng-mouseover="volumeCntrl.addTooltip($event)" uib-tooltip="Dashboard">Dashboard</button>
                 </div>
             </div>
         </div>

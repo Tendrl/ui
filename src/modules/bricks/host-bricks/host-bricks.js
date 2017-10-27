@@ -24,6 +24,8 @@
         vm.isDataLoading = true;
         vm.brickList = [];
         vm.redirectToGrafana = redirectToGrafana;
+        vm.addTooltip = addTooltip;
+        vm.flag = false;
 
         init();
 
@@ -79,6 +81,10 @@
         $scope.$on("$destroy", function() {
             $interval.cancel(hostBrickTimer);
         });
+
+        function addTooltip($event) {
+            vm.flag = utils.tooltip($event);
+        }
     }
 
 })();

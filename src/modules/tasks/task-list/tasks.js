@@ -13,7 +13,7 @@
         });
 
     /*@ngInject*/
-    function taskController($rootScope, $scope, $interval, $state, $timeout, $filter, orderByFilter, config, taskStore) {
+    function taskController($rootScope, $scope, $interval, $state, $timeout, $filter, orderByFilter, config, taskStore, utils) {
 
         var vm = this,
             jobTimer,
@@ -31,6 +31,8 @@
         vm.taskList = [];
         vm.isDataLoading = true;
         count = 1;
+        vm.addTooltip = addTooltip;
+        vm.flag = false;
 
         vm.date = {
             fromDate: "",
@@ -169,6 +171,10 @@
         vm.resetCount = function() {
             count = 1;
         };
+
+        function addTooltip($event) {
+            vm.flag = utils.tooltip($event);
+        }
     }
 
 })();

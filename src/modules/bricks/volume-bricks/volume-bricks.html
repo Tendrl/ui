@@ -77,7 +77,7 @@
                         <div class="list-group list-view-pf list-view-pf-view list-header">
                             <div class="list-group-item">
                                 <div class="list-view-pf-actions">
-                                    <button class="btn btn-default hide-btn">Dashboard</button>
+                                    <button class="btn btn-default hide-btn" tooltip-enable="vm.flag" ng-mouseover="vm.addTooltip($event)" uib-tooltip="Dashboard">Dashboard</button>
                                 </div>
                                 <div class="list-view-pf-main-info">
                                     <div class="list-view-pf-body">
@@ -105,7 +105,7 @@
                         <div class="list-group list-view-pf list-view-pf-view " ng-repeat="brick in subVolume.bricks | orderBy: 'fqdn'">
                             <div class="list-group-item">
                                 <div class="list-view-pf-actions">
-                                    <button class="btn btn-default" ng-click="vm.redirectToGrafana(brick, $event)">Dashboard</button>
+                                    <button class="btn btn-default" ng-click="vm.redirectToGrafana(brick, $event)" tooltip-enable="vm.flag" ng-mouseover="vm.addTooltip($event)" uib-tooltip="Dashboard">Dashboard</button>
                                 </div>
                                 <div class="list-view-pf-main-info">
                                     <div class="list-view-pf-body">

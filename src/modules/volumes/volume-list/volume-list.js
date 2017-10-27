@@ -28,6 +28,8 @@
         vm.redirectToGrafana = redirectToGrafana;
         vm.goToVolumeDetail = goToVolumeDetail;
         vm.volumeList = [];
+        vm.addTooltip = addTooltip;
+        vm.flag = false;
 
         init();
 
@@ -76,6 +78,10 @@
             if (vm.clusterId) {
                 $state.go("volume-detail", { clusterId: vm.clusterId, volumeId: volume.volumeId });
             }
+        }
+
+        function addTooltip($event) {
+            vm.flag = utils.tooltip($event);
         }
     }
 

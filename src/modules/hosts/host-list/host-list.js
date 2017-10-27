@@ -24,6 +24,8 @@
         vm.redirectToGrafana = redirectToGrafana;
         vm.hostList = [];
         vm.goToHostDetail = goToHostDetail;
+        vm.addTooltip = addTooltip;
+        vm.flag = false;
 
         init();
 
@@ -88,6 +90,10 @@
             if (vm.clusterId) {
                 $state.go("host-detail", { clusterId: vm.clusterId, hostId: host.id });
             }
+        }
+
+        function addTooltip($event) {
+            vm.flag = utils.tooltip($event);
         }
     }
 

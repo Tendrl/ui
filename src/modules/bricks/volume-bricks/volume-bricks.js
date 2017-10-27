@@ -28,6 +28,8 @@
         vm.expandSubVolume = expandSubVolume;
         vm.closeExpandedView = closeExpandedView;
         vm.redirectToGrafana = redirectToGrafana;
+        vm.addTooltip = addTooltip;
+        vm.flag = false;
 
         init();
 
@@ -192,6 +194,10 @@
                 return -999;
             }
 
+        }
+
+        function addTooltip($event) {
+            vm.flag = utils.tooltip($event);
         }
     }
 
