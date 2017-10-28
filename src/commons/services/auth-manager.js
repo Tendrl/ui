@@ -76,7 +76,6 @@
         }
 
         function setFlags() {
-            $rootScope.isNavigationShow = false;
             $rootScope.isHeaderShow = false;
             $rootScope.isAPINotFoundError = false;
         }

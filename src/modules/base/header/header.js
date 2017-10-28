@@ -6,9 +6,6 @@
         .component("header", {
 
             templateUrl: "/modules/base/header/header.html",
-            bindings: {
-                isNavigationShow: "="
-            },
             controller: headerController,
             controllerAs: "header"
         });
@@ -32,7 +29,6 @@
         vm.getUserRole = getUserRole;
 
         $rootScope.notification = Notifications.data;
-        $rootScope.selectedClusterOption = "allClusters";
 
         $scope.$on("GotNoticationData", function(event, data) {
             if ($rootScope.notificationList !== null) {
@@ -60,12 +56,9 @@
         }
 
         function toggleNav(event){
-            if ($rootScope.selectedClusterOption !== "allClusters") {
-                $rootScope.isNavigationShow = !$rootScope.isNavigationShow;
-            } else {
-                event.stopPropagation();
-                event.stopImmediatePropagation();
-            }
+            $rootScope.$emit('toggleNav');
+            event.stopPropagation();
+            event.stopImmediatePropagation();
         }
 
         function setNotificationFlag() {
@@ -130,6 +123,9 @@
         }
 
         function getClusterName(id) {
+            if (!id) {
+                return "Select a cluster...";
+            }
             if (id === "allClusters") {
                 return "All Clusters";
             } else {

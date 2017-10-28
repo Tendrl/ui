@@ -147,13 +147,18 @@
                     $rootScope.userRole = AuthManager.getUserRole();
                 }
 
+                $rootScope.forceHideNav = function() {
+                    return !$rootScope.selectedClusterOption
+                        || $rootScope.selectedClusterOption === "allClusters"
+                        || !AuthManager.isUserLoggedIn;
+                }
+
                 if (AuthManager.isUserLoggedIn) {
                     /* Tracking the current URI for navigation*/
                     $rootScope.isAPINotFoundError = false;
                     $rootScope.clusterData = null;
                     $rootScope.notificationList = null;
-                    $rootScope.isNavigationShow = false;
-                    $rootScope.selectedClusterOption = "allClusters";
+                    $rootScope.selectedClusterOption = null;
                     menuService.setMenus();
 
                     var url = $location.path();

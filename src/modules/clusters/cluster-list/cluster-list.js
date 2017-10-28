@@ -41,7 +41,6 @@
         vm.isTabSet = isTabSet;
         vm.redirectToGrafana = redirectToGrafana;
 
-        $rootScope.isNavigationShow = false;
         $rootScope.selectedClusterOption = "allClusters";
 
         init();
