@@ -68,7 +68,6 @@
                 .list-group-item-container {
                     max-height: 242px;
                     overflow: auto;
-                    margin-top: 25px;
                     border-top-color: $color-silver;
                     .list-group-item {
                         padding-top: 5px;
@@ -146,6 +145,18 @@
                 flex: 1 0 0%;
                 max-width: 277px;
             }
+        }
+        .brick-table {
+            padding-top: 6px;
+        }
+        .dashboard-button {
+            border: 1px solid $color-silver;
+        }
+        .status-icons {
+            font-size: 18px;
+            vertical-align: sub;
+            margin-right: 5px;
+            margin-top: 2px;
         }
     }
 }
