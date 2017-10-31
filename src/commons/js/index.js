@@ -85,7 +85,7 @@
                         template: "<volume-detail></volume-detail>"
                     })
                     .state("tasks", {
-                        url: "/tasks",
+                        url: "/tasks/:clusterId",
                         template: "<tasks></tasks>"
                     })
                     .state("users", {

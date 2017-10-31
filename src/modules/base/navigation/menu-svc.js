@@ -32,6 +32,15 @@
                 hasSubMenus: false,
                 show: true
             }, {
+                label: "Tasks",
+                id: "tasks",
+                href: "tasks",
+                stateParams: { clusterId: vm.clusterId },
+                icon: "fa fa-cog",
+                active: false,
+                hasSubMenus: false,
+                show: true
+            }, {
                 label: "Events",
                 id: "cluster-events",
                 href: "cluster-events",
