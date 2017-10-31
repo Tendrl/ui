@@ -7,7 +7,7 @@
     storageModule.provider("config", function() {
 
         /*Ideally this config should only contain
-        configuration related stuff . it should not hold 
+        configuration related stuff . it should not hold
         cluster data */
         var config = {};
 
@@ -60,6 +60,18 @@
                         url: "/cluster-detail/:clusterId",
                         template: "<cluster-detail></cluster-detail>"
                     })
+                    .state("cluster-hosts", {
+                        url: "/cluster-hosts/:clusterId",
+                        template: "<cluster-hosts></cluster-hosts>"
+                    })
+                    .state("cluster-volumes", {
+                        url: "/cluster-volumes/:clusterId",
+                        template: "<cluster-volumes></cluster-volumes>"
+                    })
+                    .state("cluster-events", {
+                        url: "/cluster-events/:clusterId",
+                        template: "<cluster-events></cluster-events>"
+                    })
                     .state("hosts", {
                         url: "/hosts",
                         template: "<host-list></host-list>"
@@ -73,7 +85,7 @@
                         template: "<volume-detail></volume-detail>"
                     })
                     .state("tasks", {
-                        url: "/tasks",
+                        url: "/tasks/:clusterId",
                         template: "<tasks></tasks>"
                     })
                     .state("users", {
@@ -89,7 +101,7 @@
                         template: "<edit-user></edit-user>"
                     })
                     .state("alerts", {
-                        url: "/alerts",
+                        url: "/alerts/:clusterId",
                         template: "<alerts></alerts>"
                     })
                     .state("task-detail", {
@@ -135,12 +147,18 @@
                     $rootScope.userRole = AuthManager.getUserRole();
                 }
 
+                $rootScope.forceHideNav = function() {
+                    return !$rootScope.selectedClusterOption
+                        || $rootScope.selectedClusterOption === "allClusters"
+                        || !AuthManager.isUserLoggedIn;
+                }
+
                 if (AuthManager.isUserLoggedIn) {
                     /* Tracking the current URI for navigation*/
                     $rootScope.isAPINotFoundError = false;
                     $rootScope.clusterData = null;
                     $rootScope.notificationList = null;
-                    $rootScope.selectedClusterOption = "allClusters";
+                    $rootScope.selectedClusterOption = null;
                     menuService.setMenus();
 
                     var url = $location.path();
@@ -155,8 +173,6 @@
                     }).catch(function(error) {
                         $rootScope.$broadcast("GotClusterData", $rootScope.clusterData); // going down!
                         $rootScope.isAPINotFoundError = true;
-                    }).finally(function() {
-                        $rootScope.isNavigationShow = true;
                     });
                 }
 

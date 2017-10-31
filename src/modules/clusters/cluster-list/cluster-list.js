@@ -41,6 +41,8 @@
         vm.isTabSet = isTabSet;
         vm.redirectToGrafana = redirectToGrafana;
 
+        $rootScope.selectedClusterOption = "allClusters";
+
         init();
 
         /**
@@ -49,7 +51,6 @@
          * @memberOf clusterController
          */
         function init() {
-            $rootScope.selectedClusterOption = "allClusters";
             clusterStore.selectedTab = 1;
             clusterStore.getClusterList()
                 .then(function(data) {

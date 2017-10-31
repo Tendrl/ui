@@ -64,7 +64,6 @@
                     })
                     .then(function() {
                         getNotificationList();
-                        $rootScope.isNavigationShow = true;
                     })
                     .finally(function() {
                         vm.formSubmitInProgress = false;

@@ -35,7 +35,7 @@
                 </form>
                 <div class="row toolbar-pf-results">
                     <div class="col-sm-12">
-                        <h5 ng-if="clusterCntrl.clusterList.length !== 0">{{clusterCntrl.filteredClusteredList.length}} 
+                        <h5 ng-if="clusterCntrl.clusterList.length !== 0">{{clusterCntrl.filteredClusteredList.length}}
                             <ng-pluralize count="clusterCntrl.clusterList.length" when="{'one': 'Cluster',
                        'other': 'Clusters'}"></ng-pluralize>
                         </h5>
@@ -79,7 +79,7 @@
                     <div class="list-view-pf-body">
                         <div class="list-view-pf-description">
                             <div class="list-group-item-heading cluster-name bold-text counts" uib-tooltip-html="'{{cluster.name}}'" tooltip-placement="auto bottom-left">
-                                {{cluster.name}}
+                                <a ui-sref="cluster-hosts({clusterId: cluster.name})">{{cluster.name}}</a>
                             </div>
                         </div>
                         <div class="list-view-pf-additional-info">

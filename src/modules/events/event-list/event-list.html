@@ -1,0 +1,32 @@
+<div ng-if="clusterData === null && !isAPINotFoundError" class="spinner spinner-lg"></div>
+<div ng-if="clusterData !== null" class="tendrl-event-list-view-container container-fluid">
+    <h1 class="bold-text">Events</h1>
+    <center ng-if="eventListCntrl.filteredEventList.length === 0">
+        <div class="blank-slate-pf">
+            <div class="blank-slate-pf-icon">
+                <i class="pficon pficon-cluster"></i>
+            </div>
+            <h1>No Events Detected.</h1>
+        </div>
+    </center>
+    <div ng-if="eventListCntrl.isDataLoading" class="spinner spinner-lg"></div>
+    <div class="flex-table list-group list-view-pf list-view-pf-view event-list-table" ng-show="!eventListCntrl.isDataLoading">
+        <div class="ft-row list-group-item " ng-repeat="event in eventListCntrl.filteredEventList = (eventListCntrl.eventList | filter: eventListCntrl.filterByCreatedDate| filter: eventListCntrl.filterBySeverity | filter: eventListCntrl.searchByDesc | filter: eventListCntrl.searchBy | orderBy: ['-timeStamp', 'eventId'])">
+            <div class="ft-column ft-icon">
+                <i ng-class="{'pficon pficon-error-circle-o': (event.priority === 'error'), 'pficon pficon-info': (event.priority === 'notice'), 'pficon pficon-warning-triangle-o': (event.priority === 'warning')}"></i>
+            </div>
+            <div class="ft-column event-type">
+                {{event.priority | capitalize}}
+            </div>
+            <div class="ft-column">
+                <div>{{event.message || "NA"}}</div>
+            </div>
+            <div class="ft-column">
+                <p>{{event.timeStamp| date: 'dd MMM yyyy HH:mm:ss'}}</p>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12 horizontal-line"></div>
+    </div>
+</div>

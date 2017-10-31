@@ -38,6 +38,9 @@
         }
 
         function init() {
+            vm.clusterId = $stateParams.clusterId;
+            $rootScope.selectedClusterOption = vm.clusterId;
+
             taskStore.getJobDetail($stateParams.taskId)
                 .then(function(data) {
                     vm.taskDetail = data;

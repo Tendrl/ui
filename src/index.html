@@ -18,13 +18,11 @@
 </head>
 
 <body class="tendrl-app">
-    <header ng-if="isHeaderShow" is-navigation-show="isNavigationShow"></header>
-    
-    <!-- Navigation should only display when we have at least one cluster -->
-    <!-- <div ng-if="isNavigationShow" ng-include src="'../modules/base/navigation/navigation.html'"></div> -->
-    <tendrl-nav ng-if="isNavigationShow"></tendrl-nav>
+    <header ng-if="isHeaderShow"></header>
 
-    <div ng-class="{'container-pf-nav-pf-vertical': isNavigationShow}" class="container-fluid container-cards-pf margin-fix container-pf-nav-pf-vertical-with-secondary">
+    <tendrl-nav></tendrl-nav>
+
+    <div class="container-fluid container-cards-pf container-pf-nav-pf-vertical container-pf-nav-pf-vertical-with-secondary margin-fix">
         <div class="row">
             <div class="col-md-12" ui-view></div>
         </div>
