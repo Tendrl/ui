@@ -16,16 +16,18 @@
                         <input type="text" class="form-control" id="filter" ng-model="taskCntrl.searchBy[taskCntrl.filterBy]" placeholder="Filter by {{taskCntrl.filterBy === 'job_id'? 'Task Id': 'Task' }}">
                     </div>
                 </div>
-                <div class="form-group">
+                <div class="form-group date-selector" ng-class="{'disable-picker': (taskCntrl.taskList.length === 0)}">
                     From:
-                    <div pf-datepicker options="taskCntrl.fromDateOptions" date="taskCntrl.date.fromDate" ng-model="taskCntrl.date.fromDate" ng-click="taskCntrl.resetCount()"></div>
+                    <div pf-datepicker options="taskCntrl.fromDateOptions" date="taskCntrl.date.fromDate" ng-model="taskCntrl.date.fromDate" ng-click="taskCntrl.resetCount()" class="from-selector"></div>
+                    <i class="pficon pficon-close" ng-click="taskCntrl.clearDate('from')" ng-show="taskCntrl.date.fromDate"></i>
                 </div>
-                <div class="form-group remove-right-border">
+                <div class="form-group remove-right-border date-selector" ng-class="{'disable-picker': (taskCntrl.taskList.length === 0)}">
                     To:
-                    <div pf-datepicker options="taskCntrl.toDateOptions" date="taskCntrl.date.toDate" ng-model="taskCntrl.date.toDate" ng-click="taskCntrl.resetCount()"></div>
+                    <div pf-datepicker options="taskCntrl.toDateOptions" date="taskCntrl.date.toDate" ng-model="taskCntrl.date.toDate" ng-click="taskCntrl.resetCount()" class="to-selector"></div>
+                    <i class="pficon pficon-close" ng-click="taskCntrl.clearDate('to')" ng-show="taskCntrl.date.toDate"></i>
                 </div>
                 <div class="form-group invalid-msg" ng-if="taskCntrl.invalidToDate">
-                    <span class="error-msg">*To date cannot be greater than from date</span>
+                    <span class="error-msg">*The To date must be greater than the From date</span>
                 </div>
             </form>
             <div class="row">

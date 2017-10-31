@@ -28,6 +28,7 @@
         vm.isSelectedStatus = isSelectedStatus;
         vm.filterByStatus = filterByStatus;
         vm.filterByCreatedDate = filterByCreatedDate;
+        vm.clearDate = clearDate;
         vm.taskList = [];
         vm.isDataLoading = true;
         count = 1;
@@ -146,13 +147,16 @@
         }
 
         function filterByCreatedDate(list) {
-            if (count === 1) {
+            if (count === 1 && vm.date.fromDate && vm.date.toDate) {
                 checkValidDates();
             }
 
             if (vm.date.fromDate && vm.date.toDate) {
-                return Date.parse(list.created_at) >= Date.parse(vm.date.fromDate) &&
-                    Date.parse(list.created_at) <= Date.parse(vm.date.toDate);
+                return Date.parse(list.created_at) >= Date.parse(vm.date.fromDate) && Date.parse(list.created_at) <= Date.parse(vm.date.toDate);
+            } else if (vm.date.fromDate) {
+                return Date.parse(list.created_at) >= Date.parse(vm.date.fromDate);
+            } else if (vm.date.toDate) {
+                return Date.parse(list.created_at) <= Date.parse(vm.date.toDate);
             } else {
                 return list;
             }
@@ -174,6 +178,14 @@
 
         function addTooltip($event) {
             vm.flag = utils.tooltip($event);
+        }
+
+        function clearDate(type) {
+            if (type === "from") {
+                vm.date.fromDate = "";
+            } else if (type === "to") {
+                vm.date.toDate = "";
+            }
         }
     }
 
