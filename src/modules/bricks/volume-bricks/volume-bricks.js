@@ -29,6 +29,7 @@
         vm.closeExpandedView = closeExpandedView;
         vm.redirectToGrafana = redirectToGrafana;
         vm.addTooltip = addTooltip;
+        vm.clearAllFilters = clearAllFilters;
         vm.flag = false;
 
         init();
@@ -198,6 +199,10 @@
 
         function addTooltip($event) {
             vm.flag = utils.tooltip($event);
+        }
+
+        function clearAllFilters() {
+            //TODO: will be added in future
         }
     }
 

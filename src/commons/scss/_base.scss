@@ -160,3 +160,24 @@
         width: 145%;
     }
 }
+
+.empty-filter-list {
+    .message {
+        font-size: 16px;
+    }
+    .suggestion {
+        margin-top: 15px;
+        color: $color-suva-grey;
+        .title {
+            font-weight: bold;
+        }
+    }
+    .clear-filter-link {
+        display: block;
+        margin-top: 20px;
+        font-weight: bold;
+        &:hover {
+            cursor: pointer;
+        }
+    }
+}

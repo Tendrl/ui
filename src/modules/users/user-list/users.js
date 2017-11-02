@@ -27,6 +27,7 @@
         vm.editUserDetail = editUserDetail;
         vm.deleteUser = deleteUser;
         vm.toggleNotification = toggleNotification;
+        vm.clearAllFilters = clearAllFilters;
 
         init();
 
@@ -100,6 +101,11 @@
                 }).catch(function(e) {
                     Notifications.message("danger", "", "Failed to "+ emailFlag +" email notification for " + user.username +".");
                 });
+        }
+
+        function clearAllFilters() {
+            vm.searchBy = {};
+            vm.filterBy = "username";
         }
     }
 
