@@ -1,6 +1,6 @@
 Name: tendrl-ui
-Version: 1.5.3
-Release: 2%{?dist}
+Version: 1.5.4
+Release: 1%{?dist}
 BuildArch: noarch
 Summary: GUI for Tendrl
 License: LGPLv2+
@@ -37,6 +37,9 @@ cp -a ./dist/* $RPM_BUILD_ROOT/%{_localstatedir}/www/tendrl/
 %license LICENSE
 
 %changelog
+* Thu Nov 02 2017 Rohan Kanade <rkanade@redhat.com> - 1.5.4-1
+- Release tendrl-dashboard v1.5.4
+
 * Fri Oct 13 2017 Rohan Kanade <rkanade@redhat.com> - 1.5.3-2
 - BugFixes for tendrl-dashboard v1.5.3
 
