@@ -29,6 +29,7 @@
         vm.filterByStatus = filterByStatus;
         vm.filterByCreatedDate = filterByCreatedDate;
         vm.clearDate = clearDate;
+        vm.clearAllFilters = clearAllFilters;
         vm.taskList = [];
         vm.isDataLoading = true;
         count = 1;
@@ -186,6 +187,15 @@
             } else if (type === "to") {
                 vm.date.toDate = "";
             }
+        }
+
+        function clearAllFilters() {
+            vm.date.toDate = "";
+            vm.date.fromDate = "";
+            vm.invalidToDate = false;
+            vm.filterBy = "job_id";
+            vm.searchBy = {};
+            vm.tasksStatus = ["processing", "finished", "failed"];
         }
     }
 

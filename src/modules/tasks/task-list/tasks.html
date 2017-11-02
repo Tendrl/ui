@@ -52,6 +52,9 @@
                         <input type="checkbox" name="status3" id="status3" ng-click="taskCntrl.updateStatus('failed')" ng-checked="taskCntrl.isSelectedStatus('failed')" ng-disabled="taskCntrl.taskList.length === 0"> Failed
                     </label>
                 </div>
+                <div class="status-options">
+                    <a href="" ng-click="taskCntrl.clearAllFilters()">Clear All Filters</a>
+                </div>
             </div>
             <div class="row">
                 <div class="col-md-12 horizontal-line"></div>
