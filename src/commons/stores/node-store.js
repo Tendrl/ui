@@ -95,7 +95,7 @@
                     host.role = store.findRole(list[i].tags).role;
                     host.integrationId = list[i].cluster.integration_id;
                     host.managed = _getManagedState(clusters, host);
-                    host.alerts = list[i].alerts ? list[i].alerts : "No Data";
+                    host.alerts = list[i].alert_counters ? list[i].alert_counters.warning_count : "No Data";
 
                     hostList.push(host);
                 }
