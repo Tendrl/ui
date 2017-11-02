@@ -1,7 +1,7 @@
 {
     "name": "Tendrl",
     "description": "Dashboard",
-    "version": "1.5.3",
+    "version": "1.5.4",
     "dependencies": {
         "angular": "~1.5.8",
         "angular-animate": "~1.5.8",
