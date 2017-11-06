@@ -23,13 +23,15 @@
         vm.deleteFileShareStep = 1;
         vm.selectedFileShare = null;
         vm.isDataLoading = true;
+        vm.flag = false;
+
         vm.isRebalanceAllowed = isRebalanceAllowed;
         vm.getRebalStatus = volumeStore.getRebalStatus;
         vm.redirectToGrafana = redirectToGrafana;
         vm.goToVolumeDetail = goToVolumeDetail;
         vm.volumeList = [];
         vm.addTooltip = addTooltip;
-        vm.flag = false;
+        vm.clearAllFilters = clearAllFilters;
 
         init();
 
@@ -82,6 +84,11 @@
 
         function addTooltip($event) {
             vm.flag = utils.tooltip($event);
+        }
+
+        function clearAllFilters() {
+            vm.filterBy = "name";
+            vm.searchBy = {};
         }
     }
 

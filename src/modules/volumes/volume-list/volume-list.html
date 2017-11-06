@@ -55,7 +55,17 @@
                 <div class="blank-slate-pf-icon">
                     <i class="pficon pficon-container-node"></i>
                 </div>
-                <h1>No Volumes Detected.</h1>
+                <h1>No Volumes Detected</h1>
+            </div>
+        </center>
+        <center ng-if="!volumeCntrl.isDataLoading && volumeCntrl.filteredVolumeList.length === 0 && volumeCntrl.volumeList.length !== 0" class="empty-filter-list">
+            <div class="blank-slate-pf">
+                <div class="message">No results match the filter criteria</div>
+                <div class="suggestion">
+                    <div class="title">Suggestions</div>
+                    <div>Please try selecting other filter criteria.</div>
+                </div>
+                <a href="" class="clear-filter-link" ng-click="volumeCntrl.clearAllFilters()">Clear All Filters</a>
             </div>
         </center>
         <div ng-show="volumeCntrl.isDataLoading" class="spinner spinner-lg"></div>

@@ -42,6 +42,7 @@
         vm.isTabSet = isTabSet;
         vm.redirectToGrafana = redirectToGrafana;
         vm.addTooltip = addTooltip;
+        vm.clearAllFilters = clearAllFilters;
         vm.flag = false;
 
         init();
@@ -196,6 +197,11 @@
          */
         function isTabSet(cluster, tabNum) {
             return cluster.activeTab === tabNum;
+        }
+
+        function clearAllFilters() {
+            vm.searchBy = {};
+            vm.filterBy = "name";
         }
 
         /***Private Functions***/
