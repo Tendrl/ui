@@ -23,11 +23,16 @@
 
         vm.userList = [];
         vm.isDataLoading = true;
+        vm.filterBy = "username";
+        vm.filterByValue = "User ID";
+        vm.filterPlaceholder = "User ID";
+
         vm.addNewUser = addNewUser;
         vm.editUserDetail = editUserDetail;
         vm.deleteUser = deleteUser;
         vm.toggleNotification = toggleNotification;
         vm.clearAllFilters = clearAllFilters;
+        vm.changingFilterBy = changingFilterBy;
 
         init();
 
@@ -39,7 +44,7 @@
                     if (data) {
                         vm.userList = data;
                     }
-                }).catch(function(e){
+                }).catch(function(e) {
                     vm.isDataLoading = false;
                 });
         }
@@ -77,7 +82,7 @@
                 size: "md",
                 resolve: {
                     selectedUser: function() {
-                        return username ;
+                        return username;
                     }
                 }
             });
@@ -97,15 +102,35 @@
             userStore.editUser(user, "yes")
                 .then(function(data) {
                     init();
-                    Notifications.message("success", "", "Email notification is now " + emailFlag + "d for "+ user.username +".");
+                    Notifications.message("success", "", "Email notification is now " + emailFlag + "d for " + user.username + ".");
                 }).catch(function(e) {
-                    Notifications.message("danger", "", "Failed to "+ emailFlag +" email notification for " + user.username +".");
+                    Notifications.message("danger", "", "Failed to " + emailFlag + " email notification for " + user.username + ".");
                 });
         }
 
         function clearAllFilters() {
             vm.searchBy = {};
             vm.filterBy = "username";
+        }
+
+        function changingFilterBy(filterValue) {
+            vm.filterBy = filterValue;
+            switch (filterValue) {
+                case "username":
+                    vm.filterByValue = "User ID";
+                    vm.filterPlaceholder = "User ID";
+                    break;
+
+                case "name":
+                    vm.filterByValue = "Name";
+                    vm.filterPlaceholder = "Name";
+                    break;
+
+                case "role":
+                    vm.filterByValue = "Role";
+                    vm.filterPlaceholder = "Role";
+                    break;
+            };
         }
     }
 

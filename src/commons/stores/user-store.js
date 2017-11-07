@@ -42,7 +42,11 @@
                     } else if (data[i].status === "false") {
                         user.status = "disabled";
                     }
-                    user.role = data[i].role;
+                    if (data[i].role === "limited") {
+                        user.role = "read-only";
+                    } else {
+                        user.role = data[i].role;
+                    }
                     user.notification = data[i].email_notifications;
                     user.email = data[i].email;
                     userList.push(user);

@@ -21,6 +21,13 @@
             count;
 
         vm.tasksStatus = ["processing", "finished", "failed"];
+        vm.taskList = [];
+        vm.isDataLoading = true;
+        vm.flag = false;
+        vm.filterBy = "job_id";
+        vm.filterByValue = "Task ID";
+        vm.filterPlaceholder = "Task ID";
+        count = 1;
 
         vm.goToTaskDetail = goToTaskDetail;
         vm.getStatusText = getStatusText;
@@ -30,11 +37,8 @@
         vm.filterByCreatedDate = filterByCreatedDate;
         vm.clearDate = clearDate;
         vm.clearAllFilters = clearAllFilters;
-        vm.taskList = [];
-        vm.isDataLoading = true;
-        count = 1;
         vm.addTooltip = addTooltip;
-        vm.flag = false;
+        vm.changingFilterBy = changingFilterBy;
 
         vm.date = {
             fromDate: "",
@@ -194,8 +198,25 @@
             vm.date.fromDate = "";
             vm.invalidToDate = false;
             vm.filterBy = "job_id";
+            vm.filterByValue = "Task ID";
+            vm.filterPlaceholder = "Task ID";
             vm.searchBy = {};
             vm.tasksStatus = ["processing", "finished", "failed"];
+        }
+
+        function changingFilterBy(filterValue) {
+            vm.filterBy = filterValue;
+            switch (filterValue) {
+                case "job_id":
+                    vm.filterByValue = "Task ID";
+                    vm.filterPlaceholder = "Task ID";
+                    break;
+
+                case "flow":
+                    vm.filterByValue = "Task";
+                    vm.filterPlaceholder = "Task";
+                    break;
+            };
         }
     }
 

@@ -12,24 +12,26 @@
                         <div class="input-group">
                             <div class="input-group-btn">
                                 <!-- Search By -->
-                                <select ng-init="volumeCntrl.filterBy = 'name'" ng-disabled="volumeCntrl.volumeList.length === 0" ng-model="volumeCntrl.filterBy" class="btn btn-default dropdown-toggle filterSelect" ng-change="volumeCntrl.searchBy = {}">
-                                    <option value="name">Name</option>
-                                    <option value="status">Status</option>
-                                    <option value="type">Type</option>
-                                </select>
+                                <button ng-disabled="volumeCntrl.volumeList.length === 0" type="button" class="btn btn-default dropdown-toggle filterSelect" ng-model="volumeCntrl.filterBy" ng-change="volumeCntrl.searchBy = {}" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{{volumeCntrl.filterByValue}} <span class="caret"></span></button>
+                                <ul class="dropdown-menu">
+                                    <li ng-class="{'selected':(volumeCntrl.filterBy === 'name')}"><a href="" ng-click="volumeCntrl.changingFilterBy('name')">Name</a></li>
+                                    <li ng-class="{'selected':(volumeCntrl.filterBy === 'status')}"><a href="" ng-click="volumeCntrl.changingFilterBy('status')">Status</a></li>
+                                    <li ng-class="{'selected':(volumeCntrl.filterBy === 'type')}"><a href="" ng-click="volumeCntrl.changingFilterBy('type')">Type</a></li>
+                                </ul>
                             </div>
                             <!-- /btn-group -->
-                            <input ng-disabled="volumeCntrl.volumeList.length === 0" type="text" class="form-control" id="filter" ng-model="volumeCntrl.searchBy[volumeCntrl.filterBy]" placeholder="Filter by {{volumeCntrl.filterBy | capitalize}}">
+                            <input ng-disabled="volumeCntrl.volumeList.length === 0" type="text" class="form-control" id="filter" ng-model="volumeCntrl.searchBy[volumeCntrl.filterBy]" placeholder="Filter by {{volumeCntrl.filterPlaceholder}}">
                         </div>
                         <!-- /input-group -->
                     </div>
                     <div class="form-group">
                         <div class="dropdown btn-group">
                             <!-- Order By -->
-                            <select ng-init="volumeCntrl.orderBy = 'name'" ng-disabled="volumeCntrl.volumeList.length === 0" ng-model="volumeCntrl.orderBy" class="btn btn-default dropdown-toggle filterSelect">
-                                <option value="name">Name</option>
-                                <option value="status">Status</option>
-                            </select>
+                            <button type="button" ng-disabled="volumeCntrl.volumeList.length === 0" class="btn btn-default dropdown-toggle filterSelect" ng-model="volumeCntrl.orderBy" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{{volumeCntrl.orderByValue}} <span class="caret"></span></button>
+                            <ul class="dropdown-menu">
+                                <li ng-class="{'selected':(volumeCntrl.orderBy === 'name')}"><a href="" ng-click="volumeCntrl.changingOrderBy('name')">Name</a></li>
+                                <li ng-class="{'selected':(volumeCntrl.orderBy === 'status')}"><a href="" ng-click="volumeCntrl.changingOrderBy('status')">Status</a></li>
+                            </ul>
                         </div>
                         <button ng-init="volumeCntrl.ascOrder = ''" ng-disabled="volumeCntrl.volumeList.length === 0" class="btn btn-link" type="button">
                             <span ng-if="volumeCntrl.ascOrder !== ''" class="fa fa-sort-alpha-desc" ng-click="volumeCntrl.ascOrder = ''">
