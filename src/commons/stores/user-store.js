@@ -139,7 +139,11 @@
             data.name = user.name;
             data.username = user.username;
             data.email = user.email;
-            data.role = user.role;
+            if(user.role === "read-only") {
+                data.role = "limited";
+            } else {
+                data.role = user.role;
+            }
             data.password = user.password;
             data.password_confirmation = user.confirmPassword;
             if(toggleNotification) {
