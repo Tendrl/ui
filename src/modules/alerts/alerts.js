@@ -16,7 +16,6 @@
     function alertController($rootScope, $scope, $interval, $state, $timeout, $filter, config, eventStore, utils) {
 
         var vm = this,
-            alertTimer,
             toDate,
             count;
 
@@ -66,22 +65,19 @@
         function init() {
             eventStore.getAlertList()
                 .then(function(list) {
-                    $interval.cancel(alertTimer);
                     vm.alertList = list;
                     vm.isDataLoading = false;
-                    startAlertTimer();
                     vm.severityList = utils.getAlertSeverityList(vm.filteredAlertList);
                 });
         }
 
-        function startAlertTimer() {
-            alertTimer = $interval(function() {
-                init();
-            }, 1000 * config.eventsRefreshIntervalTime, 1);
-        }
+        $scope.$on("GotAlertData", function(event, data) {
+            if ($rootScope.alertList !== null) {
+                vm.alertList = $rootScope.alertList;
+                vm.isDataLoading = false;
+                vm.severityList = utils.getAlertSeverityList(vm.filteredAlertList);
 
-        $scope.$on("$destroy", function() {
-            $interval.cancel(alertTimer);
+            }
         });
 
         $scope.$watch(angular.bind(this, function(filteredAlertList) {
