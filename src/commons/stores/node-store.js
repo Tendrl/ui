@@ -71,7 +71,10 @@
                         store.nodeList = list;
                     }
                     deferred.resolve(list);
+                }).catch(function(e) {
+                    deferred.reject(e);
                 });
+
 
             return deferred.promise;
 

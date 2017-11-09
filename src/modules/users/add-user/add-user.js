@@ -46,7 +46,7 @@
                         if (e.status === 422) {
                             keys = Object.keys(e.data.errors);
                             messages = Object.values(e.data.errors)[0];
-                            if ((keys.indexOf("email") !== -1) && (keys.indexOf("username") !== -1)) {
+                            if (((keys.indexOf("email") !== -1) && (messages.indexOf("is taken") !== -1)) && (keys.indexOf("username") !== -1)) {
                                 vm.errorMsg = "Email and User Id are already taken. Please use different one.";
                             } else if (keys.indexOf("email") !== -1) {
                                 if (messages.indexOf("is taken") !== -1) {
@@ -58,11 +58,16 @@
                                 vm.errorMsg = "Username is already taken. Please use different one.";
                             } else if (keys.indexOf("name") !== -1) {
                                 vm.errorMsg = "Name is too short (minimum is 4 characters).";
+                            } else {
+                                vm.errorMsg = "Someting went wrong. Please try again.";
                             }
                         } else {
                             vm.errorMsg = "Failed to create user.";
                         }
 
+                    })
+                    .finally(function() {
+                        vm.formSubmitInProgress = false;
                     });
             } else {
                 vm.formSubmitInProgress = false;

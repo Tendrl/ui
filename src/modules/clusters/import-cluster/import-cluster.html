@@ -12,7 +12,8 @@
             </div>
             <div class="row">
                 <div class="col-sm-12 volume-profile">
-                    <input type="checkbox" name="volumeProfile" ng-model="vm.enableProfiling"/><label for="volumeProfile"> Enable Volume profiling  </label><i class="pficon pficon-info" uib-tooltip-template="'../modules/clusters/import-cluster/import-cluster-tooltip.html'" tooltip-placement="bottom-left"></i>
+                    <input type="checkbox" name="volumeProfile" ng-model="vm.enableProfiling" />
+                    <label for="volumeProfile"> Enable Volume profiling </label><i class="pficon pficon-info" uib-tooltip-template="'../modules/clusters/import-cluster/import-cluster-tooltip.html'" tooltip-placement="bottom-left"></i>
                 </div>
             </div>
             <h2>Discovered Host(s)</h2>
@@ -23,87 +24,88 @@
                             <label class="sr-only" for="filter">Name</label>
                             <div class="input-group">
                                 <div class="input-group-btn">
-                                    <select ng-disabled="!vm.hostList.length" ng-model="vm.filterBy" class="btn btn-default dropdown-toggle filterSelect" ng-change="vm.searchBy = {}">
-                                        <option value="fqdn">Name</option>
-                                        <option value="role">Role</option>
-                                    </select>
+                                    <button ng-disabled="!vm.hostList.length" type="button" class="btn btn-default dropdown-toggle filterSelect" ng-model="vm.filterBy" " ng-change="vm.searchBy={ } " data-toggle="dropdown " aria-haspopup="true " aria-expanded="false ">{{vm.filterByValue}} <span class="caret "></span></button>
+                                <ul class="dropdown-menu ">
+                                    <li ng-class="{ 'selected':(vm.filterBy==='fqdn' )} "><a href=" " ng-click="vm.changingFilterBy( 'fqdn') ">Name</a></li>
+                                    <li ng-class="{ 'selected':(vm.filterBy==='role' )} "><a href=" " ng-click="vm.changingFilterBy( 'role') ">Role</a></li>
+                                </ul>
                                 </div>
                                 <!-- /btn-group -->
-                                <input type="text" class="form-control" id="filter" ng-model="vm.searchBy[vm.filterBy]" placeholder="Filter by {{vm.filterBy | capitalize}}">
+                                <input type="text " class="form-control " id="filter " ng-model="vm.searchBy[vm.filterBy] " placeholder="Filter by {{vm.filterPlaceholder}} ">
                             </div>
                             <!-- /input-group -->
                         </div>
-                        <div class="form-group">
-                            <div class="dropdown btn-group">
-                                <select ng-disabled="vm.hostList.length === 0" ng-model="vm.orderBy" class="btn btn-default dropdown-toggle filterSelect">
-                                    <option value="fqdn">Name</option>
-                                    <option value="role">Role</option>
-                                </select>
+                        <div class="form-group ">
+                            <div class="dropdown btn-group ">
+                            <button type="button " ng-disabled="vm.hostList.length===0 " class="btn btn-default dropdown-toggle filterSelect " ng-model="vm.orderBy " data-toggle="dropdown " aria-haspopup="true " aria-expanded="false ">{{vm.orderByValue}} <span class="caret "></span></button>
+                            <ul class="dropdown-menu ">
+                                <li ng-class="{ 'selected':(vm.orderBy==='fqdn' )} "><a href=" " ng-click="vm.changingOrderBy( 'fqdn') ">Name</a></li>
+                                <li ng-class="{ 'selected':(vm.orderBy==='role' )} "><a href=" " ng-click="vm.changingOrderBy( 'role') ">Role</a></li>
+                            </ul>
                             </div>
-                            <button ng-init="vm.ascOrder = ''" ng-disabled="vm.hostList.length === 0" class="btn btn-link" type="button">
-                                <span ng-if="vm.ascOrder !== ''" class="fa fa-sort-alpha-desc" ng-click="vm.ascOrder = ''"></span>
-                                <span ng-if="vm.ascOrder !== '-'" class="fa fa-sort-alpha-asc" ng-click="vm.ascOrder = '-'"></span>
+                            <button ng-init="vm.ascOrder='' " ng-disabled="vm.hostList.length===0 " class="btn btn-link " type="button ">
+                                <span ng-if="vm.ascOrder !=='' " class="fa fa-sort-alpha-desc " ng-click="vm.ascOrder='' "></span>
+                                <span ng-if="vm.ascOrder !=='-' " class="fa fa-sort-alpha-asc " ng-click="vm.ascOrder='-' "></span>
                         </div>
                     </form>
                     <!-- /row -->
                 </div>
                 <!-- /col -->
             </div>
-            <div class="row" ng-show="vm.hostList.length">
-                <h3 class="col-sm-12">{{vm.hostList.length}} 
-                    <ng-pluralize count="vm.hostList.length" when="{'one': 'Host',
-                       'other': 'Hosts'}"></ng-pluralize> 
+            <div class="row " ng-show="vm.hostList.length ">
+                <h3 class="col-sm-12 ">{{vm.hostList.length}} 
+                    <ng-pluralize count="vm.hostList.length " when="{ 'one': 'Host', 'other': 'Hosts'} "></ng-pluralize> 
                 Discovered</h3>
             </div>
-            <center ng-show="vm.hostList.length === 0">
-                <div class="blank-slate-pf">
-                    <div class="blank-slate-pf-icon">
-                        <i class="pficon pficon-cluster"></i>
+            <center ng-show="vm.hostList.length===0 ">
+                <div class="blank-slate-pf ">
+                    <div class="blank-slate-pf-icon ">
+                        <i class="pficon pficon-cluster "></i>
                     </div>
                     <h1>No Hosts Detected.</h1>
                 </div>
             </center>
-            <div class="flex-table list-group list-view-pf list-view-pf-view">
-                <div class="ft-row list-group-item ft-header">
-                    <div class="ft-column">Host</div>
-                    <div class="ft-column">Cluster Version</div>
-                    <div class="ft-column">Role</div>
+            <div class="flex-table list-group list-view-pf list-view-pf-view ">
+                <div class="ft-row list-group-item ft-header ">
+                    <div class="ft-column ">Host</div>
+                    <div class="ft-column ">Cluster Version</div>
+                    <div class="ft-column ">Role</div>
                 </div>
-                <div class="ft-row list-group-item" ng-repeat="host in vm.filteredHostList = (vm.hostList | filter: vm.searchBy | orderBy: vm.ascOrder + vm.orderBy) track by $index">
-                    <div class="ft-column host-name bold-text" uib-tooltip-html="'{{host.fqdn}}'" tooltip-placement="auto bottom-left">
+                <div class="ft-row list-group-item " ng-repeat="host in vm.filteredHostList=( vm.hostList | filter: vm.searchBy | orderBy: vm.ascOrder + vm.orderBy) track by $index ">
+                    <div class="ft-column host-name bold-text " uib-tooltip-html=" '{{host.fqdn}}' " tooltip-placement="auto bottom-left ">
                         {{host.fqdn}}
                     </div>
-                    <div class="ft-column">
+                    <div class="ft-column ">
                         {{host.release}}
                     </div>
-                    <div class="ft-column">
+                    <div class="ft-column ">
                         {{host.role}}
                     </div>
                 </div>
             </div>
-            <div class="row action-button">
-                <div class="col-sm-8 col-md-6">
-                    <button class="btn btn-primary btn-lg" ng-click="vm.importCluster()" ng-disabled="vm.importIcon">
-                        <i class="glyphicon glyphicon-refresh glyphicon-refresh-animate" data-ng-class="{'hidden': vm.importIcon !== true }">
+            <div class="row action-button ">
+                <div class="col-sm-8 col-md-6 ">
+                    <button class="btn btn-primary btn-lg " ng-click="vm.importCluster() " ng-disabled="vm.importIcon ">
+                        <i class="glyphicon glyphicon-refresh glyphicon-refresh-animate " data-ng-class="{ 'hidden': vm.importIcon !==true } ">
                         </i>
                         <span>Import</span>
                     </button>
-                    <button class="btn btn-default btn-lg cancel-button" ng-click="vm.importCancel()">Cancel</button>
+                    <button class="btn btn-default btn-lg cancel-button " ng-click="vm.importCancel() ">Cancel</button>
                 </div>
             </div>
         </div>
     </div>
-    <div ng-show="vm.taskInitiated" class="blank-slate-pf centered">
-        <div class="blank-slate-pf-icon">
-            <i class="pficon pficon-ok"></i>
+    <div ng-show="vm.taskInitiated " class="blank-slate-pf centered ">
+        <div class="blank-slate-pf-icon ">
+            <i class="pficon pficon-ok "></i>
         </div>
         <div>
             <h1><label>Import Cluster Task Submitted</label></h1>
             <small> An import cluster task has been submitted. You will be notified when processing is complete and the cluster is ready for use. </small>
         </div>
-        <div class="blank-slate-pf-main-action">
-            <button class="btn btn-default btn-lg" ng-click="vm.importCancel()">Close</button>
-            <button class="btn btn-primary btn-lg cancel-button" ng-click="vm.viewTaskProgress()">View Task Progress</button>
+        <div class="blank-slate-pf-main-action ">
+            <button class="btn btn-default btn-lg " ng-click="vm.importCancel() ">Close</button>
+            <button class="btn btn-primary btn-lg cancel-button " ng-click="vm.viewTaskProgress() ">View Task Progress</button>
         </div>
     </div>
 </div>

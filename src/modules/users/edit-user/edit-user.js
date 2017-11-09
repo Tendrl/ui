@@ -66,12 +66,16 @@
                                 }
                             } else if (keys.indexOf("name") !== -1) {
                                 vm.errorMsg = "Name is too short (minimum is 4 characters).";
+                            } else {
+                                vm.errorMsg = "Someting went wrong. Please try again.";
                             }
                         } else {
                             Notifications.message("danger", "", "Failed to update user.");
                             $state.go("users");
                         }
-
+                    })
+                    .finally(function() {
+                        vm.formSubmitInProgress = false;
                     });
             } else {
                 vm.formSubmitInProgress = false;

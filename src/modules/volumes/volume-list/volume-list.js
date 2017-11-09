@@ -37,8 +37,8 @@
         vm.goToVolumeDetail = goToVolumeDetail;
         vm.addTooltip = addTooltip;
         vm.clearAllFilters = clearAllFilters;
-        vm.changingOrderBy = changingOrderBy;
         vm.changingFilterBy = changingFilterBy;
+        vm.changingOrderBy = changingOrderBy;
 
         init();
 

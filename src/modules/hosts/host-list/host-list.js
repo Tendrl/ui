@@ -33,8 +33,8 @@
         vm.goToHostDetail = goToHostDetail;
         vm.addTooltip = addTooltip;
         vm.clearAllFilters = clearAllFilters;
-        vm.changingOrderBy = changingOrderBy;
         vm.changingFilterBy = changingFilterBy;
+        vm.changingOrderBy = changingOrderBy;
 
 
         init();
@@ -54,9 +54,12 @@
                 nodeStore.getNodeList(clusters, vm.clusterId)
                     .then(function(list) {
                         $interval.cancel(hostListTimer);
-                        vm.isDataLoading = false;
                         vm.hostList = list;
                         startTimer();
+                    }).catch(function(e) {
+                        vm.hostList = [];
+                    }).finally(function() {
+                        vm.isDataLoading = false;
                     });
             } else {
                 clusterStore.getClusterList()
@@ -69,9 +72,12 @@
                         nodeStore.getNodeList(clusters, vm.clusterId)
                             .then(function(list) {
                                 $interval.cancel(hostListTimer);
-                                vm.isDataLoading = false;
                                 vm.hostList = list;
                                 startTimer();
+                            }).catch(function(e) {
+                                vm.hostList = [];
+                            }).finally(function() {
+                                vm.isDataLoading = false;
                             });
                     });
             }
