@@ -14,6 +14,7 @@
 
         vm.setMenus = function() {
             vm.menus = [{
+
                     label: "Clusters",
                     id: "clusters",
                     href: "clusters",
@@ -40,6 +41,14 @@
                 //     show: true
                 // }, 
                 {
+                    label: "Events",
+                    id: "events",
+                    href: "events",
+                    icon: "fa fa-cog",
+                    active: false,
+                    hasSubMenus: false,
+                    show: true
+                }, {
                     label: "Tasks",
                     id: "tasks",
                     href: "tasks",

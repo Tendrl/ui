@@ -36,8 +36,8 @@
         vm.filterByValue = "Name";
         vm.filterPlaceholder = "Name";
 
-        vm.changingOrderBy = changingOrderBy;
         vm.changingFilterBy = changingFilterBy;
+        vm.changingOrderBy = changingOrderBy;
         vm.expandCluster = expandCluster;
         vm.closeExpandedView = closeExpandedView;
         vm.goToImportFlow = goToImportFlow;

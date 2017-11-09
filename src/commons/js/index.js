@@ -72,6 +72,10 @@
                         url: "/cluster-detail/:clusterId/volume-detail/:volumeId",
                         template: "<volume-detail></volume-detail>"
                     })
+                    .state("events", {
+                        url: "/events",
+                        template: "<event-list></event-list>"
+                    })
                     .state("tasks", {
                         url: "/tasks",
                         template: "<tasks></tasks>"
