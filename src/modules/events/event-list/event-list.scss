@@ -2,11 +2,11 @@
 
 
     .event-list-table {
-        height: 65vh;
+        max-height: 65vh;
         overflow: auto;
 
         .list-group-item {
-            padding: 25px 0;
+            padding: 15px 0;
 
             .event-desc {
                 white-space: nowrap;

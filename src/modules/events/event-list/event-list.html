@@ -26,12 +26,20 @@
     </center>
     <div ng-if="eventListCntrl.isDataLoading" class="spinner spinner-lg"></div>
     <div class="flex-table list-group list-view-pf list-view-pf-view event-list-table" ng-show="!eventListCntrl.isDataLoading && eventListCntrl.eventList.length !== 0">
-        <div class="ft-row list-group-item " ng-repeat="event in eventListCntrl.filteredEventList = (eventListCntrl.eventList | orderBy: ['-timeStamp'])">
+        <div class="ft-row list-group-item ">
+            <div class="ft-column">
+                <div class="bold-text">Description</div>
+            </div>
+            <div class="ft-column">
+                <div class="bold-text">Timestamp</div>
+            </div>
+        </div>
+        <div class="ft-row list-group-item " ng-repeat="event in eventListCntrl.filteredEventList = (eventListCntrl.eventList | orderBy: ['-timeStamp', 'message_id'])">
             <div class="ft-column">
                 <div class="event-desc" uib-tooltip="{{ event.message }}" tooltip-placement="auto">{{event.message || "NA"}}</div>
             </div>
             <div class="ft-column">
-                <p>{{event.timeStamp| date: 'dd MMM yyyy HH:mm:ss'}}</p>
+                <div>{{event.timeStamp| date: 'dd MMM yyyy HH:mm:ss'}}</div>
             </div>
         </div>
     </div>
