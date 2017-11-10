@@ -11,14 +11,15 @@
                         <div class="input-group">
                             <div class="input-group-btn">
                                 <!--search By -->
-                                <select ng-init="userCntrl.filterBy = 'username'" ng-disabled="userCntrl.userList.length === 0" ng-model="userCntrl.filterBy" class="btn btn-default dropdown-toggle filterSelect" ng-change="userCntrl.searchBy = {}">
-                                    <option value="username">User ID {{userCntrl.userList.name}}</option>
-                                    <option value="name">Name</option>
-                                    <option value="role">Role</option>
-                                </select>
+                                <button ng-disabled="userCntrl.userList.length === 0" type="button" class="btn btn-default dropdown-toggle filterSelect" ng-model="userCntrl.filterBy" ng-change="userCntrl.searchBy = {}" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{{userCntrl.filterByValue}} <span class="caret"></span></button>
+                                <ul class="dropdown-menu">
+                                    <li ng-class="{'selected':(userCntrl.filterBy === 'username')}"><a href="" ng-click="userCntrl.changingFilterBy('username')">User ID</a></li>
+                                    <li ng-class="{'selected':(userCntrl.filterBy === 'name')}"><a href="" ng-click="userCntrl.changingFilterBy('name')">Name</a></li>
+                                    <li ng-class="{'selected':(userCntrl.filterBy === 'role')}"><a href="" ng-click="userCntrl.changingFilterBy('role')">Role</a></li>
+                                </ul>
                             </div>
                             <!-- btn-group-->
-                            <input ng-disabled="userCntrl.userList.length === 0" type="text" class="form-control" id="filter" ng-model="userCntrl.searchBy[userCntrl.filterBy]" placeholder="Filter by {{userCntrl.filterBy === 'username'? 'User Id': userCntrl.filterBy | capitalize}}">
+                            <input ng-disabled="userCntrl.userList.length === 0" type="text" class="form-control" id="filter" ng-model="userCntrl.searchBy[userCntrl.filterBy]" placeholder="Filter by {{userCntrl.filterPlaceholder}}">
                         </div>
                         <!--/input group-->
                     </div>
@@ -37,18 +38,28 @@
     </div>
     <div ng-if="userCntrl.isDataLoading" class="spinner spinner-lg"></div>
     <!-- Table HTML -->
-        <!-- /container -->
+    <!-- /container -->
     <center ng-if="!userCntrl.isDataLoading && (userCntrl.userList.length === 0)">
         <div class="blank-slate-pf">
             <div class="blank-slate-pf-icon">
                 <i class="pficon pficon-cluster"></i>
             </div>
-            <h1>Not able to fetch User data.</h1>
+            <h1>No Users Detected</h1>
+        </div>
+    </center>
+    <center ng-if="!userCntrl.isDataLoading && userCntrl.filteredUserList.length === 0 && userCntrl.userList.length !== 0" class="empty-filter-list">
+        <div class="blank-slate-pf">
+            <div class="message">No results match the filter criteria</div>
+            <div class="suggestion">
+                <div class="title">Suggestions</div>
+                <div>Please try selecting other filter criteria.</div>
+            </div>
+            <a href="" class="clear-filter-link" ng-click="userCntrl.clearAllFilters()">Clear All Filters</a>
         </div>
     </center>
     <div class="container-fluid" ng-if="!userCntrl.isDataLoading && userCntrl.userList.length !== 0">
         <table class="table table-striped table-bordered table-hover">
-            <thead>
+            <thead ng-show="userCntrl.filteredUserList.length !== 0">
                 <tr>
                     <th class="sorting" aria-sort="ascending" aria-label="Rendering Engine: activate to sort column descending">User ID</th>
                     <th>Name</th>
@@ -63,7 +74,7 @@
                 <tr ng-repeat="user in userCntrl.filteredUserList=(userCntrl.userList | filter: userCntrl.searchBy | orderBy: 'username')">
                     <td>{{ user.username }}</td>
                     <td class="text-capitalize">{{ user.name }}</td>
-                    <td class="text-capitalize">{{ user.role === 'limited' ? 'Read-Only' : user.role }}</td>
+                    <td class="text-capitalize">{{ user.role}}</td>
                     <td class="text-capitalize">
                         <span ng-if="user.notification === true" uib-tooltip-html="'Enabled'" class="pficon pficon-ok list-view-pf-icon-success status-icons"></span>
                         <span ng-if="user.notification === false" uib-tooltip-html="'Disabled'" class="pficon pficon-error-circle-o list-view-icon-failure status-icons"></span> {{ user.notification === true ? 'Enabled' : 'Disabled' }}

@@ -42,7 +42,11 @@
                     } else if (data[i].status === "false") {
                         user.status = "disabled";
                     }
-                    user.role = data[i].role;
+                    if (data[i].role === "limited") {
+                        user.role = "read-only";
+                    } else {
+                        user.role = data[i].role;
+                    }
                     user.notification = data[i].email_notifications;
                     user.email = data[i].email;
                     userList.push(user);
@@ -135,7 +139,11 @@
             data.name = user.name;
             data.username = user.username;
             data.email = user.email;
-            data.role = user.role;
+            if(user.role === "read-only") {
+                data.role = "limited";
+            } else {
+                data.role = user.role;
+            }
             data.password = user.password;
             data.password_confirmation = user.confirmPassword;
             if(toggleNotification) {

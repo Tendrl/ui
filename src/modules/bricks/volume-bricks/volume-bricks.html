@@ -32,14 +32,24 @@
         <!-- /row -->
     </div>
     <!-- /container -->
-    <center ng-if="vm.filteredSubVolumeList.length === 0">
+    <center ng-if="!vm.isDataLoading && vm.subVolumeList.length === 0">
         <div class="blank-slate-pf">
             <div class="blank-slate-pf-icon">
                 <i class="pficon pficon-container-node"></i>
             </div>
-            <h1>No Bricks Detected.</h1>
+            <h1>No Bricks Detected</h1>
         </div>
     </center>
+    <center ng-if="!vm.isDataLoading && vm.filteredSubVolumeList.length === 0 && vm.subVolumeList.length !== 0" class="empty-filter-list">
+            <div class="blank-slate-pf">
+                <div class="message">No results match the filter criteria</div>
+                <div class="suggestion">
+                    <div class="title">Suggestions</div>
+                    <div>Please try selecting other filter criteria.</div>
+                </div>
+                <a href="" class="clear-filter-link" ng-click="vm.clearAllFilters()">Clear All Filters</a>
+            </div>
+        </center>
     <div ng-if="vm.isDataLoading" class="spinner spinner-lg"></div>
     <div class="container-fluid" ng-if="!vm.isDataLoading">
         <div class="list-group list-view-pf list-view-pf-view" ng-repeat="subVolume in vm.filteredSubVolumeList=(vm.subVolumeList | filter: vm.searchBy | orderBy: 'sequenceNumber') track by $index">
@@ -89,7 +99,7 @@
                                 <tr ng-repeat="brick in subVolume.bricks | orderBy: 'fqdn'">
                                     <td class="brick-table" >{{brick.fqdn}}</td>
                                     <td class="brick-table" >
-                                        <span class="pficon status-icons pull-left" ng-class="{'pficon-error-circle-o': (brick.status !=='started'), 'pficon-ok': (brick.status ==='started')}" uib-tooltip-html="'{{brick.status}}'" tooltip-placement="top-left"></span> {{brick.brickPath.split(":")[1]}}
+                                        <span class="status-icons pull-left" ng-class="{'fa fa-stop-circle-o': (brick.status.toLowerCase() !=='started'), 'pficon pficon-ok': (brick.status.toLowerCase() ==='started')}" uib-tooltip-html="'{{brick.status}}'" tooltip-placement="top-left"></span> {{brick.brickPath.split(":")[1]}}
                                     </td>
                                     <td class="brick-table utilisation-chart">
                                         <utilisation-chart used="brick.utilization.used" total="brick.utilization.total| bytes: 2"></utilisation-chart>

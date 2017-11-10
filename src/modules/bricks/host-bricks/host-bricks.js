@@ -22,10 +22,16 @@
             hostBrickTimer;
 
         vm.isDataLoading = true;
+        vm.flag = false;
         vm.brickList = [];
+        vm.filterBy = "brickPath";
+        vm.filterByValue = "Brick Path";
+        vm.filterPlaceholder = "Brick Path";
+
         vm.redirectToGrafana = redirectToGrafana;
         vm.addTooltip = addTooltip;
-        vm.flag = false;
+        vm.clearAllFilters = clearAllFilters;
+        vm.changingFilterBy = changingFilterBy;
 
         init();
 
@@ -74,7 +80,7 @@
                 hostName = brick.brickPath.split(":")[0].replace(/\./gi, "_");
 
             brickName = brickName.replace(/\//gi, "|");
-            utils.redirectToGrafana("bricks", $event, { clusterId: vm.clusterId, hostName: hostName, brickName: brickName, volumeName: brick.volName});
+            utils.redirectToGrafana("bricks", $event, { clusterId: vm.clusterId, hostName: hostName, brickName: brickName, volumeName: brick.volName });
         }
 
         /*Cancelling interval when scope is destroy*/
@@ -84,6 +90,26 @@
 
         function addTooltip($event) {
             vm.flag = utils.tooltip($event);
+        }
+
+        function clearAllFilters() {
+            vm.filterBy = "brickPath";
+            vm.searchBy = {};
+        }
+
+        function changingFilterBy(filterValue) {
+            vm.filterBy = filterValue;
+            switch (filterValue) {
+                case "brickPath":
+                    vm.filterByValue = "Brick Path";
+                    vm.filterPlaceholder = "Brick Path";
+                    break;
+                    
+                case "status":
+                    vm.filterByValue = "Brick Status";
+                    vm.filterPlaceholder = "Brick Status";
+                    break;
+            };
         }
     }
 

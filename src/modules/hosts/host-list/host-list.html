@@ -12,26 +12,28 @@
                         <div class="input-group">
                             <div class="input-group-btn">
                                 <!-- Search By -->
-                                <select  ng-disabled="hostCntrl.hostList.length === 0" ng-init="hostCntrl.filterBy = 'name'" ng-model="hostCntrl.filterBy" class="btn btn-default dropdown-toggle filterSelect" ng-change="hostCntrl.searchBy = {}">
-                                    <option value="name">Name</option>
-                                    <option value="cluster_name">Cluster</option>
-                                    <option value="role">Role</option>
-                                    <option value="status">Status</option>
-                                </select>
+                                <button ng-disabled="hostCntrl.hostList.length === 0" type="button" class="btn btn-default dropdown-toggle filterSelect" ng-model="hostCntrl.filterBy" ng-change="hostCntrl.searchBy = {}" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{{hostCntrl.filterByValue}} <span class="caret"></span></button>
+                                <ul class="dropdown-menu">
+                                    <li ng-class="{'selected':(hostCntrl.filterBy === 'name')}"><a href="" ng-click="hostCntrl.changingFilterBy('name')">Name</a></li>
+                                    <li ng-class="{'selected':(hostCntrl.filterBy === 'cluster_name')}"><a href="" ng-click="hostCntrl.changingFilterBy('cluster_name')">Cluster</a></li>
+                                    <li ng-class="{'selected':(hostCntrl.filterBy === 'role')}"><a href="" ng-click="hostCntrl.changingFilterBy('role')">Role</a></li>
+                                    <li ng-class="{'selected':(hostCntrl.filterBy === 'status')}"><a href="" ng-click="hostCntrl.changingFilterBy('status')">Status</a></li>
+                                </ul>
                             </div>
                             <!-- /btn-group -->
-                            <input ng-disabled="hostCntrl.hostList.length === 0" type="text" class="form-control" id="filter" ng-model="hostCntrl.searchBy[hostCntrl.filterBy]" placeholder="Filter by {{hostCntrl.filterBy | capitalize}}">
+                            <input ng-disabled="hostCntrl.hostList.length === 0" type="text" class="form-control" id="filter" ng-model="hostCntrl.searchBy[hostCntrl.filterBy]" placeholder="Filter by {{hostCntrl.filterPlaceholder}}">
                         </div>
                         <!-- /input-group -->
                     </div>
                     <div class="form-group">
                         <div class="dropdown btn-group">
                             <!-- Order By -->
-                            <select ng-init="hostCntrl.orderBy = 'name'" ng-disabled="hostCntrl.hostList.length === 0" ng-model="hostCntrl.orderBy" class="btn btn-default dropdown-toggle filterSelect">
-                                <option value="name">Name</option>
-                                <option value="cluster_name">Cluster</option>
-                                <option value="role">Role</option>
-                            </select>
+                            <button type="button" ng-disabled="hostCntrl.hostList.length === 0" class="btn btn-default dropdown-toggle filterSelect" ng-model="hostCntrl.orderBy" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{{hostCntrl.orderByValue}} <span class="caret"></span></button>
+                            <ul class="dropdown-menu">
+                                <li ng-class="{'selected':(hostCntrl.orderBy === 'name')}"><a href="" ng-click="hostCntrl.changingOrderBy('name')">Name</a></li>
+                                <li ng-class="{'selected':(hostCntrl.orderBy === 'cluster_name')}"><a href="" ng-click="hostCntrl.changingOrderBy('cluster_name')">Cluster</a></li>
+                                <li ng-class="{'selected':(hostCntrl.orderBy === 'role')}"><a href="" ng-click="hostCntrl.changingOrderBy('role')">Role</a></li>
+                            </ul>
                         </div>
                         <button ng-init="hostCntrl.ascOrder = ''" ng-disabled="hostCntrl.hostList.length === 0" class="btn btn-link" type="button">
                             <span ng-if="hostCntrl.ascOrder !== ''" class="fa fa-sort-alpha-desc" ng-click="hostCntrl.ascOrder = ''">
@@ -53,12 +55,22 @@
         </div>
     </div>
     <div class="container-fluid">
-        <center ng-if="!hostCntrl.isDataLoading && hostCntrl.hostList.length === 0">
+        <center ng-if="!hostCntrl.isDataLoading && (hostCntrl.hostList.length === 0)">
             <div class="blank-slate-pf">
                 <div class="blank-slate-pf-icon">
                     <i class="pficon pficon-container-node"></i>
                 </div>
-                <h1>No Hosts Detected.</h1>
+                <h1>No Hosts Detected</h1>
+            </div>
+        </center>
+        <center ng-if="!hostCntrl.isDataLoading && hostCntrl.filteredHostList.length === 0 && hostCntrl.hostList.length !== 0" class="empty-filter-list">
+            <div class="blank-slate-pf">
+                <div class="message">No results match the filter criteria</div>
+                <div class="suggestion">
+                    <div class="title">Suggestions</div>
+                    <div>Please try selecting other filter criteria.</div>
+                </div>
+                <a href="" class="clear-filter-link" ng-click="hostCntrl.clearAllFilters()">Clear All Filters</a>
             </div>
         </center>
         <div ng-show="hostCntrl.isDataLoading" class="spinner spinner-lg"></div>
@@ -82,12 +94,12 @@
                 </div>
                 <div class="ft-column ft-actions">
                     <button class="btn btn-default" ng-click="hostCntrl.goToHostDetail(host)" ng-show="hostCntrl.showDetailBtn" tooltip-enable="hostCntrl.flag" ng-mouseover="hostCntrl.addTooltip($event)" uib-tooltip="Details">Details</button>
-                    <button ng-show ="host.role !== 'Tendrl Server' && host.managed === 'Yes'" class="btn btn-default dashboard-btn" ng-click="hostCntrl.redirectToGrafana(host, $event)" tooltip-enable="hostCntrl.flag" ng-mouseover="hostCntrl.addTooltip($event)" uib-tooltip="Dashboard">Dashboard</button>
+                    <button ng-show="host.role !== 'Tendrl Server' && host.managed === 'Yes'" class="btn btn-default dashboard-btn" ng-click="hostCntrl.redirectToGrafana(host, $event)" tooltip-enable="hostCntrl.flag" ng-mouseover="hostCntrl.addTooltip($event)" uib-tooltip="Dashboard">Dashboard</button>
                 </div>
             </div>
         </div>
     </div>
-    <div class="row">
+    <div class="row" ng-show="hostCntrl.filteredHostList.length !== 0">
         <div class="col-md-12 horizontal-line"></div>
     </div>
 </div>

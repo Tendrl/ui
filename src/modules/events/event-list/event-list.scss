@@ -1,0 +1,52 @@
+.tendrl-event-list-view-container {
+
+
+    .event-list-table {
+        max-height: 65vh;
+        overflow: auto;
+
+        .list-group-item {
+            padding: 15px 0;
+
+            .event-desc {
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+            }
+        }
+    }
+
+    .toolbar-pf-results {
+        border-top: none;
+        display: flex;
+        flex-direction: row;
+        width: 100%;
+        flex-wrap: nowrap;
+        justify-content: space-between;
+        align-items: baseline;
+        @media screen and (min-width: 768px) and (max-device-width: 1024px) {
+            width: 60%;
+        }
+        @media screen and (min-width: 1024px) and (max-device-width: 1224px) {
+            width: 40%;
+        }
+        @media screen and (min-width: 1224px) {
+            width: 30%;
+        }
+        .status-options {
+            padding-bottom: 10px;
+            input[type=checkbox] {
+                vertical-align: bottom;
+                height: 20px;
+                width: 20px;
+            }
+        }
+    }
+    .horizontal-line {
+        background-color: $color-light-grey;
+        height: 1px;
+    }
+    .bold-text {
+        font-weight: bold;
+    }
+}

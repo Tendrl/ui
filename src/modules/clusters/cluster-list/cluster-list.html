@@ -9,23 +9,25 @@
                         <label class="sr-only" for="filter">Name</label>
                         <div class="input-group">
                             <div class="input-group-btn">
-                                <select ng-disabled="clusterCntrl.clusterList.length === 0" ng-model="clusterCntrl.filterBy" class="btn btn-default dropdown-toggle filterSelect" ng-change="clusterCntrl.searchBy = {}">
-                                    <option value="name">Name</option>
-                                </select>
+                                <button ng-disabled="clusterCntrl.clusterList.length === 0" type="button" class="btn btn-default dropdown-toggle filterSelect" ng-model="clusterCntrl.filterBy" ng-change="clusterCntrl.searchBy = {}" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{{clusterCntrl.filterByValue}} <span class="caret"></span></button>
+                                <ul class="dropdown-menu">
+                                    <li ng-class="{'selected':(clusterCntrl.filterBy === 'name')}"><a href="" ng-click="clusterCntrl.changingFilterBy('name')">Name</a></li>
+                                </ul>
                             </div>
                             <!-- /btn-group -->
-                            <input type="text" class="form-control" id="filter" ng-model="clusterCntrl.searchBy[clusterCntrl.filterBy]" placeholder="Filter by {{clusterCntrl.filterBy | capitalize}}">
+                            <input ng-disabled="clusterCntrl.clusterList.length === 0" type="text" class="form-control" id="filter" ng-model="clusterCntrl.searchBy[clusterCntrl.filterBy]" placeholder="Filter by {{clusterCntrl.filterPlaceholder}}">
                         </div>
                         <!-- /input-group -->
                     </div>
                     <div class="form-group">
                         <div class="dropdown btn-group">
-                            <select ng-disabled="clusterCntrl.clusterList.length === 0" ng-model="clusterCntrl.orderBy" class="btn btn-default dropdown-toggle filterSelect">
-                                <option value="name">Name</option>
-                                <option value="status">Status</option>
-                                <option value="sdsVersion">Cluster Version</option>
-                                <option value="managed">Managed</option>
-                            </select>
+                            <button type="button" ng-disabled="clusterCntrl.clusterList.length === 0" class="btn btn-default dropdown-toggle filterSelect" ng-model="clusterCntrl.orderBy" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{{clusterCntrl.orderByValue}} <span class="caret"></span></button>
+                            <ul class="dropdown-menu">
+                                <li ng-class="{'selected':(clusterCntrl.orderBy === 'name')}"><a href="" ng-click="clusterCntrl.changingOrderBy('name')">Name</a></li>
+                                <li ng-class="{'selected':(clusterCntrl.orderBy === 'status')}"><a href="" ng-click="clusterCntrl.changingOrderBy('status')">Status</a></li>
+                                <li ng-class="{'selected':(clusterCntrl.orderBy === 'sdsVersion')}"><a href="" ng-click="clusterCntrl.changingOrderBy('sdsVersion')">Cluster Version</a></li>
+                                <li ng-class="{'selected':(clusterCntrl.orderBy === 'managed')}"><a href="" ng-click="clusterCntrl.changingOrderBy('managed')">Managed</a></li>
+                            </ul>
                         </div>
                         <button ng-init="clusterCntrl.ascOrder = ''" ng-disabled="clusterCntrl.clusterList.length === 0" class="btn btn-link" type="button">
                             <span ng-if="clusterCntrl.ascOrder !== ''" class="fa fa-sort-alpha-desc" ng-click="clusterCntrl.ascOrder = ''"></span>
@@ -53,9 +55,19 @@
             <div class="blank-slate-pf-icon">
                 <i class="pficon pficon-cluster"></i>
             </div>
-            <h1>No Clusters Detected.</h1>
+            <h1>No Clusters Detected</h1>
             <p>Ensure Tendrl server and node agents were successfully installed, and verify the Tendrl services are correctly configured.
             </p>
+        </div>
+    </center>
+    <center ng-if="!clusterCntrl.isDataLoading && clusterCntrl.filteredClusteredList.length === 0 && clusterCntrl.clusterList.length !== 0" class="empty-filter-list">
+        <div class="blank-slate-pf">
+            <div class="message">No results match the filter criteria</div>
+            <div class="suggestion">
+                <div class="title">Suggestions</div>
+                <div>Please try selecting other filter criteria.</div>
+            </div>
+            <a href="" class="clear-filter-link" ng-click="clusterCntrl.clearAllFilters()">Clear All Filters</a>
         </div>
     </center>
     <div ng-if="clusterCntrl.isDataLoading" class="spinner spinner-lg"></div>
@@ -69,7 +81,7 @@
                 <div class="list-view-pf-actions">
                     <button class="btn btn-default" ng-show="cluster.managed === 'Yes'" ng-click="clusterCntrl.goToClusterDetail(cluster)" tooltip-enable="clusterCntrl.flag" ng-mouseover="clusterCntrl.addTooltip($event)" uib-tooltip="Details">Details</button>
                     <button class="btn btn-default" ng-show="cluster.managed === 'Yes'" ng-click="clusterCntrl.redirectToGrafana(cluster, $event)" tooltip-enable="clusterCntrl.flag" ng-mouseover="clusterCntrl.addTooltip($event)" uib-tooltip="Dashboard">Dashboard</button>
-                    <button class="btn btn-default" ng-disabled="$root.userRole === 'limited' || clusterCntrl.profilingButtonClick" ng-show="cluster.managed === 'Yes'" ng-click="clusterCntrl.doProfilingAction($event, cluster, cluster.isProfilingEnabled === 'Enabled' ? 'Disable' : 'Enable', cluster.clusterId)" tooltip-enable="clusterCntrl.flag" ng-mouseover="clusterCntrl.addTooltip($event)" uib-tooltip="cluster.isProfilingEnabled === 'Enabled' ? 'Disable Profiling' : 'Enable Profiling'">{{cluster.isProfilingEnabled === 'Enabled' ? "Disable Profiling" : "Enable Profiling"}}
+                    <button class="btn btn-default profiling-btn" ng-disabled="$root.userRole === 'limited' || clusterCntrl.profilingButtonClick" ng-show="cluster.managed === 'Yes'" ng-click="clusterCntrl.doProfilingAction($event, cluster, cluster.isProfilingEnabled === 'Enabled' ? 'Disable' : 'Enable', cluster.clusterId)" tooltip-enable="clusterCntrl.flag" ng-mouseover="clusterCntrl.addTooltip($event)" uib-tooltip="cluster.isProfilingEnabled === 'Enabled' ? 'Disable Profiling' : 'Enable Profiling'">{{cluster.isProfilingEnabled === 'Enabled' ? "Disable Profiling" : "Enable Profiling"}}
                         <i class="glyphicon glyphicon-refresh glyphicon-refresh-animate" data-ng-class="{'hidden': clusterCntrl.profilingButtonClick !== true }"></i>
                     </button>
                     <button class="btn btn-default import-btn" ng-show="cluster.managed === 'No' && $root.userRole !=='limited'" ng-disabled="cluster.message === 'Cluster Misconfigured' || cluster.importStatus === 'in_progress' || cluster.managed === 'Yes'" ng-click="clusterCntrl.goToImportFlow(cluster)" tooltip-enable="clusterCntrl.flag" ng-mouseover="clusterCntrl.addTooltip($event)" uib-tooltip="Import">Import&nbsp;</button>

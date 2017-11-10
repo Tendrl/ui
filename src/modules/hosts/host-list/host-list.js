@@ -21,11 +21,21 @@
             hostListTimer;
 
         vm.isDataLoading = true;
-        vm.redirectToGrafana = redirectToGrafana;
+        vm.flag = false;
+        vm.filterBy = "name";
+        vm.orderBy = "name";
+        vm.orderByValue = "Name";
+        vm.filterByValue = "Name";
+        vm.filterPlaceholder = "Name";
         vm.hostList = [];
+
+        vm.redirectToGrafana = redirectToGrafana;
         vm.goToHostDetail = goToHostDetail;
         vm.addTooltip = addTooltip;
-        vm.flag = false;
+        vm.clearAllFilters = clearAllFilters;
+        vm.changingFilterBy = changingFilterBy;
+        vm.changingOrderBy = changingOrderBy;
+
 
         init();
 
@@ -40,28 +50,34 @@
             if ($rootScope.clusterData && $rootScope.clusterData.length) {
                 var clusters;
                 clusters = clusterStore.formatClusterData($rootScope.clusterData);
-                
+
                 nodeStore.getNodeList(clusters, vm.clusterId)
                     .then(function(list) {
                         $interval.cancel(hostListTimer);
-                        vm.isDataLoading = false;
                         vm.hostList = list;
                         startTimer();
+                    }).catch(function(e) {
+                        vm.hostList = [];
+                    }).finally(function() {
+                        vm.isDataLoading = false;
                     });
             } else {
                 clusterStore.getClusterList()
                     .then(function(data) {
-                        
+
                         var clusters;
                         $rootScope.clusterData = data;
                         clusters = clusterStore.formatClusterData($rootScope.clusterData);
-                        
+
                         nodeStore.getNodeList(clusters, vm.clusterId)
                             .then(function(list) {
                                 $interval.cancel(hostListTimer);
-                                vm.isDataLoading = false;
                                 vm.hostList = list;
                                 startTimer();
+                            }).catch(function(e) {
+                                vm.hostList = [];
+                            }).finally(function() {
+                                vm.isDataLoading = false;
                             });
                     });
             }
@@ -94,6 +110,53 @@
 
         function addTooltip($event) {
             vm.flag = utils.tooltip($event);
+        }
+
+        function clearAllFilters() {
+            vm.searchBy = {};
+            vm.filterBy = "name";
+        }
+
+        function changingFilterBy(filterValue) {
+            vm.filterBy = filterValue;
+            switch (filterValue) {
+                case "name":
+                    vm.filterByValue = "Name";
+                    vm.filterPlaceholder = "Name";
+                    break;
+
+                case "cluster_name":
+                    vm.filterByValue = "Cluster";
+                    vm.filterPlaceholder = "Cluster Name";
+                    break;
+
+                case "role":
+                    vm.filterByValue = "Role";
+                    vm.filterPlaceholder = "Role";
+                    break;
+
+                case "status":
+                    vm.filterByValue = "Status";
+                    vm.filterPlaceholder = "Status";
+                    break;
+            };
+        }
+
+        function changingOrderBy(orderValue) {
+            vm.orderBy = orderValue;
+            switch (orderValue) {
+                case "name":
+                    vm.orderByValue = "Name";
+                    break;
+
+                case "cluster_name":
+                    vm.orderByValue = "Cluster";
+                    break;
+
+                case "role":
+                    vm.orderByValue = "Role";
+                    break;
+            };
         }
     }
 

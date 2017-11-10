@@ -8,25 +8,25 @@
             <div class="col-sm-12">
                 <form class="toolbar-pf-actions">
                     <div class="form-group toolbar-pf-filter">
-                        <label class="sr-only" for="filter">Name</label>
+                        <label class="sr-only" for="filter">Brick Path</label>
                         <div class="input-group">
                             <div class="input-group-btn">
                                 <!-- Search By -->
-                                <select ng-init="vm.filterBy = 'brickPath'" ng-disabled="vm.brickList.length === 0" ng-model="vm.filterBy" class="btn btn-default dropdown-toggle filterSelect" ng-change="vm.searchBy = {}">
-                                    <option value="brickPath">Brick Path</option>
-                                    <option value="status">Brick Status</option>
-                                    <!-- <option value="role">Utilization More Than</option>
-                                    <option value="status">Utilization Less Than</option>
-                                    <option value="status">Disk Device Path</option> -->
-                                </select>
+                                <button ng-disabled="vm.brickList.length === 0" type="button" class="btn btn-default dropdown-toggle filterSelect" ng-model="vm.filterBy" ng-change="vm.searchBy = {}" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{{vm.filterByValue}} <span class="caret"></span></button>
+                                <ul class="dropdown-menu">
+                                    <li ng-class="{'selected':(vm.filterBy === 'brickPath')}"><a href="" ng-click="vm.changingFilterBy('brickPath')">Brick Path</a></li>
+                                    <li ng-class="{'selected':(vm.filterBy === 'status')}"><a href="" ng-click="vm.changingFilterBy('status')">Brick Status</a></li>
+                                    <!-- <li><a href="" ng-click="vm.changingFilterBy('role')">Utilization More Than</a></li>
+                                    <li><a href="" ng-click="vm.changingFilterBy('status')">Utilization Less Than</a></li>
+                                    <li><a href="" ng-click="vm.changingFilterBy('status')">Disk Device Path</a></li> -->
+                                </ul>
                             </div>
                             <!-- /btn-group -->
-                            <input ng-disabled="vm.brickList.length === 0" type="text" class="form-control" id="filter" ng-model="vm.searchBy[vm.filterBy]" placeholder="Filter by {{vm.filterBy | capitalize}}">
+                            <input ng-disabled="vm.brickList.length === 0" type="text" class="form-control" id="filter" ng-model="vm.searchBy[vm.filterBy]" placeholder="Filter by {{vm.filterPlaceholder}}">
                         </div>
                         <!-- /input-group -->
                     </div>
                 </form>
-                
                 <div class="row toolbar-pf-results">
                     <div class="col-sm-12">
                         <h5 ng-if="vm.brickList.length !== 0">{{vm.filteredbrickList.length}} 
@@ -44,11 +44,21 @@
                 <div class="blank-slate-pf-icon">
                     <i class="pficon pficon-container-node"></i>
                 </div>
-                <h1>No Bricks Detected.</h1>
+                <h1>No Bricks Detected</h1>
+            </div>
+        </center>
+        <center ng-if="!vm.isDataLoading && vm.filteredbrickList.length === 0 && vm.brickList.length !== 0" class="empty-filter-list">
+            <div class="blank-slate-pf">
+                <div class="message">No results match the filter criteria</div>
+                <div class="suggestion">
+                    <div class="title">Suggestions</div>
+                    <div>Please try selecting other filter criteria.</div>
+                </div>
+                <a href="" class="clear-filter-link" ng-click="vm.clearAllFilters()">Clear All Filters</a>
             </div>
         </center>
         <div ng-show="vm.isDataLoading" class="spinner spinner-lg"></div>
-        <div class="flex-table list-group list-view-pf list-view-pf-view" ng-show="!vm.isDataLoading && vm.brickList.length !== 0">
+        <div class="flex-table list-group list-view-pf list-view-pf-view" ng-show="!vm.isDataLoading && vm.brickList.length !== 0 && vm.filteredbrickList.length !== 0">
             <div class="ft-row list-group-item ft-header">
                 <div class="ft-column">Volume</div>
                 <div class="ft-column">Brick Path</div>
@@ -60,7 +70,7 @@
             <div class="ft-row list-group-item" ng-repeat="brick in vm.filteredbrickList=(vm.brickList | filter: vm.searchBy)">
                 <div class="ft-column">{{brick.volName}}</div>
                 <div class="ft-column">
-                    <i class="pficon status-icons pull-left" ng-class="{'pficon-error-circle-o': (brick.status !=='started'), 'pficon-ok': (brick.status ==='started')}" uib-tooltip-html="'{{brick.status}}'" tooltip-placement="auto bottom-left"></i>
+                    <i class="status-icons pull-left" ng-class="{'fa fa-stop-circle-o': (brick.status !=='started'), 'pficon pficon-ok': (brick.status ==='started')}" uib-tooltip-html="'{{brick.status}}'" tooltip-placement="auto bottom-left"></i>
                     <div class="brick-path" uib-tooltip-html="'{{brick.brickPath.split(':')[1]}}'" tooltip-placement="auto bottom-left">{{brick.brickPath.split(":")[1]}}</div>
                 </div>
                 <div class="ft-column ft-main">

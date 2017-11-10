@@ -16,7 +16,6 @@
     function alertController($rootScope, $scope, $interval, $state, $timeout, $filter, config, eventStore, utils) {
 
         var vm = this,
-            alertTimer,
             toDate,
             count;
 
@@ -26,9 +25,12 @@
         vm.severity = "";
         vm.searchDescText = "";
         vm.filterBy = "clusterName";
-        vm.filterByText = "Filter by Cluster Name";
+        vm.filterPlaceholder = "Cluster Name";
         vm.searchBy = {};
         vm.alertList = [];
+        vm.filterBy = "clusterName";
+        vm.filterByValue = "Cluster";
+
         vm.filterByCreatedDate = filterByCreatedDate;
         vm.resetCount = resetCount;
         vm.setSeverity = setSeverity;
@@ -36,7 +38,7 @@
         vm.searchByDesc = searchByDesc;
         vm.clearAllFilters = clearAllFilters;
         vm.clearDate = clearDate;
-        vm.changeOption = changeOption;
+        vm.changingFilterBy = changingFilterBy;
 
         vm.date = {
             fromDate: "",
@@ -63,22 +65,19 @@
         function init() {
             eventStore.getAlertList()
                 .then(function(list) {
-                    $interval.cancel(alertTimer);
                     vm.alertList = list;
                     vm.isDataLoading = false;
-                    startAlertTimer();
                     vm.severityList = utils.getAlertSeverityList(vm.filteredAlertList);
                 });
         }
 
-        function startAlertTimer() {
-            alertTimer = $interval(function() {
-                init();
-            }, 1000 * config.eventsRefreshIntervalTime, 1);
-        }
+        $scope.$on("GotAlertData", function(event, data) {
+            if ($rootScope.alertList !== null) {
+                vm.alertList = $rootScope.alertList;
+                vm.isDataLoading = false;
+                vm.severityList = utils.getAlertSeverityList(vm.filteredAlertList);
 
-        $scope.$on("$destroy", function() {
-            $interval.cancel(alertTimer);
+            }
         });
 
         $scope.$watch(angular.bind(this, function(filteredAlertList) {
@@ -134,28 +133,30 @@
         }
 
         function setSeverity(value) {
-            vm.changeOption();
             vm.severity = value;
             vm.filterBy = "severity";
+            vm.filterByValue = "Severity";
             vm.searchBy[vm.filterBy] = value;
         }
 
-        function changeOption() {
-            vm.searchBy = {};
-
-            switch (vm.filterBy) {
+        function changingFilterBy(filterValue) {
+            vm.filterBy = filterValue;
+            switch (filterValue) {
                 case "clusterName":
-                    vm.filterByText = "Filter by Cluster name";
+                    vm.filterByValue = "Cluster";
+                    vm.filterPlaceholder = "Cluster name";
                     break;
 
                 case "fqdn":
-                    vm.filterByText = "Filter by Host name";
+                    vm.filterByValue = "Host";
+                    vm.filterPlaceholder = "Host name";
                     break;
 
                 case "severity":
-                    vm.filterByText = "Filter by Severity";
+                    vm.filterByValue = "Severity";
+                    vm.filterPlaceholder = "Severity";
                     break;
-            }
+            };
         }
 
         function searchByDesc(list) {
@@ -167,13 +168,14 @@
         }
 
         function clearAllFilters() {
-            vm.searchBy[vm.filterBy] = "";
+            vm.searchBy = {};
             vm.date.toDate = "";
             vm.date.fromDate = "";
             vm.searchDescText = "";
             vm.filterBy = "clusterName";
             vm.severity = "";
-            vm.filterByText = "Filter by Cluster name";
+            vm.filterPlaceholder = "Cluster name";
+            vm.filterByValue = "Cluster";
             vm.invalidToDate = false;
         }
 
