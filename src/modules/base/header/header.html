@@ -85,7 +85,7 @@
                         <i ng-class="{'pficon pficon-error-circle-o': (alert.severity === 'error'), 'pficon pficon-info': (alert.severity === 'info'), 'pficon pficon-warning-triangle-o': (alert.severity === 'warning')}" data-toggle="tooltip" data-placement="auto" title="{{alert.severity}}"></i>
                     </div>
                     <div class="col-md-11 desc">
-                        <p class="notice-name" data-toggle="tooltip" data-placement="auto" title="{{alert.desc}}">{{alert.desc}}</p>
+                        <p>{{alert.desc}}</p>
                         <div>{{alert.timeStamp| date: 'dd MMM yyyy HH:mm:ss'}}</div>
                     </div>
                 </div>

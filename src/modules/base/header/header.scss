@@ -13,9 +13,10 @@
         font-size: 20px;
     }
     .notification-container {
+        overflow: hidden;
         right: 0;
         position: absolute;
-        width: 24%;
+        width: 30%;
         border: 1px solid $color-black;
         height: 100vh;
         top: 56px;
@@ -77,11 +78,6 @@
             font-size: 14px;
             cursor: pointer;
         }
-    }
-    .notice-name {
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
     }
     .cluster-options {
         margin-top: 19px;
