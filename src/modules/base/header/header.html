@@ -20,7 +20,7 @@
         </span>
         <ul class="nav navbar-nav navbar-right navbar-iconic" ng-if="!notification.message.length">
             <li class="dropdown">
-                <a data-toggle="dropdown" class="dropdown-toggle nav-item-iconic" href="" data-template="" data-animation="am-fade-and-slide-top" bs-dropdown="dropdown" title="Notifications" id="notifications" ng-click="header.setNotificationFlag()">
+                <a data-toggle="dropdown" class="dropdown-toggle nav-item-iconic" href="" data-template="" data-animation="am-fade-and-slide-top" bs-dropdown="dropdown" title="Alerts" id="notifications" ng-click="header.setNotificationFlag()">
                     <i class="fa fa-bell"></i>
                     <span class="badge"></span>
                 </a>
@@ -85,7 +85,7 @@
                         <i ng-class="{'pficon pficon-error-circle-o': (alert.severity === 'error'), 'pficon pficon-info': (alert.severity === 'info'), 'pficon pficon-warning-triangle-o': (alert.severity === 'warning')}" data-toggle="tooltip" data-placement="auto" title="{{alert.severity}}"></i>
                     </div>
                     <div class="col-md-11 desc">
-                        <p class="notice-name" data-toggle="tooltip" data-placement="auto" title="{{alert.desc}}">{{alert.desc}}</p>
+                        <p>{{alert.desc}}</p>
                         <div>{{alert.timeStamp| date: 'dd MMM yyyy HH:mm:ss'}}</div>
                     </div>
                 </div>
