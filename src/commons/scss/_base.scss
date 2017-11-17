@@ -128,7 +128,7 @@
         }
     }
     &.list-view-pf-view {
-        margin-top: 10px;
+        margin-top: 0px;
         .list-group-item {
             padding-top: 10px;
             padding-bottom: 10px;
@@ -180,4 +180,12 @@
             cursor: pointer;
         }
     }
+}
+
+.ffont {
+    font-size: 29px;
+}
+
+.breadcrumb-ffont {
+    font-size: 20px;
 }

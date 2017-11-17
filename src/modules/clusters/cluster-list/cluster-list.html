@@ -1,55 +1,52 @@
 <div ng-if="clusterData === null && !isAPINotFoundError" class="spinner spinner-lg"></div>
 <div ng-if="clusterData !== null" class="tendrl-cluster-list-view-container container-fluid">
     <h1 class="bold-text">Clusters</h1>
-    <div class="container-fluid">
-        <div class="row toolbar-pf">
-            <div class="col-sm-12">
-                <form class="toolbar-pf-actions">
-                    <div class="form-group toolbar-pf-filter">
-                        <label class="sr-only" for="filter">Name</label>
-                        <div class="input-group">
-                            <div class="input-group-btn">
-                                <button ng-disabled="clusterCntrl.clusterList.length === 0" type="button" class="btn btn-default dropdown-toggle filterSelect" ng-model="clusterCntrl.filterBy" ng-change="clusterCntrl.searchBy = {}" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{{clusterCntrl.filterByValue}} <span class="caret"></span></button>
-                                <ul class="dropdown-menu">
-                                    <li ng-class="{'selected':(clusterCntrl.filterBy === 'name')}"><a href="" ng-click="clusterCntrl.changingFilterBy('name')">Name</a></li>
-                                </ul>
-                            </div>
-                            <!-- /btn-group -->
-                            <input ng-disabled="clusterCntrl.clusterList.length === 0" type="text" class="form-control" id="filter" ng-model="clusterCntrl.searchBy[clusterCntrl.filterBy]" placeholder="Filter by {{clusterCntrl.filterPlaceholder}}">
-                        </div>
-                        <!-- /input-group -->
-                    </div>
-                    <div class="form-group">
-                        <div class="dropdown btn-group">
-                            <button type="button" ng-disabled="clusterCntrl.clusterList.length === 0" class="btn btn-default dropdown-toggle filterSelect" ng-model="clusterCntrl.orderBy" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{{clusterCntrl.orderByValue}} <span class="caret"></span></button>
+    <div class="row toolbar-pf">
+        <div class="col-sm-12">
+            <form class="toolbar-pf-actions">
+                <div class="form-group toolbar-pf-filter">
+                    <label class="sr-only" for="filter">Name</label>
+                    <div class="input-group">
+                        <div class="input-group-btn">
+                            <button ng-disabled="clusterCntrl.clusterList.length === 0" type="button" class="btn btn-default dropdown-toggle filterSelect" ng-model="clusterCntrl.filterBy" ng-change="clusterCntrl.searchBy = {}" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{{clusterCntrl.filterByValue}} <span class="caret"></span></button>
                             <ul class="dropdown-menu">
-                                <li ng-class="{'selected':(clusterCntrl.orderBy === 'name')}"><a href="" ng-click="clusterCntrl.changingOrderBy('name')">Name</a></li>
-                                <li ng-class="{'selected':(clusterCntrl.orderBy === 'status')}"><a href="" ng-click="clusterCntrl.changingOrderBy('status')">Status</a></li>
-                                <li ng-class="{'selected':(clusterCntrl.orderBy === 'sdsVersion')}"><a href="" ng-click="clusterCntrl.changingOrderBy('sdsVersion')">Cluster Version</a></li>
-                                <li ng-class="{'selected':(clusterCntrl.orderBy === 'managed')}"><a href="" ng-click="clusterCntrl.changingOrderBy('managed')">Managed</a></li>
+                                <li ng-class="{'selected':(clusterCntrl.filterBy === 'name')}"><a href="" ng-click="clusterCntrl.changingFilterBy('name')">Name</a></li>
                             </ul>
                         </div>
-                        <button ng-init="clusterCntrl.ascOrder = ''" ng-disabled="clusterCntrl.clusterList.length === 0" class="btn btn-link" type="button">
-                            <span ng-if="clusterCntrl.ascOrder !== ''" class="fa fa-sort-alpha-desc" ng-click="clusterCntrl.ascOrder = ''"></span>
-                            <span ng-if="clusterCntrl.ascOrder !== '-'" class="fa fa-sort-alpha-asc" ng-click="clusterCntrl.ascOrder = '-'"></span>
-                        </button>
+                        <!-- /btn-group -->
+                        <input ng-disabled="clusterCntrl.clusterList.length === 0" type="text" class="form-control" id="filter" ng-model="clusterCntrl.searchBy[clusterCntrl.filterBy]" placeholder="Filter by {{clusterCntrl.filterPlaceholder}}">
                     </div>
-                </form>
-                <div class="row toolbar-pf-results">
-                    <div class="col-sm-12">
-                        <h5 ng-if="clusterCntrl.clusterList.length !== 0">{{clusterCntrl.filteredClusteredList.length}} 
+                    <!-- /input-group -->
+                </div>
+                <div class="form-group">
+                    <div class="dropdown btn-group">
+                        <button type="button" ng-disabled="clusterCntrl.clusterList.length === 0" class="btn btn-default dropdown-toggle filterSelect" ng-model="clusterCntrl.orderBy" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{{clusterCntrl.orderByValue}} <span class="caret"></span></button>
+                        <ul class="dropdown-menu">
+                            <li ng-class="{'selected':(clusterCntrl.orderBy === 'name')}"><a href="" ng-click="clusterCntrl.changingOrderBy('name')">Name</a></li>
+                            <li ng-class="{'selected':(clusterCntrl.orderBy === 'status')}"><a href="" ng-click="clusterCntrl.changingOrderBy('status')">Status</a></li>
+                            <li ng-class="{'selected':(clusterCntrl.orderBy === 'sdsVersion')}"><a href="" ng-click="clusterCntrl.changingOrderBy('sdsVersion')">Cluster Version</a></li>
+                            <li ng-class="{'selected':(clusterCntrl.orderBy === 'managed')}"><a href="" ng-click="clusterCntrl.changingOrderBy('managed')">Managed</a></li>
+                        </ul>
+                    </div>
+                    <button ng-init="clusterCntrl.ascOrder = ''" ng-disabled="clusterCntrl.clusterList.length === 0" class="btn btn-link" type="button">
+                        <span ng-if="clusterCntrl.ascOrder !== ''" class="fa fa-sort-alpha-desc" ng-click="clusterCntrl.ascOrder = ''"></span>
+                        <span ng-if="clusterCntrl.ascOrder !== '-'" class="fa fa-sort-alpha-asc" ng-click="clusterCntrl.ascOrder = '-'"></span>
+                    </button>
+                </div>
+            </form>
+            <div class="row toolbar-pf-results">
+                <div class="col-sm-12">
+                    <h5 ng-if="clusterCntrl.clusterList.length !== 0">{{clusterCntrl.filteredClusteredList.length}} 
                             <ng-pluralize count="clusterCntrl.clusterList.length" when="{'one': 'Cluster',
                        'other': 'Clusters'}"></ng-pluralize>
                         </h5>
-                    </div>
                 </div>
-                <!-- /row -->
             </div>
-            <!-- /col -->
+            <!-- /row -->
         </div>
-        <!-- /row -->
+        <!-- /col -->
     </div>
-    <!-- /container -->
+    <!-- /row -->
     <center ng-if="!clusterCntrl.isDataLoading && (clusterCntrl.clusterList.length === 0 || clusterCntrl.clusterNotPresent)">
         <div class="blank-slate-pf">
             <div class="blank-slate-pf-icon">
@@ -88,7 +85,7 @@
                 </div>
                 <div class="list-view-pf-main-info">
                     <div class="list-view-pf-left">
-                        <i ng-class="{'pficon pficon-warning-triangle-o': (cluster.status === 'HEALTH_ERR' || cluster.status === 'HEALTH_WARN'), 'pficon pficon-ok': (cluster.status === 'HEALTH_OK'), 'fa fa-question': (cluster.managed !== 'Yes')}"></i>
+                        <i uib-tooltip-html="'{{cluster.statusIcon}}'" tooltip-placement="auto bottom-left" ng-class="{'pficon pficon-warning-triangle-o': (cluster.status === 'HEALTH_ERR' || cluster.status === 'HEALTH_WARN'), 'pficon pficon-ok': (cluster.status === 'HEALTH_OK'), 'fa ffont fa-question': (cluster.managed !== 'Yes')}"></i>
                     </div>
                     <div class="list-view-pf-body">
                         <div class="list-view-pf-description">
@@ -130,7 +127,7 @@
                             <div class="list-view-pf-main-info">
                                 <div class="list-view-pf-left">
                                     <span uib-tooltip-html="'{{host.status}}'" ng-if="host.status ==='UP'" class="pficon pficon-ok list-view-pf-icon-success status-icons"></span>
-                                    <span uib-tooltip-html="'{{host.status}}'" ng-if="host.status ==='DOWN'" class="fa fa-arrow-circle-o-down list-view-icon-failure status-icons"></span>
+                                    <span uib-tooltip-html="'{{host.status}}'" ng-if="host.status ==='DOWN'" class="fa ffont fa-arrow-circle-o-down list-view-icon-failure status-icons"></span>
                                 </div>
                                 <div class="list-view-pf-body">
                                     <div class="list-view-pf-description">

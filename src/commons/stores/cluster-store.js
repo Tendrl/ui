@@ -50,16 +50,31 @@
                 temp.importStatus = data[i].import_status;
 
                 if (temp.managed === "Yes") {
-                    if (temp.sdsName === "gluster") {
-                        if (data[i].globaldetails && data[i].globaldetails.status === "healthy") {
+                        if (temp.sdsName === "gluster") {
+                            if (data[i].globaldetails && data[i].globaldetails.status === "healthy") {
                             temp.status = "HEALTH_OK";
+                            temp.statusIcon = "Healthy";
                         } else if (data[i].globaldetails && data[i].globaldetails.status === "unhealthy") {
                             temp.status = "HEALTH_ERR";
+                            temp.statusIcon = "Unhealthy";
                         } else {
                             temp.status = "NA";
                         }
                     } else {
                         temp.status = data[i].globaldetails ? data[i].globaldetails.status : "NA";
+
+                        switch(temp.status) {
+
+                            case "HEALTH_OK": 
+                                temp.statusIcon = "Healthy";
+                                break;
+                            case "HEALTH_ERR": 
+                                temp.statusIcon = "Unhealthy";
+                                break;
+                            case "HEALTH_WARN": 
+                                temp.statusIcon = "Warning";
+                                break;
+                        }
                     }
                 }
 
