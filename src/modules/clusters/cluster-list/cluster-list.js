@@ -66,6 +66,7 @@
                     $interval.cancel(clusterListTimer);
 
                     if (vm.clusterList.length) {
+                        vm.clusterNotPresent = false;
                         _mantainExpandedState(data);
                     } else {
                         vm.clusterList = data;

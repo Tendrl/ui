@@ -37,7 +37,7 @@
                 res = [],
                 temp = {},
                 i;
-                
+
             for (i = 0; i < len; i++) {
                 temp = {};
                 temp.integrationId = data[i].integration_id;
@@ -67,9 +67,17 @@
 
                 if (temp.managed === "No") {
                     temp.message = temp.errors.length ? "Cluster Misconfigured" : "Ready to Import";
+
+                    if (temp.importStatus === "failed") {
+                        temp.message = "Import Failed";
+                    }
+
+                } else if (temp.importStatus === "failed") {
+                    temp.message = "Import Failed";
                 } else {
                     temp.message = "Ready to Use";
                 }
+
                 temp.hosts = store.getAssociatedHosts(data[i]);
                 temp.activeTab = 1;
                 res.push(temp);
