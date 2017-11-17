@@ -79,12 +79,12 @@
                     <span class="fa fa-angle-down" ng-show="cluster.isExpanded" ng-click="clusterCntrl.expandCluster($event, cluster)"></span>
                 </div>
                 <div class="list-view-pf-actions">
-                    <button class="btn btn-default" ng-show="cluster.managed === 'Yes'" ng-click="clusterCntrl.goToClusterDetail(cluster)" tooltip-enable="clusterCntrl.flag" ng-mouseover="clusterCntrl.addTooltip($event)" uib-tooltip="Details">Details</button>
-                    <button class="btn btn-default" ng-show="cluster.managed === 'Yes'" ng-click="clusterCntrl.redirectToGrafana(cluster, $event)" tooltip-enable="clusterCntrl.flag" ng-mouseover="clusterCntrl.addTooltip($event)" uib-tooltip="Dashboard">Dashboard</button>
-                    <button class="btn btn-default profiling-btn" ng-disabled="$root.userRole === 'limited' || clusterCntrl.profilingButtonClick" ng-show="cluster.managed === 'Yes'" ng-click="clusterCntrl.doProfilingAction($event, cluster, cluster.isProfilingEnabled === 'Enabled' ? 'Disable' : 'Enable', cluster.clusterId)" tooltip-enable="clusterCntrl.flag" ng-mouseover="clusterCntrl.addTooltip($event)" uib-tooltip="cluster.isProfilingEnabled === 'Enabled' ? 'Disable Profiling' : 'Enable Profiling'">{{cluster.isProfilingEnabled === 'Enabled' ? "Disable Profiling" : "Enable Profiling"}}
+                    <button class="btn btn-default" ng-show="cluster.managed === 'Yes' && cluster.importStatus === 'done'" ng-click="clusterCntrl.goToClusterDetail(cluster)" tooltip-enable="clusterCntrl.flag" ng-mouseover="clusterCntrl.addTooltip($event)" uib-tooltip="Details">Details</button>
+                    <button class="btn btn-default" ng-show="cluster.managed === 'Yes' && cluster.importStatus === 'done'" ng-click="clusterCntrl.redirectToGrafana(cluster, $event)" tooltip-enable="clusterCntrl.flag" ng-mouseover="clusterCntrl.addTooltip($event)" uib-tooltip="Dashboard">Dashboard</button>
+                    <button class="btn btn-default profiling-btn" ng-disabled="$root.userRole === 'limited' || clusterCntrl.profilingButtonClick" ng-show="cluster.managed === 'Yes' && cluster.importStatus === 'done'" ng-click="clusterCntrl.doProfilingAction($event, cluster, cluster.isProfilingEnabled === 'Enabled' ? 'Disable' : 'Enable', cluster.clusterId)" tooltip-enable="clusterCntrl.flag" ng-mouseover="clusterCntrl.addTooltip($event)" uib-tooltip="cluster.isProfilingEnabled === 'Enabled' ? 'Disable Profiling' : 'Enable Profiling'">{{cluster.isProfilingEnabled === 'Enabled' ? "Disable Profiling" : "Enable Profiling"}}
                         <i class="glyphicon glyphicon-refresh glyphicon-refresh-animate" data-ng-class="{'hidden': clusterCntrl.profilingButtonClick !== true }"></i>
                     </button>
-                    <button class="btn btn-default import-btn" ng-show="cluster.managed === 'No' && $root.userRole !=='limited'" ng-disabled="cluster.message === 'Cluster Misconfigured' || cluster.importStatus === 'in_progress' || cluster.managed === 'Yes'" ng-click="clusterCntrl.goToImportFlow(cluster)" tooltip-enable="clusterCntrl.flag" ng-mouseover="clusterCntrl.addTooltip($event)" uib-tooltip="Import">Import&nbsp;</button>
+                    <button class="btn btn-default import-btn" ng-show="(cluster.managed === 'No' && $root.userRole !=='limited')" ng-disabled="cluster.message === 'Cluster Misconfigured' || cluster.importStatus === 'in_progress' || (cluster.managed === 'Yes' && cluster.importStatus === 'done') || cluster.importStatus === 'failed'" ng-click="clusterCntrl.goToImportFlow(cluster)" tooltip-enable="clusterCntrl.flag" ng-mouseover="clusterCntrl.addTooltip($event)" uib-tooltip="Import">Import&nbsp;</button>
                 </div>
                 <div class="list-view-pf-main-info">
                     <div class="list-view-pf-left">
@@ -109,14 +109,14 @@
                                 <div class="bold-text">Volume Profiling</div>
                                 <h5 class="pull-left counts">{{cluster.isProfilingEnabled}}</h5>
                             </div>
-                            <div class="list-view-pf-additional-info-item cluster-text" ng-class="{'error-message': (cluster.message === 'Cluster Misconfigured')}">
+                            <div class="list-view-pf-additional-info-item cluster-text" ng-class="{'error-message': (cluster.message === 'Cluster Misconfigured'), 'warning-message': (cluster.message === 'Import Failed')}">
                                 {{cluster.importStatus === 'in_progress' ? "Importing cluster" : cluster.message}}
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="list-group-item-container container-fluid" ng-show="cluster.isExpanded">
+            <div class="list-group-item-container container-fluid scroll" ng-show="cluster.isExpanded">
                 <div class="close">
                     <span class="pficon pficon-close" ng-click="clusterCntrl.closeExpandedView(cluster)"></span>
                 </div>
@@ -148,12 +148,12 @@
                             </div>
                         </div>
                     </div>
-                    <div class="list-group list-view-pf list-view-pf-view" ng-repeat="message in cluster.errors" ng-show="cluster.activeTab === 2 && cluster.errors.length">
+                    <div class="list-group list-view-pf list-view-pf-view error-list" ng-repeat="message in cluster.errors" ng-show="cluster.activeTab === 2 && cluster.errors.length">
                         <div class="list-group-item">
                             <div class="list-view-pf-main-info">
                                 <div class="list-view-pf-body">
                                     <div class="list-view-pf-description">
-                                        <div class="list-group-item-heading bold-text">
+                                        <div class="list-group-item-heading">
                                             {{message}}
                                         </div>
                                     </div>
