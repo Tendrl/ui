@@ -70,7 +70,7 @@
             <div class="ft-row list-group-item" ng-repeat="brick in vm.filteredbrickList=(vm.brickList | filter: vm.searchBy)">
                 <div class="ft-column">{{brick.volName}}</div>
                 <div class="ft-column">
-                    <i class="status-icons pull-left" ng-class="{'fa fa-stop-circle-o': (brick.status !=='started'), 'pficon pficon-ok': (brick.status ==='started')}" uib-tooltip-html="'{{brick.status}}'" tooltip-placement="auto bottom-left"></i>
+                    <i class="status-icons pull-left" ng-class="{'fa ffont fa-stop-circle-o': (brick.status !=='started'), 'pficon pficon-ok': (brick.status ==='started')}" uib-tooltip-html="'{{brick.status}}'" tooltip-placement="auto bottom-left"></i>
                     <div class="brick-path" uib-tooltip-html="'{{brick.brickPath.split(':')[1]}}'" tooltip-placement="auto bottom-left">{{brick.brickPath.split(":")[1]}}</div>
                 </div>
                 <div class="ft-column ft-main">

@@ -43,11 +43,15 @@
                 if (!nodeStore.nodeList.length) {
                     nodeStore.getNodeList($rootScope.clusterData)
                         .then(function(data) {
-                            vm.hostName = nodeStore.getNodeObject(vm.hostId).name;
+                            vm.hostObj = nodeStore.getNodeObject(vm.hostId);
+                            vm.hostName = vm.hostObj.name;
+                            vm.hostStatus = vm.hostObj.status;
                             vm.isDataLoading = false;
                         });
                 } else {
-                    vm.hostName = nodeStore.getNodeObject(vm.hostId).name;
+                    vm.hostObj = nodeStore.getNodeObject(vm.hostId);
+                    vm.hostName = vm.hostObj.name;
+                    vm.hostStatus = vm.hostObj.status;
                     vm.isDataLoading = false;
                 }
 
@@ -63,11 +67,15 @@
                         if (!nodeStore.nodeList.length) {
                             nodeStore.getNodeList($rootScope.clusterData)
                                 .then(function(data) {
-                                    vm.hostName = nodeStore.getNodeObject(vm.hostId).name;
+                                    vm.hostObj = nodeStore.getNodeObject(vm.hostId);
+                                    vm.hostName = vm.hostObj.name;
+                                    vm.hostStatus = vm.hostObj.status;
                                     vm.isDataLoading = false;
                                 });
                         } else {
-                            vm.hostName = nodeStore.getNodeObject(vm.hostId).name;
+                            vm.hostObj = nodeStore.getNodeObject(vm.hostId);
+                            vm.hostName = vm.hostObj.name;
+                            vm.hostStatus = vm.hostObj.status;
                             vm.isDataLoading = false;
                         }
                     });

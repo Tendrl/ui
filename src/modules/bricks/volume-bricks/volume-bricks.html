@@ -99,7 +99,7 @@
                                 <tr ng-repeat="brick in subVolume.bricks | orderBy: 'fqdn'">
                                     <td class="brick-table" >{{brick.fqdn}}</td>
                                     <td class="brick-table" >
-                                        <span class="status-icons pull-left" ng-class="{'fa fa-stop-circle-o': (brick.status.toLowerCase() !=='started'), 'pficon pficon-ok': (brick.status.toLowerCase() ==='started')}" uib-tooltip-html="'{{brick.status}}'" tooltip-placement="top-left"></span> {{brick.brickPath.split(":")[1]}}
+                                        <span class="status-icons pull-left" ng-class="{'fa ffont fa-stop-circle-o': (brick.status.toLowerCase() !=='started'), 'pficon pficon-ok': (brick.status.toLowerCase() ==='started')}" uib-tooltip-html="'{{brick.status}}'" tooltip-placement="top-left"></span> {{brick.brickPath.split(":")[1]}}
                                     </td>
                                     <td class="brick-table utilisation-chart">
                                         <utilisation-chart used="brick.utilization.used" total="brick.utilization.total| bytes: 2"></utilisation-chart>
