@@ -43,11 +43,15 @@
                 if (!volumeStore.volumeList.length) {
                     volumeStore.getVolumeList(vm.clusterId)
                         .then(function(data) {
-                            vm.volName = volumeStore.getVolumeObject(vm.volumeId).name ? volumeStore.getVolumeObject(vm.volumeId).name : vm.volumeId;
+                            vm.volObj = volumeStore.getVolumeObject(vm.volumeId);
+                            vm.volName = vm.volObj.name ? vm.volObj.name : vm.volumeId;
+                            vm.volStatus = vm.volObj.status;
                             vm.isDataLoading = false;
                         });
                 } else {
-                    vm.volName = volumeStore.getVolumeObject(vm.volumeId).name ? volumeStore.getVolumeObject(vm.volumeId).name : vm.volumeId;
+                    vm.volObj = volumeStore.getVolumeObject(vm.volumeId);
+                    vm.volName = vm.volObj.name ? vm.volObj.name : vm.volumeId;
+                    vm.volStatus = vm.volObj.status;
                     vm.isDataLoading = false;
                 }
 
@@ -64,11 +68,15 @@
                         if (!volumeStore.volumeList.length) {
                             volumeStore.getVolumeList(vm.clusterId)
                                 .then(function(data) {
-                                    vm.volName = volumeStore.getVolumeObject(vm.volumeId).name ? volumeStore.getVolumeObject(vm.volumeId).name : vm.volumeId;
+                                    vm.volObj = volumeStore.getVolumeObject(vm.volumeId);
+                                    vm.volName = vm.volObj.name ? vm.volObj.name : vm.volumeId;
+                                    vm.volStatus = vm.volObj.status;
                                     vm.isDataLoading = false;
                                 });
                         } else {
-                            vm.volName = volumeStore.getVolumeObject(vm.volumeId).name ? volumeStore.getVolumeObject(vm.volumeId).name : vm.volumeId;
+                            vm.volObj = volumeStore.getVolumeObject(vm.volumeId);
+                            vm.volName = vm.volObj.name ? vm.volObj.name : vm.volumeId;
+                            vm.volStatus = vm.volObj.status;
                             vm.isDataLoading = false;
                         }
                     });

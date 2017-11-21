@@ -3,7 +3,7 @@
     <ul class="breadcrumb custom-breadcrumb" ng-show="!vm.isDataLoading">
         <li><a ui-sref="clusters">Clusters</a></li>
         <li>
-            <i class="pficon" ng-class="{'pficon-error-circle-o': (vm.clusterStatus === 'HEALTH_ERR'), 'pficon-ok': (vm.clusterStatus === 'HEALTH_OK'), 'pficon-warning-triangle-o': (vm.clusterStatus === 'HEALTH_WARN')}"></i>
+           <i class="breadcrumb-icon pficon" ng-class="{'pficon-warning-triangle-o': (vm.clusterStatus === 'HEALTH_ERR' || vm.clusterStatus === 'HEALTH_WARN'), 'pficon-ok': (vm.clusterStatus === 'HEALTH_OK')}"></i>
             <span class="cluster-name">
                 {{vm.clusterName}}
             </span>
@@ -13,6 +13,7 @@
         </li>
         <li><a href="" ng-click="vm.goToClusterDetail()">Volumes</a></li>
         <li>
+        <i class="breadcrumb-icon" ng-class="{'fa breadcrumb-ffont fa-stop-circle-o': (vm.volStatus.toLowerCase() === 'stopped'), 'pficon pficon-ok': (vm.volStatus.toLowerCase() ==='started'), 'fa breadcrumb-ffont fa-arrow-circle-o-up': (vm.volStatus.toLowerCase() === 'created')}"></i>
             <span class="cluster-name">
                 {{vm.volName}}
             </span>
