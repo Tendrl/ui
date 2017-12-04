@@ -23,7 +23,7 @@
                 "osd": "OSD Host",
                 "server": "Gluster Peer",
                 "rados": "RADOS Gateway",
-                "central-store": "Tendrl Server"
+                "central-store": "Web Admin Server"
             };
             if (tags) {
                 if (tags.indexOf("tendrl/central-store") !== -1) {
