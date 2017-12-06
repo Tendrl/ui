@@ -1,0 +1,19 @@
+<div ng-if="clusterData === null && !isAPINotFoundError" class="spinner spinner-lg"></div>
+<div ng-if="clusterData !== null" class="tendrl-cluster-events-container container-fluid">
+    <ol class="breadcrumb custom-breadcrumb" ng-show="!vm.isDataLoading">
+        <li><a ui-sref="clusters">Clusters</a></li>
+        <li>
+            <i class="breadcrumb-icon pficon" ng-class="{'pficon-warning-triangle-o': (vm.clusterStatus === 'HEALTH_ERR' || vm.clusterStatus === 'HEALTH_WARN'), 'pficon-ok': (vm.clusterStatus === 'HEALTH_OK')}"></i>
+            <span class="cluster-name">
+                {{vm.clusterName}}
+            </span>
+            <span class="tip">
+                {{vm.clusterName}}
+            </span>
+        </li>
+    </ol>
+    <div ng-if="vm.isDataLoading" class="spinner spinner-lg"></div>
+    <div ng-if="!vm.isDataLoading">
+        <event-list cluster-id="vm.clusterId"></event-list>
+    </div>
+</div>

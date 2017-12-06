@@ -1,4 +1,13 @@
-    .tendrl-volume-detail-container {
+.tendrl-cluster-volumes-container {
+
+    .push-top {
+        padding-top: 20px;
+    }
+
+    .cluster-detail-nav>li.active>a {
+        background-color: $color-light-grey;
+    }
+
     .custom-breadcrumb {
         list-style: none;
         min-width: 50px;
@@ -14,9 +23,8 @@
             }
             .cluster-name {
                 display: inline-block;
-                height: 25px;
+                height: 25px; //    line-height: 25px;
                 text-align: center;
-                width: 225px;
                 white-space: nowrap;
                 text-overflow: ellipsis;
                 overflow: hidden;

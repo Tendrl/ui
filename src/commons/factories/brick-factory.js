@@ -36,7 +36,7 @@
             });
         };
 
-         /**
+        /**
          * @name getVolumeBrickList
          * @desc fetch list of bricks
          * @memberOf brickFactory

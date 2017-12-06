@@ -20,7 +20,7 @@
             userList,
             updatedNotification;
 
-
+        $rootScope.selectedClusterOption = null;
         vm.userList = [];
         vm.isDataLoading = true;
         vm.filterBy = "username";

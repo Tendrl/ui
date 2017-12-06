@@ -76,7 +76,6 @@
                     <span class="fa fa-angle-down" ng-show="cluster.isExpanded" ng-click="clusterCntrl.expandCluster($event, cluster)"></span>
                 </div>
                 <div class="list-view-pf-actions">
-                    <button class="btn btn-default" ng-show="cluster.managed === 'Yes' && cluster.importStatus === 'done'" ng-click="clusterCntrl.goToClusterDetail(cluster)" tooltip-enable="clusterCntrl.flag" ng-mouseover="clusterCntrl.addTooltip($event)" uib-tooltip="Details">Details</button>
                     <button class="btn btn-default" ng-show="cluster.managed === 'Yes' && cluster.importStatus === 'done'" ng-click="clusterCntrl.redirectToGrafana(cluster, $event)" tooltip-enable="clusterCntrl.flag" ng-mouseover="clusterCntrl.addTooltip($event)" uib-tooltip="Dashboard">Dashboard</button>
                     <button class="btn btn-default profiling-btn" ng-disabled="$root.userRole === 'limited' || clusterCntrl.profilingButtonClick" ng-show="cluster.managed === 'Yes' && cluster.importStatus === 'done'" ng-click="clusterCntrl.doProfilingAction($event, cluster, cluster.isProfilingEnabled === 'Enabled' ? 'Disable' : 'Enable', cluster.clusterId)" tooltip-enable="clusterCntrl.flag" ng-mouseover="clusterCntrl.addTooltip($event)" uib-tooltip="cluster.isProfilingEnabled === 'Enabled' ? 'Disable Profiling' : 'Enable Profiling'">{{cluster.isProfilingEnabled === 'Enabled' ? "Disable Profiling" : "Enable Profiling"}}
                         <i class="glyphicon glyphicon-refresh glyphicon-refresh-animate" data-ng-class="{'hidden': clusterCntrl.profilingButtonClick !== true }"></i>
@@ -90,7 +89,7 @@
                     <div class="list-view-pf-body">
                         <div class="list-view-pf-description">
                             <div class="list-group-item-heading cluster-name bold-text counts" uib-tooltip-html="'{{cluster.name}}'" tooltip-placement="auto bottom-left">
-                                {{cluster.name}}
+                                <a ng-class="{'unmanaged':(cluster.managed !== 'Yes')}" ui-sref="{{cluster.managed === 'Yes' ? 'cluster-hosts({clusterId: cluster.name})' : '.' }}">{{cluster.name}}</a>
                             </div>
                         </div>
                         <div class="list-view-pf-additional-info">
@@ -117,7 +116,7 @@
                 <div class="close">
                     <span class="pficon pficon-close" ng-click="clusterCntrl.closeExpandedView(cluster)"></span>
                 </div>
-                <div class="row">
+                <div class="row extra-overflow">
                     <ul class="nav nav-tabs">
                         <li ng-class="{'active': clusterCntrl.isTabSet(cluster, 1)}"><a href="" ng-click="clusterCntrl.setTab(cluster, 1)">Hosts</a></li>
                         <li ng-class="{'active': clusterCntrl.isTabSet(cluster, 2)}" ng-show="cluster.errors.length"><a href="" ng-click="clusterCntrl.setTab(cluster, 2)">Messages</a></li>
@@ -163,7 +162,7 @@
                             <div class="blank-slate-pf-icon">
                                 <i class="pficon pficon-cluster"></i>
                             </div>
-                            <h1>No Messages found.</h1>
+                            <h1>No Messages found</h1>
                         </div>
                     </center>
                 </div>

@@ -42,7 +42,8 @@
             }
 
             return {
-                role: tags ? role[tags[1]] : "NA",
+
+                role: role[tags[1]],
                 release: tags ? tags[0] : "NA"
             };
         };
@@ -95,7 +96,7 @@
                     host.id = list[i].node_id;
                     host.status = list[i].status;
                     host.name = list[i].fqdn;
-                    host.role = store.findRole(list[i].tags).role;
+                    host.role = store.findRole(list[i].tags) ? store.findRole(list[i].tags).role : "None";
                     host.integrationId = list[i].cluster.integration_id;
                     host.managed = _getManagedState(clusters, host);
                     host.alerts = list[i].alert_counters ? list[i].alert_counters.warning_count : "No Data";
@@ -125,7 +126,7 @@
                 i;
 
             for (i = 0; i < len; i++) {
-                if(clusters[i].clusterId === host.integrationId) {
+                if (clusters[i].clusterId === host.integrationId) {
                     return clusters[i].managed;
                 }
             }

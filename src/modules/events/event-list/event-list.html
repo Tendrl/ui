@@ -49,7 +49,7 @@
             <div class="blank-slate-pf-icon">
                 <i class="pficon pficon-cluster"></i>
             </div>
-            <h1>No Events Detected.</h1>
+            <h1>No Events Detected</h1>
         </div>
     </center>
     <center ng-if="!eventListCntrl.isDataLoading && eventListCntrl.filteredEventList.length === 0 && eventListCntrl.eventList.length !== 0" class="empty-filter-list">
@@ -63,13 +63,15 @@
         </div>
     </center>
     <div ng-if="eventListCntrl.isDataLoading" class="spinner spinner-lg"></div>
-    <div class="flex-table list-group list-view-pf list-view-pf-view event-list-table" ng-show="!eventListCntrl.isDataLoading && eventListCntrl.eventList.length !== 0" ng-repeat="event in eventListCntrl.filteredEventList = (eventListCntrl.eventList |filter: eventListCntrl.filterByCreatedDate| filter: eventListCntrl.searchByDesc | orderBy: ['-timeStamp', 'message_id'])">
-        <div class="ft-row list-group-item">
-            <div class="ft-column event-desc">
-                <div>{{event.message || "NA"}}</div>
-            </div>
-            <div class="ft-column">
-                <div>{{event.timeStamp| date: 'dd MMM yyyy HH:mm:ss'}}</div>
+    <div class="flex-table list-group list-view-pf list-view-pf-view event-list-table" ng-show="!eventListCntrl.isDataLoading && eventListCntrl.eventList.length !== 0">
+        <div ng-repeat="event in eventListCntrl.filteredEventList = (eventListCntrl.eventList |filter: eventListCntrl.filterByCreatedDate| filter: eventListCntrl.searchByDesc | orderBy: ['-timeStamp', 'message_id'])">
+            <div class="ft-row list-group-item">
+                <div class="ft-column event-desc">
+                    <div>{{event.message || "NA"}}</div>
+                </div>
+                <div class="ft-column">
+                    <div>{{event.timeStamp| date: 'dd MMM yyyy HH:mm:ss'}}</div>
+                </div>
             </div>
         </div>
     </div>

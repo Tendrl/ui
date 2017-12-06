@@ -1,4 +1,5 @@
 .tendrl-volume-list-view-container {
+    margin-bottom: 10px;
     .list-view-pf-view {
         .list-group-item {
             .vol-name {
@@ -20,9 +21,11 @@
     .flex-table {
         .ft-actions {
             flex-grow: 1.2;
-            /*.dashboard-btn {
-                width: 125px;
-            } */
+            overflow: visible;
+            .dashboard-btn {
+                width: auto;
+                overflow: visible;
+            }   
         }
     }
 }
