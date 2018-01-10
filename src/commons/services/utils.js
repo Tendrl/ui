@@ -20,6 +20,7 @@
             len,
             clusterObj;
 
+
         vm.getObjectList = function() {
             var url = "",
                 getObjectListRequest, request;
@@ -129,7 +130,7 @@
             }
 
             return list;
-        }
+        };
 
         vm.getTaskLogs = function(jobId) {
             var url,
@@ -229,25 +230,25 @@
             return filteredList;
         };
 
-        vm.getNotificationList = function() {
+        vm.getEventList = function() {
             var url,
-                getNotificationListRequest,
+                getEventListRequest,
                 request;
 
-            //url = "/api/notification.json";
+            //url = "/api/events.json";
             url = config.baseUrl + "notifications";
 
-            getNotificationListRequest = {
+            getEventListRequest = {
                 method: "GET",
                 url: url
             };
 
-            request = angular.copy(getNotificationListRequest);
+            request = angular.copy(getEventListRequest);
             return $http(request).then(function(response) {
                 return response.data;
             }, function(e) {
                 vm.checkErrorCode(e);
-                console.log("Error Occurred: while fetching getNotificationList");
+                console.log("Error Occurred: while fetching getEventList");
                 return null;
             });
         };
@@ -299,6 +300,15 @@
             }
             window.open(uri);
             $event.stopPropagation();
-        }
+        };
+
+        vm.tooltip = function($event) {
+            if ($event.target.clientWidth < $event.target.scrollWidth) {
+                return true;
+            } else {
+                return false;
+            }
+
+        };
     };
 })();

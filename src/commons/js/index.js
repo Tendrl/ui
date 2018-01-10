@@ -72,6 +72,10 @@
                         url: "/cluster-detail/:clusterId/volume-detail/:volumeId",
                         template: "<volume-detail></volume-detail>"
                     })
+                    .state("events", {
+                        url: "/events",
+                        template: "<event-list></event-list>"
+                    })
                     .state("tasks", {
                         url: "/tasks",
                         template: "<tasks></tasks>"
@@ -88,10 +92,10 @@
                         url: "/admin/users/edit/:userId",
                         template: "<edit-user></edit-user>"
                     })
-                    .state("alerts", {
-                        url: "/alerts",
-                        template: "<alerts></alerts>"
-                    })
+                    // .state("alerts", {
+                    //     url: "/alerts",
+                    //     template: "<alerts></alerts>"
+                    // })
                     .state("task-detail", {
                         url: "/admin/tasks/:taskId",
                         template: "<task-detail></task-detail>"
@@ -103,7 +107,7 @@
 
             });
             storageModule.run(function($rootScope, $location, $http, $interval, menuService, AuthManager, utils, eventStore, config, clusterStore, userStore) {
-                var restrictedPage, loggedIn, notificationTimer;
+                var restrictedPage, loggedIn, alertListTimer;
 
                 $rootScope.$on("$locationChangeStart", function(event, current, next) {
                     // redirect to login page if not logged in and trying to access a restricted page
@@ -139,7 +143,7 @@
                     /* Tracking the current URI for navigation*/
                     $rootScope.isAPINotFoundError = false;
                     $rootScope.clusterData = null;
-                    $rootScope.notificationList = null;
+                    $rootScope.alertList = null;
                     $rootScope.selectedClusterOption = "allClusters";
                     menuService.setMenus();
 
@@ -150,7 +154,7 @@
                         $rootScope.$broadcast("GotClusterData", $rootScope.clusterData); // going down!
                         if ($rootScope.clusterData !== null && $rootScope.clusterData.length !== 0) {
                             /* Forward to cluster view if we have cluster data. */
-                            getNotificationList();
+                            getAlertList();
                         }
                     }).catch(function(error) {
                         $rootScope.$broadcast("GotClusterData", $rootScope.clusterData); // going down!
@@ -161,31 +165,31 @@
                 }
 
 
-                function getNotificationList() {
-                    eventStore.getNotificationList()
-                        .then(function(notificationList) {
-                            $interval.cancel(notificationTimer);
-                            $rootScope.notificationList = notificationList;
-                            $rootScope.$broadcast("GotNoticationData", $rootScope.notificationList);
-                            startNotificationTimer();
+                function getAlertList() {
+                    eventStore.getAlertList()
+                        .then(function(alertList) {
+                            $interval.cancel(alertListTimer);
+                            $rootScope.alertList = alertList;
+                            $rootScope.$broadcast("GotAlertData", $rootScope.alertList);
+                            startAlertTimer();
                         })
                         .catch(function(error) {
-                            $rootScope.notificationList = null;
+                            $rootScope.alertList = null;
                         });
                 }
 
-                function startNotificationTimer() {
-                    notificationTimer = $interval(function() {
-                        getNotificationList();
+                function startAlertTimer() {
+                    alertListTimer = $interval(function() {
+                        getAlertList();
                     }, 1000 * config.eventsRefreshIntervalTime, 1);
                 }
 
                 $rootScope.$on("$destroy", function() {
-                    $interval.cancel(notificationTimer);
+                    $interval.cancel(alertListTimer);
                 });
 
                 $rootScope.$on("UserLogsOut", function() {
-                    $interval.cancel(notificationTimer);
+                    $interval.cancel(alertListTimer);
                 });
             });
 

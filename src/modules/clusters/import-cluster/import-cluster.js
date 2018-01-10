@@ -22,12 +22,17 @@
 
         vm.filterBy = "fqdn";
         vm.orderBy = "fqdn";
+        vm.orderByValue = "Name";
+        vm.filterByValue = "Name";
+        vm.filterPlaceholder = "Name";
         vm.enableProfiling = true;
         vm.taskInitiated = false;
-
+        vm.importIcon = false;
         vm.importCluster = importCluster;
         vm.importCancel = importCancel;
         vm.viewTaskProgress = viewTaskProgress;
+        vm.changingFilterBy = changingFilterBy;
+        vm.changingOrderBy = changingOrderBy;
 
         init();
 
@@ -50,6 +55,7 @@
          * @memberOf importClusterController
          */
         function importCluster() {
+            vm.importIcon = true;
             clusterStore.importCluster($rootScope.clusterTobeImported, vm.enableProfiling)
                 .then(function(data) {
                     vm.taskInitiated = true;
@@ -73,6 +79,34 @@
          */
         function viewTaskProgress() {
             $state.go("task-detail", { taskId: vm.jobId });
+        }
+
+        function changingFilterBy(filterValue) {
+            vm.filterBy = filterValue;
+            switch (filterValue) {
+                case "fqdn":
+                    vm.filterByValue = "Name";
+                    vm.filterPlaceholder = "Name";
+                    break;
+
+                case "role":
+                    vm.filterByValue = "Role";
+                    vm.filterPlaceholder = "Role";
+                    break;
+
+            };
+        }
+
+        function changingOrderBy(orderValue) {
+            vm.orderBy = orderValue;
+            switch (orderValue) {
+                case "fqdn":
+                    vm.orderByValue = "Name";
+                    break;
+                case "role":
+                    vm.orderByValue = "Role";
+                    break;
+            };
         }
 
     }

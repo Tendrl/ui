@@ -126,7 +126,7 @@
                     for (i = 0; i < len; i++) {
                         if (list[i].subvolume) {
                             temp = {};
-                            temp.sequenceNumber = parseInt(list[i].subvolume.split("volume")[1]) + 1;
+                            temp.sequenceNumber = parseInt(list[i].subvolume.split("volume")[1]);
                             temp.subVolumeName = prefix + temp.sequenceNumber;
                             index = _isSubVolPresent(temp.sequenceNumber);
                             if (index !== -999) {

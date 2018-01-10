@@ -6,7 +6,6 @@
         border-right: none;
     }
     .cluster-name {
-        cursor: pointer;
         white-space: nowrap;
         overflow: hidden;
         text-overflow: ellipsis;
@@ -56,7 +55,7 @@
                 }
             }
             .list-view-pf-actions {
-                width: 258px;
+                width: 275px;
                 text-align: right;
                 .display {
                     display: block;
@@ -71,10 +70,16 @@
                     text-overflow: ellipsis;
                     margin-left: 5px;
                 }
+                .profiling-btn {
+                    padding-right: 4px;
+                }
             }
             .list-view-pf-main-info {
                 padding-top: 10px;
                 .error-message {
+                    color: $color-red !important;
+                }
+                .warning-message {
                     color: $color-red !important;
                 }
                 .cluster-text {
@@ -91,6 +96,12 @@
                         padding: 5px;
                     }
                 }
+                &.scroll {
+                    max-height: 191px;
+                    min-height: 191px;
+                    overflow-y: auto;
+                    overflow-x: hidden;
+                }
             }
         }
     }
@@ -99,5 +110,13 @@
     }
     .fa-question {
         width: 24px;
+    }
+    .error-list {
+        .list-view-pf-description {
+            max-width: none;
+        }
+        .list-group-item {
+            padding: 10px;
+        }
     }
 }

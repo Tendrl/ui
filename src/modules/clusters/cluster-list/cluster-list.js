@@ -27,10 +27,17 @@
 
         vm.isDataLoading = true;
         vm.clusterNotPresent = false;
+        vm.flag = false;
+        vm.profilingButtonClick = false;
+        vm.clusterList = [];
         vm.filterBy = "name";
         vm.orderBy = "name";
-        vm.clusterList = [];
+        vm.orderByValue = "Name";
+        vm.filterByValue = "Name";
+        vm.filterPlaceholder = "Name";
 
+        vm.changingFilterBy = changingFilterBy;
+        vm.changingOrderBy = changingOrderBy;
         vm.expandCluster = expandCluster;
         vm.closeExpandedView = closeExpandedView;
         vm.goToImportFlow = goToImportFlow;
@@ -40,6 +47,8 @@
         vm.setTab = setTab;
         vm.isTabSet = isTabSet;
         vm.redirectToGrafana = redirectToGrafana;
+        vm.addTooltip = addTooltip;
+        vm.clearAllFilters = clearAllFilters;
 
         init();
 
@@ -57,6 +66,7 @@
                     $interval.cancel(clusterListTimer);
 
                     if (vm.clusterList.length) {
+                        vm.clusterNotPresent = false;
                         _mantainExpandedState(data);
                     } else {
                         vm.clusterList = data;
@@ -163,6 +173,7 @@
          * @memberOf clusterController
          */
         function doProfilingAction($event, cluster, action, clusterId) {
+            vm.profilingButtonClick = true;
             clusterStore.doProfilingAction(cluster.clusterId, action)
                 .then(function(data) {
                     Notifications.message("success", "", "Volume profiling " + (action === "Enable" ? "enabled" : "disabled") + " successfully.");
@@ -170,6 +181,8 @@
                     vm.clusterList[cluster.index].isProfilingEnabled = data.enable_volume_profiling === "yes" ? "Enabled" : "Disabled";
                 }).catch(function(error) {
                     Notifications.message("danger", "", "Failed to " + (action === "Enable" ? "enable" : "disable") + " volume profile.");
+                }).finally(function() {
+                    vm.profilingButtonClick = false;
                 });
             $event.stopPropagation();
         }
@@ -190,6 +203,11 @@
          */
         function isTabSet(cluster, tabNum) {
             return cluster.activeTab === tabNum;
+        }
+
+        function clearAllFilters() {
+            vm.searchBy = {};
+            vm.filterBy = "name";
         }
 
         /***Private Functions***/
@@ -242,6 +260,38 @@
                 return -999;
             }
 
+        }
+
+        function addTooltip($event) {
+            vm.flag = utils.tooltip($event);
+        }
+
+        function changingFilterBy(filterValue) {
+            vm.filterBy = filterValue;
+            switch (filterValue) {
+                case "name":
+                    vm.filterByValue = "Name";
+                    vm.filterPlaceholder = "Name";
+                    break;
+            };
+        }
+
+        function changingOrderBy(orderValue) {
+            vm.orderBy = orderValue;
+            switch (orderValue) {
+                case "name":
+                    vm.orderByValue = "Name";
+                    break;
+                case "status":
+                    vm.orderByValue = "Status";
+                    break;
+                case "sdsVersion":
+                    vm.orderByValue = "Cluster Version";
+                    break;
+                case "managed":
+                    vm.orderByValue = "Managed";
+                    break;
+            };
         }
 
     }

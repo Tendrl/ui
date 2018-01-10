@@ -17,7 +17,7 @@
 
         /* Controller instance */
         var vm = this,
-            noticeTimer;
+            alertLTimer;
 
         $rootScope.isAPINotFoundError = false;
 
@@ -63,7 +63,7 @@
                         $state.go("clusters");
                     })
                     .then(function() {
-                        getNotificationList();
+                        getAlertList();
                         $rootScope.isNavigationShow = true;
                     })
                     .finally(function() {
@@ -90,27 +90,27 @@
 
         }
 
-        function getNotificationList() {
-            eventStore.getNotificationList()
-                .then(function(notificationList) {
-                    $interval.cancel(noticeTimer);
-                    $rootScope.notificationList = notificationList;
-                    $rootScope.$broadcast("GotNoticationData", $rootScope.notificationList);
-                    startNotificationTimer();
+        function getAlertList() {
+            eventStore.getAlertList()
+                .then(function(alertList) {
+                    $interval.cancel(alertLTimer);
+                    $rootScope.alertList = alertList;
+                    $rootScope.$broadcast("GotAlertData", $rootScope.alertList);
+                    startAlertTimer();
                 })
                 .catch(function(error) {
-                    $rootScope.notificationList = null;
+                    $rootScope.alertList = null;
                 });
         }
 
-        function startNotificationTimer() {
-            noticeTimer = $interval(function() {
-                getNotificationList();
+        function startAlertTimer() {
+            alertLTimer = $interval(function() {
+                getAlertList();
             }, 1000 * config.eventsRefreshIntervalTime, 1);
         }
 
         $rootScope.$on("UserLogsOut", function() {
-            $interval.cancel(noticeTimer);
+            $interval.cancel(alertLTimer);
         });
 
     }

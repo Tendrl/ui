@@ -4,9 +4,20 @@
     flex-wrap: nowrap;
     justify-content: flex-start;
     margin-top: 0;
-    
     .progress {
         flex: 1;
         margin: 0 5px 0 5px;
+    }
+    .used-percentage {
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        padding-left: 0;
+        padding-right: 0;
+        width: 23%;
+    }
+    .progress-bar-remaining {
+        background-color: $color-white;
+        border: 1px solid $color-dark-gray;
     }
 }

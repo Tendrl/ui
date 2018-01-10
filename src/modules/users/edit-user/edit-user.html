@@ -1,7 +1,7 @@
 <div class="tendrl-edit-add-view-container">
     <div class="container-fluid">
         <!--Heading section-->
-        <ol class="breadcrumb">
+        <ol class="breadcrumb custom-breadcrumb">
             <li><a ui-sref="users">Users</a></li>
             <li>
                 <span>
@@ -44,10 +44,10 @@
                 <div class="col-sm-8 col-md-6 inner-addon">
                     <input type="{{ editUserCntrl.typePassword ? 'text' : 'password' }}" data-id="password" name="password" ng-model="editUserCntrl.user.password" minlength="8" />
                     <span id="passwordStatus" class="showPassword" ng-click="editUserCntrl.toggleTypePassword()">
-                        <span ng-if="editUserCntrl.typePassword == 1">
+                        <span ng-if="editUserCntrl.typePassword === true">
                             <i class="glyphicon glyphicon-eye-open" aria-hidden="true"></i>
                         </span>
-                    <span ng-if="editUserCntrl.typePassword == 0">
+                    <span ng-if="editUserCntrl.typePassword === false">
                             <i class="glyphicon glyphicon-eye-close" aria-hidden="true"></i>
                         </span>
                     </span>
@@ -58,10 +58,10 @@
                 <div class="col-sm-8 col-md-6 inner-addon">
                     <input type="{{ editUserCntrl.confirmPassword ? 'text' : 'password' }}" data-id="password" aria-describedby="passwordStatus" name="confirmPassword" ng-model="editUserCntrl.user.confirmPassword" minlength="8">
                     <span id="passwordStatus" class="showPassword" ng-click="editUserCntrl.toggleConfirmPassword()">
-                        <span ng-if="editUserCntrl.confirmPassword == 1">
+                        <span ng-if="editUserCntrl.confirmPassword === true">
                             <i class="glyphicon glyphicon-eye-open" aria-hidden="true"></i>
                         </span>
-                    <span ng-if="editUserCntrl.confirmPassword == 0">
+                    <span ng-if="editUserCntrl.confirmPassword === false">
                             <i class="glyphicon glyphicon-eye-close" aria-hidden="true"></i>
                         </span>
                     </span>
@@ -94,8 +94,8 @@
             <div class="form-group form-inline bottom-button">
                 <label class="col-sm-2 col-md-1 control-label"></label>
                 <div class="col-sm-8 col-md-6">
-                    <button type="submit" class="btn btn-primary btn-lg submit-button">
-                        <i class="glyphicon glyphicon-refresh glyphicon-refresh-animate hidden" data-ng-class="{'hidden': editUserCntrl.formSubmitInProgress !== true }">
+                    <button type="submit" class="btn btn-primary btn-lg submit-button" ng-disabled="editUserCntrl.formSubmitInProgress">
+                        <i class="glyphicon glyphicon-refresh glyphicon-refresh-animate" data-ng-class="{'hidden': editUserCntrl.formSubmitInProgress !== true }">
                     </i>
                         <span>Save</span>
                     </button>

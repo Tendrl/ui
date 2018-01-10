@@ -37,17 +37,18 @@
 
                 for (i = 0; i < len; i++) {
                     temp = {};
-
-                    temp.volumeId = data[i].vol_id;
-                    //temp.status = data[i].status !== "Stopped" ? "Running": data[i].status;
-                    temp.status = data[i].status;
-                    temp.name = data[i].name;
-                    temp.type = data[i].vol_type;
-                    temp.clusterId = data[i].cluster_id;
-                    temp.rebalStatus = data[i].rebal_status;
-                    temp.brickCount = data[i].brick_count;
-                    temp.alertCount = data[i].alert_count ? data[i].alert_count : "No Data";
-                    volumeList.push(temp);
+                    if (data[i].deleted !== "True") {
+                        temp.volumeId = data[i].vol_id;
+                        //temp.status = data[i].status !== "Stopped" ? "Running": data[i].status;
+                        temp.status = data[i].status;
+                        temp.name = data[i].name;
+                        temp.type = data[i].vol_type;
+                        temp.clusterId = data[i].cluster_id;
+                        temp.rebalStatus = data[i].rebal_status;
+                        temp.brickCount = data[i].brick_count;
+                        temp.alertCount = data[i].alert_counters ? data[i].alert_counters.warning_count : "No Data";
+                        volumeList.push(temp);
+                    }
                 }
                 return volumeList;
             }

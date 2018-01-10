@@ -4,7 +4,6 @@
         height: 20px;
         cursor: pointer;
     }
-
     .headerName {
         color: $color-white;
         padding: 8px;
@@ -14,9 +13,10 @@
         font-size: 20px;
     }
     .notification-container {
+        overflow: hidden;
         right: 0;
         position: absolute;
-        width: 360px;
+        width: 30%;
         border: 1px solid $color-black;
         height: 100vh;
         top: 56px;
@@ -27,6 +27,14 @@
         }
         .notification-count {
             margin-left: 10px;
+
+            .highlight-text {
+                font-weight: bold;
+                color: $color-pacific-blue;
+            }
+        }
+        .clear-filter {
+            margin-right: 10px;
         }
         .angle-expand {
             font-size: 25px;
@@ -36,33 +44,41 @@
             cursor: pointer;
         }
         .notification-list-container {
-            /*border: 1px solid $color-black;*/
             max-height: 82vh;
             overflow: auto;
             .list-group-item {
                 padding-top: 10px;
                 padding-bottom: 10px;
+                border: none;
             }
-            .timestamp {
+            .severity {
                 padding-right: 0;
+                padding-left: 0;
+                font-size: 20px;
+            }
+            .desc {
+                padding-left: 10px;
             }
         }
-
         .vertical-align {
             display: flex;
             align-items: center;
+            .alert-title {
+                text-align: center;
+                font-size: 15px;
+            }
         }
-
-        .notification_close {
+        .notification-close {
             i {
                 cursor: pointer;
             }
+            text-align: end;
         }
-    }
-    .notice-name {
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
+        .severity-counts {
+            padding: 10px 10px 10px 0;
+            font-size: 14px;
+            cursor: pointer;
+        }
     }
     .cluster-options {
         margin-top: 19px;

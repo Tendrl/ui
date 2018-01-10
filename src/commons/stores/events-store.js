@@ -50,20 +50,20 @@
             }
         };
 
-        store.getNotificationList = function() {
+        store.getEventList = function() {
             var list,
                 deferred;
                 
             deferred = $q.defer();
-            utils.getNotificationList()
+            utils.getEventList()
                 .then(function(data) {
-                    list = data ? _formatNotificationData(data) : [];
+                    list = data ? _formatEventData(data) : [];
                     deferred.resolve(list);
                 });
 
             return deferred.promise;
 
-            function _formatNotificationData(data) {
+            function _formatEventData(data) {
                 var len = data.length,
                     res = [],
                     temp = {},

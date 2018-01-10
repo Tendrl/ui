@@ -23,10 +23,22 @@
         vm.deleteFileShareStep = 1;
         vm.selectedFileShare = null;
         vm.isDataLoading = true;
+        vm.flag = false;
+        vm.volumeList = [];
+        vm.filterBy = "name";
+        vm.orderBy = "name";
+        vm.orderByValue = "Name";
+        vm.filterByValue = "Name";
+        vm.filterPlaceholder = "Name";
+
         vm.isRebalanceAllowed = isRebalanceAllowed;
         vm.getRebalStatus = volumeStore.getRebalStatus;
         vm.redirectToGrafana = redirectToGrafana;
         vm.goToVolumeDetail = goToVolumeDetail;
+        vm.addTooltip = addTooltip;
+        vm.clearAllFilters = clearAllFilters;
+        vm.changingFilterBy = changingFilterBy;
+        vm.changingOrderBy = changingOrderBy;
 
         init();
 
@@ -62,9 +74,11 @@
             $interval.cancel(volumeTimer);
         });
 
-        function redirectToGrafana(volume, $event){
-            utils.redirectToGrafana("volumes", $event, {clusterId: vm.clusterId,
-                                                        volumeName: volume.name});
+        function redirectToGrafana(volume, $event) {
+            utils.redirectToGrafana("volumes", $event, {
+                clusterId: vm.clusterId,
+                volumeName: volume.name
+            });
         }
 
         function isRebalanceAllowed(volume) {
@@ -75,6 +89,48 @@
             if (vm.clusterId) {
                 $state.go("volume-detail", { clusterId: vm.clusterId, volumeId: volume.volumeId });
             }
+        }
+
+        function addTooltip($event) {
+            vm.flag = utils.tooltip($event);
+        }
+
+        function clearAllFilters() {
+            vm.filterBy = "name";
+            vm.searchBy = {};
+        }
+
+        function changingFilterBy(filterValue) {
+            vm.filterBy = filterValue;
+            switch (filterValue) {
+                case "name":
+                    vm.filterByValue = "Name";
+                    vm.filterPlaceholder = "Name";
+                    break;
+
+                case "status":
+                    vm.filterByValue = "Status";
+                    vm.filterPlaceholder = "Status";
+                    break;
+
+                case "type":
+                    vm.filterByValue = "Type";
+                    vm.filterPlaceholder = "Type";
+                    break;
+            };
+        }
+
+        function changingOrderBy(orderValue) {
+            vm.orderBy = orderValue;
+            switch (orderValue) {
+                case "name":
+                    vm.orderByValue = "Name";
+                    break;
+
+                case "status":
+                    vm.orderByValue = "Status";
+                    break;
+            };
         }
     }
 

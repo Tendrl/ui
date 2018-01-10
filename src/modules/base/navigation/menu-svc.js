@@ -14,53 +14,65 @@
 
         vm.setMenus = function() {
             vm.menus = [{
-                label: "Clusters",
-                id: "clusters",
-                href: "clusters",
-                icon: "pficon pficon-cluster",
-                active: false,
-                hasSubMenus: false,
-                show: true
-            }, {
-                label: "Hosts",
-                id: "hosts",
-                href: "hosts",
-                icon: "pficon pficon-container-node",
-                active: false,
-                hasSubMenus: false,
-                show: true
-            }, {
-                label: "Alerts",
-                id: "alerts",
-                href: "alerts",
-                icon: "fa fa-cog",
-                active: false,
-                hasSubMenus: false,
-                show: true
-            }, {
-                label: "Tasks",
-                id: "tasks",
-                href: "tasks",
-                icon: "fa fa-cog",
-                active: false,
-                hasSubMenus: false,
-                show: true
-            }, {
-                label: "Admin",
-                id: "admin",
-                href: "admin",
-                icon: "fa fa-cog",
-                active: false,
-                show: AuthManager.getUserRole() === "admin",
-                hasSubMenus: true,
-                subMenus: [{
-                    label: "Users",
-                    id: "users",
-                    href: "users",
+
+                    label: "Clusters",
+                    id: "clusters",
+                    href: "clusters",
+                    icon: "pficon pficon-cluster",
+                    active: false,
+                    hasSubMenus: false,
+                    show: true
+                }, {
+                    label: "Hosts",
+                    id: "hosts",
+                    href: "hosts",
+                    icon: "pficon pficon-container-node",
+                    active: false,
+                    hasSubMenus: false,
+                    show: true
+                },
+                // {
+                //     label: "Alerts",
+                //     id: "alerts",
+                //     href: "alerts",
+                //     icon: "fa fa-cog",
+                //     active: false,
+                //     hasSubMenus: false,
+                //     show: true
+                // }, 
+                {
+                    label: "Events",
+                    id: "events",
+                    href: "events",
                     icon: "fa fa-cog",
-                    active: false
-                }]
-            }];
+                    active: false,
+                    hasSubMenus: false,
+                    show: true
+                }, {
+                    label: "Tasks",
+                    id: "tasks",
+                    href: "tasks",
+                    icon: "fa fa-cog",
+                    active: false,
+                    hasSubMenus: false,
+                    show: true
+                }, {
+                    label: "Admin",
+                    id: "admin",
+                    href: "admin",
+                    icon: "fa fa-cog",
+                    active: false,
+                    show: AuthManager.getUserRole() === "admin",
+                    hasSubMenus: true,
+                    subMenus: [{
+                        label: "Users",
+                        id: "users",
+                        href: "users",
+                        icon: "fa fa-cog",
+                        active: false
+                    }]
+                }
+            ];
         };
 
         vm.setActive = function(menuId) {

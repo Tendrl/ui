@@ -38,9 +38,7 @@
     .severity-counts {
         padding: 10px 0;
         font-size: 14px;
-        .counts {
-            cursor: pointer;
-        }
+        cursor: pointer;
     }
     .filter-section {
         margin-top: 20px;
@@ -60,6 +58,7 @@
     }
     .invalid-msg {
         margin-top: 21px;
+        border-right: none;
     }
     .toolbar-pf-results {
         border-top: none;

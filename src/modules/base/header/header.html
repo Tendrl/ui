@@ -9,7 +9,7 @@
         <a class="navbar-brand" ng-click="header.homePage()" class="nav-brand-name-link">
             <img class="nav-brand-name brand-name-img" src="../images/name.png" alt="tendrl | Unified Storage Manager" />
         </a>
-        <select id="repeatSelect" ng-model="$root.selectedClusterOption" class="cluster-options btn btn-default dropdown-toggle" ng-change="header.goToClusterPage()" uib-tooltip-html="header.getClusterName($root.selectedClusterOption)" tooltip-placement="auto bottom">
+        <select id="repeatSelect" ng-model="$root.selectedClusterOption" class="cluster-options btn btn-default dropdown-toggle filterSelect" ng-change="header.goToClusterPage()" uib-tooltip-html="header.getClusterName($root.selectedClusterOption)" tooltip-placement="auto bottom">
             <option value="allClusters" ng-selected="$root.selectedClusterOption === 'allClusters'">All Clusters</option>
             <option ng-repeat="cluster in $root.clusterData" value="{{cluster.cluster_id}}" ng-selected="$root.selectedClusterOption === '{{cluster.cluster_id}}'">{{cluster.cluster_id}}</option>
         </select>
@@ -20,7 +20,7 @@
         </span>
         <ul class="nav navbar-nav navbar-right navbar-iconic" ng-if="!notification.message.length">
             <li class="dropdown">
-                <a data-toggle="dropdown" class="dropdown-toggle nav-item-iconic" href="" data-template="" data-animation="am-fade-and-slide-top" bs-dropdown="dropdown" title="Notifications" id="notifications" ng-click="header.setNotificationFlag()">
+                <a data-toggle="dropdown" class="dropdown-toggle nav-item-iconic" href="" data-template="" data-animation="am-fade-and-slide-top" bs-dropdown="dropdown" title="Alerts" id="notifications" ng-click="header.setNotificationFlag()">
                     <i class="fa fa-bell"></i>
                     <span class="badge"></span>
                 </a>
@@ -37,12 +37,10 @@
             </li>
         </ul>
     </nav>
-    <div ng-if="header.showNotification" class="notification-container">
+    <div ng-if="header.showAlerts" class="notification-container">
         <div class="row vertical-align">
-            <div class="col-md-9">
-                <h2 class="bold-text">Notifications</h2>
-            </div>
-            <div class="col-md-3 notification_close">
+            <div class="alert-title text-center col-md-11">Alerts</div>
+            <div class="notification-close pull-right col-md-1">
                 <h4><i class="pficon pficon-close" aria-hidden="true" ng-click="header.closeNotificationBar()"></i></h4>
             </div>
         </div>
@@ -50,27 +48,45 @@
             <div class="col-md-12 horizontal-line"></div>
         </div>
         <div class="row notification-count">
-            <h5 class="bold-text">{{header.notificationList.length}} Notifications</h5>
+            <div class="bold-text pull-left severity-counts">{{header.filterAlertList.length}}
+                <ng-pluralize count="header.filterAlertList.length" when="{'one': 'Alert', 'other': 'Alerts'}"></ng-pluralize>
+            </div>
+            <div class="severity-counts pull-right" ng-show="header.severityList.warningAlerts.length" ng-click="header.setSeverity('warning')">
+                <i class="pficon pficon pficon-warning-triangle-o"></i>
+                <span ng-class="{'highlight-text': header.severity === 'warning'}">{{header.severityList.warningAlerts.length}}</span>
+            </div>
+            <div class="severity-counts pull-right" ng-show="header.severityList.errorAlerts.length" ng-click="header.setSeverity('error')">
+                <i class="pficon pficon-error-circle-o"></i>
+                <span ng-class="{'highlight-text': header.severity === 'error'}"> {{header.severityList.errorAlerts.length}}</span>
+            </div>
+            <div class="severity-counts pull-right" ng-show="header.severityList.infoAlerts.length" ng-click="header.setSeverity('info')">
+                <i class="pficon pficon-info"></i>
+                <span ng-class="{'highlight-text': header.severity === 'info'}"> {{header.severityList.infoAlerts.length}}</span>
+            </div>
+        </div>
+        <div class="row clear-filter pull-right" ng-show="header.severity">
+            <a href="" ng-click="header.clearAllFilters()">Clear Filter</a>
         </div>
         <div class="row">
             <div class="col-md-12 horizontal-line"></div>
         </div>
-        <center ng-if="header.notificationList.length === 0">
+        <center ng-if="header.alertList.length === 0">
             <div class="blank-slate-pf">
                 <div class="blank-slate-pf-icon">
                     <i class="pficon pficon-cluster"></i>
                 </div>
-                <h1>No Notifications Detected.</h1>
+                <h1>No Alerts Detected.</h1>
             </div>
         </center>
         <div class="notification-list-container">
-            <div class="list-group list-view-pf list-view-pf-equalized-column" ng-repeat="notice in header.notificationList">
+            <div class="list-group list-view-pf list-view-pf-equalized-column" ng-repeat="alert in header.filterAlertList = (header.alertList | filter: header.filterBySeverity | orderBy: ['-timeStamp', 'severity', 'alertId'])">
                 <div class="list-group-item">
-                    <div class="col-md-6">
-                        <p class="notice-name" data-toggle="tooltip" data-placement="auto" title="{{notice.message}}">{{notice.message}}</p>
+                    <div class="col-md-1 severity">
+                        <i ng-class="{'pficon pficon-error-circle-o': (alert.severity === 'error'), 'pficon pficon-info': (alert.severity === 'info'), 'pficon pficon-warning-triangle-o': (alert.severity === 'warning')}" data-toggle="tooltip" data-placement="auto" title="{{alert.severity}}"></i>
                     </div>
-                    <div class="col-md-6 timestamp">
-                        {{notice.timeStamp| date: 'dd MMM yyyy HH:mm:ss'}}
+                    <div class="col-md-11 desc">
+                        <p>{{alert.desc}}</p>
+                        <div>{{alert.timeStamp| date: 'dd MMM yyyy HH:mm:ss'}}</div>
                     </div>
                 </div>
             </div>

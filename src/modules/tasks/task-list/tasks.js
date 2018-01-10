@@ -13,7 +13,7 @@
         });
 
     /*@ngInject*/
-    function taskController($rootScope, $scope, $interval, $state, $timeout, $filter, orderByFilter, config, taskStore) {
+    function taskController($rootScope, $scope, $interval, $state, $timeout, $filter, orderByFilter, config, taskStore, utils) {
 
         var vm = this,
             jobTimer,
@@ -21,6 +21,13 @@
             count;
 
         vm.tasksStatus = ["processing", "finished", "failed"];
+        vm.taskList = [];
+        vm.isDataLoading = true;
+        vm.flag = false;
+        vm.filterBy = "job_id";
+        vm.filterByValue = "Task ID";
+        vm.filterPlaceholder = "Task ID";
+        count = 1;
 
         vm.goToTaskDetail = goToTaskDetail;
         vm.getStatusText = getStatusText;
@@ -28,9 +35,10 @@
         vm.isSelectedStatus = isSelectedStatus;
         vm.filterByStatus = filterByStatus;
         vm.filterByCreatedDate = filterByCreatedDate;
-
-        vm.isDataLoading = true;
-        count = 1;
+        vm.clearDate = clearDate;
+        vm.clearAllFilters = clearAllFilters;
+        vm.addTooltip = addTooltip;
+        vm.changingFilterBy = changingFilterBy;
 
         vm.date = {
             fromDate: "",
@@ -144,13 +152,16 @@
         }
 
         function filterByCreatedDate(list) {
-            if (count === 1) {
+            if (count === 1 && vm.date.fromDate && vm.date.toDate) {
                 checkValidDates();
             }
 
             if (vm.date.fromDate && vm.date.toDate) {
-                return Date.parse(list.created_at) >= Date.parse(vm.date.fromDate) &&
-                    Date.parse(list.created_at) <= Date.parse(vm.date.toDate);
+                return Date.parse(list.created_at) >= Date.parse(vm.date.fromDate) && Date.parse(list.created_at) <= Date.parse(vm.date.toDate);
+            } else if (vm.date.fromDate) {
+                return Date.parse(list.created_at) >= Date.parse(vm.date.fromDate);
+            } else if (vm.date.toDate) {
+                return Date.parse(list.created_at) <= Date.parse(vm.date.toDate);
             } else {
                 return list;
             }
@@ -169,6 +180,44 @@
         vm.resetCount = function() {
             count = 1;
         };
+
+        function addTooltip($event) {
+            vm.flag = utils.tooltip($event);
+        }
+
+        function clearDate(type) {
+            if (type === "from") {
+                vm.date.fromDate = "";
+            } else if (type === "to") {
+                vm.date.toDate = "";
+            }
+        }
+
+        function clearAllFilters() {
+            vm.date.toDate = "";
+            vm.date.fromDate = "";
+            vm.invalidToDate = false;
+            vm.filterBy = "job_id";
+            vm.filterByValue = "Task ID";
+            vm.filterPlaceholder = "Task ID";
+            vm.searchBy = {};
+            vm.tasksStatus = ["processing", "finished", "failed"];
+        }
+
+        function changingFilterBy(filterValue) {
+            vm.filterBy = filterValue;
+            switch (filterValue) {
+                case "job_id":
+                    vm.filterByValue = "Task ID";
+                    vm.filterPlaceholder = "Task ID";
+                    break;
+
+                case "flow":
+                    vm.filterByValue = "Task";
+                    vm.filterPlaceholder = "Task";
+                    break;
+            };
+        }
     }
 
 })();

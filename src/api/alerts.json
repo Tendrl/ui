@@ -79,7 +79,7 @@
     "acked": "False",
     "acked_at": "collectd",
     "alert_type": "percent",
-    "severity": "OK",
+    "severity": "INFO",
     "tags": {
         "warning_max": "1.000000e+00",
         "message": "Host cluster_gc3b125e-4769-4071-a349-e82b380c11f4, plugin volume_utilization (instance vol1) type percent (instance percent_bytes): Data source \"value\" is currently 5.018519. That is above the failure threshold of 2.000000.\n",

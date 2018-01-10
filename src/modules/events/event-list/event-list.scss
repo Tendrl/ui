@@ -1,4 +1,27 @@
-.tendrl-task-list-view-container {
+.tendrl-event-list-view-container {
+
+
+    .event-list-table {
+        max-height: 65vh;
+        overflow: auto;
+
+        .list-group-item {
+            padding: 10px 0;
+
+            .event-desc {
+                margin-right: 20px;
+            }
+        }
+    }
+
+    .date-filter {
+        padding-left: 0;
+    }
+
+    .extra-margin {
+        margin-top: 0px;
+    }
+
     .toolbar-pf-results {
         border-top: none;
         display: flex;
@@ -25,37 +48,28 @@
             }
         }
     }
-    .task-list-table {
-        max-height: 65vh;
-        overflow: auto;
-        .list-group-item {
-            padding-top: 10px;
-            padding-bottom: 10px;
-            .task-flow {
-                margin-left: 10px;
-                align-items: left;
-                flex: 1;
-            }
-            .status-col {
-                flex-grow: 0.5;
-            }
-            .task-btn {
-                width: auto;
-            }
-        }
-    }
 
-    .extra-margin {
-        margin-top: 0px;
-    }
     .filter-section {
         margin-top: 20px;
     }
+
+    .toolbar-pf-action-right {
+        margin-top: 20px;
+        margin-right: 12px;
+        position: relative;
+        .btn-find {
+            position: absolute;
+            right: 2px;
+            top: 0;
+        }
+    }
+
     .to-date-calendar {
         border-right: none;
     }
     .invalid-msg {
         margin-top: 21px;
+        border-right: none;
     }
     .remove-right-border {
         border-right: none;
@@ -66,8 +80,8 @@
     }
     .date-selector {
         position: relative;
-        .from-selector + .pficon,
-        .to-selector + .pficon {
+        .from-selector+.pficon,
+        .to-selector+.pficon {
             position: absolute;
             top: 27px;
             right: 48px;
@@ -75,12 +89,16 @@
             font-size: 13px;
             cursor: pointer;
         }
-        .to-selector + .pficon {
-            right: 32px;
-        }
     }
     .disable-picker {
         pointer-events: none;
         color: $color-gray;
+    }
+    .horizontal-line {
+        background-color: $color-light-grey;
+        height: 1px;
+    }
+    .bold-text {
+        font-weight: bold;
     }
 }
