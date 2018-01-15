@@ -15,7 +15,7 @@
         });
 
     /*@ngInject*/
-    function importClusterController($state, $rootScope, clusterStore) {
+    function importClusterController($state, $rootScope, $stateParams, clusterStore) {
 
         var vm = this,
             hostList;
@@ -42,6 +42,7 @@
          * @memberOf importClusterController
          */
         function init() {
+            vm.clusterId = $rootScope.clusterTobeImported.clusterId;
             if (!$rootScope.clusterTobeImported) {
                 $state.go("clusters");
             } else {
@@ -78,7 +79,10 @@
          * @memberOf importClusterController
          */
         function viewTaskProgress() {
-            $state.go("task-detail", { taskId: vm.jobId });
+
+           if (vm.clusterId) {
+                $state.go("task-detail", { clusterId: vm.clusterId, taskId: vm.jobId });
+            }
         }
 
         function changingFilterBy(filterValue) {

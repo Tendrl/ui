@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html class="layout-pf layout-pf-fixed">
+
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -9,7 +10,6 @@
     <meta name="viewport" content="width=device-width">
     <!-- inject:css -->
     <!-- endinject -->
-
     <link rel="stylesheet" type="text/css" href="cssLibraries/libraries.css">
     <link href="commons/scss/main.css" type="text/css" rel="stylesheet" />
     <script type="text/javascript" src="jsLibraries/libraries.js"></script>
@@ -18,24 +18,18 @@
 </head>
 
 <body class="tendrl-app">
-    <header ng-if="isHeaderShow" is-navigation-show="isNavigationShow"></header>
-    
-    <!-- Navigation should only display when we have at least one cluster -->
-    <!-- <div ng-if="isNavigationShow" ng-include src="'../modules/base/navigation/navigation.html'"></div> -->
-    <tendrl-nav ng-if="isNavigationShow"></tendrl-nav>
-
-    <div ng-class="{'container-pf-nav-pf-vertical': isNavigationShow}" class="container-fluid container-cards-pf margin-fix container-pf-nav-pf-vertical-with-secondary">
+    <header ng-if="isHeaderShow"></header>
+    <tendrl-nav></tendrl-nav>
+    <div class="container-fluid container-cards-pf container-pf-nav-pf-vertical container-pf-nav-pf-vertical-with-secondary margin-fix">
         <div class="row">
             <div class="col-md-12" ui-view></div>
         </div>
     </div>
-
     <!-- NOT FOUND (404) Error template :
     NOTE: by default 404 template will be hidden .
     once isAPINotFoundError will be true and clusterData will be null.
     than only 404 template will be visible -->
-
-<!--     <div ng-class="{'show-404-template': (isAPINotFoundError && clusterData === null) }" class="hide-404-template">
+    <!--     <div ng-class="{'show-404-template': (isAPINotFoundError && clusterData === null) }" class="hide-404-template">
         <div class="blank-slate-pf">
             <div class="blank-slate-pf-icon">
                 <i class="fa fa-exclamation-circle" aria-hidden="true"></i>
@@ -43,7 +37,6 @@
             <h1> Tendrl API is not reachable. </h1>
         </div>
     </div> -->
-
 </body>
 
 </html>

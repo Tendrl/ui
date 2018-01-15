@@ -69,6 +69,7 @@
                 });
         }
 
+
         $scope.$on("$destroy", function() {
             $interval.cancel(eventTimer);
         });

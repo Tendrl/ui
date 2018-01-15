@@ -50,6 +50,9 @@
         vm.addTooltip = addTooltip;
         vm.clearAllFilters = clearAllFilters;
 
+
+        $rootScope.selectedClusterOption = "allClusters";
+
         init();
 
         /**
@@ -58,7 +61,6 @@
          * @memberOf clusterController
          */
         function init() {
-            $rootScope.selectedClusterOption = "allClusters";
             clusterStore.selectedTab = 1;
             clusterStore.getClusterList()
                 .then(function(data) {
@@ -146,7 +148,8 @@
          * @memberOf clusterController
          */
         function goToClusterDetail(cluster) {
-            $state.go("cluster-detail", { clusterId: cluster.clusterId });
+
+            $state.go("cluster-hosts", { clusterId: cluster.clusterId });
         }
 
         function redirectToGrafana(cluster, $event) {
