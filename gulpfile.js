@@ -38,6 +38,9 @@ var ngAnnotate = require("gulp-ng-annotate");
 // Testing related modules
 var KarmaServer = require("karma").Server;
 
+var bs = require("browser-sync").create();
+var historyApiFallback = require("connect-history-api-fallback");
+
 // Local variables
 var pkg = require("./package.json");
 var pluginOpts = pkg.TendrlProps;
@@ -198,7 +201,7 @@ gulp.task("jsbundle", ["eslint"], function () {
 });
 
 //Establish watcher for js, css, html and copy the updated file to dist 
-gulp.task("watcher", function (done) {
+gulp.task("watcher", ["browser-sync", "common"], function(done) {
 
     var filesToCopy;
 
@@ -229,6 +232,19 @@ gulp.task("watcher", function (done) {
 
     done();
 
+});
+
+gulp.task("browser-sync", ["common"], function() {
+    bs.init({
+        server: {
+            baseDir: paths.dest,
+            middleware: [historyApiFallback()]
+
+        },
+         //proxy: "localhost:8080",
+        files: ["dist/**/*.*"],
+        reloadDebounce: 500
+    });
 });
 
 //Run the unit tests
