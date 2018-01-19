@@ -40,6 +40,8 @@ $ git clone git@github.com:GitHubUsername/ui.git
 $ cd ui
 ```
 
+Follow the [Github Help](https://help.github.com/categories/bootcamp/) for [Setting up Git](https://help.github.com/articles/set-up-git/#setting-up-git) in your workstation.
+
 ### Reaching out ###
 
 To communicate with the existing developers, ask for help/clarifications etc. send an email to tendrl-devel@redhat.com prepending `[Frontend]` in the subject line. This is the mailing list for Tendrl developers, and to be in the loop you should subscribe here: https://www.redhat.com/mailman/listinfo/tendrl-devel.
@@ -106,7 +108,15 @@ concept behind the implementation
 
 Once you've successfully made some changes, built, ran, tested and pushed to your GitHub remote - then you should submit a pull request for the changes to be applied on the upstream repo.
 
-Use [GitHub's interface](https://help.github.com/articles/about-pull-requests/) to create new pull requests. Once submitted, the code will go through some automated tests, integration and peer-reviews.
+To create new pull requests:
+
+* Use [GitHub's interface](https://help.github.com/articles/about-pull-requests/)
+* Use [hub](https://hub.github.com/) command.
+  ```sh
+  $ hub pull-request -b Tendrl:master -h <Github-username>:<your-branch>
+  ```
+
+Once submitted, the code will go through some automated tests, integration and peer-reviews.
 
 You might be asked for clarification or requested to update your code depending on the review. You can append new commits to fix those nits on the same branch of your repo, and the pull request should be automatically updated to reflect those changes.
 
