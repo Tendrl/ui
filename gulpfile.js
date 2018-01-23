@@ -104,7 +104,10 @@ gulp.task("jsLibraries", function() {
     "node_modules/angular-patternfly/dist/angular-patternfly.js",
     "node_modules/c3-angular/c3-angular.min.js",
     "node_modules/bootstrap-switch/dist/js/bootstrap-switch.min.js",
-    "node_modules/angular-bootstrap-switch/dist/angular-bootstrap-switch.min.js"
+    "node_modules/angular-bootstrap-switch/dist/angular-bootstrap-switch.min.js",
+    "node_modules/angular-patternfly/node_modules/angular-drag-and-drop-lists/angular-drag-and-drop-lists.js",
+    "node_modules/datatables/media/js/jquery.dataTables.js",
+    "node_modules/angular-patternfly/node_modules/angularjs-datatables/dist/angular-datatables.js"
   ])
   .pipe(uglify())
   .pipe(concat("libraries.js"))

@@ -26,8 +26,6 @@
         vm.flag = false;
         vm.volumeList = [];
         vm.filterBy = "name";
-        vm.orderBy = "name";
-        vm.orderByValue = "Name";
         vm.filterByValue = "Name";
         vm.filterPlaceholder = "Name";
 
@@ -38,7 +36,20 @@
         vm.addTooltip = addTooltip;
         vm.clearAllFilters = clearAllFilters;
         vm.changingFilterBy = changingFilterBy;
-        vm.changingOrderBy = changingOrderBy;
+        vm.sortConfig = {
+            fields: [{
+                    id: 'name',
+                    title: 'Name',
+                    sortType: 'alpha'
+                },
+                {
+                    id: 'status',
+                    title: 'Status',
+                    sortType: 'alpha'
+                }
+            ],
+            onSortChange: _sortChange
+        };
 
         init();
 
@@ -48,10 +59,30 @@
                 .then(function(data) {
                     $interval.cancel(volumeTimer);
                     vm.volumeList = data;
+                    _sortChange(vm.sortConfig.currentField.id, vm.sortConfig.isAscending);
                     vm.isDataLoading = false;
                     startTimer();
                 });
         }
+
+        function _compareFn(item1, item2) {
+            var compValue = 0;
+            if (vm.sortConfig.currentField.id === "name") {
+                compValue = item1.name.localeCompare(item2.name);
+            } else if (vm.sortConfig.currentField.id === "status") {
+                compValue = item1.status.localeCompare(item2.status);
+            }
+
+            if (!vm.sortConfig.isAscending) {
+                compValue = compValue * -1;
+            }
+
+            return compValue;
+        };
+
+        function _sortChange(sortId, isAscending) {
+            vm.volumeList.sort(_compareFn);
+        };
 
         function startTimer() {
             volumeTimer = $interval(function() {
@@ -116,19 +147,6 @@
                 case "type":
                     vm.filterByValue = "Type";
                     vm.filterPlaceholder = "Type";
-                    break;
-            };
-        }
-
-        function changingOrderBy(orderValue) {
-            vm.orderBy = orderValue;
-            switch (orderValue) {
-                case "name":
-                    vm.orderByValue = "Name";
-                    break;
-
-                case "status":
-                    vm.orderByValue = "Status";
                     break;
             };
         }

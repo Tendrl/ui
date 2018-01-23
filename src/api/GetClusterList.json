@@ -37,11 +37,66 @@
             }
          ]
       },
-            {
+      {
          "sds_name":"gluster",
          "cluster_name":"gluster-437bce96aeeeeb3f72fb518018770a7a91d285c52bf8777d26882e9600353034",
          "cluster_id":"a6226639-e42d-462d-a029-281285e54564",
          "integration_id":"a6226639-e42d-462d-a029-281285e54564",
+         "hash":"4f7dabe1b3afe5dcb6bb81516472f56e",
+         "sds_version":"4.0dev1",
+         "updated_at":"2017-12-11 10:51:41.845374+00:00",
+         "errors":[
+
+         ],
+         "globaldetails":{
+            "volume_up_degraded":"0",
+            "peer_count":"1",
+            "updated_at":"2017-12-11 10:53:32.247100+00:00",
+            "vol_count":"1",
+            "hash":"da76fbdd33fd156487e4952e68bd8e00",
+            "connection_count":"0",
+            "status":"healthy",
+            "connection_active":"0"
+         },
+         "public_network":"",
+         "cluster_network":"",
+         "is_managed":"yes",
+         "enable_volume_profiling":"yes",
+         "import_status":"done",
+         "import_job_id":"61c356bd-f5bc-4540-a5b4-2a03d4ec7db0",
+         "alert_counters":{
+            "integration_id":"a6226639-e42d-462d-a029-281285e54564",
+            "hash":"b9df5a77b71b715744c8931e7487c3b9",
+            "warning_count":"0",
+            "updated_at":"2017-12-11 10:52:46.076085+00:00"
+         },
+         "nodes":[
+            {
+               "sync_status":"done",
+               "fqdn":"dhcp42-12.lab.eng.blr.redhat.com",
+               "updated_at":"2017-12-11 10:53:23.120270+00:00",
+               "node_id":"e35643b5-55e8-4d5a-97ba-268da06305e9",
+               "last_sync":"2017-12-11 10:53:22.911084+00:00",
+               "status":"UP",
+               "hash":"d58135c4c8e4e3dd690ddc8e5f1377bf",
+               "tags":[
+                  "tendrl/integration/gluster",
+                  "detected_cluster/437bce96aeeeeb3f72fb518018770a7a91d285c52bf8777d26882e9600353034",
+                  "provisioner/a6226639-e42d-462d-a029-281285e54564",
+                  "gluster/server",
+                  "tendrl/node_e35643b5-55e8-4d5a-97ba-268da06305e9",
+                  "tendrl/integration/a6226639-e42d-462d-a029-281285e54564",
+                  "tendrl/node"
+               ],
+               "node_id":"e35643b5-55e8-4d5a-97ba-268da06305e9"
+            }
+         ]
+      },
+      {
+         "sds_name":"gluster",
+         "cluster_name":"gluster-447bce96aeeeeb3f72fb518018770a7a91d285c52bf8777d26882e9600353034",
+         "cluster_id":"h6226639-e42d-462d-a029-281285e54564",
+         "integration_id":"h6226639-e42d-462d-a029-281285e54564",
          "hash":"4f7dabe1b3afe5dcb6bb81516472f56e",
          "sds_version":"4.0dev1",
          "updated_at":"2017-12-11 10:51:41.845374+00:00",
