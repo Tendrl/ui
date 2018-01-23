@@ -25,20 +25,7 @@
                         <!-- /input-group -->
                     </div>
                     <div class="form-group">
-                        <div class="dropdown btn-group">
-                            <!-- Order By -->
-                            <button type="button" ng-disabled="volumeCntrl.volumeList.length === 0" class="btn btn-default dropdown-toggle filterSelect" ng-model="volumeCntrl.orderBy" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{{volumeCntrl.orderByValue}} <span class="caret"></span></button>
-                            <ul class="dropdown-menu">
-                                <li ng-class="{'selected':(volumeCntrl.orderBy === 'name')}"><a href="" ng-click="volumeCntrl.changingOrderBy('name')">Name</a></li>
-                                <li ng-class="{'selected':(volumeCntrl.orderBy === 'status')}"><a href="" ng-click="volumeCntrl.changingOrderBy('status')">Status</a></li>
-                            </ul>
-                        </div>
-                        <button ng-init="volumeCntrl.ascOrder = ''" ng-disabled="volumeCntrl.volumeList.length === 0" class="btn btn-link" type="button">
-                            <span ng-if="volumeCntrl.ascOrder !== ''" class="fa fa-sort-alpha-desc" ng-click="volumeCntrl.ascOrder = ''">
-                            </span>
-                            <span ng-if="volumeCntrl.ascOrder !== '-'" class="fa fa-sort-alpha-asc" ng-click="volumeCntrl.ascOrder = '-'">
-                            </span>
-                        </button>
+                    <pf-sort id="volumeSort" config="volumeCntrl.sortConfig"></pf-sort>
                     </div>
                 </form>
                 <div class="row toolbar-pf-results">

@@ -19,19 +19,7 @@
                     <!-- /input-group -->
                 </div>
                 <div class="form-group">
-                    <div class="dropdown btn-group">
-                        <button type="button" ng-disabled="clusterCntrl.clusterList.length === 0" class="btn btn-default dropdown-toggle filterSelect" ng-model="clusterCntrl.orderBy" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{{clusterCntrl.orderByValue}} <span class="caret"></span></button>
-                        <ul class="dropdown-menu">
-                            <li ng-class="{'selected':(clusterCntrl.orderBy === 'name')}"><a href="" ng-click="clusterCntrl.changingOrderBy('name')">Name</a></li>
-                            <li ng-class="{'selected':(clusterCntrl.orderBy === 'status')}"><a href="" ng-click="clusterCntrl.changingOrderBy('status')">Status</a></li>
-                            <li ng-class="{'selected':(clusterCntrl.orderBy === 'sdsVersion')}"><a href="" ng-click="clusterCntrl.changingOrderBy('sdsVersion')">Cluster Version</a></li>
-                            <li ng-class="{'selected':(clusterCntrl.orderBy === 'managed')}"><a href="" ng-click="clusterCntrl.changingOrderBy('managed')">Managed</a></li>
-                        </ul>
-                    </div>
-                    <button ng-init="clusterCntrl.ascOrder = ''" ng-disabled="clusterCntrl.clusterList.length === 0" class="btn btn-link" type="button">
-                        <span ng-if="clusterCntrl.ascOrder !== ''" class="fa fa-sort-alpha-desc" ng-click="clusterCntrl.ascOrder = ''"></span>
-                        <span ng-if="clusterCntrl.ascOrder !== '-'" class="fa fa-sort-alpha-asc" ng-click="clusterCntrl.ascOrder = '-'"></span>
-                    </button>
+                    <pf-sort id="clusterSort" config="clusterCntrl.sortConfig"></pf-sort>
                 </div>
             </form>
             <div class="row toolbar-pf-results">
@@ -68,7 +56,7 @@
         </div>
     </center>
     <div ng-if="clusterCntrl.isDataLoading" class="spinner spinner-lg"></div>
-    <div class="list-group list-view-pf list-view-pf-view" ng-repeat="cluster in clusterCntrl.filteredClusteredList = (clusterCntrl.clusterList | filter: clusterCntrl.searchBy | orderBy: [clusterCntrl.ascOrder + clusterCntrl.orderBy, 'name']) track by $index">
+    <div class="list-group list-view-pf list-view-pf-view" ng-repeat="cluster in clusterCntrl.filteredClusteredList = (clusterCntrl.clusterList | filter: clusterCntrl.searchBy) track by $index">
         <div class="list-group-item" ng-class="{'list-view-pf-expand-active': cluster.isExpanded}">
             <div class="list-group-item-header" ng-click="clusterCntrl.expandCluster($event, cluster)">
                 <div class="list-view-pf-expand">

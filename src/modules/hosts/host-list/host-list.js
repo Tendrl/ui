@@ -23,8 +23,6 @@
         vm.isDataLoading = true;
         vm.flag = false;
         vm.filterBy = "name";
-        vm.orderBy = "name";
-        vm.orderByValue = "Name";
         vm.filterByValue = "Name";
         vm.filterPlaceholder = "Name";
         vm.hostList = [];
@@ -34,7 +32,14 @@
         vm.addTooltip = addTooltip;
         vm.clearAllFilters = clearAllFilters;
         vm.changingFilterBy = changingFilterBy;
-        vm.changingOrderBy = changingOrderBy;
+        vm.sortConfig = {
+            fields: [{
+                id: 'name',
+                title: 'Name',
+                sortType: 'alpha'
+            }],
+            onSortChange: _sortChange
+        };
 
 
         init();
@@ -55,6 +60,7 @@
                     .then(function(list) {
                         $interval.cancel(hostListTimer);
                         vm.hostList = list;
+                        _sortChange(vm.sortConfig.currentField.id, vm.sortConfig.isAscending);
                         startTimer();
                     }).catch(function(e) {
                         vm.hostList = [];
@@ -73,6 +79,7 @@
                             .then(function(list) {
                                 $interval.cancel(hostListTimer);
                                 vm.hostList = list;
+                                _sortChange(vm.sortConfig.currentField.id, vm.sortConfig.isAscending);
                                 startTimer();
                             }).catch(function(e) {
                                 vm.hostList = [];
@@ -82,6 +89,23 @@
                     });
             }
         }
+
+        function _compareFn(item1, item2) {
+            var compValue = 0;
+            if (vm.sortConfig.currentField.id === "name") {
+                compValue = item1.name.localeCompare(item2.name);
+            }
+
+            if (!vm.sortConfig.isAscending) {
+                compValue = compValue * -1;
+            }
+
+            return compValue;
+        };
+
+        function _sortChange(sortId, isAscending) {
+            vm.hostList.sort(_compareFn);
+        };
 
         function startTimer() {
 
@@ -138,23 +162,6 @@
                 case "status":
                     vm.filterByValue = "Status";
                     vm.filterPlaceholder = "Status";
-                    break;
-            };
-        }
-
-        function changingOrderBy(orderValue) {
-            vm.orderBy = orderValue;
-            switch (orderValue) {
-                case "name":
-                    vm.orderByValue = "Name";
-                    break;
-
-                case "cluster_name":
-                    vm.orderByValue = "Cluster";
-                    break;
-
-                case "role":
-                    vm.orderByValue = "Role";
                     break;
             };
         }

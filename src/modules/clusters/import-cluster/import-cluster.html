@@ -36,16 +36,7 @@
                             <!-- /input-group -->
                         </div>
                         <div class="form-group ">
-                            <div class="dropdown btn-group ">
-                            <button type="button " ng-disabled="vm.hostList.length===0 " class="btn btn-default dropdown-toggle filterSelect " ng-model="vm.orderBy " data-toggle="dropdown " aria-haspopup="true " aria-expanded="false ">{{vm.orderByValue}} <span class="caret "></span></button>
-                            <ul class="dropdown-menu ">
-                                <li ng-class="{ 'selected':(vm.orderBy==='fqdn' )} "><a href=" " ng-click="vm.changingOrderBy( 'fqdn') ">Name</a></li>
-                                <li ng-class="{ 'selected':(vm.orderBy==='role' )} "><a href=" " ng-click="vm.changingOrderBy( 'role') ">Role</a></li>
-                            </ul>
-                            </div>
-                            <button ng-init="vm.ascOrder='' " ng-disabled="vm.hostList.length===0 " class="btn btn-link " type="button ">
-                                <span ng-if="vm.ascOrder !=='' " class="fa fa-sort-alpha-desc " ng-click="vm.ascOrder='' "></span>
-                                <span ng-if="vm.ascOrder !=='-' " class="fa fa-sort-alpha-asc " ng-click="vm.ascOrder='-' "></span>
+                            <pf-sort id="importSort " config="vm.sortConfig"></pf-sort>
                         </div>
                     </form>
                     <!-- /row -->
@@ -71,7 +62,7 @@
                     <div class="ft-column ">Cluster Version</div>
                     <div class="ft-column ">Role</div>
                 </div>
-                <div class="ft-row list-group-item " ng-repeat="host in vm.filteredHostList=( vm.hostList | filter: vm.searchBy | orderBy: vm.ascOrder + vm.orderBy) track by $index ">
+                <div class="ft-row list-group-item " ng-repeat="host in vm.filteredHostList=( vm.hostList | filter: vm.searchBy) track by $index ">
                     <div class="ft-column host-name bold-text " uib-tooltip-html=" '{{host.fqdn}}' " tooltip-placement="auto bottom-left ">
                         {{host.fqdn}}
                     </div>

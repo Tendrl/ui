@@ -26,21 +26,7 @@
                         <!-- /input-group -->
                     </div>
                     <div class="form-group">
-                        <div class="dropdown btn-group">
-                            <!-- Order By -->
-                            <button type="button" ng-disabled="hostCntrl.hostList.length === 0" class="btn btn-default dropdown-toggle filterSelect" ng-model="hostCntrl.orderBy" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{{hostCntrl.orderByValue}} <span class="caret"></span></button>
-                            <ul class="dropdown-menu">
-                                <li ng-class="{'selected':(hostCntrl.orderBy === 'name')}"><a href="" ng-click="hostCntrl.changingOrderBy('name')">Name</a></li>
-                                <li ng-class="{'selected':(hostCntrl.orderBy === 'cluster_name')}"><a href="" ng-click="hostCntrl.changingOrderBy('cluster_name')">Cluster</a></li>
-                                <li ng-class="{'selected':(hostCntrl.orderBy === 'role')}"><a href="" ng-click="hostCntrl.changingOrderBy('role')">Role</a></li>
-                            </ul>
-                        </div>
-                        <button ng-init="hostCntrl.ascOrder = ''" ng-disabled="hostCntrl.hostList.length === 0" class="btn btn-link" type="button">
-                            <span ng-if="hostCntrl.ascOrder !== ''" class="fa fa-sort-alpha-desc" ng-click="hostCntrl.ascOrder = ''">
-                            </span>
-                            <span ng-if="hostCntrl.ascOrder !== '-'" class="fa fa-sort-alpha-asc" ng-click="hostCntrl.ascOrder = '-'">
-                            </span>
-                        </button>
+                        <pf-sort id="hostSort" config="hostCntrl.sortConfig"></pf-sort>
                     </div>
                 </form>
                 <div class="row toolbar-pf-results">
@@ -75,7 +61,7 @@
         </center>
         <div ng-show="hostCntrl.isDataLoading" class="spinner spinner-lg"></div>
         <div class="flex-table list-group list-view-pf list-view-pf-view" ng-show="!hostCntrl.isDataLoading">
-            <div class="ft-row list-group-item " ng-repeat="host in hostCntrl.filteredHostList=(hostCntrl.hostList | filter: hostCntrl.searchBy | orderBy : hostCntrl.ascOrder + hostCntrl.orderBy)">
+            <div class="ft-row list-group-item " ng-repeat="host in hostCntrl.filteredHostList=(hostCntrl.hostList | filter: hostCntrl.searchBy)">
                 <div class="ft-column ft-icon">
                     <i ng-class="{'fa ffont fa-arrow-circle-o-down': (host.status ==='DOWN'), 'pficon pficon-ok': (host.status ==='UP')}" uib-tooltip-html="'{{host.status}}'" tooltip-placement="auto bottom-left"></i>
                 </div>

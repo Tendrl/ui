@@ -29,15 +29,12 @@
         vm.clusterNotPresent = false;
         vm.flag = false;
         vm.profilingButtonClick = false;
-        vm.clusterList = [];
+        
         vm.filterBy = "name";
-        vm.orderBy = "name";
-        vm.orderByValue = "Name";
         vm.filterByValue = "Name";
         vm.filterPlaceholder = "Name";
-
+        vm.clusterList = [];
         vm.changingFilterBy = changingFilterBy;
-        vm.changingOrderBy = changingOrderBy;
         vm.expandCluster = expandCluster;
         vm.closeExpandedView = closeExpandedView;
         vm.goToImportFlow = goToImportFlow;
@@ -49,6 +46,31 @@
         vm.redirectToGrafana = redirectToGrafana;
         vm.addTooltip = addTooltip;
         vm.clearAllFilters = clearAllFilters;
+
+        vm.sortConfig = {
+            fields: [{
+                    id: 'name',
+                    title: 'Name',
+                    sortType: 'alpha'
+                },
+                {
+                    id: 'status',
+                    title: 'Status',
+                    sortType: 'alpha'
+                },
+                {
+                    id: 'sdsVersion',
+                    title: 'Cluster Version',
+                    sortType: 'alpha'
+                },
+                {
+                    id: 'managed',
+                    title: 'Managed',
+                    sortType: 'alpha'
+                }
+            ],
+            onSortChange: _sortChange
+        };
 
 
         $rootScope.selectedClusterOption = "allClusters";
@@ -70,8 +92,10 @@
                     if (vm.clusterList.length) {
                         vm.clusterNotPresent = false;
                         _mantainExpandedState(data);
+                        _sortChange(vm.sortConfig.currentField.id, vm.sortConfig.isAscending);
                     } else {
                         vm.clusterList = data;
+                        _sortChange(vm.sortConfig.currentField.id, vm.sortConfig.isAscending);  
                     }
                     startTimer();
                 }).catch(function(e) {
@@ -80,6 +104,36 @@
                     vm.isDataLoading = false;
                 });
         }
+
+        function _compareFn(item1, item2) {
+            var compValue = 0;
+            if (vm.sortConfig.currentField.id === "name") {
+                compValue = item1.name.localeCompare(item2.name);
+            } else if (vm.sortConfig.currentField.id === "status") {
+                if(!item1.status){
+                    item1.status = "unmanaged";
+                } else if(!item2.status){
+                    item2.status = "unmanaged";
+                }
+                compValue = item1.status.localeCompare(item2.status);
+            } else if (vm.sortConfig.currentField.id === "sdsVersion") {
+                compValue = item1.sdsVersion.localeCompare(item2.sdsVersion);
+            } else if (vm.sortConfig.currentField.id === "managed") {
+                compValue = item1.managed.localeCompare(item2.managed);
+            }
+
+            if (!vm.sortConfig.isAscending) {
+                compValue = compValue * -1;
+            }
+
+            return compValue;
+        };
+
+        function _sortChange(sortId, isAscending) {
+            vm.clusterList.sort(_compareFn);
+        };
+
+
 
         /* Trigger this function when we have cluster data */
         $scope.$on("GotClusterData", function(event, data) {
@@ -275,24 +329,6 @@
                 case "name":
                     vm.filterByValue = "Name";
                     vm.filterPlaceholder = "Name";
-                    break;
-            };
-        }
-
-        function changingOrderBy(orderValue) {
-            vm.orderBy = orderValue;
-            switch (orderValue) {
-                case "name":
-                    vm.orderByValue = "Name";
-                    break;
-                case "status":
-                    vm.orderByValue = "Status";
-                    break;
-                case "sdsVersion":
-                    vm.orderByValue = "Cluster Version";
-                    break;
-                case "managed":
-                    vm.orderByValue = "Managed";
                     break;
             };
         }

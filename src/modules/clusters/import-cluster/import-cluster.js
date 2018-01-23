@@ -21,8 +21,6 @@
             hostList;
 
         vm.filterBy = "fqdn";
-        vm.orderBy = "fqdn";
-        vm.orderByValue = "Name";
         vm.filterByValue = "Name";
         vm.filterPlaceholder = "Name";
         vm.enableProfiling = true;
@@ -32,7 +30,21 @@
         vm.importCancel = importCancel;
         vm.viewTaskProgress = viewTaskProgress;
         vm.changingFilterBy = changingFilterBy;
-        vm.changingOrderBy = changingOrderBy;
+
+        vm.sortConfig = {
+            fields: [{
+                    id: 'fqdn',
+                    title: 'Name',
+                    sortType: 'alpha'
+                },
+                {
+                    id: 'role',
+                    title: 'Role',
+                    sortType: 'alpha'
+                }
+            ],
+            onSortChange: _sortChange
+        };
 
         init();
 
@@ -49,6 +61,25 @@
                 vm.hostList = vm.cluster.hosts;
             }
         }
+
+        function _compareFn(item1, item2) {
+            var compValue = 0;
+            if (vm.sortConfig.currentField.id === "fqdn") {
+                compValue = item1.fqdn.localeCompare(item2.fqdn);
+            } else if (vm.sortConfig.currentField.id === "role") {
+                compValue = item1.role.localeCompare(item2.role);
+            }
+
+            if (!vm.sortConfig.isAscending) {
+                compValue = compValue * -1;
+            }
+
+            return compValue;
+        };
+
+        function _sortChange(sortId, isAscending) {
+            vm.hostList.sort(_compareFn);
+        };
 
         /**
          * @name importCluster
@@ -80,7 +111,7 @@
          */
         function viewTaskProgress() {
 
-           if (vm.clusterId) {
+            if (vm.clusterId) {
                 $state.go("task-detail", { clusterId: vm.clusterId, taskId: vm.jobId });
             }
         }
@@ -98,18 +129,6 @@
                     vm.filterPlaceholder = "Role";
                     break;
 
-            };
-        }
-
-        function changingOrderBy(orderValue) {
-            vm.orderBy = orderValue;
-            switch (orderValue) {
-                case "fqdn":
-                    vm.orderByValue = "Name";
-                    break;
-                case "role":
-                    vm.orderByValue = "Role";
-                    break;
             };
         }
 
