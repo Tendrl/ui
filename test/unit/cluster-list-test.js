@@ -1,4 +1,4 @@
-describe("Unit Controller: clusterController", function() {
+describe("Unit Component: clusterList", function() {
     "use strict";
 
     // Angular injectables
@@ -92,7 +92,7 @@ describe("Unit Controller: clusterController", function() {
             expect(vm.clusterList).to.deep.equal(clusterList.formattedOutput);
         });
 
-        it("Should take the user to import wrkflow on clicking Import button", function() {
+        it("Should take the user to import workflow on clicking Import button", function() {
             // Exercise SUT
             var cluster = clusterList.formattedOutput[1];
             vm.goToImportFlow(cluster);
