@@ -35,8 +35,10 @@
         vm.clearAllFilters = clearAllFilters;
         vm.toggleNav = toggleNav;
         vm.getUserRole = getUserRole;
+        vm.updateViewing = updateViewing;
 
         $rootScope.notification = Notifications.data;
+        vm.htmlContent = true;
 
         $scope.$on("GotAlertData", function(event, data) {
             if ($rootScope.alertList !== null) {
@@ -60,8 +62,6 @@
             }
         }
 
-
-
         function getUserRole() {
             return AuthManager.getUserRole();
         }
@@ -82,6 +82,10 @@
 
         function closeNotificationBar() {
             vm.showAlerts = false;
+        }
+
+        function updateViewing (viewing, data) {
+            Notifications.setViewing(data, viewing);
         }
 
         function logout() {

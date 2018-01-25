@@ -13,7 +13,7 @@
         });
 
     /*@ngInject*/
-    function clusterController($scope, $state, $interval, $rootScope, $filter, config, clusterStore, Notifications, utils) {
+    function clusterController($scope, $state, $interval, $rootScope, $filter, $uibModal, config, clusterStore, Notifications, utils) {
 
         var vm = this,
             key,
@@ -35,8 +35,6 @@
         vm.filterPlaceholder = "Name";
         vm.clusterList = [];
         vm.changingFilterBy = changingFilterBy;
-        vm.expandCluster = expandCluster;
-        vm.closeExpandedView = closeExpandedView;
         vm.goToImportFlow = goToImportFlow;
         vm.goToClusterDetail = goToClusterDetail;
         vm.showKababMenu = showKababMenu;
@@ -46,6 +44,7 @@
         vm.redirectToGrafana = redirectToGrafana;
         vm.addTooltip = addTooltip;
         vm.clearAllFilters = clearAllFilters;
+        vm.openErrorModal = openErrorModal;
 
         vm.sortConfig = {
             fields: [{
@@ -72,7 +71,6 @@
             onSortChange: _sortChange
         };
 
-
         $rootScope.selectedClusterOption = "allClusters";
 
         init();
@@ -91,12 +89,10 @@
 
                     if (vm.clusterList.length) {
                         vm.clusterNotPresent = false;
-                        _mantainExpandedState(data);
-                        _sortChange(vm.sortConfig.currentField.id, vm.sortConfig.isAscending);
-                    } else {
-                        vm.clusterList = data;
-                        _sortChange(vm.sortConfig.currentField.id, vm.sortConfig.isAscending);  
                     }
+
+                    vm.clusterList = data;
+                    _sortChange(vm.sortConfig.currentField.id, vm.sortConfig.isAscending);
                     startTimer();
                 }).catch(function(e) {
                     vm.clusterList = [];
@@ -161,30 +157,6 @@
         $scope.$on("$destroy", function() {
             $interval.cancel(clusterListTimer);
         });
-
-
-        /**
-         * @name expandCluster
-         * @desc expands the cluster
-         * @memberOf clusterController
-         */
-        function expandCluster($event, cluster) {
-            if (cluster.isExpanded) {
-                cluster.isExpanded = false;
-            } else {
-                cluster.isExpanded = true;
-            }
-            $event.stopPropagation();
-        }
-
-        /**
-         * @name closeExpandedView
-         * @desc closes the cluster
-         * @memberOf clusterController
-         */
-        function closeExpandedView(cluster) {
-            cluster.isExpanded = false;
-        }
 
         /**
          * @name goToImportFlow
@@ -267,31 +239,34 @@
             vm.filterBy = "name";
         }
 
-        /***Private Functions***/
 
-        /**
-         * @name _mantainExpandedState
-         * @desc maintains the expanded state of cluster if polling refresh the cluster data
-         * @memberOf clusterController
-         */
-        function _mantainExpandedState(data) {
-            var clusterData = JSON.parse(JSON.stringify(vm.clusterList)),
-                len = clusterData.length,
-                cluster,
-                expandedState,
-                i;
+        function openErrorModal(cluster) {
+            var wizardDoneListener,
+                modalInstance,
+                closeWizard;
 
-            vm.clusterList = data;
-
-            for (i = 0; i < len; i++) {
-                cluster = _isClusterPresent(clusterData[i]);
-
-                if (cluster !== -999) {
-                    vm.clusterList[cluster.index].isExpanded = cluster.cluster.isExpanded;
-                    vm.clusterList[cluster.index].activeTab = cluster.cluster.activeTab;
+            modalInstance = $uibModal.open({
+                animation: true,
+                backdrop: "static",
+                templateUrl: "/modules/clusters/cluster-error-list/cluster-error-list.html",
+                controller: "errorListController",
+                controllerAs: "vm",
+                size: "lg",
+                resolve: {
+                    cluster: cluster
                 }
-            }
+            });
+
+            closeWizard = function(e, reason) {
+                modalInstance.dismiss(reason);
+                wizardDoneListener();
+            };
+
+            modalInstance.result.then(function() {}, function() {});
+            wizardDoneListener = $rootScope.$on("modal.done", closeWizard);
         }
+
+        /***Private Functions***/
 
         /**
          * @name _isClusterPresent

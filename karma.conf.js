@@ -15,6 +15,8 @@ module.exports = function (config) {
             "src/modules/**/*.js",
             "src/commons/services/*.js",
             "src/commons/components/**/*.js",
+            "src/commons/factories/**/*.js",
+            "src/commons/stores/**/*.js",
 
             // Add all the test files
             "test/unit/*.js"

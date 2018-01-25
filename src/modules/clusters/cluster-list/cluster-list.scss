@@ -50,14 +50,8 @@
         margin-bottom: 0;
         margin-top: 0;
         .list-group-item {
-            .list-view-pf-expand {
-                .fa-angle-down {
-                    cursor: pointer;
-                    font-size: 17px;
-                    margin-right: 5px;
-                    margin-top: 2px;
-                    width: 10px;
-                }
+            .list-group-item-header {
+                cursor: auto;
             }
             .list-view-pf-actions {
                 width: 275px;
@@ -65,10 +59,6 @@
                 .display {
                     display: block;
                 }
-                /*.btn-default {
-                    width: 124px;
-                    overflow: hidden;
-                }*/
                 .btn {
                     white-space: nowrap;
                     overflow: hidden;
@@ -88,7 +78,11 @@
                     color: $color-red !important;
                 }
                 .cluster-text {
-                    width: 125px;
+                    width: 147px;
+
+                    .details-link {
+                        padding-left: 5px;
+                    }
                 }
 
                 .ffont {
@@ -124,13 +118,5 @@
     }
     .fa-question {
         width: 24px;
-    }
-    .error-list {
-        .list-view-pf-description {
-            max-width: none;
-        }
-        .list-group-item {
-            padding: 10px;
-        }
     }
 }

@@ -95,7 +95,7 @@
                 <i ng-class="{ 'pficon pficon-error-circle-o': (task.status==='failed' ), 'pficon pficon-ok': (task.status==='finished' ), 'pficon pficon-warning-triangle-o': (task.status==='warning' ), 'fa fa-spinner': (task.status==='processing' || task.status==='new' )} "></i>
             </div>
             <div class="ft-column ft-main list-view-pf-additional-info-item list-view-pf-additional-info-item-stacked task-flow ">
-                <p class="bold-text " ng-show="task.flow ">{{task.flow}}</p>
+                <a class="bold-text name" ng-show="task.flow" ng-click="taskCntrl.goToTaskDetail(task.job_id)">{{task.flow}}</a>
                 <div class="bold-text " ng-if="!task.flow ">NA</div>
                 <p>Task ID: {{task.job_id || "NA "}} </p>
             </div>
@@ -106,9 +106,6 @@
             <div class="ft-column status-col ">
                 <div class="bold-text ">{{taskCntrl.getStatusText(task.status)}}</div>
                 <div class="pull-left ">{{task.updatedAt | date: 'dd MMM yyyy HH:mm:ss'}}</div>
-            </div>
-            <div class="ft-column ft-actions ">
-                <button class="btn btn-default task-btn " ng-click="taskCntrl.goToTaskDetail(task.job_id) " tooltip-enable="taskCntrl.flag" ng-mouseover="taskCntrl.addTooltip($event)" uib-tooltip="Details">Details</button>
             </div>
         </div>
     </div>

@@ -2,15 +2,8 @@
     margin-bottom: 10px;
     .list-view-pf-view {
         .list-group-item {
-            .vol-name {
+            .volume-name {
                 cursor: pointer;
-                white-space: nowrap;
-                overflow: hidden;
-                text-overflow: ellipsis;
-                padding-left: 0;
-                padding-right: 0;
-                color: $color-boston-blue;
-                float: left;
             }
             .vol-type {
                 font-weight: normal;
