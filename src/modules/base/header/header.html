@@ -18,7 +18,7 @@
     </div>
     <nav class="collapse navbar-collapse">
         <span class="pull-right">
-            <div pf-toast-notification-list notifications="$root.notification" show-close="true" close-callback="header.notificationClose"></div>
+            <pf-toast-notification-list notifications="$root.notification" html-content="header.htmlContent" show-close="true" close-callback="header.notificationClose" update-viewing="header.updateViewing"></pf-toast-notification-list>
         </span>
         <ul class="nav navbar-nav navbar-right navbar-iconic" ng-if="!notification.message.length">
             <li class="dropdown admin" ng-if="header.getUserRole() === 'admin'">

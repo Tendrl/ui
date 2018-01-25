@@ -9,13 +9,22 @@
          "hash":"496a294bc27b53b3f88ec141cbc263b0",
          "sds_version":"4.0dev1",
          "errors":[
-
+               "message 1",
+               "message 2",
+               "message 3",
+               "message 4",
+               "message 5",
+               "message 3",
+               "message 3",
+               "message 3",
+               "message 3",
+               "message 3"
          ],
          "public_network":"",
          "cluster_network":"",
          "is_managed":"no",
          "enable_volume_profiling":"",
-         "import_status":"",
+         "import_status":"failed",
          "import_job_id":"",
          "nodes":[
             {

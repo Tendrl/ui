@@ -63,8 +63,8 @@
                 <div class="ft-column ft-icon">
                     <i ng-class="{'fa ffont fa-stop-circle-o': (volume.status.toLowerCase() === 'stopped'), 'pficon pficon-ok': (volume.status.toLowerCase() ==='started'), 'fa ffont fa-arrow-circle-o-up': (volume.status.toLowerCase() === 'created')}" uib-tooltip-html="'{{volume.status}}'" tooltip-placement="auto bottom-left"></i>
                 </div>
-                <div class="ft-column volume-name bold-text" list-view-pf-additional-info-item-stacked>
-                    <div class="bold-text" uib-tooltip-html="'{{volume.name}}'" tooltip-placement="auto bottom-left">{{volume.name}}</div>
+                <div class="ft-column bold-text" list-view-pf-additional-info-item-stacked>
+                    <div class="bold-text" uib-tooltip-html="'{{volume.name}}'" tooltip-placement="auto bottom-left" ng-click="volumeCntrl.goToVolumeDetail(volume)"><a class="volume-name">{{volume.name}}</a></div>
                     <div class="pull-left vol-type">{{volume.type | capitalize}}</div>
                 </div>
                 <div class="ft-column list-view-pf-additional-info-item list-view-pf-additional-info-item-stacked">
@@ -84,7 +84,6 @@
                     <div class="pull-left counts">{{volumeCntrl.getRebalStatus(volume)}}</div>
                 </div>
                 <div class="ft-column ft-actions">
-                    <button class="btn btn-default dashboard-btn" ng-click="volumeCntrl.goToVolumeDetail(volume)" tooltip-enable="volumeCntrl.flag" ng-mouseover="volumeCntrl.addTooltip($event)" uib-tooltip="Details">Details</button>
                     <button class="btn btn-default dashboard-btn" ng-click="volumeCntrl.redirectToGrafana(volume, $event)" tooltip-enable="volumeCntrl.flag" ng-mouseover="volumeCntrl.addTooltip($event)" uib-tooltip="Dashboard">Dashboard</button>
                 </div>
             </div>

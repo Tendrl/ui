@@ -56,19 +56,24 @@
         </div>
     </center>
     <div ng-if="clusterCntrl.isDataLoading" class="spinner spinner-lg"></div>
-    <div class="list-group list-view-pf list-view-pf-view" ng-repeat="cluster in clusterCntrl.filteredClusteredList = (clusterCntrl.clusterList | filter: clusterCntrl.searchBy) track by $index">
-        <div class="list-group-item" ng-class="{'list-view-pf-expand-active': cluster.isExpanded}">
-            <div class="list-group-item-header" ng-click="clusterCntrl.expandCluster($event, cluster)">
-                <div class="list-view-pf-expand">
-                    <span class="fa fa-angle-right" ng-show="!cluster.isExpanded" ng-click="clusterCntrl.expandCluster($event,cluster)"></span>
-                    <span class="fa fa-angle-down" ng-show="cluster.isExpanded" ng-click="clusterCntrl.expandCluster($event, cluster)"></span>
-                </div>
+    <div class="list-group list-view-pf list-view-pf-view" ng-repeat="cluster in clusterCntrl.filteredClusteredList = (clusterCntrl.clusterList | filter: clusterCntrl.searchBy | orderBy: [clusterCntrl.ascOrder + clusterCntrl.orderBy, 'name']) track by $index">
+        <div class="list-group-item">
+            <div class="list-group-item-header">
                 <div class="list-view-pf-actions">
                     <button class="btn btn-default" ng-show="cluster.managed === 'Yes' && cluster.importStatus === 'done'" ng-click="clusterCntrl.redirectToGrafana(cluster, $event)" tooltip-enable="clusterCntrl.flag" ng-mouseover="clusterCntrl.addTooltip($event)" uib-tooltip="Dashboard">Dashboard</button>
-                    <button class="btn btn-default profiling-btn" ng-disabled="$root.userRole === 'limited' || clusterCntrl.profilingButtonClick" ng-show="cluster.managed === 'Yes' && cluster.importStatus === 'done'" ng-click="clusterCntrl.doProfilingAction($event, cluster, cluster.isProfilingEnabled === 'Enabled' ? 'Disable' : 'Enable', cluster.clusterId)" tooltip-enable="clusterCntrl.flag" ng-mouseover="clusterCntrl.addTooltip($event)" uib-tooltip="cluster.isProfilingEnabled === 'Enabled' ? 'Disable Profiling' : 'Enable Profiling'">{{cluster.isProfilingEnabled === 'Enabled' ? "Disable Profiling" : "Enable Profiling"}}
-                        <i class="glyphicon glyphicon-refresh glyphicon-refresh-animate" data-ng-class="{'hidden': clusterCntrl.profilingButtonClick !== true }"></i>
-                    </button>
                     <button class="btn btn-default import-btn" ng-show="(cluster.managed === 'No' && $root.userRole !=='limited')" ng-disabled="cluster.message === 'Cluster Misconfigured' || cluster.importStatus === 'in_progress' || (cluster.managed === 'Yes' && cluster.importStatus === 'done') || cluster.importStatus === 'failed'" ng-click="clusterCntrl.goToImportFlow(cluster)" tooltip-enable="clusterCntrl.flag" ng-mouseover="clusterCntrl.addTooltip($event)" uib-tooltip="Import">Import&nbsp;</button>
+                    <div class="dropdown pull-right dropdown-kebab-pf" ng-class="{'hide-button': (cluster.managed !== 'Yes' || cluster.importStatus !== 'done' || $root.userRole === 'limited')}">
+                        <button class="btn btn-link dropdown-toggle" type="button" id="dropdownKebabRight{{$index}}" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                            <span class="fa fa-ellipsis-v"></span>
+                        </button>
+                        <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownKebabRight{{$index}}">
+                            <li>
+                                <a ng-disabled="$root.userRole === 'limited' || clusterCntrl.profilingButtonClick" ng-click="clusterCntrl.doProfilingAction($event, cluster, cluster.isProfilingEnabled === 'Enabled' ? 'Disable' : 'Enable', cluster.clusterId)" tooltip-enable="clusterCntrl.flag" ng-mouseover="clusterCntrl.addTooltip($event)" uib-tooltip="cluster.isProfilingEnabled === 'Enabled' ? 'Disable Profiling' : 'Enable Profiling'">{{cluster.isProfilingEnabled === 'Enabled' ? "Disable Profiling" : "Enable Profiling"}}
+                                    <i class="glyphicon glyphicon-refresh glyphicon-refresh-animate" data-ng-class="{'hidden': clusterCntrl.profilingButtonClick !== true }"></i>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
                 </div>
                 <div class="list-view-pf-main-info">
                     <div class="list-view-pf-left">
@@ -95,64 +100,10 @@
                             </div>
                             <div class="list-view-pf-additional-info-item cluster-text" ng-class="{'error-message': (cluster.message === 'Cluster Misconfigured'), 'warning-message': (cluster.message === 'Import Failed')}">
                                 {{cluster.importStatus === 'in_progress' ? "Importing cluster" : cluster.message}}
+                                <a ng-click="clusterCntrl.openErrorModal(cluster)" ng-show="cluster.message === 'Import Failed'" class="details-link">View Details</a>
                             </div>
                         </div>
                     </div>
-                </div>
-            </div>
-            <div class="list-group-item-container container-fluid scroll" ng-show="cluster.isExpanded">
-                <div class="close">
-                    <span class="pficon pficon-close" ng-click="clusterCntrl.closeExpandedView(cluster)"></span>
-                </div>
-                <div class="row extra-overflow">
-                    <ul class="nav nav-tabs">
-                        <li ng-class="{'active': clusterCntrl.isTabSet(cluster, 1)}"><a href="" ng-click="clusterCntrl.setTab(cluster, 1)">Hosts</a></li>
-                        <li ng-class="{'active': clusterCntrl.isTabSet(cluster, 2)}" ng-show="cluster.errors.length"><a href="" ng-click="clusterCntrl.setTab(cluster, 2)">Messages</a></li>
-                    </ul>
-                    <div class="list-group list-view-pf list-view-pf-view" ng-repeat="host in cluster.hosts | orderBy: 'fqdn'" ng-show="cluster.activeTab === 1">
-                        <div class="list-group-item">
-                            <div class="list-view-pf-main-info">
-                                <div class="list-view-pf-left">
-                                    <span uib-tooltip-html="'{{host.status}}'" ng-if="host.status ==='UP'" class="pficon pficon-ok list-view-pf-icon-success status-icons"></span>
-                                    <span uib-tooltip-html="'{{host.status}}'" ng-if="host.status ==='DOWN'" class="fa ffont fa-arrow-circle-o-down list-view-icon-failure status-icons"></span>
-                                </div>
-                                <div class="list-view-pf-body">
-                                    <div class="list-view-pf-description">
-                                        <div class="list-group-item-heading cluster-name host-name bold-text counts" uib-tooltip-html="'{{host.fqdn}}'" tooltip-placement="auto bottom-left">
-                                            {{host.fqdn}}
-                                        </div>
-                                    </div>
-                                    <div class="list-view-pf-additional-info">
-                                        <div class="list-view-pf-additional-info-item list-view-pf-additional-info-item-stacked">
-                                            <div class="bold-text">Role</div>
-                                            <h5 class="pull-left counts">{{host.role}}</h5>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="list-group list-view-pf list-view-pf-view error-list" ng-repeat="message in cluster.errors" ng-show="cluster.activeTab === 2 && cluster.errors.length">
-                        <div class="list-group-item">
-                            <div class="list-view-pf-main-info">
-                                <div class="list-view-pf-body">
-                                    <div class="list-view-pf-description">
-                                        <div class="list-group-item-heading">
-                                            {{message}}
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <center ng-show="cluster.activeTab === 2 && !cluster.errors.length">
-                        <div class="blank-slate-pf">
-                            <div class="blank-slate-pf-icon">
-                                <i class="pficon pficon-cluster"></i>
-                            </div>
-                            <h1>No Messages found</h1>
-                        </div>
-                    </center>
                 </div>
             </div>
         </div>
