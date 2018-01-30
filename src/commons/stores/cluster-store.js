@@ -95,7 +95,6 @@
                 }
 
                 temp.hosts = store.getAssociatedHosts(data[i]);
-                temp.activeTab = 1;
                 res.push(temp);
             }
             return res;
