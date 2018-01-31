@@ -1,6 +1,6 @@
 "use strict";
 
-describe.only("Common tests", function() {
+describe("Common tests", function() {
 
     var tendrlModule;
 
