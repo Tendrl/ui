@@ -66,10 +66,10 @@
                     <i ng-class="{'fa ffont fa-arrow-circle-o-down': (host.status ==='DOWN'), 'pficon pficon-ok': (host.status ==='UP')}" uib-tooltip-html="'{{host.status}}'" tooltip-placement="auto bottom-left"></i>
                 </div>
                 <div class="ft-column ft-main host-name bold-text" uib-tooltip-html="'{{host.name}}'" tooltip-placement="auto bottom-left" ng-click="hostCntrl.goToHostDetail(host)"><a>{{host.name}}</a></div>
-                <div class="ft-column list-view-pf-additional-info-item list-view-pf-additional-info-item-stacked">
+                <!-- <div class="ft-column list-view-pf-additional-info-item list-view-pf-additional-info-item-stacked">
                     <div class="bold-text">Cluster</div>
                     <div class="pull-left cluster-name" uib-tooltip-html="'{{host.cluster_name}}'" tooltip-placement="auto bottom-left">{{host.cluster_name || "None"}}</div>
-                </div>
+                </div> -->
                 <div class="ft-column list-view-pf-additional-info-item list-view-pf-additional-info-item-stacked">
                     <div class="bold-text">Role</div>
                     <div class="pull-left">{{host.role}}</div>
@@ -78,8 +78,12 @@
                     <div class="bold-text">Alerts</div>
                     <div class="pull-left counts">{{host.alerts}}</div>
                 </div>
+                <div class="ft-column list-view-pf-additional-info-item list-view-pf-additional-info-item-stacked">
+                    <div class="bold-text">Bricks</div>
+                    <div class="pull-left counts">{{host.bricks}}</div>
+                </div>
                 <div class="ft-column ft-actions">
-                    <button ng-show="host.role !== 'Tendrl Server' && host.managed === 'Yes'" class="btn btn-default dashboard-btn" ng-click="hostCntrl.redirectToGrafana(host, $event)" tooltip-enable="hostCntrl.flag" ng-mouseover="hostCntrl.addTooltip($event)" uib-tooltip="Dashboard">Dashboard</button>
+                    <button ng-show="host.role !== 'Tendrl Server'" class="btn btn-default dashboard-btn" ng-click="hostCntrl.redirectToGrafana(host, $event)" tooltip-enable="hostCntrl.flag" ng-mouseover="hostCntrl.addTooltip($event)" uib-tooltip="Dashboard">Dashboard</button>
                 </div>
             </div>
         </div>

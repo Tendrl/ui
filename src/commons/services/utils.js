@@ -42,12 +42,12 @@
             });
         };
 
-        vm.getJobList = function() {
+        vm.getJobList = function(clusterId) {
             var url = "",
                 getJobListRequest,
                 request;
 
-            url = config.baseUrl + "jobs";
+            url = config.baseUrl + "clusters/" + clusterId + "/jobs";
             //url = "/api/jobs.json";
 
             getJobListRequest = {
@@ -74,7 +74,7 @@
             getJobDetailRequest = {
                 method: "GET",
                 url: url
-                    // url: "/api/task-detail.json"
+                //url: "/api/task-detail.json"
             };
 
             request = angular.copy(getJobDetailRequest);
@@ -230,13 +230,13 @@
             return filteredList;
         };
 
-        vm.getEventList = function() {
+        vm.getEventList = function(clusterId) {
             var url,
                 getEventListRequest,
                 request;
 
             //url = "/api/events.json";
-            url = config.baseUrl + "notifications";
+            url = config.baseUrl + "clusters/" + clusterId+ "/notifications";
 
             getEventListRequest = {
                 method: "GET",

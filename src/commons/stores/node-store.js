@@ -53,22 +53,16 @@
          * @desc returns list of nodes present in Tendrl/cluster
          * @memberOf nodeStore
          */
-        store.getNodeList = function(clusters, clusterId) {
+        store.getNodeList = function(clusterId) {
             var list,
                 deferred,
                 associatedHosts = [];
 
             deferred = $q.defer();
-            hostFactory.getNodeList()
+            hostFactory.getNodeList(clusterId)
                 .then(function(data) {
                     if (data !== null) {
-                        if (typeof clusterId !== "undefined") {
-                            associatedHosts = utils.getAssociatedHosts(data.nodes, clusterId);
-                            list = _formatHostData(associatedHosts);
-                        } else {
-                            list = _formatHostData(data.nodes);
-
-                        }
+                        list = _formatHostData(data.nodes);
                         store.nodeList = list;
                     }
                     deferred.resolve(list);
@@ -98,8 +92,8 @@
                     host.name = list[i].fqdn;
                     host.role = store.findRole(list[i].tags) ? store.findRole(list[i].tags).role : "None";
                     host.integrationId = list[i].cluster.integration_id;
-                    host.managed = _getManagedState(clusters, host);
                     host.alerts = list[i].alert_counters ? list[i].alert_counters.warning_count : "No Data";
+                    host.bricks = list[i].bricks_count || "No Data";
 
                     hostList.push(host);
                 }

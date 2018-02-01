@@ -180,7 +180,6 @@ describe("Unit Component: taskList", function() {
             vm.filterByCreatedDate(taskList.formattedJobs);
 
             expect(vm.checkValidDates()).to.have.been.called;
-
         });
 
         it("Should filter by created date: if to data and from date is valid", function() {

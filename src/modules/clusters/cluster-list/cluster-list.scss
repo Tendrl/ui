@@ -1,8 +1,12 @@
 .tendrl-cluster-list-view-container {
     margin-bottom: 10px;
-
     .unmanaged {
         text-decoration: none;
+        cursor: text;
+        color: $color-gondola-grey;
+    }
+    .remove-width {
+        width: auto;
     }
     .bold-text {
         font-weight: bold;
@@ -78,13 +82,12 @@
                     color: $color-red !important;
                 }
                 .cluster-text {
-                    width: 147px;
-
+                    width: 184px;
                     .details-link {
                         padding-left: 5px;
+                        cursor: pointer;
                     }
                 }
-
                 .ffont {
                     font-size: 29px;
                 }
@@ -93,11 +96,9 @@
                 margin-left: 5px;
             }
             .list-group-item-container {
-
                 .extra-overflow {
                     overflow-x: hidden;
                 }
-
                 .list-group {
                     margin: 0 5px;
                     .list-view-pf-main-info {

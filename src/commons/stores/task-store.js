@@ -9,12 +9,12 @@
     function taskStore($state, $q, utils) {
         var store = this;
 
-        store.getJobList = function() {
+        store.getJobList = function(clusterId) {
             var list,
                 deferred;
 
             deferred = $q.defer();
-            utils.getJobList()
+            utils.getJobList(clusterId)
                 .then(function(data) {
                     list = _setUpdatedDate(data);
                     deferred.resolve(list);

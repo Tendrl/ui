@@ -133,9 +133,7 @@
             if ($rootScope.selectedClusterOption === "allClusters") {
                 $state.go("clusters");
             } else {
-
                 $state.go("cluster-hosts", { clusterId: $rootScope.selectedClusterOption });
-
             }
         }
 

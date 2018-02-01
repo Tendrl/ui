@@ -41,7 +41,6 @@
             onSortChange: _sortChange
         };
 
-
         init();
 
         /**
@@ -50,44 +49,21 @@
          * @memberOf hostController
          */
         function init() {
-            vm.showDetailBtn = vm.clusterId ? true : false;
 
-            if ($rootScope.clusterData && $rootScope.clusterData.length) {
-                var clusters;
-                clusters = clusterStore.formatClusterData($rootScope.clusterData);
+            var clusters;
+            clusters = clusterStore.formatClusterData($rootScope.clusterData);
 
-                nodeStore.getNodeList(clusters, vm.clusterId)
-                    .then(function(list) {
-                        $interval.cancel(hostListTimer);
-                        vm.hostList = list;
-                        _sortChange(vm.sortConfig.currentField.id, vm.sortConfig.isAscending);
-                        startTimer();
-                    }).catch(function(e) {
-                        vm.hostList = [];
-                    }).finally(function() {
-                        vm.isDataLoading = false;
-                    });
-            } else {
-                clusterStore.getClusterList()
-                    .then(function(data) {
-
-                        var clusters;
-                        $rootScope.clusterData = data;
-                        clusters = clusterStore.formatClusterData($rootScope.clusterData);
-
-                        nodeStore.getNodeList(clusters, vm.clusterId)
-                            .then(function(list) {
-                                $interval.cancel(hostListTimer);
-                                vm.hostList = list;
-                                _sortChange(vm.sortConfig.currentField.id, vm.sortConfig.isAscending);
-                                startTimer();
-                            }).catch(function(e) {
-                                vm.hostList = [];
-                            }).finally(function() {
-                                vm.isDataLoading = false;
-                            });
-                    });
-            }
+            nodeStore.getNodeList(vm.clusterId)
+                .then(function(list) {
+                    $interval.cancel(hostListTimer);
+                    vm.hostList = list;
+                    _sortChange(vm.sortConfig.currentField.id, vm.sortConfig.isAscending);
+                    startTimer();
+                }).catch(function(e) {
+                    vm.hostList = [];
+                }).finally(function() {
+                    vm.isDataLoading = false;
+                });
         }
 
         function _compareFn(item1, item2) {

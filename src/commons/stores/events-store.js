@@ -50,12 +50,12 @@
             }
         };
 
-        store.getEventList = function() {
+        store.getEventList = function(clusterId) {
             var list,
                 deferred;
                 
             deferred = $q.defer();
-            utils.getEventList()
+            utils.getEventList(clusterId)
                 .then(function(data) {
                     list = data ? _formatEventData(data) : [];
                     deferred.resolve(list);

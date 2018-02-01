@@ -1,5 +1,4 @@
 .tendrl-task-detail-view-container {
-
     .custom-breadcrumb {
         list-style: none;
         min-width: 50px;
@@ -10,6 +9,14 @@
         overflow: visible;
         li {
             position: relative;
+            .no-content {
+                text-decoration: none;
+                cursor: text;
+                color: $color-gondola-grey;
+                &::before {
+                    content: '';
+                }
+            }
             .breadcrumb-icon {
                 vertical-align: inherit;
             }
@@ -23,6 +30,9 @@
                 overflow: hidden;
                 vertical-align: top;
                 text-align: left;
+            }
+            .remove-width {
+                width: auto;
             }
             .tip {
                 display: none;
@@ -40,16 +50,12 @@
                 width: 0;
                 height: 0;
                 position: absolute;
-
                 border-left: 8px solid transparent;
                 border-right: 8px solid transparent;
-
                 border-bottom: 8px solid $color-blackopaque;
                 left: 1%;
-
                 top: -8px;
             }
-
             &:hover .tip {
                 display: block;
                 position: absolute;
@@ -65,39 +71,30 @@
     }
     .status-value {
         text-transform: capitalize;
-
-	}
-
-    .status-icon{
+    }
+    .status-icon {
         margin-right: 5px;
     }
-
-	.div-with-scroll-logs {
+    .div-with-scroll-logs {
         max-height: 700px;
         padding: 0;
-        
-
         .list-group-item:nth-child(2n+1) {
             background-color: $color-white-smoke;
             border-left-color: transparent;
             border-right-color: transparent;
         }
-
         .table-heading {
             padding: 10px 0 10px 10px;
             font-size: 16px;
             background-color: $color-white-smoke;
             margin-right: 0;
         }
-
         overflow: auto;
         overflow-x: hidden;
         margin: 20px 0;
-
         .row {
             margin-left: 0;
         }
-
         .logs {
             padding-left: 0;
             padding-right: 0;

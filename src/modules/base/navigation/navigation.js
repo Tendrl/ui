@@ -31,7 +31,9 @@
 
         var vm = this,
             navPlugin;
+
         updateMenus($rootScope.selectedClusterOption);
+
         $rootScope.$watch("selectedClusterOption", function(newValue, oldValue) {
             updateMenus(newValue);
             var forceHideNav = updateNav();

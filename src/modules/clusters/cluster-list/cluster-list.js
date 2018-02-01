@@ -42,6 +42,7 @@
         vm.addTooltip = addTooltip;
         vm.clearAllFilters = clearAllFilters;
         vm.openErrorModal = openErrorModal;
+        vm.goToTaskDetail = goToTaskDetail;
 
         vm.sortConfig = {
             fields: [{
@@ -98,34 +99,7 @@
                 });
         }
 
-        function _compareFn(item1, item2) {
-            var compValue = 0;
 
-            if (vm.sortConfig.currentField.id === "name") {
-                compValue = item1.name.localeCompare(item2.name);
-            } else if (vm.sortConfig.currentField.id === "status") {
-                if (!item1.status) {
-                    item1.status = "unmanaged";
-                } else if (!item2.status) {
-                    item2.status = "unmanaged";
-                }
-                compValue = item1.status.localeCompare(item2.status);
-            } else if (vm.sortConfig.currentField.id === "sdsVersion") {
-                compValue = item1.sdsVersion.localeCompare(item2.sdsVersion);
-            } else if (vm.sortConfig.currentField.id === "managed") {
-                compValue = item1.managed.localeCompare(item2.managed);
-            }
-
-            if (!vm.sortConfig.isAscending) {
-                compValue = compValue * -1;
-            }
-
-            return compValue;
-        };
-
-        function _sortChange(sortId, isAscending) {
-            vm.clusterList.sort(_compareFn);
-        }
 
         /* Trigger this function when we have cluster data */
         $scope.$on("GotClusterData", function(event, data) {
@@ -219,6 +193,25 @@
             wizardDoneListener = $rootScope.$on("modal.done", closeWizard);
         }
 
+        function addTooltip($event) {
+            vm.flag = utils.tooltip($event);
+        }
+
+        function changingFilterBy(filterValue) {
+            vm.filterBy = filterValue;
+            switch (filterValue) {
+                case "name":
+                    vm.filterByValue = "Name";
+                    vm.filterPlaceholder = "Name";
+                    break;
+            };
+        }
+
+        function goToTaskDetail(cluster) {
+            $rootScope.selectedClusterOption = "";
+            $state.go("task-detail", { clusterId: cluster.integrationId, taskId: cluster.importTaskId });
+        }
+
         /***Private Functions***/
 
         /**
@@ -247,18 +240,33 @@
 
         }
 
-        function addTooltip($event) {
-            vm.flag = utils.tooltip($event);
+        function _compareFn(item1, item2) {
+            var compValue = 0;
+
+            if (vm.sortConfig.currentField.id === "name") {
+                compValue = item1.name.localeCompare(item2.name);
+            } else if (vm.sortConfig.currentField.id === "status") {
+                if (!item1.status) {
+                    item1.status = "unmanaged";
+                } else if (!item2.status) {
+                    item2.status = "unmanaged";
+                }
+                compValue = item1.status.localeCompare(item2.status);
+            } else if (vm.sortConfig.currentField.id === "sdsVersion") {
+                compValue = item1.sdsVersion.localeCompare(item2.sdsVersion);
+            } else if (vm.sortConfig.currentField.id === "managed") {
+                compValue = item1.managed.localeCompare(item2.managed);
+            }
+
+            if (!vm.sortConfig.isAscending) {
+                compValue = compValue * -1;
+            }
+
+            return compValue;
         }
 
-        function changingFilterBy(filterValue) {
-            vm.filterBy = filterValue;
-            switch (filterValue) {
-                case "name":
-                    vm.filterByValue = "Name";
-                    vm.filterPlaceholder = "Name";
-                    break;
-            };
+        function _sortChange(sortId, isAscending) {
+            vm.clusterList.sort(_compareFn);
         }
 
     }
