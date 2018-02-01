@@ -24,10 +24,11 @@
         vm.isDataLoading = true;
         vm.searchDescText = "";
         vm.filterByCreatedDate = filterByCreatedDate;
-        vm.clearDate = clearDate;
         vm.searchByDesc = searchByDesc;
         vm.clearAllFilters = clearAllFilters;
         vm.resetCount = resetCount;
+        vm.openFromDate = openFromDate;
+        vm.openToDate = openToDate;
         count = 1;
 
         vm.date = {
@@ -36,18 +37,20 @@
         };
 
         vm.toDateOptions = {
-            autoclose: true,
-            todayBtn: "linked",
-            todayHighlight: true,
             format: "dd M yyyy",
             startDate: $filter("date")(vm.date.fromDate, "dd MMM yyyy")
         };
 
         vm.fromDateOptions = {
-            autoclose: true,
-            todayBtn: "linked",
-            todayHighlight: true,
             format: "dd M yyyy"
+        };
+
+        vm.popupFrom = {
+            opened: false
+        };
+
+        vm.popupTo = {
+            opened: false
         };
 
 
@@ -73,6 +76,14 @@
         $scope.$on("$destroy", function() {
             $interval.cancel(eventTimer);
         });
+
+        function openFromDate() {
+            vm.popupFrom.opened = true;
+        };
+
+        function openToDate() {
+            vm.popupTo.opened = true;
+        };
 
         function filterByCreatedDate(list) {
             if (count === 1 && vm.date.fromDate && vm.date.toDate) {
@@ -104,17 +115,9 @@
             count = 1;
         }
 
-        function clearDate(type) {
-            if (type === "from") {
-                vm.date.fromDate = "";
-            } else if (type === "to") {
-                vm.date.toDate = "";
-            }
-        }
-
         function clearAllFilters() {
-            vm.date.toDate = "";
-            vm.date.fromDate = "";
+            vm.date.toDate = null;
+            vm.date.fromDate = null;
             vm.invalidToDate = false;
             vm.searchDescText = "";
         }
