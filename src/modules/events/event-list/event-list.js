@@ -13,7 +13,7 @@
         });
 
     /*@ngInject*/
-    function eventListController($rootScope, $scope, $interval, $state, $timeout, $filter, config, eventStore, utils) {
+    function eventListController($rootScope, $scope, $interval, $state, $timeout, $filter, $stateParams, config, eventStore, utils) {
 
         var vm = this,
             eventTimer,
@@ -63,7 +63,10 @@
         }
 
         function init() {
-            eventStore.getEventList()
+            vm.clusterId = $stateParams.clusterId;
+            $rootScope.selectedClusterOption = vm.clusterId;
+
+            eventStore.getEventList(vm.clusterId)
                 .then(function(list) {
                     $interval.cancel(eventTimer);
                     vm.eventList = list;

@@ -69,9 +69,9 @@
          },
          "public_network":"",
          "cluster_network":"",
-         "is_managed":"yes",
-         "enable_volume_profiling":"yes",
-         "import_status":"done",
+         "is_managed":"no",
+         "enable_volume_profiling":"",
+         "import_status":"in_progress",
          "import_job_id":"61c356bd-f5bc-4540-a5b4-2a03d4ec7db0",
          "alert_counters":{
             "integration_id":"a6226639-e42d-462d-a029-281285e54564",

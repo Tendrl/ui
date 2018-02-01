@@ -1,9 +1,15 @@
 <div class="tendrl-user-list-view-container">
     <div class="container-fluid">
+        <ul class="breadcrumb" ng-if="!userCntrl.isDataLoading">
+            <li><a ui-sref="clusters">All Clusters</a></li>
+            <li>
+                <span>Tasks</span>
+            </li>
+        </ul>
         <!--Heading section -->
-        <h1 class="bold-text">Users</h1>
+        <h1 class="bold-text" ng-if="!userCntrl.isDataLoading">Users</h1>
         <!-- Actions section -->
-        <div class="row toolbar-pf">
+        <div class="row toolbar-pf" ng-if="!userCntrl.isDataLoading">
             <div class="col-sm-12">
                 <form class="toolbar-pf-actions">
                     <div class="form-group toolbar-pf-filter">

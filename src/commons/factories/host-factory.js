@@ -14,11 +14,11 @@
          * @desc fetch list of nodes
          * @memberOf hostFactory
          */
-        vm.getNodeList = function() {
+        vm.getNodeList = function(clusterId) {
             var url = "",
                 getObjectListRequest, request;
 
-            url = config.baseUrl + "nodes";
+            url = config.baseUrl +"clusters/" + clusterId +"/nodes";
 
             getObjectListRequest = {
                 method: "GET",

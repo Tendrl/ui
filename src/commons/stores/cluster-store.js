@@ -49,6 +49,9 @@
                 temp.managed = data[i].is_managed === "yes" ? "Yes" : "No";
                 temp.importStatus = data[i].import_status;
                 temp.statusIcon = "Not Managed";
+                temp.importTaskId = data[i].import_job_id;
+                temp.volCount = data[i].globaldetails ? parseInt(data[i].globaldetails.vol_count) : 0;
+                temp.alertCount = data[i].alert_counters ? parseInt(data[i].alert_counters.warning_count) : 0;
 
                 if (temp.managed === "Yes") {
                     if (temp.sdsName === "gluster") {

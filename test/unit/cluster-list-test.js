@@ -14,7 +14,6 @@ describe("Unit Component: clusterList", function() {
     beforeEach(function() {
         module("TendrlModule");
         module("TestDataModule");
-        //module("MockAngularModule")
         module("templates");
     });
 

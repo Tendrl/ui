@@ -16,7 +16,6 @@
 
     function taskController($rootScope, $scope, $interval, $state, $timeout, $filter, $stateParams, orderByFilter, config, taskStore, utils) {
 
-
         var vm = this,
             jobTimer,
             toDate,
@@ -71,7 +70,8 @@
         function init() {
             vm.clusterId = $stateParams.clusterId;
             $rootScope.selectedClusterOption = vm.clusterId;
-            taskStore.getJobList()
+
+            taskStore.getJobList(vm.clusterId)
                 .then(function(data) {
                     //data = orderByFilter(data, "created_at", "job_id");
                     //data = orderByFilter(data, "job_id");
@@ -85,7 +85,7 @@
 
             jobTimer = $interval(function() {
 
-                taskStore.getJobList()
+                taskStore.getJobList(vm.clusterId)
                     .then(function(data) {
                         $interval.cancel(jobTimer);
                         vm.taskList = data;
@@ -160,7 +160,6 @@
             }
 
             if (vm.date.fromDate && vm.date.toDate) {
-                console.log(Date.parse(list.created_at) >= Date.parse(vm.date.fromDate) && Date.parse(list.created_at) <= Date.parse(vm.date.toDate));
                 return Date.parse(list.created_at) >= Date.parse(vm.date.fromDate) && Date.parse(list.created_at) <= Date.parse(vm.date.toDate);
             } else if (vm.date.fromDate) {
                 return Date.parse(list.created_at) >= Date.parse(vm.date.fromDate);

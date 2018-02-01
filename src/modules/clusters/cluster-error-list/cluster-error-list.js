@@ -35,7 +35,6 @@
             $rootScope.$emit("modal.done", "close");
         }
 
-        console.log(cluster);
     }
 
 })();

@@ -98,9 +98,18 @@
                                 <div class="bold-text">Volume Profiling</div>
                                 <h5 class="pull-left counts">{{cluster.isProfilingEnabled}}</h5>
                             </div>
+                            <div class="list-view-pf-additional-info-item list-view-pf-additional-info-item-stacked">
+                                <div class="bold-text">Volumes</div>
+                                <h5 class="pull-left counts">{{cluster.volCount}}</h5>
+                            </div>
+                            <div class="list-view-pf-additional-info-item list-view-pf-additional-info-item-stacked">
+                                <div class="bold-text">Alerts</div>
+                                <h5 class="pull-left counts">{{cluster.alertCount}}</h5>
+                            </div>
                             <div class="list-view-pf-additional-info-item cluster-text" ng-class="{'error-message': (cluster.message === 'Cluster Misconfigured'), 'warning-message': (cluster.message === 'Import Failed')}">
                                 {{cluster.importStatus === 'in_progress' ? "Importing cluster" : cluster.message}}
                                 <a ng-click="clusterCntrl.openErrorModal(cluster)" ng-show="cluster.message === 'Import Failed'" class="details-link">View Details</a>
+                                <a ng-click="clusterCntrl.goToTaskDetail(cluster)" ng-show="cluster.importStatus === 'in_progress'" class="details-link">Track Progress</a>
                             </div>
                         </div>
                     </div>
