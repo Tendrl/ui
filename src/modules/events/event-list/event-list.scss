@@ -80,15 +80,6 @@
     }
     .date-selector {
         position: relative;
-        .from-selector+.pficon,
-        .to-selector+.pficon {
-            position: absolute;
-            top: 27px;
-            right: 48px;
-            z-index: 10;
-            font-size: 13px;
-            cursor: pointer;
-        }
     }
     .disable-picker {
         pointer-events: none;

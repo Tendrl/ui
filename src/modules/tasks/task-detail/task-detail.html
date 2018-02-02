@@ -1,15 +1,32 @@
 <div ng-if="clusterData === null && !isAPINotFoundError" class="spinner spinner-lg"></div>
 <div ng-if="clusterData !== null" class="tendrl-task-detail-view-container container-fluid">
-    <ol class="breadcrumb custom-breadcrumb" ng-if="!taskDetailCntrl.isDataLoading && taskDetailCntrl.taskDetail">
-        <li><a ui-sref="tasks">Tasks</a></li>
+
+    <ul class="breadcrumb custom-breadcrumb" ng-if="!taskDetailCntrl.isDataLoading && taskDetailCntrl.taskDetail">
+        <li ng-if="$root.selectedClusterOption"><a ui-sref="clusters">Clusters</a></li>
+        <li ng-if="$root.selectedClusterOption">
+            <i class="breadcrumb-icon pficon" ng-class="{'pficon-warning-triangle-o': (taskDetailCntrl.clusterStatus === 'HEALTH_ERR' || taskDetailCntrl.clusterStatus === 'HEALTH_WARN'), 'pficon-ok': (taskDetailCntrl.clusterStatus === 'HEALTH_OK')}"></i>
+            <span class="cluster-name">
+                {{taskDetailCntrl.clusterName}}
+            </span>
+            <span class="tip">{{taskDetailCntrl.clusterName}}</span>
+        </li>
+        <li ng-if="$root.selectedClusterOption">
+            <a href="" ng-click="taskDetailCntrl.goToClusterTask()">Tasks</a>
+        </li>
+        <li ng-if="!$root.selectedClusterOption" >
+            <a href="" class="no-content">Tasks</a>
+        </li>
         <li>
-            <span>
+            <i class="breadcrumb-icon" ng-class="{'pficon pficon-ok status-icon': (taskDetailCntrl.taskDetail.status === 'finished')}"></i>
+            <span class="cluster-name" ng-class="{'remove-width': !$root.selectedClusterOption}">
                 {{taskDetailCntrl.taskDetail.flow}}: {{taskDetailCntrl.taskDetail.job_id}}
             </span>
+            <span class="tip">{{taskDetailCntrl.taskDetail.job_id}}</span>
         </li>
-    </ol>
+    </ul>
     <form class="form-horizontal" ng-if="taskDetailCntrl.taskDetail">
         <!-- replacing id with data-id to pass build errors -->
+        <br>
         <div class="form-group required">
             <label class="col-sm-3 col-md-1 detail-label">Time Submitted:</label>
             <label class="col-sm-4 col-md-2">{{taskDetailCntrl.taskDetail.created_at | date: 'dd MMM yyyy HH:mm:ss'}}</label>
@@ -24,7 +41,7 @@
             <div class="blank-slate-pf-icon">
                 <i class="pficon pficon-cluster"></i>
             </div>
-            <h1>No Task Detail Found Detected.</h1>
+            <h1>No Task Detail Found Detected</h1>
         </div>
     </center>
     <div class="div-with-scroll table-bordered div-with-scroll-logs" ng-if="taskDetailCntrl.taskDetail && taskDetailCntrl.taskDetail.logs.length">

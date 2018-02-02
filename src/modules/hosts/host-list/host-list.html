@@ -26,21 +26,7 @@
                         <!-- /input-group -->
                     </div>
                     <div class="form-group">
-                        <div class="dropdown btn-group">
-                            <!-- Order By -->
-                            <button type="button" ng-disabled="hostCntrl.hostList.length === 0" class="btn btn-default dropdown-toggle filterSelect" ng-model="hostCntrl.orderBy" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{{hostCntrl.orderByValue}} <span class="caret"></span></button>
-                            <ul class="dropdown-menu">
-                                <li ng-class="{'selected':(hostCntrl.orderBy === 'name')}"><a href="" ng-click="hostCntrl.changingOrderBy('name')">Name</a></li>
-                                <li ng-class="{'selected':(hostCntrl.orderBy === 'cluster_name')}"><a href="" ng-click="hostCntrl.changingOrderBy('cluster_name')">Cluster</a></li>
-                                <li ng-class="{'selected':(hostCntrl.orderBy === 'role')}"><a href="" ng-click="hostCntrl.changingOrderBy('role')">Role</a></li>
-                            </ul>
-                        </div>
-                        <button ng-init="hostCntrl.ascOrder = ''" ng-disabled="hostCntrl.hostList.length === 0" class="btn btn-link" type="button">
-                            <span ng-if="hostCntrl.ascOrder !== ''" class="fa fa-sort-alpha-desc" ng-click="hostCntrl.ascOrder = ''">
-                            </span>
-                            <span ng-if="hostCntrl.ascOrder !== '-'" class="fa fa-sort-alpha-asc" ng-click="hostCntrl.ascOrder = '-'">
-                            </span>
-                        </button>
+                        <pf-sort id="hostSort" config="hostCntrl.sortConfig"></pf-sort>
                     </div>
                 </form>
                 <div class="row toolbar-pf-results">
@@ -75,15 +61,15 @@
         </center>
         <div ng-show="hostCntrl.isDataLoading" class="spinner spinner-lg"></div>
         <div class="flex-table list-group list-view-pf list-view-pf-view" ng-show="!hostCntrl.isDataLoading">
-            <div class="ft-row list-group-item " ng-repeat="host in hostCntrl.filteredHostList=(hostCntrl.hostList | filter: hostCntrl.searchBy | orderBy : hostCntrl.ascOrder + hostCntrl.orderBy)">
+            <div class="ft-row list-group-item " ng-repeat="host in hostCntrl.filteredHostList=(hostCntrl.hostList | filter: hostCntrl.searchBy)">
                 <div class="ft-column ft-icon">
                     <i ng-class="{'fa ffont fa-arrow-circle-o-down': (host.status ==='DOWN'), 'pficon pficon-ok': (host.status ==='UP')}" uib-tooltip-html="'{{host.status}}'" tooltip-placement="auto bottom-left"></i>
                 </div>
-                <div class="ft-column ft-main host-name bold-text" uib-tooltip-html="'{{host.name}}'" tooltip-placement="auto bottom-left">{{host.name}}</div>
-                <div class="ft-column list-view-pf-additional-info-item list-view-pf-additional-info-item-stacked">
+                <div class="ft-column ft-main host-name bold-text" uib-tooltip-html="'{{host.name}}'" tooltip-placement="auto bottom-left" ng-click="hostCntrl.goToHostDetail(host)"><a>{{host.name}}</a></div>
+                <!-- <div class="ft-column list-view-pf-additional-info-item list-view-pf-additional-info-item-stacked">
                     <div class="bold-text">Cluster</div>
                     <div class="pull-left cluster-name" uib-tooltip-html="'{{host.cluster_name}}'" tooltip-placement="auto bottom-left">{{host.cluster_name || "None"}}</div>
-                </div>
+                </div> -->
                 <div class="ft-column list-view-pf-additional-info-item list-view-pf-additional-info-item-stacked">
                     <div class="bold-text">Role</div>
                     <div class="pull-left">{{host.role}}</div>
@@ -92,9 +78,12 @@
                     <div class="bold-text">Alerts</div>
                     <div class="pull-left counts">{{host.alerts}}</div>
                 </div>
+                <div class="ft-column list-view-pf-additional-info-item list-view-pf-additional-info-item-stacked">
+                    <div class="bold-text">Bricks</div>
+                    <div class="pull-left counts">{{host.bricks}}</div>
+                </div>
                 <div class="ft-column ft-actions">
-                    <button class="btn btn-default" ng-click="hostCntrl.goToHostDetail(host)" ng-show="hostCntrl.showDetailBtn" tooltip-enable="hostCntrl.flag" ng-mouseover="hostCntrl.addTooltip($event)" uib-tooltip="Details">Details</button>
-                    <button ng-show="host.role !== 'Tendrl Server' && host.managed === 'Yes'" class="btn btn-default dashboard-btn" ng-click="hostCntrl.redirectToGrafana(host, $event)" tooltip-enable="hostCntrl.flag" ng-mouseover="hostCntrl.addTooltip($event)" uib-tooltip="Dashboard">Dashboard</button>
+                    <button ng-show="host.role !== 'Tendrl Server'" class="btn btn-default dashboard-btn" ng-click="hostCntrl.redirectToGrafana(host, $event)" tooltip-enable="hostCntrl.flag" ng-mouseover="hostCntrl.addTooltip($event)" uib-tooltip="Dashboard">Dashboard</button>
                 </div>
             </div>
         </div>

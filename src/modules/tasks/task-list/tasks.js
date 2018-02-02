@@ -13,7 +13,8 @@
         });
 
     /*@ngInject*/
-    function taskController($rootScope, $scope, $interval, $state, $timeout, $filter, orderByFilter, config, taskStore, utils) {
+
+    function taskController($rootScope, $scope, $interval, $state, $timeout, $filter, $stateParams, orderByFilter, config, taskStore, utils) {
 
         var vm = this,
             jobTimer,
@@ -27,7 +28,7 @@
         vm.filterBy = "job_id";
         vm.filterByValue = "Task ID";
         vm.filterPlaceholder = "Task ID";
-        count = 1;
+        vm.count = 1;
 
         vm.goToTaskDetail = goToTaskDetail;
         vm.getStatusText = getStatusText;
@@ -35,10 +36,12 @@
         vm.isSelectedStatus = isSelectedStatus;
         vm.filterByStatus = filterByStatus;
         vm.filterByCreatedDate = filterByCreatedDate;
-        vm.clearDate = clearDate;
         vm.clearAllFilters = clearAllFilters;
         vm.addTooltip = addTooltip;
         vm.changingFilterBy = changingFilterBy;
+        vm.openFromDate = openFromDate;
+        vm.openToDate = openToDate;
+        vm.checkValidDates = checkValidDates;
 
         vm.date = {
             fromDate: "",
@@ -46,57 +49,46 @@
         };
 
         vm.toDateOptions = {
-            autoclose: true,
-            todayBtn: "linked",
-            todayHighlight: true,
             format: "dd M yyyy",
             startDate: $filter("date")(vm.date.fromDate, "dd MMM yyyy")
         };
 
         vm.fromDateOptions = {
-            autoclose: true,
-            todayBtn: "linked",
-            todayHighlight: true,
             format: "dd M yyyy"
+        };
+
+        vm.popupFrom = {
+            opened: false
+        };
+
+        vm.popupTo = {
+            opened: false
         };
 
         init();
 
         function init() {
-            taskStore.getJobList()
+            vm.clusterId = $stateParams.clusterId;
+            $rootScope.selectedClusterOption = vm.clusterId;
+
+            taskStore.getJobList(vm.clusterId)
                 .then(function(data) {
                     //data = orderByFilter(data, "created_at", "job_id");
                     //data = orderByFilter(data, "job_id");
                     vm.taskList = data;
-                    _setUpdatedDate();
                     vm.isDataLoading = false;
                     startTimer();
                 });
-        }
-
-        function _setUpdatedDate() {
-            var len,
-                temp,
-                i;
-
-            len = vm.taskList.length;
-
-            for (i = 0; i < len; i++) {
-                temp = new Date(vm.taskList[i].updated_at);
-                vm.taskList[i].updatedAt = temp;
-            }
-
         }
 
         function startTimer() {
 
             jobTimer = $interval(function() {
 
-                taskStore.getJobList()
+                taskStore.getJobList(vm.clusterId)
                     .then(function(data) {
                         $interval.cancel(jobTimer);
                         vm.taskList = data;
-                        _setUpdatedDate();
                         vm.isDataLoading = false;
                         startTimer();
                     });
@@ -104,8 +96,19 @@
             }, 1000 * config.statusRefreshIntervalTime, 1);
         }
 
+        function openFromDate() {
+            vm.popupFrom.opened = true;
+        };
+
+        function openToDate() {
+            vm.popupTo.opened = true;
+        };
+
         function goToTaskDetail(id) {
-            $state.go("task-detail", { taskId: id });
+            if (vm.clusterId) {
+                $state.go("task-detail", { clusterId: vm.clusterId, taskId: id });
+            }
+
         }
 
         function getStatusText(status) {
@@ -152,7 +155,7 @@
         }
 
         function filterByCreatedDate(list) {
-            if (count === 1 && vm.date.fromDate && vm.date.toDate) {
+            if (vm.count === 1 && vm.date.fromDate && vm.date.toDate) {
                 checkValidDates();
             }
 
@@ -171,31 +174,23 @@
             if (Date.parse(vm.date.toDate) < Date.parse(vm.date.fromDate)) {
                 vm.date.toDate = "";
                 vm.invalidToDate = true;
-                count++;
+                vm.count++;
             } else {
                 vm.invalidToDate = false;
             }
         }
 
         vm.resetCount = function() {
-            count = 1;
+            vm.count = 1;
         };
 
         function addTooltip($event) {
             vm.flag = utils.tooltip($event);
         }
 
-        function clearDate(type) {
-            if (type === "from") {
-                vm.date.fromDate = "";
-            } else if (type === "to") {
-                vm.date.toDate = "";
-            }
-        }
-
         function clearAllFilters() {
-            vm.date.toDate = "";
-            vm.date.fromDate = "";
+            vm.date.fromDate = null;
+            vm.date.toDate = null;
             vm.invalidToDate = false;
             vm.filterBy = "job_id";
             vm.filterByValue = "Task ID";

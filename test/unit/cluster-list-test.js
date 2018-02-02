@@ -1,14 +1,14 @@
-describe("Unit Controller: clusterController", function() {
+describe("Unit Component: clusterList", function() {
     "use strict";
 
     // Angular injectables
-    var $q, $httpBackend, $injector, $controller, $rootScope, $state, $templateCache, $compile, $interval, $destroy;
+    var $scope, $q, $httpBackend, $injector, $rootScope, $state, $templateCache, $compile, $interval, $destroy, $uibModal, $componentController, $event;
 
     // Module defined (non-Angular) injectables
-    var $scope, config, utils, clusterList;
+    var config, utils, clusterList, Notifications, clusterStore;
 
     // Local variables used for testing
-    var getListDeferred, vm,  clock, throttled, intervalSpy, timer, args;
+    var getClusterListDeferred, vm, clock, throttled, intervalSpy, timer, args, dashboardStub, element;
 
     // Initialize modules
     beforeEach(function() {
@@ -21,26 +21,28 @@ describe("Unit Controller: clusterController", function() {
 
         var templateHtml;
 
-        inject(function(_$q_, _$controller_, _$rootScope_, _$state_, _$templateCache_, _$compile_, _clusterList_, _$interval_) {
+        inject(function(_$q_, _$componentController_, _$rootScope_, _$state_, _$templateCache_, _$compile_, _$interval_, _$uibModal_) {
             $q = _$q_;
-            $controller = _$controller_;
+            $componentController = _$componentController_;
             $rootScope = _$rootScope_;
             $state = _$state_;
             $templateCache = _$templateCache_;
             $compile = _$compile_;
-            clusterList = _clusterList_;
             $interval = _$interval_;
-            //$destroy = _$destroy_;
+            $uibModal = _$uibModal_;
 
             $scope = $rootScope.$new();
             templateHtml = $templateCache.get("/modules/cluster/cluster-list/cluster-list.html");
 
-            $compile(templateHtml)($scope);
+            element = $compile(templateHtml)($scope);
         });
 
-        inject(function(_utils_, _config_) {
+        inject(function(_utils_, _config_, _clusterStore_, _Notifications_, _clusterList_) {
             utils = _utils_;
             config = _config_;
+            clusterList = _clusterList_;
+            clusterStore = _clusterStore_;
+            Notifications = _Notifications_;
         });
 
     });
@@ -49,73 +51,200 @@ describe("Unit Controller: clusterController", function() {
 
         $rootScope.clusterData = clusterList;
         $state.current.name = "cluster";
+        getClusterListDeferred = $q.defer();
 
-        vm = $controller("clusterController", { $scope: $scope });
         sinon.stub($state, "go");
-        sinon.stub($interval, "cancel");
-        clock = sinon.useFakeTimers();
+        sinon.stub(clusterStore, "getClusterList").returns(getClusterListDeferred.promise);
+        sinon.stub(clusterStore, "formatClusterData").returns(clusterList.formattedOutput);
+        sinon.stub(utils, "redirectToGrafana")
 
+        clock = sinon.useFakeTimers();
         config.refreshIntervalTime = 120;
 
     });
 
-    it("Should get list of clusters", function() {
-        expect($rootScope.clusterData).to.deep.equal(clusterList);
+    it("Should initialize all the properties", function() {
+        vm = $componentController("clusterList", { $scope: $scope });
+
+        expect(vm.isDataLoading).to.be.true;
+        expect(vm.clusterNotPresent).to.be.false;
+        expect(vm.flag).to.be.false;
+        expect(vm.profilingButtonClick).to.be.false;
+        expect($rootScope.selectedClusterOption).to.be.equal("allClusters");
+        expect(vm.filterBy).to.be.equal("name");
+        expect(vm.filterByValue).to.be.equal("Name");
+        expect(vm.filterPlaceholder).to.be.equal("Name");
+        expect(vm.clusterList).to.be.an("array").that.is.empty;
+        expect(vm.sortConfig.fields).to.deep.equal(clusterList.fields);
+        expect(vm.sortConfig.onSortChange).to.be.a("function");
+        expect(clusterStore.selectedTab).to.be.equal(1);
     });
 
-    it("Should format the list of clusters", function() {
-        expect(vm.clusterList).to.deep.equal(clusterList.formattedOutput);
+    describe("Cluster List workflows", function() {
+        beforeEach(function() {
+            vm = $componentController("clusterList", { $scope: $scope });
+            getClusterListDeferred.resolve(clusterList.clusters);
+            $rootScope.$digest();
+        });
+
+        it("Should get list of clusters", function() {
+            expect(vm.clusterList).to.deep.equal(clusterList.formattedOutput);
+        });
+
+        it("Should take the user to import workflow on clicking Import button", function() {
+            // Exercise SUT
+            var cluster = clusterList.formattedOutput[1];
+            vm.goToImportFlow(cluster);
+
+            // Verify result (behavior)
+            expect($rootScope.clusterTobeImported).to.deep.equal(cluster);
+            expect($state.go.calledWith("import-cluster", { clusterId: cluster.integrationId })).to.be.true;
+        });
+
+        it("Should take the user to dashboard on clicking Dashboard button", function() {
+            // Exercise SUT
+            var cluster = clusterList.formattedOutput[0];
+            vm.redirectToGrafana(cluster);
+
+            // Verify result (behavior)
+            expect(utils.redirectToGrafana.calledWith("glance", undefined, { clusterId: cluster.clusterId })).to.be.true;
+        });
+
+        it("Should enable/disable profiling on clicking Enable/Disable profiling link", function() {
+            // Exercise SUT
+            var cluster = clusterList.formattedOutput[0],
+                profilingDeferred = $q.defer(),
+                event = new Event("click");
+
+            sinon.stub(clusterStore, "doProfilingAction").returns(profilingDeferred.promise);
+            sinon.stub(Notifications, "message");
+            sinon.stub(event, "stopPropagation");
+
+            vm.doProfilingAction(event, cluster, "Enable", cluster.clusterId);
+
+            expect(vm.profilingButtonClick).to.be.true;
+
+            profilingDeferred.resolve(clusterList.profilingResponse);
+            $rootScope.$digest();
+
+            // Verify result (behavior)
+            expect(vm.profilingButtonClick).to.be.false;
+            expect(Notifications.message.calledWith("success", "", "Volume profiling enabled successfully.")).to.be.true;
+            expect(vm.clusterList[0].isProfilingEnabled).to.be.equal("Enabled");
+            expect(event.stopPropagation.calledOnce).to.be.true;
+        });
+
+        it("Should clear all filters", function() {
+            vm.clearAllFilters();
+            vm.searchBy = {};
+            vm.filterBy = "name";
+
+            expect(vm.searchBy).to.be.empty;
+            expect(vm.filterBy).to.be.equal("name");
+        });
+
+        it("Should open modal to see error logs in case of import failure", function() {
+            var cluster = clusterList.formattedOutput[1],
+                fakeResult = {
+                    result: $q.resolve()
+                };
+
+            sinon.stub($uibModal, "open").returns(fakeResult);
+
+            vm.openErrorModal(cluster);
+
+            expect($uibModal.open.calledOnce).to.be.true;
+        });
+
+        it("Should set the flag by addTooltip", function() {
+            // Exercise SUT
+            sinon.stub(utils, "tooltip").returns(true);
+            vm.addTooltip();
+
+            //Verify result (behavior)
+            expect(vm.flag).to.be.true;
+        });
+
+        it("Should change filter parameters", function() {
+            // Exercise SUT
+            vm.changingFilterBy("name");
+
+            //Verify result (behavior)
+            expect(vm.filterBy).to.be.equal("name");
+            expect(vm.filterByValue).to.be.equal("Name");
+            expect(vm.filterPlaceholder).to.be.equal("Name");
+        });
+
+        it("Should call the cluster list API continuosly after a certain interval", function() {
+
+            intervalSpy = sinon.spy($interval);
+            throttled = throttle(intervalSpy);
+
+            throttled();
+
+            clock.tick(1000 * config.refreshIntervalTime - 1);
+            expect(intervalSpy.notCalled).to.be.true;
+
+            clock.tick(1);
+            expect(intervalSpy.called).to.be.true;
+
+            expect(new Date().getTime()).to.be.equal(1000 * config.refreshIntervalTime);
+
+            function throttle(callback) {
+
+                return function() {
+
+                    clearTimeout(timer);
+                    args = [].slice.call(arguments);
+
+                    timer = setTimeout(function() {
+                        callback.apply(this, args);
+                    }, 1000 * config.refreshIntervalTime);
+                };
+            }
+        });
+
+        it("Should cancel the timer", function() {
+            sinon.stub($interval, "cancel");
+            $scope.$destroy();
+
+            expect($interval.cancel.calledOnce).to.be.true;
+        });
+
+        it("Should listen GotClusterData event broadcast", function() {
+
+            $rootScope.clusterData = null;
+            $scope.$broadcast("GotClusterData");
+            expect(vm.clusterNotPresent).to.be.true;
+
+            $rootScope.clusterData = [];
+            $scope.$broadcast("GotClusterData");
+            expect(vm.clusterNotPresent).to.be.true;
+
+            vm.clusterNotPresent = false;
+            $rootScope.clusterData = ["cluster1"];
+            $scope.$broadcast("GotClusterData");
+            expect(vm.clusterNotPresent).to.be.false;
+        });
     });
 
-    it("Should go to import cluster view if 'Import Cluster' button is clicked", function() {
-        // Exercise SUT - when button is clicked, should navigate to 'import-cluster' state
-        vm.importCluster();
-
-        // Verify result (behavior) - if transitioned to newer state or not
-        expect($state.go.calledWith("import-cluster")).to.be.true;       
-        
+    it("Should sort the list with chnaged parameters", function() {
+        vm = $componentController("clusterList", { $scope: $scope });
+        vm.sortConfig.currentField = {
+            id: "status",
+            title: "Status",
+            sortType: "alpha"
+        };
+        vm.sortConfig.isAscending = false;
+        getClusterListDeferred.resolve(clusterList.clusters);
+        $rootScope.$digest();
+        expect(vm.clusterList).to.deep.equal(clusterList.sortedformattedOutput);
     });
 
-    it("Should call the cluster list API continuosly after a certain interval", function() {
-
-        intervalSpy = sinon.spy($interval);
-        throttled = throttle(intervalSpy);
-
-        throttled();
-
-        clock.tick(1000 * config.refreshIntervalTime - 1);
-        expect(intervalSpy.notCalled).to.be.true;
-
-        clock.tick(1);
-        expect(intervalSpy.called).to.be.true;
-
-        expect(new Date().getTime()).to.be.equal(1000 * config.refreshIntervalTime);
-
-        function throttle(callback) {
-            
-            return function() {
-                
-                clearTimeout(timer);
-                args = [].slice.call(arguments);
-                
-                timer = setTimeout(function() {
-                    callback.apply(this, args);
-                }, 1000 * config.refreshIntervalTime);
-            };
-        }
-    });
-
-    it("Should cancel the timer", function() {
-        $scope.$destroy();
-
-        expect($interval.cancel.calledOnce).to.be.true;
-    });
-
-    afterEach(function () {
-
+    afterEach(function() {
         // Tear down
         $state.go.restore();
-        clock.restore(); 
+        clock.restore();
     });
 
 });

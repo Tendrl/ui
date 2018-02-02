@@ -38,6 +38,9 @@ var ngAnnotate = require("gulp-ng-annotate");
 // Testing related modules
 var KarmaServer = require("karma").Server;
 
+var bs = require("browser-sync").create();
+var historyApiFallback = require("connect-history-api-fallback");
+
 // Local variables
 var pkg = require("./package.json");
 var pluginOpts = pkg.TendrlProps;
@@ -101,7 +104,10 @@ gulp.task("jsLibraries", function() {
     "node_modules/angular-patternfly/dist/angular-patternfly.js",
     "node_modules/c3-angular/c3-angular.min.js",
     "node_modules/bootstrap-switch/dist/js/bootstrap-switch.min.js",
-    "node_modules/angular-bootstrap-switch/dist/angular-bootstrap-switch.min.js"
+    "node_modules/angular-bootstrap-switch/dist/angular-bootstrap-switch.min.js",
+    "node_modules/angular-patternfly/node_modules/angular-drag-and-drop-lists/angular-drag-and-drop-lists.js",
+    "node_modules/datatables/media/js/jquery.dataTables.js",
+    "node_modules/angular-patternfly/node_modules/angularjs-datatables/dist/angular-datatables.js"
   ])
   .pipe(uglify())
   .pipe(concat("libraries.js"))
@@ -198,7 +204,7 @@ gulp.task("jsbundle", ["eslint"], function () {
 });
 
 //Establish watcher for js, css, html and copy the updated file to dist 
-gulp.task("watcher", function (done) {
+gulp.task("watcher", ["browser-sync", "common"], function(done) {
 
     var filesToCopy;
 
@@ -231,6 +237,19 @@ gulp.task("watcher", function (done) {
 
 });
 
+gulp.task("browser-sync", ["common"], function() {
+    bs.init({
+        server: {
+            baseDir: paths.dest,
+            middleware: [historyApiFallback()]
+
+        },
+         //proxy: "localhost:8080",
+        files: ["dist/**/*.*"],
+        reloadDebounce: 500
+    });
+});
+
 //Run the unit tests
 gulp.task("ut", function (done) {
     var config = {
@@ -250,7 +269,7 @@ gulp.task("dev", ["common", "watcher"], function (done) {
 
 // production mode task
 gulp.task("release", ["common"], function (done) {
-   // runSequence("ut", done);
+   runSequence("ut", done);
 });
 
 //default task is release

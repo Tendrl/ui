@@ -11,7 +11,7 @@
                 {{vm.clusterName}}
             </span>
         </li>
-        <li><a href="" ng-click="vm.goToClusterDetail()">Volumes</a></li>
+        <li><a href="" ng-click="vm.goToClusterVolume()">Volumes</a></li>
         <li>
         <i class="breadcrumb-icon" ng-class="{'fa breadcrumb-ffont fa-stop-circle-o': (vm.volStatus.toLowerCase() === 'stopped'), 'pficon pficon-ok': (vm.volStatus.toLowerCase() ==='started'), 'fa breadcrumb-ffont fa-arrow-circle-o-up': (vm.volStatus.toLowerCase() === 'created')}"></i>
             <span class="cluster-name">

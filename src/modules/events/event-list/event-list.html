@@ -6,13 +6,21 @@
             <form class="toolbar-pf-actions">
                 <div class="form-group date-selector date-filter" ng-class="{'disable-picker': (eventListCntrl.eventList.length === 0)}">
                     From:
-                    <div pf-datepicker options="eventListCntrl.fromDateOptions" date="eventListCntrl.date.fromDate" ng-model="eventListCntrl.date.fromDate" ng-click="eventListCntrl.resetCount()" class="from-selector"></div>
-                    <i class="pficon pficon-close" ng-click="eventListCntrl.clearDate('from')" ng-show="eventListCntrl.date.fromDate"></i>
+                    <p class="input-group">
+                        <input type="text" class="form-control" uib-datepicker-popup datepicker-options="eventListCntrl.fromDateOptions" ng-model="eventListCntrl.date.fromDate" ng-click="eventListCntrl.resetCount()" is-open="eventListCntrl.popupFrom.opened" ng-required="true" close-text="Close" />
+                        <span class="input-group-btn">
+                            <button type="button" class="btn btn-default" ng-click="eventListCntrl.openFromDate()"><i class="glyphicon glyphicon-calendar"></i></button>
+                        </span>
+                    </p>
                 </div>
                 <div class="form-group date-selector to-date-calendar" ng-class="{'disable-picker': (eventListCntrl.eventList.length === 0)}">
                     To:
-                    <div pf-datepicker options="eventListCntrl.toDateOptions" date="eventListCntrl.date.toDate" ng-model="eventListCntrl.date.toDate" ng-click="eventListCntrl.resetCount()" class="to-selector"></div>
-                    <i class="pficon pficon-close" ng-click="eventListCntrl.clearDate('to')" ng-show="eventListCntrl.date.toDate"></i>
+                    <p class="input-group">
+                        <input type="text" class="form-control" uib-datepicker-popup datepicker-options="eventListCntrl.toDateOptions" ng-model="eventListCntrl.date.toDate" ng-click="eventListCntrl.resetCount()" is-open="eventListCntrl.popupTo.opened" ng-required="true" close-text="Close" />
+                        <span class="input-group-btn">
+                            <button type="button" class="btn btn-default" ng-click="eventListCntrl.openToDate()"><i class="glyphicon glyphicon-calendar"></i></button>
+                        </span>
+                    </p>
                 </div>
                 <div class="form-group invalid-msg" ng-if="eventListCntrl.invalidToDate">
                     <span class="error-msg">*The To date must be greater than the From date</span>
@@ -49,7 +57,7 @@
             <div class="blank-slate-pf-icon">
                 <i class="pficon pficon-cluster"></i>
             </div>
-            <h1>No Events Detected.</h1>
+            <h1>No Events Detected</h1>
         </div>
     </center>
     <center ng-if="!eventListCntrl.isDataLoading && eventListCntrl.filteredEventList.length === 0 && eventListCntrl.eventList.length !== 0" class="empty-filter-list">
@@ -63,13 +71,15 @@
         </div>
     </center>
     <div ng-if="eventListCntrl.isDataLoading" class="spinner spinner-lg"></div>
-    <div class="flex-table list-group list-view-pf list-view-pf-view event-list-table" ng-show="!eventListCntrl.isDataLoading && eventListCntrl.eventList.length !== 0" ng-repeat="event in eventListCntrl.filteredEventList = (eventListCntrl.eventList |filter: eventListCntrl.filterByCreatedDate| filter: eventListCntrl.searchByDesc | orderBy: ['-timeStamp', 'message_id'])">
-        <div class="ft-row list-group-item">
-            <div class="ft-column event-desc">
-                <div>{{event.message || "NA"}}</div>
-            </div>
-            <div class="ft-column">
-                <div>{{event.timeStamp| date: 'dd MMM yyyy HH:mm:ss'}}</div>
+    <div class="flex-table list-group list-view-pf list-view-pf-view event-list-table" ng-show="!eventListCntrl.isDataLoading && eventListCntrl.eventList.length !== 0">
+        <div ng-repeat="event in eventListCntrl.filteredEventList = (eventListCntrl.eventList |filter: eventListCntrl.filterByCreatedDate| filter: eventListCntrl.searchByDesc | orderBy: ['-timeStamp', 'message_id'])">
+            <div class="ft-row list-group-item">
+                <div class="ft-column event-desc">
+                    <div>{{event.message || "NA"}}</div>
+                </div>
+                <div class="ft-column">
+                    <div>{{event.timeStamp| date: 'dd MMM yyyy HH:mm:ss'}}</div>
+                </div>
             </div>
         </div>
     </div>

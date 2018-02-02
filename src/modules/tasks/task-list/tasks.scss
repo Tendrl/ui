@@ -35,6 +35,10 @@
                 margin-left: 10px;
                 align-items: left;
                 flex: 1;
+
+                .name {
+                    cursor: pointer;
+                }
             }
             .status-col {
                 flex-grow: 0.5;
@@ -66,18 +70,6 @@
     }
     .date-selector {
         position: relative;
-        .from-selector + .pficon,
-        .to-selector + .pficon {
-            position: absolute;
-            top: 27px;
-            right: 48px;
-            z-index: 10;
-            font-size: 13px;
-            cursor: pointer;
-        }
-        .to-selector + .pficon {
-            right: 32px;
-        }
     }
     .disable-picker {
         pointer-events: none;

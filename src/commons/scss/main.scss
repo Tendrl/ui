@@ -3,7 +3,12 @@
 @import "../../modules/base/header/header.scss";
 @import "../../modules/base/user-setting/user-setting.scss";
 @import "../../modules/clusters/cluster-list/cluster-list.scss";
+@import "../../modules/clusters/cluster-hosts/cluster-hosts.scss";
+@import "../../modules/clusters/cluster-volumes/cluster-volumes.scss";
+@import "../../modules/clusters/cluster-events/cluster-events.scss";
+@import "../../modules/clusters/cluster-tasks/cluster-tasks.scss";
 @import "../../modules/hosts/host-list/host-list.scss";
+@import "../../modules/events/event-list/event-list.scss";
 @import "../../modules/login/login.scss";
 @import "../../modules/events/event-list/event-list.scss";
 @import "../../modules/tasks/task-list/tasks.scss";
@@ -17,13 +22,13 @@
 @import "../../modules/base/navigation/navigation.scss";
 @import "../../modules/alerts/alerts.scss";
 @import "../../modules/clusters/import-cluster/import-cluster.scss";
-@import "../../modules/clusters/cluster-detail/cluster-detail.scss";
 @import "../../modules/volumes/volume-list/volume-list.scss";
 @import "../../commons/components/utilisation-chart/utilisation-chart.scss";
 @import "../../modules/bricks/host-bricks/host-bricks.scss";
 @import "../../modules/bricks/volume-bricks/volume-bricks.scss";
 @import "../../modules/hosts/host-detail/host-detail.scss";
 @import "../../modules/volumes/volume-detail/volume-detail.scss";
+@import "../../modules/clusters/cluster-error-list/cluster-error-list.scss";
 
 .tendrl-app {
     .centered {
@@ -40,7 +45,7 @@
 
     .custom-breadcrumb {
         font-size: 17px;
-       /* padding: 8px;*/
+        /* padding: 8px;*/
     }
 
     .center-text {

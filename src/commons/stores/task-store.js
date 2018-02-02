@@ -9,19 +9,34 @@
     function taskStore($state, $q, utils) {
         var store = this;
 
-        store.getJobList = function() {
+        store.getJobList = function(clusterId) {
             var list,
                 deferred;
 
             deferred = $q.defer();
-            utils.getJobList()
+            utils.getJobList(clusterId)
                 .then(function(data) {
-                    //list = utils.formatDate(data, "created_at", "dd MMM yyyy");
-                    deferred.resolve(data);
+                    list = _setUpdatedDate(data);
+                    deferred.resolve(list);
                 });
-
             return deferred.promise;
+
+            function _setUpdatedDate(data) {
+                var len,
+                    temp,
+                    i;
+                len = data.length;
+                
+                for (i = 0; i < len; i++) {
+                    temp = new Date(data[i].updated_at);
+                    data[i].updated_at = temp;
+                }
+
+                return data;
+            }
         };
+
+
 
         store.getJobDetail = function(jobId) {
             var deferred = $q.defer();
@@ -80,7 +95,7 @@
 
         store.getTaskOutput = function(jobId) {
             var deferred = $q.defer(),
-                 journal_details = [];
+                journal_details = [];
 
             utils.getTaskOutput(jobId)
                 .then(function(data) {
@@ -96,7 +111,7 @@
                     temp = {},
                     i;
 
-                for ( i = 0; i < len; i++) {
+                for (i = 0; i < len; i++) {
                     temp = {};
                     temp.node_id = keys[i];
                     temp.storage_disks = data[0].GenerateJournalMapping[keys[i]].storage_disks;

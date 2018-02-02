@@ -1,0 +1,69 @@
+.tendrl-cluster-events-container {
+
+    .push-top {
+        padding-top: 20px;
+    }
+
+    .cluster-detail-nav>li.active>a {
+        background-color: $color-light-grey;
+    }
+
+    .custom-breadcrumb {
+        list-style: none;
+        min-width: 50px;
+        width: 100%;
+        margin: auto;
+        display: inline-table;
+        margin-right: 5px;
+        overflow: visible;
+        li {
+            position: relative;
+            .breadcrumb-icon {
+                vertical-align: inherit;
+            }
+            .cluster-name {
+                display: inline-block;
+                height: 25px; //    line-height: 25px;
+                text-align: center;
+                white-space: nowrap;
+                text-overflow: ellipsis;
+                overflow: hidden;
+                vertical-align: top;
+                text-align: left;
+            }
+            .tip {
+                display: none;
+                color: $color-white;
+                background-color: $color-blackopaque;
+                font-size: 12px;
+                padding: 5px;
+                margin-top: 10px;
+                max-width: 220px;
+                word-wrap: break-word;
+            }
+            .tip::before {
+                content: '';
+                display: block;
+                width: 0;
+                height: 0;
+                position: absolute;
+
+                border-left: 8px solid transparent;
+                border-right: 8px solid transparent;
+
+                border-bottom: 8px solid $color-blackopaque;
+                left: 1%;
+
+                top: -8px;
+            }
+
+            &:hover .tip {
+                display: block;
+                position: absolute;
+                z-index: 1;
+                top: 20px;
+                left: 20px;
+            }
+        }
+    }
+}

@@ -19,13 +19,21 @@
                 </div>
                 <div class="form-group date-selector" ng-class="{'disable-picker': (taskCntrl.taskList.length === 0)}">
                     From:
-                    <div pf-datepicker options="taskCntrl.fromDateOptions" date="taskCntrl.date.fromDate" ng-model="taskCntrl.date.fromDate" ng-click="taskCntrl.resetCount()" class="from-selector"></div>
-                    <i class="pficon pficon-close" ng-click="taskCntrl.clearDate('from')" ng-show="taskCntrl.date.fromDate"></i>
+                    <p class="input-group">
+                        <input type="text" class="form-control" uib-datepicker-popup datepicker-options="taskCntrl.fromDateOptions" ng-model="taskCntrl.date.fromDate" ng-click="taskCntrl.resetCount()" is-open="taskCntrl.popupFrom.opened" ng-required="true" close-text="Close" />
+                        <span class="input-group-btn">
+                            <button type="button" class="btn btn-default" ng-click="taskCntrl.openFromDate()"><i class="glyphicon glyphicon-calendar"></i></button>
+                        </span>
+                    </p>
                 </div>
                 <div class="form-group remove-right-border date-selector" ng-class="{'disable-picker': (taskCntrl.taskList.length === 0)}">
                     To:
-                    <div pf-datepicker options="taskCntrl.toDateOptions" date="taskCntrl.date.toDate" ng-model="taskCntrl.date.toDate" ng-click="taskCntrl.resetCount()" class="to-selector"></div>
-                    <i class="pficon pficon-close" ng-click="taskCntrl.clearDate('to')" ng-show="taskCntrl.date.toDate"></i>
+                    <p class="input-group">
+                        <input type="text" class="form-control" uib-datepicker-popup datepicker-options="taskCntrl.toDateOptions" ng-model="taskCntrl.date.toDate" ng-click="taskCntrl.resetCount()" is-open="taskCntrl.popupTo.opened" ng-required="true" close-text="Close" />
+                        <span class="input-group-btn">
+                            <button type="button" class="btn btn-default" ng-click="taskCntrl.openToDate()"><i class="glyphicon glyphicon-calendar"></i></button>
+                        </span>
+                    </p>
                 </div>
                 <div class="form-group invalid-msg" ng-if="taskCntrl.invalidToDate">
                     <span class="error-msg">*The To date must be greater than the From date</span>
@@ -95,7 +103,7 @@
                 <i ng-class="{ 'pficon pficon-error-circle-o': (task.status==='failed' ), 'pficon pficon-ok': (task.status==='finished' ), 'pficon pficon-warning-triangle-o': (task.status==='warning' ), 'fa fa-spinner': (task.status==='processing' || task.status==='new' )} "></i>
             </div>
             <div class="ft-column ft-main list-view-pf-additional-info-item list-view-pf-additional-info-item-stacked task-flow ">
-                <p class="bold-text " ng-show="task.flow ">{{task.flow}}</p>
+                <a class="bold-text name" ng-show="task.flow" ng-click="taskCntrl.goToTaskDetail(task.job_id)">{{task.flow}}</a>
                 <div class="bold-text " ng-if="!task.flow ">NA</div>
                 <p>Task ID: {{task.job_id || "NA "}} </p>
             </div>
@@ -105,10 +113,7 @@
             </div>
             <div class="ft-column status-col ">
                 <div class="bold-text ">{{taskCntrl.getStatusText(task.status)}}</div>
-                <div class="pull-left ">{{task.updatedAt | date: 'dd MMM yyyy HH:mm:ss'}}</div>
-            </div>
-            <div class="ft-column ft-actions ">
-                <button class="btn btn-default task-btn " ng-click="taskCntrl.goToTaskDetail(task.job_id) " tooltip-enable="taskCntrl.flag" ng-mouseover="taskCntrl.addTooltip($event)" uib-tooltip="Details">Details</button>
+                <div class="pull-left ">{{task.updated_at | date: 'dd MMM yyyy HH:mm:ss'}}</div>
             </div>
         </div>
     </div>

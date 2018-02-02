@@ -48,10 +48,14 @@
                 temp.isProfilingEnabled = data[i].enable_volume_profiling === "yes" ? "Enabled" : "Disabled";
                 temp.managed = data[i].is_managed === "yes" ? "Yes" : "No";
                 temp.importStatus = data[i].import_status;
+                temp.statusIcon = "Not Managed";
+                temp.importTaskId = data[i].import_job_id;
+                temp.volCount = data[i].globaldetails ? parseInt(data[i].globaldetails.vol_count) : 0;
+                temp.alertCount = data[i].alert_counters ? parseInt(data[i].alert_counters.warning_count) : 0;
 
                 if (temp.managed === "Yes") {
-                        if (temp.sdsName === "gluster") {
-                            if (data[i].globaldetails && data[i].globaldetails.status === "healthy") {
+                    if (temp.sdsName === "gluster") {
+                        if (data[i].globaldetails && data[i].globaldetails.status === "healthy") {
                             temp.status = "HEALTH_OK";
                             temp.statusIcon = "Healthy";
                         } else if (data[i].globaldetails && data[i].globaldetails.status === "unhealthy") {
@@ -63,15 +67,15 @@
                     } else {
                         temp.status = data[i].globaldetails ? data[i].globaldetails.status : "NA";
 
-                        switch(temp.status) {
+                        switch (temp.status) {
 
-                            case "HEALTH_OK": 
+                            case "HEALTH_OK":
                                 temp.statusIcon = "Healthy";
                                 break;
-                            case "HEALTH_ERR": 
+                            case "HEALTH_ERR":
                                 temp.statusIcon = "Unhealthy";
                                 break;
-                            case "HEALTH_WARN": 
+                            case "HEALTH_WARN":
                                 temp.statusIcon = "Warning";
                                 break;
                         }
@@ -94,7 +98,6 @@
                 }
 
                 temp.hosts = store.getAssociatedHosts(data[i]);
-                temp.activeTab = 1;
                 res.push(temp);
             }
             return res;
@@ -121,7 +124,7 @@
                 temp.fqdn = obj.fqdn;
                 temp.status = obj.status;
                 tags = nodeStore.findRole(obj.tags);
-                temp.role = tags.role;
+                temp.role = tags ? tags.role : "None";
                 temp.release = tags.release !== "NA" ? (tags.release + " " + data.sds_version) : "NA";
                 hostList.push(temp)
             }

@@ -1,5 +1,5 @@
 <div ng-if="clusterData === null && !isAPINotFoundError" class="spinner spinner-lg"></div>
-<div ng-if="clusterData !== null" class="tendrl-cluster-detail-container container-fluid">
+<div ng-if="clusterData !== null" class="tendrl-cluster-tasks-container container-fluid">
     <ol class="breadcrumb custom-breadcrumb" ng-show="!vm.isDataLoading">
         <li><a ui-sref="clusters">Clusters</a></li>
         <li>
@@ -14,14 +14,6 @@
     </ol>
     <div ng-if="vm.isDataLoading" class="spinner spinner-lg"></div>
     <div ng-if="!vm.isDataLoading">
-        <ul class="nav nav-tabs cluster-detail-nav">
-            <li class="pointer" ng-repeat="(key,value) in vm.tabList" ng-class="{'active': vm.isTabSet(value)}">
-                <a href="" ng-click="vm.setTab(value)">
-                {{key}}
-            </a>
-            </li>
-        </ul>
-        <host-list ng-show="vm.activeTab === 1" cluster-id="vm.clusterId"></host-list>
-        <volume-list ng-show="vm.activeTab === 2 && vm.clusterObj.sds_name ==='gluster'" cluster-id="vm.clusterId"></volume-list>
+        <tasks cluster-id="vm.clusterId"></tasks>
     </div>
 </div>

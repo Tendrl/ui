@@ -25,20 +25,7 @@
                         <!-- /input-group -->
                     </div>
                     <div class="form-group">
-                        <div class="dropdown btn-group">
-                            <!-- Order By -->
-                            <button type="button" ng-disabled="volumeCntrl.volumeList.length === 0" class="btn btn-default dropdown-toggle filterSelect" ng-model="volumeCntrl.orderBy" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{{volumeCntrl.orderByValue}} <span class="caret"></span></button>
-                            <ul class="dropdown-menu">
-                                <li ng-class="{'selected':(volumeCntrl.orderBy === 'name')}"><a href="" ng-click="volumeCntrl.changingOrderBy('name')">Name</a></li>
-                                <li ng-class="{'selected':(volumeCntrl.orderBy === 'status')}"><a href="" ng-click="volumeCntrl.changingOrderBy('status')">Status</a></li>
-                            </ul>
-                        </div>
-                        <button ng-init="volumeCntrl.ascOrder = ''" ng-disabled="volumeCntrl.volumeList.length === 0" class="btn btn-link" type="button">
-                            <span ng-if="volumeCntrl.ascOrder !== ''" class="fa fa-sort-alpha-desc" ng-click="volumeCntrl.ascOrder = ''">
-                            </span>
-                            <span ng-if="volumeCntrl.ascOrder !== '-'" class="fa fa-sort-alpha-asc" ng-click="volumeCntrl.ascOrder = '-'">
-                            </span>
-                        </button>
+                    <pf-sort id="volumeSort" config="volumeCntrl.sortConfig"></pf-sort>
                     </div>
                 </form>
                 <div class="row toolbar-pf-results">
@@ -76,8 +63,8 @@
                 <div class="ft-column ft-icon">
                     <i ng-class="{'fa ffont fa-stop-circle-o': (volume.status.toLowerCase() === 'stopped'), 'pficon pficon-ok': (volume.status.toLowerCase() ==='started'), 'fa ffont fa-arrow-circle-o-up': (volume.status.toLowerCase() === 'created')}" uib-tooltip-html="'{{volume.status}}'" tooltip-placement="auto bottom-left"></i>
                 </div>
-                <div class="ft-column volume-name bold-text" list-view-pf-additional-info-item-stacked>
-                    <div class="bold-text" uib-tooltip-html="'{{volume.name}}'" tooltip-placement="auto bottom-left">{{volume.name}}</div>
+                <div class="ft-column bold-text" list-view-pf-additional-info-item-stacked>
+                    <div class="bold-text" uib-tooltip-html="'{{volume.name}}'" tooltip-placement="auto bottom-left" ng-click="volumeCntrl.goToVolumeDetail(volume)"><a class="volume-name">{{volume.name}}</a></div>
                     <div class="pull-left vol-type">{{volume.type | capitalize}}</div>
                 </div>
                 <div class="ft-column list-view-pf-additional-info-item list-view-pf-additional-info-item-stacked">
@@ -97,7 +84,6 @@
                     <div class="pull-left counts">{{volumeCntrl.getRebalStatus(volume)}}</div>
                 </div>
                 <div class="ft-column ft-actions">
-                    <button class="btn btn-default dashboard-btn" ng-click="volumeCntrl.goToVolumeDetail(volume)" tooltip-enable="volumeCntrl.flag" ng-mouseover="volumeCntrl.addTooltip($event)" uib-tooltip="Details">Details</button>
                     <button class="btn btn-default dashboard-btn" ng-click="volumeCntrl.redirectToGrafana(volume, $event)" tooltip-enable="volumeCntrl.flag" ng-mouseover="volumeCntrl.addTooltip($event)" uib-tooltip="Dashboard">Dashboard</button>
                 </div>
             </div>

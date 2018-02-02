@@ -21,7 +21,8 @@
         vm.isTabSet = isTabSet;
         vm.isDataLoading = true;
 
-        vm.goToClusterDetail = goToClusterDetail;
+
+        vm.goToClusterHost = goToClusterHost;
 
         init();
 
@@ -41,7 +42,7 @@
                 vm.clusterName = vm.clusterObj.cluster_id || "NA";
                 vm.clusterStatus = clusterStore.checkStatus(vm.clusterObj);
                 if (!nodeStore.nodeList.length) {
-                    nodeStore.getNodeList($rootScope.clusterData)
+                    nodeStore.getNodeList(vm.clusterId)
                         .then(function(data) {
                             vm.hostObj = nodeStore.getNodeObject(vm.hostId);
                             vm.hostName = vm.hostObj.name;
@@ -65,7 +66,7 @@
                         vm.clusterName = vm.clusterObj.cluster_id || "NA";
                         vm.clusterStatus = clusterStore.checkStatus(vm.clusterObj);
                         if (!nodeStore.nodeList.length) {
-                            nodeStore.getNodeList($rootScope.clusterData)
+                            nodeStore.getNodeList(vm.clusterId)
                                 .then(function(data) {
                                     vm.hostObj = nodeStore.getNodeObject(vm.hostId);
                                     vm.hostName = vm.hostObj.name;
@@ -100,8 +101,9 @@
             return vm.activeTab === tabNum;
         }
 
-        function goToClusterDetail() {
-            $state.go("cluster-detail", { clusterId: vm.clusterId });
+
+        function goToClusterHost() {
+            $state.go("cluster-hosts", { clusterId: vm.clusterId });
         }
 
         $scope.$on("GotClusterData", function(event, data) {

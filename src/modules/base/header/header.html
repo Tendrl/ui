@@ -1,6 +1,6 @@
 <nav class="navbar-pf-vertical tendrl-header-container">
     <div class="navbar-header">
-        <button class="navbar-toggle" type="button" href="" ng-click="header.showNav()">
+        <button ng-if="!$root.forceHideNav()" ng-class="{'navigation-hide': $root.forceHideNav()}" class="navbar-toggle" type="button" href="" ng-click="header.toggleNav($event)">
             <span class="sr-only">Toggle navigation</span>
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
@@ -10,15 +10,26 @@
             <img class="nav-brand-name brand-name-img" src="../images/name.png" alt="tendrl | Unified Storage Manager" />
         </a>
         <select id="repeatSelect" ng-model="$root.selectedClusterOption" class="cluster-options btn btn-default dropdown-toggle filterSelect" ng-change="header.goToClusterPage()" uib-tooltip-html="header.getClusterName($root.selectedClusterOption)" tooltip-placement="auto bottom">
+            <option value="" disabled ng-selected="!$root.selectedClusterOption">Select a cluster...</option>
             <option value="allClusters" ng-selected="$root.selectedClusterOption === 'allClusters'">All Clusters</option>
-            <option ng-repeat="cluster in $root.clusterData" value="{{cluster.cluster_id}}" ng-selected="$root.selectedClusterOption === '{{cluster.cluster_id}}'">{{cluster.cluster_id}}</option>
+            <option ng-repeat="cluster in $root.clusterData" value="{{cluster.cluster_id}}" ng-selected="$root.selectedClusterOption === '{{cluster.cluster_id}}'" ng-show="'{{cluster.is_managed}}' === 'yes'">{{cluster.cluster_id}}</option>
+            <!-- To filter managed clusters :  | filter: {is_managed: 'yes'}-->
         </select>
     </div>
     <nav class="collapse navbar-collapse">
         <span class="pull-right">
-            <div pf-toast-notification-list notifications="$root.notification" show-close="true" close-callback="header.notificationClose"></div>
+            <pf-toast-notification-list notifications="$root.notification" html-content="header.htmlContent" show-close="true" close-callback="header.notificationClose" update-viewing="header.updateViewing"></pf-toast-notification-list>
         </span>
         <ul class="nav navbar-nav navbar-right navbar-iconic" ng-if="!notification.message.length">
+            <li class="dropdown admin" ng-if="header.getUserRole() === 'admin'">
+                <a data-toggle="dropdown" class="dropdown-toggle nav-item-iconic" href="" data-template="" data-animation="am-fade-and-slide-top" bs-dropdown="dropdown" title="Notifications" id="notifications" data-toggle="admin-dropdown">
+                    <i class="fa fa-gear"></i>
+                    <span class="badge"></span>
+                </a>
+                <ul class="dropdown-menu" role="menu" aria-labelledby="usermenu">
+                    <li role="presentation"><a ui-sref="users" role="menuitem" tabindex="-1">Users</a></li>
+                </ul>
+            </li>
             <li class="dropdown">
                 <a data-toggle="dropdown" class="dropdown-toggle nav-item-iconic" href="" data-template="" data-animation="am-fade-and-slide-top" bs-dropdown="dropdown" title="Alerts" id="notifications" ng-click="header.setNotificationFlag()">
                     <i class="fa fa-bell"></i>
@@ -75,7 +86,7 @@
                 <div class="blank-slate-pf-icon">
                     <i class="pficon pficon-cluster"></i>
                 </div>
-                <h1>No Alerts Detected.</h1>
+                <h1>No Alerts Detected</h1>
             </div>
         </center>
         <div class="notification-list-container">

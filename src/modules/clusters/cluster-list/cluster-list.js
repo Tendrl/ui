@@ -13,7 +13,7 @@
         });
 
     /*@ngInject*/
-    function clusterController($scope, $state, $interval, $rootScope, $filter, config, clusterStore, Notifications, utils) {
+    function clusterController($scope, $state, $interval, $rootScope, $uibModal, config, clusterStore, Notifications, utils) {
 
         var vm = this,
             key,
@@ -29,26 +29,47 @@
         vm.clusterNotPresent = false;
         vm.flag = false;
         vm.profilingButtonClick = false;
-        vm.clusterList = [];
+        $rootScope.selectedClusterOption = "allClusters";
+
         vm.filterBy = "name";
-        vm.orderBy = "name";
-        vm.orderByValue = "Name";
         vm.filterByValue = "Name";
         vm.filterPlaceholder = "Name";
-
+        vm.clusterList = [];
         vm.changingFilterBy = changingFilterBy;
-        vm.changingOrderBy = changingOrderBy;
-        vm.expandCluster = expandCluster;
-        vm.closeExpandedView = closeExpandedView;
         vm.goToImportFlow = goToImportFlow;
-        vm.goToClusterDetail = goToClusterDetail;
-        vm.showKababMenu = showKababMenu;
         vm.doProfilingAction = doProfilingAction;
-        vm.setTab = setTab;
-        vm.isTabSet = isTabSet;
         vm.redirectToGrafana = redirectToGrafana;
         vm.addTooltip = addTooltip;
         vm.clearAllFilters = clearAllFilters;
+        vm.openErrorModal = openErrorModal;
+        vm.goToTaskDetail = goToTaskDetail;
+
+        vm.sortConfig = {
+            fields: [{
+                id: "name",
+                title: "Name",
+                sortType: "alpha"
+            }, {
+                id: "status",
+                title: "Status",
+                sortType: "alpha"
+            }, {
+                id: "sdsVersion",
+                title: "Cluster Version",
+                sortType: "alpha"
+            }, {
+                id: "managed",
+                title: "Managed",
+                sortType: "alpha"
+            }],
+            onSortChange: _sortChange,
+            currentField: {
+                id: "name",
+                title: "Name",
+                sortType: "alpha"
+            },
+            isAscending: true
+        };
 
         init();
 
@@ -58,7 +79,6 @@
          * @memberOf clusterController
          */
         function init() {
-            $rootScope.selectedClusterOption = "allClusters";
             clusterStore.selectedTab = 1;
             clusterStore.getClusterList()
                 .then(function(data) {
@@ -67,10 +87,10 @@
 
                     if (vm.clusterList.length) {
                         vm.clusterNotPresent = false;
-                        _mantainExpandedState(data);
-                    } else {
-                        vm.clusterList = data;
                     }
+
+                    vm.clusterList = data;
+                    _sortChange(vm.sortConfig.currentField.id, vm.sortConfig.isAscending);
                     startTimer();
                 }).catch(function(e) {
                     vm.clusterList = [];
@@ -78,6 +98,8 @@
                     vm.isDataLoading = false;
                 });
         }
+
+
 
         /* Trigger this function when we have cluster data */
         $scope.$on("GotClusterData", function(event, data) {
@@ -106,30 +128,6 @@
             $interval.cancel(clusterListTimer);
         });
 
-
-        /**
-         * @name expandCluster
-         * @desc expands the cluster
-         * @memberOf clusterController
-         */
-        function expandCluster($event, cluster) {
-            if (cluster.isExpanded) {
-                cluster.isExpanded = false;
-            } else {
-                cluster.isExpanded = true;
-            }
-            $event.stopPropagation();
-        }
-
-        /**
-         * @name closeExpandedView
-         * @desc closes the cluster
-         * @memberOf clusterController
-         */
-        function closeExpandedView(cluster) {
-            cluster.isExpanded = false;
-        }
-
         /**
          * @name goToImportFlow
          * @desc takes user to import cluster flow
@@ -137,34 +135,11 @@
          */
         function goToImportFlow(cluster) {
             $rootScope.clusterTobeImported = cluster;
-            $state.go("import-cluster", { clusterId: cluster.cluster_id });
-        }
-
-        /**
-         * @name goToClusterDetail
-         * @desc takes user to cluster detail page
-         * @memberOf clusterController
-         */
-        function goToClusterDetail(cluster) {
-            $state.go("cluster-detail", { clusterId: cluster.clusterId });
+            $state.go("import-cluster", { clusterId: cluster.integrationId });
         }
 
         function redirectToGrafana(cluster, $event) {
             utils.redirectToGrafana("glance", $event, { clusterId: cluster.clusterId });
-        }
-
-        /**
-         * @name showKababMenu
-         * @desc hide/show kebab menu
-         * @memberOf clusterController
-         */
-        function showKababMenu($event, cluster) {
-            if (cluster.isKababOpened) {
-                cluster.isKababOpened = false;
-            } else {
-                cluster.isKababOpened = true;
-            }
-            $event.stopPropagation();
         }
 
         /**
@@ -187,54 +162,57 @@
             $event.stopPropagation();
         }
 
-        /**
-         * @name setTab
-         * @desc set tab for a cluster
-         * @memberOf clusterController
-         */
-        function setTab(cluster, newTab) {
-            cluster.activeTab = newTab;
-        }
-
-        /**
-         * @name isTabSet
-         * @desc check if the mentioned tab is set or not
-         * @memberOf clusterController
-         */
-        function isTabSet(cluster, tabNum) {
-            return cluster.activeTab === tabNum;
-        }
-
         function clearAllFilters() {
             vm.searchBy = {};
             vm.filterBy = "name";
         }
 
-        /***Private Functions***/
+        function openErrorModal(cluster) {
+            var wizardDoneListener,
+                modalInstance,
+                closeWizard;
 
-        /**
-         * @name _mantainExpandedState
-         * @desc maintains the expanded state of cluster if polling refresh the cluster data
-         * @memberOf clusterController
-         */
-        function _mantainExpandedState(data) {
-            var clusterData = JSON.parse(JSON.stringify(vm.clusterList)),
-                len = clusterData.length,
-                cluster,
-                expandedState,
-                i;
-
-            vm.clusterList = data;
-
-            for (i = 0; i < len; i++) {
-                cluster = _isClusterPresent(clusterData[i]);
-
-                if (cluster !== -999) {
-                    vm.clusterList[cluster.index].isExpanded = cluster.cluster.isExpanded;
-                    vm.clusterList[cluster.index].activeTab = cluster.cluster.activeTab;
+            modalInstance = $uibModal.open({
+                animation: true,
+                backdrop: "static",
+                templateUrl: "/modules/clusters/cluster-error-list/cluster-error-list.html",
+                controller: "errorListController",
+                controllerAs: "vm",
+                size: "lg",
+                resolve: {
+                    cluster: cluster
                 }
-            }
+            });
+
+            closeWizard = function(e, reason) {
+                modalInstance.dismiss(reason);
+                wizardDoneListener();
+            };
+
+            modalInstance.result.then(function() {}, function() {});
+            wizardDoneListener = $rootScope.$on("modal.done", closeWizard);
         }
+
+        function addTooltip($event) {
+            vm.flag = utils.tooltip($event);
+        }
+
+        function changingFilterBy(filterValue) {
+            vm.filterBy = filterValue;
+            switch (filterValue) {
+                case "name":
+                    vm.filterByValue = "Name";
+                    vm.filterPlaceholder = "Name";
+                    break;
+            };
+        }
+
+        function goToTaskDetail(cluster) {
+            $rootScope.selectedClusterOption = "";
+            $state.go("task-detail", { clusterId: cluster.integrationId, taskId: cluster.importTaskId });
+        }
+
+        /***Private Functions***/
 
         /**
          * @name _isClusterPresent
@@ -262,36 +240,33 @@
 
         }
 
-        function addTooltip($event) {
-            vm.flag = utils.tooltip($event);
+        function _compareFn(item1, item2) {
+            var compValue = 0;
+
+            if (vm.sortConfig.currentField.id === "name") {
+                compValue = item1.name.localeCompare(item2.name);
+            } else if (vm.sortConfig.currentField.id === "status") {
+                if (!item1.status) {
+                    item1.status = "unmanaged";
+                } else if (!item2.status) {
+                    item2.status = "unmanaged";
+                }
+                compValue = item1.status.localeCompare(item2.status);
+            } else if (vm.sortConfig.currentField.id === "sdsVersion") {
+                compValue = item1.sdsVersion.localeCompare(item2.sdsVersion);
+            } else if (vm.sortConfig.currentField.id === "managed") {
+                compValue = item1.managed.localeCompare(item2.managed);
+            }
+
+            if (!vm.sortConfig.isAscending) {
+                compValue = compValue * -1;
+            }
+
+            return compValue;
         }
 
-        function changingFilterBy(filterValue) {
-            vm.filterBy = filterValue;
-            switch (filterValue) {
-                case "name":
-                    vm.filterByValue = "Name";
-                    vm.filterPlaceholder = "Name";
-                    break;
-            };
-        }
-
-        function changingOrderBy(orderValue) {
-            vm.orderBy = orderValue;
-            switch (orderValue) {
-                case "name":
-                    vm.orderByValue = "Name";
-                    break;
-                case "status":
-                    vm.orderByValue = "Status";
-                    break;
-                case "sdsVersion":
-                    vm.orderByValue = "Cluster Version";
-                    break;
-                case "managed":
-                    vm.orderByValue = "Managed";
-                    break;
-            };
+        function _sortChange(sortId, isAscending) {
+            vm.clusterList.sort(_compareFn);
         }
 
     }

@@ -21,7 +21,7 @@
         vm.isTabSet = isTabSet;
         vm.isDataLoading = true;
 
-        vm.goToClusterDetail = goToClusterDetail;
+        vm.goToClusterVolume = goToClusterVolume;
 
         init();
 
@@ -101,8 +101,9 @@
             return vm.activeTab === tabNum;
         }
 
-        function goToClusterDetail() {
-            $state.go("cluster-detail", { clusterId: vm.clusterId });
+
+        function goToClusterVolume() {
+            $state.go("cluster-volumes", { clusterId: vm.clusterId });
             //TODO: Remove this when UI will render navigation dynamically
             clusterStore.selectedTab = 2;
         }
