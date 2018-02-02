@@ -17,6 +17,7 @@ dist:
 	cp *.js package.json LICENSE README.md $(NAME)-$(VERSION)/
 	cp -r docs $(NAME)-$(VERSION)/
 	cp -r src $(NAME)-$(VERSION)/
+	cp -r test $(NAME)-$(VERSION)/
 	tar -zcf $(NAME)-$(VERSION).tar.gz $(NAME)-$(VERSION)
 	rm -rf $(NAME)-$(VERSION)
 
