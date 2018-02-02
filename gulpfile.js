@@ -272,5 +272,5 @@ gulp.task("release", ["common"], function (done) {
    runSequence("ut", done);
 });
 
-//default task is release
-gulp.task("default", ["release"]);
+//default task is common
+gulp.task("default", ["common"]);
