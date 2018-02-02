@@ -112,6 +112,7 @@
         function viewTaskProgress() {
 
             if (vm.clusterId) {
+                $rootScope.selectedClusterOption = "";
                 $state.go("task-detail", { clusterId: vm.clusterId, taskId: vm.jobId });
             }
         }
