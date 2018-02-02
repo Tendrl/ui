@@ -1,6 +1,6 @@
 Name: tendrl-ui
-Version: 1.5.4
-Release: 4%{?dist}
+Version: 1.5.5
+Release: 1%{?dist}
 BuildArch: noarch
 Summary: GUI for Tendrl
 License: LGPLv2+
@@ -37,6 +37,12 @@ cp -a ./dist/* $RPM_BUILD_ROOT/%{_localstatedir}/www/tendrl/
 %license LICENSE
 
 %changelog
+* Fri Feb 02 2018 Rohan Kanade <rkanade@redhat.com> - 1.5.5-1
+- Single Cluster / Element Manager Concept with Context Switcher Navigation
+- Toast Notification ( PR #782 )
+- Sort ( PR #781 )
+- Datepicker (PR #786 )
+
 * Tue Nov 21 2017 Rohan Kanade <rkanade@redhat.com> - 1.5.4-4
 - Bugfixes-3 tendrl-dashboard v1.5.4
 
