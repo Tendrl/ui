@@ -24,7 +24,7 @@ Contains the JavaScript GUI content for the Tendrl front-end components
 %setup -T -D -a 1
 
 %build
-./node_modules/.bin/gulp release
+./node_modules/.bin/gulp
 %{__rm} -r node_modules
 
 %install
