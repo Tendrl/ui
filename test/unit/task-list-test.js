@@ -63,10 +63,10 @@ describe("Unit Component: taskList", function() {
 
         expect(vm.isDataLoading).to.be.true;
         expect(vm.flag).to.be.false;
-        expect(vm.filterBy).to.be.equal("job_id");
+        expect(vm.filterBy).to.be.equal("jobId");
         expect(vm.filterByValue).to.be.equal("Task ID");
         expect(vm.filterPlaceholder).to.be.equal("Task ID");
-        expect(vm.tasksStatus).to.be.an("array").that.includes("processing", "finished", "failed");
+        expect(vm.tasksStatus).to.be.an("array").that.includes("Processing", "Completed", "Failed");
         expect(vm.taskList).to.be.an("array").that.is.empty;
         expect(vm.date).to.deep.equal(taskList.date);
         expect(vm.toDateOptions.format).to.be.equal("dd M yyyy");
@@ -75,7 +75,6 @@ describe("Unit Component: taskList", function() {
         expect(vm.toDateOptions.startDate).to.be.equal($filter("date")(taskList.date.fromDate, "dd MMM yyyy"));
         expect(vm.popupFrom.opened).to.be.false;
         expect(vm.popupTo.opened).to.be.false;
-        expect(vm.count).to.be.equal(1);
     });
 
     describe("Task List workflows", function() {
@@ -102,11 +101,11 @@ describe("Unit Component: taskList", function() {
         it("Should go to specific task detail page", function() {
             // Exercise SUT
             var task = taskList.formattedJobs[0];
-            vm.clusterId = taskList.integration_id;
-            vm.goToTaskDetail(task.job_id);
+            vm.clusterId = taskList.integrationId;
+            vm.goToTaskDetail(task.jobId);
             // Verify result (behavior)
-            expect(task.job_id).to.not.equal(null);
-            expect($state.go.calledWith("task-detail", { clusterId: taskList.integration_id, taskId: task.job_id })).to.be.true;
+            expect(task.jobId).to.not.equal(null);
+            expect($state.go.calledWith("task-detail", { clusterId: taskList.integrationId, taskId: task.jobId })).to.be.true;
         });
 
         it("Should call the task list API continuosly after a certain interval", function() {
@@ -143,43 +142,6 @@ describe("Unit Component: taskList", function() {
             $scope.$destroy();
 
             expect($interval.cancel.calledOnce).to.be.true;
-        });
-
-        it("Should get appropriate status text", function() {
-            expect(vm.getStatusText(taskList.status[0])).to.be.equal("Completed");
-            expect(vm.getStatusText(taskList.status[1])).to.be.equal("Failed");
-            expect(vm.getStatusText(taskList.status[2])).to.be.equal("Completed with Errors");
-            expect(vm.getStatusText(taskList.status[3])).to.be.equal("Processing");
-            expect(vm.getStatusText(taskList.status[4])).to.be.equal("New");
-        });
-
-        it("Should check for valid dates if to date is less than from", function() {
-            vm.date.toDate = "Tue Jan 16 2018 00:00:00 GMT+0530 (IST)";
-            vm.date.fromDate = "Thu Feb 01 2018 00:00:00 GMT+0530 (IST)";
-
-            vm.checkValidDates();
-
-            expect(vm.date.toDate).to.be.equal("");
-            expect(vm.invalidToDate).to.be.true;
-            expect(vm.count).to.be.equal(2);
-        });
-
-        it("Should check for valid dates if to date is greater than from", function() {
-            vm.date.fromDate = "Tue Jan 16 2018 00:00:00 GMT+0530 (IST)";
-            vm.date.toDate = "Thu Feb 01 2018 00:00:00 GMT+0530 (IST)";
-
-            vm.checkValidDates();
-
-            expect(vm.invalidToDate).to.be.false;
-        });
-
-        it("Should filter by created date: if to data and from date is valid with correct counter", function() {
-            vm.date.fromDate = "Tue Jan 16 2018 00:00:00 GMT+0530 (IST)";
-            vm.date.toDate = "Thu Feb 01 2018 00:00:00 GMT+0530 (IST)";
-            vm.count = 1;
-            vm.filterByCreatedDate(taskList.formattedJobs);
-
-            expect(vm.checkValidDates()).to.have.been.called;
         });
 
         it("Should filter by created date: if to data and from date is valid", function() {
@@ -222,11 +184,11 @@ describe("Unit Component: taskList", function() {
             expect(vm.date.fromDate).to.be.null;
             expect(vm.date.toDate).to.be.null;
             expect(vm.invalidToDate).to.be.false;
-            expect(vm.filterBy).to.be.equal("job_id");
+            expect(vm.filterBy).to.be.equal("jobId");
             expect(vm.filterByValue).to.be.equal("Task ID");
             expect(vm.filterPlaceholder).to.be.equal("Task ID");
             expect(vm.searchBy).to.be.empty;
-            expect(vm.tasksStatus).to.be.an("array").that.includes("processing", "finished", "failed");
+            expect(vm.tasksStatus).to.be.an("array").that.includes("Processing", "Completed", "Failed");
         });
 
     });

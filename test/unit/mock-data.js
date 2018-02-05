@@ -52,73 +52,72 @@
 
     testDataModule.value("taskList", {
         jobs: [{
-                    "created_at": "2018-01-15T08:31:42Z",
+                    "createdAt": "2018-01-15T08:31:42Z",
                     "errors": "",
                     "flow": "ImportCluster",
-                    "job_id": "baf62e32-3929-4d3d-9cbc-9a83587b533c",
-                    "messages_url": "/jobs/baf62e32-3929-4d3d-9cbc-9a83587b533c/messages",
-                    "output_url": "/jobs/baf62e32-3929-4d3d-9cbc-9a83587b533c/output",
+                    "jobId": "baf62e32-3929-4d3d-9cbc-9a83587b533c",
+                    "messagesUrl": "/jobs/baf62e32-3929-4d3d-9cbc-9a83587b533c/messages",
+                    "outputUrl": "/jobs/baf62e32-3929-4d3d-9cbc-9a83587b533c/output",
                     "parameters": { 
                         "Cluster.enable_volume_profiling": "no", 
                         "TendrlContext.integration_id": "e372c01c-5022-41ce-9412-e96038bca305", 
                         "enable_volume_profiling": "no" 
                     },
                     "status": "Completed",
-                    "status_url": "/jobs/baf62e32-3929-4d3d-9cbc-9a83587b533c/status",
-                    "updated_at": "Mon Jan 15 2018 16:05:13 GMT+0530 (IST)"
+                    "statusUrl": "/jobs/baf62e32-3929-4d3d-9cbc-9a83587b533c/status",
+                    "updatedAt": "Mon Jan 15 2018 16:05:13 GMT+0530 (IST)"
         }, {
-                    "created_at": "2018-01-20T08:31:42Z",
+                    "createdAt": "2018-01-20T08:31:42Z",
                     "errors": "",
                     "flow": "ImportCluster",
-                    "job_id": "faf62e32-3929-4d3d-9cbc-9a83587b533c",
-                    "messages_url": "/jobs/baf62e32-3929-4d3d-9cbc-9a83587b533c/messages",
-                    "output_url": "/jobs/baf62e32-3929-4d3d-9cbc-9a83587b533c/output",
+                    "jobId": "faf62e32-3929-4d3d-9cbc-9a83587b533c",
+                    "messagesUrl": "/jobs/baf62e32-3929-4d3d-9cbc-9a83587b533c/messages",
+                    "outputUrl": "/jobs/baf62e32-3929-4d3d-9cbc-9a83587b533c/output",
                     "parameters": { 
                         "Cluster.enable_volume_profiling": "no", 
                         "TendrlContext.integration_id": "e372c01c-5022-41ce-9412-e96038bca305", 
                         "enable_volume_profiling": "no" 
                     },
                     "status": "Completed",
-                    "status_url": "/jobs/baf62e32-3929-4d3d-9cbc-9a83587b533c/status",
-                    "updated_at": "Mon Jan 15 2018 16:05:13 GMT+0530 (IST)"
+                    "statusUrl": "/jobs/baf62e32-3929-4d3d-9cbc-9a83587b533c/status",
+                    "updatedAt": "Mon Jan 15 2018 16:05:13 GMT+0530 (IST)"
         }],
         formattedJobs: [{
-                    "created_at": "2018-01-15T08:31:42Z",
+                    "createdAt": "2018-01-15T08:31:42Z",
                     "errors": "",
                     "flow": "ImportCluster",
-                    "job_id": "baf62e32-3929-4d3d-9cbc-9a83587b533c",
-                    "messages_url": "/jobs/baf62e32-3929-4d3d-9cbc-9a83587b533c/messages",
-                    "output_url": "/jobs/baf62e32-3929-4d3d-9cbc-9a83587b533c/output",
+                    "jobId": "baf62e32-3929-4d3d-9cbc-9a83587b533c",
+                    "messagesUrl": "/jobs/baf62e32-3929-4d3d-9cbc-9a83587b533c/messages",
+                    "outputUrl": "/jobs/baf62e32-3929-4d3d-9cbc-9a83587b533c/output",
                     "parameters": { 
                         "Cluster.enable_volume_profiling": "no", 
                         "TendrlContext.integration_id": "e372c01c-5022-41ce-9412-e96038bca305", 
                         "enable_volume_profiling": "no" 
                     },
                     "status": "Completed",
-                    "status_url": "/jobs/baf62e32-3929-4d3d-9cbc-9a83587b533c/status",
-                    "updated_at": "Mon Jan 15 2018 16:05:13 GMT+0530 (IST)"
+                    "statusUrl": "/jobs/baf62e32-3929-4d3d-9cbc-9a83587b533c/status",
+                    "updatedAt": "Mon Jan 15 2018 16:05:13 GMT+0530 (IST)"
         }, {
-                    "created_at": "2018-01-20T08:31:42Z",
+                    "createdAt": "2018-01-20T08:31:42Z",
                     "errors": "",
                     "flow": "ImportCluster",
-                    "job_id": "faf62e32-3929-4d3d-9cbc-9a83587b533c",
-                    "messages_url": "/jobs/baf62e32-3929-4d3d-9cbc-9a83587b533c/messages",
-                    "output_url": "/jobs/baf62e32-3929-4d3d-9cbc-9a83587b533c/output",
+                    "jobId": "faf62e32-3929-4d3d-9cbc-9a83587b533c",
+                    "messagesUrl": "/jobs/baf62e32-3929-4d3d-9cbc-9a83587b533c/messages",
+                    "outputUrl": "/jobs/baf62e32-3929-4d3d-9cbc-9a83587b533c/output",
                     "parameters": { 
                         "Cluster.enable_volume_profiling": "no", 
                         "TendrlContext.integration_id": "e372c01c-5022-41ce-9412-e96038bca305", 
                         "enable_volume_profiling": "no" 
                     },
                     "status": "Completed",
-                    "status_url": "/jobs/baf62e32-3929-4d3d-9cbc-9a83587b533c/status",
-                    "updated_at": "Mon Jan 15 2018 16:05:13 GMT+0530 (IST)"
+                    "statusUrl": "/jobs/baf62e32-3929-4d3d-9cbc-9a83587b533c/status",
+                    "updatedAt": "Mon Jan 15 2018 16:05:13 GMT+0530 (IST)"
         }],
-        integration_id : "f755f0cd-b784-4920-83c3-db9d576d5935",
+        integrationId : "f755f0cd-b784-4920-83c3-db9d576d5935",
         date : {
             fromDate: "",
             toDate: "",
-        },
-        status : ["finished", "failed", "warning", "processing", "new"]
+        }
     });
 
     testDataModule.value("clusterList", {

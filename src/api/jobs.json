@@ -1,52 +1,52 @@
 {
-   "jobs":[
-      {
-         "job_id":"baf62e32-3929-4d3d-9cbc-9a83587b533c",
-         "status":"finished",
-         "flow":"ImportCluster",
-         "parameters":{
-            "Cluster.enable_volume_profiling":"no",
-            "TendrlContext.integration_id":"e372c01c-5022-41ce-9412-e96038bca305",
-            "enable_volume_profiling":"no"
-         },
-         "created_at":"2018-01-15T08:31:42Z",
-         "updated_at":"2018-01-15 08:31:45.399351+00:00",
-         "status_url":"/jobs/baf62e32-3929-4d3d-9cbc-9a83587b533c/status",
-         "messages_url":"/jobs/baf62e32-3929-4d3d-9cbc-9a83587b533c/messages",
-         "output_url":"/jobs/baf62e32-3929-4d3d-9cbc-9a83587b533c/output",
-         "errors":""
-      },
-      {
-         "job_id":"85e35fd6-4688-416f-8081-2f7d68fa2672",
-         "status":"failed",
-         "flow":"ImportCluster",
-         "parameters":{
-            "Cluster.enable_volume_profiling":"yes",
-            "TendrlContext.integration_id":"e372c01c-5022-41ce-9412-e96038bca305",
-            "enable_volume_profiling":"yes"
-         },
-         "created_at":"2018-01-15T10:35:13Z",
-         "updated_at":"2018-01-15 10:35:13.763135+00:00",
-         "status_url":"/jobs/85e35fd6-4688-416f-8081-2f7d68fa2672/status",
-         "messages_url":"/jobs/85e35fd6-4688-416f-8081-2f7d68fa2672/messages",
-         "output_url":"/jobs/85e35fd6-4688-416f-8081-2f7d68fa2672/output",
-         "errors":"Traceback (most recent call last):\n  File \"/usr/lib/python2.7/site-packages/tendrl/commons/jobs/__init__.py\", line 218, in process_job\n    the_flow.run()\n  File \"/usr/lib/python2.7/site-packages/tendrl/commons/flows/import_cluster/__init__.py\", line 38, in run\n    _cluster.import_job_id, _cluster.integration_id\nFlowExecutionFailedError: Cluster already being imported by another Job, please wait till the job finishes (job_id: baf62e32-3929-4d3d-9cbc-9a83587b533c) (integration_id: e372c01c-5022-41ce-9412-e96038bca305) \n"
-      },
-      {
-         "job_id":"88e35fd6-4688-416f-8081-2f7d68fa2672",
-         "status":"processing",
-         "flow":"ImportCluster",
-         "parameters":{
-            "Cluster.enable_volume_profiling":"yes",
-            "TendrlContext.integration_id":"e372c01c-5022-41ce-9412-e96038bca305",
-            "enable_volume_profiling":"yes"
-         },
-         "created_at":"2018-01-15T10:35:13Z",
-         "updated_at":"2018-01-15 10:35:13.763135+00:00",
-         "status_url":"/jobs/85e35fd6-4688-416f-8081-2f7d68fa2672/status",
-         "messages_url":"/jobs/85e35fd6-4688-416f-8081-2f7d68fa2672/messages",
-         "output_url":"/jobs/85e35fd6-4688-416f-8081-2f7d68fa2672/output",
-         "errors":"Traceback (most recent call last):\n  File \"/usr/lib/python2.7/site-packages/tendrl/commons/jobs/__init__.py\", line 218, in process_job\n    the_flow.run()\n  File \"/usr/lib/python2.7/site-packages/tendrl/commons/flows/import_cluster/__init__.py\", line 38, in run\n    _cluster.import_job_id, _cluster.integration_id\nFlowExecutionFailedError: Cluster already being imported by another Job, please wait till the job finishes (job_id: baf62e32-3929-4d3d-9cbc-9a83587b533c) (integration_id: e372c01c-5022-41ce-9412-e96038bca305) \n"
-      }
-   ]
+    "jobs": [
+    {
+        "job_id": "f15fa97b-003b-401d-aba0-361a77bf62fa",
+        "status": "finished",
+        "flow": "ImportCluster",
+        "parameters":
+        {
+            "Cluster.enable_volume_profiling": "yes",
+            "TendrlContext.integration_id": "0eceeff1-f5d7-4e6a-9128-da2badf0fa86",
+            "enable_volume_profiling": "yes"
+        },
+        "created_at": "2018-02-05T11:43:59Z",
+        "updated_at": "2018-02-05 11:44:05.127730+00:00",
+        "status_url": "/jobs/f15fa97b-003b-401d-aba0-361a77bf62fa/status",
+        "messages_url": "/jobs/f15fa97b-003b-401d-aba0-361a77bf62fa/messages",
+        "output_url": "/jobs/f15fa97b-003b-401d-aba0-361a77bf62fa/output",
+        "errors": ""
+    },{
+        "job_id": "f55fa97b-003b-401d-aba0-361a77bf62fa",
+        "status": "failed",
+        "flow": "ImportCluster",
+        "parameters":
+        {
+            "Cluster.enable_volume_profiling": "yes",
+            "TendrlContext.integration_id": "0eceeff1-f5d7-4e6a-9128-da2badf0fa86",
+            "enable_volume_profiling": "yes"
+        },
+        "created_at": "2018-02-04T11:43:59Z",
+        "updated_at": "2018-02-05 11:44:05.127730+00:00",
+        "status_url": "/jobs/f15fa97b-003b-401d-aba0-361a77bf62fa/status",
+        "messages_url": "/jobs/f15fa97b-003b-401d-aba0-361a77bf62fa/messages",
+        "output_url": "/jobs/f15fa97b-003b-401d-aba0-361a77bf62fa/output",
+        "errors": ""
+    },{
+        "job_id": "f55fa97b-003b-401d-aba0-361a77bf62fa",
+        "status": "failed",
+        "flow": "ImportCluster",
+        "parameters":
+        {
+            "Cluster.enable_volume_profiling": "yes",
+            "TendrlContext.integration_id": "0eceeff1-f5d7-4e6a-9128-da2badf0fa86",
+            "enable_volume_profiling": "yes"
+        },
+        "created_at": "2018-02-04T11:43:59Z",
+        "updated_at": "2018-02-05 11:44:05.127730+00:00",
+        "status_url": "/jobs/f15fa97b-003b-401d-aba0-361a77bf62fa/status",
+        "messages_url": "/jobs/f15fa97b-003b-401d-aba0-361a77bf62fa/messages",
+        "output_url": "/jobs/f15fa97b-003b-401d-aba0-361a77bf62fa/output",
+        "errors": ""
+    }]
 }
