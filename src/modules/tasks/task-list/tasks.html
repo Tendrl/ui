@@ -10,7 +10,7 @@
                         <div class="input-group-btn">
                             <button ng-disabled="taskCntrl.taskList.length === 0" type="button" class="btn btn-default dropdown-toggle filterSelect" ng-model="taskCntrl.filterBy" ng-change="taskCntrl.searchBy = {}" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{{taskCntrl.filterByValue}} <span class="caret"></span></button>
                             <ul class="dropdown-menu">
-                                <li ng-class="{'selected':(taskCntrl.filterBy === 'job_id')}"><a href="" ng-click="taskCntrl.changingFilterBy('job_id')">Task ID</a></li>
+                                <li ng-class="{'selected':(taskCntrl.filterBy === 'jobId')}"><a href="" ng-click="taskCntrl.changingFilterBy('jobId')">Task ID</a></li>
                                 <li ng-class="{'selected':(taskCntrl.filterBy === 'flow')}"><a href="" ng-click="taskCntrl.changingFilterBy('flow')">Task</a></li>
                             </ul>
                         </div>
@@ -20,7 +20,7 @@
                 <div class="form-group date-selector" ng-class="{'disable-picker': (taskCntrl.taskList.length === 0)}">
                     From:
                     <p class="input-group">
-                        <input type="text" class="form-control" uib-datepicker-popup datepicker-options="taskCntrl.fromDateOptions" ng-model="taskCntrl.date.fromDate" ng-click="taskCntrl.resetCount()" is-open="taskCntrl.popupFrom.opened" ng-required="true" close-text="Close" />
+                        <input type="text" class="form-control" uib-datepicker-popup datepicker-options="taskCntrl.fromDateOptions" ng-model="taskCntrl.date.fromDate" is-open="taskCntrl.popupFrom.opened" ng-required="true" close-text="Close" />
                         <span class="input-group-btn">
                             <button type="button" class="btn btn-default" ng-click="taskCntrl.openFromDate()"><i class="glyphicon glyphicon-calendar"></i></button>
                         </span>
@@ -29,7 +29,7 @@
                 <div class="form-group remove-right-border date-selector" ng-class="{'disable-picker': (taskCntrl.taskList.length === 0)}">
                     To:
                     <p class="input-group">
-                        <input type="text" class="form-control" uib-datepicker-popup datepicker-options="taskCntrl.toDateOptions" ng-model="taskCntrl.date.toDate" ng-click="taskCntrl.resetCount()" is-open="taskCntrl.popupTo.opened" ng-required="true" close-text="Close" />
+                        <input type="text" class="form-control" uib-datepicker-popup datepicker-options="taskCntrl.toDateOptions" ng-model="taskCntrl.date.toDate" is-open="taskCntrl.popupTo.opened" ng-required="true" close-text="Close" />
                         <span class="input-group-btn">
                             <button type="button" class="btn btn-default" ng-click="taskCntrl.openToDate()"><i class="glyphicon glyphicon-calendar"></i></button>
                         </span>
@@ -48,17 +48,17 @@
                 </div>
                 <div class="status-options">
                     <label>
-                        <input type="checkbox" name="status1" id="status1" ng-click="taskCntrl.updateStatus('processing')" ng-checked="taskCntrl.isSelectedStatus('processing')" ng-disabled="taskCntrl.taskList.length === 0"> In progress
+                        <input type="checkbox" name="status1" id="status1" ng-click="taskCntrl.updateStatus('Processing')" ng-checked="taskCntrl.isSelectedStatus('Processing')" ng-disabled="taskCntrl.taskList.length === 0"> In progress
                     </label>
                 </div>
                 <div class="status-options">
                     <label>
-                        <input type="checkbox" name="status2" id="status2" ng-click="taskCntrl.updateStatus('finished')" ng-checked="taskCntrl.isSelectedStatus('finished')" ng-disabled="taskCntrl.taskList.length === 0"> Succeeded
+                        <input type="checkbox" name="status2" id="status2" ng-click="taskCntrl.updateStatus('Completed')" ng-checked="taskCntrl.isSelectedStatus('Completed')" ng-disabled="taskCntrl.taskList.length === 0"> Succeeded
                     </label>
                 </div>
                 <div class="status-options">
                     <label>
-                        <input type="checkbox" name="status3" id="status3" ng-click="taskCntrl.updateStatus('failed')" ng-checked="taskCntrl.isSelectedStatus('failed')" ng-disabled="taskCntrl.taskList.length === 0"> Failed
+                        <input type="checkbox" name="status3" id="status3" ng-click="taskCntrl.updateStatus('Failed')" ng-checked="taskCntrl.isSelectedStatus('Failed')" ng-disabled="taskCntrl.taskList.length === 0"> Failed
                     </label>
                 </div>
                 <div class="status-options">
@@ -98,22 +98,22 @@
     </center>
     <div ng-if="taskCntrl.isDataLoading" class="spinner spinner-lg"></div>
     <div class="flex-table list-group list-view-pf list-view-pf-view task-list-table" ng-show="!taskCntrl.isDataLoading">
-        <div class="ft-row list-group-item" ng-repeat="task in taskCntrl.filteredTaskList = (taskCntrl.taskList | filter: taskCntrl.searchBy | filter:taskCntrl.filterByStatus | filter: taskCntrl.filterByCreatedDate| orderBy: ['-created_at', 'job_id'])">
+        <div class="ft-row list-group-item" ng-repeat="task in taskCntrl.filteredTaskList = (taskCntrl.taskList | filter: taskCntrl.searchBy | filter:taskCntrl.filterByStatus | filter: taskCntrl.filterByCreatedDate| orderBy: ['-createdAt', 'jobId'])">
             <div class="ft-column ft-icon ">
-                <i ng-class="{ 'pficon pficon-error-circle-o': (task.status==='failed' ), 'pficon pficon-ok': (task.status==='finished' ), 'pficon pficon-warning-triangle-o': (task.status==='warning' ), 'fa fa-spinner': (task.status==='processing' || task.status==='new' )} "></i>
+                <i ng-class="taskCntrl.statusIcon(task.status)"></i>
             </div>
             <div class="ft-column ft-main list-view-pf-additional-info-item list-view-pf-additional-info-item-stacked task-flow ">
-                <a class="bold-text name" ng-show="task.flow" ng-click="taskCntrl.goToTaskDetail(task.job_id)">{{task.flow}}</a>
+                <a class="bold-text name" ng-show="task.flow" ng-click="taskCntrl.goToTaskDetail(task.jobId)">{{task.flow}}</a>
                 <div class="bold-text " ng-if="!task.flow ">NA</div>
-                <p>Task ID: {{task.job_id || "NA "}} </p>
+                <p>Task ID: {{task.jobId || "NA "}} </p>
             </div>
             <div class="ft-column status-col">
                 <div class="bold-text ">Submitted</div>
-                <div class="pull-left ">{{task.created_at| date: 'dd MMM yyyy HH:mm:ss'}}</div>
+                <div class="pull-left ">{{task.createdAt| date: 'dd MMM yyyy HH:mm:ss'}}</div>
             </div>
             <div class="ft-column status-col ">
-                <div class="bold-text ">{{taskCntrl.getStatusText(task.status)}}</div>
-                <div class="pull-left ">{{task.updated_at | date: 'dd MMM yyyy HH:mm:ss'}}</div>
+                <div class="bold-text ">{{task.status}}</div>
+                <div class="pull-left ">{{task.updatedAt | date: 'dd MMM yyyy HH:mm:ss'}}</div>
             </div>
         </div>
     </div>

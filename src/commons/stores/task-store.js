@@ -16,23 +16,52 @@
             deferred = $q.defer();
             utils.getJobList(clusterId)
                 .then(function(data) {
-                    list = _setUpdatedDate(data);
+                    list = _setUpdatedData(data);
                     deferred.resolve(list);
                 });
             return deferred.promise;
 
-            function _setUpdatedDate(data) {
-                var len,
+            function _setUpdatedData(data) {
+                var len = data.length,
                     temp,
+                    list = [],
+                    parameters = {},
                     i;
+
                 len = data.length;
-                
+
                 for (i = 0; i < len; i++) {
-                    temp = new Date(data[i].updated_at);
-                    data[i].updated_at = temp;
+                    temp = {};
+                    temp.createdAt = new Date(data[i].created_at);
+                    temp.updatedAt = new Date(data[i].updated_at);
+                    temp.errors = data[i].errors;
+                    temp.flow = data[i].flow;
+                    temp.jobId = data[i].job_id;
+                    temp.messagesUrl = data[i].messages_url;
+                    temp.parameters = data[i].parameters;
+                    temp.status = _getStatusText(data[i].status);
+                    temp.statusUrl = data[i].status_url;
+                    list.push(temp);
                 }
 
-                return data;
+                return list;
+            }
+
+            function _getStatusText(status) {
+
+                if (status === "finished") {
+                    return "Completed";
+                } else if (status === "failed") {
+                    return "Failed";
+                } else if (status === "warning") {
+                    return "Completed with Errors";
+                } else if (status === "processing") {
+                    return "Processing";
+                } else if (status === "new") {
+                    return "New";
+                } else {
+                    return "NA";
+                }
             }
         };
 

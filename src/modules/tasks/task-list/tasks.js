@@ -21,17 +21,15 @@
             toDate,
             count;
 
-        vm.tasksStatus = ["processing", "finished", "failed"];
+        vm.tasksStatus = ["Processing", "Completed", "Failed"];
         vm.taskList = [];
         vm.isDataLoading = true;
         vm.flag = false;
-        vm.filterBy = "job_id";
+        vm.filterBy = "jobId";
         vm.filterByValue = "Task ID";
         vm.filterPlaceholder = "Task ID";
-        vm.count = 1;
 
         vm.goToTaskDetail = goToTaskDetail;
-        vm.getStatusText = getStatusText;
         vm.updateStatus = updateStatus;
         vm.isSelectedStatus = isSelectedStatus;
         vm.filterByStatus = filterByStatus;
@@ -41,7 +39,7 @@
         vm.changingFilterBy = changingFilterBy;
         vm.openFromDate = openFromDate;
         vm.openToDate = openToDate;
-        vm.checkValidDates = checkValidDates;
+        vm.statusIcon = statusIcon;
 
         vm.date = {
             fromDate: "",
@@ -111,21 +109,6 @@
 
         }
 
-        function getStatusText(status) {
-
-            if (status === "finished") {
-                return "Completed";
-            } else if (status === "failed") {
-                return "Failed";
-            } else if (status === "warning") {
-                return "Completed with Errors";
-            } else if (status === "processing") {
-                return "Processing";
-            } else if (status === "new") {
-                return "New";
-            }
-        }
-
         $scope.$on("$destroy", function() {
             $interval.cancel(jobTimer);
         });
@@ -142,6 +125,20 @@
             }
         }
 
+        function statusIcon(status) {
+            if (status === "Completed") {
+                return "pficon pficon-ok";
+            } else if (status === "Failed") {
+                return "pficon pficon-error-circle-o";
+            } else if (status === "Completed with Errors") {
+                return "pficon pficon-warning-triangle-o";
+            } else if (status === "Processing" || status === "New") {
+                return "fa fa-spinner";
+            } else {
+                return "fa fa-question";
+            }
+        }
+
         function isSelectedStatus(status) {
             return vm.tasksStatus.indexOf(status) > -1;
         }
@@ -155,34 +152,31 @@
         }
 
         function filterByCreatedDate(list) {
-            if (vm.count === 1 && vm.date.fromDate && vm.date.toDate) {
-                checkValidDates();
-            }
 
             if (vm.date.fromDate && vm.date.toDate) {
-                return Date.parse(list.created_at) >= Date.parse(vm.date.fromDate) && Date.parse(list.created_at) <= Date.parse(vm.date.toDate);
+                _checkValidDates();
+                if (vm.date.fromDate.valueOf() === vm.date.toDate.valueOf()) {
+                    return Date.parse(list.createdAt.getDate()) === Date.parse(vm.date.fromDate.getDate());
+                } else {
+                    return Date.parse(list.createdAt) >= Date.parse(vm.date.fromDate) && Date.parse(list.createdAt) <= Date.parse(vm.date.toDate);
+                }
             } else if (vm.date.fromDate) {
-                return Date.parse(list.created_at) >= Date.parse(vm.date.fromDate);
+                return Date.parse(list.createdAt) >= Date.parse(vm.date.fromDate);
             } else if (vm.date.toDate) {
-                return Date.parse(list.created_at) <= Date.parse(vm.date.toDate);
+                return Date.parse(list.createdAt) <= Date.parse(vm.date.toDate);
             } else {
                 return list;
             }
         }
 
-        function checkValidDates() {
+        function _checkValidDates() {
             if (Date.parse(vm.date.toDate) < Date.parse(vm.date.fromDate)) {
                 vm.date.toDate = "";
                 vm.invalidToDate = true;
-                vm.count++;
             } else {
                 vm.invalidToDate = false;
             }
         }
-
-        vm.resetCount = function() {
-            vm.count = 1;
-        };
 
         function addTooltip($event) {
             vm.flag = utils.tooltip($event);
@@ -192,17 +186,17 @@
             vm.date.fromDate = null;
             vm.date.toDate = null;
             vm.invalidToDate = false;
-            vm.filterBy = "job_id";
+            vm.filterBy = "jobId";
             vm.filterByValue = "Task ID";
             vm.filterPlaceholder = "Task ID";
             vm.searchBy = {};
-            vm.tasksStatus = ["processing", "finished", "failed"];
+            vm.tasksStatus = ["Processing", "Completed", "Failed"];
         }
 
         function changingFilterBy(filterValue) {
             vm.filterBy = filterValue;
             switch (filterValue) {
-                case "job_id":
+                case "jobId":
                     vm.filterByValue = "Task ID";
                     vm.filterPlaceholder = "Task ID";
                     break;
