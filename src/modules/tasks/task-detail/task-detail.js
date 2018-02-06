@@ -24,7 +24,7 @@
         vm.isDataLoading = true;
         vm.isMessagesLoading = true;
         vm.goToClusterTask = goToClusterTask;
-
+        vm.goToClusterDetail = goToClusterDetail;
 
         init();
 
@@ -112,6 +112,10 @@
                 }
 
             }, 1000 * config.msgRefreshIntervalTime, 1);
+        }
+
+        function goToClusterDetail() {
+            $state.go("cluster-hosts", {clusterId: vm.taskDetail.parameters["TendrlContext.integration_id"]});
         }
 
         $scope.$on("$destroy", function() {

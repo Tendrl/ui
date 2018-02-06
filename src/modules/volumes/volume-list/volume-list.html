@@ -72,16 +72,16 @@
                     <div class="pull-left">{{volume.brickCount}}</div>
                 </div>
                 <div class="ft-column list-view-pf-additional-info-item list-view-pf-additional-info-item-stacked">
-                    <div class="bold-text">Alerts</div>
-                    <div class="pull-left counts">{{volume.alertCount}}</div>
-                </div>
-                <div class="ft-column list-view-pf-additional-info-item list-view-pf-additional-info-item-stacked">
                     <div class="bold-text">Running</div>
                     <div class="pull-left">{{volume.status === 'Stopped'? "No": "Yes"}}</div>
                 </div>
                 <div class="ft-column list-view-pf-additional-info-item list-view-pf-additional-info-item-stacked">
-                    <div class="bold-text">Last Rebalance</div>
+                    <div class="bold-text">Rebalance</div>
                     <div class="pull-left counts">{{volumeCntrl.getRebalStatus(volume)}}</div>
+                </div>
+                <div class="ft-column list-view-pf-additional-info-item list-view-pf-additional-info-item-stacked">
+                    <div class="bold-text">Alerts</div>
+                    <div class="pull-left counts">{{volume.alertCount}}</div>
                 </div>
                 <div class="ft-column ft-actions">
                     <button class="btn btn-default dashboard-btn" ng-click="volumeCntrl.redirectToGrafana(volume, $event)" tooltip-enable="volumeCntrl.flag" ng-mouseover="volumeCntrl.addTooltip($event)" uib-tooltip="Dashboard">Dashboard</button>

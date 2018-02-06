@@ -88,21 +88,21 @@
                         <div class="list-view-pf-additional-info">
                             <div class="list-view-pf-additional-info-item list-view-pf-additional-info-item-stacked">
                                 <div class="bold-text">Cluster Version</div>
-                                <h5 class="pull-left counts">{{cluster.sdsName}} {{cluster.sdsVersion}}</h5>
+                                <h5 class="pull-left counts">{{cluster.sdsName === 'gluster'? "RHGS": ""}} {{cluster.sdsVersion}}</h5>
                             </div>
                             <div class="list-view-pf-additional-info-item list-view-pf-additional-info-item-stacked">
                                 <div class="bold-text">Managed</div>
                                 <h5 class="pull-left counts">{{cluster.managed}}</h5>
                             </div>
-                            <div class="list-view-pf-additional-info-item list-view-pf-additional-info-item-stacked">
+                            <div class="list-view-pf-additional-info-item list-view-pf-additional-info-item-stacked" ng-class="{'hide-button': (cluster.managed !== 'Yes')}">
                                 <div class="bold-text">Volume Profiling</div>
                                 <h5 class="pull-left counts">{{cluster.isProfilingEnabled}}</h5>
                             </div>
-                            <div class="list-view-pf-additional-info-item list-view-pf-additional-info-item-stacked">
+                            <div class="list-view-pf-additional-info-item list-view-pf-additional-info-item-stacked" ng-class="{'hide-button': (cluster.managed !== 'Yes')}">
                                 <div class="bold-text">Volumes</div>
                                 <h5 class="pull-left counts">{{cluster.volCount}}</h5>
                             </div>
-                            <div class="list-view-pf-additional-info-item list-view-pf-additional-info-item-stacked">
+                            <div class="list-view-pf-additional-info-item list-view-pf-additional-info-item-stacked" ng-class="{'hide-button': (cluster.managed !== 'Yes')}">
                                 <div class="bold-text">Alerts</div>
                                 <h5 class="pull-left counts">{{cluster.alertCount}}</h5>
                             </div>

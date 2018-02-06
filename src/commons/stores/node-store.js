@@ -92,6 +92,7 @@
                     host.name = list[i].fqdn;
                     host.role = store.findRole(list[i].tags) ? store.findRole(list[i].tags).role : "None";
                     host.integrationId = list[i].cluster.integration_id;
+                    host.version = list[i].cluster.sds_version || "NA";
                     host.alerts = list[i].alert_counters ? list[i].alert_counters.warning_count : "No Data";
                     host.bricks = list[i].bricks_count || "No Data";
 

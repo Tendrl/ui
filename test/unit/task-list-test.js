@@ -168,16 +168,6 @@ describe("Unit Component: taskList", function() {
             expect(list).to.deep.equal(taskList.formattedJobs);
         });
 
-
-        it("Should set the flag by addTooltip", function() {
-            // Exercise SUT
-            sinon.stub(utils, "tooltip").returns(true);
-            vm.addTooltip();
-
-            //Verify result (behavior)
-            expect(vm.flag).to.be.true;
-        });
-
         it("Should clear all filters", function() {
             vm.clearAllFilters();
 
