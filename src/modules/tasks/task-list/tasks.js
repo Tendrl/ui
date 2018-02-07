@@ -35,7 +35,6 @@
         vm.filterByStatus = filterByStatus;
         vm.filterByCreatedDate = filterByCreatedDate;
         vm.clearAllFilters = clearAllFilters;
-        vm.addTooltip = addTooltip;
         vm.changingFilterBy = changingFilterBy;
         vm.openFromDate = openFromDate;
         vm.openToDate = openToDate;
@@ -106,7 +105,6 @@
             if (vm.clusterId) {
                 $state.go("task-detail", { clusterId: vm.clusterId, taskId: id });
             }
-
         }
 
         $scope.$on("$destroy", function() {
@@ -176,10 +174,6 @@
             } else {
                 vm.invalidToDate = false;
             }
-        }
-
-        function addTooltip($event) {
-            vm.flag = utils.tooltip($event);
         }
 
         function clearAllFilters() {
