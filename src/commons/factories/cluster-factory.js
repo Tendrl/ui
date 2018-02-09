@@ -68,6 +68,34 @@
         };
 
         /**
+         * @name doClusterUnmanage
+         * @desc unmanages a cluster
+         * @memberOf clusterFactory
+         */
+        vm.doClusterUnmanage = function(data, clusterId) {
+            var url,
+                unmanageRequest,
+                request;
+
+            url = config.baseUrl + "clusters/" + clusterId + "/unmanage";
+
+            unmanageRequest = {
+                method: "POST",
+                url: url,
+                data : data
+            };
+
+            request = angular.copy(unmanageRequest);
+            return $http(request).then(function(response) {
+                return response.data;
+            }, function(e) {
+                utils.checkErrorCode(e);
+                console.log("Error Occurred: while unmanaging the cluster");
+                throw e;
+            });
+        };
+
+        /**
          * @name getClusterList
          * @desc fetch list of clusters
          * @memberOf clusterFactory
