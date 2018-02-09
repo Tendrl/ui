@@ -15,7 +15,7 @@
         });
 
     /*@ngInject*/
-    function importClusterController($state, $rootScope, $stateParams, clusterStore) {
+    function importClusterController($state, $rootScope, $stateParams, $uibModal, clusterStore) {
 
         var vm = this,
             hostList;
@@ -55,6 +55,8 @@
          */
         function init() {
             vm.clusterId = $rootScope.clusterTobeImported.clusterId;
+            vm.taskId = $stateParams.taskId;
+            vm.taskStatus = $stateParams.taskStatus;
             if (!$rootScope.clusterTobeImported) {
                 $state.go("clusters");
             } else {
@@ -81,6 +83,37 @@
             vm.hostList.sort(_compareFn);
         };
 
+        function failedImport(clusterId, taskId) {
+            var wizardDoneListener,
+                modalInstance,
+                closeWizard;
+
+            modalInstance = $uibModal.open({
+                animation: true,
+                backdrop: "static",
+                templateUrl: "/modules/clusters/import-cluster/import-fail/import-fail.html",
+                controller: "importFailController",
+                controllerAs: "vm",
+                size: "md",
+                resolve: {
+                    failedJob: function() {
+                        return {
+                            clusterId: clusterId,
+                            jobId: taskId
+                        };
+                    }
+                }
+            });
+
+            closeWizard = function(e, reason) {
+                modalInstance.dismiss(reason);
+                wizardDoneListener();
+            };
+
+            modalInstance.result.then(function() {}, function() {});
+            wizardDoneListener = $rootScope.$on("modal.done", closeWizard);
+        }
+
         /**
          * @name importCluster
          * @desc Perform import cluster
@@ -88,11 +121,15 @@
          */
         function importCluster() {
             vm.importIcon = true;
-            clusterStore.importCluster($rootScope.clusterTobeImported, vm.enableProfiling)
-                .then(function(data) {
-                    vm.taskInitiated = true;
-                    vm.jobId = data.job_id;
-                });
+            if (vm.taskStatus === "failed") {
+                failedImport(vm.clusterId, vm.taskId);
+            } else {
+                clusterStore.importCluster($rootScope.clusterTobeImported, vm.enableProfiling)
+                    .then(function(data) {
+                        vm.taskInitiated = true;
+                        vm.jobId = data.job_id;
+                    });
+            }
         }
 
         /**

@@ -46,12 +46,45 @@
                 temp.name = data[i].cluster_id;
                 temp.clusterId = data[i].cluster_id;
                 temp.isProfilingEnabled = data[i].enable_volume_profiling === "yes" ? "Enabled" : "Disabled";
-                temp.managed = data[i].is_managed === "yes" ? "Yes" : "No";
-                temp.importStatus = data[i].import_status;
+                temp.jobStatus = data[i].status;
+                temp.currentTask = data[i].current_job;
+                temp.jobType = JSON.parse(data[i].current_job).job_name;
+                temp.currentStatus = JSON.parse(data[i].current_job).status;
+                temp.managed = (data[i].is_managed === "yes" && temp.currentStatus !== "in_progress") ? "Yes" : "No";
                 temp.statusIcon = "Not Managed";
-                temp.importTaskId = data[i].import_job_id;
+                temp.currentTaskId = JSON.parse(data[i].current_job).job_id;
                 temp.volCount = data[i].globaldetails && data[i].globaldetails.vol_count ? parseInt(data[i].globaldetails.vol_count) : 0;
                 temp.alertCount = data[i].alert_counters ? parseInt(data[i].alert_counters.warning_count) : 0;
+
+                temp.errors = data[i].errors ? data[i].errors : [];
+
+                if (temp.managed === "No") {
+                    if ((!temp.errors.length) && temp.currentStatus === "failed") {
+                        temp.message = "Cluster Misconfigured";
+                    } else if (temp.currentStatus === "finished" || temp.currentTask === "{}") {
+                        temp.message = "Ready to import";
+                    }
+                }
+                if (temp.jobType === "ImportCluster") {
+                    if (temp.currentStatus === "in_progress") {
+                        temp.message = "Importing Cluster";
+                    } else if (temp.currentStatus === "failed") {
+                        temp.message = "Import Failed";
+                    } else if (temp.currentStatus === "finished") {
+                        temp.message = "Ready to Use";
+                    }
+                } else if (temp.jobType === "UnmanageCluster") {
+                    temp.managed = "No";
+                    if (temp.currentStatus === "in_progress") {
+                        temp.message = "Unmanaging Cluster";
+                    } else if (temp.currentStatus === "failed") {
+                        temp.message = "Unmanage Failed";
+                    } else if (temp.currentStatus === "finished") {
+                        temp.message = "Ready to import";
+                    }
+                } else if(temp.managed === "Yes" && !temp.message){
+                    temp.message = "Ready to Use";
+                }
 
                 if (temp.managed === "Yes") {
                     if (temp.sdsName === "gluster") {
@@ -80,21 +113,6 @@
                                 break;
                         }
                     }
-                }
-
-                temp.errors = data[i].errors ? data[i].errors : [];
-
-                if (temp.managed === "No") {
-                    temp.message = temp.errors.length ? "Cluster Misconfigured" : "Ready to Import";
-
-                    if (temp.importStatus === "failed") {
-                        temp.message = "Import Failed";
-                    }
-
-                } else if (temp.importStatus === "failed") {
-                    temp.message = "Import Failed";
-                } else {
-                    temp.message = "Ready to Use";
                 }
 
                 temp.hosts = store.getAssociatedHosts(data[i]);
@@ -189,6 +207,28 @@
 
             deferred = $q.defer();
             clusterFactory.doProfilingAction(clusterId, action)
+                .then(function(data) {
+                    deferred.resolve(data);
+                }).catch(function(e) {
+                    deferred.reject(e);
+                });
+
+            return deferred.promise;
+        };
+
+        /**
+         * @name doClusterUnmanage
+         * @desc unmanages a cluster
+         * @memberOf clusterStore
+         */
+        store.doClusterUnmanage = function(clusterId) {
+            var sendData = {
+                    "cluster_id": clusterId
+                },
+                deferred;
+
+            deferred = $q.defer();
+            clusterFactory.doClusterUnmanage(sendData, clusterId)
                 .then(function(data) {
                     deferred.resolve(data);
                 }).catch(function(e) {
