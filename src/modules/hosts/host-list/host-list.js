@@ -22,16 +22,14 @@
 
         vm.isDataLoading = true;
         vm.flag = false;
-        vm.filterBy = "name";
-        vm.filterByValue = "Name";
-        vm.filterPlaceholder = "Name";
+        vm.filtersText = "";
         vm.hostList = [];
+        vm.filteredHostList = [];
 
         vm.redirectToGrafana = redirectToGrafana;
         vm.goToHostDetail = goToHostDetail;
         vm.addTooltip = addTooltip;
-        vm.clearAllFilters = clearAllFilters;
-        vm.changingFilterBy = changingFilterBy;
+        //vm.clearAllFilters = clearAllFilters;
         vm.sortConfig = {
             fields: [{
                 id: 'name',
@@ -39,6 +37,80 @@
                 sortType: 'alpha'
             }],
             onSortChange: _sortChange
+        };
+
+        var matchesFilter = function(item, filter) {
+            var match = true;
+            var re = new RegExp(filter.value, 'i');
+
+            if (filter.id === 'name') {
+                match = item.name.match(re) !== null;
+            } else if (filter.id === 'status') {
+        match = item.status === filter.value.id || item.status === filter.value;
+      }
+            return match;
+        };
+
+        var matchesFilters = function(item, filters) {
+            var matches = true;
+
+            filters.forEach(function(filter) {
+                if (!matchesFilter(item, filter)) {
+                    matches = false;
+                    return false;
+                }
+            });
+            return matches;
+        };
+
+        var applyFilters = function(filters) {
+            vm.filteredHostList = [];
+            if (filters && filters.length > 0) {
+                vm.hostList.forEach(function(item) {
+                    if (matchesFilters(item, filters)) {
+                        vm.filteredHostList.push(item);
+                    } 
+                });
+            } else {
+                vm.filteredHostList = vm.hostList;
+            }
+            vm.filterConfig.resultsCount = vm.filteredHostList.length;
+        };
+
+        var filterChange = function(filters) {
+            vm.filtersText = "";
+            filters.forEach(function(filter) {
+                vm.filtersText += filter.title + " : ";
+                if (filter.value.filterCategory) {
+                    vm.filtersText += ((filter.value.filterCategory.title || filter.value.filterCategory) +
+                        filter.value.filterDelimiter + (filter.value.filterValue.title || filter.value.filterValue));
+                } else if (filter.value.title) {
+                    vm.filtersText += filter.value.title;
+                } else {
+                    vm.filtersText += filter.value;
+                }
+                vm.filtersText += "\n";
+            });
+            applyFilters(filters);
+        };
+
+        vm.filterConfig = {
+            fields: [{
+                id: "name",
+                title: "Name",
+                placeholder: "Filter by Name",
+                filterType: "text"
+            }, {
+                id: "status",
+                title: "Status",
+                placeholder: "Filter by Status",
+                filterType: "select",
+                filterValues: ["UP","DOWN"]
+            }],
+            resultsCount: vm.filteredHostList.length,
+            totalCount: vm.hostList.length,
+            appliedFilters: [],
+            onFilterChange: filterChange
         };
 
         init();
@@ -57,10 +129,14 @@
                 .then(function(list) {
                     $interval.cancel(hostListTimer);
                     vm.hostList = list;
+                    vm.filteredHostList = vm.hostList;
+                    vm.filterConfig.resultsCount = vm.filteredHostList.length;
                     _sortChange(vm.sortConfig.currentField.id, vm.sortConfig.isAscending);
                     startTimer();
                 }).catch(function(e) {
                     vm.hostList = [];
+                    vm.filteredHostList = vm.hostList;
+                    vm.filterConfig.resultsCount = vm.filteredHostList.length;
                 }).finally(function() {
                     vm.isDataLoading = false;
                 });
@@ -112,35 +188,10 @@
             vm.flag = utils.tooltip($event);
         }
 
-        function clearAllFilters() {
+/*        function clearAllFilters() {
             vm.searchBy = {};
             vm.filterBy = "name";
-        }
-
-        function changingFilterBy(filterValue) {
-            vm.filterBy = filterValue;
-            switch (filterValue) {
-                case "name":
-                    vm.filterByValue = "Name";
-                    vm.filterPlaceholder = "Name";
-                    break;
-
-                case "cluster_name":
-                    vm.filterByValue = "Cluster";
-                    vm.filterPlaceholder = "Cluster Name";
-                    break;
-
-                case "role":
-                    vm.filterByValue = "Role";
-                    vm.filterPlaceholder = "Role";
-                    break;
-
-                case "status":
-                    vm.filterByValue = "Status";
-                    vm.filterPlaceholder = "Status";
-                    break;
-            };
-        }
+        }*/
     }
 
 })();

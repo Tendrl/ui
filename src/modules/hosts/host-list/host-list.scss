@@ -4,6 +4,15 @@
     .bold-text {
         font-weight: bold;
     }
+
+    .toolbar-pf .form-group:last-child {
+        padding-left:0;
+    }
+
+    .sort-component {
+        padding-top:10px;
+        margin-left: 20px;
+    }
     .list-view-pf-view {
         .list-group-item {
             .host-name {
