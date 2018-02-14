@@ -71,10 +71,10 @@ describe("Unit Component: clusterList", function() {
         expect(vm.flag).to.be.false;
         expect(vm.profilingButtonClick).to.be.false;
         expect($rootScope.selectedClusterOption).to.be.equal("allClusters");
-        expect(vm.filterBy).to.be.equal("name");
-        expect(vm.filterByValue).to.be.equal("Name");
-        expect(vm.filterPlaceholder).to.be.equal("Name");
+        expect(vm.filtersText).to.be.equal("");
+        expect(vm.filters).to.be.an("array").that.is.empty;
         expect(vm.clusterList).to.be.an("array").that.is.empty;
+        expect(vm.filteredClusterList).to.be.an("array").that.is.empty;
         expect(vm.sortConfig.fields).to.deep.equal(clusterList.fields);
         expect(vm.sortConfig.onSortChange).to.be.a("function");
         expect(clusterStore.selectedTab).to.be.equal(1);
@@ -134,15 +134,6 @@ describe("Unit Component: clusterList", function() {
             expect(event.stopPropagation.calledOnce).to.be.true;
         });
 
-        it("Should clear all filters", function() {
-            vm.clearAllFilters();
-            vm.searchBy = {};
-            vm.filterBy = "name";
-
-            expect(vm.searchBy).to.be.empty;
-            expect(vm.filterBy).to.be.equal("name");
-        });
-
         it("Should open modal to see error logs in case of import failure", function() {
             var cluster = clusterList.formattedOutput[1],
                 fakeResult = {
@@ -163,16 +154,6 @@ describe("Unit Component: clusterList", function() {
 
             //Verify result (behavior)
             expect(vm.flag).to.be.true;
-        });
-
-        it("Should change filter parameters", function() {
-            // Exercise SUT
-            vm.changingFilterBy("name");
-
-            //Verify result (behavior)
-            expect(vm.filterBy).to.be.equal("name");
-            expect(vm.filterByValue).to.be.equal("Name");
-            expect(vm.filterPlaceholder).to.be.equal("Name");
         });
 
         it("Should call the cluster list API continuosly after a certain interval", function() {

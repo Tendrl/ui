@@ -4,36 +4,28 @@
     <div class="row toolbar-pf">
         <div class="col-sm-12">
             <form class="toolbar-pf-actions">
-                <div class="form-group toolbar-pf-filter filter-section">
-                    <label class="sr-only" for="filter">Task ID</label>
-                    <div class="input-group">
-                        <div class="input-group-btn">
-                            <button ng-disabled="taskCntrl.taskList.length === 0" type="button" class="btn btn-default dropdown-toggle filterSelect" ng-model="taskCntrl.filterBy" ng-change="taskCntrl.searchBy = {}" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{{taskCntrl.filterByValue}} <span class="caret"></span></button>
-                            <ul class="dropdown-menu">
-                                <li ng-class="{'selected':(taskCntrl.filterBy === 'jobId')}"><a href="" ng-click="taskCntrl.changingFilterBy('jobId')">Task ID</a></li>
-                                <li ng-class="{'selected':(taskCntrl.filterBy === 'flow')}"><a href="" ng-click="taskCntrl.changingFilterBy('flow')">Task</a></li>
-                            </ul>
-                        </div>
-                        <input type="text" class="form-control" id="filter" ng-model="taskCntrl.searchBy[taskCntrl.filterBy]" placeholder="Filter by {{taskCntrl.filterPlaceholder}}">
+                <div class="form-group toolbar-pf-filter">
+                    <pf-filter id="clusterFilter" config="taskCntrl.filterConfig"></pf-filter>
+                </div>
+                <div>
+                    <div class="form-group date-selector" ng-class="{'disable-picker': (taskCntrl.taskList.length === 0)}">
+                        From:
+                        <p class="input-group">
+                            <input type="text" class="form-control" uib-datepicker-popup datepicker-options="taskCntrl.fromDateOptions" ng-model="taskCntrl.date.fromDate" is-open="taskCntrl.popupFrom.opened" ng-required="true" close-text="Close" />
+                            <span class="input-group-btn">
+                                <button type="button" class="btn btn-default" ng-click="taskCntrl.openFromDate()"><i class="glyphicon glyphicon-calendar"></i></button>
+                            </span>
+                        </p>
                     </div>
-                </div>
-                <div class="form-group date-selector" ng-class="{'disable-picker': (taskCntrl.taskList.length === 0)}">
-                    From:
-                    <p class="input-group">
-                        <input type="text" class="form-control" uib-datepicker-popup datepicker-options="taskCntrl.fromDateOptions" ng-model="taskCntrl.date.fromDate" is-open="taskCntrl.popupFrom.opened" ng-required="true" close-text="Close" />
-                        <span class="input-group-btn">
-                            <button type="button" class="btn btn-default" ng-click="taskCntrl.openFromDate()"><i class="glyphicon glyphicon-calendar"></i></button>
-                        </span>
-                    </p>
-                </div>
-                <div class="form-group remove-right-border date-selector" ng-class="{'disable-picker': (taskCntrl.taskList.length === 0)}">
-                    To:
-                    <p class="input-group">
-                        <input type="text" class="form-control" uib-datepicker-popup datepicker-options="taskCntrl.toDateOptions" ng-model="taskCntrl.date.toDate" is-open="taskCntrl.popupTo.opened" ng-required="true" close-text="Close" />
-                        <span class="input-group-btn">
-                            <button type="button" class="btn btn-default" ng-click="taskCntrl.openToDate()"><i class="glyphicon glyphicon-calendar"></i></button>
-                        </span>
-                    </p>
+                    <div class="form-group remove-right-border date-selector" ng-class="{'disable-picker': (taskCntrl.taskList.length === 0)}">
+                        To:
+                        <p class="input-group">
+                            <input type="text" class="form-control" uib-datepicker-popup datepicker-options="taskCntrl.toDateOptions" ng-model="taskCntrl.date.toDate" is-open="taskCntrl.popupTo.opened" ng-required="true" close-text="Close" />
+                            <span class="input-group-btn">
+                                <button type="button" class="btn btn-default" ng-click="taskCntrl.openToDate()"><i class="glyphicon glyphicon-calendar"></i></button>
+                            </span>
+                        </p>
+                    </div>
                 </div>
                 <div class="form-group invalid-msg" ng-if="taskCntrl.invalidToDate">
                     <span class="error-msg">*The To date must be greater than the From date</span>
@@ -42,7 +34,7 @@
             <div class="row">
                 <div class="col-md-12 horizontal-line"></div>
             </div>
-            <div class="row toolbar-pf-results">
+            <div class="row toolbar-pf-results toolbar-pf-resultss">
                 <div class="status-options">
                     Show:
                 </div>
@@ -70,7 +62,7 @@
             </div>
             <div class="row toolbar-pf-results extra-margin">
                 <div class="col-sm-12">
-                    <h5>{{taskCntrl.filteredTaskList.length}} 
+                    <h5>{{taskCntrl.filteredTaskListt.length}}
                         <ng-pluralize count="taskCntrl.filteredTaskList.length" when="{'one': 'Task',
                        'other': 'Tasks'}"></ng-pluralize>
                     </h5>
@@ -98,7 +90,7 @@
     </center>
     <div ng-if="taskCntrl.isDataLoading" class="spinner spinner-lg"></div>
     <div class="flex-table list-group list-view-pf list-view-pf-view task-list-table" ng-show="!taskCntrl.isDataLoading">
-        <div class="ft-row list-group-item" ng-repeat="task in taskCntrl.filteredTaskList = (taskCntrl.taskList | filter: taskCntrl.searchBy | filter:taskCntrl.filterByStatus | filter: taskCntrl.filterByCreatedDate| orderBy: ['-createdAt', 'jobId'])">
+        <div class="ft-row list-group-item" ng-repeat="task in taskCntrl.filteredTaskListt = (taskCntrl.filteredTaskList | filter: taskCntrl.searchBy | filter:taskCntrl.filterByStatus | filter: taskCntrl.filterByCreatedDate| orderBy: ['-createdAt', 'jobId'])">
             <div class="ft-column ft-icon ">
                 <i ng-class="taskCntrl.statusIcon(task.status)"></i>
             </div>

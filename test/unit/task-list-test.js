@@ -63,11 +63,11 @@ describe("Unit Component: taskList", function() {
 
         expect(vm.isDataLoading).to.be.true;
         expect(vm.flag).to.be.false;
-        expect(vm.filterBy).to.be.equal("jobId");
-        expect(vm.filterByValue).to.be.equal("Task ID");
-        expect(vm.filterPlaceholder).to.be.equal("Task ID");
+        expect(vm.filtersText).to.be.equal("");
+        expect(vm.filters).to.be.an("array").that.is.empty;
         expect(vm.tasksStatus).to.be.an("array").that.includes("Processing", "Completed", "Failed");
         expect(vm.taskList).to.be.an("array").that.is.empty;
+        expect(vm.filteredTaskList).to.be.an("array").that.is.empty;
         expect(vm.date).to.deep.equal(taskList.date);
         expect(vm.toDateOptions.format).to.be.equal("dd M yyyy");
         expect(vm.fromDateOptions.format).to.be.equal("dd M yyyy");
@@ -174,9 +174,6 @@ describe("Unit Component: taskList", function() {
             expect(vm.date.fromDate).to.be.null;
             expect(vm.date.toDate).to.be.null;
             expect(vm.invalidToDate).to.be.false;
-            expect(vm.filterBy).to.be.equal("jobId");
-            expect(vm.filterByValue).to.be.equal("Task ID");
-            expect(vm.filterPlaceholder).to.be.equal("Task ID");
             expect(vm.searchBy).to.be.empty;
             expect(vm.tasksStatus).to.be.an("array").that.includes("Processing", "Completed", "Failed");
         });
