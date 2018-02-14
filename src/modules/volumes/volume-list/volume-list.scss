@@ -10,7 +10,6 @@
             }
         }
     }
-
     .flex-table {
         .ft-actions {
             flex-grow: 1.2;
@@ -18,7 +17,17 @@
             .dashboard-btn {
                 width: auto;
                 overflow: visible;
-            }   
+            }
         }
+    }
+    .toolbar-pf .form-group:last-child {
+        padding-left: 0;
+    }
+    .sort-component {
+        padding-top: 10px;
+        margin-left: 20px;
+    }
+    .toolbar-pf-results > span {
+        display: none;
     }
 }

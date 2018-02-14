@@ -1,16 +1,13 @@
 .tendrl-host-list-view-container {
-
     margin-bottom: 10px;
     .bold-text {
         font-weight: bold;
     }
-
     .toolbar-pf .form-group:last-child {
-        padding-left:0;
+        padding-left: 0;
     }
-
     .sort-component {
-        padding-top:10px;
+        padding-top: 10px;
         margin-left: 20px;
     }
     .list-view-pf-view {
@@ -26,7 +23,6 @@
             }
         }
     }
-
     .flex-table {
         .ft-column {
             >.cluster-name {
@@ -35,9 +31,7 @@
                 text-overflow: ellipsis;
                 width: 50%;
             }
-
             &.ft-actions {
-
                 overflow: visible;
                 .dashboard-btn {
                     width: auto;
@@ -45,5 +39,8 @@
                 }
             }
         }
+    }
+    .toolbar-pf-results > span {
+        display: none;
     }
 }

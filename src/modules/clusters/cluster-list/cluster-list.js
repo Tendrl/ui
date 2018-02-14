@@ -33,6 +33,7 @@
         $rootScope.selectedClusterOption = "allClusters";
 
         vm.filtersText = "";
+        vm.filters = [];
         vm.clusterList = [];
         vm.filteredClusterList = [];
         vm.goToImportFlow = goToImportFlow;
@@ -82,6 +83,7 @@
 
         var filterChange = function(filters) {
             vm.filtersText = "";
+            vm.filters = filters;
             filters.forEach(function(filter) {
                 vm.filtersText += filter.title + " : ";
                 if (filter.value.filterCategory) {
@@ -109,8 +111,6 @@
                 placeholder: "",
                 filterType: ""
             }],
-            resultsCount: vm.filteredClusterList.length,
-            totalCount: vm.clusterList.length,
             appliedFilters: [],
             onFilterChange: filterChange
         };
@@ -162,13 +162,13 @@
 
                     vm.clusterList = data;
                     vm.filteredClusterList = vm.clusterList;
-                    vm.filterConfig.resultsCount = vm.filteredClusterList.length;
+                    filterChange(vm.filters);
                     _sortChange(vm.sortConfig.currentField.id, vm.sortConfig.isAscending);
                     startTimer();
                 }).catch(function(e) {
                     vm.clusterList = [];
                     vm.filteredClusterList = vm.clusterList;
-                    vm.filterConfig.resultsCount = vm.filteredClusterList.length;
+                    filterChange(vm.filters);
                 }).finally(function() {
                     vm.isDataLoading = false;
                 });
