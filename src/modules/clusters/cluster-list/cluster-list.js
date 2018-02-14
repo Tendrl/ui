@@ -23,7 +23,8 @@
             cluster,
             clusterListTimer,
             hostList,
-            i;
+            i,
+            filteredClusterList;
 
         vm.isDataLoading = true;
         vm.clusterNotPresent = false;
@@ -31,18 +32,88 @@
         vm.profilingButtonClick = false;
         $rootScope.selectedClusterOption = "allClusters";
 
-        vm.filterBy = "name";
-        vm.filterByValue = "Name";
-        vm.filterPlaceholder = "Name";
+        vm.filtersText = "";
         vm.clusterList = [];
-        vm.changingFilterBy = changingFilterBy;
+        vm.filteredClusterList = [];
         vm.goToImportFlow = goToImportFlow;
         vm.doProfilingAction = doProfilingAction;
         vm.redirectToGrafana = redirectToGrafana;
         vm.addTooltip = addTooltip;
-        vm.clearAllFilters = clearAllFilters;
+        //vm.clearAllFilters = clearAllFilters;
         vm.openErrorModal = openErrorModal;
         vm.goToTaskDetail = goToTaskDetail;
+
+
+        var matchesFilter = function(item, filter) {
+            var match = true;
+            var re = new RegExp(filter.value, 'i');
+
+            if (filter.id === 'name') {
+                match = item.name.match(re) !== null;
+            }
+            return match;
+        };
+
+        var matchesFilters = function(item, filters) {
+            var matches = true;
+
+            filters.forEach(function(filter) {
+                if (!matchesFilter(item, filter)) {
+                    matches = false;
+                    return false;
+                }
+            });
+            return matches;
+        };
+
+        var applyFilters = function(filters) {
+            vm.filteredClusterList = [];
+            if (filters && filters.length > 0) {
+                vm.clusterList.forEach(function(item) {
+                    if (matchesFilters(item, filters)) {
+                        vm.filteredClusterList.push(item);
+                    }
+                });
+            } else {
+                vm.filteredClusterList = vm.clusterList;
+            }
+            vm.filterConfig.resultsCount = vm.filteredClusterList.length;
+        };
+
+        var filterChange = function(filters) {
+            vm.filtersText = "";
+            filters.forEach(function(filter) {
+                vm.filtersText += filter.title + " : ";
+                if (filter.value.filterCategory) {
+                    vm.filtersText += ((filter.value.filterCategory.title || filter.value.filterCategory) +
+                        filter.value.filterDelimiter + (filter.value.filterValue.title || filter.value.filterValue));
+                } else if (filter.value.title) {
+                    vm.filtersText += filter.value.title;
+                } else {
+                    vm.filtersText += filter.value;
+                }
+                vm.filtersText += "\n";
+            });
+            applyFilters(filters);
+        };
+
+        vm.filterConfig = {
+            fields: [{
+                id: "name",
+                title: "Name",
+                placeholder: "Filter by Name",
+                filterType: "text"
+            }, {
+                id: "",
+                title: "",
+                placeholder: "",
+                filterType: ""
+            }],
+            resultsCount: vm.filteredClusterList.length,
+            totalCount: vm.clusterList.length,
+            appliedFilters: [],
+            onFilterChange: filterChange
+        };
 
         vm.sortConfig = {
             fields: [{
@@ -90,10 +161,14 @@
                     }
 
                     vm.clusterList = data;
+                    vm.filteredClusterList = vm.clusterList;
+                    vm.filterConfig.resultsCount = vm.filteredClusterList.length;
                     _sortChange(vm.sortConfig.currentField.id, vm.sortConfig.isAscending);
                     startTimer();
                 }).catch(function(e) {
                     vm.clusterList = [];
+                    vm.filteredClusterList = vm.clusterList;
+                    vm.filterConfig.resultsCount = vm.filteredClusterList.length;
                 }).finally(function() {
                     vm.isDataLoading = false;
                 });
@@ -162,10 +237,9 @@
             $event.stopPropagation();
         }
 
-        function clearAllFilters() {
-            vm.searchBy = {};
-            vm.filterBy = "name";
-        }
+        /*function clearAllFilters() {
+            vm.filtersText = "";
+        }*/
 
         function openErrorModal(cluster) {
             var wizardDoneListener,
@@ -197,15 +271,6 @@
             vm.flag = utils.tooltip($event);
         }
 
-        function changingFilterBy(filterValue) {
-            vm.filterBy = filterValue;
-            switch (filterValue) {
-                case "name":
-                    vm.filterByValue = "Name";
-                    vm.filterPlaceholder = "Name";
-                    break;
-            };
-        }
 
         function goToTaskDetail(cluster) {
             $rootScope.selectedClusterOption = "";
