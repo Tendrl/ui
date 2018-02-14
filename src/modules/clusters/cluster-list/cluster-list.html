@@ -5,20 +5,9 @@
         <div class="col-sm-12">
             <form class="toolbar-pf-actions">
                 <div class="form-group toolbar-pf-filter">
-                    <label class="sr-only" for="filter">Name</label>
-                    <div class="input-group">
-                        <div class="input-group-btn">
-                            <button ng-disabled="clusterCntrl.clusterList.length === 0" type="button" class="btn btn-default dropdown-toggle filterSelect" ng-model="clusterCntrl.filterBy" ng-change="clusterCntrl.searchBy = {}" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{{clusterCntrl.filterByValue}} <span class="caret"></span></button>
-                            <ul class="dropdown-menu">
-                                <li ng-class="{'selected':(clusterCntrl.filterBy === 'name')}"><a href="" ng-click="clusterCntrl.changingFilterBy('name')">Name</a></li>
-                            </ul>
-                        </div>
-                        <!-- /btn-group -->
-                        <input ng-disabled="clusterCntrl.clusterList.length === 0" type="text" class="form-control" id="filter" ng-model="clusterCntrl.searchBy[clusterCntrl.filterBy]" placeholder="Filter by {{clusterCntrl.filterPlaceholder}}">
-                    </div>
-                    <!-- /input-group -->
+                    <pf-filter id="clusterFilter" config="clusterCntrl.filterConfig"></pf-filter>
                 </div>
-                <div class="form-group">
+                <div class="form-group sort-component">
                     <pf-sort id="clusterSort" config="clusterCntrl.sortConfig"></pf-sort>
                 </div>
             </form>
@@ -52,11 +41,11 @@
                 <div class="title">Suggestions</div>
                 <div>Please try selecting other filter criteria.</div>
             </div>
-            <a href="" class="clear-filter-link" ng-click="clusterCntrl.clearAllFilters()">Clear All Filters</a>
+            <!-- <a href="" class="clear-filter-link" ng-click="clusterCntrl.clearAllFilters()">Clear All Filters</a> -->
         </div>
     </center>
     <div ng-if="clusterCntrl.isDataLoading" class="spinner spinner-lg"></div>
-    <div class="list-group list-view-pf list-view-pf-view" ng-repeat="cluster in clusterCntrl.filteredClusteredList = (clusterCntrl.clusterList | filter: clusterCntrl.searchBy | orderBy: [clusterCntrl.ascOrder + clusterCntrl.orderBy, 'name']) track by $index">
+    <div class="list-group list-view-pf list-view-pf-view" ng-repeat="cluster in clusterCntrl.filteredClusteredList = (clusterCntrl.filteredClusterList | orderBy: [clusterCntrl.ascOrder + clusterCntrl.orderBy, 'name']) track by $index">
         <div class="list-group-item">
             <div class="list-group-item-header">
                 <div class="list-view-pf-actions">
