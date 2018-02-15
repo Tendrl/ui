@@ -25,9 +25,9 @@
         vm.taskList = [];
         vm.isDataLoading = true;
         vm.flag = false;
-        vm.filterBy = "jobId";
-        vm.filterByValue = "Task ID";
-        vm.filterPlaceholder = "Task ID";
+        vm.filteredTaskList = [];
+        vm.filtersText = "";
+        vm.filters = [];
 
         vm.goToTaskDetail = goToTaskDetail;
         vm.updateStatus = updateStatus;
@@ -35,7 +35,6 @@
         vm.filterByStatus = filterByStatus;
         vm.filterByCreatedDate = filterByCreatedDate;
         vm.clearAllFilters = clearAllFilters;
-        vm.changingFilterBy = changingFilterBy;
         vm.openFromDate = openFromDate;
         vm.openToDate = openToDate;
         vm.statusIcon = statusIcon;
@@ -62,6 +61,78 @@
             opened: false
         };
 
+        var matchesFilter = function(item, filter) {
+            var match = true;
+            var re = new RegExp(filter.value, 'i');
+
+            if (filter.id === 'jobId') {
+                match = item.jobId.match(re) !== null;
+            } else if (filter.id === 'flow') {
+                match = item.flow.match(re) !== null;
+            }
+            return match;
+        };
+
+        var matchesFilters = function(item, filters) {
+            var matches = true;
+
+            filters.forEach(function(filter) {
+                if (!matchesFilter(item, filter)) {
+                    matches = false;
+                    return false;
+                }
+            });
+            return matches;
+        };
+
+        var applyFilters = function(filters) {
+            vm.filteredTaskList = [];
+            if (filters && filters.length > 0) {
+                vm.taskList.forEach(function(item) {
+                    if (matchesFilters(item, filters)) {
+                        vm.filteredTaskList.push(item);
+                    }
+                });
+            } else {
+                vm.filteredTaskList = vm.taskList;
+            }
+            vm.filterConfig.resultsCount = vm.filteredTaskList.length;
+        };
+
+        var filterChange = function(filters) {
+            vm.filters = filters;
+            vm.filtersText = "";
+            filters.forEach(function(filter) {
+                vm.filtersText += filter.title + " : ";
+                if (filter.value.filterCategory) {
+                    vm.filtersText += ((filter.value.filterCategory.title || filter.value.filterCategory) +
+                        filter.value.filterDelimiter + (filter.value.filterValue.title || filter.value.filterValue));
+                } else if (filter.value.title) {
+                    vm.filtersText += filter.value.title;
+                } else {
+                    vm.filtersText += filter.value;
+                }
+                vm.filtersText += "\n";
+            });
+            applyFilters(filters);
+        };
+
+        vm.filterConfig = {
+            fields: [{
+                id: "jobId",
+                title: "Task ID",
+                placeholder: "Filter by Task ID",
+                filterType: "text"
+            }, {
+                id: "flow",
+                title: "Task",
+                placeholder: "Filter by Task ID",
+                filterType: "text"
+            }],
+            appliedFilters: [],
+            onFilterChange: filterChange
+        };
+
         init();
 
         function init() {
@@ -70,10 +141,10 @@
 
             taskStore.getJobList(vm.clusterId)
                 .then(function(data) {
-                    //data = orderByFilter(data, "created_at", "job_id");
-                    //data = orderByFilter(data, "job_id");
                     vm.taskList = data;
+                    vm.filteredTaskList = vm.taskList;
                     vm.isDataLoading = false;
+                    filterChange(vm.filters);
                     startTimer();
                 });
         }
@@ -81,15 +152,7 @@
         function startTimer() {
 
             jobTimer = $interval(function() {
-
-                taskStore.getJobList(vm.clusterId)
-                    .then(function(data) {
-                        $interval.cancel(jobTimer);
-                        vm.taskList = data;
-                        vm.isDataLoading = false;
-                        startTimer();
-                    });
-
+                init();
             }, 1000 * config.statusRefreshIntervalTime, 1);
         }
 
@@ -180,26 +243,7 @@
             vm.date.fromDate = null;
             vm.date.toDate = null;
             vm.invalidToDate = false;
-            vm.filterBy = "jobId";
-            vm.filterByValue = "Task ID";
-            vm.filterPlaceholder = "Task ID";
-            vm.searchBy = {};
             vm.tasksStatus = ["Processing", "Completed", "Failed"];
-        }
-
-        function changingFilterBy(filterValue) {
-            vm.filterBy = filterValue;
-            switch (filterValue) {
-                case "jobId":
-                    vm.filterByValue = "Task ID";
-                    vm.filterPlaceholder = "Task ID";
-                    break;
-
-                case "flow":
-                    vm.filterByValue = "Task";
-                    vm.filterPlaceholder = "Task";
-                    break;
-            };
         }
     }
 
