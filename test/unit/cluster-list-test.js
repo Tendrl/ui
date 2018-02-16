@@ -91,16 +91,6 @@ describe("Unit Component: clusterList", function() {
             expect(vm.clusterList).to.deep.equal(clusterList.formattedOutput);
         });
 
-        it("Should take the user to import workflow on clicking Import button", function() {
-            // Exercise SUT
-            var cluster = clusterList.formattedOutput[1];
-            vm.goToImportFlow(cluster);
-
-            // Verify result (behavior)
-            expect($rootScope.clusterTobeImported).to.deep.equal(cluster);
-            expect($state.go.calledWith("import-cluster", { clusterId: cluster.integrationId })).to.be.true;
-        });
-
         it("Should take the user to dashboard on clicking Dashboard button", function() {
             // Exercise SUT
             var cluster = clusterList.formattedOutput[0];

@@ -38,6 +38,7 @@
         vm.filteredClusterList = [];
         vm.goToImportFlow = goToImportFlow;
         vm.doProfilingAction = doProfilingAction;
+        vm.doClusterUnmanage = doClusterUnmanage;
         vm.redirectToGrafana = redirectToGrafana;
         vm.addTooltip = addTooltip;
         //vm.clearAllFilters = clearAllFilters;
@@ -210,7 +211,7 @@
          */
         function goToImportFlow(cluster) {
             $rootScope.clusterTobeImported = cluster;
-            $state.go("import-cluster", { clusterId: cluster.integrationId });
+            $state.go("import-cluster", { clusterId: cluster.integrationId, taskId: cluster.currentTaskId, taskStatus: cluster.currentStatus  });
         }
 
         function redirectToGrafana(cluster, $event) {
@@ -237,9 +238,39 @@
             $event.stopPropagation();
         }
 
-        /*function clearAllFilters() {
-            vm.filtersText = "";
+        function doClusterUnmanage(clusterId) {
+            var wizardDoneListener,
+                modalInstance,
+                closeWizard;
+
+            modalInstance = $uibModal.open({
+                animation: true,
+                backdrop: "static",
+                templateUrl: "/modules/clusters/unmanage-cluster/unmanage-confirm/unmanage-confirm.html",
+                controller: "unmanageConfirmController",
+                controllerAs: "vm",
+                size: "md",
+                resolve: {
+                    selectedCluster: function() {
+                        return clusterId;
+                    }
+                }
+            });
+
+            closeWizard = function(e, reason) {
+                modalInstance.dismiss(reason);
+                wizardDoneListener();
+            };
+
+            modalInstance.result.then(function() {}, function() {});
+            wizardDoneListener = $rootScope.$on("modal.done", closeWizard);
+        }
+/*
+        function clearAllFilters() {
+            vm.searchBy = {};
+            vm.filterBy = "name";
         }*/
+
 
         function openErrorModal(cluster) {
             var wizardDoneListener,
@@ -274,7 +305,7 @@
 
         function goToTaskDetail(cluster) {
             $rootScope.selectedClusterOption = "";
-            $state.go("task-detail", { clusterId: cluster.integrationId, taskId: cluster.importTaskId });
+            $state.go("task-detail", { clusterId: cluster.integrationId, taskId: cluster.currentTaskId });
         }
 
         /***Private Functions***/
