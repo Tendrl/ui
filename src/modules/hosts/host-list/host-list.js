@@ -33,68 +33,13 @@
         //vm.clearAllFilters = clearAllFilters;
         vm.sortConfig = {
             fields: [{
-                id: 'name',
-                title: 'Name',
-                sortType: 'alpha'
+                id: "name",
+                title: "Name",
+                sortType: "alpha"
             }],
             onSortChange: _sortChange
         };
 
-        var matchesFilter = function(item, filter) {
-            var match = true;
-            var re = new RegExp(filter.value, 'i');
-
-            if (filter.id === 'name') {
-                match = item.name.match(re) !== null;
-            } else if (filter.id === 'status') {
-                match = item.status === filter.value.id || item.status === filter.value;
-            }
-            return match;
-        };
-
-        var matchesFilters = function(item, filters) {
-            var matches = true;
-
-            filters.forEach(function(filter) {
-                if (!matchesFilter(item, filter)) {
-                    matches = false;
-                    return false;
-                }
-            });
-            return matches;
-        };
-
-        var applyFilters = function(filters) {
-            vm.filteredHostList = [];
-            if (filters && filters.length > 0) {
-                vm.hostList.forEach(function(item) {
-                    if (matchesFilters(item, filters)) {
-                        vm.filteredHostList.push(item);
-                    }
-                });
-            } else {
-                vm.filteredHostList = vm.hostList;
-            }
-            vm.filterConfig.resultsCount = vm.filteredHostList.length;
-        };
-
-        var filterChange = function(filters) {
-            vm.filtersText = "";
-            vm.filters = filters;
-            filters.forEach(function(filter) {
-                vm.filtersText += filter.title + " : ";
-                if (filter.value.filterCategory) {
-                    vm.filtersText += ((filter.value.filterCategory.title || filter.value.filterCategory) +
-                        filter.value.filterDelimiter + (filter.value.filterValue.title || filter.value.filterValue));
-                } else if (filter.value.title) {
-                    vm.filtersText += filter.value.title;
-                } else {
-                    vm.filtersText += filter.value;
-                }
-                vm.filtersText += "\n";
-            });
-            applyFilters(filters);
-        };
 
         vm.filterConfig = {
             fields: [{
@@ -110,7 +55,7 @@
                 filterValues: ["UP", "DOWN"]
             }],
             appliedFilters: [],
-            onFilterChange: filterChange,
+            onFilterChange: _filterChange,
         };
 
 
@@ -131,13 +76,13 @@
                     $interval.cancel(hostListTimer);
                     vm.hostList = list;
                     vm.filteredHostList = vm.hostList;
-                    filterChange(vm.filters);
+                    _filterChange(vm.filters);
                     _sortChange(vm.sortConfig.currentField.id, vm.sortConfig.isAscending);
                     startTimer();
                 }).catch(function(e) {
                     vm.hostList = [];
                     vm.filteredHostList = vm.hostList;
-                    filterChange(vm.filters);
+                    _filterChange(vm.filters);
                 }).finally(function() {
                     vm.isDataLoading = false;
                 });
@@ -154,11 +99,67 @@
             }
 
             return compValue;
-        };
+        }
 
         function _sortChange(sortId, isAscending) {
             vm.hostList.sort(_compareFn);
-        };
+        }
+
+        function _matchesFilter(item, filter) {
+            var match = true;
+            var re = new RegExp(filter.value, "i");
+
+            if (filter.id === "name") {
+                match = item.name.match(re) !== null;
+            } else if (filter.id === "status") {
+                match = item.status === filter.value.id || item.status === filter.value;
+            }
+            return match;
+        }
+
+        function _matchesFilters(item, filters) {
+            var matches = true;
+
+            filters.forEach(function(filter) {
+                if (!_matchesFilter(item, filter)) {
+                    matches = false;
+                    return false;
+                }
+            });
+            return matches;
+        }
+
+        function _applyFilters(filters) {
+            vm.filteredHostList = [];
+            if (filters && filters.length > 0) {
+                vm.hostList.forEach(function(item) {
+                    if (_matchesFilters(item, filters)) {
+                        vm.filteredHostList.push(item);
+                    }
+                });
+            } else {
+                vm.filteredHostList = vm.hostList;
+            }
+            vm.filterConfig.resultsCount = vm.filteredHostList.length;
+        }
+
+        function _filterChange(filters) {
+            vm.filtersText = "";
+            vm.filters = filters;
+            filters.forEach(function(filter) {
+                vm.filtersText += filter.title + " : ";
+                if (filter.value.filterCategory) {
+                    vm.filtersText += ((filter.value.filterCategory.title || filter.value.filterCategory) +
+                        filter.value.filterDelimiter + (filter.value.filterValue.title || filter.value.filterValue));
+                } else if (filter.value.title) {
+                    vm.filtersText += filter.value.title;
+                } else {
+                    vm.filtersText += filter.value;
+                }
+                vm.filtersText += "\n";
+            });
+            _applyFilters(filters);
+        }
 
         function startTimer() {
 

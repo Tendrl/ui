@@ -1,4 +1,18 @@
 .tendrl-import-cluster-view-container {
+
+    .sort-component {
+        padding-top: 10px;
+        margin-left: 20px;
+    }
+
+    .toolbar-pf-results>span {
+        display: none;
+    }
+
+    .toolbar-pf .form-group:last-child {
+        padding-left: 0;
+    }
+
     .list-view-pf-view {
         margin-top: 10px;
 
