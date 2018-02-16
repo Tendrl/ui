@@ -1,5 +1,5 @@
 .tendrl-task-list-view-container {
-    .toolbar-pf-results {
+    .toolbar-pf-resultss {
         border-top: none;
         display: flex;
         flex-direction: row;
@@ -35,7 +35,6 @@
                 margin-left: 10px;
                 align-items: left;
                 flex: 1;
-
                 .name {
                     cursor: pointer;
                 }
@@ -48,7 +47,6 @@
             }
         }
     }
-
     .extra-margin {
         margin-top: 0px;
     }
@@ -74,5 +72,15 @@
     .disable-picker {
         pointer-events: none;
         color: $color-gray;
+    }
+    .toolbar-pf-filter .form-group:last-child {
+        padding-left: 0;
+    }
+    .toolbar-pf-results > span {
+        display: none;
+        width: 100% !important;
+    }
+    .toolbar-pf-filter {
+        padding-top: 9px;
     }
 }

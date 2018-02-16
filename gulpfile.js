@@ -101,6 +101,7 @@ gulp.task("jsLibraries", function() {
     "node_modules/angular-aria/angular-aria.min.js",
     "node_modules/angular-ui-router/release/angular-ui-router.js",
     "node_modules/patternfly/dist/js/patternfly.js",
+    "node_modules/angular-patternfly/node_modules/lodash/lodash.min.js",
     "node_modules/angular-patternfly/dist/angular-patternfly.js",
     "node_modules/c3-angular/c3-angular.min.js",
     "node_modules/bootstrap-switch/dist/js/bootstrap-switch.min.js",

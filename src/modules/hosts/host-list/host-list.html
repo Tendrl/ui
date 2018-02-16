@@ -8,30 +8,15 @@
             <div class="col-md-12">
                 <form class="toolbar-pf-actions">
                     <div class="form-group toolbar-pf-filter">
-                        <label class="sr-only" for="filter">Name</label>
-                        <div class="input-group">
-                            <div class="input-group-btn">
-                                <!-- Search By -->
-                                <button ng-disabled="hostCntrl.hostList.length === 0" type="button" class="btn btn-default dropdown-toggle filterSelect" ng-model="hostCntrl.filterBy" ng-change="hostCntrl.searchBy = {}" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{{hostCntrl.filterByValue}} <span class="caret"></span></button>
-                                <ul class="dropdown-menu">
-                                    <li ng-class="{'selected':(hostCntrl.filterBy === 'name')}"><a href="" ng-click="hostCntrl.changingFilterBy('name')">Name</a></li>
-                                    <li ng-class="{'selected':(hostCntrl.filterBy === 'cluster_name')}"><a href="" ng-click="hostCntrl.changingFilterBy('cluster_name')">Cluster</a></li>
-                                    <li ng-class="{'selected':(hostCntrl.filterBy === 'role')}"><a href="" ng-click="hostCntrl.changingFilterBy('role')">Role</a></li>
-                                    <li ng-class="{'selected':(hostCntrl.filterBy === 'status')}"><a href="" ng-click="hostCntrl.changingFilterBy('status')">Status</a></li>
-                                </ul>
-                            </div>
-                            <!-- /btn-group -->
-                            <input ng-disabled="hostCntrl.hostList.length === 0" type="text" class="form-control" id="filter" ng-model="hostCntrl.searchBy[hostCntrl.filterBy]" placeholder="Filter by {{hostCntrl.filterPlaceholder}}">
-                        </div>
-                        <!-- /input-group -->
+                        <pf-filter id="hostFilter" config="hostCntrl.filterConfig"></pf-filter>
                     </div>
-                    <div class="form-group">
+                    <div class="form-group sort-component">
                         <pf-sort id="hostSort" config="hostCntrl.sortConfig"></pf-sort>
                     </div>
                 </form>
                 <div class="row toolbar-pf-results">
                     <div class="col-sm-12">
-                        <h5 ng-if="hostCntrl.hostList.length !== 0">{{hostCntrl.filteredHostList.length}} 
+                        <h5 ng-if="hostCntrl.hostList.length !== 0"> {{ hostCntrl.filteredHostList.length }}
                             <ng-pluralize count="hostCntrl.filteredHostList.length" when="{'one': 'Host',
                        'other': 'Hosts'}"></ng-pluralize>
                         </h5>
@@ -56,12 +41,12 @@
                     <div class="title">Suggestions</div>
                     <div>Please try selecting other filter criteria.</div>
                 </div>
-                <a href="" class="clear-filter-link" ng-click="hostCntrl.clearAllFilters()">Clear All Filters</a>
+                <!-- <a href="" class="clear-filter-link" ng-click="hostCntrl.clearAllFilters()">Clear All Filters</a> -->
             </div>
         </center>
         <div ng-show="hostCntrl.isDataLoading" class="spinner spinner-lg"></div>
         <div class="flex-table list-group list-view-pf list-view-pf-view" ng-show="!hostCntrl.isDataLoading">
-            <div class="ft-row list-group-item " ng-repeat="host in hostCntrl.filteredHostList=(hostCntrl.hostList | filter: hostCntrl.searchBy)">
+            <div class="ft-row list-group-item " ng-repeat="host in hostCntrl.filteredHostList">
                 <div class="ft-column ft-icon">
                     <i ng-class="{'fa ffont fa-arrow-circle-o-down': (host.status ==='DOWN'), 'pficon pficon-ok': (host.status ==='UP')}" uib-tooltip-html="'{{host.status}}'" tooltip-placement="auto bottom-left"></i>
                 </div>

@@ -14,6 +14,9 @@
     .toolbar-pf-filter {
         border-right: none;
     }
+    .toolbar-pf-actions {
+        display: inline;
+    }
     .table-view-pf-actions {
         li {
             cursor: pointer;
@@ -21,5 +24,14 @@
         .toolbar-pf-filter {
             border-right: none;
         }
+    }
+    .toolbar-pf .form-group:last-child {
+        padding-left: 0;
+    }
+    .toolbar-pf-results > span {
+        display: none;
+    }
+    .hr-spaceing {
+        margin-bottom: 15px;
     }
 }
