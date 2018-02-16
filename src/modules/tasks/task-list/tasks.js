@@ -61,62 +61,6 @@
             opened: false
         };
 
-        var matchesFilter = function(item, filter) {
-            var match = true;
-            var re = new RegExp(filter.value, 'i');
-
-            if (filter.id === 'jobId') {
-                match = item.jobId.match(re) !== null;
-            } else if (filter.id === 'flow') {
-                match = item.flow.match(re) !== null;
-            }
-            return match;
-        };
-
-        var matchesFilters = function(item, filters) {
-            var matches = true;
-
-            filters.forEach(function(filter) {
-                if (!matchesFilter(item, filter)) {
-                    matches = false;
-                    return false;
-                }
-            });
-            return matches;
-        };
-
-        var applyFilters = function(filters) {
-            vm.filteredTaskList = [];
-            if (filters && filters.length > 0) {
-                vm.taskList.forEach(function(item) {
-                    if (matchesFilters(item, filters)) {
-                        vm.filteredTaskList.push(item);
-                    }
-                });
-            } else {
-                vm.filteredTaskList = vm.taskList;
-            }
-            vm.filterConfig.resultsCount = vm.filteredTaskList.length;
-        };
-
-        var filterChange = function(filters) {
-            vm.filters = filters;
-            vm.filtersText = "";
-            filters.forEach(function(filter) {
-                vm.filtersText += filter.title + " : ";
-                if (filter.value.filterCategory) {
-                    vm.filtersText += ((filter.value.filterCategory.title || filter.value.filterCategory) +
-                        filter.value.filterDelimiter + (filter.value.filterValue.title || filter.value.filterValue));
-                } else if (filter.value.title) {
-                    vm.filtersText += filter.value.title;
-                } else {
-                    vm.filtersText += filter.value;
-                }
-                vm.filtersText += "\n";
-            });
-            applyFilters(filters);
-        };
-
         vm.filterConfig = {
             fields: [{
                 id: "jobId",
@@ -130,9 +74,10 @@
                 filterType: "text"
             }],
             appliedFilters: [],
-            onFilterChange: filterChange
+            onFilterChange: _filterChange
         };
 
+        
         init();
 
         function init() {
@@ -144,7 +89,7 @@
                     vm.taskList = data;
                     vm.filteredTaskList = vm.taskList;
                     vm.isDataLoading = false;
-                    filterChange(vm.filters);
+                    _filterChange(vm.filters);
                     startTimer();
                 });
         }
@@ -213,21 +158,85 @@
         }
 
         function filterByCreatedDate(list) {
+            var dateList,
+                dateTo,
+                dateFrom;
 
+            dateList = new Date(list.createdAt);
+            dateFrom = new Date(vm.date.fromDate);
+            dateTo = new Date(vm.date.toDate);
             if (vm.date.fromDate && vm.date.toDate) {
                 _checkValidDates();
                 if (vm.date.fromDate.valueOf() === vm.date.toDate.valueOf()) {
-                    return Date.parse(list.createdAt.getDate()) === Date.parse(vm.date.fromDate.getDate());
+                    return dateList.getDate() === dateTo.getDate();
                 } else {
-                    return Date.parse(list.createdAt) >= Date.parse(vm.date.fromDate) && Date.parse(list.createdAt) <= Date.parse(vm.date.toDate);
+                    dateTo = dateTo.setDate(dateTo.getDate() +1);
+                    return Date.parse(dateList) >= Date.parse(dateFrom) && Date.parse(dateList) <= dateTo ;
                 }
             } else if (vm.date.fromDate) {
-                return Date.parse(list.createdAt) >= Date.parse(vm.date.fromDate);
+                return Date.parse(dateList) >= Date.parse(dateFrom);
             } else if (vm.date.toDate) {
-                return Date.parse(list.createdAt) <= Date.parse(vm.date.toDate);
+                dateTo = dateTo.setDate(dateTo.getDate() +1);
+                return Date.parse(dateList) <= dateTo;
             } else {
                 return list;
             }
+        }
+
+        function _matchesFilter(item, filter) {
+            var match = true;
+            var re = new RegExp(filter.value, "i");
+
+            if (filter.id === "jobId") {
+                match = item.jobId.match(re) !== null;
+            } else if (filter.id === "flow") {
+                match = item.flow.match(re) !== null;
+            }
+            return match;
+        }
+
+        function _matchesFilters(item, filters) {
+            var matches = true;
+
+            filters.forEach(function(filter) {
+                if (!_matchesFilter(item, filter)) {
+                    matches = false;
+                    return false;
+                }
+            });
+            return matches;
+        }
+
+        function _applyFilters(filters) {
+            vm.filteredTaskList = [];
+            if (filters && filters.length > 0) {
+                vm.taskList.forEach(function(item) {
+                    if (_matchesFilters(item, filters)) {
+                        vm.filteredTaskList.push(item);
+                    }
+                });
+            } else {
+                vm.filteredTaskList = vm.taskList;
+            }
+            vm.filterConfig.resultsCount = vm.filteredTaskList.length;
+        }
+
+        function _filterChange(filters) {
+            vm.filters = filters;
+            vm.filtersText = "";
+            filters.forEach(function(filter) {
+                vm.filtersText += filter.title + " : ";
+                if (filter.value.filterCategory) {
+                    vm.filtersText += ((filter.value.filterCategory.title || filter.value.filterCategory) +
+                        filter.value.filterDelimiter + (filter.value.filterValue.title || filter.value.filterValue));
+                } else if (filter.value.title) {
+                    vm.filtersText += filter.value.title;
+                } else {
+                    vm.filtersText += filter.value;
+                }
+                vm.filtersText += "\n";
+            });
+            _applyFilters(filters);
         }
 
         function _checkValidDates() {

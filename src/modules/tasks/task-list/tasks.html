@@ -62,8 +62,8 @@
             </div>
             <div class="row toolbar-pf-results extra-margin">
                 <div class="col-sm-12">
-                    <h5>{{taskCntrl.filteredTaskListt.length}}
-                        <ng-pluralize count="taskCntrl.filteredTaskList.length" when="{'one': 'Task',
+                    <h5>{{taskCntrl.filterTaskList.length}}
+                        <ng-pluralize count="taskCntrl.filterTaskList.length" when="{'one': 'Task',
                        'other': 'Tasks'}"></ng-pluralize>
                     </h5>
                 </div>
@@ -78,7 +78,7 @@
             <h1>No Tasks Detected</h1>
         </div>
     </center>
-    <center ng-if="!taskCntrl.isDataLoading && taskCntrl.filteredTaskList.length === 0 && taskCntrl.taskList.length !== 0" class="empty-filter-list">
+    <center ng-if="!taskCntrl.isDataLoading && taskCntrl.filterTaskList.length === 0 && taskCntrl.taskList.length !== 0" class="empty-filter-list">
         <div class="blank-slate-pf">
             <div class="message">No results match the filter criteria</div>
             <div class="suggestion">
@@ -90,7 +90,7 @@
     </center>
     <div ng-if="taskCntrl.isDataLoading" class="spinner spinner-lg"></div>
     <div class="flex-table list-group list-view-pf list-view-pf-view task-list-table" ng-show="!taskCntrl.isDataLoading">
-        <div class="ft-row list-group-item" ng-repeat="task in taskCntrl.filteredTaskListt = (taskCntrl.filteredTaskList | filter: taskCntrl.searchBy | filter:taskCntrl.filterByStatus | filter: taskCntrl.filterByCreatedDate| orderBy: ['-createdAt', 'jobId'])">
+        <div class="ft-row list-group-item" ng-repeat="task in taskCntrl.filterTaskList = (taskCntrl.filteredTaskList | filter: taskCntrl.searchBy | filter:taskCntrl.filterByStatus | filter: taskCntrl.filterByCreatedDate| orderBy: ['-createdAt', 'jobId'])">
             <div class="ft-column ft-icon ">
                 <i ng-class="taskCntrl.statusIcon(task.status)"></i>
             </div>

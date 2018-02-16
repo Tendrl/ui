@@ -26,10 +26,8 @@
         vm.filterByCreatedDate = filterByCreatedDate;
         vm.searchByDesc = searchByDesc;
         vm.clearAllFilters = clearAllFilters;
-        vm.resetCount = resetCount;
         vm.openFromDate = openFromDate;
         vm.openToDate = openToDate;
-        count = 1;
 
         vm.date = {
             fromDate: "",
@@ -89,33 +87,38 @@
         };
 
         function filterByCreatedDate(list) {
-            if (count === 1 && vm.date.fromDate && vm.date.toDate) {
-                checkValidDates();
-            }
+            var dateList,
+                dateTo,
+                dateFrom;
 
+            dateList = new Date(list.timeStamp);
+            dateFrom = new Date(vm.date.fromDate);
+            dateTo = new Date(vm.date.toDate);
             if (vm.date.fromDate && vm.date.toDate) {
-                return Date.parse(list.timeStamp) >= Date.parse(vm.date.fromDate) && Date.parse(list.timeStamp) <= Date.parse(vm.date.toDate);
+                _checkValidDates();
+                if (vm.date.fromDate.valueOf() === vm.date.toDate.valueOf()) {
+                    return dateList.getDate() === dateTo.getDate();
+                } else {
+                    dateTo = dateTo.setDate(dateTo.getDate() +1);
+                    return Date.parse(dateList) >= Date.parse(dateFrom) && Date.parse(dateList) <= dateTo ;
+                }
             } else if (vm.date.fromDate) {
-                return Date.parse(list.timeStamp) >= Date.parse(vm.date.fromDate);
+                return Date.parse(dateList) >= Date.parse(dateFrom);
             } else if (vm.date.toDate) {
-                return Date.parse(list.timeStamp) <= Date.parse(vm.date.toDate);
+                dateTo = dateTo.setDate(dateTo.getDate() +1);
+                return Date.parse(dateList) <= dateTo;
             } else {
                 return list;
             }
         }
 
-        function checkValidDates() {
+        function _checkValidDates() {
             if (Date.parse(vm.date.toDate) < Date.parse(vm.date.fromDate)) {
                 vm.date.toDate = "";
                 vm.invalidToDate = true;
-                count++;
             } else {
                 vm.invalidToDate = false;
             }
-        }
-
-        function resetCount() {
-            count = 1;
         }
 
         function clearAllFilters() {
