@@ -1,5 +1,5 @@
 Name: tendrl-ui
-Version: 1.5.5
+Version: 1.6.0
 Release: 1%{?dist}
 BuildArch: noarch
 Summary: GUI for Tendrl
@@ -37,6 +37,9 @@ cp -a ./dist/* $RPM_BUILD_ROOT/%{_localstatedir}/www/tendrl/
 %license LICENSE
 
 %changelog
+* Sat Feb 17 2018 Rohan Kanade <rkanade@redhat.com> - 1.6.0-1
+- UI to un-manage clusters managed by Tendrl
+
 * Fri Feb 02 2018 Rohan Kanade <rkanade@redhat.com> - 1.5.5-1
 - Single Cluster / Element Manager Concept with Context Switcher Navigation
 - Toast Notification ( PR #782 )
