@@ -12,7 +12,7 @@
         <select id="repeatSelect" ng-model="$root.selectedClusterOption" class="cluster-options btn btn-default dropdown-toggle filterSelect" ng-change="header.goToClusterPage()" uib-tooltip-html="header.getClusterName($root.selectedClusterOption)" tooltip-placement="auto bottom">
             <option value="" disabled ng-selected="!$root.selectedClusterOption">Select a cluster...</option>
             <option value="allClusters" ng-selected="$root.selectedClusterOption === 'allClusters'">All Clusters</option>
-            <option ng-repeat="cluster in $root.clusterData" value="{{cluster.cluster_id}}" ng-selected="$root.selectedClusterOption === '{{cluster.cluster_id}}'" ng-show="('{{cluster.is_managed}}' === 'yes') && ('{{cluster.current_job.indexOf('UnmanageCluster')}}' === -1)">{{cluster.cluster_id}}</option>
+            <option ng-repeat="cluster in $root.clusterData" value="{{cluster.cluster_id}}" ng-selected="$root.selectedClusterOption === '{{cluster.cluster_id}}'" ng-show="((cluster.is_managed === 'yes') && (JSON.parse(cluster.current_job).job_name !== 'UnmanageCluster'))">{{cluster.cluster_id}}</option>
             <!-- To filter managed clusters :  | filter: {is_managed: 'yes'}-->
         </select>
     </div>
