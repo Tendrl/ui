@@ -6,7 +6,7 @@
         .service("eventStore", eventStore);
 
     /*@ngInject*/
-    function eventStore($state, $q, utils) {
+    function eventStore($state, $q, $rootScope, utils) {
         var store = this;
 
         store.getAlertList = function() {
@@ -16,6 +16,7 @@
             deferred = $q.defer();
             utils.getAlertList()
                 .then(function(data) {
+                    $rootScope.showAlertIndication = false;
                     list = data ? _formatAlertData(data) : [];
                     deferred.resolve(list);
                 });
@@ -44,6 +45,10 @@
                     temp.clusterId = data[i].tags.integration_id ? data[i].tags.integration_id : "";
                     temp.clusterName = data[i].tags.integration_id ? data[i].tags.integration_id : "";
                     temp.sdsName = data[i].tags.sds_name ? data[i].tags.sds_name : "";
+
+                    if((temp.severity === "error" || temp.severity === "warning") && !$rootScope.showAlertIndication) {
+                        $rootScope.showAlertIndication = true;
+                    }
                     res.push(temp);
                 }
                 return res;

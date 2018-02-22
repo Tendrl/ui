@@ -210,12 +210,6 @@
             modalInstance.result.then(function() {}, function() {});
             wizardDoneListener = $rootScope.$on("modal.done", closeWizard);
         }
-/*
-        function clearAllFilters() {
-            vm.searchBy = {};
-            vm.filterBy = "name";
-        }*/
-
 
         function openErrorModal(cluster) {
             var wizardDoneListener,
@@ -249,8 +243,7 @@
 
 
         function goToTaskDetail(cluster) {
-            $rootScope.selectedClusterOption = "";
-            $state.go("task-detail", { clusterId: cluster.integrationId, taskId: cluster.currentTaskId });
+            $state.go("global-task-detail", { clusterId: cluster.integrationId, taskId: cluster.currentTaskId });
         }
 
         /***Private Functions***/

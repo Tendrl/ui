@@ -8,12 +8,19 @@
         <h1 class="bold-text">Import Cluster</h1>
         <div class="container-fluid">
             <div class="row">
-                <h3 class="col-sm-12">Import <span class="bold-text">{{vm.cluster.name}}</span> cluster to enable monitoring of the cluster.</h3>
+                <h3 class="col-sm-12">Review the hosts for the <span class="bold-text">{{vm.cluster.name}}</span> and click Import to monitor this cluster.</h3>
             </div>
             <div class="row">
                 <div class="col-sm-12 volume-profile">
-                    <input type="checkbox" name="volumeProfile" ng-model="vm.enableProfiling" />
-                    <label for="volumeProfile"> Enable Volume profiling </label><i class="pficon pficon-info" uib-tooltip-template="'../modules/clusters/import-cluster/import-cluster-tooltip.html'" tooltip-placement="bottom-left"></i>
+                    <h3 class="bold-text">Volume Profiling</h3>
+                    <input type="radio" name="volumeProfile" value="enable" id="enable" ng-model="vm.enableProfiling" checked>
+                    <label for="enable">Enable for all volumes</label>
+                    <br>
+                    <input type="radio" name="volumeProfile" value="disable" id="disable" ng-model="vm.enableProfiling">
+                    <label for="disable">Disable for all volumes</label>
+                    <br>
+                    <input type="radio" name="volumeProfile" value="leaveAsIs" id="leaveAsIs" ng-model="vm.enableProfiling">
+                    <label for="leaveAsIs">Keep current configuration</label>
                 </div>
             </div>
             <h2>Discovered Host(s)</h2>

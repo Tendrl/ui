@@ -101,8 +101,8 @@
                             </div>
                             <div class="list-view-pf-additional-info-item cluster-text" ng-class="{'error-message': (cluster.message === 'Cluster Misconfigured'), 'warning-message': (cluster.message === 'Import Failed' || cluster.message === 'Unmanage Failed')}">
                                 <p uib-tooltip-template="'../modules/clusters/cluster-list/unmanage-cluster-tooltip.html'" tooltip-placement="auto">{{cluster.message}}</p>
-                                <p><a ng-click="clusterCntrl.openErrorModal(cluster)" ng-show="cluster.currentStatus === 'failed'" class="details-link">View Details</a></p>
-                                <p><a ng-click="clusterCntrl.goToTaskDetail(cluster)" ng-show="cluster.currentStatus === 'in_progress' " class="details-link">View Details</a></p>
+                                <!-- <p><a ng-click="clusterCntrl.openErrorModal(cluster)" ng-show="cluster.currentStatus === 'failed'" class="details-link">View Details</a></p> -->
+                                <p><a ng-click="clusterCntrl.goToTaskDetail(cluster)" ng-show="cluster.currentStatus === 'in_progress' || cluster.currentStatus === 'failed'" class="details-link">View Details</a></p>
                             </div>
                         </div>
                     </div>
