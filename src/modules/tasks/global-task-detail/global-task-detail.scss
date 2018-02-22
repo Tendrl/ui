@@ -1,0 +1,107 @@
+.tendrl-global-task-detail-view-container {
+    .custom-breadcrumb {
+        list-style: none;
+        min-width: 50px;
+        width: 100%;
+        margin: auto;
+        display: inline-table;
+        margin-right: 5px;
+        overflow: visible;
+        li {
+            position: relative;
+            .no-content {
+                text-decoration: none;
+                cursor: text;
+                color: $color-gondola-grey;
+                &::before {
+                    content: '';
+                }
+            }
+            .breadcrumb-icon {
+                vertical-align: inherit;
+            }
+            .cluster-name {
+                display: inline-block;
+                height: 25px;
+                text-align: center;
+                width: 225px;
+                white-space: nowrap;
+                text-overflow: ellipsis;
+                overflow: hidden;
+                vertical-align: top;
+                text-align: left;
+            }
+            .remove-width {
+                width: auto;
+            }
+            .tip {
+                display: none;
+                color: $color-white;
+                background-color: $color-blackopaque;
+                font-size: 12px;
+                padding: 5px;
+                margin-top: 10px;
+                max-width: 220px;
+                word-wrap: break-word;
+            }
+            .tip::before {
+                content: '';
+                display: block;
+                width: 0;
+                height: 0;
+                position: absolute;
+                border-left: 8px solid transparent;
+                border-right: 8px solid transparent;
+                border-bottom: 8px solid $color-blackopaque;
+                left: 1%;
+                top: -8px;
+            }
+            &:hover .tip {
+                display: block;
+                position: absolute;
+                z-index: 1;
+                top: 20px;
+                left: 20px;
+            }
+        }
+    }
+    .detail-label {
+        margin-left: 8px;
+        padding-right: 0px;
+    }
+    .status-value {
+        text-transform: capitalize;
+    }
+    .status-icon {
+        margin-right: 5px;
+    }
+    .div-with-scroll-logs {
+        max-height: 700px;
+        padding: 0;
+        .list-group-item:nth-child(2n+1) {
+            background-color: $color-white-smoke;
+            border-left-color: transparent;
+            border-right-color: transparent;
+        }
+        .table-heading {
+            padding: 10px 0 10px 10px;
+            font-size: 16px;
+            background-color: $color-white-smoke;
+            margin-right: 0;
+        }
+        overflow: auto;
+        overflow-x: hidden;
+        margin: 20px 0;
+        .row {
+            margin-left: 0;
+        }
+        .logs {
+            padding-left: 0;
+            padding-right: 0;
+            margin-right: 0;
+        }
+        .list-group-item {
+            border: none;
+        }
+    }
+}

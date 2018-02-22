@@ -45,6 +45,7 @@
         function init() {
 
             vm.clusterId = $stateParams.clusterId;
+            $rootScope.selectedClusterOption = vm.clusterId;
             if ($rootScope.clusterData) {
                 vm.clusterObj = clusterStore.getClusterDetails(vm.clusterId);
                 vm.clusterName = vm.clusterObj.cluster_id || "NA";
@@ -77,7 +78,6 @@
                                 startStatusTimer();
                                 startMessageTimer();
                             });
-
                     });
             }
 

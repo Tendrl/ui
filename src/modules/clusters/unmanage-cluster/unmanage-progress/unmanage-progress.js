@@ -59,8 +59,7 @@
         function confirmModal() {
             if (vm.clusterId) {
                 vm.closeModal();
-                $rootScope.selectedClusterOption = "";
-                $state.go("task-detail", { clusterId: vm.clusterId, taskId: vm.jobId });
+                $state.go("global-task-detail", { clusterId: vm.clusterId, taskId: vm.jobId });
             }
         }
 

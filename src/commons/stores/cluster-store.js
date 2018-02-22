@@ -36,6 +36,11 @@
             var len = data.length,
                 res = [],
                 temp = {},
+                profileStatus = {
+                    "enabled": "Enabled",
+                    "disabled": "Disabled",
+                    "mixed": "Mixed"
+                },
                 i;
 
             for (i = 0; i < len; i++) {
@@ -45,7 +50,7 @@
                 temp.sdsName = data[i].sds_name;
                 temp.name = data[i].cluster_id;
                 temp.clusterId = data[i].cluster_id;
-                temp.isProfilingEnabled = data[i].enable_volume_profiling === "yes" ? "Enabled" : "Disabled";
+                temp.isProfilingEnabled = profileStatus[data[i].volume_profiling_state];
                 temp.jobStatus = data[i].status;
                 temp.currentTask = data[i].current_job;
                 temp.jobType = JSON.parse(data[i].current_job).job_name;
@@ -82,7 +87,7 @@
                     } else if (temp.currentStatus === "finished") {
                         temp.message = "Ready to import";
                     }
-                } else if(temp.managed === "Yes" && !temp.message){
+                } else if (temp.managed === "Yes" && !temp.message) {
                     temp.message = "Ready to Use";
                 }
 
@@ -118,6 +123,7 @@
                 temp.hosts = store.getAssociatedHosts(data[i]);
                 res.push(temp);
             }
+
             return res;
         };
 
@@ -157,7 +163,7 @@
          */
         store.importCluster = function(cluster, enableProfiling) {
             var requestData = {
-                    "enable_volume_profiling": enableProfiling ? "yes" : "no"
+                    "Cluster.volume_profiling_flag": enableProfiling === "leaveAsIs" ? "leave-as-is" : enableProfiling
                 },
                 deferred;
 
