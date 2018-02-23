@@ -26,11 +26,10 @@
         }
     }
     .task-list-table {
-        max-height: 65vh;
+        max-height: 62vh;
         overflow: auto;
         .list-group-item {
-            padding-top: 10px;
-            padding-bottom: 10px;
+            padding: 30px 0;
             .task-flow {
                 margin-left: 10px;
                 align-items: left;

@@ -1,7 +1,11 @@
 .tendrl-cluster-error-modal-container {
-	.error-list {
-		max-height: 60vh;
-		overflow: auto;
-		padding-top: 0;
-	}
+    .error-list {
+        max-height: 60vh;
+        overflow: auto;
+        padding-top: 0;
+    }
+
+    .list-view-pf .list-group-item-heading {
+        white-space: inherit;
+    }
 }
