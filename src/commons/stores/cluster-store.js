@@ -23,7 +23,7 @@
             clusterFactory.getClusterList()
                 .then(function(data) {
                     //list = data ? _formatClusterData(data.clusters) : [];
-                    $rootScope.clusterData = data.clusters;
+                    $rootScope.clusterData = store.formatClusterData(data.clusters);
                     deferred.resolve(data.clusters);
                 }).catch(function(e) {
                     deferred.reject(e);
@@ -55,8 +55,7 @@
                 temp.currentTask = data[i].current_job;
                 temp.jobType = JSON.parse(data[i].current_job).job_name;
                 temp.currentStatus = JSON.parse(data[i].current_job).status;
-                temp.managed = (data[i].is_managed === "yes" && temp.currentStatus !== "in_progress") ? "Yes" : "No";
-                temp.statusIcon = "Not Managed";
+                temp.managed = data[i].is_managed === "yes" ? "Yes" : "No";
                 temp.currentTaskId = JSON.parse(data[i].current_job).job_id;
                 temp.volCount = data[i].globaldetails && data[i].globaldetails.vol_count ? parseInt(data[i].globaldetails.vol_count) : 0;
                 temp.alertCount = data[i].alert_counters ? parseInt(data[i].alert_counters.warning_count) : 0;
@@ -119,7 +118,7 @@
                         }
                     }
                 }
-
+                
                 temp.hosts = store.getAssociatedHosts(data[i]);
                 res.push(temp);
             }
@@ -193,7 +192,7 @@
 
                 for (i = 0; i < len; i++) {
 
-                    if (clusterData[i].cluster_id === clusterId) {
+                    if (clusterData[i].clusterId === clusterId) {
                         clusterObj = clusterData[i];
                         break;
                     }
@@ -243,24 +242,6 @@
 
             return deferred.promise;
         };
-
-        /**
-         * @name checkStatus
-         * @desc returns status 
-         * @memberOf clusterStore
-         */
-        store.checkStatus = function(clusterObj) {
-            var status;
-            if (clusterObj.globaldetails && clusterObj.globaldetails.status === "healthy") {
-                status = "HEALTH_OK";
-            } else if (clusterObj.globaldetails && clusterObj.globaldetails.status === "unhealthy") {
-                status = "HEALTH_ERR";
-            } else {
-                status = clusterObj.globaldetails ? clusterObj.globaldetails.status : "NA";
-            }
-            return status;
-        }
-
     }
 
 })();

@@ -69,7 +69,7 @@
         function init() {
 
             var clusters;
-            clusters = clusterStore.formatClusterData($rootScope.clusterData);
+            clusters = $rootScope.clusterData;
 
             nodeStore.getNodeList(vm.clusterId)
                 .then(function(list) {
