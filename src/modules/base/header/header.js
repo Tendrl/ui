@@ -152,8 +152,8 @@
                     i;
 
                 for (i = 0; i < len; i++) {
-                    if (id === data[i].cluster_id) {
-                        return data[i].cluster_id;
+                    if (id === data[i].clusterId) {
+                        return data[i].clusterId;
                     }
                 }
             }

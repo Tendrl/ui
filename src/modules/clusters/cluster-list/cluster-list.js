@@ -31,7 +31,8 @@
         vm.flag = false;
         vm.profilingButtonClick = false;
         $rootScope.selectedClusterOption = "allClusters";
-
+        /*vm.importDisable = false;
+        vm.unmanageDisable = false; WIP */
         vm.filtersText = "";
         vm.filters = [];
         vm.clusterList = [];
@@ -155,8 +156,11 @@
          * @memberOf clusterController
          */
         function goToImportFlow(cluster) {
+            /*vm.importDisable = true;
+            $interval.cancel(clusterListTimer);
+            startTimer(); WIP */
             $rootScope.clusterTobeImported = cluster;
-            $state.go("import-cluster", { clusterId: cluster.integrationId, taskId: cluster.currentTaskId, taskStatus: cluster.currentStatus  });
+            $state.go("import-cluster", { clusterId: cluster.integrationId });
         }
 
         function redirectToGrafana(cluster, $event) {
@@ -188,6 +192,9 @@
                 modalInstance,
                 closeWizard;
 
+            /*vm.unmanageDisable = true;
+            $interval.cancel(clusterListTimer);
+            startTimer(); WIP*/
             modalInstance = $uibModal.open({
                 animation: true,
                 backdrop: "static",

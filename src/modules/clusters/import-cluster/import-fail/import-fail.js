@@ -6,7 +6,7 @@
         .controller("importFailController", importFailController);
 
     /*@ngInject*/
-    function importFailController($rootScope, $scope, $state, clusterStore, failedJob, Notifications, $uibModal) {
+    function importFailController($rootScope, $scope, $state, taskStore, failedJob) {
 
         var vm = this,
             jobId;
@@ -14,27 +14,23 @@
         vm.initiateUnmanage = false;
         vm.enableProfiling = true;
         vm.taskInitiated = false;
+        vm.isMessagesLoading = true;
+        vm.logs = [];
 
         vm.cancelModal = cancelModal;
         vm.closeModal = closeModal;
-        vm.confirmModal = confirmModal;
-        vm.jobId = failedJob.jobId;
+        vm.jobId = failedJob;
 
         vm.modalHeader = {
-            "title": "Import Fail",
+            "title": "Details:" + vm.jobId,
             "close": vm.closeModal
         };
 
         vm.modalFooter = [{
-            "name": "Cancel",
+            "name": "Close",
             "type": "button",
-            "classname": "btn-default",
-            "onCall": vm.cancelModal
-        }, {
-            "name": "Ok",
-            "type": "submit",
             "classname": "btn-primary",
-            "onCall": vm.confirmModal
+            "onCall": vm.cancelModal
         }];
 
         /**
@@ -44,8 +40,20 @@
 
          */
 
+        init();
+
+        function init() {
+            taskStore.getTaskLogs(vm.jobId)
+                .then(function(response) {
+                    vm.logs = response;
+                    vm.isMessagesLoading = false;
+                }).catch(function(e) {
+                    vm.isMessagesLoading = false;
+                });
+        }
+
         function cancelModal() {
-            $state.go("clusters");
+            $state.go("import-cluster");
             $rootScope.$emit("modal.done", "cancel");
         }
 
@@ -58,29 +66,6 @@
         function closeModal() {
             $rootScope.$emit("modal.done", "close");
         }
-
-        /**
-         * @name next
-         * @desc takes to next step
-         * @memberOf deleteUserController                
-
-         */
-        function confirmModal() {
-            clusterStore.importCluster($rootScope.clusterTobeImported, vm.enableProfiling)
-                .then(function(data) {
-                    vm.taskInitiated = true;
-                });
-
-            if(vm.taskInitiated){
-                Notifications.message("success", "", "Import task has been submitted");
-                $state.go('clusters');
-            } else {
-                Notifications.message("danger", "", "Failed to initiate import");
-                $state.go('clusters');
-            }
-
-        }
-
     }
 
 })();

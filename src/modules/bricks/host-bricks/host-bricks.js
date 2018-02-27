@@ -55,7 +55,7 @@
             } else {
                 clusterStore.getClusterList()
                     .then(function(data) {
-                        $rootScope.clusterData = data;
+                        $rootScope.clusterData = clusterStore.formatClusterData(data);
                         brickStore.getHostBrickList(vm.clusterId, vm.hostId)
                             .then(function(data) {
                                 vm.brickList = data;

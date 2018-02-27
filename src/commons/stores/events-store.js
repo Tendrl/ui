@@ -64,6 +64,8 @@
                 .then(function(data) {
                     list = data ? _formatEventData(data) : [];
                     deferred.resolve(list);
+                }).catch(function(e) {
+                    deferred.reject(e);
                 });
 
             return deferred.promise;

@@ -1,13 +1,34 @@
 <div class="tendrl-import-fail-modal-container">
     <div>
         <custom-modal-header title="vm.modalHeader.title" close="vm.modalHeader.close"></custom-modal-header>
-        <div class="modal-body row">
-            <div class="col-md-2 text-center">
-                <i class="pficon pficon pficon-warning-triangle-o"></i>
-            </div>
-            <div class="col-md-10 desc">
-                Import cluster previously failed with
-                {{vm.jobId}}. Before import, you need to correct the +issues and then un-manage the cluster
+        <div class="modal-body">
+            <div ng-if="vm.isMessagesLoading" class="spinner spinner-lg"></div>
+            <center ng-if="vm.logs.length === 0 && !vm.isMessagesLoading">
+                <div class="blank-slate-pf">
+                    <div class="blank-slate-pf-icon">
+                        <i class="pficon pficon-cluster"></i>
+                    </div>
+                    <h1>No Task Detail Found Detected</h1>
+                </div>
+            </center>
+            <div class="div-with-scroll table-bordered div-with-scroll-logs" ng-if="vm.logs.length">
+                <div class="row bold-text table-heading">
+                    Events
+                </div>
+                <div class="row list-group-item logs" ng-repeat="log in vm.logs | orderBy: ['-date']" id="log-list-group-item-{{$index+1}}">
+                    <div class="list-view-pf-left col-md-1">
+                        <i ng-class="{'pficon pficon-error-circle-o': (log.type === 'error'), 'pficon pficon-warning-triangle-o': (log.type === 'warning')}"></i>
+                    </div>
+                    <div class="col-md-1">
+                        {{log.type}}
+                    </div>
+                    <div class="col-md-6">
+                        {{log.message}}
+                    </div>
+                    <div class="col-md-2">
+                        {{log.date | date: "dd MMM yyyy hh:mm:ss"}}
+                    </div>
+                </div>
             </div>
         </div>
         <custom-modal-footer modal-footer="vm.modalFooter"></custom-modal-footer>

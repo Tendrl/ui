@@ -17,7 +17,7 @@
                 <div class="row toolbar-pf-results">
                     <div class="col-sm-12">
                         <h5 ng-if="hostCntrl.hostList.length !== 0"> {{ hostCntrl.filteredHostList.length }}
-                            <ng-pluralize count="hostCntrl.filteredHostList.length" when="{'one': 'Host',
+                        <ng-pluralize count="hostCntrl.filteredHostList.length" when="{'one': 'Host',
                        'other': 'Hosts'}"></ng-pluralize>
                         </h5>
                     </div>
@@ -41,7 +41,6 @@
                     <div class="title">Suggestions</div>
                     <div>Please try selecting other filter criteria.</div>
                 </div>
-                <!-- <a href="" class="clear-filter-link" ng-click="hostCntrl.clearAllFilters()">Clear All Filters</a> -->
             </div>
         </center>
         <div ng-show="hostCntrl.isDataLoading" class="spinner spinner-lg"></div>
