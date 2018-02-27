@@ -22,7 +22,7 @@
             hostListTimer;
 
         vm.filtersText = "";
-        vm.enableProfiling = true;
+        vm.enableProfiling = "enable";
         vm.taskInitiated = false;
         vm.importIcon = false;
         vm.hostList = [];
@@ -34,14 +34,14 @@
 
         vm.sortConfig = {
             fields: [{
-                    id: 'fqdn',
-                    title: 'Name',
-                    sortType: 'alpha'
+                    id: "fqdn",
+                    title: "Name",
+                    sortType: "alpha"
                 },
                 {
-                    id: 'role',
-                    title: 'Role',
-                    sortType: 'alpha'
+                    id: "role",
+                    title: "Role",
+                    sortType: "alpha"
                 }
             ],
             onSortChange: _sortChange
@@ -246,25 +246,8 @@
         function viewTaskProgress() {
 
             if (vm.clusterId) {
-                $rootScope.selectedClusterOption = "";
-                $state.go("task-detail", { clusterId: vm.clusterId, taskId: vm.jobId });
+                $state.go("global-task-detail", { clusterId: vm.clusterId, taskId: vm.jobId });
             }
-        }
-
-        function changingFilterBy(filterValue) {
-            vm.filterBy = filterValue;
-            switch (filterValue) {
-                case "fqdn":
-                    vm.filterByValue = "Name";
-                    vm.filterPlaceholder = "Name";
-                    break;
-
-                case "role":
-                    vm.filterByValue = "Role";
-                    vm.filterPlaceholder = "Role";
-                    break;
-
-            };
         }
 
     }

@@ -33,7 +33,8 @@
             <li class="dropdown">
                 <a data-toggle="dropdown" class="dropdown-toggle nav-item-iconic" href="" data-template="" data-animation="am-fade-and-slide-top" bs-dropdown="dropdown" title="Alerts" id="notifications" ng-click="header.setNotificationFlag()">
                     <i class="fa fa-bell"></i>
-                    <span class="badge"></span>
+                    <span ng-class="{'badge badge-pf-bordered':$root.showAlertIndication}"> </span>
+                    <!-- in order to show the empty badge this requires a space, otherwise add a value -->
                 </a>
             </li>
             <li class="dropdown user">

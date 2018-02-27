@@ -36,6 +36,40 @@
                 return null;
             });
         };
+
+        vm.toggleProfiling = function(volume, action, clusterId) {
+            var url,
+                profilingRequest,
+                request;
+
+            url = config.baseUrl + "clusters/" + clusterId + "/volumes/" + volume.volumeId;
+
+            if (action === "enable") {
+                url += "/start_profiling";
+            } else {
+                url += "/stop_profiling";
+            }
+
+            profilingRequest = {
+                method: "POST",
+                url: url,
+                data: {
+                    "Volume.volname": volume.name,
+                    "Volume.vol_id": volume.volumeId
+                }
+            };
+
+            request = angular.copy(profilingRequest);
+            return $http(request).then(function(response) {
+                return response.data;
+            }, function(e) {
+                utils.checkErrorCode(e);
+                console.log("Error Occurred: while enabling profile");
+                return null;
+            });
+
+        };
+
     }
 
 })();
