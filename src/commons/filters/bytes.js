@@ -8,7 +8,7 @@
     "use strict";
     var app = angular.module("TendrlModule");
     
-    app.filter('bytes', function() {
+    app.filter("bytes", function() {
         return function(bytes, precision) {
             if(bytes === 0) return "0.0 bytes"
             if (isNaN(parseFloat(bytes)) || !isFinite(bytes)) return '-';
@@ -19,7 +19,7 @@
         }
     });
     
-    app.filter('capitalize', function() {
+    app.filter("capitalize", function() {
     return function(input) {
       return (!!input) ? input.charAt(0).toUpperCase() + input.substr(1).toLowerCase() : '';
     }

@@ -52,69 +52,69 @@
 
     testDataModule.value("taskList", {
         jobs: [{
-                    "createdAt": "2018-01-15T08:31:42Z",
-                    "errors": "",
-                    "flow": "ImportCluster",
-                    "jobId": "baf62e32-3929-4d3d-9cbc-9a83587b533c",
-                    "messagesUrl": "/jobs/baf62e32-3929-4d3d-9cbc-9a83587b533c/messages",
-                    "outputUrl": "/jobs/baf62e32-3929-4d3d-9cbc-9a83587b533c/output",
-                    "parameters": { 
-                        "Cluster.enable_volume_profiling": "no", 
-                        "TendrlContext.integration_id": "e372c01c-5022-41ce-9412-e96038bca305", 
-                        "enable_volume_profiling": "no" 
-                    },
-                    "status": "Completed",
-                    "statusUrl": "/jobs/baf62e32-3929-4d3d-9cbc-9a83587b533c/status",
-                    "updatedAt": "Mon Jan 15 2018 16:05:13 GMT+0530 (IST)"
+            "createdAt": "2018-01-15T08:31:42Z",
+            "errors": "",
+            "flow": "ImportCluster",
+            "jobId": "baf62e32-3929-4d3d-9cbc-9a83587b533c",
+            "messagesUrl": "/jobs/baf62e32-3929-4d3d-9cbc-9a83587b533c/messages",
+            "outputUrl": "/jobs/baf62e32-3929-4d3d-9cbc-9a83587b533c/output",
+            "parameters": {
+                "Cluster.enable_volume_profiling": "no",
+                "TendrlContext.integration_id": "e372c01c-5022-41ce-9412-e96038bca305",
+                "enable_volume_profiling": "no"
+            },
+            "status": "Completed",
+            "statusUrl": "/jobs/baf62e32-3929-4d3d-9cbc-9a83587b533c/status",
+            "updatedAt": "Mon Jan 15 2018 16:05:13 GMT+0530 (IST)"
         }, {
-                    "createdAt": "2018-01-20T08:31:42Z",
-                    "errors": "",
-                    "flow": "ImportCluster",
-                    "jobId": "faf62e32-3929-4d3d-9cbc-9a83587b533c",
-                    "messagesUrl": "/jobs/baf62e32-3929-4d3d-9cbc-9a83587b533c/messages",
-                    "outputUrl": "/jobs/baf62e32-3929-4d3d-9cbc-9a83587b533c/output",
-                    "parameters": { 
-                        "Cluster.enable_volume_profiling": "no", 
-                        "TendrlContext.integration_id": "e372c01c-5022-41ce-9412-e96038bca305", 
-                        "enable_volume_profiling": "no" 
-                    },
-                    "status": "Completed",
-                    "statusUrl": "/jobs/baf62e32-3929-4d3d-9cbc-9a83587b533c/status",
-                    "updatedAt": "Mon Jan 15 2018 16:05:13 GMT+0530 (IST)"
+            "createdAt": "2018-01-20T08:31:42Z",
+            "errors": "",
+            "flow": "ImportCluster",
+            "jobId": "faf62e32-3929-4d3d-9cbc-9a83587b533c",
+            "messagesUrl": "/jobs/baf62e32-3929-4d3d-9cbc-9a83587b533c/messages",
+            "outputUrl": "/jobs/baf62e32-3929-4d3d-9cbc-9a83587b533c/output",
+            "parameters": {
+                "Cluster.enable_volume_profiling": "no",
+                "TendrlContext.integration_id": "e372c01c-5022-41ce-9412-e96038bca305",
+                "enable_volume_profiling": "no"
+            },
+            "status": "Completed",
+            "statusUrl": "/jobs/baf62e32-3929-4d3d-9cbc-9a83587b533c/status",
+            "updatedAt": "Mon Jan 15 2018 16:05:13 GMT+0530 (IST)"
         }],
         formattedJobs: [{
-                    "createdAt": "2018-01-15T08:31:42Z",
-                    "errors": "",
-                    "flow": "ImportCluster",
-                    "jobId": "baf62e32-3929-4d3d-9cbc-9a83587b533c",
-                    "messagesUrl": "/jobs/baf62e32-3929-4d3d-9cbc-9a83587b533c/messages",
-                    "outputUrl": "/jobs/baf62e32-3929-4d3d-9cbc-9a83587b533c/output",
-                    "parameters": { 
-                        "Cluster.enable_volume_profiling": "no", 
-                        "TendrlContext.integration_id": "e372c01c-5022-41ce-9412-e96038bca305", 
-                        "enable_volume_profiling": "no" 
-                    },
-                    "status": "Completed",
-                    "statusUrl": "/jobs/baf62e32-3929-4d3d-9cbc-9a83587b533c/status",
-                    "updatedAt": "Mon Jan 15 2018 16:05:13 GMT+0530 (IST)"
+            "createdAt": "2018-01-15T08:31:42Z",
+            "errors": "",
+            "flow": "ImportCluster",
+            "jobId": "baf62e32-3929-4d3d-9cbc-9a83587b533c",
+            "messagesUrl": "/jobs/baf62e32-3929-4d3d-9cbc-9a83587b533c/messages",
+            "outputUrl": "/jobs/baf62e32-3929-4d3d-9cbc-9a83587b533c/output",
+            "parameters": {
+                "Cluster.enable_volume_profiling": "no",
+                "TendrlContext.integration_id": "e372c01c-5022-41ce-9412-e96038bca305",
+                "enable_volume_profiling": "no"
+            },
+            "status": "Completed",
+            "statusUrl": "/jobs/baf62e32-3929-4d3d-9cbc-9a83587b533c/status",
+            "updatedAt": "Mon Jan 15 2018 16:05:13 GMT+0530 (IST)"
         }, {
-                    "createdAt": "2018-01-20T08:31:42Z",
-                    "errors": "",
-                    "flow": "ImportCluster",
-                    "jobId": "faf62e32-3929-4d3d-9cbc-9a83587b533c",
-                    "messagesUrl": "/jobs/baf62e32-3929-4d3d-9cbc-9a83587b533c/messages",
-                    "outputUrl": "/jobs/baf62e32-3929-4d3d-9cbc-9a83587b533c/output",
-                    "parameters": { 
-                        "Cluster.enable_volume_profiling": "no", 
-                        "TendrlContext.integration_id": "e372c01c-5022-41ce-9412-e96038bca305", 
-                        "enable_volume_profiling": "no" 
-                    },
-                    "status": "Completed",
-                    "statusUrl": "/jobs/baf62e32-3929-4d3d-9cbc-9a83587b533c/status",
-                    "updatedAt": "Mon Jan 15 2018 16:05:13 GMT+0530 (IST)"
+            "createdAt": "2018-01-20T08:31:42Z",
+            "errors": "",
+            "flow": "ImportCluster",
+            "jobId": "faf62e32-3929-4d3d-9cbc-9a83587b533c",
+            "messagesUrl": "/jobs/baf62e32-3929-4d3d-9cbc-9a83587b533c/messages",
+            "outputUrl": "/jobs/baf62e32-3929-4d3d-9cbc-9a83587b533c/output",
+            "parameters": {
+                "Cluster.enable_volume_profiling": "no",
+                "TendrlContext.integration_id": "e372c01c-5022-41ce-9412-e96038bca305",
+                "enable_volume_profiling": "no"
+            },
+            "status": "Completed",
+            "statusUrl": "/jobs/baf62e32-3929-4d3d-9cbc-9a83587b533c/status",
+            "updatedAt": "Mon Jan 15 2018 16:05:13 GMT+0530 (IST)"
         }],
-        integrationId : "f755f0cd-b784-4920-83c3-db9d576d5935",
-        date : {
+        integrationId: "f755f0cd-b784-4920-83c3-db9d576d5935",
+        date: {
             fromDate: "",
             toDate: "",
         }
@@ -428,5 +428,82 @@
             }]
         }
     });
+
+    testDataModule.value("volumeList", {
+        volumes: [{
+            "status": "Started",
+            "rebalStatus": "not_started",
+            "brickCount": "4",
+            "deleted": "False",
+            "profileStatus": "Enabled",
+            "type": "Distribute",
+            "volumeId": "3c4b48cc-1a61-4c64-90d6-eba840c00081",
+            "alertCount": "0",
+            "name": "vol1",
+            "currentTask": "{}"
+        }, {
+            "status": "Stopped",
+            "rebalStatus": "completed",
+            "brickCount": "4",
+            "deleted": "False",
+            "profileStatus": "Pending",
+            "type": "Distribute",
+            "volumeId": "3d0fd8d44-4b93-46fb-b4ed-e5e5a390eca8",
+            "alertCount": "0",
+            "name": "vol2",
+            "currentTask": { "status": "in_progress", "job_id": "f508cc8a-e037-4af0-bcbe-54735cc1692f", "job_name": "StartProfiling" }
+        }],
+        sortFields: [{
+            id: "name",
+            title: "Name",
+            sortType: "alpha"
+        }, {
+            id: "status",
+            title: "Status",
+            sortType: "alpha"
+        }],
+        filterFields: [{
+            id: "name",
+            title: "Name",
+            placeholder: "Filter by Name",
+            filterType: "text"
+        }, {
+            id: "status",
+            title: "Status",
+            placeholder: "Filter by Status",
+            filterType: "select",
+            filterValues: ["Started", "Stopped"]
+        }, {
+            id: "type",
+            title: "Type",
+            placeholder: "Filter by Type",
+            filterType: "select",
+            filterValues: ["Distribute", "Replicated", "Dispersed", "Distributed-Dispersed"]
+        }],
+        profilingResponse: { "job_id": "f508cc8a-e037-4af0-bcbe-54735cc1692f" },
+        sortedformattedOutput: [{
+            "status": "Stopped",
+            "rebalStatus": "completed",
+            "brickCount": "4",
+            "deleted": "False",
+            "profileStatus": "Pending",
+            "type": "Distribute",
+            "volumeId": "3d0fd8d44-4b93-46fb-b4ed-e5e5a390eca8",
+            "alertCount": "0",
+            "name": "vol2",
+            "currentTask": { "status": "in_progress", "job_id": "f508cc8a-e037-4af0-bcbe-54735cc1692f", "job_name": "StartProfiling" }
+        }, {
+            "status": "Started",
+            "rebalStatus": "not_started",
+            "brickCount": "4",
+            "deleted": "False",
+            "profileStatus": "Enabled",
+            "type": "Distribute",
+            "volumeId": "3c4b48cc-1a61-4c64-90d6-eba840c00081",
+            "alertCount": "0",
+            "name": "vol1",
+            "currentTask": "{}"
+        }]
+    })
 
 })();

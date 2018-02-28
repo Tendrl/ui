@@ -14,6 +14,7 @@ module.exports = function (config) {
             "src/commons/js/*.js",
             "src/modules/**/*.js",
             "src/commons/services/*.js",
+            "src/commons/filters/*.js",
             "src/commons/components/**/*.js",
             "src/commons/factories/**/*.js",
             "src/commons/stores/**/*.js",
