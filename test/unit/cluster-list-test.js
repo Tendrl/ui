@@ -199,7 +199,7 @@ describe("Unit Component: clusterList", function() {
         });
     });
 
-    it("Should sort the list with chnaged parameters", function() {
+    it("Should sort the list with changed parameters", function() {
         vm = $componentController("clusterList", { $scope: $scope });
         vm.sortConfig.currentField = {
             id: "status",

@@ -20,15 +20,12 @@
             volumeTimer,
             volumeList;
 
-        vm.deleteFileShareStep = 1;
-        vm.selectedFileShare = null;
         vm.isDataLoading = true;
         vm.flag = false;
         vm.volumeList = [];
         vm.filtersText = "";
         vm.filters = [];
 
-        vm.isRebalanceAllowed = isRebalanceAllowed;
         vm.getRebalStatus = volumeStore.getRebalStatus;
         vm.redirectToGrafana = redirectToGrafana;
         vm.goToVolumeDetail = goToVolumeDetail;
@@ -49,7 +46,13 @@
                 title: "Status",
                 sortType: "alpha"
             }],
-            onSortChange: _sortChange
+            onSortChange: _sortChange,
+            currentField: {
+                id: "name",
+                title: "Name",
+                sortType: "alpha"
+            },
+            isAscending: true
         };
 
         vm.filterConfig = {
@@ -111,13 +114,13 @@
         function startTimer() {
             volumeTimer = $interval(function() {
                 init();
-            }, 1000 * config.eventsRefreshIntervalTime, 1);
+            }, 1000 * config.volumeRefreshInterval, 1);
         }
 
         /* Trigger this function when we have cluster data */
         $scope.$on("GotClusterData", function(event, data) {
             /* Forward to home view if we don't have any cluster */
-            if ($rootScope.clusterData === null || $rootScope.clusterData.clusters.length === 0) {
+            if ($rootScope.clusterData === null || $rootScope.clusterData.length === 0) {
                 $state.go("clusters");
             } else {
                 init();
@@ -134,10 +137,6 @@
                 clusterId: vm.clusterId,
                 volumeName: volume.name
             });
-        }
-
-        function isRebalanceAllowed(volume) {
-            return volume.type.startsWith("Distribute");
         }
 
         function goToVolumeDetail(volume) {
