@@ -100,8 +100,8 @@
 
             function _getTaskList() {
                 vm.clusterObj = clusterStore.getClusterDetails(vm.clusterId);
-                vm.clusterName = vm.clusterObj.cluster_id || "NA";
-                vm.clusterStatus = clusterStore.checkStatus(vm.clusterObj);
+                vm.clusterName = vm.clusterObj.clusterId || "NA";
+                vm.clusterStatus = vm.clusterObj.status;
 
                 taskStore.getJobDetail($stateParams.taskId)
                     .then(function(data) {
