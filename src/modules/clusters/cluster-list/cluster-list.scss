@@ -1,6 +1,7 @@
 .tendrl-cluster-list-view-container {
     .disable-pointer {
         pointer-events: none;
+        color: $color-gray;
         span {
             color: $color-gray;
         }

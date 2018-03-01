@@ -16,7 +16,7 @@
         vm.cancelModal = cancelModal;
         vm.closeModal = closeModal;
         vm.confirmModal = confirmModal;
-        vm.clusterId = selectedCluster;
+        vm.clusterId = selectedCluster.clusterId;
 
         vm.modalHeader = {
             "title": "Unmanage Cluster",
@@ -39,9 +39,7 @@
          * @name cancelModal
          * @desc cancels the modal
          * @memberOf deleteUserController                
-
          */
-
         function cancelModal() {
             $state.go("clusters");
             $rootScope.$emit("modal.done", "cancel");
@@ -51,12 +49,10 @@
          * @name closeModal
          * @desc close the modal
          * @memberOf deleteUserController                
-
          */
         function closeModal() {
             $rootScope.$emit("modal.done", "close");
         }
-
 
         function openProgressModal(clusterId, jobId) {
             var wizardDoneListener,
@@ -97,22 +93,19 @@
          */
         function confirmModal() {
 
-
             vm.closeModal();
             vm.initiateUnmanage = true;
 
-            clusterStore.doClusterUnmanage(selectedCluster)
+            clusterStore.doClusterUnmanage(vm.clusterId)
                 .then(function(data) {
                     vm.initiateUnmanage = false;
                     jobId = data.job_id;
                     openProgressModal(vm.clusterId, jobId);
-                    //cluster = clusterStore.getClusterDetails(vm.clusterId);
+                    selectedCluster.disableUnmanage = true;
                 }).catch(function(error) {
                     Notifications.message("danger", "", "Failed to initiate unmanage");
                 });
-
         }
-
     }
 
 })();

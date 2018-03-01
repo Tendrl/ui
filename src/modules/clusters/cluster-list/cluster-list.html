@@ -48,20 +48,22 @@
         <div class="list-group-item">
             <div class="list-group-item-header">
                 <div class="list-view-pf-actions">
-                    <button class="btn btn-default" ng-show="cluster.managed ==='Yes' || (cluster.jobType ==='UnmanageCluster' && cluster.currentStatus !== 'finished')"  ng-disabled="cluster.managed === 'No'" ng-click="clusterCntrl.redirectToGrafana(cluster, $event)" tooltip-enable="clusterCntrl.flag" ng-mouseover="clusterCntrl.addTooltip($event)" uib-tooltip="Dashboard">Dashboard</button>
-                    <button class="btn btn-default import-btn" ng-show="((cluster.managed === 'No' && ((cluster.jobType === 'UnmanageCluster' && cluster.currentStatus === 'finished') || !cluster.jobType)) || (cluster.jobType ==='ImportCluster' && cluster.managed === 'No')) && $root.userRole !=='limited'" ng-disabled="cluster.currentStatus === 'in_progress'" ng-click="clusterCntrl.goToImportFlow(cluster)" tooltip-enable="clusterCntrl.flag" ng-mouseover="clusterCntrl.addTooltip($event)" uib-tooltip="Import">Import&nbsp;</button>
-                    <div class="dropdown pull-right dropdown-kebab-pf " ng-show="(cluster.managed === 'Yes' || cluster.currentStatus === 'failed' || (cluster.jobType === 'UnmanageCluster' && cluster.currentStatus === 'in_progress')) && $root.userRole !=='limited'">
+                    <button class="btn btn-default" ng-show="clusterCntrl.showDashboardBtn(cluster)"  ng-disabled="cluster.managed === 'No'" ng-click="clusterCntrl.redirectToGrafana(cluster, $event)" tooltip-enable="clusterCntrl.flag" ng-mouseover="clusterCntrl.addTooltip($event)" uib-tooltip="Dashboard">Dashboard</button>
+                    
+                    <button class="btn btn-default import-btn" ng-show="clusterCntrl.showImportBtn(cluster)" ng-disabled="cluster.currentStatus === 'in_progress'" ng-click="clusterCntrl.goToImportFlow(cluster)" tooltip-enable="clusterCntrl.flag" ng-mouseover="clusterCntrl.addTooltip($event)" uib-tooltip="Import">Import&nbsp;</button>
+                    
+                    <div class="dropdown pull-right dropdown-kebab-pf " ng-show="clusterCntrl.showKebabMenu(cluster)">
                         <button class="btn btn-link dropdown-toggle"  ng-class="{'disable-pointer': cluster.currentStatus === 'in_progress'}" type="button" id="dropdownKebabRight{{$index}}" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
                             <span class="fa fa-ellipsis-v"></span>
                         </button>
                         <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownKebabRight{{$index}}">
                             <li ng-show = "cluster.managed === 'Yes'">
-                                <a ng-disabled="$root.userRole === 'limited' || clusterCntrl.profilingButtonClick" ng-click="clusterCntrl.doProfilingAction($event, cluster, cluster.isProfilingEnabled === 'Enabled' ? 'Disable' : 'Enable', cluster.clusterId)" tooltip-enable="clusterCntrl.flag" ng-mouseover="clusterCntrl.addTooltip($event)" uib-tooltip="cluster.isProfilingEnabled === 'Enabled' ? 'Disable Profiling' : 'Enable Profiling'">{{cluster.isProfilingEnabled === "Enabled" ? "Disable Profiling" : "Enable Profiling"}}
+                                <a ng-class="{'disable-pointer': $root.userRole === 'limited' || clusterCntrl.profilingButtonClick}" ng-click="clusterCntrl.doProfilingAction($event, cluster, cluster.isProfilingEnabled === 'Enabled' ? 'Disable' : 'Enable', cluster.clusterId)" tooltip-enable="clusterCntrl.flag" ng-mouseover="clusterCntrl.addTooltip($event)" uib-tooltip="cluster.isProfilingEnabled === 'Enabled' ? 'Disable Profiling' : 'Enable Profiling'">{{cluster.isProfilingEnabled === "Enabled" ? "Disable Profiling" : "Enable Profiling"}}
                                     <i class="glyphicon glyphicon-refresh glyphicon-refresh-animate" data-ng-class="{'hidden': clusterCntrl.profilingButtonClick !== true }"></i>
                                 </a>
                             </li>
                             <li>
-                                <a ng-disabled="$root.userRole === 'limited'" ng-click="clusterCntrl.doClusterUnmanage(cluster.clusterId)" tooltip-enable="clusterCntrl.flag" ng-mouseover="clusterCntrl.addTooltip($event)" uib-tooltip="unmanage the cluster">Unmanage
+                                <a ng-class="{'disable-pointer': $root.userRole === 'limited' || cluster.disableUnmanage}" ng-click="clusterCntrl.doClusterUnmanage(cluster)" tooltip-enable="clusterCntrl.flag" ng-mouseover="clusterCntrl.addTooltip($event)" uib-tooltip="unmanage the cluster">Unmanage
                                 </a>
                             </li>
                         </ul>
