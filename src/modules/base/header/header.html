@@ -22,11 +22,11 @@
         </span>
         <ul class="nav navbar-nav navbar-right navbar-iconic" ng-if="!notification.message.length">
             <li class="dropdown admin" ng-if="header.getUserRole() === 'admin'">
-                <a data-toggle="dropdown" class="dropdown-toggle nav-item-iconic" href="" data-template="" data-animation="am-fade-and-slide-top" bs-dropdown="dropdown" title="Notifications" id="notifications" data-toggle="admin-dropdown">
+                <a data-toggle="dropdown" class="dropdown-toggle nav-item-iconic" href="" data-template="" data-animation="am-fade-and-slide-top" bs-dropdown="dropdown" title="User Management" id="usermanagement" data-toggle="admin-dropdown">
                     <i class="fa fa-gear"></i>
                     <span class="badge"></span>
                 </a>
-                <ul class="dropdown-menu" role="menu" aria-labelledby="usermenu">
+                <ul class="dropdown-menu" role="menu" aria-labelledby="usermanagement">
                     <li role="presentation"><a ui-sref="users" role="menuitem" tabindex="-1">Users</a></li>
                 </ul>
             </li>
@@ -38,7 +38,7 @@
                 </a>
             </li>
             <li class="dropdown user">
-                <a class="dropdown-toggle nav-item-iconic align-middle" bs-dropdown="dropdown" href="" data-template="" data-animation="am-fade-and-slide-top" title="Name: {{header.currentUser}}" id="usermenu" data-toggle="dropdown">
+                <a class="dropdown-toggle nav-item-iconic align-middle" bs-dropdown="dropdown" href="" data-template="" data-animation="am-fade-and-slide-top" title="User Actions" id="usermenu" data-toggle="dropdown">
                     <i class="pficon pficon-user"></i>
                     <span class="headerName">{{ header.currentUser }}</span>
                 </a>
