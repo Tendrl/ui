@@ -31,8 +31,6 @@
         vm.flag = false;
         vm.profilingButtonClick = false;
         $rootScope.selectedClusterOption = "allClusters";
-        /*vm.importDisable = false;
-        vm.unmanageDisable = false; WIP */
         vm.filtersText = "";
         vm.filters = [];
         vm.clusterList = [];
@@ -42,9 +40,11 @@
         vm.doClusterUnmanage = doClusterUnmanage;
         vm.redirectToGrafana = redirectToGrafana;
         vm.addTooltip = addTooltip;
-        //vm.clearAllFilters = clearAllFilters;
         vm.openErrorModal = openErrorModal;
         vm.goToTaskDetail = goToTaskDetail;
+        vm.showImportBtn = showImportBtn;
+        vm.showDashboardBtn = showDashboardBtn;
+        vm.showKebabMenu = showKebabMenu;
 
         vm.filterConfig = {
             fields: [{
@@ -121,8 +121,6 @@
                 });
         }
 
-
-
         /* Trigger this function when we have cluster data */
         $scope.$on("GotClusterData", function(event, data) {
             /* Forward to home view if we don't have any cluster */
@@ -156,9 +154,6 @@
          * @memberOf clusterController
          */
         function goToImportFlow(cluster) {
-            /*vm.importDisable = true;
-            $interval.cancel(clusterListTimer);
-            startTimer(); WIP */
             $rootScope.clusterTobeImported = cluster;
             $state.go("import-cluster", { clusterId: cluster.integrationId });
         }
@@ -187,14 +182,11 @@
             $event.stopPropagation();
         }
 
-        function doClusterUnmanage(clusterId) {
+        function doClusterUnmanage(cluster) {
             var wizardDoneListener,
                 modalInstance,
                 closeWizard;
 
-            /*vm.unmanageDisable = true;
-            $interval.cancel(clusterListTimer);
-            startTimer(); WIP*/
             modalInstance = $uibModal.open({
                 animation: true,
                 backdrop: "static",
@@ -204,7 +196,7 @@
                 size: "md",
                 resolve: {
                     selectedCluster: function() {
-                        return clusterId;
+                        return cluster;
                     }
                 }
             });
@@ -251,6 +243,22 @@
 
         function goToTaskDetail(cluster) {
             $state.go("global-task-detail", { clusterId: cluster.integrationId, taskId: cluster.currentTaskId });
+        }
+
+        function showImportBtn(cluster) {
+            return (((cluster.managed === "No" &&
+                    ((cluster.jobType === "UnmanageCluster" && cluster.currentStatus === "finished") || !cluster.jobType)) ||
+                (cluster.jobType === "ImportCluster" && cluster.managed === "No")) && $rootScope.userRole !== "limited");
+        }
+
+        function showDashboardBtn(cluster) {
+            return cluster.managed === "Yes" || (cluster.jobType === "UnmanageCluster" && cluster.currentStatus !== "finished");
+        }
+
+        function showKebabMenu(cluster) {
+            return (cluster.managed === "Yes" || cluster.currentStatus === "failed" ||
+                    (cluster.jobType === "UnmanageCluster" && cluster.currentStatus === "in_progress")) &&
+                $rootScope.userRole !== "limited";
         }
 
         /***Private Functions***/
