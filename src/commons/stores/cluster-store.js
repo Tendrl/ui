@@ -160,14 +160,14 @@
          * @desc store for import cluster
          * @memberOf clusterStore
          */
-        store.importCluster = function(cluster, enableProfiling) {
+        store.importCluster = function(clusterId, enableProfiling) {
             var requestData = {
                     "Cluster.volume_profiling_flag": enableProfiling === "leaveAsIs" ? "leave-as-is" : enableProfiling
                 },
                 deferred;
 
             deferred = $q.defer();
-            clusterFactory.importCluster(requestData, cluster.clusterId)
+            clusterFactory.importCluster(requestData, clusterId)
                 .then(function(data) {
                     deferred.resolve(data);
                 });
