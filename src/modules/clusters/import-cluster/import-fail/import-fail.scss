@@ -1,13 +1,31 @@
 .tendrl-import-fail-modal-container {
-	.pficon-warning-triangle-o {
-		font-size: 56px;
-	}
-
-	.desc {
-		font-size: 15px;
-	}
-
-	.modal-footer .btn-danger {
-		margin-left: 10px;
-	}
+    .div-with-scroll-logs {
+        max-height: 500px;
+        padding: 0;
+        .list-group-item:nth-child(2n+1) {
+            background-color: $color-white-smoke;
+            border-left-color: transparent;
+            border-right-color: transparent;
+        }
+        .table-heading {
+            padding: 10px 0 10px 10px;
+            font-size: 16px;
+            background-color: $color-white-smoke;
+            margin-right: 0;
+        }
+        overflow: auto;
+        overflow-x: hidden;
+        margin: 20px 0;
+        .row {
+            margin-left: 0;
+        }
+        .logs {
+            padding-left: 0;
+            padding-right: 0;
+            margin-right: 0;
+        }
+        .list-group-item {
+            border: none;
+        }
+    }
 }

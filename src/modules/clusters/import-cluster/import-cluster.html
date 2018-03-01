@@ -5,15 +5,26 @@
             <li><a ui-sref="clusters">Clusters</a></li>
             <li>Import Cluster</li>
         </ol>
+        <div ng-show="vm.failedImport" class="alert alert-warning">
+            <span class="pficon pficon-warning-triangle-o"></span>
+            Import cluster previously failed with <a ng-click="vm.openImportErrorModal(vm.taskId)" class="alert-link">{{vm.taskId}}</a>. Be sure that all the issues have been corrected and the cluster has been unmanaged before proceeding.
+        </div>
         <h1 class="bold-text">Import Cluster</h1>
         <div class="container-fluid">
             <div class="row">
-                <h3 class="col-sm-12">Import <span class="bold-text">{{vm.cluster.name}}</span> cluster to enable monitoring of the cluster.</h3>
+                <h3 class="col-sm-12">Review the hosts for the <span class="bold-text">{{vm.cluster.name}}</span> and click Import to monitor this cluster.</h3>
             </div>
             <div class="row">
                 <div class="col-sm-12 volume-profile">
-                    <input type="checkbox" name="volumeProfile" ng-model="vm.enableProfiling" />
-                    <label for="volumeProfile"> Enable Volume profiling </label><i class="pficon pficon-info" uib-tooltip-template="'../modules/clusters/import-cluster/import-cluster-tooltip.html'" tooltip-placement="bottom-left"></i>
+                    <h3 class="bold-text">Volume Profiling</h3>
+                    <input type="radio" name="volumeProfile" value="enable" id="enable" ng-model="vm.enableProfiling" checked>
+                    <label for="enable">Enable for all volumes</label>
+                    <br>
+                    <input type="radio" name="volumeProfile" value="disable" id="disable" ng-model="vm.enableProfiling">
+                    <label for="disable">Disable for all volumes</label>
+                    <br>
+                    <input type="radio" name="volumeProfile" value="leaveAsIs" id="leaveAsIs" ng-model="vm.enableProfiling">
+                    <label for="leaveAsIs">Keep current configuration</label>
                 </div>
             </div>
             <h2>Discovered Host(s)</h2>
@@ -23,8 +34,8 @@
                         <div class="form-group toolbar-pf-filter">
                             <pf-filter id="importFilter" config="vm.filterConfig"></pf-filter>
                         </div>
-                        <div class="form-group sort-component ">
-                            <pf-sort id="importSort" config="vm.sortConfig"></pf-sort>
+                        <div class="form-group sort-component">
+                            <pf-sort id="importSort " config="vm.sortConfig"></pf-sort>
                         </div>
                     </form>
                     <!-- /row -->
@@ -32,11 +43,12 @@
                 <!-- /col -->
             </div>
             <div class="row " ng-show="vm.filteredHostList.length ">
-                <h3 class="col-sm-12 ">{{vm.hostList.length}} 
+                <h3 class="col-sm-12 ">{{vm.filteredHostList.length}} 
                     <ng-pluralize count="vm.filteredHostList.length " when="{ 'one': 'Host', 'other': 'Hosts'} "></ng-pluralize> 
                 Discovered</h3>
             </div>
-            <center ng-show="vm.filteredHostList.length===0 ">
+            <div ng-if="vm.isDataLoading" class="spinner spinner-lg"></div>
+            <center ng-show="!vm.isDataLoading && vm.filteredHostList.length===0 ">
                 <div class="blank-slate-pf ">
                     <div class="blank-slate-pf-icon ">
                         <i class="pficon pficon-cluster "></i>
@@ -44,7 +56,7 @@
                     <h1>No Hosts Detected</h1>
                 </div>
             </center>
-            <div ng-show="vm.filteredHostList.length!==0 " class="flex-table list-group list-view-pf list-view-pf-view ">
+            <div ng-if="!vm.isDataLoading && vm.filteredHostList.length!==0" class="flex-table list-group list-view-pf list-view-pf-view ">
                 <div class="ft-row list-group-item ft-header ">
                     <div class="ft-column ">Host</div>
                     <div class="ft-column ">Cluster Version</div>
@@ -52,17 +64,17 @@
                 </div>
                 <div class="ft-row list-group-item " ng-repeat="host in vm.filteredHostList">
                     <div class="ft-column host-name bold-text " uib-tooltip-html=" '{{host.fqdn}}' " tooltip-placement="auto bottom-left ">
-                        {{host.name}}
+                        {{host.fqdn}}
                     </div>
                     <div class="ft-column ">
-                        {{host.version}}
+                        {{host.release}}
                     </div>
                     <div class="ft-column ">
                         {{host.role}}
                     </div>
                 </div>
             </div>
-            <div ng-show="vm.filteredHostList.length!==0 " class="row action-button ">
+            <div ng-if="!vm.isDataLoading && vm.filteredHostList.length!==0" class="row action-button ">
                 <div class="col-sm-8 col-md-6 ">
                     <button class="btn btn-primary btn-lg " ng-click="vm.importCluster() " ng-disabled="vm.importIcon ">
                         <i class="glyphicon glyphicon-refresh glyphicon-refresh-animate " data-ng-class="{ 'hidden': vm.importIcon !==true } ">

@@ -116,6 +116,10 @@
                         url: "/cluster-tasks/:clusterId/task-detail/:taskId",
                         template: "<task-detail></task-detail>"
                     })
+                    .state("global-task-detail", {
+                        url: "/global-cluster-tasks/:clusterId/task-detail/:taskId",
+                        template: "<global-task-detail></global-task-detail>"
+                    })
                     .state("forbidden", {
                         url: "/forbidden",
                         template: "<div class='un-auth-user'>You are not authorised to see this view.<div>"
@@ -171,7 +175,7 @@
 
                     var url = $location.path();
                     clusterStore.getClusterList().then(function(list) {
-                        $rootScope.clusterData = list;
+                        $rootScope.clusterData = clusterStore.formatClusterData(list);
                         /* Setting up manual broadcast event for ClusterData*/
                         $rootScope.$broadcast("GotClusterData", $rootScope.clusterData); // going down!
                         if ($rootScope.clusterData !== null && $rootScope.clusterData.length !== 0) {

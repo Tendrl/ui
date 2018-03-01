@@ -12,7 +12,7 @@
         <select id="repeatSelect" ng-model="$root.selectedClusterOption" class="cluster-options btn btn-default dropdown-toggle filterSelect" ng-change="header.goToClusterPage()" uib-tooltip-html="header.getClusterName($root.selectedClusterOption)" tooltip-placement="auto bottom">
             <option value="" disabled ng-selected="!$root.selectedClusterOption">Select a cluster...</option>
             <option value="allClusters" ng-selected="$root.selectedClusterOption === 'allClusters'">All Clusters</option>
-            <option ng-repeat="cluster in $root.clusterData" value="{{cluster.cluster_id}}" ng-selected="$root.selectedClusterOption === '{{cluster.cluster_id}}'" ng-show="((cluster.is_managed === 'yes') && (JSON.parse(cluster.current_job).job_name !== 'UnmanageCluster'))">{{cluster.cluster_id}}</option>
+            <option ng-repeat="cluster in $root.clusterData" value="{{cluster.clusterId}}" ng-selected="$root.selectedClusterOption === '{{cluster.clusterId}}'" ng-show="cluster.managed === 'Yes' && cluster.jobType !== 'UnmanageCluster'">{{cluster.clusterId}}</option>
             <!-- To filter managed clusters :  | filter: {is_managed: 'yes'}-->
         </select>
     </div>
@@ -33,7 +33,8 @@
             <li class="dropdown">
                 <a data-toggle="dropdown" class="dropdown-toggle nav-item-iconic" href="" data-template="" data-animation="am-fade-and-slide-top" bs-dropdown="dropdown" title="Alerts" id="notifications" ng-click="header.setNotificationFlag()">
                     <i class="fa fa-bell"></i>
-                    <span class="badge"></span>
+                    <span ng-class="{'badge badge-pf-bordered':$root.showAlertIndication}"> </span>
+                    <!-- in order to show the empty badge this requires a space, otherwise add a value -->
                 </a>
             </li>
             <li class="dropdown user">

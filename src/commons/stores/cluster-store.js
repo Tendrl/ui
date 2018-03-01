@@ -23,7 +23,7 @@
             clusterFactory.getClusterList()
                 .then(function(data) {
                     //list = data ? _formatClusterData(data.clusters) : [];
-                    $rootScope.clusterData = data.clusters;
+                    $rootScope.clusterData = store.formatClusterData(data.clusters);
                     deferred.resolve(data.clusters);
                 }).catch(function(e) {
                     deferred.reject(e);
@@ -36,6 +36,11 @@
             var len = data.length,
                 res = [],
                 temp = {},
+                profileStatus = {
+                    "enabled": "Enabled",
+                    "disabled": "Disabled",
+                    "mixed": "Mixed"
+                },
                 i;
 
             for (i = 0; i < len; i++) {
@@ -45,13 +50,12 @@
                 temp.sdsName = data[i].sds_name;
                 temp.name = data[i].cluster_id;
                 temp.clusterId = data[i].cluster_id;
-                temp.isProfilingEnabled = data[i].enable_volume_profiling === "yes" ? "Enabled" : "Disabled";
+                temp.isProfilingEnabled = profileStatus[data[i].volume_profiling_state];
                 temp.jobStatus = data[i].status;
                 temp.currentTask = data[i].current_job;
                 temp.jobType = JSON.parse(data[i].current_job).job_name;
                 temp.currentStatus = JSON.parse(data[i].current_job).status;
-                temp.managed = (data[i].is_managed === "yes" && temp.currentStatus !== "in_progress") ? "Yes" : "No";
-                temp.statusIcon = "Not Managed";
+                temp.managed = data[i].is_managed === "yes" ? "Yes" : "No";
                 temp.currentTaskId = JSON.parse(data[i].current_job).job_id;
                 temp.volCount = data[i].globaldetails && data[i].globaldetails.vol_count ? parseInt(data[i].globaldetails.vol_count) : 0;
                 temp.alertCount = data[i].alert_counters ? parseInt(data[i].alert_counters.warning_count) : 0;
@@ -82,7 +86,7 @@
                     } else if (temp.currentStatus === "finished") {
                         temp.message = "Ready to import";
                     }
-                } else if(temp.managed === "Yes" && !temp.message){
+                } else if (temp.managed === "Yes" && !temp.message) {
                     temp.message = "Ready to Use";
                 }
 
@@ -114,10 +118,11 @@
                         }
                     }
                 }
-
+                
                 temp.hosts = store.getAssociatedHosts(data[i]);
                 res.push(temp);
             }
+
             return res;
         };
 
@@ -155,14 +160,14 @@
          * @desc store for import cluster
          * @memberOf clusterStore
          */
-        store.importCluster = function(cluster, enableProfiling) {
+        store.importCluster = function(clusterId, enableProfiling) {
             var requestData = {
-                    "enable_volume_profiling": enableProfiling ? "yes" : "no"
+                    "Cluster.volume_profiling_flag": enableProfiling === "leaveAsIs" ? "leave-as-is" : enableProfiling
                 },
                 deferred;
 
             deferred = $q.defer();
-            clusterFactory.importCluster(requestData, cluster.clusterId)
+            clusterFactory.importCluster(requestData, clusterId)
                 .then(function(data) {
                     deferred.resolve(data);
                 });
@@ -187,7 +192,7 @@
 
                 for (i = 0; i < len; i++) {
 
-                    if (clusterData[i].cluster_id === clusterId) {
+                    if (clusterData[i].clusterId === clusterId) {
                         clusterObj = clusterData[i];
                         break;
                     }
@@ -237,24 +242,6 @@
 
             return deferred.promise;
         };
-
-        /**
-         * @name checkStatus
-         * @desc returns status 
-         * @memberOf clusterStore
-         */
-        store.checkStatus = function(clusterObj) {
-            var status;
-            if (clusterObj.globaldetails && clusterObj.globaldetails.status === "healthy") {
-                status = "HEALTH_OK";
-            } else if (clusterObj.globaldetails && clusterObj.globaldetails.status === "unhealthy") {
-                status = "HEALTH_ERR";
-            } else {
-                status = clusterObj.globaldetails ? clusterObj.globaldetails.status : "NA";
-            }
-            return status;
-        }
-
     }
 
 })();

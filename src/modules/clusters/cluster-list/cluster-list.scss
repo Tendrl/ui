@@ -1,4 +1,11 @@
 .tendrl-cluster-list-view-container {
+    .disable-pointer {
+        pointer-events: none;
+        color: $color-gray;
+        span {
+            color: $color-gray;
+        }
+    }
     margin-bottom: 10px;
     .unmanaged {
         text-decoration: none;
@@ -127,7 +134,7 @@
         margin-left: 20px;
         padding-top: 10px;
     }
-    .toolbar-pf-results > span {
+    .toolbar-pf-results>span {
         display: none;
     }
 }

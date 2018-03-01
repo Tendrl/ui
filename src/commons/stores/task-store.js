@@ -89,6 +89,8 @@
                         logs = _formatData(data);
                     }
                     deferred.resolve(logs);
+                }).catch(function(e) {
+                    deferred.reject(e);
                 });
 
             function _formatData(messages) {

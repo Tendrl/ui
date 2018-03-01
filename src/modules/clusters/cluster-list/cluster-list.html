@@ -41,7 +41,6 @@
                 <div class="title">Suggestions</div>
                 <div>Please try selecting other filter criteria.</div>
             </div>
-            <!-- <a href="" class="clear-filter-link" ng-click="clusterCntrl.clearAllFilters()">Clear All Filters</a> -->
         </div>
     </center>
     <div ng-if="clusterCntrl.isDataLoading" class="spinner spinner-lg"></div>
@@ -49,20 +48,22 @@
         <div class="list-group-item">
             <div class="list-group-item-header">
                 <div class="list-view-pf-actions">
-                    <button class="btn btn-default" ng-show="cluster.message === 'Unmanaging Cluster' || cluster.message === 'Unmanage Failed' || cluster.message === 'Ready to Use'"  ng-disabled="cluster.message === 'Unmanaging Cluster' || cluster.message === 'Unmanage Failed'" ng-click="clusterCntrl.redirectToGrafana(cluster, $event)" tooltip-enable="clusterCntrl.flag" ng-mouseover="clusterCntrl.addTooltip($event)" uib-tooltip="Dashboard">Dashboard</button>
-                    <button class="btn btn-default import-btn" ng-show="((cluster.message === 'Importing Cluster' || cluster.message === 'Import Failed' || cluster.message === 'Ready to import' || cluster.message === 'Cluster Misconfigured') && $root.userRole !=='limited')" ng-disabled="cluster.message === 'Importing Cluster'" ng-click="clusterCntrl.goToImportFlow(cluster)" tooltip-enable="clusterCntrl.flag" ng-mouseover="clusterCntrl.addTooltip($event)" uib-tooltip="Import">Import&nbsp;</button>
-                    <div class="dropdown pull-right dropdown-kebab-pf " ng-class="{'hide-button': ((cluster.message === 'Importing Cluster' || cluster.message === 'Ready to import' || cluster.message === 'Unmanaging Cluster') && $root.userRole !=='limited')}">
-                        <button class="btn btn-link dropdown-toggle" type="button" id="dropdownKebabRight{{$index}}" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                    <button class="btn btn-default" ng-show="clusterCntrl.showDashboardBtn(cluster)"  ng-disabled="cluster.managed === 'No'" ng-click="clusterCntrl.redirectToGrafana(cluster, $event)" tooltip-enable="clusterCntrl.flag" ng-mouseover="clusterCntrl.addTooltip($event)" uib-tooltip="Dashboard">Dashboard</button>
+                    
+                    <button class="btn btn-default import-btn" ng-show="clusterCntrl.showImportBtn(cluster)" ng-disabled="cluster.currentStatus === 'in_progress'" ng-click="clusterCntrl.goToImportFlow(cluster)" tooltip-enable="clusterCntrl.flag" ng-mouseover="clusterCntrl.addTooltip($event)" uib-tooltip="Import">Import&nbsp;</button>
+                    
+                    <div class="dropdown pull-right dropdown-kebab-pf " ng-show="clusterCntrl.showKebabMenu(cluster)">
+                        <button class="btn btn-link dropdown-toggle"  ng-class="{'disable-pointer': cluster.currentStatus === 'in_progress'}" type="button" id="dropdownKebabRight{{$index}}" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
                             <span class="fa fa-ellipsis-v"></span>
                         </button>
                         <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownKebabRight{{$index}}">
-                            <li ng-show = "cluster.message !== 'Unmanage Failed' && cluster.message !== 'Import Failed' && cluster.message !== 'Cluster Misconfigured'">
-                                <a ng-disabled="$root.userRole === 'limited' || clusterCntrl.profilingButtonClick" ng-click="clusterCntrl.doProfilingAction($event, cluster, cluster.isProfilingEnabled === 'Enabled' ? 'Disable' : 'Enable', cluster.clusterId)" tooltip-enable="clusterCntrl.flag" ng-mouseover="clusterCntrl.addTooltip($event)" uib-tooltip="cluster.isProfilingEnabled === 'Enabled' ? 'Disable Profiling' : 'Enable Profiling'">{{cluster.isProfilingEnabled === 'Enabled' ? "Disable Profiling" : "Enable Profiling"}}
+                            <li ng-show = "cluster.managed === 'Yes'">
+                                <a ng-class="{'disable-pointer': $root.userRole === 'limited' || clusterCntrl.profilingButtonClick}" ng-click="clusterCntrl.doProfilingAction($event, cluster, cluster.isProfilingEnabled === 'Enabled' ? 'Disable' : 'Enable', cluster.clusterId)" tooltip-enable="clusterCntrl.flag" ng-mouseover="clusterCntrl.addTooltip($event)" uib-tooltip="cluster.isProfilingEnabled === 'Enabled' ? 'Disable Profiling' : 'Enable Profiling'">{{cluster.isProfilingEnabled === "Enabled" ? "Disable Profiling" : "Enable Profiling"}}
                                     <i class="glyphicon glyphicon-refresh glyphicon-refresh-animate" data-ng-class="{'hidden': clusterCntrl.profilingButtonClick !== true }"></i>
                                 </a>
                             </li>
                             <li>
-                                <a ng-disabled="$root.userRole === 'limited'" ng-click="clusterCntrl.doClusterUnmanage(cluster.clusterId)" tooltip-enable="clusterCntrl.flag" ng-mouseover="clusterCntrl.addTooltip($event)" uib-tooltip="unmanage the cluster">Unmanage
+                                <a ng-class="{'disable-pointer': $root.userRole === 'limited' || cluster.disableUnmanage}" ng-click="clusterCntrl.doClusterUnmanage(cluster)" tooltip-enable="clusterCntrl.flag" ng-mouseover="clusterCntrl.addTooltip($event)" uib-tooltip="unmanage the cluster">Unmanage
                                 </a>
                             </li>
                         </ul>
@@ -101,8 +102,8 @@
                             </div>
                             <div class="list-view-pf-additional-info-item cluster-text" ng-class="{'error-message': (cluster.message === 'Cluster Misconfigured'), 'warning-message': (cluster.message === 'Import Failed' || cluster.message === 'Unmanage Failed')}">
                                 <p uib-tooltip-template="'../modules/clusters/cluster-list/unmanage-cluster-tooltip.html'" tooltip-placement="auto">{{cluster.message}}</p>
-                                <p><a ng-click="clusterCntrl.openErrorModal(cluster)" ng-show="cluster.currentStatus === 'failed'" class="details-link">View Details</a></p>
-                                <p><a ng-click="clusterCntrl.goToTaskDetail(cluster)" ng-show="cluster.currentStatus === 'in_progress' " class="details-link">View Details</a></p>
+                                <!-- <p><a ng-click="clusterCntrl.openErrorModal(cluster)" ng-show="cluster.currentStatus === 'failed'" class="details-link">View Details</a></p> -->
+                                <p><a ng-click="clusterCntrl.goToTaskDetail(cluster)" ng-show="cluster.currentStatus === 'in_progress' || cluster.currentStatus === 'failed'" class="details-link">View Details</a></p>
                             </div>
                         </div>
                     </div>

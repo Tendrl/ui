@@ -61,7 +61,7 @@
             } else if (volumeStore.volumeList.length && !$rootScope.clusterData) {
                 clusterStore.getClusterList()
                     .then(function(data) {
-                        $rootScope.clusterData = data;
+                        $rootScope.clusterData = clusterStore.formatClusterData(data);
                         brickStore.getVolumeBrickList(vm.clusterId, vm.volumeId)
                             .then(function(data) {
                                 $interval.cancel(volumeBrickTimer);
@@ -96,7 +96,7 @@
             } else {
                 clusterStore.getClusterList()
                     .then(function(data) {
-                        $rootScope.clusterData = data;
+                        $rootScope.clusterData = clusterStore.formatClusterData(data);;
                         return volumeStore.getVolumeList(vm.clusterId);
                     }).then(function(data) {
                         return brickStore.getVolumeBrickList(vm.clusterId, vm.volumeId);

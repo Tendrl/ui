@@ -4,5 +4,6 @@
     "nodeRefreshIntervalTime": 30,
     "msgRefreshIntervalTime": 5,
     "statusRefreshIntervalTime": 30,
-    "eventsRefreshIntervalTime": 20
+    "eventsRefreshIntervalTime": 20,
+    "volumeRefreshInterval": 10
 }

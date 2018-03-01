@@ -65,10 +65,17 @@
                     <div class="pull-left counts">{{volumeCntrl.getRebalStatus(volume)}}</div>
                 </div>
                 <div class="ft-column list-view-pf-additional-info-item list-view-pf-additional-info-item-stacked">
+                    <div class="bold-text">Volume Profiling</div>
+                    <div class="pull-left counts" ng-show="volume.profileStatus !== 'Pending'">{{volume.profileStatus}}</div>
+                    <div class="pull-left counts" ng-show="volume.profileStatus === 'Pending'"><a href="" ng-click="volumeCntrl.goToTaskDetail(volume)">{{volume.profileStatus}}</a></div>
+                </div>
+                <div class="ft-column list-view-pf-additional-info-item list-view-pf-additional-info-item-stacked">
                     <div class="bold-text">Alerts</div>
                     <div class="pull-left counts">{{volume.alertCount}}</div>
                 </div>
                 <div class="ft-column ft-actions">
+                    <button ng-show="volumeCntrl.showDisableBtn(volume)" class="btn btn-default dashboard-btn" ng-click="volumeCntrl.toggleProfiling(volume, 'disable', $event)" tooltip-enable="volumeCntrl.flag" ng-mouseover="volumeCntrl.addTooltip($event)" uib-tooltip="Disable Profiling" ng-disabled="volume.disableAction || volume.currentTask.status === 'in_progress'">Disable Profiling</button>
+                    <button ng-show="volumeCntrl.showEnableBtn(volume)" class="btn btn-default dashboard-btn" ng-click="volumeCntrl.toggleProfiling(volume, 'enable', $event)" tooltip-enable="volumeCntrl.flag" ng-mouseover="volumeCntrl.addTooltip($event)" uib-tooltip="Enable Profiling" ng-disabled="volume.disableAction || volume.currentTask.status === 'in_progress'">Enable Profiling</button>
                     <button class="btn btn-default dashboard-btn" ng-click="volumeCntrl.redirectToGrafana(volume, $event)" tooltip-enable="volumeCntrl.flag" ng-mouseover="volumeCntrl.addTooltip($event)" uib-tooltip="Dashboard">Dashboard</button>
                 </div>
             </div>

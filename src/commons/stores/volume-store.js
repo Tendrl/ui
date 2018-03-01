@@ -43,14 +43,29 @@
                         temp.status = data[i].status;
                         temp.name = data[i].name;
                         temp.type = data[i].vol_type;
-                        temp.clusterId = data[i].cluster_id;
                         temp.rebalStatus = data[i].rebal_status;
                         temp.brickCount = data[i].brick_count;
                         temp.alertCount = data[i].alert_counters ? data[i].alert_counters.warning_count : "No Data";
+                        temp.currentTask = data[i].current_job ? JSON.parse(data[i].current_job) : {};
+                        temp.profileStatus = _getProfileStatus(temp);
                         volumeList.push(temp);
                     }
                 }
                 return volumeList;
+
+                function _getProfileStatus(volume) {
+                    var profileStatus = "";
+
+                    if (volume.currentTask && volume.currentTask.status === "in_progress" && (volume.currentTask.job_name === "StopProfiling" || volume.currentTask.job_name === "StartProfiling")) {
+                        profileStatus = "Pending";
+                    } else if (data[i].profiling_enabled === "yes") {
+                        profileStatus = "Enabled";
+                    } else {
+                        profileStatus = "Disabled";
+                    }
+
+                    return profileStatus;
+                }
             }
         };
 
@@ -101,6 +116,19 @@
             return null;
 
         };
+
+        store.toggleProfiling = function(volume, action, clusterId) {
+            var deferred;
+
+            deferred = $q.defer();
+            volumeFactory.toggleProfiling(volume, action, clusterId)
+                .then(function(data) {
+                    deferred.resolve(data);
+                });
+
+            return deferred.promise;
+        };
+
     }
 
 })();

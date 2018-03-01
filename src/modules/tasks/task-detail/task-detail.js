@@ -45,10 +45,11 @@
         function init() {
 
             vm.clusterId = $stateParams.clusterId;
+            $rootScope.selectedClusterOption = vm.clusterId;
             if ($rootScope.clusterData) {
                 vm.clusterObj = clusterStore.getClusterDetails(vm.clusterId);
-                vm.clusterName = vm.clusterObj.cluster_id || "NA";
-                vm.clusterStatus = clusterStore.checkStatus(vm.clusterObj);
+                vm.clusterName = vm.clusterObj.clusterId || "NA";
+                vm.clusterStatus = vm.clusterObj.status;
 
                 taskStore.getJobDetail($stateParams.taskId)
                     .then(function(data) {
@@ -62,11 +63,11 @@
             } else {
                 clusterStore.getClusterList()
                     .then(function(data) {
-                        $rootScope.clusterData = data;
+                        $rootScope.clusterData = clusterStore.formatClusterData(data);
 
                         vm.clusterObj = clusterStore.getClusterDetails(vm.clusterId);
-                        vm.clusterName = vm.clusterObj.cluster_id || "NA";
-                        vm.clusterStatus = clusterStore.checkStatus(vm.clusterObj);
+                        vm.clusterName = vm.clusterObj.clusterId || "NA";
+                        vm.clusterStatus = vm.clusterObj.status;
 
                         taskStore.getJobDetail($stateParams.taskId)
                             .then(function(data) {
@@ -77,7 +78,6 @@
                                 startStatusTimer();
                                 startMessageTimer();
                             });
-
                     });
             }
 

@@ -70,6 +70,10 @@
                     vm.eventList = list;
                     vm.isDataLoading = false;
                     startEventTimer();
+                }).catch(function(e) {
+                    vm.eventList = [];
+                }).finally(function() {
+                    vm.isDataLoading = false;
                 });
         }
 

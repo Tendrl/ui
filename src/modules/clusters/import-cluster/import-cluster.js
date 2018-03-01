@@ -15,33 +15,38 @@
         });
 
     /*@ngInject*/
-    function importClusterController($scope, $interval, $state, $rootScope, $stateParams, $uibModal, nodeStore, config, clusterStore) {
+    function importClusterController($state, $rootScope, $stateParams, $uibModal, clusterStore) {
 
         var vm = this,
-            hostList,
-            hostListTimer;
+            hostList;
 
         vm.filtersText = "";
-        vm.enableProfiling = true;
+        vm.enableProfiling = "enable";
+        vm.filterBy = "fqdn";
+        vm.filterByValue = "Name";
+        vm.filterPlaceholder = "Name";
         vm.taskInitiated = false;
         vm.importIcon = false;
         vm.hostList = [];
         vm.filteredHostList = [];
         vm.filters = [];
+        vm.failedImport = false;
+        vm.isDataLoading = true;
         vm.importCluster = importCluster;
         vm.importCancel = importCancel;
         vm.viewTaskProgress = viewTaskProgress;
+        vm.openImportErrorModal = openImportErrorModal;
 
         vm.sortConfig = {
             fields: [{
-                    id: 'fqdn',
-                    title: 'Name',
-                    sortType: 'alpha'
+                    id: "fqdn",
+                    title: "Name",
+                    sortType: "alpha"
                 },
                 {
-                    id: 'role',
-                    title: 'Role',
-                    sortType: 'alpha'
+                    id: "role",
+                    title: "Role",
+                    sortType: "alpha"
                 }
             ],
             onSortChange: _sortChange
@@ -72,29 +77,71 @@
          */
         function init() {
             vm.clusterId = $stateParams.clusterId;
-            nodeStore.getNodeList(vm.clusterId)
-                .then(function(list) {
-                    $interval.cancel(hostListTimer);
-                    vm.hostList = list;
-                    vm.filteredHostList = vm.hostList;
-                    _filterChange(vm.filters);
-                    _sortChange(vm.sortConfig.currentField.id, vm.sortConfig.isAscending);
-                    startTimer();
-                }).catch(function(e) {
-                    vm.hostList = [];
-                    vm.filteredHostList = vm.hostList;
-                    _filterChange(vm.filters);
-                }).finally(function() {
-                    vm.isDataLoading = false;
-                });
-            vm.taskId = $stateParams.taskId;
-            vm.taskStatus = $stateParams.taskStatus;
+
+            if (!$rootScope.clusterData) {
+                clusterStore.getClusterList()
+                    .then(function(data) {
+                        $rootScope.clusterData = clusterStore.formatClusterData(data);
+                        _setImportDetail();
+                        vm.filteredHostList = vm.hostList;
+                        _filterChange(vm.filters);
+                        _sortChange(vm.sortConfig.currentField.id, vm.sortConfig.isAscending);
+                    }).catch(function(e) {
+                        vm.hostList = [];
+                        vm.filteredHostList = vm.hostList;
+                    }).finally(function() {
+                        vm.isDataLoading = false;
+                    });
+            } else {
+                _setImportDetail();
+                vm.filteredHostList = vm.hostList;
+                vm.isDataLoading = false;
+            }
+        }
+
+        function openImportErrorModal(taskId) {
+            var wizardDoneListener,
+                modalInstance,
+                closeWizard;
+
+            modalInstance = $uibModal.open({
+                animation: true,
+                backdrop: "static",
+                templateUrl: "/modules/clusters/import-cluster/import-fail/import-fail.html",
+                controller: "importFailController",
+                controllerAs: "vm",
+                size: "lg",
+                resolve: {
+                    failedJob: function() {
+                        return taskId;
+                    }
+                }
+            });
+
+            closeWizard = function(e, reason) {
+                modalInstance.dismiss(reason);
+                wizardDoneListener();
+            };
+
+            modalInstance.result.then(function() {}, function() {});
+            wizardDoneListener = $rootScope.$on("modal.done", closeWizard);
+        }
+
+
+        function _setImportDetail() {
+            vm.clusterObj = clusterStore.getClusterDetails(vm.clusterId);
+            vm.hostList = vm.clusterObj.hosts;
+            vm.taskId = vm.clusterObj.currentTaskId;
+            vm.taskStatus = vm.clusterObj.currentStatus;
+            if (vm.taskStatus === "failed") {
+                vm.failedImport = true;
+            }
         }
 
         function _compareFn(item1, item2) {
             var compValue = 0;
             if (vm.sortConfig.currentField.id === "fqdn") {
-                compValue = item1.name.localeCompare(item2.name);
+                compValue = item1.fqdn.localeCompare(item2.fqdn);
             } else if (vm.sortConfig.currentField.id === "role") {
                 compValue = item1.role.localeCompare(item2.role);
             }
@@ -104,7 +151,7 @@
             }
 
             return compValue;
-        }
+        };
 
         function _sortChange(sortId, isAscending) {
             vm.hostList.sort(_compareFn);
@@ -116,7 +163,7 @@
             var re = new RegExp(filter.value, "i");
 
             if (filter.id === "fqdn") {
-                match = item.name.match(re) !== null;
+                match = item.fqdn.match(re) !== null;
             } else if (filter.id === "role") {
                 match = item.role.match(re) !== null;
             }
@@ -167,50 +214,6 @@
             _applyFilters(filters);
         }
 
-
-         function startTimer() {
-
-            hostListTimer = $interval(function() {
-                init();
-            }, 1000 * config.nodeRefreshIntervalTime, 1);
-        }
-
-        /*Cancelling interval when scope is destroy*/
-        $scope.$on("$destroy", function() {
-            $interval.cancel(hostListTimer);
-        });
-
-        function failedImport(clusterId, taskId) {
-            var wizardDoneListener,
-                modalInstance,
-                closeWizard;
-
-            modalInstance = $uibModal.open({
-                animation: true,
-                backdrop: "static",
-                templateUrl: "/modules/clusters/import-cluster/import-fail/import-fail.html",
-                controller: "importFailController",
-                controllerAs: "vm",
-                size: "md",
-                resolve: {
-                    failedJob: function() {
-                        return {
-                            clusterId: clusterId,
-                            jobId: taskId
-                        };
-                    }
-                }
-            });
-
-            closeWizard = function(e, reason) {
-                modalInstance.dismiss(reason);
-                wizardDoneListener();
-            };
-
-            modalInstance.result.then(function() {}, function() {});
-            wizardDoneListener = $rootScope.$on("modal.done", closeWizard);
-        }
-
         /**
          * @name importCluster
          * @desc Perform import cluster
@@ -218,15 +221,13 @@
          */
         function importCluster() {
             vm.importIcon = true;
-            if (vm.taskStatus === "failed") {
-                failedImport(vm.clusterId, vm.taskId);
-            } else {
-                clusterStore.importCluster($rootScope.clusterTobeImported, vm.enableProfiling)
-                    .then(function(data) {
-                        vm.taskInitiated = true;
-                        vm.jobId = data.job_id;
-                    });
-            }
+
+            clusterStore.importCluster(vm.clusterId, vm.enableProfiling)
+                .then(function(data) {
+                    vm.taskInitiated = true;
+                    vm.jobId = data.job_id;
+                });
+
         }
 
         /**
@@ -246,25 +247,8 @@
         function viewTaskProgress() {
 
             if (vm.clusterId) {
-                $rootScope.selectedClusterOption = "";
-                $state.go("task-detail", { clusterId: vm.clusterId, taskId: vm.jobId });
+                $state.go("global-task-detail", { clusterId: vm.clusterId, taskId: vm.jobId });
             }
-        }
-
-        function changingFilterBy(filterValue) {
-            vm.filterBy = filterValue;
-            switch (filterValue) {
-                case "fqdn":
-                    vm.filterByValue = "Name";
-                    vm.filterPlaceholder = "Name";
-                    break;
-
-                case "role":
-                    vm.filterByValue = "Role";
-                    vm.filterPlaceholder = "Role";
-                    break;
-
-            };
         }
 
     }

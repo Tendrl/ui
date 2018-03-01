@@ -38,8 +38,8 @@
                 _makeTabList();
 
                 vm.clusterObj = clusterStore.getClusterDetails(vm.clusterId);
-                vm.clusterName = vm.clusterObj.cluster_id || "NA";
-                vm.clusterStatus = clusterStore.checkStatus(vm.clusterObj);
+                vm.clusterName = vm.clusterObj.clusterId || "NA";
+                vm.clusterStatus = vm.clusterObj.status;
                 if (!volumeStore.volumeList.length) {
                     volumeStore.getVolumeList(vm.clusterId)
                         .then(function(data) {
@@ -59,12 +59,12 @@
             } else {
                 clusterStore.getClusterList()
                     .then(function(data) {
-                        $rootScope.clusterData = data;
+                        $rootScope.clusterData = clusterStore.formatClusterData(data);
                         _makeTabList();
 
                         vm.clusterObj = clusterStore.getClusterDetails(vm.clusterId);
-                        vm.clusterName = vm.clusterObj.cluster_id || "NA";
-                        vm.clusterStatus = clusterStore.checkStatus(vm.clusterObj);
+                        vm.clusterName = vm.clusterObj.clusterId || "NA";
+                        vm.clusterStatus = vm.clusterObj.status;
                         if (!volumeStore.volumeList.length) {
                             volumeStore.getVolumeList(vm.clusterId)
                                 .then(function(data) {
@@ -119,8 +119,8 @@
 
                 for (i = 0; i < len; i++) {
 
-                    if (clusterData[i].cluster_id === vm.clusterId) {
-                        $rootScope.selectedClusterOption = clusterData[i].cluster_id;
+                    if (clusterData[i].clusterId === vm.clusterId) {
+                        $rootScope.selectedClusterOption = clusterData[i].clusterId;
                         break;
                     }
                 }

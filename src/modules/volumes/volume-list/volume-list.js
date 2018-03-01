@@ -20,20 +20,21 @@
             volumeTimer,
             volumeList;
 
-        vm.deleteFileShareStep = 1;
-        vm.selectedFileShare = null;
         vm.isDataLoading = true;
         vm.flag = false;
         vm.volumeList = [];
         vm.filtersText = "";
         vm.filters = [];
 
-        vm.isRebalanceAllowed = isRebalanceAllowed;
         vm.getRebalStatus = volumeStore.getRebalStatus;
         vm.redirectToGrafana = redirectToGrafana;
         vm.goToVolumeDetail = goToVolumeDetail;
         vm.addTooltip = addTooltip;
+        vm.toggleProfiling = toggleProfiling;
+        vm.goToTaskDetail = goToTaskDetail;
         vm.filteredVolumeList = [];
+        vm.showDisableBtn = showDisableBtn;
+        vm.showEnableBtn = showEnableBtn;
 
         vm.sortConfig = {
             fields: [{
@@ -45,7 +46,13 @@
                 title: "Status",
                 sortType: "alpha"
             }],
-            onSortChange: _sortChange
+            onSortChange: _sortChange,
+            currentField: {
+                id: "name",
+                title: "Name",
+                sortType: "alpha"
+            },
+            isAscending: true
         };
 
         vm.filterConfig = {
@@ -87,24 +94,74 @@
                 });
         }
 
-        function _compareFn(item1, item2) {
-            var compValue = 0;
-            if (vm.sortConfig.currentField.id === "name") {
-                compValue = item1.name.localeCompare(item2.name);
-            } else if (vm.sortConfig.currentField.id === "status") {
-                compValue = item1.status.localeCompare(item2.status);
-            }
+        function toggleProfiling(volume, action, $event) {
 
-            if (!vm.sortConfig.isAscending) {
-                compValue = compValue * -1;
-            }
+            volumeStore.toggleProfiling(volume, action, vm.clusterId)
+                .then(function(data) {
+                    volume.disableAction = true;
+                    $interval.cancel(volumeTimer);
+                    startTimer();
+                });
 
-            return compValue;
+            $event.stopPropagation();
         }
 
-        function _sortChange(sortId, isAscending) {
-            vm.volumeList.sort(_compareFn);
+        function goToTaskDetail(volume) {
+            $rootScope.selectedClusterOption = vm.clusterId;
+            $state.go("task-detail", { clusterId: vm.clusterId, taskId: volume.currentTask.job_id });
         }
+
+        function startTimer() {
+            volumeTimer = $interval(function() {
+                init();
+            }, 1000 * config.volumeRefreshInterval, 1);
+        }
+
+        /* Trigger this function when we have cluster data */
+        $scope.$on("GotClusterData", function(event, data) {
+            /* Forward to home view if we don't have any cluster */
+            if ($rootScope.clusterData === null || $rootScope.clusterData.length === 0) {
+                $state.go("clusters");
+            } else {
+                init();
+            }
+        });
+
+        /*Cancelling interval when scope is destroy*/
+        $scope.$on("$destroy", function() {
+            $interval.cancel(volumeTimer);
+        });
+
+        function redirectToGrafana(volume, $event) {
+            utils.redirectToGrafana("volumes", $event, {
+                clusterId: vm.clusterId,
+                volumeName: volume.name
+            });
+        }
+
+        function goToVolumeDetail(volume) {
+            if (vm.clusterId) {
+                $state.go("volume-detail", { clusterId: vm.clusterId, volumeId: volume.volumeId });
+            }
+        }
+
+        function addTooltip($event) {
+            vm.flag = utils.tooltip($event);
+        }
+
+        function showDisableBtn(volume) {
+            return (volume.profileStatus === "Enabled" ||
+                (volume.currentTask.job_name === "StopProfiling" &&
+                    volume.currentTask.status === "in_progress"));
+        }
+
+        function showEnableBtn(volume) {
+            return (volume.profileStatus === "Disabled" ||
+                (volume.currentTask.job_name === "StartProfiling" &&
+                    volume.currentTask.status === "in_progress"));
+        }
+
+        /*****Private Functions******/
 
         function _matchesFilter(item, filter) {
             var match = true;
@@ -161,49 +218,25 @@
                 }
                 vm.filtersText += "\n";
             });
+
             _applyFilters(filters);
         }
 
-        function startTimer() {
-            volumeTimer = $interval(function() {
-                init();
-            }, 1000 * config.refreshIntervalTime, 1);
-        }
+        function _compareFn(item1, item2) {
+            var compValue = 0,
+                sortId = vm.sortConfig.currentField.id;
 
-        /* Trigger this function when we have cluster data */
-        $scope.$on("GotClusterData", function(event, data) {
-            /* Forward to home view if we don't have any cluster */
-            if ($rootScope.clusterData === null || $rootScope.clusterData.clusters.length === 0) {
-                $state.go("clusters");
-            } else {
-                init();
+            compValue = item1[sortId].localeCompare(item2[sortId]);
+
+            if (!vm.sortConfig.isAscending) {
+                compValue = compValue * -1;
             }
-        });
 
-        /*Cancelling interval when scope is destroy*/
-        $scope.$on('$destroy', function() {
-            $interval.cancel(volumeTimer);
-        });
-
-        function redirectToGrafana(volume, $event) {
-            utils.redirectToGrafana("volumes", $event, {
-                clusterId: vm.clusterId,
-                volumeName: volume.name
-            });
+            return compValue;
         }
 
-        function isRebalanceAllowed(volume) {
-            return volume.type.startsWith("Distribute");
-        }
-
-        function goToVolumeDetail(volume) {
-            if (vm.clusterId) {
-                $state.go("volume-detail", { clusterId: vm.clusterId, volumeId: volume.volumeId });
-            }
-        }
-
-        function addTooltip($event) {
-            vm.flag = utils.tooltip($event);
+        function _sortChange(sortId, isAscending) {
+            vm.volumeList.sort(_compareFn);
         }
 
     }
