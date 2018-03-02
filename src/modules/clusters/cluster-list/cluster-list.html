@@ -58,8 +58,11 @@
                         </button>
                         <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownKebabRight{{$index}}">
                             <li ng-show = "cluster.managed === 'Yes'">
-                                <a ng-class="{'disable-pointer': $root.userRole === 'limited' || clusterCntrl.profilingButtonClick}" ng-click="clusterCntrl.doProfilingAction($event, cluster, cluster.isProfilingEnabled === 'Enabled' ? 'Disable' : 'Enable', cluster.clusterId)" tooltip-enable="clusterCntrl.flag" ng-mouseover="clusterCntrl.addTooltip($event)" uib-tooltip="cluster.isProfilingEnabled === 'Enabled' ? 'Disable Profiling' : 'Enable Profiling'">{{cluster.isProfilingEnabled === "Enabled" ? "Disable Profiling" : "Enable Profiling"}}
-                                    <i class="glyphicon glyphicon-refresh glyphicon-refresh-animate" data-ng-class="{'hidden': clusterCntrl.profilingButtonClick !== true }"></i>
+                                <a ng-class="{'disable-pointer': $root.userRole === 'limited' || clusterCntrl.disProfilingBtnClicked}" ng-click="clusterCntrl.doProfilingAction($event, cluster, 'Disable', cluster.clusterId)" tooltip-enable="clusterCntrl.flag" ng-mouseover="clusterCntrl.addTooltip($event)" uib-tooltip="Disable Profiling" ng-show="cluster.isProfilingEnabled === 'Enabled' || cluster.isProfilingEnabled === 'Mixed'">Disable Profiling
+                                    <i class="glyphicon glyphicon-refresh glyphicon-refresh-animate" data-ng-class="{'hidden': clusterCntrl.disProfilingBtnClicked !== true }"></i>
+                                </a>
+                                <a ng-class="{'disable-pointer': $root.userRole === 'limited' || clusterCntrl.enProfilingBtnClicked}" ng-click="clusterCntrl.doProfilingAction($event, cluster, 'Enable', cluster.clusterId)" tooltip-enable="clusterCntrl.flag" ng-mouseover="clusterCntrl.addTooltip($event)" uib-tooltip="Enable Profiling" ng-show="cluster.isProfilingEnabled === 'Disabled' || cluster.isProfilingEnabled === 'Mixed'">Enable Profiling
+                                    <i class="glyphicon glyphicon-refresh glyphicon-refresh-animate" data-ng-class="{'hidden': clusterCntrl.enProfilingBtnClicked !== true }"></i>
                                 </a>
                             </li>
                             <li>

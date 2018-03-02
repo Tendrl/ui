@@ -29,7 +29,8 @@
         vm.isDataLoading = true;
         vm.clusterNotPresent = false;
         vm.flag = false;
-        vm.profilingButtonClick = false;
+        vm.enProfilingBtnClicked = false;
+        vm.disProfilingBtnClicked = false;
         $rootScope.selectedClusterOption = "allClusters";
         vm.filtersText = "";
         vm.filters = [];
@@ -168,16 +169,32 @@
          * @memberOf clusterController
          */
         function doProfilingAction($event, cluster, action, clusterId) {
-            vm.profilingButtonClick = true;
+            var profileStatus = {
+                "enabled": "Enabled",
+                "disabled": "Disabled",
+                "mixed": "Mixed"
+            };
+
+            if (action === "Enable") {
+                vm.enProfilingBtnClicked = true;
+            } else {
+                vm.disProfilingBtnClicked = true;
+            }
+
             clusterStore.doProfilingAction(cluster.clusterId, action)
                 .then(function(data) {
-                    Notifications.message("success", "", "Volume profiling " + (action === "Enable" ? "enabled" : "disabled") + " successfully.");
+                    Notifications.message("success", "", (action === "Enable" ? "Enable" : "Disable") + " volume profiling job initiated successfully.");
                     cluster = _isClusterPresent(data, clusterId);
-                    vm.clusterList[cluster.index].isProfilingEnabled = data.enable_volume_profiling === "yes" ? "Enabled" : "Disabled";
+                    vm.clusterList[cluster.index].isProfilingEnabled = profileStatus[data.volume_profiling_state];
                 }).catch(function(error) {
                     Notifications.message("danger", "", "Failed to " + (action === "Enable" ? "enable" : "disable") + " volume profile.");
                 }).finally(function() {
-                    vm.profilingButtonClick = false;
+
+                    if (action === "Enable") {
+                        vm.enProfilingBtnClicked = false;
+                    } else {
+                        vm.disProfilingBtnClicked = false;
+                    }
                 });
             $event.stopPropagation();
         }
@@ -239,7 +256,6 @@
         function addTooltip($event) {
             vm.flag = utils.tooltip($event);
         }
-
 
         function goToTaskDetail(cluster) {
             $state.go("global-task-detail", { clusterId: cluster.integrationId, taskId: cluster.currentTaskId });
