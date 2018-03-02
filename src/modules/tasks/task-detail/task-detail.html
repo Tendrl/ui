@@ -18,7 +18,7 @@
             <a href="" class="no-content">Tasks</a>
         </li>
         <li>
-            <i class="breadcrumb-icon" ng-class="{'pficon pficon-ok status-icon': (taskDetailCntrl.taskDetail.status === 'finished')}"></i>
+            <i class="breadcrumb-icon" ng-class="{'pficon pficon-ok status-icon': (taskDetailCntrl.taskDetail.status === 'finished'), 'pficon pficon-error-circle-o':(taskDetailCntrl.taskDetail.status === 'failed')}"></i>
             <span class="cluster-name" ng-class="{'remove-width': !$root.selectedClusterOption}">
                 {{taskDetailCntrl.taskDetail.flow}}: {{taskDetailCntrl.taskDetail.job_id}}
             </span>
