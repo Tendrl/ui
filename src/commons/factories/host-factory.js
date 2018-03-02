@@ -19,6 +19,7 @@
                 getObjectListRequest, request;
 
             url = config.baseUrl +"clusters/" + clusterId +"/nodes";
+            //url = "/api/GetNodeList.json";
 
             getObjectListRequest = {
                 method: "GET",
