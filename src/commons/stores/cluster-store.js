@@ -59,6 +59,7 @@
                 temp.currentTaskId = JSON.parse(data[i].current_job).job_id;
                 temp.volCount = data[i].globaldetails && data[i].globaldetails.vol_count ? parseInt(data[i].globaldetails.vol_count) : 0;
                 temp.alertCount = data[i].alert_counters ? parseInt(data[i].alert_counters.warning_count) : 0;
+                temp.hostCount = data[i].nodes.length || 0;
 
                 temp.errors = data[i].errors ? data[i].errors : [];
 
@@ -72,7 +73,7 @@
                 if (temp.jobType === "ImportCluster") {
                     if (temp.currentStatus === "in_progress") {
                         temp.message = "Importing Cluster";
-                    } else if (temp.currentStatus === "failed") {
+                    } else if (temp.currentStatus === "failed" && temp.errors.length) {
                         temp.message = "Import Failed";
                     } else if (temp.currentStatus === "finished") {
                         temp.message = "Ready to Use";
@@ -145,6 +146,7 @@
                 temp = {};
                 temp.nodeId = obj.node_id;
                 temp.fqdn = obj.fqdn;
+                temp.ipAddress = obj.ipv4_addr;
                 temp.status = obj.status;
                 tags = nodeStore.findRole(obj.tags);
                 temp.role = tags ? tags.role : "None";

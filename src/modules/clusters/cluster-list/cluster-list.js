@@ -42,10 +42,12 @@
         vm.redirectToGrafana = redirectToGrafana;
         vm.addTooltip = addTooltip;
         vm.openErrorModal = openErrorModal;
+        vm.openHostModal = openHostModal;
         vm.goToTaskDetail = goToTaskDetail;
         vm.showImportBtn = showImportBtn;
         vm.showDashboardBtn = showDashboardBtn;
         vm.showKebabMenu = showKebabMenu;
+        vm.disableImportBtn = disableImportBtn;
 
         vm.filterConfig = {
             fields: [{
@@ -253,6 +255,32 @@
             wizardDoneListener = $rootScope.$on("modal.done", closeWizard);
         }
 
+        function openHostModal(cluster) {
+            var wizardDoneListener,
+                modalInstance,
+                closeWizard;
+
+            modalInstance = $uibModal.open({
+                animation: true,
+                backdrop: "static",
+                templateUrl: "/modules/clusters/host-list-modal/host-list-modal.html",
+                controller: "hostModalController",
+                controllerAs: "vm",
+                size: "lg",
+                resolve: {
+                    cluster: cluster
+                }
+            });
+
+            closeWizard = function(e, reason) {
+                modalInstance.dismiss(reason);
+                wizardDoneListener();
+            };
+
+            modalInstance.result.then(function() {}, function() {});
+            wizardDoneListener = $rootScope.$on("modal.done", closeWizard);
+        }
+
         function addTooltip($event) {
             vm.flag = utils.tooltip($event);
         }
@@ -262,13 +290,16 @@
         }
 
         function showImportBtn(cluster) {
-            return (((cluster.managed === "No" &&
-                    ((cluster.jobType === "UnmanageCluster" && cluster.currentStatus === "finished") || !cluster.jobType)) ||
-                (cluster.jobType === "ImportCluster" && cluster.managed === "No")) && $rootScope.userRole !== "limited");
+            return (cluster.managed === "No" && $rootScope.userRole !== "limited");
+        }
+
+        function disableImportBtn(cluster) {
+            return (cluster.currentStatus === 'in_progress' ||
+                (cluster.jobType === 'UnmanageCluster' && cluster.currentStatus === 'failed'));
         }
 
         function showDashboardBtn(cluster) {
-            return cluster.managed === "Yes" || (cluster.jobType === "UnmanageCluster" && cluster.currentStatus !== "finished");
+            return (cluster.managed === "Yes");
         }
 
         function showKebabMenu(cluster) {
