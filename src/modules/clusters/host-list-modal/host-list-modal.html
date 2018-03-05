@@ -1,0 +1,32 @@
+<div class="tendrl-host-list-modal-container">
+    <div>
+        <custom-modal-header title="vm.modalHeader.title" close="vm.modalHeader.close"></custom-modal-header>
+        <div class="modal-body">
+            <div class="toolbar-pf row">
+                <div class="form-group toolbar-pf-filter col-sm-6">
+                    <pf-filter id="hostListFilter" config="vm.filterConfig"></pf-filter>
+                </div>
+                <div class="toolbar-pf-results col-sm-6">
+                    <h5>{{vm.filteredHostList.length}}
+                            <ng-pluralize count="vm.filteredHostList.length" when="{'one': 'Host Discovered',
+                       'other': 'Hosts Discovered'}"></ng-pluralize>
+                    </h5>
+                </div>
+            </div>
+            <div ng-if="vm.isDataLoading" class="spinner spinner-lg"></div>
+            <center ng-show="!vm.isDataLoading && vm.filteredHostList.length===0 ">
+                <div class="blank-slate-pf ">
+                    <div class="blank-slate-pf-icon ">
+                        <i class="pficon pficon-cluster "></i>
+                    </div>
+                    <h1>No Hosts Detected</h1>
+                </div>
+            </center>
+            <div class="div-with-scroll table-bordered div-with-scroll-logs" ng-show="!vm.isDataLoading && vm.filteredHostList.length!==0 ">
+                <pf-table-view id="hostTableView" config="vm.tableConfig" columns="vm.tableColumns" items="vm.filteredHostList">
+                </pf-table-view>
+            </div>
+            <custom-modal-footer modal-footer="vm.modalFooter"></custom-modal-footer>
+        </div>
+    </div>
+</div>

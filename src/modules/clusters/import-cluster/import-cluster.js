@@ -37,21 +37,6 @@
         vm.viewTaskProgress = viewTaskProgress;
         vm.openImportErrorModal = openImportErrorModal;
 
-        vm.sortConfig = {
-            fields: [{
-                    id: "fqdn",
-                    title: "Name",
-                    sortType: "alpha"
-                },
-                {
-                    id: "role",
-                    title: "Role",
-                    sortType: "alpha"
-                }
-            ],
-            onSortChange: _sortChange
-        };
-
         vm.filterConfig = {
             fields: [{
                 id: "fqdn",
@@ -59,14 +44,27 @@
                 placeholder: "Filter by Name",
                 filterType: "text"
             }, {
-                id: "role",
-                title: "Role",
-                placeholder: "Filter by Role",
+                id: "ipAddress",
+                title: "Address",
+                placeholder: "Filter by IP Address",
                 filterType: "text"
             }],
             appliedFilters: [],
             onFilterChange: _filterChange,
         };
+
+
+        vm.tableConfig = {
+            selectionMatchProp: "fqdn",
+            itemsAvailable: true,
+            showCheckboxes: false
+        };
+
+        vm.tableColumns = [
+            { header: "Host", itemField: "fqdn" },
+            { header: "Address", itemField: "ipAddress" }
+
+        ];
 
         init();
 
@@ -85,7 +83,6 @@
                         _setImportDetail();
                         vm.filteredHostList = vm.hostList;
                         _filterChange(vm.filters);
-                        _sortChange(vm.sortConfig.currentField.id, vm.sortConfig.isAscending);
                     }).catch(function(e) {
                         vm.hostList = [];
                         vm.filteredHostList = vm.hostList;
@@ -133,30 +130,11 @@
             vm.hostList = vm.clusterObj.hosts;
             vm.taskId = vm.clusterObj.currentTaskId;
             vm.taskStatus = vm.clusterObj.currentStatus;
-            if (vm.taskStatus === "failed") {
+            vm.taskType = vm.clusterObj.jobType;
+            if (vm.taskStatus === "failed" && vm.taskType === "ImportCluster") {
                 vm.failedImport = true;
             }
         }
-
-        function _compareFn(item1, item2) {
-            var compValue = 0;
-            if (vm.sortConfig.currentField.id === "fqdn") {
-                compValue = item1.fqdn.localeCompare(item2.fqdn);
-            } else if (vm.sortConfig.currentField.id === "role") {
-                compValue = item1.role.localeCompare(item2.role);
-            }
-
-            if (!vm.sortConfig.isAscending) {
-                compValue = compValue * -1;
-            }
-
-            return compValue;
-        };
-
-        function _sortChange(sortId, isAscending) {
-            vm.hostList.sort(_compareFn);
-        }
-
 
         function _matchesFilter(item, filter) {
             var match = true;
@@ -164,8 +142,8 @@
 
             if (filter.id === "fqdn") {
                 match = item.fqdn.match(re) !== null;
-            } else if (filter.id === "role") {
-                match = item.role.match(re) !== null;
+            } else if (filter.id === "ipAddress") {
+                match = item.ipAddress.match(re) !== null;
             }
             return match;
         }

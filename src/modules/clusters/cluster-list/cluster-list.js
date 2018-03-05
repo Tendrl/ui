@@ -29,7 +29,8 @@
         vm.isDataLoading = true;
         vm.clusterNotPresent = false;
         vm.flag = false;
-        vm.profilingButtonClick = false;
+        vm.enProfilingBtnClicked = false;
+        vm.disProfilingBtnClicked = false;
         $rootScope.selectedClusterOption = "allClusters";
         vm.filtersText = "";
         vm.filters = [];
@@ -41,10 +42,12 @@
         vm.redirectToGrafana = redirectToGrafana;
         vm.addTooltip = addTooltip;
         vm.openErrorModal = openErrorModal;
+        vm.openHostModal = openHostModal;
         vm.goToTaskDetail = goToTaskDetail;
         vm.showImportBtn = showImportBtn;
         vm.showDashboardBtn = showDashboardBtn;
         vm.showKebabMenu = showKebabMenu;
+        vm.disableImportBtn = disableImportBtn;
 
         vm.filterConfig = {
             fields: [{
@@ -168,16 +171,32 @@
          * @memberOf clusterController
          */
         function doProfilingAction($event, cluster, action, clusterId) {
-            vm.profilingButtonClick = true;
+            var profileStatus = {
+                "enabled": "Enabled",
+                "disabled": "Disabled",
+                "mixed": "Mixed"
+            };
+
+            if (action === "Enable") {
+                vm.enProfilingBtnClicked = true;
+            } else {
+                vm.disProfilingBtnClicked = true;
+            }
+
             clusterStore.doProfilingAction(cluster.clusterId, action)
                 .then(function(data) {
-                    Notifications.message("success", "", "Volume profiling " + (action === "Enable" ? "enabled" : "disabled") + " successfully.");
+                    Notifications.message("success", "", (action === "Enable" ? "Enable" : "Disable") + " volume profiling job initiated successfully.");
                     cluster = _isClusterPresent(data, clusterId);
-                    vm.clusterList[cluster.index].isProfilingEnabled = data.enable_volume_profiling === "yes" ? "Enabled" : "Disabled";
+                    vm.clusterList[cluster.index].isProfilingEnabled = profileStatus[data.volume_profiling_state];
                 }).catch(function(error) {
                     Notifications.message("danger", "", "Failed to " + (action === "Enable" ? "enable" : "disable") + " volume profile.");
                 }).finally(function() {
-                    vm.profilingButtonClick = false;
+
+                    if (action === "Enable") {
+                        vm.enProfilingBtnClicked = false;
+                    } else {
+                        vm.disProfilingBtnClicked = false;
+                    }
                 });
             $event.stopPropagation();
         }
@@ -236,23 +255,51 @@
             wizardDoneListener = $rootScope.$on("modal.done", closeWizard);
         }
 
+        function openHostModal(cluster) {
+            var wizardDoneListener,
+                modalInstance,
+                closeWizard;
+
+            modalInstance = $uibModal.open({
+                animation: true,
+                backdrop: "static",
+                templateUrl: "/modules/clusters/host-list-modal/host-list-modal.html",
+                controller: "hostModalController",
+                controllerAs: "vm",
+                size: "lg",
+                resolve: {
+                    cluster: cluster
+                }
+            });
+
+            closeWizard = function(e, reason) {
+                modalInstance.dismiss(reason);
+                wizardDoneListener();
+            };
+
+            modalInstance.result.then(function() {}, function() {});
+            wizardDoneListener = $rootScope.$on("modal.done", closeWizard);
+        }
+
         function addTooltip($event) {
             vm.flag = utils.tooltip($event);
         }
-
 
         function goToTaskDetail(cluster) {
             $state.go("global-task-detail", { clusterId: cluster.integrationId, taskId: cluster.currentTaskId });
         }
 
         function showImportBtn(cluster) {
-            return (((cluster.managed === "No" &&
-                    ((cluster.jobType === "UnmanageCluster" && cluster.currentStatus === "finished") || !cluster.jobType)) ||
-                (cluster.jobType === "ImportCluster" && cluster.managed === "No")) && $rootScope.userRole !== "limited");
+            return (cluster.managed === "No" && $rootScope.userRole !== "limited");
+        }
+
+        function disableImportBtn(cluster) {
+            return (cluster.currentStatus === 'in_progress' ||
+                (cluster.jobType === 'UnmanageCluster' && cluster.currentStatus === 'failed'));
         }
 
         function showDashboardBtn(cluster) {
-            return cluster.managed === "Yes" || (cluster.jobType === "UnmanageCluster" && cluster.currentStatus !== "finished");
+            return (cluster.managed === "Yes");
         }
 
         function showKebabMenu(cluster) {

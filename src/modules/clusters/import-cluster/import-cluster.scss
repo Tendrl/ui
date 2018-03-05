@@ -1,11 +1,19 @@
 .tendrl-import-cluster-view-container {
 
-    .alert a{
-        cursor: pointer;
+    .div-with-scroll-logs {
+        .container-fluid {
+            padding: 0;
+        }
+
+        max-height: 500px;
+        padding: 0;
+        overflow: auto;
+        overflow-x: hidden;
+        margin: 20px 0;
     }
-    .sort-component {
-        padding-top: 10px;
-        margin-left: 20px;
+
+    .alert a {
+        cursor: pointer;
     }
 
     .toolbar-pf-results>span {
@@ -14,22 +22,6 @@
 
     .toolbar-pf .form-group:last-child {
         padding-left: 0;
-    }
-
-    .list-view-pf-view {
-        margin-top: 10px;
-
-        .list-group-item {
-            padding-top: 10px;
-            padding-bottom: 10px;
-
-            .host-name {
-                cursor: pointer;
-                white-space: nowrap;
-                overflow: hidden;
-                text-overflow: ellipsis;
-            }
-        }
     }
 
     .action-button {
