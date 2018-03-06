@@ -15,14 +15,18 @@ UI is a static webapp, built from a Node.js project. This document details how t
 * Familiarity with Node.js & npm
 * Familiarity with angularjs
 
-### Setting up workstation ###
+### Architecture and Setting up Tendrl ###
+
+[Tendrl wiki](https://github.com/Tendrl/documentation/wiki)
+
+### Setting up workstation for tendrl/ui ###
 
 Make sure you have `git`, `nodejs`, `npm` installed in your system, along with your favorite code-editor & browser with devtools (latest Mozilla Firefox or Google Chrome recommended).
 
-Follow your platform's own process to set these up. On a Fedora PC, you'll use
+Follow your platform's own process to set these up. On a RPM based OS, you'll use
 
 ```sh
-$ sudo dnf install -y git nodejs npm
+$ yum install -y git nodejs npm bzip2 gcc-c++ make
 ```
 
 ## Obtaining the source ##
@@ -69,20 +73,11 @@ You can also run `gulp dev` command. It will add watchers to all files and accor
 
 ### Running a dev-server ###
 
-To run and test the build locally, you can use various static file server over HTTP. We recommend using `http-server` module, however, httpd/nginx etc can as well be used.
-
-
-```sh
-$ npm install -g http-server
-$ cd dist
-$ http-server # starts the web-server with doc-root as `pwd`
-```
-
-The advantage of using `http-server` module is that, it's easy to use it with another existing server which can handle the request, which the test server is incapable of serving.
-
+To run and test the build locally, you can use various static file server over HTTP.
 
 ```sh
-$ http-server -P http://production.server/
+$ sudo npm install -g gulp
+$ gulp dev
 ```
 
 You should be able to browse the app, running on test server by visiting http://127.0.0.1:8080 from your browser.
