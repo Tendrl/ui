@@ -65,7 +65,6 @@ describe("Unit Component: taskList", function() {
         expect(vm.flag).to.be.false;
         expect(vm.filtersText).to.be.equal("");
         expect(vm.filters).to.be.an("array").that.is.empty;
-        expect(vm.tasksStatus).to.be.an("array").that.includes("Processing", "Completed", "Failed");
         expect(vm.taskList).to.be.an("array").that.is.empty;
         expect(vm.filteredTaskList).to.be.an("array").that.is.empty;
         expect(vm.date).to.deep.equal(taskList.date);
@@ -168,14 +167,11 @@ describe("Unit Component: taskList", function() {
             expect(list).to.deep.equal(taskList.formattedJobs);
         });
 
-        it("Should clear all filters", function() {
-            vm.clearAllFilters();
-
+        it("Should clear all dates", function() {
+            vm.clearDates();
             expect(vm.date.fromDate).to.be.null;
             expect(vm.date.toDate).to.be.null;
             expect(vm.invalidToDate).to.be.false;
-            expect(vm.searchBy).to.be.empty;
-            expect(vm.tasksStatus).to.be.an("array").that.includes("Processing", "Completed", "Failed");
         });
 
     });

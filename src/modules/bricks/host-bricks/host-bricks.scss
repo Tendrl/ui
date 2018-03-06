@@ -24,4 +24,12 @@
             }
         }
     }
+
+    .toolbar-pf .form-group:last-child {
+        padding-left: 0;
+    }
+
+    .toolbar-pf-results > span {
+        display: none;
+    }
 }
