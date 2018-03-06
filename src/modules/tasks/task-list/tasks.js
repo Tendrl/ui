@@ -21,7 +21,6 @@
             toDate,
             count;
 
-        vm.tasksStatus = ["Processing", "Completed", "Failed"];
         vm.taskList = [];
         vm.isDataLoading = true;
         vm.flag = false;
@@ -30,11 +29,8 @@
         vm.filters = [];
 
         vm.goToTaskDetail = goToTaskDetail;
-        vm.updateStatus = updateStatus;
-        vm.isSelectedStatus = isSelectedStatus;
-        vm.filterByStatus = filterByStatus;
         vm.filterByCreatedDate = filterByCreatedDate;
-        vm.clearAllFilters = clearAllFilters;
+        vm.clearDates = clearDates;
         vm.openFromDate = openFromDate;
         vm.openToDate = openToDate;
         vm.statusIcon = statusIcon;
@@ -72,6 +68,12 @@
                 title: "Task",
                 placeholder: "Filter by Task ID",
                 filterType: "text"
+            }, {
+                id: "status",
+                title: "Status",
+                placeholder: "Filter by Status",
+                filterType: "select",
+                filterValues: ["Processing", "Completed", "Failed"]
             }],
             appliedFilters: [],
             onFilterChange: _filterChange
@@ -119,18 +121,6 @@
             $interval.cancel(jobTimer);
         });
 
-        function updateStatus(status) {
-            var index;
-
-            index = vm.tasksStatus.indexOf(status);
-
-            if (index === -1) {
-                vm.tasksStatus.push(status);
-            } else {
-                vm.tasksStatus.splice(index, 1)
-            }
-        }
-
         function statusIcon(status) {
             if (status === "Completed") {
                 return "pficon pficon-ok";
@@ -142,18 +132,6 @@
                 return "fa fa-spinner";
             } else {
                 return "fa fa-question";
-            }
-        }
-
-        function isSelectedStatus(status) {
-            return vm.tasksStatus.indexOf(status) > -1;
-        }
-
-        //custom filter
-        function filterByStatus(list) {
-
-            if (vm.tasksStatus.length) {
-                return vm.tasksStatus.indexOf(list.status) > -1;
             }
         }
 
@@ -191,6 +169,8 @@
                 match = item.jobId.match(re) !== null;
             } else if (filter.id === "flow") {
                 match = item.flow.match(re) !== null;
+            } else if (filter.id === "status") {
+                match = item["status"] === filter.value.id || item["status"].toLowerCase() === filter.value.toLowerCase();
             }
             return match;
         }
@@ -248,11 +228,10 @@
             }
         }
 
-        function clearAllFilters() {
+        function clearDates() {
             vm.date.fromDate = null;
             vm.date.toDate = null;
             vm.invalidToDate = false;
-            vm.tasksStatus = ["Processing", "Completed", "Failed"];
         }
     }
 

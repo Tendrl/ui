@@ -34,38 +34,15 @@
             <div class="row">
                 <div class="col-md-12 horizontal-line"></div>
             </div>
-            <div class="row toolbar-pf-results toolbar-pf-resultss">
-                <div class="status-options">
-                    Show:
-                </div>
-                <div class="status-options">
-                    <label>
-                        <input type="checkbox" name="status1" id="status1" ng-click="taskCntrl.updateStatus('Processing')" ng-checked="taskCntrl.isSelectedStatus('Processing')" ng-disabled="taskCntrl.taskList.length === 0"> In progress
-                    </label>
-                </div>
-                <div class="status-options">
-                    <label>
-                        <input type="checkbox" name="status2" id="status2" ng-click="taskCntrl.updateStatus('Completed')" ng-checked="taskCntrl.isSelectedStatus('Completed')" ng-disabled="taskCntrl.taskList.length === 0"> Succeeded
-                    </label>
-                </div>
-                <div class="status-options">
-                    <label>
-                        <input type="checkbox" name="status3" id="status3" ng-click="taskCntrl.updateStatus('Failed')" ng-checked="taskCntrl.isSelectedStatus('Failed')" ng-disabled="taskCntrl.taskList.length === 0"> Failed
-                    </label>
-                </div>
-                <div class="status-options">
-                    <a href="" ng-click="taskCntrl.clearAllFilters()">Clear All Filters</a>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-md-12 horizontal-line"></div>
-            </div>
             <div class="row toolbar-pf-results extra-margin">
-                <div class="col-sm-12">
+                <div class="col-sm-2">
                     <h5>{{taskCntrl.filterTaskList.length}}
                         <ng-pluralize count="taskCntrl.filterTaskList.length" when="{'one': 'Task',
                        'other': 'Tasks'}"></ng-pluralize>
                     </h5>
+                </div>
+                <div class="col-sm-10 date-link">
+                    <p><a ng-click = "taskCntrl.clearDates()">Clear Dates</a></p>
                 </div>
             </div>
         </div>
@@ -89,7 +66,7 @@
     </center>
     <div ng-if="taskCntrl.isDataLoading" class="spinner spinner-lg"></div>
     <div class="flex-table list-group list-view-pf list-view-pf-view task-list-table" ng-show="!taskCntrl.isDataLoading">
-        <div class="ft-row list-group-item" ng-repeat="task in taskCntrl.filterTaskList = (taskCntrl.filteredTaskList | filter: taskCntrl.searchBy | filter:taskCntrl.filterByStatus | filter: taskCntrl.filterByCreatedDate| orderBy: ['-createdAt', 'jobId'])">
+        <div class="ft-row list-group-item" ng-repeat="task in taskCntrl.filterTaskList = (taskCntrl.filteredTaskList | filter: taskCntrl.filterByCreatedDate| orderBy: ['-createdAt', 'jobId'])">
             <div class="ft-column ft-icon ">
                 <i ng-class="taskCntrl.statusIcon(task.status)"></i>
             </div>

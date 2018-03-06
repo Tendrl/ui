@@ -24,14 +24,29 @@
         vm.isDataLoading = true;
         vm.flag = false;
         vm.brickList = [];
-        vm.filterBy = "brickPath";
-        vm.filterByValue = "Brick Path";
-        vm.filterPlaceholder = "Brick Path";
+        vm.filteredBrickList = [];
+        vm.filtersText = "";
+        vm.filters = [];
 
         vm.redirectToGrafana = redirectToGrafana;
         vm.addTooltip = addTooltip;
-        vm.clearAllFilters = clearAllFilters;
-        vm.changingFilterBy = changingFilterBy;
+
+        vm.filterConfig = {
+            fields: [{
+                id: "brickPath",
+                title: "Brick Path",
+                placeholder: "Filter by Brick Path",
+                filterType: "text"
+            }, {
+                id: "status",
+                title: "Brick Status",
+                placeholder: "Filter by Brick Status",
+                filterType: "select",
+                filterValues: ["Started", "Stopped"]
+            }],
+            appliedFilters: [],
+            onFilterChange: _filterChange
+        };
 
         init();
 
@@ -48,6 +63,8 @@
                 brickStore.getHostBrickList(vm.clusterId, vm.hostId)
                     .then(function(data) {
                         vm.brickList = data;
+                        vm.filteredBrickList = vm.brickList;
+                        _filterChange(vm.filters);
                         $interval.cancel(hostBrickTimer);
                         vm.isDataLoading = false;
                         startTimer();
@@ -59,6 +76,8 @@
                         brickStore.getHostBrickList(vm.clusterId, vm.hostId)
                             .then(function(data) {
                                 vm.brickList = data;
+                                vm.filteredBrickList = vm.brickList;
+                                _filterChange(vm.filters);
                                 $interval.cancel(hostBrickTimer);
                                 _makeTabList();
                                 vm.isDataLoading = false;
@@ -92,24 +111,63 @@
             vm.flag = utils.tooltip($event);
         }
 
-        function clearAllFilters() {
-            vm.filterBy = "brickPath";
-            vm.searchBy = {};
+        /*****Private Functions******/
+
+        function _matchesFilter(item, filter) {
+            var match = true;
+            var re = new RegExp(filter.value, "i");
+
+            if (filter.id === "brickPath") {
+                match = item.name.match(re) !== null;
+            } else if (filter.id === "status") {
+                match = item.status === filter.value.id || item.status.toLowerCase() === filter.value.toLowerCase();
+            }
+            return match;
         }
 
-        function changingFilterBy(filterValue) {
-            vm.filterBy = filterValue;
-            switch (filterValue) {
-                case "brickPath":
-                    vm.filterByValue = "Brick Path";
-                    vm.filterPlaceholder = "Brick Path";
-                    break;
-                    
-                case "status":
-                    vm.filterByValue = "Brick Status";
-                    vm.filterPlaceholder = "Brick Status";
-                    break;
-            };
+        function _matchesFilters(item, filters) {
+            var matches = true;
+
+            filters.forEach(function(filter) {
+                if (!_matchesFilter(item, filter)) {
+                    matches = false;
+                    return false;
+                }
+            });
+            return matches;
+        }
+
+        function _applyFilters(filters) {
+            vm.filteredBrickList = [];
+            if (filters && filters.length > 0) {
+                vm.brickList.forEach(function(item) {
+                    if (_matchesFilters(item, filters)) {
+                        vm.filteredBrickList.push(item);
+                    }
+                });
+            } else {
+                vm.filteredBrickList = vm.brickList;
+            }
+            vm.filterConfig.resultsCount = vm.filteredBrickList.length;
+        }
+
+        function _filterChange(filters) {
+            vm.filtersText = "";
+            vm.filters = filters;
+            filters.forEach(function(filter) {
+                vm.filtersText += filter.title + " : ";
+                if (filter.value.filterCategory) {
+                    vm.filtersText += ((filter.value.filterCategory.title || filter.value.filterCategory) +
+                        filter.value.filterDelimiter + (filter.value.filterValue.title || filter.value.filterValue));
+                } else if (filter.value.title) {
+                    vm.filtersText += filter.value.title;
+                } else {
+                    vm.filtersText += filter.value;
+                }
+                vm.filtersText += "\n";
+            });
+
+            _applyFilters(filters);
         }
     }
 
