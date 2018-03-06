@@ -96,7 +96,7 @@
                         });
                 }
 
-            }, 1000 * config.statusRefreshIntervalTime, 1);
+            }, 1000 * config.msgRefreshIntervalTime, 1);
         }
 
 
