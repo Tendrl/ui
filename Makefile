@@ -1,6 +1,6 @@
 # store the current working directory
 NAME      := tendrl-ui
-VERSION   := 1.6.0
+VERSION   := 1.6.1
 RELEASE   := 1
 COMMIT := $(shell git rev-parse HEAD)
 SHORTCOMMIT := $(shell echo $(COMMIT) | cut -c1-7)
