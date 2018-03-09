@@ -37,7 +37,13 @@
                 title: "Name",
                 sortType: "alpha"
             }],
-            onSortChange: _sortChange
+            onSortChange: _sortChange,
+            currentField: {
+                id: "name",
+                title: "Name",
+                sortType: "alpha"
+            },
+            isAscending: true
         };
 
 
@@ -89,10 +95,10 @@
         }
 
         function _compareFn(item1, item2) {
-            var compValue = 0;
-            if (vm.sortConfig.currentField.id === "name") {
-                compValue = item1.name.localeCompare(item2.name);
-            }
+            var compValue = 0,
+                sortId = vm.sortConfig.currentField.id;
+
+            compValue = item1[sortId].localeCompare(item2[sortId]);
 
             if (!vm.sortConfig.isAscending) {
                 compValue = compValue * -1;
@@ -148,10 +154,7 @@
             vm.filters = filters;
             filters.forEach(function(filter) {
                 vm.filtersText += filter.title + " : ";
-                if (filter.value.filterCategory) {
-                    vm.filtersText += ((filter.value.filterCategory.title || filter.value.filterCategory) +
-                        filter.value.filterDelimiter + (filter.value.filterValue.title || filter.value.filterValue));
-                } else if (filter.value.title) {
+                if (filter.value.title) {
                     vm.filtersText += filter.value.title;
                 } else {
                     vm.filtersText += filter.value;
@@ -167,6 +170,16 @@
                 init();
             }, 1000 * config.nodeRefreshIntervalTime, 1);
         }
+
+        /* Trigger this function when we have cluster data */
+        $scope.$on("GotClusterData", function(event, data) {
+            /* Forward to home view if we don't have any cluster */
+            if ($rootScope.clusterData === null || $rootScope.clusterData.length === 0) {
+                $state.go("clusters");
+            } else {
+                init();
+            }
+        });
 
         function redirectToGrafana(host, $event) {
             utils.redirectToGrafana("hosts", $event, {
