@@ -506,4 +506,94 @@
         }]
     })
 
+    testDataModule.value("hostList", {
+        nodes: [{
+            "clusterId": "1ee0d16e7d9018ed72280fa520ec88e663642857f8b6c0720c53d4a01a59e841",
+            "clusterName": "7b05c774-f1e9-4ded-9e0b-7ac989a4f60c",
+            "id": "fc12302b-0025-467e-bf43-0f64d8217d21",
+            "status": "DOWN",
+            "name": "dhcp43-19.lab.eng.blr.redhat.com",
+            "ipAddress": "10.70.43.19",
+            "role": "Monitor",
+            "integrationId": "7b05c774-f1e9-4ded-9e0b-7ac989a4f60c",
+            "version": "4.1dev",
+            "alerts": "0"
+        }, {
+            "clusterId": "1ee0d16e7d9018ed72280fa520ec88e663642857f8b6c0720c53d4a01a59e841",
+            "clusterName": "7b05c774-f1e9-4ded-9e0b-7ac989a4f60c",
+            "id": "f120a3f2-052a-4028-8fb2-7dddb310fec3",
+            "status": "UP",
+            "name": "dhcp43-27.lab.eng.blr.redhat.com",
+            "ipAddress": "10.70.43.19",
+            "role": "Gluster Peer",
+            "integrationId": "7b05c774-f1e9-4ded-9e0b-7ac989a4f60c",
+            "version": "4.1dev",
+            "alerts": "1"
+        }],
+        sortFields: [{
+            id: "name",
+            title: "Name",
+            sortType: "alpha"
+        }],
+        filterFields: [{
+            id: "name",
+            title: "Name",
+            placeholder: "Filter by Name",
+            filterType: "text",
+        }, {
+            id: "status",
+            title: "Status",
+            placeholder: "Filter by Status",
+            filterType: "select",
+            filterValues: ["UP", "DOWN"],
+        }],
+        sortedformattedOutput: [{
+            "clusterId": "1ee0d16e7d9018ed72280fa520ec88e663642857f8b6c0720c53d4a01a59e841",
+            "clusterName": "7b05c774-f1e9-4ded-9e0b-7ac989a4f60c",
+            "id": "f120a3f2-052a-4028-8fb2-7dddb310fec3",
+            "status": "UP",
+            "name": "dhcp43-27.lab.eng.blr.redhat.com",
+            "ipAddress": "10.70.43.19",
+            "role": "Gluster Peer",
+            "integrationId": "7b05c774-f1e9-4ded-9e0b-7ac989a4f60c",
+            "version": "4.1dev",
+            "alerts": "1"
+        },{
+            "clusterId": "1ee0d16e7d9018ed72280fa520ec88e663642857f8b6c0720c53d4a01a59e841",
+            "clusterName": "7b05c774-f1e9-4ded-9e0b-7ac989a4f60c",
+            "id": "fc12302b-0025-467e-bf43-0f64d8217d21",
+            "status": "DOWN",
+            "name": "dhcp43-19.lab.eng.blr.redhat.com",
+            "ipAddress": "10.70.43.19",
+            "role": "Monitor",
+            "integrationId": "7b05c774-f1e9-4ded-9e0b-7ac989a4f60c",
+            "version": "4.1dev",
+            "alerts": "0"
+        }],
+        filteredNameFormattedOutput: [{
+            "clusterId": "1ee0d16e7d9018ed72280fa520ec88e663642857f8b6c0720c53d4a01a59e841",
+            "clusterName": "7b05c774-f1e9-4ded-9e0b-7ac989a4f60c",
+            "id": "f120a3f2-052a-4028-8fb2-7dddb310fec3",
+            "status": "UP",
+            "name": "dhcp43-27.lab.eng.blr.redhat.com",
+            "ipAddress": "10.70.43.19",
+            "role": "Gluster Peer",
+            "integrationId": "7b05c774-f1e9-4ded-9e0b-7ac989a4f60c",
+            "version": "4.1dev",
+            "alerts": "1"
+        }],
+        filteredStatusFormattedOutput: [{
+            "clusterId": "1ee0d16e7d9018ed72280fa520ec88e663642857f8b6c0720c53d4a01a59e841",
+            "clusterName": "7b05c774-f1e9-4ded-9e0b-7ac989a4f60c",
+            "id": "fc12302b-0025-467e-bf43-0f64d8217d21",
+            "status": "DOWN",
+            "name": "dhcp43-19.lab.eng.blr.redhat.com",
+            "ipAddress": "10.70.43.19",
+            "role": "Monitor",
+            "integrationId": "7b05c774-f1e9-4ded-9e0b-7ac989a4f60c",
+            "version": "4.1dev",
+            "alerts": "0"
+        }]
+    })
+
 })();
