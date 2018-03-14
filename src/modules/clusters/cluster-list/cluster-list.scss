@@ -1,4 +1,7 @@
 .tendrl-cluster-list-view-container {
+    .cluster-name {
+        cursor: pointer;
+    }
     .disable-pointer {
         pointer-events: none;
         color: $color-gray;

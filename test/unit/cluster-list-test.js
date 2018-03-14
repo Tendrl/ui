@@ -96,7 +96,7 @@ describe("Unit Component: clusterList", function() {
             vm.redirectToGrafana(cluster);
 
             // Verify result (behavior)
-            expect(utils.redirectToGrafana.calledWith("glance", undefined, { clusterId: cluster.clusterId })).to.be.true;
+            expect(utils.redirectToGrafana.calledWith("glance", { clusterId: cluster.clusterId })).to.be.true;
         });
 
         /*it("Should enable/disable profiling on clicking Enable/Disable profiling link", function() {

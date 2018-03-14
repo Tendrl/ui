@@ -1,27 +1,11 @@
 .tendrl-host-bricks-view-container {
     margin-bottom: 10px;
-    .flex-table {
-        .ft-column {
-            .status-icons {
-                font-size: 18px;
-                vertical-align: sub;
-                margin-right: 4px;
-            }
-            &.ft-actions {
-                /*.launch-btn {
-                    width: 125px;
-                }*/
-            }
-            &.ft-main {
-                flex-grow: 1.5;
-            }
-            .brick-path {
-                white-space: nowrap;
-                overflow: hidden;
-                text-overflow: ellipsis;
-                padding-left: 0;
-                padding-right: 0;
-            }
+    .table-class {
+        margin-top: 10px;
+        margin-bottom: 10px;
+
+        .container-fluid{
+            padding: 0;
         }
     }
 
@@ -31,5 +15,9 @@
 
     .toolbar-pf-results > span {
         display: none;
+    }
+
+    .ffont {
+        font-size: 12px;
     }
 }

@@ -28,11 +28,15 @@
         vm.filtersText = "";
         vm.filters = [];
 
-        vm.redirectToGrafana = redirectToGrafana;
         vm.addTooltip = addTooltip;
 
         vm.filterConfig = {
             fields: [{
+                id: "volName",
+                title: "Volume Name",
+                placeholder: "Filter by Volume Name",
+                filterType: "text"
+            },{
                 id: "brickPath",
                 title: "Brick Path",
                 placeholder: "Filter by Brick Path",
@@ -43,10 +47,38 @@
                 placeholder: "Filter by Brick Status",
                 filterType: "select",
                 filterValues: ["Started", "Stopped"]
+            }, {
+                id: "devices",
+                title: "Disk Device Path",
+                placeholder: "Filter by Device Path",
+                filterType: "text"
             }],
             appliedFilters: [],
             onFilterChange: _filterChange
         };
+
+        vm.hostDetailConfig = {
+            selectionMatchProp: "brickPath",
+            itemsAvailable: true,
+            showCheckboxes: false
+        };
+
+        vm.hostDetailColumns = [
+            { header: "Brick Path", itemField: "brickPath", htmlTemplate: "/modules/bricks/host-bricks/brick-path.html"  },
+            { header: "Volume Name", itemField: "volName" },
+            { header: "Utilization", itemField: "utilization", htmlTemplate: "/modules/bricks/host-bricks/utilization-path.html" },
+            { header: "Disk Device Path", itemField: "devices", templateFn: function(value, item) { return value[0] }},
+            { header: "Port", itemField: "port"}
+
+        ];
+
+        vm.actionButtons = [
+          {
+            name: "Dashboard",
+            title: "Dashboard",
+            actionFn: _performAction
+          }
+        ];
 
         init();
 
@@ -94,14 +126,6 @@
             }, 1000 * config.nodeRefreshIntervalTime, 1);
         }
 
-        function redirectToGrafana(brick, $event) {
-            var brickName = brick.brickPath.split(":")[1],
-                hostName = brick.brickPath.split(":")[0].replace(/\./gi, "_");
-
-            brickName = brickName.replace(/\//gi, "|");
-            utils.redirectToGrafana("bricks", $event, { clusterId: vm.clusterId, hostName: hostName, brickName: brickName, volumeName: brick.volName });
-        }
-
         /*Cancelling interval when scope is destroy*/
         $scope.$on("$destroy", function() {
             $interval.cancel(hostBrickTimer);
@@ -113,14 +137,30 @@
 
         /*****Private Functions******/
 
+        function _redirectToGrafana(brick) {
+            var brickName = brick.brickPath.split(":")[1],
+                hostName = brick.brickPath.split(":")[0].replace(/\./gi, "_");
+
+            brickName = brickName.replace(/\//gi, "|");
+            utils.redirectToGrafana("bricks", { clusterId: vm.clusterId, hostName: hostName, brickName: brickName, volumeName: brick.volName });
+        }
+
+        function _performAction(action, item) {
+          _redirectToGrafana(item);
+        }
+
         function _matchesFilter(item, filter) {
             var match = true;
             var re = new RegExp(filter.value, "i");
 
-            if (filter.id === "brickPath") {
+            if (filter.id === "volName") {
+                match = item.volName.match(re) !== null;
+            } else if (filter.id === "brickPath") {
                 match = item.name.match(re) !== null;
             } else if (filter.id === "status") {
                 match = item.status === filter.value.id || item.status.toLowerCase() === filter.value.toLowerCase();
+            } else if (filter.id === "devices") {
+                match = item.devices[0].match(re) !== null;
             }
             return match;
         }

@@ -274,7 +274,7 @@
             });
         };
 
-        vm.redirectToGrafana = function(dashboardName, $event, grafanaObj){
+        vm.redirectToGrafana = function(dashboardName, grafanaObj){
             var ip,
                 initialUrl,
                 dashboardTypes,
@@ -299,7 +299,6 @@
                 uri = initialUrl + "?var-cluster_id="+ grafanaObj.clusterId + "&var-volume_name=" + grafanaObj.volumeName + "&var-host_name=" + grafanaObj.hostName + "&var-brick_path=" + grafanaObj.brickName;
             }
             window.open(uri);
-            $event.stopPropagation();
         };
 
         vm.tooltip = function($event) {

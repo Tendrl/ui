@@ -296,7 +296,7 @@
                     }
                 }
             }
-
+            
             temp.hosts = store.getAssociatedHosts(cluster);
             return temp;
         }

@@ -52,11 +52,7 @@
 
             profilingRequest = {
                 method: "POST",
-                url: url,
-                data: {
-                    "Volume.volname": volume.name,
-                    "Volume.vol_id": volume.volumeId
-                }
+                url: url
             };
 
             request = angular.copy(profilingRequest);

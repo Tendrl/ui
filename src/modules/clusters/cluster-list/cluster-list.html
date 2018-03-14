@@ -48,7 +48,7 @@
         <div class="list-group-item">
             <div class="list-group-item-header">
                 <div class="list-view-pf-actions">
-                    <button class="btn btn-default" ng-show="clusterCntrl.showDashboardBtn(cluster)" ng-click="clusterCntrl.redirectToGrafana(cluster, $event)" tooltip-enable="clusterCntrl.flag" ng-mouseover="clusterCntrl.addTooltip($event)" uib-tooltip="Dashboard">Dashboard</button>
+                    <button class="btn btn-default" ng-show="clusterCntrl.showDashboardBtn(cluster)" ng-click="clusterCntrl.redirectToGrafana(cluster)" tooltip-enable="clusterCntrl.flag" ng-mouseover="clusterCntrl.addTooltip($event)" uib-tooltip="Dashboard">Dashboard</button>
                     
                     <button class="btn btn-default import-btn" ng-show="clusterCntrl.showImportBtn(cluster)" ng-disabled="clusterCntrl.disableImportBtn(cluster)" ng-click="clusterCntrl.goToImportFlow(cluster)" tooltip-enable="clusterCntrl.flag" ng-mouseover="clusterCntrl.addTooltip($event)" uib-tooltip="Import">Import&nbsp;</button>
                     
@@ -83,7 +83,8 @@
                     <div class="list-view-pf-body">
                         <div class="list-view-pf-description">
                             <div class="list-group-item-heading cluster-name bold-text counts" uib-tooltip-html="'{{cluster.name}}'" tooltip-placement="auto bottom-left">
-                                <a ng-class="{'unmanaged':(cluster.managed !== 'Yes')}" ui-sref="{{cluster.managed === 'Yes' ? 'cluster-hosts({clusterId: cluster.name})' : '.' }}">{{cluster.name}}</a>
+                                <a class="cluster-name" ng-if="cluster.managed === 'Yes'" ng-click="clusterCntrl.goToClusterHost(cluster)">{{cluster.name}}</a>
+                                <span ng-if="cluster.managed !== 'Yes'" class="unmanaged">{{cluster.name}}</span>
                             </div>
                         </div>
                         <div class="list-view-pf-additional-info">

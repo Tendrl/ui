@@ -58,7 +58,6 @@
         function _setClusterDetail() {
             vm.clusterObj = clusterStore.getClusterDetails(vm.clusterId);
             vm.clusterName = vm.clusterObj.clusterId || "NA";
-            vm.clusterStatus = vm.clusterObj.status;
         }
 
         $scope.$on("GotClusterData", function(event, data) {

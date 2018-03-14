@@ -52,6 +52,7 @@
         vm.expandCluster = expandCluster;
         vm.hideExpandBtn = hideExpandBtn;
         vm.isTooltipEnable = isTooltipEnable;
+        vm.goToClusterHost = goToClusterHost;
 
         vm.filterConfig = {
             fields: [{
@@ -165,8 +166,12 @@
             $state.go("import-cluster", { clusterId: cluster.integrationId });
         }
 
-        function redirectToGrafana(cluster, $event) {
-            utils.redirectToGrafana("glance", $event, { clusterId: cluster.clusterId });
+        function goToClusterHost(cluster) {
+            $state.go("cluster-hosts", { clusterId: cluster.clusterId });
+        }
+
+        function redirectToGrafana(cluster) {
+            utils.redirectToGrafana("glance", { clusterId: cluster.clusterId });
         }
 
         /**
@@ -290,7 +295,7 @@
         }
 
         function goToTaskDetail(cluster) {
-            if(cluster.jobType === "ExpandClusterWithDetectedPeers") {
+            if (cluster.jobType === "ExpandClusterWithDetectedPeers") {
                 $state.go("task-detail", { clusterId: cluster.integrationId, taskId: cluster.currentTaskId });
             } else {
                 $state.go("global-task-detail", { clusterId: cluster.integrationId, taskId: cluster.currentTaskId });
@@ -317,7 +322,7 @@
         }
 
         function hideExpandBtn(cluster) {
-            return ($rootScope.userRole === "limited" || 
+            return ($rootScope.userRole === "limited" ||
                 (cluster.managed === "Yes" && cluster.state !== "expand_pending") || cluster.disableExpand);
         }
 
