@@ -1,5 +1,27 @@
 .tendrl-volume-bricks-view-container {
 
+    .toolbar-pf .form-group {
+        border-right: 1px solid #d1d1d1;
+
+        span {
+            a {
+                cursor: pointer;
+            }
+        }
+    }
+
+    .toolbar-pf .form-group:last-child {
+        padding-left: 0;
+        border-right: 0;
+    }
+    .toolbar-pf-results>span {
+        display: none;
+    }
+
+    .collapse-link {
+        margin-right: 10px;
+    }
+
     margin-bottom: 10px;
     .sub-volume,
     .host-name {
