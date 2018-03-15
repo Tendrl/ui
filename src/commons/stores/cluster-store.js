@@ -22,9 +22,28 @@
             deferred = $q.defer();
             clusterFactory.getClusterList()
                 .then(function(data) {
-                    //list = data ? _formatClusterData(data.clusters) : [];
                     $rootScope.clusterData = store.formatClusterData(data.clusters);
                     deferred.resolve(data.clusters);
+                }).catch(function(e) {
+                    deferred.reject(e);
+                });
+
+            return deferred.promise;
+        };
+
+        /**
+         * @name getClusterList
+         * @desc store for GetClusterList
+         * @memberOf clusterStore
+         */
+        store.getCluster = function(clusterId) {
+            var deferred;
+
+            deferred = $q.defer();
+            clusterFactory.getCluster(clusterId)
+                .then(function(data) {
+                    data = _formatSingleCluster(data);
+                    deferred.resolve(data);
                 }).catch(function(e) {
                     deferred.reject(e);
                 });
@@ -35,93 +54,10 @@
         store.formatClusterData = function(data) {
             var len = data.length,
                 res = [],
-                temp = {},
-                profileStatus = {
-                    "enabled": "Enabled",
-                    "disabled": "Disabled",
-                    "mixed": "Mixed"
-                },
                 i;
 
             for (i = 0; i < len; i++) {
-                temp = {};
-                temp.integrationId = data[i].integration_id;
-                temp.sdsVersion = data[i].sds_version;
-                temp.sdsName = data[i].sds_name;
-                temp.name = data[i].cluster_id;
-                temp.clusterId = data[i].cluster_id;
-                temp.isProfilingEnabled = profileStatus[data[i].volume_profiling_state];
-                temp.jobStatus = data[i].status;
-                temp.currentTask = data[i].current_job;
-                temp.jobType = JSON.parse(data[i].current_job).job_name;
-                temp.currentStatus = JSON.parse(data[i].current_job).status;
-                temp.managed = data[i].is_managed === "yes" ? "Yes" : "No";
-                temp.currentTaskId = JSON.parse(data[i].current_job).job_id;
-                temp.volCount = data[i].globaldetails && data[i].globaldetails.vol_count ? parseInt(data[i].globaldetails.vol_count) : 0;
-                temp.alertCount = data[i].alert_counters ? parseInt(data[i].alert_counters.warning_count) : 0;
-                temp.hostCount = data[i].nodes.length || 0;
-
-                temp.errors = data[i].errors ? data[i].errors : [];
-
-                if (temp.managed === "No") {
-                    if ((!temp.errors.length) && temp.currentStatus === "failed") {
-                        temp.message = "Cluster Misconfigured";
-                    } else if (temp.currentStatus === "finished" || temp.currentTask === "{}") {
-                        temp.message = "Ready to import";
-                    }
-                }
-                if (temp.jobType === "ImportCluster") {
-                    if (temp.currentStatus === "in_progress") {
-                        temp.message = "Importing Cluster";
-                    } else if (temp.currentStatus === "failed" && temp.errors.length) {
-                        temp.message = "Import Failed";
-                    } else if (temp.currentStatus === "finished") {
-                        temp.message = "Ready to Use";
-                    }
-                } else if (temp.jobType === "UnmanageCluster") {
-                    temp.managed = "No";
-                    if (temp.currentStatus === "in_progress") {
-                        temp.message = "Unmanaging Cluster";
-                    } else if (temp.currentStatus === "failed") {
-                        temp.message = "Unmanage Failed";
-                    } else if (temp.currentStatus === "finished") {
-                        temp.message = "Ready to import";
-                    }
-                } else if (temp.managed === "Yes" && !temp.message) {
-                    temp.message = "Ready to Use";
-                }
-
-                if (temp.managed === "Yes") {
-                    if (temp.sdsName === "gluster") {
-                        if (data[i].globaldetails && data[i].globaldetails.status === "healthy") {
-                            temp.status = "HEALTH_OK";
-                            temp.statusIcon = "Healthy";
-                        } else if (data[i].globaldetails && data[i].globaldetails.status === "unhealthy") {
-                            temp.status = "HEALTH_ERR";
-                            temp.statusIcon = "Unhealthy";
-                        } else {
-                            temp.status = "NA";
-                        }
-                    } else {
-                        temp.status = data[i].globaldetails ? data[i].globaldetails.status : "NA";
-
-                        switch (temp.status) {
-
-                            case "HEALTH_OK":
-                                temp.statusIcon = "Healthy";
-                                break;
-                            case "HEALTH_ERR":
-                                temp.statusIcon = "Unhealthy";
-                                break;
-                            case "HEALTH_WARN":
-                                temp.statusIcon = "Warning";
-                                break;
-                        }
-                    }
-                }
-                
-                temp.hosts = store.getAssociatedHosts(data[i]);
-                res.push(temp);
+                res.push(_formatSingleCluster(data[i]));
             }
 
             return res;
@@ -244,6 +180,126 @@
 
             return deferred.promise;
         };
+
+        /**
+         * @name expandCluster
+         * @desc expands a cluster
+         * @memberOf clusterStore
+         */
+        store.expandCluster = function(clusterId) {
+            var deferred;
+
+            deferred = $q.defer();
+            clusterFactory.expandCluster(clusterId)
+                .then(function(data) {
+                    deferred.resolve(data);
+                }).catch(function(e) {
+                    deferred.reject(e);
+                });
+
+            return deferred.promise;
+        };
+
+        /****Private Functions****/
+
+        function _formatSingleCluster(cluster) {
+            var temp = {},
+                profileStatus = {
+                    "enabled": "Enabled",
+                    "disabled": "Disabled",
+                    "mixed": "Mixed"
+                };
+
+            temp.integrationId = cluster.integration_id;
+            temp.sdsVersion = cluster.sds_version;
+            temp.sdsName = cluster.sds_name;
+            temp.name = cluster.cluster_id;
+            temp.clusterId = cluster.cluster_id;
+            temp.isProfilingEnabled = profileStatus[cluster.volume_profiling_state];
+            temp.currentTask = cluster.current_job;
+            temp.jobType = JSON.parse(cluster.current_job).job_name;
+            temp.currentStatus = JSON.parse(cluster.current_job).status;
+            temp.managed = cluster.is_managed === "yes" ? "Yes" : "No";
+            temp.currentTaskId = JSON.parse(cluster.current_job).job_id;
+            temp.volCount = cluster.globaldetails && cluster.globaldetails.vol_count ? parseInt(cluster.globaldetails.vol_count) : 0;
+            temp.alertCount = cluster.alert_counters ? parseInt(cluster.alert_counters.alert_count) : 0;
+            temp.hostCount = cluster.nodes.length || 0;
+            temp.state = cluster.status;
+
+            temp.errors = cluster.errors ? cluster.errors : [];
+
+            if (temp.managed === "No") {
+                if ((!temp.errors.length) && temp.currentStatus === "failed") {
+                    temp.message = "Cluster Misconfigured";
+                } else if (temp.currentStatus === "finished" || temp.currentTask === "{}") {
+                    temp.message = "Ready to import";
+                }
+            }
+            if (temp.jobType === "ImportCluster") {
+                if (temp.currentStatus === "in_progress") {
+                    temp.message = "Importing Cluster";
+                } else if (temp.currentStatus === "failed" && temp.errors.length) {
+                    temp.message = "Import Failed";
+                } else if (temp.currentStatus === "finished") {
+                    if (temp.state === "expand_pending") {
+                        temp.message = "Expansion required";
+                    } else {
+                        temp.message = "Ready to Use";
+                    }
+                }
+            } else if (temp.jobType === "UnmanageCluster") {
+                temp.managed = "No";
+                if (temp.currentStatus === "in_progress") {
+                    temp.message = "Unmanaging Cluster";
+                } else if (temp.currentStatus === "failed") {
+                    temp.message = "Unmanage Failed";
+                } else if (temp.currentStatus === "finished") {
+                    temp.message = "Ready to import";
+                }
+            } else if (temp.managed === "Yes") {
+                if (temp.jobType === "ExpandClusterWithDetectedPeers" && temp.currentStatus === "in_progress") {
+                    temp.message = "Expanding cluster";
+                } else if (temp.jobType === "ExpandClusterWithDetectedPeers" && temp.currentStatus === "failed") {
+                    temp.message = "Expansion Failed";
+                } else if (temp.state === "expand_pending") {
+                    temp.message = "Expansion required";
+                } else if (!temp.message) {
+                    temp.message = "Ready to Use";
+                }
+            }
+
+            if (temp.managed === "Yes") {
+                if (temp.sdsName === "gluster") {
+                    if (cluster.globaldetails && cluster.globaldetails.status === "healthy") {
+                        temp.status = "HEALTH_OK";
+                        temp.statusIcon = "Healthy";
+                    } else if (cluster.globaldetails && cluster.globaldetails.status === "unhealthy") {
+                        temp.status = "HEALTH_ERR";
+                        temp.statusIcon = "Unhealthy";
+                    } else {
+                        temp.status = "NA";
+                    }
+                } else {
+                    temp.status = cluster.globaldetails ? cluster.globaldetails.status : "NA";
+
+                    switch (temp.status) {
+
+                        case "HEALTH_OK":
+                            temp.statusIcon = "Healthy";
+                            break;
+                        case "HEALTH_ERR":
+                            temp.statusIcon = "Unhealthy";
+                            break;
+                        case "HEALTH_WARN":
+                            temp.statusIcon = "Warning";
+                            break;
+                    }
+                }
+            }
+
+            temp.hosts = store.getAssociatedHosts(cluster);
+            return temp;
+        }
     }
 
 })();

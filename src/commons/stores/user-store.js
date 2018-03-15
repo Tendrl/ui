@@ -145,7 +145,6 @@
                 data.role = user.role;
             }
             data.password = user.password;
-            data.password_confirmation = user.confirmPassword;
             if(toggleNotification) {
                 data.email_notifications = !user.notification;
             } else {

@@ -69,12 +69,16 @@
                                 <a ng-class="{'disable-pointer': $root.userRole === 'limited' || cluster.disableUnmanage}" ng-click="clusterCntrl.doClusterUnmanage(cluster)"  uib-tooltip="unmanage the cluster">Unmanage
                                 </a>
                             </li>
+                            <li>
+                                <a ng-class="{'disable-pointer': clusterCntrl.hideExpandBtn(cluster)}" ng-click="clusterCntrl.expandCluster(cluster)"  uib-tooltip="expand the cluster">Expand
+                                </a>
+                            </li>
                         </ul>
                     </div>
                 </div>
                 <div class="list-view-pf-main-info">
                     <div class="list-view-pf-left">
-                        <i uib-tooltip-html="'{{cluster.statusIcon}}'" tooltip-placement="auto bottom-left" ng-class="{'pficon pficon-warning-triangle-o': (cluster.status === 'HEALTH_ERR' || cluster.status === 'HEALTH_WARN'), 'pficon pficon-ok': (cluster.status === 'HEALTH_OK'), 'fa ffont fa-question': (cluster.managed !== 'Yes')}"></i>
+                        <i uib-tooltip-html="'{{cluster.statusIcon}}'" tooltip-placement="auto bottom-left" ng-class="clusterCntrl.getClass(cluster)"></i>
                     </div>
                     <div class="list-view-pf-body">
                         <div class="list-view-pf-description">
@@ -96,10 +100,6 @@
                                 <h5 class="pull-left counts"><a href="" ng-click="clusterCntrl.openHostModal(cluster)">{{cluster.hostCount}}</a></h5>
                             </div>
                             <div class="list-view-pf-additional-info-item list-view-pf-additional-info-item-stacked" ng-class="{'hide-button': (cluster.managed !== 'Yes')}">
-                                <div class="bold-text">Volume Profiling</div>
-                                <h5 class="pull-left counts">{{cluster.isProfilingEnabled}}</h5>
-                            </div>
-                            <div class="list-view-pf-additional-info-item list-view-pf-additional-info-item-stacked" ng-class="{'hide-button': (cluster.managed !== 'Yes')}">
                                 <div class="bold-text">Volumes</div>
                                 <h5 class="pull-left counts">{{cluster.volCount}}</h5>
                             </div>
@@ -107,8 +107,12 @@
                                 <div class="bold-text">Alerts</div>
                                 <h5 class="pull-left counts">{{cluster.alertCount}}</h5>
                             </div>
+                            <div class="list-view-pf-additional-info-item list-view-pf-additional-info-item-stacked" ng-class="{'hide-button': (cluster.managed !== 'Yes')}">
+                                <div class="bold-text">Volume Profiling</div>
+                                <h5 class="pull-left counts">{{cluster.isProfilingEnabled}}</h5>
+                            </div>
                             <div class="list-view-pf-additional-info-item cluster-text" ng-class="{'error-message': (cluster.message === 'Cluster Misconfigured'), 'warning-message': (cluster.message === 'Import Failed' || cluster.message === 'Unmanage Failed')}">
-                                <p uib-tooltip-template="'../modules/clusters/cluster-list/unmanage-cluster-tooltip.html'" tooltip-placement="auto">{{cluster.message}}</p>
+                                <p uib-tooltip-template="'../modules/clusters/cluster-list/unmanage-cluster-tooltip.html'" tooltip-enable="clusterCntrl.isTooltipEnable(cluster.message)" tooltip-placement="auto">{{cluster.disableExpand ? "Expanding cluster" : cluster.message}}</p>
                                 <!-- <p><a ng-click="clusterCntrl.openErrorModal(cluster)" ng-show="cluster.currentStatus === 'failed'" class="details-link">View Details</a></p> -->
                                 <p><a ng-click="clusterCntrl.goToTaskDetail(cluster)" ng-show="cluster.currentStatus === 'in_progress' || cluster.currentStatus === 'failed'" class="details-link">View Details</a></p>
                             </div>

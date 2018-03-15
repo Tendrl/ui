@@ -24,6 +24,8 @@
         vm.isDataLoading = true;
         vm.totalBrick = 0;
         vm.subVolumeList = [];
+        vm.showExpansionWarn = false;
+        vm.flag = false;
         vm.filteredBrickList = [];
         vm.filtersText = "";
         vm.filters = [];
@@ -34,7 +36,6 @@
         vm.addTooltip = addTooltip;
         vm.expandAll = expandAll;
         vm.collapseAll = collapseAll;
-        vm.flag = false;
 
         vm.filterConfig = {
             fields: [{
@@ -75,11 +76,17 @@
             vm.volumeId = $stateParams.volumeId;
 
             if ($rootScope.clusterData && volumeStore.volumeList.length) {
-                brickStore.getVolumeBrickList(vm.clusterId, vm.volumeId)
+                clusterStore.getCluster(vm.clusterId)
                     .then(function(data) {
-                        $interval.cancel(volumeBrickTimer);
-                        vm.isDataLoading = false;
 
+                        vm.cluster = data;
+                        _setExpansionState();
+                        return brickStore.getVolumeBrickList(vm.clusterId, vm.volumeId);
+                    }).catch(function(e) {
+
+                        vm.cluster = {};
+                    }).then(function(data) {
+                        $interval.cancel(volumeBrickTimer);
                         if (vm.subVolumeList.length) {
                             _mantainExpandedState(data);
                         } else {
@@ -91,58 +98,23 @@
                         vm.totalBrick = 0;
                         _getBricksCount();
                         startTimer();
+                    }).finally(function() {
+                        vm.isDataLoading = false;
                     });
             } else if (volumeStore.volumeList.length && !$rootScope.clusterData) {
                 clusterStore.getClusterList()
                     .then(function(data) {
                         $rootScope.clusterData = clusterStore.formatClusterData(data);
-                        brickStore.getVolumeBrickList(vm.clusterId, vm.volumeId)
-                            .then(function(data) {
-                                $interval.cancel(volumeBrickTimer);
-                                vm.isDataLoading = false;
-                                if (vm.subVolumeList.length) {
-                                    _mantainExpandedState(data);
-                                } else {
-                                    vm.subVolumeList = data;
-                                    vm.filteredBrickList = vm.subVolumeList;
-                                    _filterChange(vm.filters);
-                                }
-
-                                vm.totalBrick = 0;
-                                _getBricksCount();
-                                startTimer();
-                            });
-                    });
-            } else if (!volumeStore.volumeList.length && $rootScope.clusterData) {
-                volumeStore.getVolumeList(vm.clusterId)
-                    .then(function(data) {
-                        brickStore.getVolumeBrickList(vm.clusterId, vm.volumeId)
-                            .then(function(data) {
-                                $interval.cancel(volumeBrickTimer);
-                                vm.isDataLoading = false;
-                                if (vm.subVolumeList.length) {
-                                    _mantainExpandedState(data);
-                                } else {
-                                    vm.subVolumeList = data;
-                                    vm.filteredBrickList = vm.subVolumeList;
-                                    _filterChange(vm.filters);
-                                }
-
-                                vm.totalBrick = 0;
-                                _getBricksCount();
-                                startTimer();
-                            });
-                    });
-            } else {
-                clusterStore.getClusterList()
-                    .then(function(data) {
-                        $rootScope.clusterData = clusterStore.formatClusterData(data);;
-                        return volumeStore.getVolumeList(vm.clusterId);
+                        return clusterStore.getCluster(vm.clusterId);
                     }).then(function(data) {
+
+                        vm.cluster = data;
+                        _setExpansionState();
                         return brickStore.getVolumeBrickList(vm.clusterId, vm.volumeId);
+                    }).catch(function(e) {
+                        vm.cluster = {};
                     }).then(function(data) {
                         $interval.cancel(volumeBrickTimer);
-                        vm.isDataLoading = false;
                         if (vm.subVolumeList.length) {
                             _mantainExpandedState(data);
                         } else {
@@ -154,6 +126,67 @@
                         vm.totalBrick = 0;
                         _getBricksCount();
                         startTimer();
+                    }).finally(function() {
+                        vm.isDataLoading = false;
+                    });
+            } else if (!volumeStore.volumeList.length && $rootScope.clusterData) {
+
+                clusterStore.getCluster(vm.clusterId)
+                    .then(function(data) {
+                        vm.cluster = data;
+                        _setExpansionState();
+                        return volumeStore.getVolumeList(vm.clusterId);
+                    }).catch(function(e) {
+
+                        vm.cluster = {};
+                    }).then(function(data) {
+                        return brickStore.getVolumeBrickList(vm.clusterId, vm.volumeId);
+                    }).then(function(data) {
+                        $interval.cancel(volumeBrickTimer);
+                        if (vm.subVolumeList.length) {
+                            _mantainExpandedState(data);
+                        } else {
+                            vm.subVolumeList = data;
+                            vm.filteredBrickList = vm.subVolumeList;
+                            _filterChange(vm.filters);
+                        }
+
+                        vm.totalBrick = 0;
+                        _getBricksCount();
+                        startTimer();
+                    }).finally(function() {
+                        vm.isDataLoading = false;
+                    });
+            } else {
+                clusterStore.getClusterList()
+                    .then(function(data) {
+                        $rootScope.clusterData = clusterStore.formatClusterData(data);
+                        return clusterStore.getCluster(vm.clusterId);
+                    }).then(function(data) {
+
+                        vm.cluster = data;
+                        _setExpansionState();
+                        return volumeStore.getVolumeList(vm.clusterId);
+                    }).catch(function(e) {
+
+                        vm.cluster = {};
+                    }).then(function(data) {
+                        return brickStore.getVolumeBrickList(vm.clusterId, vm.volumeId);
+                    }).then(function(data) {
+                        $interval.cancel(volumeBrickTimer);
+                        if (vm.subVolumeList.length) {
+                            _mantainExpandedState(data);
+                        } else {
+                            vm.subVolumeList = data;
+                            vm.filteredBrickList = vm.subVolumeList;
+                            _filterChange(vm.filters);
+                        }
+
+                        vm.totalBrick = 0;
+                        _getBricksCount();
+                        startTimer();
+                    }).finally(function() {
+                        vm.isDataLoading = false;
                     });
             }
         }
@@ -210,7 +243,6 @@
         }
 
         /***Private Functions***/
-
 
         function _matchesFilter(item, filter) {
             var match = true;
@@ -278,6 +310,14 @@
             _applyFilters(filters);
         }
 
+        function _setExpansionState() {
+            vm.showExpansionWarn = false;
+
+            if (vm.cluster.state === "expanding" || vm.cluster.state === "expand_pending") {
+                vm.showExpansionWarn = true;
+            }
+        }
+
         function _getBricksCount() {
             var len = vm.filteredBrickList.length,
                 i;
@@ -327,6 +367,7 @@
         function addTooltip($event) {
             vm.flag = utils.tooltip($event);
         }
+
     }
 
 })();
