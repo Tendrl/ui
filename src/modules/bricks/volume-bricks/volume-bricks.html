@@ -1,36 +1,41 @@
 <div ng-if="clusterData === null && !isAPINotFoundError" class="spinner spinner-lg"></div>
 <div ng-if="clusterData !== null" class="tendrl-volume-bricks-view-container container-fluid">
-    <h1 class="bold-text">Brick Details</h1>
-    <div class="container-fluid">
-        <div class="row toolbar-pf">
-            <div class="col-sm-12">
-                <!-- <form class="toolbar-pf-actions">
-                    <div class="form-group toolbar-pf-filter">
-                        <label class="sr-only" for="filter">Name</label>
-                        <div class="input-group">
-                            <div class="input-group-btn">
-                                <select ng-init="vm.filterBy = 'brickPath'" ng-disabled="vm.subVolumeList.length === 0" ng-model="vm.filterBy" class="btn btn-default dropdown-toggle" ng-change="vm.searchBy = {}">
-                                    <option value="brickPath">Brick Path</option>
-                                    <option value="status">Brick Status</option>
-                                    <option value="fqdn">Host Name</option>
-                                </select>
-                            </div>
-                            <input ng-disabled="vm.subVolumeList.length === 0" type="text" class="form-control" id="filter" ng-model="vm.searchBy[vm.filterBy]" placeholder="Filter By {{vm.filterBy}}...">
-                        </div>
-                    </div>
-                </form> -->
-                <div class="row toolbar-pf-results">
-                    <div class="col-sm-12">
-                        <h5 ng-if="vm.subVolumeList.length !== 0">{{vm.totalBrick}} 
+    <div class="alert alert-warning" ng-show="vm.showExpansionWarn">
+        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">
+            <span class="pficon pficon-close"></span>
+        </button>
+        <span class="pficon pficon-warning-triangle-o"></span>
+        <label>Brick information may be incomplete while cluster expansion is in progress.</label>
+    </div>
+    <div><h1 class="bold-text">Brick Details</h1></div>
+    <div class="row toolbar-pf">
+        <div class="col-sm-12">
+            <form class="toolbar-pf-actions">
+                <div class="form-group toolbar-pf-filter">
+                    <pf-filter id="volBrickFilter" config="vm.filterConfig"></pf-filter>
+                </div>
+                <div class="form-group sort-component">
+                    <p>
+                        <span class="collapse-link">
+                            <a ng-click="vm.expandAll()">Expand All</a>
+                        </span>
+                        <span>
+                            <a ng-click="vm.collapseAll()">Collapse All</a>
+                        </span>
+                    </p>
+                </div>
+            </form>
+            <div class="row toolbar-pf-results">
+                <div class="col-sm-12">
+                    <h5 ng-if="vm.subVolumeList.length !== 0">{{vm.totalBrick}} 
                             <ng-pluralize count="vm.totalBrick" when="{'one': 'Brick',
                        'other': 'Bricks'}"></ng-pluralize>
-                        </h5>
-                    </div>
+                    </h5>
                 </div>
             </div>
         </div>
-        <!-- /row -->
     </div>
+    <!-- /row -->
     <!-- /container -->
     <center ng-if="!vm.isDataLoading && vm.subVolumeList.length === 0">
         <div class="blank-slate-pf">
@@ -40,18 +45,18 @@
             <h1>No Bricks Detected</h1>
         </div>
     </center>
-    <center ng-if="!vm.isDataLoading && vm.filteredSubVolumeList.length === 0 && vm.subVolumeList.length !== 0" class="empty-filter-list">
-            <div class="blank-slate-pf">
-                <div class="message">No results match the filter criteria</div>
-                <div class="suggestion">
-                    <div class="title">Suggestions</div>
-                    <div>Please try selecting other filter criteria.</div>
-                </div>
+    <center ng-if="!vm.isDataLoading && vm.filteredBrickList.length === 0 && vm.subVolumeList.length !== 0" class="empty-filter-list">
+        <div class="blank-slate-pf">
+            <div class="message">No results match the filter criteria</div>
+            <div class="suggestion">
+                <div class="title">Suggestions</div>
+                <div>Please try selecting other filter criteria.</div>
             </div>
-        </center>
+        </div>
+    </center>
     <div ng-if="vm.isDataLoading" class="spinner spinner-lg"></div>
     <div class="container-fluid" ng-if="!vm.isDataLoading">
-        <div class="list-group list-view-pf list-view-pf-view" ng-repeat="subVolume in vm.filteredSubVolumeList=(vm.subVolumeList | filter: vm.searchBy | orderBy: 'sequenceNumber') track by $index">
+        <div class="list-group list-view-pf list-view-pf-view" ng-repeat="subVolume in vm.filteredBrickList=(vm.filteredBrickList | orderBy: 'sequenceNumber') track by $index">
             <div class="list-group-item" ng-class="{'list-view-pf-expand-active': subVolume.isExpanded}">
                 <div class="list-group-item-header" ng-click="vm.expandSubVolume($event, subVolume)">
                     <div class="list-view-pf-expand">
@@ -96,20 +101,20 @@
                             </thead>
                             <tbody>
                                 <tr ng-repeat="brick in subVolume.bricks | orderBy: 'fqdn'">
-                                    <td class="brick-table" >{{brick.fqdn}}</td>
-                                    <td class="brick-table" >
+                                    <td class="brick-table">{{brick.fqdn}}</td>
+                                    <td class="brick-table">
                                         <span class="status-icons pull-left" ng-class="{'fa ffont fa-stop-circle-o': (brick.status.toLowerCase() !=='started'), 'pficon pficon-ok': (brick.status.toLowerCase() ==='started')}" uib-tooltip-html="'{{brick.status}}'" tooltip-placement="top-left"></span> {{brick.brickPath.split(":")[1]}}
                                     </td>
                                     <td class="brick-table utilisation-chart">
                                         <utilisation-chart used="brick.utilization.used" total="brick.utilization.total| bytes: 2"></utilisation-chart>
                                     </td>
-                                    <td class="brick-table" >
+                                    <td class="brick-table">
                                         <span ng-show="!brick.devices.length">0</span>
                                         <span ng-repeat="device in brick.devices">{{device}}
                                                     <span ng-show="$index !== (brick.devices.length-1)">, </span>
                                         </span>
                                     </td>
-                                    <td class="brick-table" >{{brick.port}}</td>
+                                    <td class="brick-table">{{brick.port}}</td>
                                     <td class="table-view-pf-actions">
                                         <div class="table-view-pf-btn">
                                             <button class="btn btn-default dashboard-button" type="button" ng-click="vm.redirectToGrafana(brick, $event)" tooltip-enable="vm.flag" ng-mouseover="vm.addTooltip($event)" uib-tooltip="Dashboard">Dashboard</button>

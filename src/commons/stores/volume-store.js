@@ -45,7 +45,7 @@
                         temp.type = data[i].vol_type;
                         temp.rebalStatus = data[i].rebal_status;
                         temp.brickCount = data[i].brick_count;
-                        temp.alertCount = data[i].alert_counters ? data[i].alert_counters.warning_count : "No Data";
+                        temp.alertCount = data[i].alert_counters ? data[i].alert_counters.alert_count : "No Data";
                         temp.currentTask = data[i].current_job ? JSON.parse(data[i].current_job) : {};
                         temp.profileStatus = _getProfileStatus(temp);
                         volumeList.push(temp);

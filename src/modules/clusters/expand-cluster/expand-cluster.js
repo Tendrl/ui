@@ -3,31 +3,39 @@
 
     angular
         .module("TendrlModule")
-        .controller("hostModalController", hostModalController);
+        .controller("expandClusterController", expandClusterController);
 
     /*@ngInject*/
-    function hostModalController($rootScope, cluster, nodeStore) {
+    function expandClusterController($rootScope, $scope, $state, clusterStore,  nodeStore, selectedCluster, Notifications, $uibModal) {
 
-        var vm = this;
+        var vm = this,
+            jobId;
 
-        vm.messages = cluster.errors;
-        vm.closeModal = closeModal;
-        vm.clusterId = cluster.clusterId;
-        vm.isDataLoading = true;
+        vm.disableExpand = false;
+        vm.clusterId = selectedCluster.clusterId;
         vm.hostList = [];
         vm.filteredHostList = [];
         vm.filters = [];
+        vm.isDataLoading = true;
+
+        vm.closeModal = closeModal;
+        vm.confirmModal = confirmModal;
 
         vm.modalHeader = {
-            "title": "Hosts on " + vm.clusterId,
+            "title": "Expand " + selectedCluster.clusterId,
             "close": vm.closeModal
         };
 
         vm.modalFooter = [{
-            "name": "Close",
+            "name": "Cancel",
             "type": "button",
-            "classname": "btn-primary",
+            "classname": "btn-default",
             "onCall": vm.closeModal
+        }, {
+            "name": "Expand",
+            "type": "submit",
+            "classname": "btn-primary",
+            "onCall": vm.confirmModal
         }];
 
         vm.filterConfig = {
@@ -81,11 +89,30 @@
         /**
          * @name closeModal
          * @desc close the modal
-         * @memberOf deleteUserController                
-
+         * @memberOf expandClusterController                
          */
         function closeModal() {
             $rootScope.$emit("modal.done", "close");
+        }
+
+        /**
+         * @name next
+         * @desc takes to next step
+         * @memberOf expandClusterController                
+
+         */
+        function confirmModal() {
+
+            vm.closeModal();
+
+            clusterStore.expandCluster(vm.clusterId)
+                .then(function(data) {
+                    jobId = data.job_id;
+                    selectedCluster.disableExpand = true;
+                    Notifications.message("success", "", "Successfully initiated expand cluster task");
+                }).catch(function(error) {
+                    Notifications.message("danger", "", "Failed to initiate expand");
+                });
         }
 
         /*****Private Functions*****/
@@ -131,7 +158,7 @@
         function _filterChange(filters) {
             vm.filtersText = "";
             vm.filters = filters;
-
+            
             filters.forEach(function(filter) {
                 vm.filtersText += filter.title + " : ";
                 if (filter.value.filterCategory) {

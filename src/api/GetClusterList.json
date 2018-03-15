@@ -8,6 +8,8 @@
          "integration_id":"5bf067dd-5d1a-4b15-bde2-5b89cd5ccccc",
          "hash":"496a294bc27b53b3f88ec141cbc263b0",
          "sds_version":"4.0dev1",
+         "current_job":"{\"status\": \"finished\", \"job_id\": \"52d351c3-b9ae-42a5-a9fe-da6a8456c54f\", \"job_name\": \"ImportCluster\"}",
+         "state": "expand_pending",
          "errors":[
                "message 1",
                "message 2",
@@ -22,8 +24,8 @@
          ],
          "public_network":"",
          "cluster_network":"",
-         "is_managed":"no",
-         "enable_volume_profiling":"",
+         "is_managed":"yes",
+         "volume_profiling_state":"mixed",
          "import_status":"failed",
          "import_job_id":"",
          "nodes":[
@@ -44,7 +46,17 @@
                "last_sync":"2017-12-11 10:44:47.929237+00:00",
                "node_id":"e35643b5-55e8-4d5a-97ba-268da06305e9"
             }
-         ]
+         ],
+         "globaldetails":{
+            "volume_up_degraded":"0",
+            "peer_count":"1",
+            "updated_at":"2017-12-11 10:53:32.247100+00:00",
+            "vol_count":"1",
+            "hash":"da76fbdd33fd156487e4952e68bd8e00",
+            "connection_count":"0",
+            "status":"healthy",
+            "connection_active":"0"
+         }
       },
       {
          "sds_name":"gluster",
@@ -54,9 +66,11 @@
          "hash":"4f7dabe1b3afe5dcb6bb81516472f56e",
          "sds_version":"4.0dev1",
          "updated_at":"2017-12-11 10:51:41.845374+00:00",
+         "current_job":"{\"status\": \"failed\", \"job_id\": \"52d351c3-b9ae-42a5-a9fe-da6a8456c54f\", \"job_name\": \"ExpandClusterWithDetectedPeers\"}",
          "errors":[
 
          ],
+         "state": "expanding",
          "globaldetails":{
             "volume_up_degraded":"0",
             "peer_count":"1",
@@ -69,8 +83,8 @@
          },
          "public_network":"",
          "cluster_network":"",
-         "is_managed":"no",
-         "enable_volume_profiling":"",
+         "is_managed":"yes",
+         "volume_profiling_state":"",
          "import_status":"in_progress",
          "import_job_id":"61c356bd-f5bc-4540-a5b4-2a03d4ec7db0",
          "alert_counters":{
@@ -112,6 +126,8 @@
          "errors":[
 
          ],
+         "current_job":"{\"status\": \"finished\", \"job_id\": \"52d351c3-b9ae-42a5-a9fe-da6a8456c54f\", \"job_name\": \"ImportCluster\"}",
+         "state": "",
          "globaldetails":{
             "volume_up_degraded":"0",
             "peer_count":"1",
@@ -125,7 +141,7 @@
          "public_network":"",
          "cluster_network":"",
          "is_managed":"yes",
-         "enable_volume_profiling":"yes",
+         "volume_profiling_state":"enabled",
          "import_status":"done",
          "import_job_id":"61c356bd-f5bc-4540-a5b4-2a03d4ec7db0",
          "alert_counters":{

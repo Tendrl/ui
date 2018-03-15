@@ -1,10 +1,13 @@
-<div class="tendrl-host-list-modal-container">
+<div class="tendrl-expand-confirm-modal-container">
     <div>
         <custom-modal-header title="vm.modalHeader.title" close="vm.modalHeader.close"></custom-modal-header>
         <div class="modal-body">
+            <div class="col-md-12 desc">
+                {{vm.clusterId}} will be expanded by importing the new hosts listed below. Further actions will not be allowed on this cluster until expansion is complete.
+            </div>
             <div class="toolbar-pf row">
                 <div class="form-group toolbar-pf-filter col-sm-6">
-                    <pf-filter id="hostListFilter" config="vm.filterConfig"></pf-filter>
+                    <pf-filter id="expandHostListFilter" config="vm.filterConfig"></pf-filter>
                 </div>
                 <div class="toolbar-pf-results col-sm-6">
                     <h5>{{vm.filteredHostList.length}}
@@ -25,7 +28,7 @@
                 <pf-table-view id="hostTableView" config="vm.tableConfig" columns="vm.tableColumns" items="vm.filteredHostList">
                 </pf-table-view>
             </div>
-            <custom-modal-footer modal-footer="vm.modalFooter"></custom-modal-footer>
         </div>
+        <custom-modal-footer modal-footer="vm.modalFooter"></custom-modal-footer>
     </div>
 </div>

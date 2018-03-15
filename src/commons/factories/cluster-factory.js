@@ -53,7 +53,7 @@
                 method: "PUT",
                 url: url,
                 data: {
-                    enable_volume_profiling: (action === "Enable" ? "yes" : "no")
+                    enable_volume_profiling: action.toLowerCase()
                 }
             };
 
@@ -96,6 +96,33 @@
         };
 
         /**
+         * @name expandUnmanage
+         * @desc expands a cluster
+         * @memberOf clusterFactory
+         */
+        vm.expandCluster = function(clusterId) {
+            var url,
+                expandRequest,
+                request;
+
+            url = config.baseUrl + "clusters/" + clusterId + "/expand";
+
+            expandRequest = {
+                method: "POST",
+                url: url
+            };
+
+            request = angular.copy(expandRequest);
+            return $http(request).then(function(response) {
+                return response.data;
+            }, function(e) {
+                utils.checkErrorCode(e);
+                console.log("Error Occurred: while unmanaging the cluster");
+                throw e;
+            });
+        };
+
+        /**
          * @name getClusterList
          * @desc fetch list of clusters
          * @memberOf clusterFactory
@@ -118,6 +145,33 @@
             }, function(e) {
                 utils.checkErrorCode(e);
                 console.log("Error Occurred: while fetching getClusterList");
+                throw e;
+            });
+        };
+
+        /**
+         * @name getCluster 
+         * @desc fetch a single cluster
+         * @memberOf clusterFactory
+         */
+        vm.getCluster = function(clusterId) {
+            var url = "",
+                getObjectRequest, request;
+
+            url = config.baseUrl + "clusters/" + clusterId;
+            //url = "/api/getCluster.json";
+
+            getObjectRequest = {
+                method: "GET",
+                url: url
+            };
+
+            request = angular.copy(getObjectRequest);
+            return $http(request).then(function(response) {
+                return response.data;
+            }, function(e) {
+                utils.checkErrorCode(e);
+                console.log("Error Occurred: while fetching getCluster");
                 throw e;
             });
         };

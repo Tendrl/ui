@@ -10,8 +10,15 @@
                     <div class="form-group toolbar-pf-filter">
                         <pf-filter id="hostFilter" config="hostCntrl.filterConfig"></pf-filter>
                     </div>
-                    <div class="form-group sort-component">
+                    <div class="form-group sort-component hide-border">
                         <pf-sort id="hostSort" config="hostCntrl.sortConfig"></pf-sort>
+                    </div>
+                    <div class="form-group sort-component hide-border pull-right">
+                        <button ng-hide="hostCntrl.hideExpandBtn" ng-disabled="hostCntrl.expansionInProgress || hostCntrl.cluster.disableExpand" ng-click="hostCntrl.expandCluster()">Expand Cluster</button>
+                    </div>
+                    <div class="form-group sort-component pull-right" ng-show="!hostCntrl.hideExpandBtn || hostCntrl.expansionInProgress">
+                        {{hostCntrl.cluster.disableExpand ? "Expanding cluster" : hostCntrl.expansionMsg}}    
+                        <a ng-click="hostCntrl.goToTaskDetail()" ng-show="hostCntrl.cluster.currentStatus === 'in_progress' || hostCntrl.cluster.currentStatus === 'failed'" class="details-link">View Details</a>                    
                     </div>
                 </form>
                 <div class="row toolbar-pf-results">
@@ -47,16 +54,16 @@
         <div class="flex-table list-group list-view-pf list-view-pf-view" ng-show="!hostCntrl.isDataLoading">
             <div class="ft-row list-group-item " ng-repeat="host in hostCntrl.filteredHostList">
                 <div class="ft-column ft-icon">
-                    <i ng-class="{'fa ffont fa-arrow-circle-o-down': (host.status ==='DOWN'), 'pficon pficon-ok': (host.status ==='UP')}" uib-tooltip-html="'{{host.status}}'" tooltip-placement="auto bottom-left"></i>
+                    <i ng-class="hostCntrl.getClass(host)" uib-tooltip-html="'{{host.status}}'" tooltip-placement="auto bottom-left"></i>
                 </div>
-                <div class="ft-column ft-main host-name bold-text" uib-tooltip-html="'{{host.name}}'" tooltip-placement="auto bottom-left" ng-click="hostCntrl.goToHostDetail(host)"><a>{{host.name}}</a></div>
-                <!-- <div class="ft-column list-view-pf-additional-info-item list-view-pf-additional-info-item-stacked">
-                    <div class="bold-text">Cluster</div>
-                    <div class="pull-left cluster-name" uib-tooltip-html="'{{host.cluster_name}}'" tooltip-placement="auto bottom-left">{{host.cluster_name || "None"}}</div>
-                </div> -->
+                <div class="ft-column ft-main host-name bold-text" uib-tooltip-html="'{{host.name}}'" tooltip-placement="auto bottom-left" ng-click="hostCntrl.goToHostDetail(host)"><a ng-class="{'remove-color': host.managed === 'No'}">{{host.name}}</a></div>
                 <div class="ft-column list-view-pf-additional-info-item list-view-pf-additional-info-item-stacked">
                     <div class="bold-text">Gluster Version</div>
                     <div class="pull-left">{{host.version}}</div>
+                </div>
+                <div class="ft-column list-view-pf-additional-info-item list-view-pf-additional-info-item-stacked">
+                    <div class="bold-text">Managed</div>
+                    <div class="pull-left">{{host.managed}}</div>
                 </div>
                 <div class="ft-column list-view-pf-additional-info-item list-view-pf-additional-info-item-stacked">
                     <div class="bold-text">Role</div>
@@ -71,7 +78,12 @@
                     <div class="pull-left counts">{{host.alerts}}</div>
                 </div>
                 <div class="ft-column ft-actions">
-                    <button ng-show="host.role !== 'Tendrl Server'" class="btn btn-default dashboard-btn" ng-click="hostCntrl.redirectToGrafana(host, $event)" tooltip-enable="hostCntrl.flag" ng-mouseover="hostCntrl.addTooltip($event)" uib-tooltip="Dashboard">Dashboard</button>
+                    <button ng-show="host.role !== 'Tendrl Server' && host.managed === 'Yes'" class="btn btn-default dashboard-btn" ng-click="hostCntrl.redirectToGrafana(host, $event)" tooltip-enable="hostCntrl.flag" ng-mouseover="hostCntrl.addTooltip($event)" uib-tooltip="Dashboard">Dashboard</button>
+                    <div ng-show="host.managed === 'No'">
+                        <div ng-show="hostCntrl.cluster.state === 'expand_pending'"">Ready to import.</div>
+                        <div ng-show="hostCntrl.cluster.state === 'expanding' && hostCntrl.cluster.currentStatus === 'in_progress'">Importing host.</div>
+                        <div ng-show="hostCntrl.cluster.state === 'expanding' && hostCntrl.cluster.currentStatus === 'failed'">Import failed.</div>
+                    </div>
                 </div>
             </div>
         </div>

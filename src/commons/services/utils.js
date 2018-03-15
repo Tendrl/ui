@@ -116,7 +116,7 @@
         vm.checkErrorCode = function(e) {
             if (e.status === 401) {
                 AuthManager.handleUnauthApi();
-            } else if ((e.status === 500) || (e.status === 403)) {
+            } else if (e.status === 403) {
                 $state.go("clusters");
             }
         };

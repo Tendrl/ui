@@ -88,14 +88,22 @@
                     host.clusterId = list[i].cluster.cluster_id || "NA";
                     host.clusterName = list[i].cluster.integration_id;
                     host.id = list[i].node_id;
-                    host.status = list[i].status;
                     host.name = list[i].fqdn;
                     host.ipAddress = list[i].ipv4_addr;
                     host.role = store.findRole(list[i].tags) ? store.findRole(list[i].tags).role : "None";
                     host.integrationId = list[i].cluster.integration_id;
                     host.version = list[i].cluster.sds_version || "NA";
-                    host.alerts = list[i].alert_counters ? list[i].alert_counters.warning_count : "No Data";
-                    host.bricks = list[i].bricks_count || "No Data";
+                    host.managed = list[i].is_managed === "yes" ? "Yes" : "No";
+                    
+                    if (host.managed === "Yes") {
+                        host.status = list[i].status;
+                        host.alerts = list[i].alert_counters ? list[i].alert_counters.alert_count : "No Data";
+                        host.bricks = list[i].bricks_count || "No Data";
+                    } else {
+                        host.status = "Not Managed";
+                        host.bricks = "None";
+                        host.alerts = "None";
+                    }
 
                     hostList.push(host);
                 }
