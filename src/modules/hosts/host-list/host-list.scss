@@ -3,8 +3,17 @@
     .bold-text {
         font-weight: bold;
     }
-    .toolbar-pf .form-group:last-child {
-        padding-left: 0;
+    .toolbar-pf {
+        .form-group:last-child {
+            padding-left: 0;
+        }
+        .hide-border {
+            border-right: none;
+        }
+        .details-link {
+            padding-left: 5px;
+            cursor: pointer;
+        }
     }
     .list-view-pf-view {
         .list-group-item {
@@ -16,6 +25,12 @@
                 padding-right: 0;
                 float: left;
                 cursor: pointer;
+
+                .remove-color {
+                    color: $color-gondola-grey;
+                    text-decoration: none;
+                    cursor: grab;
+                }
             }
         }
     }

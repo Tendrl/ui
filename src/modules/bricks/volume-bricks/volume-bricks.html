@@ -1,6 +1,13 @@
 <div ng-if="clusterData === null && !isAPINotFoundError" class="spinner spinner-lg"></div>
 <div ng-if="clusterData !== null" class="tendrl-volume-bricks-view-container container-fluid">
-    <h1 class="bold-text">Brick Details</h1>
+    <div class="alert alert-warning" ng-show="vm.showExpansionWarn">
+        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">
+            <span class="pficon pficon-close"></span>
+        </button>
+        <span class="pficon pficon-warning-triangle-o"></span>
+        <label>Brick information may be incomplete while cluster expansion is in progress.</label>
+    </div>
+    <div><h1 class="bold-text">Brick Details</h1></div>
     <div class="row toolbar-pf">
         <div class="col-sm-12">
             <form class="toolbar-pf-actions">

@@ -38,7 +38,7 @@
         /**
          * @name cancelModal
          * @desc cancels the modal
-         * @memberOf deleteUserController                
+         * @memberOf unmanageConfirmController                
          */
         function cancelModal() {
             $state.go("clusters");
@@ -48,7 +48,7 @@
         /**
          * @name closeModal
          * @desc close the modal
-         * @memberOf deleteUserController                
+         * @memberOf unmanageConfirmController                
          */
         function closeModal() {
             $rootScope.$emit("modal.done", "close");
@@ -88,7 +88,7 @@
         /**
          * @name next
          * @desc takes to next step
-         * @memberOf deleteUserController                
+         * @memberOf unmanageConfirmController                
 
          */
         function confirmModal() {

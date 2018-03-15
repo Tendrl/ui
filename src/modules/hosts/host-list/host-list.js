@@ -15,7 +15,7 @@
         });
 
     /*@ngInject*/
-    function hostController($scope, $rootScope, $state, $interval, utils, config, nodeStore, clusterStore) {
+    function hostController($scope, $rootScope, $state, $interval, $uibModal, utils, config, nodeStore, clusterStore) {
         var vm = this,
             clusterObj,
             hostListTimer;
@@ -26,11 +26,16 @@
         vm.hostList = [];
         vm.filteredHostList = [];
         vm.filters = [];
+        vm.hideExpandBtn = true;
+        vm.expansionInProgress = false;
 
         vm.redirectToGrafana = redirectToGrafana;
         vm.goToHostDetail = goToHostDetail;
         vm.addTooltip = addTooltip;
-        //vm.clearAllFilters = clearAllFilters;
+        vm.getClass = getClass;
+        vm.goToTaskDetail = goToTaskDetail;
+        vm.expandCluster = expandCluster;
+
         vm.sortConfig = {
             fields: [{
                 id: "name",
@@ -45,7 +50,6 @@
             },
             isAscending: true
         };
-
 
         vm.filterConfig = {
             fields: [{
@@ -64,7 +68,6 @@
             onFilterChange: _filterChange,
         };
 
-
         init();
 
         /**
@@ -77,21 +80,145 @@
             var clusters;
             clusters = $rootScope.clusterData;
 
-            nodeStore.getNodeList(vm.clusterId)
-                .then(function(list) {
+            clusterStore.getCluster(vm.clusterId)
+                .then(function(data) {
                     $interval.cancel(hostListTimer);
+                    vm.cluster = data;
+                    _setExpansionState();
+                    return nodeStore.getNodeList(vm.clusterId);
+                    
+                }).catch(function(e) {
+
+                    vm.cluster = {};
+                })
+                .then(function(list) {
                     vm.hostList = list;
                     vm.filteredHostList = vm.hostList;
                     _filterChange(vm.filters);
                     _sortChange(vm.sortConfig.currentField.id, vm.sortConfig.isAscending);
                     startTimer();
                 }).catch(function(e) {
+
                     vm.hostList = [];
                     vm.filteredHostList = vm.hostList;
                     _filterChange(vm.filters);
                 }).finally(function() {
+
                     vm.isDataLoading = false;
                 });
+        }
+
+        function startTimer() {
+
+            hostListTimer = $interval(function() {
+                init();
+            }, 1000 * config.nodeRefreshIntervalTime, 1);
+        }
+
+        function redirectToGrafana(host, $event) {
+            utils.redirectToGrafana("hosts", $event, {
+                clusterId: host.integrationId,
+                hostName: host.name.split(".").join("_")
+            });
+        }
+
+        /*Cancelling interval when scope is destroy*/
+        $scope.$on("$destroy", function() {
+            $interval.cancel(hostListTimer);
+        });
+
+        function goToHostDetail(host) {
+            if (vm.clusterId && host.managed === "Yes") {
+                $state.go("host-detail", { clusterId: vm.clusterId, hostId: host.id });
+            }
+        }
+
+        function addTooltip($event) {
+            vm.flag = utils.tooltip($event);
+        }
+
+        function getClass(host) {
+            var cls = "";
+
+            if (host.managed === "No" && vm.cluster.state === "expanding") {
+                cls = "pficon pficon-in-progress";
+            } else if(host.managed === "No") {
+                cls = "fa ffont fa-question";
+            }else if (host.status === "DOWN") {
+                cls = "fa ffont fa-arrow-circle-o-down";
+            } else if (host.status === "UP") {
+                cls = "pficon pficon-ok";
+            }
+
+            return cls;
+        }
+
+        function goToTaskDetail() {
+            if (vm.cluster.jobType === "ExpandClusterWithDetectedPeers") {
+                $state.go("task-detail", { clusterId: vm.cluster.integrationId, taskId: vm.cluster.currentTaskId });
+            }
+        }
+
+        function expandCluster() {
+            var wizardDoneListener,
+                modalInstance,
+                closeWizard;
+
+            modalInstance = $uibModal.open({
+                animation: true,
+                backdrop: "static",
+                templateUrl: "/modules/clusters/expand-cluster/expand-cluster.html",
+                controller: "expandClusterController",
+                controllerAs: "vm",
+                size: "lg",
+                resolve: {
+                    selectedCluster: function() {
+                        return vm.cluster;
+                    }
+                }
+            });
+
+            closeWizard = function(e, reason) {
+                modalInstance.dismiss(reason);
+                wizardDoneListener();
+            };
+
+            modalInstance.result.then(function() {}, function() {});
+            wizardDoneListener = $rootScope.$on("modal.done", closeWizard);
+        }
+
+        /* Trigger this function when we have cluster data */
+        $scope.$on("GotClusterData", function(event, data) {
+            /* Forward to home view if we don't have any cluster */
+            if ($rootScope.clusterData === null || $rootScope.clusterData.length === 0) {
+                $state.go("clusters");
+            } else {
+                init();
+            }
+        });
+
+        /***Private Functions****/
+
+        function _hideExpandBtn() {
+            return ($rootScope.userRole === "limited" ||
+                (vm.cluster.managed === "Yes" && vm.cluster.state !== "expand_pending"));
+        }
+
+        function _setExpansionState() {
+            vm.expansionInProgress = _isClusterExpanding();
+            vm.hideExpandBtn = _hideExpandBtn();
+
+            if (vm.expansionInProgress && vm.cluster.currentStatus === "in_progress") {
+                vm.expansionMsg = "Expanding cluster."
+            } else if(vm.expansionInProgress && vm.cluster.currentStatus === "failed") {
+                vm.expansionMsg = "Expansion failed."
+            } else if (!vm.hideExpandBtn) {
+                vm.expansionMsg = "Cluster expansion required."
+            }
+
+            if (vm.expansionInProgress) {
+                vm.hideExpandBtn = false;
+            }
         }
 
         function _compareFn(item1, item2) {
@@ -164,43 +291,15 @@
             _applyFilters(filters);
         }
 
-        function startTimer() {
-
-            hostListTimer = $interval(function() {
-                init();
-            }, 1000 * config.nodeRefreshIntervalTime, 1);
-        }
-
-        /* Trigger this function when we have cluster data */
-        $scope.$on("GotClusterData", function(event, data) {
-            /* Forward to home view if we don't have any cluster */
-            if ($rootScope.clusterData === null || $rootScope.clusterData.length === 0) {
-                $state.go("clusters");
-            } else {
-                init();
+        function _isClusterExpanding() {
+            var expansionInProgress = false;
+            if (vm.cluster.managed === "Yes") {
+                if (vm.cluster.jobType === "ExpandClusterWithDetectedPeers" && (vm.cluster.currentStatus === "in_progress" || vm.cluster.currentStatus === "failed")) {
+                    expansionInProgress = true;
+                }
             }
-        });
 
-        function redirectToGrafana(host, $event) {
-            utils.redirectToGrafana("hosts", $event, {
-                clusterId: host.integrationId,
-                hostName: host.name.split(".").join("_")
-            });
-        }
-
-        /*Cancelling interval when scope is destroy*/
-        $scope.$on("$destroy", function() {
-            $interval.cancel(hostListTimer);
-        });
-
-        function goToHostDetail(host) {
-            if (vm.clusterId) {
-                $state.go("host-detail", { clusterId: vm.clusterId, hostId: host.id });
-            }
-        }
-
-        function addTooltip($event) {
-            vm.flag = utils.tooltip($event);
+            return expansionInProgress;
         }
     }
 

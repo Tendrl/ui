@@ -48,6 +48,10 @@
         vm.showDashboardBtn = showDashboardBtn;
         vm.showKebabMenu = showKebabMenu;
         vm.disableImportBtn = disableImportBtn;
+        vm.getClass = getClass;
+        vm.expandCluster = expandCluster;
+        vm.hideExpandBtn = hideExpandBtn;
+        vm.isTooltipEnable = isTooltipEnable;
 
         vm.filterConfig = {
             fields: [{
@@ -286,7 +290,11 @@
         }
 
         function goToTaskDetail(cluster) {
-            $state.go("global-task-detail", { clusterId: cluster.integrationId, taskId: cluster.currentTaskId });
+            if(cluster.jobType === "ExpandClusterWithDetectedPeers") {
+                $state.go("task-detail", { clusterId: cluster.integrationId, taskId: cluster.currentTaskId });
+            } else {
+                $state.go("global-task-detail", { clusterId: cluster.integrationId, taskId: cluster.currentTaskId });
+            }
         }
 
         function showImportBtn(cluster) {
@@ -294,8 +302,8 @@
         }
 
         function disableImportBtn(cluster) {
-            return (cluster.currentStatus === 'in_progress' ||
-                (cluster.jobType === 'UnmanageCluster' && cluster.currentStatus === 'failed'));
+            return (cluster.currentStatus === "in_progress" ||
+                (cluster.jobType === "UnmanageCluster" && cluster.currentStatus === "failed"));
         }
 
         function showDashboardBtn(cluster) {
@@ -306,6 +314,59 @@
             return (cluster.managed === "Yes" || cluster.currentStatus === "failed" ||
                     (cluster.jobType === "UnmanageCluster" && cluster.currentStatus === "in_progress")) &&
                 $rootScope.userRole !== "limited";
+        }
+
+        function hideExpandBtn(cluster) {
+            return ($rootScope.userRole === "limited" || 
+                (cluster.managed === "Yes" && cluster.state !== "expand_pending") || cluster.disableExpand);
+        }
+
+        function isTooltipEnable(message) {
+            return (message !== "Expansion required" && message !== "Expansion Failed" && message !== "Expanding cluster");
+        }
+
+        function getClass(cluster) {
+            var cls;
+
+            if (cluster.state === "expanding" && cluster.currentStatus === "in_progress" && cluster.jobType === "ExpandClusterWithDetectedPeers") {
+                cls = "pficon pficon-in-progress";
+            } else if (cluster.status === "HEALTH_ERR" || cluster.status === "HEALTH_WARN") {
+                cls = "pficon pficon-warning-triangle-o";
+            } else if (cluster.status === "HEALTH_OK") {
+                cls = "pficon pficon-ok";
+            } else if (cluster.managed !== "Yes") {
+                cls = "fa ffont fa-question";
+            }
+
+            return cls;
+        }
+
+        function expandCluster(cluster) {
+            var wizardDoneListener,
+                modalInstance,
+                closeWizard;
+
+            modalInstance = $uibModal.open({
+                animation: true,
+                backdrop: "static",
+                templateUrl: "/modules/clusters/expand-cluster/expand-cluster.html",
+                controller: "expandClusterController",
+                controllerAs: "vm",
+                size: "lg",
+                resolve: {
+                    selectedCluster: function() {
+                        return cluster;
+                    }
+                }
+            });
+
+            closeWizard = function(e, reason) {
+                modalInstance.dismiss(reason);
+                wizardDoneListener();
+            };
+
+            modalInstance.result.then(function() {}, function() {});
+            wizardDoneListener = $rootScope.$on("modal.done", closeWizard);
         }
 
         /***Private Functions***/

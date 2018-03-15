@@ -1,0 +1,53 @@
+.tendrl-expand-confirm-modal-container {
+
+	.div-with-scroll-logs {
+        max-height: 500px;
+        padding: 0;
+        .table-heading {
+            padding: 10px 0 10px 10px;
+            font-size: 16px;
+            background-color: $color-white-smoke;
+            margin-right: 0;
+        }
+        overflow: auto;
+        overflow-x: hidden;
+        margin: 20px 0;
+    }
+
+    .list-view-pf .list-group-item-heading {
+        white-space: inherit;
+    }
+
+    .toolbar-pf-filter {
+        width: 40%;
+    }
+
+    .container-fluid {
+        padding: 0;
+    }
+
+    .toolbar-pf {
+        display: inline;
+        border-bottom: 0;
+        .form-group {
+            padding-left: 0;
+        }
+    }
+
+    .toolbar-pf-results {
+        border-top: 0;
+        margin-top: 0;
+        span h5{
+            display: none;
+        }
+
+        h5 {
+            line-height: 0px;
+        }
+    }
+
+    .desc {
+    	margin-bottom: 20px;
+    	padding: 0;
+    }
+}

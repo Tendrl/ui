@@ -1,0 +1,58 @@
+{
+         "updated_at":"2017-12-11 10:43:45.381304+00:00",
+         "sds_name":"gluster",
+         "cluster_name":"gluster-437bce96aeeeeb3f72fb518018770a7a91d285c52bf8777d26882e9600353034",
+         "cluster_id":"5bf067dd-5d1a-4b15-bde2-5b89cd5ccccc",
+         "integration_id":"5bf067dd-5d1a-4b15-bde2-5b89cd5ccccc",
+         "hash":"496a294bc27b53b3f88ec141cbc263b0",
+         "sds_version":"4.0dev1",
+         "current_job":"{\"status\": \"failed\", \"job_id\": \"52d351c3-b9ae-42a5-a9fe-da6a8456c54f\", \"job_name\": \"ExpandClusterWithDetectedPeers\"}",
+         "state": "expanding",
+         "errors":[
+               "message 1",
+               "message 2",
+               "message 3",
+               "message 4",
+               "message 5",
+               "message 3",
+               "message 3",
+               "message 3",
+               "message 3",
+               "message 3"
+         ],
+         "public_network":"",
+         "cluster_network":"",
+         "is_managed":"yes",
+         "volume_profiling_state":"mixed",
+         "import_status":"failed",
+         "import_job_id":"",
+         "nodes":[
+            {
+               "status":"UP",
+               "hash":"bb4bb4b578cf30b89630c18a057dfc4c",
+               "tags":[
+                  "detected_cluster/437bce96aeeeeb3f72fb518018770a7a91d285c52bf8777d26882e9600353034",
+                  "tendrl/node_e35643b5-55e8-4d5a-97ba-268da06305e9",
+                  "tendrl/integration/5bf067dd-5d1a-4b15-bde2-5b89cd5ccccc",
+                  "gluster/server",
+                  "tendrl/node"
+               ],
+               "sync_status":"in_progress",
+               "fqdn":"dhcp42-12.lab.eng.blr.redhat.com",
+               "updated_at":"2017-12-11 10:44:54.304334+00:00",
+               "node_id":"e35643b5-55e8-4d5a-97ba-268da06305e9",
+               "last_sync":"2017-12-11 10:44:47.929237+00:00",
+               "node_id":"e35643b5-55e8-4d5a-97ba-268da06305e9"
+            }
+         ],
+         "globaldetails":{
+            "volume_up_degraded":"0",
+            "peer_count":"1",
+            "updated_at":"2017-12-11 10:53:32.247100+00:00",
+            "vol_count":"1",
+            "hash":"da76fbdd33fd156487e4952e68bd8e00",
+            "connection_count":"0",
+            "status":"healthy",
+            "connection_active":"0"
+         }
+      }
