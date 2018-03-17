@@ -1,22 +1,8 @@
 <div ng-if="clusterData === null && !isAPINotFoundError" class="spinner spinner-lg"></div>
 <div ng-if="clusterData !== null" class="tendrl-host-detail-container container-fluid">
     <ul class="breadcrumb custom-breadcrumb" ng-show="!vm.isDataLoading">
-        <li><a ui-sref="clusters">Clusters</a></li>
-        <li>
-            <i class="breadcrumb-icon pficon" ng-class="{'pficon-warning-triangle-o': (vm.clusterStatus === 'HEALTH_ERR' || vm.clusterStatus === 'HEALTH_WARN'), 'pficon-ok': (vm.clusterStatus === 'HEALTH_OK')}"></i>
-            <span class="cluster-name">
-                {{vm.clusterName}}
-            </span>
-            <span class="tip">{{vm.clusterName}}</span>
-        </li>
-        <li><a href="" ng-click="vm.goToClusterHost()">Hosts</a></li>
-        <li>
-            <i class="breadcrumb-icon" ng-class="{'fa breadcrumb-ffont fa-arrow-circle-o-down': (vm.hostStatus ==='DOWN'), 'pficon pficon-ok': (vm.hostStatus ==='UP')}"></i>
-            <span class="cluster-name">
-                {{vm.hostName}}
-            </span>
-            <span class="tip">{{vm.hostName}}</span>
-        </li>
+        <li><a href="" ng-click="vm.goToClusterHost()">{{vm.clusterName}}</a></li>
+        <li>{{vm.hostName}}</li>
     </ul>
     <div ng-if="vm.isDataLoading" class="spinner spinner-lg"></div>
     <div ng-if="!vm.isDataLoading">

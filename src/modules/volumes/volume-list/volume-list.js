@@ -117,23 +117,13 @@
             }, 1000 * config.volumeRefreshInterval, 1);
         }
 
-        /* Trigger this function when we have cluster data */
-        $scope.$on("GotClusterData", function(event, data) {
-            /* Forward to home view if we don't have any cluster */
-            if ($rootScope.clusterData === null || $rootScope.clusterData.length === 0) {
-                $state.go("clusters");
-            } else {
-                init();
-            }
-        });
-
         /*Cancelling interval when scope is destroy*/
         $scope.$on("$destroy", function() {
             $interval.cancel(volumeTimer);
         });
 
-        function redirectToGrafana(volume, $event) {
-            utils.redirectToGrafana("volumes", $event, {
+        function redirectToGrafana(volume) {
+            utils.redirectToGrafana("volumes", {
                 clusterId: vm.clusterId,
                 volumeName: volume.name
             });

@@ -216,12 +216,12 @@
             subVolume.isExpanded = false;
         }
 
-        function redirectToGrafana(brick, $event) {
+        function redirectToGrafana(brick) {
             var brickName = brick.brickPath.split(":")[1],
                 hostName = brick.fqdn.replace(/\./gi, "_");
 
             brickName = brickName.replace(/\//gi, "|");
-            utils.redirectToGrafana("bricks", $event, { clusterId: vm.clusterId, hostName: hostName, brickName: brickName, volumeName: volumeStore.getVolumeObject(vm.volumeId).name });
+            utils.redirectToGrafana("bricks", { clusterId: vm.clusterId, hostName: hostName, brickName: brickName, volumeName: volumeStore.getVolumeObject(vm.volumeId).name });
         }
 
         function expandAll() {

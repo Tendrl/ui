@@ -1,29 +1,8 @@
 <div ng-if="clusterData === null && !isAPINotFoundError" class="spinner spinner-lg"></div>
 <div ng-if="clusterData !== null" class="tendrl-task-detail-view-container container-fluid">
-
     <ul class="breadcrumb custom-breadcrumb" ng-if="!taskDetailCntrl.isDataLoading && taskDetailCntrl.taskDetail">
-        <li ng-if="!$root.selectedClusterOption"><a ui-sref="clusters">All Clusters</a></li>
-        <li ng-if="$root.selectedClusterOption"><a ui-sref="clusters">Clusters</a></li>
-        <li ng-if="$root.selectedClusterOption">
-            <i class="breadcrumb-icon pficon" ng-class="{'pficon-warning-triangle-o': (taskDetailCntrl.clusterStatus === 'HEALTH_ERR' || taskDetailCntrl.clusterStatus === 'HEALTH_WARN'), 'pficon-ok': (taskDetailCntrl.clusterStatus === 'HEALTH_OK')}"></i>
-            <span class="cluster-name">
-                {{taskDetailCntrl.clusterName}}
-            </span>
-            <span class="tip">{{taskDetailCntrl.clusterName}}</span>
-        </li>
-        <li ng-if="$root.selectedClusterOption">
-            <a href="" ng-click="taskDetailCntrl.goToClusterTask()">Tasks</a>
-        </li>
-        <li ng-if="!$root.selectedClusterOption" >
-            <a href="" class="no-content">Tasks</a>
-        </li>
-        <li>
-            <i class="breadcrumb-icon" ng-class="{'pficon pficon-ok status-icon': (taskDetailCntrl.taskDetail.status === 'finished'), 'pficon pficon-error-circle-o':(taskDetailCntrl.taskDetail.status === 'failed')}"></i>
-            <span class="cluster-name" ng-class="{'remove-width': !$root.selectedClusterOption}">
-                {{taskDetailCntrl.taskDetail.flow}}: {{taskDetailCntrl.taskDetail.job_id}}
-            </span>
-            <span class="tip">{{taskDetailCntrl.taskDetail.job_id}}</span>
-        </li>
+        <li><a href="" ng-click="taskDetailCntrl.goToClusterTask()"">Tasks</a></li>
+        <li>{{taskDetailCntrl.taskDetail.flow}}: {{taskDetailCntrl.taskDetail.job_id}}</li>
     </ul>
     <form class="form-horizontal" ng-if="taskDetailCntrl.taskDetail">
         <!-- replacing id with data-id to pass build errors -->

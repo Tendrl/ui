@@ -41,35 +41,9 @@
             </div>
         </center>
         <div ng-show="vm.isDataLoading" class="spinner spinner-lg"></div>
-        <div class="flex-table list-group list-view-pf list-view-pf-view" ng-show="!vm.isDataLoading && vm.brickList.length !== 0 && vm.filteredBrickList.length !== 0">
-            <div class="ft-row list-group-item ft-header">
-                <div class="ft-column">Volume</div>
-                <div class="ft-column">Brick Path</div>
-                <div class="ft-column ft-main">Utilization</div>
-                <div class="ft-column">Devices</div>
-                <div class="ft-column">Port</div>
-                <div class="ft-column ft-actions"></div>
-            </div>
-            <div class="ft-row list-group-item" ng-repeat="brick in vm.filteredBrickList">
-                <div class="ft-column">{{brick.volName}}</div>
-                <div class="ft-column">
-                    <i class="status-icons pull-left" ng-class="{'fa ffont fa-stop-circle-o': (brick.status !=='started'), 'pficon pficon-ok': (brick.status ==='started')}" uib-tooltip-html="'{{brick.status}}'" tooltip-placement="auto bottom-left"></i>
-                    <div class="brick-path" uib-tooltip-html="'{{brick.brickPath.split(':')[1]}}'" tooltip-placement="auto bottom-left">{{brick.brickPath.split(":")[1]}}</div>
-                </div>
-                <div class="ft-column ft-main">
-                    <utilisation-chart used="brick.utilization.used" total="brick.utilization.total"></utilisation-chart>
-                </div>
-                <div class="ft-column">
-                    <span ng-show="!brick.devices.length">0</span>
-                    <span ng-repeat="device in brick.devices">{{device}}<span ng-show="$index !== (brick.devices.length-1)">, </span></span>
-                </div>
-                <div class="ft-column">
-                    {{brick.port}}
-                </div>
-                <div class="ft-column ft-actions">
-                    <button class="btn btn-default launch-btn" ng-click="vm.redirectToGrafana(brick, $event)" tooltip-enable="vm.flag" ng-mouseover="vm.addTooltip($event)" uib-tooltip="Dashboard">Dashboard</button>
-                </div>
-            </div>
+        <div class="table-class" ng-show="!vm.isDataLoading && vm.brickList.length !== 0 && vm.filteredBrickList.length !== 0">
+            <pf-table-view id="hostDetailView" config="vm.hostDetailConfig" columns="vm.hostDetailColumns" items="vm.filteredBrickList" action-buttons="vm.actionButtons">
+            </pf-table-view>
         </div>
     </div>
     <div class="row">

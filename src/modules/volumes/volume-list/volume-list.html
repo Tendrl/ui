@@ -76,7 +76,7 @@
                 <div class="ft-column ft-actions">
                     <button ng-show="volumeCntrl.showDisableBtn(volume)" class="btn btn-default dashboard-btn" ng-click="volumeCntrl.toggleProfiling(volume, 'disable', $event)" tooltip-enable="volumeCntrl.flag" ng-mouseover="volumeCntrl.addTooltip($event)" uib-tooltip="Disable Profiling" ng-disabled="volume.disableAction || volume.currentTask.status === 'in_progress'">Disable Profiling</button>
                     <button ng-show="volumeCntrl.showEnableBtn(volume)" class="btn btn-default dashboard-btn" ng-click="volumeCntrl.toggleProfiling(volume, 'enable', $event)" tooltip-enable="volumeCntrl.flag" ng-mouseover="volumeCntrl.addTooltip($event)" uib-tooltip="Enable Profiling" ng-disabled="volume.disableAction || volume.currentTask.status === 'in_progress'">Enable Profiling</button>
-                    <button class="btn btn-default dashboard-btn" ng-click="volumeCntrl.redirectToGrafana(volume, $event)" tooltip-enable="volumeCntrl.flag" ng-mouseover="volumeCntrl.addTooltip($event)" uib-tooltip="Dashboard">Dashboard</button>
+                    <button class="btn btn-default dashboard-btn" ng-click="volumeCntrl.redirectToGrafana(volume)" tooltip-enable="volumeCntrl.flag" ng-mouseover="volumeCntrl.addTooltip($event)" uib-tooltip="Dashboard">Dashboard</button>
                 </div>
             </div>
         </div>
