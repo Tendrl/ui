@@ -53,7 +53,7 @@
                 method: "PUT",
                 url: url,
                 data: {
-                    enable_volume_profiling: action.toLowerCase()
+                    "Cluster.volume_profiling_flag": action.toLowerCase()
                 }
             };
 
