@@ -42,7 +42,7 @@
                     </h5>
                 </div>
                 <div class="col-sm-10 date-link">
-                    <p><a ng-click = "taskCntrl.clearDates()">Clear Dates</a></p>
+                    <p><a ng-click="taskCntrl.clearDates()">Clear Dates</a></p>
                 </div>
             </div>
         </div>
@@ -66,22 +66,24 @@
     </center>
     <div ng-if="taskCntrl.isDataLoading" class="spinner spinner-lg"></div>
     <div class="flex-table list-group list-view-pf list-view-pf-view task-list-table" ng-show="!taskCntrl.isDataLoading">
-        <div class="ft-row list-group-item" ng-repeat="task in taskCntrl.filterTaskList = (taskCntrl.filteredTaskList | filter: taskCntrl.filterByCreatedDate| orderBy: ['-createdAt', 'jobId'])">
-            <div class="ft-column ft-icon ">
-                <i ng-class="taskCntrl.statusIcon(task.status)"></i>
-            </div>
-            <div class="ft-column ft-main list-view-pf-additional-info-item list-view-pf-additional-info-item-stacked task-flow ">
-                <a class="bold-text name" ng-show="task.flow" ng-click="taskCntrl.goToTaskDetail(task.jobId)">{{task.flow}}</a>
-                <div class="bold-text " ng-if="!task.flow ">NA</div>
-                <p>Task ID: {{task.jobId || "NA "}} </p>
-            </div>
-            <div class="ft-column status-col">
-                <div class="bold-text ">Submitted</div>
-                <div class="pull-left ">{{task.createdAt| date: 'dd MMM yyyy HH:mm:ss'}}</div>
-            </div>
-            <div class="ft-column status-col ">
-                <div class="bold-text ">{{task.status}}</div>
-                <div class="pull-left ">{{task.updatedAt | date: 'dd MMM yyyy HH:mm:ss'}}</div>
+        <div ng-repeat="task in taskCntrl.filterTaskList = (taskCntrl.filteredTaskList | filter: taskCntrl.filterByCreatedDate| orderBy: ['-createdAt', 'jobId'])">
+            <div class="ft-row list-group-item">
+                <div class="ft-column ft-icon ">
+                    <i ng-class="taskCntrl.statusIcon(task.status)"></i>
+                </div>
+                <div class="ft-column ft-main list-view-pf-additional-info-item list-view-pf-additional-info-item-stacked task-flow ">
+                    <a class="bold-text name" ng-show="task.flow" ng-click="taskCntrl.goToTaskDetail(task.jobId)">{{task.flow}}</a>
+                    <div class="bold-text " ng-if="!task.flow ">NA</div>
+                    <p>Task ID: {{task.jobId || "NA "}} </p>
+                </div>
+                <div class="ft-column status-col">
+                    <div class="bold-text ">Submitted</div>
+                    <div class="pull-left ">{{task.createdAt| date: 'dd MMM yyyy HH:mm:ss'}}</div>
+                </div>
+                <div class="ft-column status-col ">
+                    <div class="bold-text ">{{task.status}}</div>
+                    <div class="pull-left ">{{task.updatedAt | date: 'dd MMM yyyy HH:mm:ss'}}</div>
+                </div>
             </div>
         </div>
     </div>

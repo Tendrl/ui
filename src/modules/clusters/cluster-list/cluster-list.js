@@ -53,6 +53,7 @@
         vm.hideExpandBtn = hideExpandBtn;
         vm.isTooltipEnable = isTooltipEnable;
         vm.goToClusterHost = goToClusterHost;
+        vm.showViewDetailsLink = showViewDetailsLink;
 
         vm.filterConfig = {
             fields: [{
@@ -148,7 +149,7 @@
 
             clusterListTimer = $interval(function() {
                 init();
-            }, 1000 * config.refreshIntervalTime, 1);
+            }, 1000 * config.volumeRefreshInterval, 1);
         }
 
         /*Cancelling interval when scope is destroy*/
@@ -180,33 +181,16 @@
          * @memberOf clusterController
          */
         function doProfilingAction($event, cluster, action, clusterId) {
-            var profileStatus = {
-                "enabled": "Enabled",
-                "disabled": "Disabled",
-                "mixed": "Mixed"
-            };
-
-            if (action === "Enable") {
-                vm.enProfilingBtnClicked = true;
-            } else {
-                vm.disProfilingBtnClicked = true;
-            }
-
             clusterStore.doProfilingAction(cluster.clusterId, action)
                 .then(function(data) {
                     Notifications.message("success", "", (action === "Enable" ? "Enable" : "Disable") + " volume profiling job initiated successfully.");
-                    cluster = _isClusterPresent(data, clusterId);
-                    vm.clusterList[cluster.index].isProfilingEnabled = profileStatus[data.volume_profiling_state];
+                    cluster.disableAction = true;
+                    $interval.cancel(clusterListTimer);
+                    startTimer();
                 }).catch(function(error) {
                     Notifications.message("danger", "", "Failed to " + (action === "Enable" ? "enable" : "disable") + " volume profile.");
-                }).finally(function() {
-
-                    if (action === "Enable") {
-                        vm.enProfilingBtnClicked = false;
-                    } else {
-                        vm.disProfilingBtnClicked = false;
-                    }
                 });
+
             $event.stopPropagation();
         }
 
@@ -297,6 +281,8 @@
         function goToTaskDetail(cluster) {
             if (cluster.jobType === "ExpandClusterWithDetectedPeers") {
                 $state.go("task-detail", { clusterId: cluster.integrationId, taskId: cluster.currentTaskId });
+            } else if (cluster.jobType === "EnableDisableVolumeProfiling") {
+                $state.go("task-detail", { clusterId: cluster.integrationId, taskId: cluster.currentTaskId });
             } else {
                 $state.go("global-task-detail", { clusterId: cluster.integrationId, taskId: cluster.currentTaskId });
             }
@@ -319,6 +305,10 @@
             return (cluster.managed === "Yes" || cluster.currentStatus === "failed" ||
                     (cluster.jobType === "UnmanageCluster" && cluster.currentStatus === "in_progress")) &&
                 $rootScope.userRole !== "limited";
+        }
+
+        function showViewDetailsLink(cluster) {
+            return ((cluster.currentStatus === "in_progress" && cluster.jobType !== "EnableDisableVolumeProfiling")|| cluster.currentStatus === "failed");
         }
 
         function hideExpandBtn(cluster) {
@@ -375,32 +365,6 @@
         }
 
         /***Private Functions***/
-
-        /**
-         * @name _isClusterPresent
-         * @desc checks if cluster is present in vm.clusterList
-         * @memberOf clusterController
-         */
-        function _isClusterPresent(cluster, profilingId) {
-            var len = vm.clusterList.length,
-                found = false,
-                i;
-
-            for (i = 0; i < len; i++) {
-
-                if (profilingId && vm.clusterList[i].clusterId === profilingId) {
-                    return { index: i, cluster: cluster };
-                } else if (vm.clusterList[i].clusterId === cluster.clusterId) {
-                    found = true;
-                    return { index: i, cluster: cluster };
-                }
-            }
-
-            if (found === false) {
-                return -999;
-            }
-
-        }
 
         function _compareFn(item1, item2) {
             var compValue = 0;

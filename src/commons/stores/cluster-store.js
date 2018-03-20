@@ -203,19 +203,14 @@
         /****Private Functions****/
 
         function _formatSingleCluster(cluster) {
-            var temp = {},
-                profileStatus = {
-                    "enabled": "Enabled",
-                    "disabled": "Disabled",
-                    "mixed": "Mixed"
-                };
+            var temp = {};
+
 
             temp.integrationId = cluster.integration_id;
             temp.sdsVersion = cluster.sds_version;
             temp.sdsName = cluster.sds_name;
             temp.name = cluster.cluster_id;
             temp.clusterId = cluster.cluster_id;
-            temp.isProfilingEnabled = profileStatus[cluster.volume_profiling_state];
             temp.currentTask = cluster.current_job;
             temp.jobType = JSON.parse(cluster.current_job).job_name;
             temp.currentStatus = JSON.parse(cluster.current_job).status;
@@ -225,6 +220,7 @@
             temp.alertCount = cluster.alert_counters ? parseInt(cluster.alert_counters.alert_count) : 0;
             temp.hostCount = cluster.nodes.length || 0;
             temp.state = cluster.status;
+            temp.isProfilingEnabled = _getProfileStatus(temp, cluster);
 
             temp.errors = cluster.errors ? cluster.errors : [];
 
@@ -296,9 +292,26 @@
                     }
                 }
             }
-            
+
             temp.hosts = store.getAssociatedHosts(cluster);
             return temp;
+        }
+
+        function _getProfileStatus(temp, cluster) {
+            var status = "",
+                profileStatus = {
+                    "enabled": "Enabled",
+                    "disabled": "Disabled",
+                    "mixed": "Mixed"
+                };
+
+            if (temp.jobType === "EnableDisableVolumeProfiling" && temp.currentStatus === "in_progress") {
+                status = "Pending";
+            } else {
+                status = profileStatus[cluster.volume_profiling_state];
+            }
+
+            return status;
         }
     }
 
