@@ -19,7 +19,8 @@
             var vm = this,
                 statusTimer,
                 msgTimer,
-                isMessagesLoading;
+                isMessagesLoading,
+                count = 1;
 
             vm.isDataLoading = true;
             vm.isMessagesLoading = true;
@@ -82,8 +83,12 @@
             function startMessageTimer() {
                 msgTimer = $interval(function() {
 
-                    if (vm.taskDetail && (vm.taskDetail.status === "processing" || vm.taskDetail.status === "new")) {
+                    if (count < 5) {
                         _getTaskLogs();
+                    }
+
+                    if (vm.taskDetail && (vm.taskDetail.status === "finished" || vm.taskDetail.status === "failed")) {
+                        count++;
                     }
 
                 }, 1000 * config.msgRefreshIntervalTime, 1);

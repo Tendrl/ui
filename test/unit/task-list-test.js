@@ -174,5 +174,93 @@ describe("Unit Component: taskList", function() {
             expect(vm.invalidToDate).to.be.false;
         });
 
+        it("Should return ok icon if status is 'Completed'", function() {
+            expect(vm.statusIcon("Completed")).to.be.equal("pficon pficon-ok");
+        });
+
+        it("Should return error icon if status is 'Failed'", function() {
+            expect(vm.statusIcon("Failed")).to.be.equal("pficon pficon-error-circle-o");
+        });
+
+        it("Should return warning icon if status is 'Completed with Errors'", function() {
+            expect(vm.statusIcon("Completed with Errors")).to.be.equal("pficon pficon-warning-triangle-o");
+        });
+        
+        it("Should return question icon if status is not available", function() {
+            expect(vm.statusIcon(undefined)).to.be.equal("fa fa-question");
+        });
+
+        it("Should return spinner icon if status is 'Processing' or 'New'", function() {
+            expect(vm.statusIcon("Processing")).to.be.equal("fa fa-spinner");
+            expect(vm.statusIcon("New")).to.be.equal("fa fa-spinner");
+        });
+    });
+
+    it("Should verify for Task API error", function() {
+        vm = $componentController("tasks", { $scope: $scope });
+        getJobListDeferred.reject("error");
+        $rootScope.$digest();
+
+        expect(vm.taskList).to.be.an("array").that.is.empty;
+        expect(vm.filteredTaskList).to.be.an("array").that.is.empty;
+        expect(vm.isDataLoading).to.be.false;
+    });
+
+    it("Should filter the list with 'TaskId' parameters", function() {
+        vm = $componentController("tasks", { $scope: $scope });
+
+        vm.filters = [{
+            id: "jobId",
+            title: "Task ID",
+            placeholder: "Filter by Task ID",
+            filterType: "text"
+        }];
+        vm.filters[0].value = "baf62e";
+        getJobListDeferred.resolve(taskList.jobs);
+        $rootScope.$digest();
+        vm.taskList.forEach(function(o) { delete o.$$hashKey });
+        expect(vm.filtersText).to.be.equal("Task ID : baf62e\n");
+        expect(vm.filteredTaskList).to.deep.equal(taskList.filteredTaskIdFormattedOutput);
+    });
+
+    it("Should filter the list with 'Flow' parameters", function() {
+        vm = $componentController("tasks", { $scope: $scope });
+
+        vm.filters = [{
+            id: "flow",
+            title: "Task",
+            placeholder: "Filter by Task ID",
+            filterType: "text"
+        }];
+        vm.filters[0].value = "ImportCluster";
+        getJobListDeferred.resolve(taskList.jobs);
+        $rootScope.$digest();
+        vm.taskList.forEach(function(o) { delete o.$$hashKey });
+        expect(vm.filtersText).to.be.equal("Task : ImportCluster\n");
+        expect(vm.filteredTaskList).to.deep.equal(taskList.filteredFlowFormattedOutput);
+    });
+
+    it("Should filter the list with 'Status' parameters", function() {
+        vm = $componentController("tasks", { $scope: $scope });
+
+        vm.filters = [{
+            id: "status",
+            title: "Status",
+            placeholder: "Filter by Status",
+            filterType: "select",
+            filterValues: ["Processing", "Completed", "Failed"]
+        }];
+        vm.filters[0].value = "Failed";
+        getJobListDeferred.resolve(taskList.jobs);
+        $rootScope.$digest();
+        vm.taskList.forEach(function(o) { delete o.$$hashKey });
+        expect(vm.filtersText).to.be.equal("Status : Failed\n");
+        expect(vm.filteredTaskList).to.deep.equal(taskList.filteredStatusFormattedOutput);
+    });
+
+    afterEach(function() {
+        // Tear down
+        $state.go.restore();
+        clock.restore();
     });
 });

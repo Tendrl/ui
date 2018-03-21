@@ -31,7 +31,7 @@
             <div class="row toolbar-pf">
                 <div class="col-sm-12">
                     <form class="toolbar-pf-actions">
-                        <div class="form-group toolbar-pf-filter">
+                        <div class="form-group toolbar-pf-filter" ng-class="{'disable-pointer': vm.hostList.length === 0}">
                             <pf-filter id="importFilter" config="vm.filterConfig"></pf-filter>
                         </div>
                     </form>
@@ -40,7 +40,7 @@
                 <!-- /col -->
             </div>
             <div class="row " ng-show="vm.filteredHostList.length ">
-                <h3 class="col-sm-12 ">{{vm.filteredHostList.length}} 
+                <h3 ng-if="vm.hostList.length !== 0" class="col-sm-12 ">{{vm.filteredHostList.length}} 
                     <ng-pluralize count="vm.filteredHostList.length " when="{ 'one': 'Host', 'other': 'Hosts'} "></ng-pluralize> 
                 Discovered</h3>
             </div>

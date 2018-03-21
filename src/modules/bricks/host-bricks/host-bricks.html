@@ -7,7 +7,7 @@
         <div class="row toolbar-pf">
             <div class="col-sm-12">
                 <form class="toolbar-pf-actions">
-                    <div class="form-group toolbar-pf-filter">
+                    <div class="form-group toolbar-pf-filter" ng-class="{'disable-pointer': vm.brickList.length === 0}">
                         <pf-filter id="brickFilter" config="vm.filterConfig"></pf-filter>
                     </div>
                 </form>

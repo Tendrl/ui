@@ -18,6 +18,8 @@
                 .then(function(data) {
                     list = _formatData(data);
                     deferred.resolve(list);
+                }).catch(function(e) {
+                    deferred.reject(e);
                 });
 
             return deferred.promise;
@@ -67,6 +69,8 @@
                     }
 
                     deferred.resolve(subVolumes);
+                }).catch(function(e) {
+                    deferred.reject(e);
                 });
 
             return deferred.promise;

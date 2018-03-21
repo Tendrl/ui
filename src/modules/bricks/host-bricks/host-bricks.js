@@ -36,7 +36,7 @@
                 title: "Volume Name",
                 placeholder: "Filter by Volume Name",
                 filterType: "text"
-            },{
+            }, {
                 id: "brickPath",
                 title: "Brick Path",
                 placeholder: "Filter by Brick Path",
@@ -64,21 +64,19 @@
         };
 
         vm.hostDetailColumns = [
-            { header: "Brick Path", itemField: "brickPath", htmlTemplate: "/modules/bricks/host-bricks/brick-path.html"  },
+            { header: "Brick Path", itemField: "brickPath", htmlTemplate: "/modules/bricks/host-bricks/brick-path.html" },
             { header: "Volume Name", itemField: "volName" },
             { header: "Utilization", itemField: "utilization", htmlTemplate: "/modules/bricks/host-bricks/utilization-path.html" },
-            { header: "Disk Device Path", itemField: "devices", templateFn: function(value, item) { return value[0] }},
-            { header: "Port", itemField: "port"}
+            { header: "Disk Device Path", itemField: "devices", templateFn: function(value, item) { return value[0] } },
+            { header: "Port", itemField: "port" }
 
         ];
 
-        vm.actionButtons = [
-          {
+        vm.actionButtons = [{
             name: "Dashboard",
             title: "Dashboard",
             actionFn: _performAction
-          }
-        ];
+        }];
 
         init();
 
@@ -98,23 +96,32 @@
                         vm.filteredBrickList = vm.brickList;
                         _filterChange(vm.filters);
                         $interval.cancel(hostBrickTimer);
-                        vm.isDataLoading = false;
                         startTimer();
+                    }).catch(function(e) {
+                        vm.brickList = [];
+                        vm.filteredBrickList = [];
+                    }).finally(function() {
+                        vm.isDataLoading = false;
                     });
             } else {
                 clusterStore.getClusterList()
                     .then(function(data) {
                         $rootScope.clusterData = clusterStore.formatClusterData(data);
-                        brickStore.getHostBrickList(vm.clusterId, vm.hostId)
-                            .then(function(data) {
-                                vm.brickList = data;
-                                vm.filteredBrickList = vm.brickList;
-                                _filterChange(vm.filters);
-                                $interval.cancel(hostBrickTimer);
-                                _makeTabList();
-                                vm.isDataLoading = false;
-                                startTimer();
-                            });
+                        return brickStore.getHostBrickList(vm.clusterId, vm.hostId);
+                    }).catch(function() {
+                        $rootScope.clusterData = [];
+                    }).then(function(data) {
+                        vm.brickList = data;
+                        vm.filteredBrickList = vm.brickList;
+                        _filterChange(vm.filters);
+                        $interval.cancel(hostBrickTimer);
+                        _makeTabList();
+                        startTimer();
+                    }).catch(function(e) {
+                        vm.brickList = [];
+                        vm.filteredBrickList = [];
+                    }).finally(function() {
+                        vm.isDataLoading = false;
                     });
             }
         }
@@ -146,7 +153,7 @@
         }
 
         function _performAction(action, item) {
-          _redirectToGrafana(item);
+            _redirectToGrafana(item);
         }
 
         function _matchesFilter(item, filter) {

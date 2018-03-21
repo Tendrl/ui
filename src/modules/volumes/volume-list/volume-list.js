@@ -23,6 +23,7 @@
         vm.isDataLoading = true;
         vm.flag = false;
         vm.volumeList = [];
+        vm.filteredVolumeList = [];
         vm.filtersText = "";
         vm.filters = [];
 
@@ -32,7 +33,6 @@
         vm.addTooltip = addTooltip;
         vm.toggleProfiling = toggleProfiling;
         vm.goToTaskDetail = goToTaskDetail;
-        vm.filteredVolumeList = [];
         vm.showDisableBtn = showDisableBtn;
         vm.showEnableBtn = showEnableBtn;
 
@@ -89,8 +89,12 @@
                     vm.filteredVolumeList = vm.volumeList;
                     _filterChange(vm.filters);
                     _sortChange(vm.sortConfig.currentField.id, vm.sortConfig.isAscending);
-                    vm.isDataLoading = false;
                     startTimer();
+                }).catch(function(e) {
+                    vm.volumeList = [];
+                    vm.filteredVolumeList = [];
+                }).finally(function() {
+                    vm.isDataLoading = false;
                 });
         }
 
@@ -156,7 +160,6 @@
         function _matchesFilter(item, filter) {
             var match = true;
             var re = new RegExp(filter.value, "i");
-
             if (filter.id === "name") {
                 match = item.name.match(re) !== null;
             } else if (filter.id === "status") {
@@ -169,7 +172,6 @@
 
         function _matchesFilters(item, filters) {
             var matches = true;
-
             filters.forEach(function(filter) {
                 if (!_matchesFilter(item, filter)) {
                     matches = false;
@@ -198,10 +200,7 @@
             vm.filters = filters;
             filters.forEach(function(filter) {
                 vm.filtersText += filter.title + " : ";
-                if (filter.value.filterCategory) {
-                    vm.filtersText += ((filter.value.filterCategory.title || filter.value.filterCategory) +
-                        filter.value.filterDelimiter + (filter.value.filterValue.title || filter.value.filterValue));
-                } else if (filter.value.title) {
+                if (filter.value.title) {
                     vm.filtersText += filter.value.title;
                 } else {
                     vm.filtersText += filter.value;

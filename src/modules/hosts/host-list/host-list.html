@@ -7,10 +7,10 @@
         <div class="row toolbar-pf">
             <div class="col-md-12">
                 <form class="toolbar-pf-actions">
-                    <div class="form-group toolbar-pf-filter">
+                    <div class="form-group toolbar-pf-filter" ng-class="{'disable-pointer': hostCntrl.hostList.length === 0}">
                         <pf-filter id="hostFilter" config="hostCntrl.filterConfig"></pf-filter>
                     </div>
-                    <div class="form-group sort-component hide-border">
+                    <div class="form-group sort-component hide-border" ng-class="{'disable-pointer': hostCntrl.hostList.length === 0}">
                         <pf-sort id="hostSort" config="hostCntrl.sortConfig"></pf-sort>
                     </div>
                     <div class="form-group sort-component hide-border pull-right">

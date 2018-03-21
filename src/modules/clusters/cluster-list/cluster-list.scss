@@ -2,13 +2,6 @@
     .cluster-name {
         cursor: pointer;
     }
-    .disable-pointer {
-        pointer-events: none;
-        color: $color-gray;
-        span {
-            color: $color-gray;
-        }
-    }
     margin-bottom: 10px;
     .unmanaged {
         text-decoration: none;
