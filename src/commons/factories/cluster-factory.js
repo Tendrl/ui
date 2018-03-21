@@ -50,7 +50,7 @@
             url = config.baseUrl + "clusters/" + clusterId + "/profiling";
 
             profileRequest = {
-                method: "PUT",
+                method: "POST",
                 url: url,
                 data: {
                     "Cluster.volume_profiling_flag": action.toLowerCase()

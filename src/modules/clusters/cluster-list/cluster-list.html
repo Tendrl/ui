@@ -49,28 +49,26 @@
             <div class="list-group-item-header">
                 <div class="list-view-pf-actions">
                     <button class="btn btn-default" ng-show="clusterCntrl.showDashboardBtn(cluster)" ng-click="clusterCntrl.redirectToGrafana(cluster)" tooltip-enable="clusterCntrl.flag" ng-mouseover="clusterCntrl.addTooltip($event)" uib-tooltip="Dashboard">Dashboard</button>
-                    
                     <button class="btn btn-default import-btn" ng-show="clusterCntrl.showImportBtn(cluster)" ng-disabled="clusterCntrl.disableImportBtn(cluster)" ng-click="clusterCntrl.goToImportFlow(cluster)" tooltip-enable="clusterCntrl.flag" ng-mouseover="clusterCntrl.addTooltip($event)" uib-tooltip="Import">Import&nbsp;</button>
-                    
                     <div class="dropdown pull-right dropdown-kebab-pf " ng-show="clusterCntrl.showKebabMenu(cluster)">
-                        <button class="btn btn-link dropdown-toggle"  ng-class="{'disable-pointer': cluster.currentStatus === 'in_progress'}" type="button" id="dropdownKebabRight{{$index}}" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                        <button class="btn btn-link dropdown-toggle" ng-class="{'disable-pointer': cluster.currentStatus === 'in_progress'}" type="button" id="dropdownKebabRight{{$index}}" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
                             <span class="fa fa-ellipsis-v"></span>
                         </button>
                         <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownKebabRight{{$index}}">
-                            <li ng-show = "cluster.managed === 'Yes'">
-                                <a ng-class="{'disable-pointer': $root.userRole === 'limited' || clusterCntrl.disProfilingBtnClicked}" ng-click="clusterCntrl.doProfilingAction($event, cluster, 'Disable', cluster.clusterId)" uib-tooltip="Disable Profiling" ng-show="cluster.isProfilingEnabled === 'Enabled' || cluster.isProfilingEnabled === 'Mixed'">Disable Profiling
+                            <li ng-show="cluster.managed === 'Yes'">
+                                <a ng-class="{'disable-pointer': $root.userRole === 'limited' || cluster.disableAction || (cluster.jobType === 'EnableDisableVolumeProfiling' && cluster.currentStatus === 'in_progress')}" ng-click="clusterCntrl.doProfilingAction($event, cluster, 'Disable', cluster.clusterId)" uib-tooltip="Disable Profiling" ng-show="cluster.isProfilingEnabled === 'Enabled' || cluster.isProfilingEnabled === 'Mixed'">Disable Profiling
                                     <i class="glyphicon glyphicon-refresh glyphicon-refresh-animate" data-ng-class="{'hidden': clusterCntrl.disProfilingBtnClicked !== true }"></i>
                                 </a>
-                                <a ng-class="{'disable-pointer': $root.userRole === 'limited' || clusterCntrl.enProfilingBtnClicked}" ng-click="clusterCntrl.doProfilingAction($event, cluster, 'Enable', cluster.clusterId)" uib-tooltip="Enable Profiling" ng-show="cluster.isProfilingEnabled === 'Disabled' || cluster.isProfilingEnabled === 'Mixed'">Enable Profiling
+                                <a ng-class="{'disable-pointer': $root.userRole === 'limited' || cluster.disableAction || (cluster.jobType === 'EnableDisableVolumeProfiling' && cluster.currentStatus === 'in_progress')}" ng-click="clusterCntrl.doProfilingAction($event, cluster, 'Enable', cluster.clusterId)" uib-tooltip="Enable Profiling" ng-show="cluster.isProfilingEnabled === 'Disabled' || cluster.isProfilingEnabled === 'Mixed'">Enable Profiling
                                     <i class="glyphicon glyphicon-refresh glyphicon-refresh-animate" data-ng-class="{'hidden': clusterCntrl.enProfilingBtnClicked !== true }"></i>
                                 </a>
                             </li>
                             <li>
-                                <a ng-class="{'disable-pointer': $root.userRole === 'limited' || cluster.disableUnmanage}" ng-click="clusterCntrl.doClusterUnmanage(cluster)"  uib-tooltip="unmanage the cluster">Unmanage
+                                <a ng-class="{'disable-pointer': $root.userRole === 'limited' || cluster.disableUnmanage}" ng-click="clusterCntrl.doClusterUnmanage(cluster)" uib-tooltip="unmanage the cluster">Unmanage
                                 </a>
                             </li>
                             <li>
-                                <a ng-class="{'disable-pointer': clusterCntrl.hideExpandBtn(cluster)}" ng-click="clusterCntrl.expandCluster(cluster)"  uib-tooltip="expand the cluster">Expand
+                                <a ng-class="{'disable-pointer': clusterCntrl.hideExpandBtn(cluster)}" ng-click="clusterCntrl.expandCluster(cluster)" uib-tooltip="expand the cluster">Expand
                                 </a>
                             </li>
                         </ul>
@@ -110,12 +108,12 @@
                             </div>
                             <div class="list-view-pf-additional-info-item list-view-pf-additional-info-item-stacked" ng-class="{'hide-button': (cluster.managed !== 'Yes')}">
                                 <div class="bold-text">Volume Profiling</div>
-                                <h5 class="pull-left counts">{{cluster.isProfilingEnabled}}</h5>
+                                <div class="pull-left counts" ng-show="cluster.isProfilingEnabled !== 'Pending'">{{cluster.isProfilingEnabled}}</div>
+                                <div class="pull-left counts" ng-show="cluster.isProfilingEnabled === 'Pending'"><a href="" ng-click="clusterCntrl.goToTaskDetail(cluster)">{{cluster.isProfilingEnabled}}</a></div>
                             </div>
                             <div class="list-view-pf-additional-info-item cluster-text" ng-class="{'error-message': (cluster.message === 'Cluster Misconfigured'), 'warning-message': (cluster.message === 'Import Failed' || cluster.message === 'Unmanage Failed')}">
                                 <p uib-tooltip-template="'../modules/clusters/cluster-list/unmanage-cluster-tooltip.html'" tooltip-enable="clusterCntrl.isTooltipEnable(cluster.message)" tooltip-placement="auto">{{cluster.disableExpand ? "Expanding cluster" : cluster.message}}</p>
-                                <!-- <p><a ng-click="clusterCntrl.openErrorModal(cluster)" ng-show="cluster.currentStatus === 'failed'" class="details-link">View Details</a></p> -->
-                                <p><a ng-click="clusterCntrl.goToTaskDetail(cluster)" ng-show="cluster.currentStatus === 'in_progress' || cluster.currentStatus === 'failed'" class="details-link">View Details</a></p>
+                                <p><a ng-click="clusterCntrl.goToTaskDetail(cluster)" ng-show="clusterCntrl.showViewDetailsLink(cluster)" class="details-link">View Details</a></p>
                             </div>
                         </div>
                     </div>
