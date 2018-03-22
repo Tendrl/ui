@@ -217,7 +217,7 @@ describe("Unit Component: volumeList", function() {
         getVolumeListDeferred.resolve(volumeList.volumes);
         $rootScope.$digest();
         vm.volumeList.forEach(function(o) { delete o.$$hashKey });
-        expect(vm.volumeList).to.deep.equal(volumeList.sortedformattedOutputName);
+        expect(vm.filteredVolumeList).to.deep.equal(volumeList.sortedformattedOutputName);
     });
 
     it("Should sort the list with 'status' parameters", function() {
@@ -233,7 +233,7 @@ describe("Unit Component: volumeList", function() {
         getVolumeListDeferred.resolve(volumeList.volumes);
         $rootScope.$digest();
         vm.volumeList.forEach(function(o) { delete o.$$hashKey });
-        expect(vm.volumeList).to.deep.equal(volumeList.sortedformattedOutputStatus);
+        expect(vm.filteredVolumeList).to.deep.equal(volumeList.sortedformattedOutputStatus);
     });
 
     it("Should filter the list with 'name' parameters", function() {

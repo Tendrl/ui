@@ -372,7 +372,7 @@ describe("Unit Component: clusterList", function() {
         vm.sortConfig.isAscending = false;
         getClusterListDeferred.resolve(clusterList.clusters);
         $rootScope.$digest();
-        expect(vm.clusterList).to.deep.equal(clusterList.sortedformattedOutputStatus);
+        expect(vm.filteredClusterList).to.deep.equal(clusterList.sortedformattedOutputStatus);
     });
 
     it("Should sort the list with changed parameters of Name", function() {
@@ -385,7 +385,7 @@ describe("Unit Component: clusterList", function() {
         vm.sortConfig.isAscending = false;
         getClusterListDeferred.resolve(clusterList.clusters);
         $rootScope.$digest();
-        expect(vm.clusterList).to.deep.equal(clusterList.sortedformattedOutputName);
+        expect(vm.filteredClusterList).to.deep.equal(clusterList.sortedformattedOutputName);
     });
 
     it("Should sort the list with changed parameters of sdsVersion", function() {
@@ -398,7 +398,7 @@ describe("Unit Component: clusterList", function() {
         vm.sortConfig.isAscending = false;
         getClusterListDeferred.resolve(clusterList.clusters);
         $rootScope.$digest();
-        expect(vm.clusterList).to.deep.equal(clusterList.sortedformattedOutputSds);
+        expect(vm.filteredClusterList).to.deep.equal(clusterList.sortedformattedOutputSds);
     });
 
     it("Should sort the list with changed parameters of managed", function() {
@@ -411,7 +411,7 @@ describe("Unit Component: clusterList", function() {
         vm.sortConfig.isAscending = false;
         getClusterListDeferred.resolve(clusterList.clusters);
         $rootScope.$digest();
-        expect(vm.clusterList).to.deep.equal(clusterList.sortedformattedOutputManaged);
+        expect(vm.filteredClusterList).to.deep.equal(clusterList.sortedformattedOutputManaged);
     });
 
     it("Should filter the list with 'name' parameters", function() {
