@@ -11,10 +11,10 @@
     <div class="row toolbar-pf">
         <div class="col-sm-12">
             <form class="toolbar-pf-actions">
-                <div class="form-group toolbar-pf-filter">
+                <div class="form-group toolbar-pf-filter" ng-class="{'disable-pointer': vm.subVolumeList.length === 0}">
                     <pf-filter id="volBrickFilter" config="vm.filterConfig"></pf-filter>
                 </div>
-                <div class="form-group sort-component">
+                <div class="form-group sort-component" ng-class="{'disable-pointer': vm.subVolumeList.length === 0}">
                     <p>
                         <span class="collapse-link">
                             <a ng-click="vm.expandAll()">Expand All</a>

@@ -69,6 +69,8 @@ describe("Unit Component: clusterList", function() {
         expect(vm.isDataLoading).to.be.true;
         expect(vm.clusterNotPresent).to.be.false;
         expect(vm.flag).to.be.false;
+        expect(vm.enProfilingBtnClicked).to.be.false;
+        expect(vm.disProfilingBtnClicked).to.be.false;
         expect($rootScope.selectedClusterOption).to.be.equal("allClusters");
         expect(vm.filtersText).to.be.equal("");
         expect(vm.filters).to.be.an("array").that.is.empty;
@@ -76,6 +78,9 @@ describe("Unit Component: clusterList", function() {
         expect(vm.filteredClusterList).to.be.an("array").that.is.empty;
         expect(vm.sortConfig.fields).to.deep.equal(clusterList.fields);
         expect(vm.sortConfig.onSortChange).to.be.a("function");
+        expect(vm.filterConfig.fields).to.deep.equal(clusterList.filterFields);
+        expect(vm.filterConfig.onFilterChange).to.be.a("function");
+        expect(vm.filterConfig.appliedFilters).to.be.an("array").that.is.empty;
         expect(clusterStore.selectedTab).to.be.equal(1);
     });
 
@@ -99,7 +104,7 @@ describe("Unit Component: clusterList", function() {
             expect(utils.redirectToGrafana.calledWith("glance", { clusterId: cluster.clusterId })).to.be.true;
         });
 
-        /*it("Should enable/disable profiling on clicking Enable/Disable profiling link", function() {
+        it("Should enable/disable profiling on clicking Enable/Disable profiling link", function() {
             // Exercise SUT
             var cluster = clusterList.formattedOutput[0],
                 profilingDeferred = $q.defer(),
@@ -110,18 +115,33 @@ describe("Unit Component: clusterList", function() {
             sinon.stub(event, "stopPropagation");
 
             vm.doProfilingAction(event, cluster, "Enable", cluster.clusterId);
-
-            expect(vm.profilingButtonClick).to.be.true;
-
             profilingDeferred.resolve(clusterList.profilingResponse);
             $rootScope.$digest();
 
             // Verify result (behavior)
-            expect(vm.profilingButtonClick).to.be.false;
-            expect(Notifications.message.calledWith("success", "", "Volume profiling enabled successfully.")).to.be.true;
-            expect(vm.clusterList[0].isProfilingEnabled).to.be.equal("Enabled");
+            expect(Notifications.message.calledWith("success", "", "Enable volume profiling job initiated successfully.")).to.be.true;
+            expect(cluster.disableAction).to.be.true;
             expect(event.stopPropagation.calledOnce).to.be.true;
-        });WIP*/
+        });
+
+        it("Should give error while enable/disable profiling on clicking Enable/Disable profiling link", function() {
+            // Exercise SUT
+            var cluster = clusterList.formattedOutput[0],
+                profilingDeferred = $q.defer(),
+                event = new Event("click");
+
+            sinon.stub(clusterStore, "doProfilingAction").returns(profilingDeferred.promise);
+            sinon.stub(Notifications, "message");
+            sinon.stub(event, "stopPropagation");
+
+            vm.doProfilingAction(event, cluster, "Enable", cluster.clusterId);
+            profilingDeferred.reject("error");
+            $rootScope.$digest();
+
+            // Verify result (behavior)
+            expect(Notifications.message.calledWith("danger", "", "Failed to enable volume profile.")).to.be.true;
+            expect(event.stopPropagation.calledOnce).to.be.true;
+        });
 
         it("Should open modal to see error logs in case of import failure", function() {
             var cluster = clusterList.formattedOutput[1],
@@ -130,9 +150,40 @@ describe("Unit Component: clusterList", function() {
                 };
 
             sinon.stub($uibModal, "open").returns(fakeResult);
-
             vm.openErrorModal(cluster);
+            expect($uibModal.open.calledOnce).to.be.true;
+        });
 
+        it("Should open modal to see Host for a cluster", function() {
+            var cluster = clusterList.formattedOutput[0],
+                fakeResult = {
+                    result: $q.resolve()
+                };
+
+            sinon.stub($uibModal, "open").returns(fakeResult);
+            vm.openHostModal(cluster);
+            expect($uibModal.open.calledOnce).to.be.true;
+        });
+
+        it("Should open modal to expand cluster", function() {
+            var cluster = clusterList.formattedOutput[0],
+                fakeResult = {
+                    result: $q.resolve()
+                };
+
+            sinon.stub($uibModal, "open").returns(fakeResult);
+            vm.expandCluster(cluster);
+            expect($uibModal.open.calledOnce).to.be.true;
+        });
+
+        it("Should open modal to unmanage cluster", function() {
+            var cluster = clusterList.formattedOutput[0],
+                fakeResult = {
+                    result: $q.resolve()
+                };
+
+            sinon.stub($uibModal, "open").returns(fakeResult);
+            vm.doClusterUnmanage(cluster);
             expect($uibModal.open.calledOnce).to.be.true;
         });
 
@@ -196,9 +247,122 @@ describe("Unit Component: clusterList", function() {
             $scope.$broadcast("GotClusterData");
             expect(vm.clusterNotPresent).to.be.false;
         });
+
+        it("Should go to Import Flow View", function() {
+            var cluster = clusterList.formattedOutput[0];
+            vm.goToImportFlow(cluster);
+            expect($state.go.calledWith("import-cluster", { clusterId: cluster.integrationId }));
+        });
+
+        it("Should go to Cluster Host View", function() {
+            var cluster = clusterList.formattedOutput[0];
+            vm.goToClusterHost(cluster);
+            expect($state.go.calledWith("cluster-hosts", { clusterId: cluster.clusterId }));
+        });
+
+        it("Should go to Task Detail View when cluster is expanding", function() {
+            var cluster = clusterList.formattedOutput[0];
+            cluster.jobType = "ExpandClusterWithDetectedPeers";
+            vm.goToTaskDetail(cluster);
+            expect($state.go.calledWith("task-detail", { clusterId: cluster.integrationId, taskId: cluster.currentTaskId }));
+        });
+
+        it("Should go to Task Detail View when cluster is changing profiling", function() {
+            var cluster = clusterList.formattedOutput[0];
+            cluster.jobType = "EnableDisableVolumeProfiling";
+            vm.goToTaskDetail(cluster);
+            expect($state.go.calledWith("task-detail", { clusterId: cluster.integrationId, taskId: cluster.currentTaskId }));
+        });
+
+        it("Should go to Global Task Detail View", function() {
+            var cluster = clusterList.formattedOutput[0];
+            vm.goToTaskDetail(cluster);
+            expect($state.go.calledWith("global-task-detail", { clusterId: cluster.integrationId, taskId: cluster.currentTaskId }));
+        });
+
+        it("Should show import button", function() {
+            var cluster = clusterList.formattedOutput[1];
+            $rootScope.userRole = "normal";
+            expect(vm.showImportBtn(cluster)).to.be.true;
+        });
+
+        it("Should disable import button", function() {
+            var cluster = clusterList.formattedOutput[1];
+            cluster.currentStatus = "in_progress";
+            $rootScope.userRole = "normal";
+            expect(vm.disableImportBtn(cluster)).to.be.true;
+        });
+
+        it("Should show dashboard button", function() {
+            var cluster = clusterList.formattedOutput[0];
+            expect(vm.showDashboardBtn(cluster)).to.be.true;
+        });
+
+        it("Should show Kebab Menu", function() {
+            var cluster = clusterList.formattedOutput[0];
+            $rootScope.userRole = "normal";
+            expect(vm.showKebabMenu(cluster)).to.be.true;
+        });
+
+        it("Should hide Expand button", function() {
+            var cluster = clusterList.formattedOutput[0];
+            $rootScope.userRole = "limited";
+            expect(vm.hideExpandBtn(cluster)).to.be.true;
+        });
+
+        it("Should show tooltip", function() {
+            var cluster = clusterList.formattedOutput[0];
+            expect(vm.isTooltipEnable(cluster.message)).to.be.true;
+        });
+
+        it("Should get an icon class when cluster is unmanaged", function() {
+            var cluster = clusterList.formattedOutput[1];
+
+            var cls = vm.getClass(cluster);
+            expect(cls).to.be.equal("fa ffont fa-question");
+        });
+
+        it("Should get an icon class when cluster is unhealthy", function() {
+            var cluster = clusterList.formattedOutput[0];
+            cluster.status = "HEALTH_ERR";
+
+            var cls = vm.getClass(cluster);
+            expect(cls).to.be.equal("pficon pficon-warning-triangle-o");
+        });
+
+        it("Should get an icon class when cluster is ok", function() {
+            var cluster = clusterList.formattedOutput[0];
+            cluster.status = "HEALTH_OK";
+
+            var cls = vm.getClass(cluster);
+            expect(cls).to.be.equal("pficon pficon-ok");
+        });
+
+
+        it("Should get an icon class when cluster is expanding", function() {
+            var cluster = clusterList.formattedOutput[0];
+            cluster.state = "expanding";
+            cluster.currentStatus = "in_progress";
+            cluster.jobType = "ExpandClusterWithDetectedPeers";
+
+            var cls = vm.getClass(cluster);
+            expect(cls).to.be.equal("pficon pficon-in-progress");
+        });
+
+
     });
 
-    it("Should sort the list with changed parameters", function() {
+    it("Should check for error for cluster list API", function() {
+        vm = $componentController("clusterList", { $scope: $scope });
+        getClusterListDeferred.reject("error");
+        $rootScope.$digest();
+
+        expect(vm.clusterList).to.be.an("array").that.is.empty;
+        expect(vm.filteredClusterList).to.be.an("array").that.is.empty;
+        expect(vm.isDataLoading).to.be.false;
+    });
+
+    it("Should sort the list with changed parameters of Status", function() {
         vm = $componentController("clusterList", { $scope: $scope });
         vm.sortConfig.currentField = {
             id: "status",
@@ -208,7 +372,61 @@ describe("Unit Component: clusterList", function() {
         vm.sortConfig.isAscending = false;
         getClusterListDeferred.resolve(clusterList.clusters);
         $rootScope.$digest();
-        expect(vm.clusterList).to.deep.equal(clusterList.sortedformattedOutput);
+        expect(vm.clusterList).to.deep.equal(clusterList.sortedformattedOutputStatus);
+    });
+
+    it("Should sort the list with changed parameters of Name", function() {
+        vm = $componentController("clusterList", { $scope: $scope });
+        vm.sortConfig.currentField = {
+            id: "name",
+            title: "Name",
+            sortType: "alpha"
+        };
+        vm.sortConfig.isAscending = false;
+        getClusterListDeferred.resolve(clusterList.clusters);
+        $rootScope.$digest();
+        expect(vm.clusterList).to.deep.equal(clusterList.sortedformattedOutputName);
+    });
+
+    it("Should sort the list with changed parameters of sdsVersion", function() {
+        vm = $componentController("clusterList", { $scope: $scope });
+        vm.sortConfig.currentField = {
+            id: "sdsVersion",
+            title: "Cluster Version",
+            sortType: "alpha"
+        };
+        vm.sortConfig.isAscending = false;
+        getClusterListDeferred.resolve(clusterList.clusters);
+        $rootScope.$digest();
+        expect(vm.clusterList).to.deep.equal(clusterList.sortedformattedOutputSds);
+    });
+
+    it("Should sort the list with changed parameters of managed", function() {
+        vm = $componentController("clusterList", { $scope: $scope });
+        vm.sortConfig.currentField = {
+            id: "managed",
+            title: "Managed",
+            sortType: "alpha"
+        };
+        vm.sortConfig.isAscending = false;
+        getClusterListDeferred.resolve(clusterList.clusters);
+        $rootScope.$digest();
+        expect(vm.clusterList).to.deep.equal(clusterList.sortedformattedOutputManaged);
+    });
+
+    it("Should filter the list with 'name' parameters", function() {
+        vm = $componentController("clusterList", { $scope: $scope });
+        vm.filters = [{
+            id: "name",
+            title: "Name",
+            placeholder: "Filter by Name",
+            filterType: "text"
+        }];
+        vm.filters[0].value = "f755";
+        getClusterListDeferred.resolve(clusterList.clusters);
+        $rootScope.$digest();
+        expect(vm.filtersText).to.be.equal("Name : f755\n");
+        expect(vm.filteredClusterList).to.deep.equal(clusterList.filteredNameFormattedOutput);
     });
 
     afterEach(function() {

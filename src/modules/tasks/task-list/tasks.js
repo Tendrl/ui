@@ -79,7 +79,7 @@
             onFilterChange: _filterChange
         };
 
-        
+
         init();
 
         function init() {
@@ -90,10 +90,14 @@
                 .then(function(data) {
                     vm.taskList = data;
                     vm.filteredTaskList = vm.taskList;
-                    vm.isDataLoading = false;
                     _filterChange(vm.filters);
                     startTimer();
-                });
+                }).catch(function(e) {
+                    vm.taskList = [];
+                    vm.filteredTaskList = [];
+                }).finally(function() {
+                    vm.isDataLoading = false;
+                });;
         }
 
         function startTimer() {
@@ -148,18 +152,26 @@
                 if (vm.date.fromDate.valueOf() === vm.date.toDate.valueOf()) {
                     return dateList.getDate() === dateTo.getDate();
                 } else {
-                    dateTo = dateTo.setDate(dateTo.getDate() +1);
-                    return Date.parse(dateList) >= Date.parse(dateFrom) && Date.parse(dateList) <= dateTo ;
+                    dateTo = dateTo.setDate(dateTo.getDate() + 1);
+                    return Date.parse(dateList) >= Date.parse(dateFrom) && Date.parse(dateList) <= dateTo;
                 }
             } else if (vm.date.fromDate) {
                 return Date.parse(dateList) >= Date.parse(dateFrom);
             } else if (vm.date.toDate) {
-                dateTo = dateTo.setDate(dateTo.getDate() +1);
+                dateTo = dateTo.setDate(dateTo.getDate() + 1);
                 return Date.parse(dateList) <= dateTo;
             } else {
                 return list;
             }
         }
+
+        function clearDates() {
+            vm.date.fromDate = null;
+            vm.date.toDate = null;
+            vm.invalidToDate = false;
+        }
+
+        /*****Private Functions******/
 
         function _matchesFilter(item, filter) {
             var match = true;
@@ -206,10 +218,7 @@
             vm.filtersText = "";
             filters.forEach(function(filter) {
                 vm.filtersText += filter.title + " : ";
-                if (filter.value.filterCategory) {
-                    vm.filtersText += ((filter.value.filterCategory.title || filter.value.filterCategory) +
-                        filter.value.filterDelimiter + (filter.value.filterValue.title || filter.value.filterValue));
-                } else if (filter.value.title) {
+                if (filter.value.title) {
                     vm.filtersText += filter.value.title;
                 } else {
                     vm.filtersText += filter.value;
@@ -226,12 +235,6 @@
             } else {
                 vm.invalidToDate = false;
             }
-        }
-
-        function clearDates() {
-            vm.date.fromDate = null;
-            vm.date.toDate = null;
-            vm.invalidToDate = false;
         }
     }
 

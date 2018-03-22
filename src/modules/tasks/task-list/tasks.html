@@ -4,7 +4,7 @@
     <div class="row toolbar-pf">
         <div class="col-sm-12">
             <form class="toolbar-pf-actions">
-                <div class="form-group toolbar-pf-filter">
+                <div class="form-group toolbar-pf-filter" ng-class="{'disable-pointer': taskCntrl.taskList.length === 0}">
                     <pf-filter id="clusterFilter" config="taskCntrl.filterConfig"></pf-filter>
                 </div>
                 <div>
@@ -36,7 +36,7 @@
             </div>
             <div class="row toolbar-pf-results extra-margin">
                 <div class="col-sm-2">
-                    <h5>{{taskCntrl.filterTaskList.length}}
+                    <h5 ng-if="taskCntrl.taskList.length !== 0">{{taskCntrl.filterTaskList.length}}
                         <ng-pluralize count="taskCntrl.filterTaskList.length" when="{'one': 'Task',
                        'other': 'Tasks'}"></ng-pluralize>
                     </h5>

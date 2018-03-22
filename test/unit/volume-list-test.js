@@ -48,7 +48,7 @@ describe("Unit Component: volumeList", function() {
 
     beforeEach(function() {
 
-        
+
         $state.current.name = "cluster-volumes";
         getVolumeListDeferred = $q.defer();
 
@@ -65,13 +65,16 @@ describe("Unit Component: volumeList", function() {
         vm = $componentController("volumeList", { $scope: $scope });
 
         expect(vm.isDataLoading).to.be.true;
-        expect(vm.volumeList).to.be.an("array").that.is.empty;
         expect(vm.flag).to.be.false;
+        expect(vm.volumeList).to.be.an("array").that.is.empty;
+        expect(vm.filteredVolumeList).to.be.an("array").that.is.empty;
         expect(vm.filtersText).to.be.equal("");
         expect(vm.filters).to.be.an("array").that.is.empty;
         expect(vm.sortConfig.fields).to.deep.equal(volumeList.sortFields);
-        expect(vm.filterConfig.fields).to.deep.equal(volumeList.filterFields);
         expect(vm.sortConfig.onSortChange).to.be.a("function");
+        expect(vm.filterConfig.fields).to.deep.equal(volumeList.filterFields);
+        expect(vm.filterConfig.onFilterChange).to.be.a("function");
+        expect(vm.filterConfig.appliedFilters).to.be.an("array").that.is.empty;
     });
 
     describe("Volume List workflows", function() {
@@ -92,7 +95,7 @@ describe("Unit Component: volumeList", function() {
             vm.redirectToGrafana(volume);
 
             // Verify result (behavior)
-            expect(utils.redirectToGrafana.calledWith("volumes", {clusterId: vm.clusterId, volumeName: volume.name })).to.be.true;
+            expect(utils.redirectToGrafana.calledWith("volumes", { clusterId: vm.clusterId, volumeName: volume.name })).to.be.true;
         });
 
         it("Should enable/disable profiling on clicking Enable/Disable profiling action button", function() {
@@ -161,22 +164,6 @@ describe("Unit Component: volumeList", function() {
             expect($interval.cancel.calledOnce).to.be.true;
         });
 
-/*        it("Should listen GotClusterData event broadcast", function() {
-            //sinon.stub($state, "go");
-
-            $rootScope.clusterData = null;
-            $scope.$broadcast("GotClusterData");
-            expect($state.go.calledWith("clusters")).to.be.true;
-
-            $rootScope.clusterData = [];
-            $scope.$broadcast("GotClusterData");
-            expect($state.go.calledWith("clusters")).to.be.true;
-
-            $rootScope.clusterData = ["cluster1"];
-            $scope.$broadcast("GotClusterData");
-            expect($state.go.calledOnce).to.be.false;
-        });*/
-
         it("Should take the user to task detail page", function() {
             var volume = volumeList.volumes[1];
             vm.goToTaskDetail(volume);
@@ -208,20 +195,101 @@ describe("Unit Component: volumeList", function() {
 
     });
 
-    it("Should sort the list with changed parameters", function() {
+    it("Should verify for volume API error", function() {
         vm = $componentController("volumeList", { $scope: $scope });
-        
+        getVolumeListDeferred.reject("error");
+        $rootScope.$digest();
+        expect(vm.volumeList).to.be.an("array").that.is.empty;
+        expect(vm.filteredVolumeList).to.be.an("array").that.is.empty;
+        expect(vm.isDataLoading).to.be.false;
+    });
+
+    it("Should sort the list with 'name' parameters", function() {
+        vm = $componentController("volumeList", { $scope: $scope });
+
+        vm.sortConfig.currentField = {
+            id: "name",
+            title: "Name",
+            sortType: "alpha"
+        };
+
+        vm.sortConfig.isAscending = false;
+        getVolumeListDeferred.resolve(volumeList.volumes);
+        $rootScope.$digest();
+        vm.volumeList.forEach(function(o) { delete o.$$hashKey });
+        expect(vm.volumeList).to.deep.equal(volumeList.sortedformattedOutputName);
+    });
+
+    it("Should sort the list with 'status' parameters", function() {
+        vm = $componentController("volumeList", { $scope: $scope });
+
         vm.sortConfig.currentField = {
             id: "status",
             title: "Status",
             sortType: "alpha"
         };
-        
+
         vm.sortConfig.isAscending = false;
         getVolumeListDeferred.resolve(volumeList.volumes);
         $rootScope.$digest();
-        vm.volumeList.forEach(function (o) { delete o.$$hashKey });
-        expect(vm.volumeList).to.deep.equal(volumeList.sortedformattedOutput);
+        vm.volumeList.forEach(function(o) { delete o.$$hashKey });
+        expect(vm.volumeList).to.deep.equal(volumeList.sortedformattedOutputStatus);
+    });
+
+    it("Should filter the list with 'name' parameters", function() {
+        vm = $componentController("volumeList", { $scope: $scope });
+
+        vm.filters = [{
+            id: "name",
+            title: "Name",
+            placeholder: "Filter by Name",
+            filterType: "text"
+        }];
+
+        vm.filters[0].value = "vol2";
+        getVolumeListDeferred.resolve(volumeList.volumes);
+        $rootScope.$digest();
+        expect(vm.filtersText).to.be.equal("Name : vol2\n");
+        vm.volumeList.forEach(function(o) { delete o.$$hashKey });
+        expect(vm.filteredVolumeList).to.deep.equal(volumeList.filteredNameFormattedOutput);
+    });
+
+    it("Should filter the list with 'status' parameters", function() {
+        vm = $componentController("volumeList", { $scope: $scope });
+
+        vm.filters = [{
+            id: "status",
+            title: "Status",
+            placeholder: "Filter by Status",
+            filterType: "select",
+            filterValues: ["Started", "Stopped"]
+        }];
+
+        vm.filters[0].value = "Started";
+        getVolumeListDeferred.resolve(volumeList.volumes);
+        $rootScope.$digest();
+        expect(vm.filtersText).to.be.equal("Status : Started\n");
+        vm.volumeList.forEach(function(o) { delete o.$$hashKey });
+        expect(vm.filteredVolumeList).to.deep.equal(volumeList.filteredStatusFormattedOutput);
+    });
+
+    it("Should filter the list with 'type' parameters", function() {
+        vm = $componentController("volumeList", { $scope: $scope });
+
+        vm.filters = [{
+            id: "type",
+            title: "Type",
+            placeholder: "Filter by Type",
+            filterType: "select",
+            filterValues: ["Distribute", "Replicated", "Dispersed", "Distributed-Dispersed"]
+        }];
+
+        vm.filters[0].value = "Distribute";
+        getVolumeListDeferred.resolve(volumeList.volumes);
+        $rootScope.$digest();
+        expect(vm.filtersText).to.be.equal("Type : Distribute\n");
+        vm.volumeList.forEach(function(o) { delete o.$$hashKey });
+        expect(vm.filteredVolumeList).to.deep.equal(volumeList.filteredTypeFormattedOutput);
     });
 
     afterEach(function() {

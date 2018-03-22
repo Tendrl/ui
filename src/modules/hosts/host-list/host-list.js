@@ -86,9 +86,7 @@
                     vm.cluster = data;
                     _setExpansionState();
                     return nodeStore.getNodeList(vm.clusterId);
-
                 }).catch(function(e) {
-
                     vm.cluster = {};
                 })
                 .then(function(list) {
@@ -98,12 +96,9 @@
                     _sortChange(vm.sortConfig.currentField.id, vm.sortConfig.isAscending);
                     startTimer();
                 }).catch(function(e) {
-
                     vm.hostList = [];
-                    vm.filteredHostList = vm.hostList;
-                    _filterChange(vm.filters);
+                    vm.filteredHostList = [];
                 }).finally(function() {
-
                     vm.isDataLoading = false;
                 });
         }
@@ -156,6 +151,26 @@
         function goToTaskDetail() {
             if (vm.cluster.jobType === "ExpandClusterWithDetectedPeers") {
                 $state.go("task-detail", { clusterId: vm.cluster.integrationId, taskId: vm.cluster.currentTaskId });
+            }
+        }
+
+        function startTimer() {
+
+            hostListTimer = $interval(function() {
+                init();
+            }, 1000 * config.nodeRefreshIntervalTime, 1);
+        }
+
+        function redirectToGrafana(host) {
+            utils.redirectToGrafana("hosts", {
+                clusterId: host.integrationId,
+                hostName: host.name.split(".").join("_")
+            });
+        }
+
+        function goToHostDetail(host) {
+            if (vm.clusterId) {
+                $state.go("host-detail", { clusterId: vm.clusterId, hostId: host.id });
             }
         }
 
@@ -288,31 +303,6 @@
                     expansionInProgress = true;
                 }
                 return expansionInProgress;
-            }
-        }
-
-        function startTimer() {
-
-            hostListTimer = $interval(function() {
-                init();
-            }, 1000 * config.nodeRefreshIntervalTime, 1);
-        }
-
-        function redirectToGrafana(host) {
-            utils.redirectToGrafana("hosts", {
-                clusterId: host.integrationId,
-                hostName: host.name.split(".").join("_")
-            });
-        }
-
-        /*Cancelling interval when scope is destroy*/
-        $scope.$on("$destroy", function() {
-            $interval.cancel(hostListTimer);
-        });
-
-        function goToHostDetail(host) {
-            if (vm.clusterId) {
-                $state.go("host-detail", { clusterId: vm.clusterId, hostId: host.id });
             }
         }
     }

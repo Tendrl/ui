@@ -123,8 +123,7 @@
                     startTimer();
                 }).catch(function(e) {
                     vm.clusterList = [];
-                    vm.filteredClusterList = vm.clusterList;
-                    _filterChange(vm.filters);
+                    vm.filteredClusterList = [];
                 }).finally(function() {
                     vm.isDataLoading = false;
                 });
@@ -163,7 +162,6 @@
          * @memberOf clusterController
          */
         function goToImportFlow(cluster) {
-            $rootScope.clusterTobeImported = cluster;
             $state.go("import-cluster", { clusterId: cluster.integrationId });
         }
 
@@ -279,9 +277,7 @@
         }
 
         function goToTaskDetail(cluster) {
-            if (cluster.jobType === "ExpandClusterWithDetectedPeers") {
-                $state.go("task-detail", { clusterId: cluster.integrationId, taskId: cluster.currentTaskId });
-            } else if (cluster.jobType === "EnableDisableVolumeProfiling") {
+            if (cluster.jobType === "ExpandClusterWithDetectedPeers" || cluster.jobType === "EnableDisableVolumeProfiling") {
                 $state.go("task-detail", { clusterId: cluster.integrationId, taskId: cluster.currentTaskId });
             } else {
                 $state.go("global-task-detail", { clusterId: cluster.integrationId, taskId: cluster.currentTaskId });
@@ -436,10 +432,7 @@
             vm.filters = filters;
             filters.forEach(function(filter) {
                 vm.filtersText += filter.title + " : ";
-                if (filter.value.filterCategory) {
-                    vm.filtersText += ((filter.value.filterCategory.title || filter.value.filterCategory) +
-                        filter.value.filterDelimiter + (filter.value.filterValue.title || filter.value.filterValue));
-                } else if (filter.value.title) {
+                if (filter.value.title) {
                     vm.filtersText += filter.value.title;
                 } else {
                     vm.filtersText += filter.value;

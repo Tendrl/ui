@@ -98,6 +98,9 @@
                         vm.totalBrick = 0;
                         _getBricksCount();
                         startTimer();
+                    }).catch(function() {
+                        vm.subVolumeList = [];
+                        vm.filteredBrickList = [];
                     }).finally(function() {
                         vm.isDataLoading = false;
                     });
@@ -126,6 +129,9 @@
                         vm.totalBrick = 0;
                         _getBricksCount();
                         startTimer();
+                    }).catch(function() {
+                        vm.subVolumeList = [];
+                        vm.filteredBrickList = [];
                     }).finally(function() {
                         vm.isDataLoading = false;
                     });
@@ -154,6 +160,9 @@
                         vm.totalBrick = 0;
                         _getBricksCount();
                         startTimer();
+                    }).catch(function() {
+                        vm.subVolumeList = [];
+                        vm.filteredBrickList = [];
                     }).finally(function() {
                         vm.isDataLoading = false;
                     });
@@ -185,6 +194,9 @@
                         vm.totalBrick = 0;
                         _getBricksCount();
                         startTimer();
+                    }).catch(function() {
+                        vm.subVolumeList = [];
+                        vm.filteredBrickList = [];
                     }).finally(function() {
                         vm.isDataLoading = false;
                     });

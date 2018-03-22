@@ -1,25 +1,26 @@
-    (function() {
+(function() {
 
-        "use strict";
+    "use strict";
 
-        angular
-            .module("TendrlModule")
-            .component("taskDetail", {
+    angular
+        .module("TendrlModule")
+        .component("taskDetail", {
 
-                restrict: "E",
-                templateUrl: "/modules/tasks/task-detail/task-detail.html",
-                bindings: {},
-                controller: taskDetailController,
-                controllerAs: "taskDetailCntrl"
-            });
+            restrict: "E",
+            templateUrl: "/modules/tasks/task-detail/task-detail.html",
+            bindings: {},
+            controller: taskDetailController,
+            controllerAs: "taskDetailCntrl"
+        });
 
-        /*@ngInject*/
-        function taskDetailController($rootScope, $scope, $interval, $state, $stateParams, taskStore, config, utils, clusterStore) {
+    /*@ngInject*/
+    function taskDetailController($rootScope, $scope, $interval, $state, $stateParams, taskStore, config, utils, clusterStore) {
 
         var vm = this,
             statusTimer,
             msgTimer,
-            isMessagesLoading;
+            isMessagesLoading,
+            count = 1;
 
         vm.isDataLoading = true;
         vm.isMessagesLoading = true;
@@ -33,7 +34,7 @@
                 .then(function(response) {
                     $interval.cancel(msgTimer);
 
-                    if(typeof vm.taskDetail !== "undefined") {
+                    if (typeof vm.taskDetail !== "undefined") {
 
                         vm.taskDetail.logs = response;
                         vm.isMessagesLoading = false;
@@ -106,16 +107,19 @@
 
         function startMessageTimer() {
             msgTimer = $interval(function() {
-
-                if (vm.taskDetail && (vm.taskDetail.status === "processing" || vm.taskDetail.status === "new")) {
+                if (count < 5) {
                     _getTaskLogs();
+                }
+
+                if (vm.taskDetail && (vm.taskDetail.status === "finished" || vm.taskDetail.status === "failed")) {
+                    count++;
                 }
 
             }, 1000 * config.msgRefreshIntervalTime, 1);
         }
 
         function goToClusterDetail() {
-            $state.go("cluster-hosts", {clusterId: vm.taskDetail.parameters["TendrlContext.integration_id"]});
+            $state.go("cluster-hosts", { clusterId: vm.taskDetail.parameters["TendrlContext.integration_id"] });
         }
 
         $scope.$on("$destroy", function() {
