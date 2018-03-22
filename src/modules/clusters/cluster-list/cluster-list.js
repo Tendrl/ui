@@ -443,7 +443,6 @@
             });
             _applyFilters(filters);
         }
-
     }
 
 })();

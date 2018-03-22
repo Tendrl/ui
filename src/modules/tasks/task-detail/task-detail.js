@@ -107,6 +107,7 @@
 
         function startMessageTimer() {
             msgTimer = $interval(function() {
+
                 if (count < 5) {
                     _getTaskLogs();
                 }
