@@ -388,7 +388,7 @@
         }
 
         function _sortChange(sortId, isAscending) {
-            vm.clusterList.sort(_compareFn);
+            vm.filteredClusterList.sort(_compareFn);
         }
 
         function _matchesFilter(item, filter) {

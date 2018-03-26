@@ -240,7 +240,7 @@
         }
 
         function _sortChange(sortId, isAscending) {
-            vm.hostList.sort(_compareFn);
+            vm.filteredHostList.sort(_compareFn);
         }
 
         function _matchesFilter(item, filter) {

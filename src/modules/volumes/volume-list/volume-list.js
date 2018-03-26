@@ -225,7 +225,7 @@
         }
 
         function _sortChange(sortId, isAscending) {
-            vm.volumeList.sort(_compareFn);
+            vm.filteredVolumeList.sort(_compareFn);
         }
 
     }

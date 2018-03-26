@@ -230,7 +230,7 @@ describe("Unit Component: hostList", function() {
         getHostListDeferred.resolve(hostList.nodes);
         $rootScope.$digest();
         vm.hostList.forEach(function(o) { delete o.$$hashKey });
-        expect(vm.hostList).to.deep.equal(hostList.sortedformattedOutput);
+        expect(vm.filteredHostList).to.deep.equal(hostList.sortedformattedOutput);
     });
 
     it("Should filter the list with 'name' parameters", function() {
