@@ -15,7 +15,7 @@
         });
 
     /*@ngInject*/
-    function volumeController($scope, $rootScope, $state, $interval, utils, config, volumeStore) {
+    function volumeController($scope, $rootScope, $state, $interval, utils, config, volumeStore, Notifications) {
         var vm = this,
             volumeTimer,
             volumeList;
@@ -99,12 +99,16 @@
         }
 
         function toggleProfiling(volume, action, $event) {
-
+            volume.disableAction = true;
             volumeStore.toggleProfiling(volume, action, vm.clusterId)
                 .then(function(data) {
+                    Notifications.message("success", "", (action === "enable" ? "Enable" : "Disable") + " volume profiling job initiated successfully.");
                     volume.disableAction = true;
                     $interval.cancel(volumeTimer);
                     startTimer();
+                }).catch(function() {
+                    Notifications.message("danger", "", "Failed to " + (action === "enable" ? "enable" : "disable") + " volume profile.");
+                    volume.disableAction = false;
                 });
 
             $event.stopPropagation();

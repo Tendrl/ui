@@ -111,11 +111,3 @@
     margin-left: 20px;
     padding-top: 10px;
 }
-
-.disable-pointer {
-    pointer-events: none;
-    color: $color-gray;
-    span {
-        color: $color-gray;
-    }
-}

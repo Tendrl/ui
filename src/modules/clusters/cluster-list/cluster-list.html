@@ -54,21 +54,21 @@
                         <button class="btn btn-link dropdown-toggle" ng-class="{'disable-pointer': cluster.currentStatus === 'in_progress'}" type="button" id="dropdownKebabRight{{$index}}" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
                             <span class="fa fa-ellipsis-v"></span>
                         </button>
-                        <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownKebabRight{{$index}}">
-                            <li ng-show="cluster.managed === 'Yes'">
-                                <a ng-class="{'disable-pointer': $root.userRole === 'limited' || cluster.disableAction || (cluster.jobType === 'EnableDisableVolumeProfiling' && cluster.currentStatus === 'in_progress')}" ng-click="clusterCntrl.doProfilingAction($event, cluster, 'Disable', cluster.clusterId)" uib-tooltip="Disable Profiling" ng-show="cluster.isProfilingEnabled === 'Enabled' || cluster.isProfilingEnabled === 'Mixed'">Disable Profiling
+                        <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownKebabRight{{$index}}" ng-show="cluster.currentStatus !== 'in_progress'">
+                            <li ng-show="cluster.managed === 'Yes'" ng-class="{'disable-pointer': $root.userRole === 'limited' || cluster.disableAction || (cluster.jobType === 'EnableDisableVolumeProfiling' && cluster.currentStatus === 'in_progress')}">
+                                <a ng-click="clusterCntrl.doProfilingAction($event, cluster, 'Disable', cluster.clusterId)" uib-tooltip="Disable Profiling" ng-show="cluster.isProfilingEnabled === 'Enabled' || cluster.isProfilingEnabled === 'Mixed'">Disable Profiling
                                     <i class="glyphicon glyphicon-refresh glyphicon-refresh-animate" data-ng-class="{'hidden': clusterCntrl.disProfilingBtnClicked !== true }"></i>
                                 </a>
-                                <a ng-class="{'disable-pointer': $root.userRole === 'limited' || cluster.disableAction || (cluster.jobType === 'EnableDisableVolumeProfiling' && cluster.currentStatus === 'in_progress')}" ng-click="clusterCntrl.doProfilingAction($event, cluster, 'Enable', cluster.clusterId)" uib-tooltip="Enable Profiling" ng-show="cluster.isProfilingEnabled === 'Disabled' || cluster.isProfilingEnabled === 'Mixed'">Enable Profiling
+                                <a ng-click="clusterCntrl.doProfilingAction($event, cluster, 'Enable', cluster.clusterId)" uib-tooltip="Enable Profiling" ng-show="cluster.isProfilingEnabled === 'Disabled' || cluster.isProfilingEnabled === 'Mixed'">Enable Profiling
                                     <i class="glyphicon glyphicon-refresh glyphicon-refresh-animate" data-ng-class="{'hidden': clusterCntrl.enProfilingBtnClicked !== true }"></i>
                                 </a>
                             </li>
-                            <li>
-                                <a ng-class="{'disable-pointer': $root.userRole === 'limited' || cluster.disableUnmanage}" ng-click="clusterCntrl.doClusterUnmanage(cluster)" uib-tooltip="unmanage the cluster">Unmanage
+                            <li ng-class="{'disable-pointer': $root.userRole === 'limited' || cluster.disableUnmanage}">
+                                <a ng-click="clusterCntrl.doClusterUnmanage(cluster)" uib-tooltip="Unmanage Cluster">Unmanage
                                 </a>
                             </li>
-                            <li>
-                                <a ng-class="{'disable-pointer': clusterCntrl.hideExpandBtn(cluster)}" ng-click="clusterCntrl.expandCluster(cluster)" uib-tooltip="expand the cluster">Expand
+                            <li ng-class="{'disable-pointer': (clusterCntrl.hideExpandBtn(cluster) || cluster.disableExpand)}">
+                                <a ng-click="clusterCntrl.expandCluster(cluster)" uib-tooltip="Expand Cluster">Expand
                                 </a>
                             </li>
                         </ul>

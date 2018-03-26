@@ -189,3 +189,16 @@
 .breadcrumb-ffont {
     font-size: 20px;
 }
+
+.disable-pointer {
+    pointer-events: none;
+    color: $color-gray !important;
+    cursor: text !important;
+    span {
+        color: $color-gray !important;
+    }
+    a {
+        pointer-events: none;
+        color: $color-gray !important;
+    }
+}

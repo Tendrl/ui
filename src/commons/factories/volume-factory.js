@@ -61,7 +61,7 @@
             }, function(e) {
                 utils.checkErrorCode(e);
                 console.log("Error Occurred: while enabling profile");
-                return null;
+                throw e;
             });
 
         };
