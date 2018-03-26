@@ -50,7 +50,7 @@ describe("Unit Component: clusterList", function() {
     beforeEach(function() {
 
         $rootScope.clusterData = clusterList;
-        $state.current.name = "cluster";
+        $state.current.name = "clusters";
         getClusterListDeferred = $q.defer();
 
         sinon.stub($state, "go");
