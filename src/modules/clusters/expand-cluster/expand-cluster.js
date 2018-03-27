@@ -103,8 +103,8 @@
          */
         function confirmModal() {
 
+            selectedCluster.disableExpand = true;
             vm.closeModal();
-
             clusterStore.expandCluster(vm.clusterId)
                 .then(function(data) {
                     jobId = data.job_id;
@@ -112,6 +112,7 @@
                     Notifications.message("success", "", "Successfully initiated expand cluster task");
                 }).catch(function(error) {
                     Notifications.message("danger", "", "Failed to initiate expand");
+                    selectedCluster.disableExpand = false;
                 });
         }
 

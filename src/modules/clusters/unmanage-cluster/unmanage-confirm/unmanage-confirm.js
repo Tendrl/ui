@@ -95,7 +95,7 @@
 
             vm.closeModal();
             vm.initiateUnmanage = true;
-
+            selectedCluster.disableUnmanage = true;
             clusterStore.doClusterUnmanage(vm.clusterId)
                 .then(function(data) {
                     vm.initiateUnmanage = false;
@@ -104,6 +104,7 @@
                     selectedCluster.disableUnmanage = true;
                 }).catch(function(error) {
                     Notifications.message("danger", "", "Failed to initiate unmanage");
+                    selectedCluster.disableUnmanage = false;
                 });
         }
     }

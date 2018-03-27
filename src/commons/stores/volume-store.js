@@ -124,6 +124,8 @@
             volumeFactory.toggleProfiling(volume, action, clusterId)
                 .then(function(data) {
                     deferred.resolve(data);
+                }).catch(function(e) {
+                    deferred.reject(e);
                 });
 
             return deferred.promise;

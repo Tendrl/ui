@@ -179,6 +179,7 @@
          * @memberOf clusterController
          */
         function doProfilingAction($event, cluster, action, clusterId) {
+            cluster.disableAction = true;
             clusterStore.doProfilingAction(cluster.clusterId, action)
                 .then(function(data) {
                     Notifications.message("success", "", (action === "Enable" ? "Enable" : "Disable") + " volume profiling job initiated successfully.");
@@ -187,6 +188,7 @@
                     startTimer();
                 }).catch(function(error) {
                     Notifications.message("danger", "", "Failed to " + (action === "Enable" ? "enable" : "disable") + " volume profile.");
+                    cluster.disableAction = false;
                 });
 
             $event.stopPropagation();
@@ -309,7 +311,7 @@
 
         function hideExpandBtn(cluster) {
             return ($rootScope.userRole === "limited" ||
-                (cluster.managed === "Yes" && cluster.state !== "expand_pending") || cluster.disableExpand);
+                (cluster.managed === "Yes" && cluster.state !== "expand_pending"));
         }
 
         function isTooltipEnable(message) {
