@@ -2,6 +2,150 @@
 
     var testDataModule = angular.module("TestDataModule", []);
 
+    testDataModule.value("globalTaskDetail", {
+        clusterList: [{
+            "integrationId": "7b05c774-f1e9-4ded-9e0b-7ac989a4f60c",
+            "sdsVersion": "3.8.4",
+            "sdsName": "gluster",
+            "name": "7b05c774-f1e9-4ded-9e0b-7ac989a4f60c",
+            "isProfilingEnabled": "Disabled",
+            "managed": "Yes",
+            "importStatus": "done",
+            "status": "HEALTH_OK",
+            "statusIcon": "Healthy",
+            "jobType": "ExpandClusterWithDetectedPeers",
+            "currentStatus": "in_progress",
+            "importTaskId": "baf62e32-3929-4d3d-9cbc-9a83587b533c",
+            "volCount": "1",
+            "alertCount": "0",
+            "errors": [],
+            "message": "Ready to Use",
+            "clusterId": "7b05c774-f1e9-4ded-9e0b-7ac989a4f60c",
+            "hosts": [{
+                "nodeId": "fc12302b-0025-467e-bf43-0f64d8217d21",
+                "fqdn": "dhcp43-19.lab.eng.blr.redhat.com",
+                "status": "DOWN",
+                "role": "Monitor",
+                "release": "gluster"
+            }, {
+                "nodeId": "f120a3f2-052a-4028-8fb2-7dddb310fec3",
+                "fqdn": "dhcp43-27.lab.eng.blr.redhat.com",
+                "status": "UP",
+                "role": "Gluster Peer",
+                "release": "gluster"
+            }]
+        }],
+        jobDetail: [{
+            "created_at": "2018-03-27T12:45:00Z",
+            "errors": "",
+            "flow": "ImportCluster",
+            "job_id": "d58dddfb-7789-46e0-970e-2d214f7ecbef",
+            "logs": [{
+                "type": "info",
+                "message": "Running Flow tendrl.flows.ImportCluster",
+                "date": "2018-03-26T04:20:55.053436+00:00"
+            }, {
+                "type": "error",
+                "message": "Checking if nodes are up",
+                "date": "2018-03-26T04:20:55.869654+00:00"
+            }, {
+                "type": "warning",
+                "message": "Status of nodes are up",
+                "date": "2018-03-26T04:20:56.066137+00:00"
+            }],
+            "messages_url": "/jobs/d58dddfb-7789-46e0-970e-2d214f7ecbef/messages",
+            "output_url": "/jobs/d58dddfb-7789-46e0-970e-2d214f7ecbef/output",
+            "parameters": {
+                "TendrlContext.integration_id": "48445a94-7288-4148-bc4f-a99a86baccb8",
+                "Cluster.volume_profiling_flag": "leave-as-is"
+            },
+            "status": "new",
+            "status_url": "/jobs/d58dddfb-7789-46e0-970e-2d214f7ecbef/status",
+            "updated_at": "2018-03-27 12:45:02.202100+00:00"
+        }],
+        logs: [{
+                "type": "info",
+                "message": "Running Flow tendrl.flows.ImportCluster",
+                "date": "2018-03-26T04:20:55.053436+00:00"
+            }, {
+                "type": "error",
+                "message": "Checking if nodes are up",
+                "date": "2018-03-26T04:20:55.869654+00:00"
+            }, {
+                "type": "warning",
+                "message": "Status of nodes are up",
+                "date": "2018-03-26T04:20:56.066137+00:00"
+            }],
+
+        status: "new"
+    });
+
+    testDataModule.value("userList", {
+        users: [{
+            "username": "user1",
+            "name": "Steve bob",
+            "status": "enabled",
+            "role": "read-only",
+            "notification": "true",
+            "email": "steve@gmail.com"
+        }, {
+            "username": "user2",
+            "name": "Alexandar kave",
+            "status": "disabled",
+            "role": "normal",
+            "notification": "false",
+            "email": "kave@gmail.com"
+        }],
+        fields: [{
+            id: "username",
+            title: "User ID",
+            placeholder: "Filter by User ID",
+            filterType: "text"
+        }, {
+            id: "name",
+            title: "Name",
+            placeholder: "Filter by Name",
+            filterType: "text"
+        }, {
+            id: "role",
+            title: "Role",
+            placeholder: "Filter by Role",
+            filterType: "text"
+        }],
+        editUserResponse: [{
+            "username": "user1",
+            "name": "Steve bob",
+            "status": "true",
+            "role": "admin",
+            "email_notifications": "true",
+            "email": "steve@gmail.com"
+        }],
+        filteredUsernameFormattedOutput: [{
+            "username": "user1",
+            "name": "Steve bob",
+            "status": "enabled",
+            "role": "read-only",
+            "notification": "true",
+            "email": "steve@gmail.com"
+        }],
+        filteredNameFormattedOutput: [{
+            "username": "user1",
+            "name": "Steve bob",
+            "status": "enabled",
+            "role": "read-only",
+            "notification": "true",
+            "email": "steve@gmail.com"
+        }],
+        filteredRoleFormattedOutput: [{
+            "username": "user2",
+            "name": "Alexandar kave",
+            "status": "disabled",
+            "role": "normal",
+            "notification": "false",
+            "email": "kave@gmail.com"
+        }]
+    });
+
     testDataModule.value("taskList", {
         jobs: [{
             "createdAt": "2018-01-15T08:31:42Z",
@@ -65,7 +209,7 @@
             "statusUrl": "/jobs/baf62e32-3929-4d3d-9cbc-9a83587b533c/status",
             "updatedAt": "Mon Jan 15 2018 16:05:13 GMT+0530 (IST)"
         }],
-        filteredTaskIdFormattedOutput:[{
+        filteredTaskIdFormattedOutput: [{
             "createdAt": "2018-01-15T08:31:42Z",
             "errors": "",
             "flow": "ImportCluster",
@@ -81,7 +225,7 @@
             "statusUrl": "/jobs/baf62e32-3929-4d3d-9cbc-9a83587b533c/status",
             "updatedAt": "Mon Jan 15 2018 16:05:13 GMT+0530 (IST)"
         }],
-        filteredFlowFormattedOutput:[{
+        filteredFlowFormattedOutput: [{
             "createdAt": "2018-01-15T08:31:42Z",
             "errors": "",
             "flow": "ImportCluster",
@@ -112,7 +256,7 @@
             "statusUrl": "/jobs/baf62e32-3929-4d3d-9cbc-9a83587b533c/status",
             "updatedAt": "Mon Jan 15 2018 16:05:13 GMT+0530 (IST)"
         }],
-        filteredStatusFormattedOutput:[{
+        filteredStatusFormattedOutput: [{
             "createdAt": "2018-01-20T08:31:42Z",
             "errors": "",
             "flow": "ImportCluster",
@@ -628,7 +772,7 @@
             filterType: ""
         }],
         profilingResponse: {
-            "volume_profiling_state" : "enabled",
+            "volume_profiling_state": "enabled",
             "updated_at": "2018-01-15 08:20:04.985731+00:00",
             "sds_name": "gluster",
             "cluster_name": "gluster-6561e70789dc2fd78f67b176068c0d69c48dd33f78a801b1dba264d4afa32625",

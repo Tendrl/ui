@@ -12,7 +12,7 @@
         <div class="row toolbar-pf" ng-if="!userCntrl.isDataLoading">
             <div class="col-md-12 hr-spaceing">
                 <form class="toolbar-pf-actions">
-                    <div class="form-group toolbar-pf-filter">
+                    <div class="form-group toolbar-pf-filter" ng-class="{'disable-pointer': userCntrl.userList.length === 0}">
                         <pf-filter id="userFilter" config="userCntrl.filterConfig"></pf-filter>
                     </div>
                 </form>
