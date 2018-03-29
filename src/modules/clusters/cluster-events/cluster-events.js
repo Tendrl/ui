@@ -13,7 +13,7 @@
         });
 
     /*@ngInject*/
-    function clusterEventsController($stateParams, $scope, $rootScope, $interval, utils, clusterStore, config) {
+    function clusterEventsController($stateParams, $scope, $rootScope, clusterStore) {
 
         var vm = this;
         vm.isDataLoading = true;
