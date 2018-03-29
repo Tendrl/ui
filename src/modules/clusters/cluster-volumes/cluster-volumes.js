@@ -56,7 +56,7 @@
         /**
          * @name _setClusterDetail
          * @desc set cluster detail
-         * @memberOf clusterDetailController
+         * @memberOf clusterVolumesController
          */
         function _setClusterDetail() {
             vm.clusterObj = clusterStore.getClusterDetails(vm.clusterId);

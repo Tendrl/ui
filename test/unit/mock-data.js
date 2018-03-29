@@ -971,7 +971,7 @@
             "name": "vol2",
             "currentTask": { "status": "in_progress", "job_id": "f508cc8a-e037-4af0-bcbe-54735cc1692f", "job_name": "StartProfiling" }
         }]
-    })
+    });
 
     testDataModule.value("hostList", {
         clusterList: [{
@@ -1106,6 +1106,6 @@
             "alerts": "0",
             "bricks": "2"
         }]
-    })
+    });
 
 })();

@@ -85,6 +85,7 @@
                     }).catch(function(e) {
 
                         vm.cluster = {};
+                        throw e;
                     }).then(function(data) {
                         $interval.cancel(volumeBrickTimer);
                         if (vm.subVolumeList.length) {
@@ -116,6 +117,7 @@
                         return brickStore.getVolumeBrickList(vm.clusterId, vm.volumeId);
                     }).catch(function(e) {
                         vm.cluster = {};
+                        throw e;
                     }).then(function(data) {
                         $interval.cancel(volumeBrickTimer);
                         if (vm.subVolumeList.length) {
@@ -145,6 +147,7 @@
                     }).catch(function(e) {
 
                         vm.cluster = {};
+                        throw e;
                     }).then(function(data) {
                         return brickStore.getVolumeBrickList(vm.clusterId, vm.volumeId);
                     }).then(function(data) {
