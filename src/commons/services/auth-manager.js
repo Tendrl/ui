@@ -116,8 +116,8 @@
                         }
 
                     })
-                    .catch(function(response) {
-                        return $q.reject({});
+                    .catch(function(error) {
+                        return $q.reject(error);
                     });
             }
         }

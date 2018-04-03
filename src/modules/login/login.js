@@ -40,30 +40,28 @@
                     .then(function(data) {
                         AuthManager.isUserLoggedIn = true;
                         AuthManager.setAuthHeader();
+                        return userStore.getUserInfo();
                     })
                     .catch(function(error) {
                         AuthManager.isUserLoggedIn = false;
 
-                        if (error.status === 503) {
+                        if (error.status === -1 || error.status === 503) {
                             vm.errorMsg = "Tendrl API is not reachable. Please restart the Tendrl API server by before logging in.";
+                            vm.user.username = "";
                         } else {
                             vm.errorMsg = "The username or password you entered does not match our records. Please try again.";
                         }
 
                         vm.user.password = "";
-                    })
-                    .then(function() {
-                        return userStore.getUserInfo();
-                    })
-                    .catch(function() {
-                        console.log("error in getting user details");
+                        throw error;
                     })
                     .then(function() {
                         menuService.setMenus();
                         $state.go("clusters");
+                        return getAlertList();
                     })
-                    .then(function() {
-                        getAlertList();
+                    .catch(function() {
+                        console.log("error in getting user details");
                     })
                     .finally(function() {
                         vm.formSubmitInProgress = false;
