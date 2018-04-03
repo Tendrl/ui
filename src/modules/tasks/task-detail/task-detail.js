@@ -24,24 +24,11 @@
 
         vm.isDataLoading = true;
         vm.isMessagesLoading = true;
+        vm.taskDetail = [];
         vm.goToClusterTask = goToClusterTask;
         vm.goToClusterDetail = goToClusterDetail;
 
         init();
-
-        function _getTaskLogs() {
-            taskStore.getTaskLogs($stateParams.taskId)
-                .then(function(response) {
-                    $interval.cancel(msgTimer);
-
-                    if (typeof vm.taskDetail !== "undefined") {
-
-                        vm.taskDetail.logs = response;
-                        vm.isMessagesLoading = false;
-                    }
-                    startMessageTimer();
-                });
-        }
 
         function init() {
 
@@ -100,11 +87,6 @@
             }, 1000 * config.msgRefreshIntervalTime, 1);
         }
 
-
-        function goToClusterTask() {
-            $state.go("cluster-tasks", { clusterId: vm.clusterId });
-        }
-
         function startMessageTimer() {
             msgTimer = $interval(function() {
 
@@ -118,9 +100,27 @@
 
             }, 1000 * config.msgRefreshIntervalTime, 1);
         }
+        
+        function goToClusterTask() {
+            $state.go("cluster-tasks", { clusterId: vm.clusterId });
+        }
 
         function goToClusterDetail() {
             $state.go("cluster-hosts", { clusterId: vm.taskDetail.parameters["TendrlContext.integration_id"] });
+        }
+
+        function _getTaskLogs() {
+            taskStore.getTaskLogs($stateParams.taskId)
+                .then(function(response) {
+                    $interval.cancel(msgTimer);
+
+                    if (typeof vm.taskDetail !== "undefined") {
+
+                        vm.taskDetail.logs = response;
+                        vm.isMessagesLoading = false;
+                    }
+                    startMessageTimer();
+                });
         }
 
         $scope.$on("$destroy", function() {
