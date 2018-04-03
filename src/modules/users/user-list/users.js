@@ -13,10 +13,9 @@
         });
 
     /*@ngInject*/
-    function userController($scope, $rootScope, $state, $uibModal, $interval, utils, config, userStore, AuthManager, Notifications) {
+    function userController($scope, $rootScope, $state, $uibModal, $interval, config, userStore, AuthManager, Notifications) {
 
         var vm = this,
-            userTimer,
             userList,
             updatedNotification;
 
@@ -58,11 +57,13 @@
         function init() {
             userStore.getUserList()
                 .then(function(data) {
-                    vm.isDataLoading = false;
                     vm.userList = data;
                     vm.filteredUserList = vm.userList;
                     _filterChange(vm.filters);
                 }).catch(function(e) {
+                    vm.userList = [];
+                    vm.filteredUserList = [];
+                }).finally(function() {
                     vm.isDataLoading = false;
                 });
         }
@@ -71,11 +72,6 @@
             if (data !== null) {
                 vm.userList = data;
             }
-        });
-
-        /*Cancelling interval when scope is destroy*/
-        $scope.$on("$destroy", function() {
-            $interval.cancel(userTimer);
         });
 
         function addNewUser() {
@@ -126,17 +122,18 @@
                 });
         }
 
-                function _matchesFilter(item, filter) {
+        function _matchesFilter(item, filter) {
             var match = true;
             var re = new RegExp(filter.value, "i");
 
             if (filter.id === "username") {
-                match = item.name.match(re) !== null;
+                match = item.username.match(re) !== null;
             } else if (filter.id === "name") {
                 match = item.name.match(re) !== null;
             } else if (filter.id === "role") {
-                match = item.name.match(re) !== null;
+                match = item.role.match(re) !== null;
             }
+
             return match;
         };
 
@@ -171,10 +168,7 @@
             vm.filters = filters;
             filters.forEach(function(filter) {
                 vm.filtersText += filter.title + " : ";
-                if (filter.value.filterCategory) {
-                    vm.filtersText += ((filter.value.filterCategory.title || filter.value.filterCategory) +
-                        filter.value.filterDelimiter + (filter.value.filterValue.title || filter.value.filterValue));
-                } else if (filter.value.title) {
+                if (filter.value.title) {
                     vm.filtersText += filter.value.title;
                 } else {
                     vm.filtersText += filter.value;

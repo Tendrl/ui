@@ -108,8 +108,8 @@
                             </div>
                             <div class="list-view-pf-additional-info-item list-view-pf-additional-info-item-stacked" ng-class="{'hide-button': (cluster.managed !== 'Yes')}">
                                 <div class="bold-text">Volume Profiling</div>
-                                <div class="pull-left counts" ng-show="cluster.isProfilingEnabled !== 'Pending'">{{cluster.isProfilingEnabled}}</div>
-                                <div class="pull-left counts" ng-show="cluster.isProfilingEnabled === 'Pending'"><a href="" ng-click="clusterCntrl.goToTaskDetail(cluster)">{{cluster.isProfilingEnabled}}</a></div>
+                                <h5 class="pull-left counts" ng-show="cluster.isProfilingEnabled !== 'Pending'">{{cluster.isProfilingEnabled}}</h5>
+                                <h5 class="pull-left counts" ng-show="cluster.isProfilingEnabled === 'Pending'"><a href="" ng-click="clusterCntrl.goToTaskDetail(cluster)">{{cluster.isProfilingEnabled || "NA"}}</a></h5>
                             </div>
                             <div class="list-view-pf-additional-info-item cluster-text" ng-class="{'error-message': (cluster.message === 'Cluster Misconfigured'), 'warning-message': (cluster.message === 'Import Failed' || cluster.message === 'Unmanage Failed')}">
                                 <p uib-tooltip-template="'../modules/clusters/cluster-list/unmanage-cluster-tooltip.html'" tooltip-enable="clusterCntrl.isTooltipEnable(cluster.message)" tooltip-placement="auto">{{cluster.disableExpand ? "Expanding cluster" : cluster.message}}</p>

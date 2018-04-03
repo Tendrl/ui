@@ -2,6 +2,252 @@
 
     var testDataModule = angular.module("TestDataModule", []);
 
+    testDataModule.value("eventList", {
+        eventList: [{
+            "message_id": "09b9315a-41f0-4d26-b17f-8668efaaec0b",
+            "timeStamp": "2018-02-01T08:31:42Z",
+            "priority": "notice",
+            "message": "Status of peer: node2 changed from Disconnected to Connected"
+        }, {
+            "message_id": "8669f6b9-8193-4db0-8013-2ececf8e2e32",
+            "timeStamp": "2018-01-20T08:31:42Z",
+            "priority": "notice",
+            "message": "Job finished successfully (job_id: 9c40af03-c524-42d5-9121-f9f2220c433d)"
+        }],
+        date: {
+            fromDate: "",
+            toDate: "",
+        },
+        searchList: [{
+            "message_id": "8669f6b9-8193-4db0-8013-2ececf8e2e32",
+            "timeStamp": "2018-01-20T08:31:42Z",
+            "priority": "notice",
+            "message": "Job finished successfully (job_id: 9c40af03-c524-42d5-9121-f9f2220c433d)"
+        }]
+    });
+
+    testDataModule.value("globalTaskDetail", {
+        clusterList: [{
+            "integrationId": "7b05c774-f1e9-4ded-9e0b-7ac989a4f60c",
+            "sdsVersion": "3.8.4",
+            "sdsName": "gluster",
+            "name": "7b05c774-f1e9-4ded-9e0b-7ac989a4f60c",
+            "isProfilingEnabled": "Disabled",
+            "managed": "Yes",
+            "importStatus": "done",
+            "status": "HEALTH_OK",
+            "statusIcon": "Healthy",
+            "jobType": "ExpandClusterWithDetectedPeers",
+            "currentStatus": "in_progress",
+            "importTaskId": "baf62e32-3929-4d3d-9cbc-9a83587b533c",
+            "volCount": "1",
+            "alertCount": "0",
+            "errors": [],
+            "message": "Ready to Use",
+            "clusterId": "7b05c774-f1e9-4ded-9e0b-7ac989a4f60c",
+            "hosts": [{
+                "nodeId": "fc12302b-0025-467e-bf43-0f64d8217d21",
+                "fqdn": "dhcp43-19.lab.eng.blr.redhat.com",
+                "status": "DOWN",
+                "role": "Monitor",
+                "release": "gluster"
+            }, {
+                "nodeId": "f120a3f2-052a-4028-8fb2-7dddb310fec3",
+                "fqdn": "dhcp43-27.lab.eng.blr.redhat.com",
+                "status": "UP",
+                "role": "Gluster Peer",
+                "release": "gluster"
+            }]
+        }],
+        jobDetail: [{
+            "created_at": "2018-03-27T12:45:00Z",
+            "errors": "",
+            "flow": "ImportCluster",
+            "job_id": "d58dddfb-7789-46e0-970e-2d214f7ecbef",
+            "logs": [{
+                "type": "info",
+                "message": "Running Flow tendrl.flows.ImportCluster",
+                "date": "2018-03-26T04:20:55.053436+00:00"
+            }, {
+                "type": "error",
+                "message": "Checking if nodes are up",
+                "date": "2018-03-26T04:20:55.869654+00:00"
+            }, {
+                "type": "warning",
+                "message": "Status of nodes are up",
+                "date": "2018-03-26T04:20:56.066137+00:00"
+            }],
+            "messages_url": "/jobs/d58dddfb-7789-46e0-970e-2d214f7ecbef/messages",
+            "output_url": "/jobs/d58dddfb-7789-46e0-970e-2d214f7ecbef/output",
+            "parameters": {
+                "TendrlContext.integration_id": "48445a94-7288-4148-bc4f-a99a86baccb8",
+                "Cluster.volume_profiling_flag": "leave-as-is"
+            },
+            "status": "new",
+            "status_url": "/jobs/d58dddfb-7789-46e0-970e-2d214f7ecbef/status",
+            "updated_at": "2018-03-27 12:45:02.202100+00:00"
+        }],
+        logs: [{
+            "type": "info",
+            "message": "Running Flow tendrl.flows.ImportCluster",
+            "date": "2018-03-26T04:20:55.053436+00:00"
+        }, {
+            "type": "error",
+            "message": "Checking if nodes are up",
+            "date": "2018-03-26T04:20:55.869654+00:00"
+        }, {
+            "type": "warning",
+            "message": "Status of nodes are up",
+            "date": "2018-03-26T04:20:56.066137+00:00"
+        }],
+
+        status: "new"
+    });
+
+    testDataModule.value("taskDetail", {
+        clusterList: [{
+            "integrationId": "7b05c774-f1e9-4ded-9e0b-7ac989a4f60c",
+            "sdsVersion": "3.8.4",
+            "sdsName": "gluster",
+            "name": "7b05c774-f1e9-4ded-9e0b-7ac989a4f60c",
+            "isProfilingEnabled": "Disabled",
+            "managed": "Yes",
+            "importStatus": "done",
+            "status": "HEALTH_OK",
+            "statusIcon": "Healthy",
+            "jobType": "ExpandClusterWithDetectedPeers",
+            "currentStatus": "in_progress",
+            "importTaskId": "baf62e32-3929-4d3d-9cbc-9a83587b533c",
+            "volCount": "1",
+            "alertCount": "0",
+            "errors": [],
+            "message": "Ready to Use",
+            "clusterId": "7b05c774-f1e9-4ded-9e0b-7ac989a4f60c",
+            "hosts": [{
+                "nodeId": "fc12302b-0025-467e-bf43-0f64d8217d21",
+                "fqdn": "dhcp43-19.lab.eng.blr.redhat.com",
+                "status": "DOWN",
+                "role": "Monitor",
+                "release": "gluster"
+            }, {
+                "nodeId": "f120a3f2-052a-4028-8fb2-7dddb310fec3",
+                "fqdn": "dhcp43-27.lab.eng.blr.redhat.com",
+                "status": "UP",
+                "role": "Gluster Peer",
+                "release": "gluster"
+            }]
+        }],
+        jobDetail: [{
+            "created_at": "2018-03-27T12:45:00Z",
+            "errors": "",
+            "flow": "ImportCluster",
+            "job_id": "d58dddfb-7789-46e0-970e-2d214f7ecbef",
+            "logs": [{
+                "type": "info",
+                "message": "Running Flow tendrl.flows.ImportCluster",
+                "date": "2018-03-26T04:20:55.053436+00:00"
+            }, {
+                "type": "error",
+                "message": "Checking if nodes are up",
+                "date": "2018-03-26T04:20:55.869654+00:00"
+            }, {
+                "type": "warning",
+                "message": "Status of nodes are up",
+                "date": "2018-03-26T04:20:56.066137+00:00"
+            }],
+            "messages_url": "/jobs/d58dddfb-7789-46e0-970e-2d214f7ecbef/messages",
+            "output_url": "/jobs/d58dddfb-7789-46e0-970e-2d214f7ecbef/output",
+            "parameters": {
+                "TendrlContext.integration_id": "48445a94-7288-4148-bc4f-a99a86baccb8",
+                "Cluster.volume_profiling_flag": "leave-as-is"
+            },
+            "status": "new",
+            "status_url": "/jobs/d58dddfb-7789-46e0-970e-2d214f7ecbef/status",
+            "updated_at": "2018-03-27 12:45:02.202100+00:00"
+        }],
+        logs: [{
+            "type": "info",
+            "message": "Running Flow tendrl.flows.ImportCluster",
+            "date": "2018-03-26T04:20:55.053436+00:00"
+        }, {
+            "type": "error",
+            "message": "Checking if nodes are up",
+            "date": "2018-03-26T04:20:55.869654+00:00"
+        }, {
+            "type": "warning",
+            "message": "Status of nodes are up",
+            "date": "2018-03-26T04:20:56.066137+00:00"
+        }],
+
+        status: "new"
+    });
+
+    testDataModule.value("userList", {
+        users: [{
+            "username": "user1",
+            "name": "Steve bob",
+            "status": "enabled",
+            "role": "read-only",
+            "notification": "true",
+            "email": "steve@gmail.com"
+        }, {
+            "username": "user2",
+            "name": "Alexandar kave",
+            "status": "disabled",
+            "role": "normal",
+            "notification": "false",
+            "email": "kave@gmail.com"
+        }],
+        fields: [{
+            id: "username",
+            title: "User ID",
+            placeholder: "Filter by User ID",
+            filterType: "text"
+        }, {
+            id: "name",
+            title: "Name",
+            placeholder: "Filter by Name",
+            filterType: "text"
+        }, {
+            id: "role",
+            title: "Role",
+            placeholder: "Filter by Role",
+            filterType: "text"
+        }],
+        editUserResponse: [{
+            "username": "user1",
+            "name": "Steve bob",
+            "status": "true",
+            "role": "admin",
+            "email_notifications": "true",
+            "email": "steve@gmail.com"
+        }],
+        filteredUsernameFormattedOutput: [{
+            "username": "user1",
+            "name": "Steve bob",
+            "status": "enabled",
+            "role": "read-only",
+            "notification": "true",
+            "email": "steve@gmail.com"
+        }],
+        filteredNameFormattedOutput: [{
+            "username": "user1",
+            "name": "Steve bob",
+            "status": "enabled",
+            "role": "read-only",
+            "notification": "true",
+            "email": "steve@gmail.com"
+        }],
+        filteredRoleFormattedOutput: [{
+            "username": "user2",
+            "name": "Alexandar kave",
+            "status": "disabled",
+            "role": "normal",
+            "notification": "false",
+            "email": "kave@gmail.com"
+        }]
+    });
+
     testDataModule.value("taskList", {
         jobs: [{
             "createdAt": "2018-01-15T08:31:42Z",
@@ -65,7 +311,7 @@
             "statusUrl": "/jobs/baf62e32-3929-4d3d-9cbc-9a83587b533c/status",
             "updatedAt": "Mon Jan 15 2018 16:05:13 GMT+0530 (IST)"
         }],
-        filteredTaskIdFormattedOutput:[{
+        filteredTaskIdFormattedOutput: [{
             "createdAt": "2018-01-15T08:31:42Z",
             "errors": "",
             "flow": "ImportCluster",
@@ -81,7 +327,7 @@
             "statusUrl": "/jobs/baf62e32-3929-4d3d-9cbc-9a83587b533c/status",
             "updatedAt": "Mon Jan 15 2018 16:05:13 GMT+0530 (IST)"
         }],
-        filteredFlowFormattedOutput:[{
+        filteredFlowFormattedOutput: [{
             "createdAt": "2018-01-15T08:31:42Z",
             "errors": "",
             "flow": "ImportCluster",
@@ -112,7 +358,7 @@
             "statusUrl": "/jobs/baf62e32-3929-4d3d-9cbc-9a83587b533c/status",
             "updatedAt": "Mon Jan 15 2018 16:05:13 GMT+0530 (IST)"
         }],
-        filteredStatusFormattedOutput:[{
+        filteredStatusFormattedOutput: [{
             "createdAt": "2018-01-20T08:31:42Z",
             "errors": "",
             "flow": "ImportCluster",
@@ -628,7 +874,7 @@
             filterType: ""
         }],
         profilingResponse: {
-            "volume_profiling_state" : "enabled",
+            "volume_profiling_state": "enabled",
             "updated_at": "2018-01-15 08:20:04.985731+00:00",
             "sds_name": "gluster",
             "cluster_name": "gluster-6561e70789dc2fd78f67b176068c0d69c48dd33f78a801b1dba264d4afa32625",
@@ -827,7 +1073,7 @@
             "name": "vol2",
             "currentTask": { "status": "in_progress", "job_id": "f508cc8a-e037-4af0-bcbe-54735cc1692f", "job_name": "StartProfiling" }
         }]
-    })
+    });
 
     testDataModule.value("hostList", {
         clusterList: [{
@@ -962,6 +1208,173 @@
             "alerts": "0",
             "bricks": "2"
         }]
-    })
+    });
+
+    testDataModule.value("clusterEvents", {
+        clusters: [{
+            "sds_name": "gluster",
+            "cluster_name": "gluster-6561e70789dc2fd78f67b176068c0d69c48dd33f78a801b1dba264d4afa32625",
+            "cluster_id": "e372c01c-5022-41ce-9412-e96038bca305",
+            "integration_id": "e372c01c-5022-41ce-9412-e96038bca305",
+            "hash": "7daaa1782714800cd5c0ab4607d1d09f",
+            "sds_version": "3.4.4",
+            "updated_at": "2018-01-15 08:20:04.985731+00:00",
+            "errors": [],
+            "import_job_id": "baf62e32-3929-4d3d-9cbc-9a83587b533c",
+            "globaldetails": {
+                "connection_count": "0",
+                "status": "healthy",
+                "connection_active": "0",
+                "volume_up_degraded": "0",
+                "peer_count": "3",
+                "updated_at": "2018-01-29 05:01:50.455207+00:00",
+                "vol_count": "1",
+                "hash": "783ee5e5058b339b21c3fb2bd91ed4ea"
+            },
+            "public_network": "",
+            "cluster_network": "",
+            "is_managed": "yes",
+            "enable_volume_profiling": "no",
+            "import_status": "done",
+            "alert_counters": {
+                "integration_id": "e372c01c-5022-41ce-9412-e96038bca305",
+                "hash": "4cd600e2a84b9e0d04cab38b4c08a349",
+                "warning_count": "0",
+                "updated_at": "2018-01-15 08:32:49.551560+00:00"
+            },
+            "nodes": [{
+                "hash": "b97976b230d125cb160cfefd4fe20cff",
+                "tags": ["tendrl/integration/gluster", "gluster/server", "tendrl/integration/e372c01c-5022-41ce-9412-e96038bca305", "tendrl/node_3d2b015c-08c7-440d-b9af-23aeb4c17f9f", "detected_cluster/6561e70789dc2fd78f67b176068c0d69c48dd33f78a801b1dba264d4afa32625", "tendrl/node"],
+                "sync_status": "done",
+                "fqdn": "dhcp43-237.lab.eng.blr.redhat.com",
+                "updated_at": "2018-01-29 05:01:42.855664+00:00",
+                "node_id": "3d2b015c-08c7-440d-b9af-23aeb4c17f9f",
+                "last_sync": "2018-01-29 05:01:42.817907+00:00",
+                "status": "UP",
+                "node_id": "3d2b015c-08c7-440d-b9af-23aeb4c17f9f"
+            }, {
+                "updated_at": "2018-01-29 05:01:11.901789+00:00",
+                "node_id": "5083d729-d666-47ac-a83c-3b6373f73ff2",
+                "last_sync": "2018-01-29 05:01:11.861982+00:00",
+                "status": "UP",
+                "hash": "c337a69aeec0e0a3e0d3216b9d6ca7c2",
+                "tags": ["tendrl/integration/gluster", "gluster/server", "tendrl/node_5083d729-d666-47ac-a83c-3b6373f73ff2", "tendrl/integration/e372c01c-5022-41ce-9412-e96038bca305", "detected_cluster/6561e70789dc2fd78f67b176068c0d69c48dd33f78a801b1dba264d4afa32625", "tendrl/node"],
+                "sync_status": "done",
+                "fqdn": "dhcp43-238.lab.eng.blr.redhat.com",
+                "node_id": "5083d729-d666-47ac-a83c-3b6373f73ff2"
+            }, {
+                "tags": ["tendrl/node_d7fd2f04-b829-4d7b-98b3-2fccdace918d", "tendrl/integration/gluster", "gluster/server", "provisioner/e372c01c-5022-41ce-9412-e96038bca305", "tendrl/integration/e372c01c-5022-41ce-9412-e96038bca305", "detected_cluster/6561e70789dc2fd78f67b176068c0d69c48dd33f78a801b1dba264d4afa32625", "tendrl/node"],
+                "sync_status": "done",
+                "fqdn": "dhcp43-232.lab.eng.blr.redhat.com",
+                "updated_at": "2018-01-29 05:01:52.907422+00:00",
+                "node_id": "d7fd2f04-b829-4d7b-98b3-2fccdace918d",
+                "last_sync": "2018-01-29 05:01:52.864539+00:00",
+                "status": "UP",
+                "hash": "94ea3e80ff6a26e69f193eb8d15aedcc",
+                "node_id": "d7fd2f04-b829-4d7b-98b3-2fccdace918d"
+            }]
+        }, {
+            "integration_id": "f755f0cd-b784-4920-83c3-db9d576d5935",
+            "hash": "80f10a7832bfc834f34c41aeb483a22c",
+            "sds_version": "3.8.4",
+            "updated_at": "2018-01-16 12:38:20.223805+00:00",
+            "sds_name": "gluster",
+            "cluster_name": "gluster-b9e05aebda5839ae1ed4c15122e32927df8cc6479a702ff70bbe0ed7cc702798",
+            "cluster_id": "f755f0cd-b784-4920-83c3-db9d576d5935",
+            "errors": [],
+            "public_network": "",
+            "cluster_network": "",
+            "is_managed": "no",
+            "enable_volume_profiling": "yes",
+            "import_status": "",
+            "import_job_id": "",
+            "nodes": [{
+                "sync_status": "done",
+                "fqdn": "dhcp43-226.lab.eng.blr.redhat.com",
+                "updated_at": "2018-01-29 05:01:49.227134+00:00",
+                "node_id": "307a15fa-9460-4679-8aee-c58e9a119a7e",
+                "last_sync": "2018-01-29 05:01:49.189015+00:00",
+                "status": "UP",
+                "hash": "c36196b062045eaf5e930d2dd05e1852",
+                "tags": ["tendrl/integration/f755f0cd-b784-4920-83c3-db9d576d5935", "detected_cluster/b9e05aebda5839ae1ed4c15122e32927df8cc6479a702ff70bbe0ed7cc702798", "gluster/server", "tendrl/server", "tendrl/node_307a15fa-9460-4679-8aee-c58e9a119a7e", "tendrl/monitor", "tendrl/node"],
+                "node_id": "307a15fa-9460-4679-8aee-c58e9a119a7e"
+            }, {
+                "fqdn": "dhcp43-143.lab.eng.blr.redhat.com",
+                "updated_at": "2018-01-29 05:01:44.115734+00:00",
+                "node_id": "338a58f6-d5a9-4e61-8ab9-1e3c51b4218f",
+                "last_sync": "2018-01-29 05:01:44.066744+00:00",
+                "status": "UP",
+                "hash": "c5ed0a7ec56d4bdb3ae79b4698922ec7",
+                "tags": ["tendrl/integration/f755f0cd-b784-4920-83c3-db9d576d5935", "detected_cluster/b9e05aebda5839ae1ed4c15122e32927df8cc6479a702ff70bbe0ed7cc702798", "tendrl/node_338a58f6-d5a9-4e61-8ab9-1e3c51b4218f", "gluster/server", "tendrl/node"],
+                "sync_status": "done",
+                "node_id": "338a58f6-d5a9-4e61-8ab9-1e3c51b4218f"
+            }]
+        }],
+        formattedOutput: [{
+            integrationId: "e372c01c-5022-41ce-9412-e96038bca305",
+            sdsVersion: "3.4.4",
+            sdsName: "gluster",
+            name: "e372c01c-5022-41ce-9412-e96038bca305",
+            currentTaskId: "01c-5022-41ce-9412-e96038bca305",
+            isProfilingEnabled: "Disabled",
+            managed: "Yes",
+            importStatus: "done",
+            status: "HEALTH_OK",
+            statusIcon: "Healthy",
+            importTaskId: "baf62e32-3929-4d3d-9cbc-9a83587b533c",
+            volCount: 1,
+            alertCount: 0,
+            errors: [],
+            message: "Ready to Use",
+            clusterId: "e372c01c-5022-41ce-9412-e96038bca305",
+            hosts: [{
+                nodeId: "3d2b015c-08c7-440d-b9af-23aeb4c17f9f",
+                fqdn: "dhcp43-237.lab.eng.blr.redhat.com",
+                status: "UP",
+                role: "Gluster Peer",
+                release: "gluster"
+            }, {
+                nodeId: "5083d729-d666-47ac-a83c-3b6373f73ff2",
+                fqdn: "dhcp43-238.lab.eng.blr.redhat.com",
+                status: "UP",
+                role: "Gluster Peer",
+                release: "gluster"
+            }, {
+                nodeId: "d7fd2f04-b829-4d7b-98b3-2fccdace918d",
+                fqdn: "dhcp43-232.lab.eng.blr.redhat.com",
+                status: "UP",
+                role: "Gluster Peer",
+                release: "gluster"
+            }]
+        }, {
+            integrationId: "f755f0cd-b784-4920-83c3-db9d576d5935",
+            sdsVersion: "3.8.4",
+            sdsName: "gluster",
+            name: "f755f0cd-b784-4920-83c3-db9d576d5935",
+            currentTaskId: "01c-5022-41ce-9412-e96038bca305",
+            isProfilingEnabled: "Enabled",
+            managed: "No",
+            importStatus: "",
+            importTaskId: "",
+            volCount: 0,
+            alertCount: 0,
+            errors: [],
+            message: "Ready to Import",
+            clusterId: "f755f0cd-b784-4920-83c3-db9d576d5935",
+            hosts: [{
+                nodeId: "307a15fa-9460-4679-8aee-c58e9a119a7e",
+                fqdn: "dhcp43-226.lab.eng.blr.redhat.com",
+                status: "UP",
+                role: "Gluster Peer",
+                release: "gluster"
+            }, {
+                nodeId: "338a58f6-d5a9-4e61-8ab9-1e3c51b4218f",
+                fqdn: "dhcp43-143.lab.eng.blr.redhat.com",
+                status: "UP",
+                role: "Gluster Peer",
+                release: "gluster"
+            }]
+        }]
+    });
 
 })();

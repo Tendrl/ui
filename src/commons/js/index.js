@@ -56,10 +56,6 @@
                         url: "/import-cluster/:clusterId",
                         template: "<import-cluster cluster='clusterTobeImported'></import-cluster>"
                     })
-                    /*.state("cluster-detail", {
-                        url: "/cluster-detail/:clusterId",
-                        template: "<cluster-detail></cluster-detail>"
-                    })*/
                     .state("cluster-hosts", {
                         url: "/cluster-hosts/:clusterId",
                         template: "<cluster-hosts></cluster-hosts>"
@@ -76,11 +72,7 @@
                         url: "/cluster-tasks/:clusterId",
                         template: "<cluster-tasks></cluster-tasks>"
                     })
-                    /*.state("hosts", {
-                        url: "/hosts",
-                        template: "<host-list></host-list>"
-                    })*/
-                    .state("host-detail", {
+                        .state("host-detail", {
                         url: "/cluster-hosts/:clusterId/host-detail/:hostId",
                         template: "<host-detail></host-detail>"
                     })
@@ -88,14 +80,6 @@
                         url: "/cluster-volumes/:clusterId/volume-detail/:volumeId",
                         template: "<volume-detail></volume-detail>"
                     })
-                    /*.state("events", {
-                        url: "/events",
-                        template: "<event-list></event-list>"
-                    })*/
-                    /*.state("tasks", {
-                        url: "/tasks/:clusterId",
-                        template: "<tasks></tasks>"
-                    })*/
                     .state("users", {
                         url: "/admin/users",
                         template: "<users></users>"
@@ -108,10 +92,6 @@
                         url: "/admin/users/edit/:userId",
                         template: "<edit-user></edit-user>"
                     })
-                    /*.state("alerts", {
-                        url: "/alerts",
-                        template: "<alerts></alerts>"
-                    })*/
                     .state("task-detail", {
                         url: "/cluster-tasks/:clusterId/task-detail/:taskId",
                         template: "<task-detail></task-detail>"

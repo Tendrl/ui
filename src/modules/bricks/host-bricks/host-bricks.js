@@ -110,6 +110,7 @@
                         return brickStore.getHostBrickList(vm.clusterId, vm.hostId);
                     }).catch(function() {
                         $rootScope.clusterData = [];
+                        throw e;
                     }).then(function(data) {
                         vm.brickList = data;
                         vm.filteredBrickList = vm.brickList;

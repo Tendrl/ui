@@ -65,14 +65,14 @@
             }
         };
 
-
-
         store.getJobDetail = function(jobId) {
             var deferred = $q.defer();
 
             utils.getJobDetail(jobId)
                 .then(function(data) {
                     deferred.resolve(data);
+                }).catch(function(e) {
+                    deferred.reject(e);
                 });
 
             return deferred.promise;
