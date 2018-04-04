@@ -12,6 +12,19 @@
         margin: 20px 0;
     }
 
+    .cluster-name {
+        font-size: 14px;
+
+        label {
+            font-weight: normal;
+        }
+
+        .name-validation-msg {
+            font-size: 10px;
+            font-style: italic;
+        }
+    }
+
     .alert a {
         cursor: pointer;
     }
@@ -29,7 +42,6 @@
     }
 
     .volume-profile {
-        margin-top: 10px;
         font-size: 14px;
 
         input[type=checkbox],

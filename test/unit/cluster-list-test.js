@@ -281,7 +281,7 @@ describe("Unit Component: clusterList", function() {
         });
 
         it("Should show import button", function() {
-            var cluster = clusterList.formattedOutput[1];
+            var cluster = clusterList.formattedOutput[0];
             $rootScope.userRole = "normal";
             expect(vm.showImportBtn(cluster)).to.be.true;
         });
@@ -294,12 +294,12 @@ describe("Unit Component: clusterList", function() {
         });
 
         it("Should show dashboard button", function() {
-            var cluster = clusterList.formattedOutput[0];
+            var cluster = clusterList.formattedOutput[1];
             expect(vm.showDashboardBtn(cluster)).to.be.true;
         });
 
         it("Should show Kebab Menu", function() {
-            var cluster = clusterList.formattedOutput[0];
+            var cluster = clusterList.formattedOutput[1];
             $rootScope.userRole = "normal";
             expect(vm.showKebabMenu(cluster)).to.be.true;
         });
@@ -316,7 +316,7 @@ describe("Unit Component: clusterList", function() {
         });
 
         it("Should get an icon class when cluster is unmanaged", function() {
-            var cluster = clusterList.formattedOutput[1];
+            var cluster = clusterList.formattedOutput[0];
 
             var cls = vm.getClass(cluster);
             expect(cls).to.be.equal("fa ffont fa-question");
@@ -348,7 +348,6 @@ describe("Unit Component: clusterList", function() {
             var cls = vm.getClass(cluster);
             expect(cls).to.be.equal("pficon pficon-in-progress");
         });
-
 
     });
 

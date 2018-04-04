@@ -19,7 +19,7 @@
         vm.filters = [];
 
         vm.modalHeader = {
-            "title": "Hosts on " + vm.clusterId,
+            "title": "Hosts on " + cluster.name,
             "close": vm.closeModal
         };
 

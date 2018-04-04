@@ -405,6 +405,7 @@
             "public_network": "",
             "cluster_network": "",
             "is_managed": "yes",
+            "short_name": "test_cluster",
             "enable_volume_profiling": "no",
             "import_status": "done",
             "alert_counters": {
@@ -456,6 +457,7 @@
             "public_network": "",
             "cluster_network": "",
             "is_managed": "no",
+            "short_name": "",
             "enable_volume_profiling": "yes",
             "import_status": "",
             "import_job_id": "",
@@ -485,7 +487,7 @@
             integrationId: "e372c01c-5022-41ce-9412-e96038bca305",
             sdsVersion: "3.4.4",
             sdsName: "gluster",
-            name: "e372c01c-5022-41ce-9412-e96038bca305",
+            name: "test_cluster",
             currentTaskId: "01c-5022-41ce-9412-e96038bca305",
             isProfilingEnabled: "Disabled",
             managed: "Yes",
@@ -547,39 +549,10 @@
             }]
         }],
         sortedformattedOutputName: [{
-            integrationId: "f755f0cd-b784-4920-83c3-db9d576d5935",
-            sdsVersion: "3.8.4",
-            sdsName: "gluster",
-            name: "f755f0cd-b784-4920-83c3-db9d576d5935",
-            currentTaskId: "01c-5022-41ce-9412-e96038bca305",
-            isProfilingEnabled: "Enabled",
-            managed: "No",
-            importStatus: "",
-            importTaskId: "",
-            volCount: 0,
-            alertCount: 0,
-            errors: [],
-            message: "Ready to Import",
-            clusterId: "f755f0cd-b784-4920-83c3-db9d576d5935",
-            hosts: [{
-                nodeId: "307a15fa-9460-4679-8aee-c58e9a119a7e",
-                fqdn: "dhcp43-226.lab.eng.blr.redhat.com",
-                status: "UP",
-                role: "Gluster Peer",
-                release: "gluster"
-            }, {
-                nodeId: "338a58f6-d5a9-4e61-8ab9-1e3c51b4218f",
-                fqdn: "dhcp43-143.lab.eng.blr.redhat.com",
-                status: "UP",
-                role: "Gluster Peer",
-                release: "gluster"
-            }],
-            status: "unmanaged"
-        }, {
             integrationId: "e372c01c-5022-41ce-9412-e96038bca305",
             sdsVersion: "3.4.4",
             sdsName: "gluster",
-            name: "e372c01c-5022-41ce-9412-e96038bca305",
+            name: "test_cluster",
             currentTaskId: "01c-5022-41ce-9412-e96038bca305",
             isProfilingEnabled: "Disabled",
             managed: "Yes",
@@ -611,6 +584,35 @@
                 role: "Gluster Peer",
                 release: "gluster"
             }]
+        }, {
+            integrationId: "f755f0cd-b784-4920-83c3-db9d576d5935",
+            sdsVersion: "3.8.4",
+            sdsName: "gluster",
+            name: "f755f0cd-b784-4920-83c3-db9d576d5935",
+            currentTaskId: "01c-5022-41ce-9412-e96038bca305",
+            isProfilingEnabled: "Enabled",
+            managed: "No",
+            importStatus: "",
+            importTaskId: "",
+            volCount: 0,
+            alertCount: 0,
+            errors: [],
+            message: "Ready to Import",
+            clusterId: "f755f0cd-b784-4920-83c3-db9d576d5935",
+            hosts: [{
+                nodeId: "307a15fa-9460-4679-8aee-c58e9a119a7e",
+                fqdn: "dhcp43-226.lab.eng.blr.redhat.com",
+                status: "UP",
+                role: "Gluster Peer",
+                release: "gluster"
+            }, {
+                nodeId: "338a58f6-d5a9-4e61-8ab9-1e3c51b4218f",
+                fqdn: "dhcp43-143.lab.eng.blr.redhat.com",
+                status: "UP",
+                role: "Gluster Peer",
+                release: "gluster"
+            }],
+            status: "unmanaged"
         }],
         profileStatus: [{
             enabled: "Enabled",
@@ -650,7 +652,7 @@
             integrationId: "e372c01c-5022-41ce-9412-e96038bca305",
             sdsVersion: "3.4.4",
             sdsName: "gluster",
-            name: "e372c01c-5022-41ce-9412-e96038bca305",
+            name: "test_cluster",
             currentTaskId: "01c-5022-41ce-9412-e96038bca305",
             isProfilingEnabled: "Disabled",
             managed: "Yes",
@@ -716,7 +718,7 @@
             integrationId: "e372c01c-5022-41ce-9412-e96038bca305",
             sdsVersion: "3.4.4",
             sdsName: "gluster",
-            name: "e372c01c-5022-41ce-9412-e96038bca305",
+            name: "test_cluster",
             currentTaskId: "01c-5022-41ce-9412-e96038bca305",
             isProfilingEnabled: "Disabled",
             managed: "Yes",
@@ -753,7 +755,7 @@
             integrationId: "e372c01c-5022-41ce-9412-e96038bca305",
             sdsVersion: "3.4.4",
             sdsName: "gluster",
-            name: "e372c01c-5022-41ce-9412-e96038bca305",
+            name: "test_cluster",
             currentTaskId: "01c-5022-41ce-9412-e96038bca305",
             isProfilingEnabled: "Disabled",
             managed: "Yes",
