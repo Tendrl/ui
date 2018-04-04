@@ -13,7 +13,8 @@
         vm.cancelModal = cancelModal;
         vm.closeModal = closeModal;
         vm.confirmModal = confirmModal;
-        vm.clusterId = progressCluster.clusterId;
+        vm.clusterId = progressCluster.cluster.clusterId;
+        vm.clusterName = progressCluster.cluster.name;
         vm.jobId = progressCluster.jobId;
 
         vm.modalHeader = {

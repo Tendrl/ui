@@ -98,11 +98,15 @@
          * @desc store for import cluster
          * @memberOf clusterStore
          */
-        store.importCluster = function(clusterId, enableProfiling) {
+        store.importCluster = function(clusterId, enableProfiling, clusterName) {
             var requestData = {
                     "Cluster.volume_profiling_flag": enableProfiling === "leaveAsIs" ? "leave-as-is" : enableProfiling
                 },
                 deferred;
+
+            if (clusterName) {
+                requestData["Cluster.short_name"] = clusterName;
+            }
 
             deferred = $q.defer();
             clusterFactory.importCluster(requestData, clusterId)
@@ -211,7 +215,7 @@
             temp.integrationId = cluster.integration_id;
             temp.sdsVersion = cluster.sds_version;
             temp.sdsName = cluster.sds_name;
-            temp.name = cluster.cluster_id;
+            temp.name = (cluster.short_name && cluster.short_name !== "None") ? cluster.short_name : cluster.integration_id;
             temp.clusterId = cluster.cluster_id;
             temp.currentTask = cluster.current_job;
             temp.jobType = JSON.parse(cluster.current_job).job_name;

@@ -110,13 +110,6 @@
             }, 1000 * config.nodeRefreshIntervalTime, 1);
         }
 
-        function redirectToGrafana(host, $event) {
-            utils.redirectToGrafana("hosts", $event, {
-                clusterId: host.integrationId,
-                hostName: host.name.split(".").join("_")
-            });
-        }
-
         /*Cancelling interval when scope is destroy*/
         $scope.$on("$destroy", function() {
             $interval.cancel(hostListTimer);
@@ -163,7 +156,7 @@
 
         function redirectToGrafana(host) {
             utils.redirectToGrafana("hosts", {
-                clusterId: host.integrationId,
+                clusterId: host.clusterName,
                 hostName: host.name.split(".").join("_")
             });
         }

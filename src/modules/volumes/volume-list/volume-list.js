@@ -15,7 +15,7 @@
         });
 
     /*@ngInject*/
-    function volumeController($scope, $rootScope, $state, $interval, utils, config, volumeStore, Notifications) {
+    function volumeController($scope, $rootScope, $state, $interval, utils, config, volumeStore, Notifications, clusterStore) {
         var vm = this,
             volumeTimer,
             volumeList;
@@ -83,6 +83,7 @@
         init();
 
         function init() {
+            vm.clusterName = clusterStore.getClusterDetails(vm.clusterId).name;
 
             volumeStore.getVolumeList(vm.clusterId)
                 .then(function(data) {
@@ -172,7 +173,7 @@
 
         function redirectToGrafana(volume) {
             utils.redirectToGrafana("volumes", {
-                clusterId: vm.clusterId,
+                clusterId: vm.clusterName,
                 volumeName: volume.name
             });
         }
