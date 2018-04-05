@@ -13,7 +13,7 @@
         });
 
     /*@ngInject*/
-    function addUserController($scope, $rootScope, $state, $stateParams, userStore, config, utils, Notifications) {
+    function addUserController($scope, $rootScope, $state, userStore, config, utils, Notifications) {
 
         var vm = this,
             typePassword,

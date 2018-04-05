@@ -2,6 +2,655 @@
 
     var testDataModule = angular.module("TestDataModule", []);
 
+    testDataModule.value("importCluster", {
+        clusters: [{
+            "sds_name": "gluster",
+            "cluster_name": "gluster-7a29bf0489ff01c0d0b02c40b1f75193aed12f51c1728104649f6a3bf34527b7",
+            "cluster_id": "ef7d719d-945d-4512-8d88-2806b52872d4",
+            "integration_id": "ef7d719d-945d-4512-8d88-2806b52872d4",
+            "hash": "589ad2e0726e1f07f16a2a53ee7f778f",
+            "sds_version": "4.1dev",
+            "updated_at": "2018-03-29 09:05:35.470419+00:00",
+            "errors": [],
+            "globaldetails": {
+                "status": "healthy",
+                "volume_up_degraded": "0",
+                "vol_count": "2",
+                "integration_id": "",
+                "connection_active": "0",
+                "updated_at": "2018-04-05 06:12:37.569363+00:00",
+                "peer_count": "2",
+                "hash": "dc4ab3e106f0343ca988147dc559fae2",
+                "connection_count": "0"
+            },
+            "public_network": "",
+            "cluster_network": "",
+            "is_managed": "yes",
+            "volume_profiling_state": "enabled",
+            "alert_counters": {
+                "integration_id": "ef7d719d-945d-4512-8d88-2806b52872d4",
+                "hash": "6130c978aa1661847ad3926e1105cad5",
+                "alert_count": "0",
+                "updated_at": "2018-03-27 09:57:48.838143+00:00"
+            },
+            "status": "",
+            "current_job": "{\"status\": \"finished\", \"job_name\": \"EnableDisableVolumeProfiling\", \"job_id\": \"72d170f3-6736-4301-99ae-7d96b3c130f3\"}",
+            "nodes": [{
+                "last_sync": "2018-04-05 06:12:44.017135+00:00",
+                "status": "UP",
+                "hash": "3912ea133b9637333a2c4842ad290935",
+                "tags": ["tendrl/integration/gluster", "detected_cluster/7a29bf0489ff01c0d0b02c40b1f75193aed12f51c1728104649f6a3bf34527b7", "tendrl/integration/ef7d719d-945d-4512-8d88-2806b52872d4", "gluster/server", "tendrl/node_e05c2a88-d9b2-44fd-acd8-5af23c514f2c", "provisioner/ef7d719d-945d-4512-8d88-2806b52872d4", "tendrl/node"],
+                "sync_status": "done",
+                "fqdn": "dhcp42-91.lab.eng.blr.redhat.com",
+                "updated_at": "2018-04-05 06:13:02.975389+00:00",
+                "node_id": "e05c2a88-d9b2-44fd-acd8-5af23c514f2c",
+                "first_sync_done": "yes",
+                "ipv4_addr": "10.70.42.91",
+                "is_managed": "yes",
+                "node_id": "e05c2a88-d9b2-44fd-acd8-5af23c514f2c"
+            }, {
+                "fqdn": "dhcp42-135.lab.eng.blr.redhat.com",
+                "updated_at": "2018-04-05 06:13:25.897682+00:00",
+                "ipv4_addr": "10.70.42.135",
+                "is_managed": "yes",
+                "hash": "45b72ab39f8e4cb5398db5b9b20e8acf",
+                "tags": ["tendrl/integration/gluster", "detected_cluster/7a29bf0489ff01c0d0b02c40b1f75193aed12f51c1728104649f6a3bf34527b7", "tendrl/integration/ef7d719d-945d-4512-8d88-2806b52872d4", "gluster/server", "tendrl/node_af48b10a-64cd-40eb-8f13-a8bd16c30d10", "tendrl/node"],
+                "sync_status": "done",
+                "last_sync": "2018-04-05 06:13:25.615774+00:00",
+                "status": "UP",
+                "first_sync_done": "yes",
+                "node_id": "af48b10a-64cd-40eb-8f13-a8bd16c30d10",
+                "node_id": "af48b10a-64cd-40eb-8f13-a8bd16c30d10"
+            }]
+        }],
+        formattedOutput: [{
+            integrationId: "ef7d719d-945d-4512-8d88-2806b52872d4",
+            sdsVersion: "4.1dev",
+            sdsName: "gluster",
+            name: "ef7d719d-945d-4512-8d88-2806b52872d4",
+            clusterId: "ef7d719d-945d-4512-8d88-2806b52872d4",
+            jobType: "EnableDisableVolumeProfiling",
+            currentStatus: "finished",
+            managed: "Yes",
+            currentTaskId: "72d170f3-6736-4301-99ae-7d96b3c130f3",
+            volCount: 2,
+            alertCount: 0,
+            hostCount: 2,
+            isProfilingEnabled: "Enabled",
+            errors: [],
+            message: "Ready to Use",
+            statusIcon: "Healthy",
+            hosts: [{
+                nodeId: "e05c2a88-d9b2-44fd-acd8-5af23c514f2c",
+                fqdn: "dhcp42-91.lab.eng.blr.redhat.com",
+                ipAddress: "10.70.42.91",
+                status: "UP",
+                role: "Gluster Peer",
+                release: "gluster"
+            }, {
+                nodeId: "af48b10a-64cd-40eb-8f13-a8bd16c30d10",
+                fqdn: "dhcp42-135.lab.eng.blr.redhat.com",
+                ipAddress: "10.70.42.135",
+                status: "UP",
+                role: "Gluster Peer",
+                release: "gluster"
+            }]
+        }],
+        filterFields: [{
+            id: "fqdn",
+            title: "Name",
+            placeholder: "Filter by Name",
+            filterType: "text"
+        }, {
+            id: "ipAddress",
+            title: "Address",
+            placeholder: "Filter by IP Address",
+            filterType: "text"
+        }],
+        tableConfig: {
+            selectionMatchProp: "fqdn",
+            itemsAvailable: true,
+            showCheckboxes: false
+        },
+        tableColumns: [{
+            header: "Host",
+            itemField: "fqdn"
+        }, {
+            header: "Address",
+            itemField: "ipAddress"
+        }],
+        filteredNameFormattedOutput: [{
+            nodeId: "e05c2a88-d9b2-44fd-acd8-5af23c514f2c",
+            fqdn: "dhcp42-91.lab.eng.blr.redhat.com",
+            ipAddress: "10.70.42.91",
+            status: "UP",
+            role: "Gluster Peer",
+            release: "gluster"
+        }],
+        filteredIPAFormattedOutput: [{
+            nodeId: "af48b10a-64cd-40eb-8f13-a8bd16c30d10",
+            fqdn: "dhcp42-135.lab.eng.blr.redhat.com",
+            ipAddress: "10.70.42.135",
+            status: "UP",
+            role: "Gluster Peer",
+            release: "gluster"
+        }],
+        data: { "job_id": "6b4f3a45-eaa3-47d2-bc4a-ffea2298572e" }
+
+    });
+
+    testDataModule.value("clusterTasks", {
+        clusters: [{
+            "sds_name": "gluster",
+            "cluster_name": "gluster-6561e70789dc2fd78f67b176068c0d69c48dd33f78a801b1dba264d4afa32625",
+            "cluster_id": "e372c01c-5022-41ce-9412-e96038bca305",
+            "integration_id": "e372c01c-5022-41ce-9412-e96038bca305",
+            "hash": "7daaa1782714800cd5c0ab4607d1d09f",
+            "sds_version": "3.4.4",
+            "updated_at": "2018-01-15 08:20:04.985731+00:00",
+            "errors": [],
+            "import_job_id": "baf62e32-3929-4d3d-9cbc-9a83587b533c",
+            "globaldetails": {
+                "connection_count": "0",
+                "status": "healthy",
+                "connection_active": "0",
+                "volume_up_degraded": "0",
+                "peer_count": "3",
+                "updated_at": "2018-01-29 05:01:50.455207+00:00",
+                "vol_count": "1",
+                "hash": "783ee5e5058b339b21c3fb2bd91ed4ea"
+            },
+            "public_network": "",
+            "cluster_network": "",
+            "is_managed": "yes",
+            "enable_volume_profiling": "no",
+            "import_status": "done",
+            "alert_counters": {
+                "integration_id": "e372c01c-5022-41ce-9412-e96038bca305",
+                "hash": "4cd600e2a84b9e0d04cab38b4c08a349",
+                "warning_count": "0",
+                "updated_at": "2018-01-15 08:32:49.551560+00:00"
+            },
+            "nodes": [{
+                "hash": "b97976b230d125cb160cfefd4fe20cff",
+                "tags": ["tendrl/integration/gluster", "gluster/server", "tendrl/integration/e372c01c-5022-41ce-9412-e96038bca305", "tendrl/node_3d2b015c-08c7-440d-b9af-23aeb4c17f9f", "detected_cluster/6561e70789dc2fd78f67b176068c0d69c48dd33f78a801b1dba264d4afa32625", "tendrl/node"],
+                "sync_status": "done",
+                "fqdn": "dhcp43-237.lab.eng.blr.redhat.com",
+                "updated_at": "2018-01-29 05:01:42.855664+00:00",
+                "node_id": "3d2b015c-08c7-440d-b9af-23aeb4c17f9f",
+                "last_sync": "2018-01-29 05:01:42.817907+00:00",
+                "status": "UP",
+                "node_id": "3d2b015c-08c7-440d-b9af-23aeb4c17f9f"
+            }, {
+                "updated_at": "2018-01-29 05:01:11.901789+00:00",
+                "node_id": "5083d729-d666-47ac-a83c-3b6373f73ff2",
+                "last_sync": "2018-01-29 05:01:11.861982+00:00",
+                "status": "UP",
+                "hash": "c337a69aeec0e0a3e0d3216b9d6ca7c2",
+                "tags": ["tendrl/integration/gluster", "gluster/server", "tendrl/node_5083d729-d666-47ac-a83c-3b6373f73ff2", "tendrl/integration/e372c01c-5022-41ce-9412-e96038bca305", "detected_cluster/6561e70789dc2fd78f67b176068c0d69c48dd33f78a801b1dba264d4afa32625", "tendrl/node"],
+                "sync_status": "done",
+                "fqdn": "dhcp43-238.lab.eng.blr.redhat.com",
+                "node_id": "5083d729-d666-47ac-a83c-3b6373f73ff2"
+            }, {
+                "tags": ["tendrl/node_d7fd2f04-b829-4d7b-98b3-2fccdace918d", "tendrl/integration/gluster", "gluster/server", "provisioner/e372c01c-5022-41ce-9412-e96038bca305", "tendrl/integration/e372c01c-5022-41ce-9412-e96038bca305", "detected_cluster/6561e70789dc2fd78f67b176068c0d69c48dd33f78a801b1dba264d4afa32625", "tendrl/node"],
+                "sync_status": "done",
+                "fqdn": "dhcp43-232.lab.eng.blr.redhat.com",
+                "updated_at": "2018-01-29 05:01:52.907422+00:00",
+                "node_id": "d7fd2f04-b829-4d7b-98b3-2fccdace918d",
+                "last_sync": "2018-01-29 05:01:52.864539+00:00",
+                "status": "UP",
+                "hash": "94ea3e80ff6a26e69f193eb8d15aedcc",
+                "node_id": "d7fd2f04-b829-4d7b-98b3-2fccdace918d"
+            }]
+        }, {
+            "integration_id": "f755f0cd-b784-4920-83c3-db9d576d5935",
+            "hash": "80f10a7832bfc834f34c41aeb483a22c",
+            "sds_version": "3.8.4",
+            "updated_at": "2018-01-16 12:38:20.223805+00:00",
+            "sds_name": "gluster",
+            "cluster_name": "gluster-b9e05aebda5839ae1ed4c15122e32927df8cc6479a702ff70bbe0ed7cc702798",
+            "cluster_id": "f755f0cd-b784-4920-83c3-db9d576d5935",
+            "errors": [],
+            "public_network": "",
+            "cluster_network": "",
+            "is_managed": "no",
+            "enable_volume_profiling": "yes",
+            "import_status": "",
+            "import_job_id": "",
+            "nodes": [{
+                "sync_status": "done",
+                "fqdn": "dhcp43-226.lab.eng.blr.redhat.com",
+                "updated_at": "2018-01-29 05:01:49.227134+00:00",
+                "node_id": "307a15fa-9460-4679-8aee-c58e9a119a7e",
+                "last_sync": "2018-01-29 05:01:49.189015+00:00",
+                "status": "UP",
+                "hash": "c36196b062045eaf5e930d2dd05e1852",
+                "tags": ["tendrl/integration/f755f0cd-b784-4920-83c3-db9d576d5935", "detected_cluster/b9e05aebda5839ae1ed4c15122e32927df8cc6479a702ff70bbe0ed7cc702798", "gluster/server", "tendrl/server", "tendrl/node_307a15fa-9460-4679-8aee-c58e9a119a7e", "tendrl/monitor", "tendrl/node"],
+                "node_id": "307a15fa-9460-4679-8aee-c58e9a119a7e"
+            }, {
+                "fqdn": "dhcp43-143.lab.eng.blr.redhat.com",
+                "updated_at": "2018-01-29 05:01:44.115734+00:00",
+                "node_id": "338a58f6-d5a9-4e61-8ab9-1e3c51b4218f",
+                "last_sync": "2018-01-29 05:01:44.066744+00:00",
+                "status": "UP",
+                "hash": "c5ed0a7ec56d4bdb3ae79b4698922ec7",
+                "tags": ["tendrl/integration/f755f0cd-b784-4920-83c3-db9d576d5935", "detected_cluster/b9e05aebda5839ae1ed4c15122e32927df8cc6479a702ff70bbe0ed7cc702798", "tendrl/node_338a58f6-d5a9-4e61-8ab9-1e3c51b4218f", "gluster/server", "tendrl/node"],
+                "sync_status": "done",
+                "node_id": "338a58f6-d5a9-4e61-8ab9-1e3c51b4218f"
+            }]
+        }],
+        formattedOutput: [{
+            integrationId: "e372c01c-5022-41ce-9412-e96038bca305",
+            sdsVersion: "3.4.4",
+            sdsName: "gluster",
+            name: "e372c01c-5022-41ce-9412-e96038bca305",
+            currentTaskId: "01c-5022-41ce-9412-e96038bca305",
+            isProfilingEnabled: "Disabled",
+            managed: "Yes",
+            importStatus: "done",
+            status: "HEALTH_OK",
+            statusIcon: "Healthy",
+            importTaskId: "baf62e32-3929-4d3d-9cbc-9a83587b533c",
+            volCount: 1,
+            alertCount: 0,
+            errors: [],
+            message: "Ready to Use",
+            clusterId: "e372c01c-5022-41ce-9412-e96038bca305",
+            hosts: [{
+                nodeId: "3d2b015c-08c7-440d-b9af-23aeb4c17f9f",
+                fqdn: "dhcp43-237.lab.eng.blr.redhat.com",
+                status: "UP",
+                role: "Gluster Peer",
+                release: "gluster"
+            }, {
+                nodeId: "5083d729-d666-47ac-a83c-3b6373f73ff2",
+                fqdn: "dhcp43-238.lab.eng.blr.redhat.com",
+                status: "UP",
+                role: "Gluster Peer",
+                release: "gluster"
+            }, {
+                nodeId: "d7fd2f04-b829-4d7b-98b3-2fccdace918d",
+                fqdn: "dhcp43-232.lab.eng.blr.redhat.com",
+                status: "UP",
+                role: "Gluster Peer",
+                release: "gluster"
+            }]
+        }, {
+            integrationId: "f755f0cd-b784-4920-83c3-db9d576d5935",
+            sdsVersion: "3.8.4",
+            sdsName: "gluster",
+            name: "f755f0cd-b784-4920-83c3-db9d576d5935",
+            currentTaskId: "01c-5022-41ce-9412-e96038bca305",
+            isProfilingEnabled: "Enabled",
+            managed: "No",
+            importStatus: "",
+            importTaskId: "",
+            volCount: 0,
+            alertCount: 0,
+            errors: [],
+            message: "Ready to Import",
+            clusterId: "f755f0cd-b784-4920-83c3-db9d576d5935",
+            hosts: [{
+                nodeId: "307a15fa-9460-4679-8aee-c58e9a119a7e",
+                fqdn: "dhcp43-226.lab.eng.blr.redhat.com",
+                status: "UP",
+                role: "Gluster Peer",
+                release: "gluster"
+            }, {
+                nodeId: "338a58f6-d5a9-4e61-8ab9-1e3c51b4218f",
+                fqdn: "dhcp43-143.lab.eng.blr.redhat.com",
+                status: "UP",
+                role: "Gluster Peer",
+                release: "gluster"
+            }]
+        }]
+    });
+
+    testDataModule.value("clusterVolumes", {
+        clusters: [{
+            "sds_name": "gluster",
+            "cluster_name": "gluster-6561e70789dc2fd78f67b176068c0d69c48dd33f78a801b1dba264d4afa32625",
+            "cluster_id": "e372c01c-5022-41ce-9412-e96038bca305",
+            "integration_id": "e372c01c-5022-41ce-9412-e96038bca305",
+            "hash": "7daaa1782714800cd5c0ab4607d1d09f",
+            "sds_version": "3.4.4",
+            "updated_at": "2018-01-15 08:20:04.985731+00:00",
+            "errors": [],
+            "import_job_id": "baf62e32-3929-4d3d-9cbc-9a83587b533c",
+            "globaldetails": {
+                "connection_count": "0",
+                "status": "healthy",
+                "connection_active": "0",
+                "volume_up_degraded": "0",
+                "peer_count": "3",
+                "updated_at": "2018-01-29 05:01:50.455207+00:00",
+                "vol_count": "1",
+                "hash": "783ee5e5058b339b21c3fb2bd91ed4ea"
+            },
+            "public_network": "",
+            "cluster_network": "",
+            "is_managed": "yes",
+            "enable_volume_profiling": "no",
+            "import_status": "done",
+            "alert_counters": {
+                "integration_id": "e372c01c-5022-41ce-9412-e96038bca305",
+                "hash": "4cd600e2a84b9e0d04cab38b4c08a349",
+                "warning_count": "0",
+                "updated_at": "2018-01-15 08:32:49.551560+00:00"
+            },
+            "nodes": [{
+                "hash": "b97976b230d125cb160cfefd4fe20cff",
+                "tags": ["tendrl/integration/gluster", "gluster/server", "tendrl/integration/e372c01c-5022-41ce-9412-e96038bca305", "tendrl/node_3d2b015c-08c7-440d-b9af-23aeb4c17f9f", "detected_cluster/6561e70789dc2fd78f67b176068c0d69c48dd33f78a801b1dba264d4afa32625", "tendrl/node"],
+                "sync_status": "done",
+                "fqdn": "dhcp43-237.lab.eng.blr.redhat.com",
+                "updated_at": "2018-01-29 05:01:42.855664+00:00",
+                "node_id": "3d2b015c-08c7-440d-b9af-23aeb4c17f9f",
+                "last_sync": "2018-01-29 05:01:42.817907+00:00",
+                "status": "UP",
+                "node_id": "3d2b015c-08c7-440d-b9af-23aeb4c17f9f"
+            }, {
+                "updated_at": "2018-01-29 05:01:11.901789+00:00",
+                "node_id": "5083d729-d666-47ac-a83c-3b6373f73ff2",
+                "last_sync": "2018-01-29 05:01:11.861982+00:00",
+                "status": "UP",
+                "hash": "c337a69aeec0e0a3e0d3216b9d6ca7c2",
+                "tags": ["tendrl/integration/gluster", "gluster/server", "tendrl/node_5083d729-d666-47ac-a83c-3b6373f73ff2", "tendrl/integration/e372c01c-5022-41ce-9412-e96038bca305", "detected_cluster/6561e70789dc2fd78f67b176068c0d69c48dd33f78a801b1dba264d4afa32625", "tendrl/node"],
+                "sync_status": "done",
+                "fqdn": "dhcp43-238.lab.eng.blr.redhat.com",
+                "node_id": "5083d729-d666-47ac-a83c-3b6373f73ff2"
+            }, {
+                "tags": ["tendrl/node_d7fd2f04-b829-4d7b-98b3-2fccdace918d", "tendrl/integration/gluster", "gluster/server", "provisioner/e372c01c-5022-41ce-9412-e96038bca305", "tendrl/integration/e372c01c-5022-41ce-9412-e96038bca305", "detected_cluster/6561e70789dc2fd78f67b176068c0d69c48dd33f78a801b1dba264d4afa32625", "tendrl/node"],
+                "sync_status": "done",
+                "fqdn": "dhcp43-232.lab.eng.blr.redhat.com",
+                "updated_at": "2018-01-29 05:01:52.907422+00:00",
+                "node_id": "d7fd2f04-b829-4d7b-98b3-2fccdace918d",
+                "last_sync": "2018-01-29 05:01:52.864539+00:00",
+                "status": "UP",
+                "hash": "94ea3e80ff6a26e69f193eb8d15aedcc",
+                "node_id": "d7fd2f04-b829-4d7b-98b3-2fccdace918d"
+            }]
+        }, {
+            "integration_id": "f755f0cd-b784-4920-83c3-db9d576d5935",
+            "hash": "80f10a7832bfc834f34c41aeb483a22c",
+            "sds_version": "3.8.4",
+            "updated_at": "2018-01-16 12:38:20.223805+00:00",
+            "sds_name": "gluster",
+            "cluster_name": "gluster-b9e05aebda5839ae1ed4c15122e32927df8cc6479a702ff70bbe0ed7cc702798",
+            "cluster_id": "f755f0cd-b784-4920-83c3-db9d576d5935",
+            "errors": [],
+            "public_network": "",
+            "cluster_network": "",
+            "is_managed": "no",
+            "enable_volume_profiling": "yes",
+            "import_status": "",
+            "import_job_id": "",
+            "nodes": [{
+                "sync_status": "done",
+                "fqdn": "dhcp43-226.lab.eng.blr.redhat.com",
+                "updated_at": "2018-01-29 05:01:49.227134+00:00",
+                "node_id": "307a15fa-9460-4679-8aee-c58e9a119a7e",
+                "last_sync": "2018-01-29 05:01:49.189015+00:00",
+                "status": "UP",
+                "hash": "c36196b062045eaf5e930d2dd05e1852",
+                "tags": ["tendrl/integration/f755f0cd-b784-4920-83c3-db9d576d5935", "detected_cluster/b9e05aebda5839ae1ed4c15122e32927df8cc6479a702ff70bbe0ed7cc702798", "gluster/server", "tendrl/server", "tendrl/node_307a15fa-9460-4679-8aee-c58e9a119a7e", "tendrl/monitor", "tendrl/node"],
+                "node_id": "307a15fa-9460-4679-8aee-c58e9a119a7e"
+            }, {
+                "fqdn": "dhcp43-143.lab.eng.blr.redhat.com",
+                "updated_at": "2018-01-29 05:01:44.115734+00:00",
+                "node_id": "338a58f6-d5a9-4e61-8ab9-1e3c51b4218f",
+                "last_sync": "2018-01-29 05:01:44.066744+00:00",
+                "status": "UP",
+                "hash": "c5ed0a7ec56d4bdb3ae79b4698922ec7",
+                "tags": ["tendrl/integration/f755f0cd-b784-4920-83c3-db9d576d5935", "detected_cluster/b9e05aebda5839ae1ed4c15122e32927df8cc6479a702ff70bbe0ed7cc702798", "tendrl/node_338a58f6-d5a9-4e61-8ab9-1e3c51b4218f", "gluster/server", "tendrl/node"],
+                "sync_status": "done",
+                "node_id": "338a58f6-d5a9-4e61-8ab9-1e3c51b4218f"
+            }]
+        }],
+        formattedOutput: [{
+            integrationId: "e372c01c-5022-41ce-9412-e96038bca305",
+            sdsVersion: "3.4.4",
+            sdsName: "gluster",
+            name: "e372c01c-5022-41ce-9412-e96038bca305",
+            currentTaskId: "01c-5022-41ce-9412-e96038bca305",
+            isProfilingEnabled: "Disabled",
+            managed: "Yes",
+            importStatus: "done",
+            status: "HEALTH_OK",
+            statusIcon: "Healthy",
+            importTaskId: "baf62e32-3929-4d3d-9cbc-9a83587b533c",
+            volCount: 1,
+            alertCount: 0,
+            errors: [],
+            message: "Ready to Use",
+            clusterId: "e372c01c-5022-41ce-9412-e96038bca305",
+            hosts: [{
+                nodeId: "3d2b015c-08c7-440d-b9af-23aeb4c17f9f",
+                fqdn: "dhcp43-237.lab.eng.blr.redhat.com",
+                status: "UP",
+                role: "Gluster Peer",
+                release: "gluster"
+            }, {
+                nodeId: "5083d729-d666-47ac-a83c-3b6373f73ff2",
+                fqdn: "dhcp43-238.lab.eng.blr.redhat.com",
+                status: "UP",
+                role: "Gluster Peer",
+                release: "gluster"
+            }, {
+                nodeId: "d7fd2f04-b829-4d7b-98b3-2fccdace918d",
+                fqdn: "dhcp43-232.lab.eng.blr.redhat.com",
+                status: "UP",
+                role: "Gluster Peer",
+                release: "gluster"
+            }]
+        }, {
+            integrationId: "f755f0cd-b784-4920-83c3-db9d576d5935",
+            sdsVersion: "3.8.4",
+            sdsName: "gluster",
+            name: "f755f0cd-b784-4920-83c3-db9d576d5935",
+            currentTaskId: "01c-5022-41ce-9412-e96038bca305",
+            isProfilingEnabled: "Enabled",
+            managed: "No",
+            importStatus: "",
+            importTaskId: "",
+            volCount: 0,
+            alertCount: 0,
+            errors: [],
+            message: "Ready to Import",
+            clusterId: "f755f0cd-b784-4920-83c3-db9d576d5935",
+            hosts: [{
+                nodeId: "307a15fa-9460-4679-8aee-c58e9a119a7e",
+                fqdn: "dhcp43-226.lab.eng.blr.redhat.com",
+                status: "UP",
+                role: "Gluster Peer",
+                release: "gluster"
+            }, {
+                nodeId: "338a58f6-d5a9-4e61-8ab9-1e3c51b4218f",
+                fqdn: "dhcp43-143.lab.eng.blr.redhat.com",
+                status: "UP",
+                role: "Gluster Peer",
+                release: "gluster"
+            }]
+        }]
+    });
+
+    testDataModule.value("clusterHosts", {
+        clusters: [{
+            "sds_name": "gluster",
+            "cluster_name": "gluster-6561e70789dc2fd78f67b176068c0d69c48dd33f78a801b1dba264d4afa32625",
+            "cluster_id": "e372c01c-5022-41ce-9412-e96038bca305",
+            "integration_id": "e372c01c-5022-41ce-9412-e96038bca305",
+            "hash": "7daaa1782714800cd5c0ab4607d1d09f",
+            "sds_version": "3.4.4",
+            "updated_at": "2018-01-15 08:20:04.985731+00:00",
+            "errors": [],
+            "import_job_id": "baf62e32-3929-4d3d-9cbc-9a83587b533c",
+            "globaldetails": {
+                "connection_count": "0",
+                "status": "healthy",
+                "connection_active": "0",
+                "volume_up_degraded": "0",
+                "peer_count": "3",
+                "updated_at": "2018-01-29 05:01:50.455207+00:00",
+                "vol_count": "1",
+                "hash": "783ee5e5058b339b21c3fb2bd91ed4ea"
+            },
+            "public_network": "",
+            "cluster_network": "",
+            "is_managed": "yes",
+            "enable_volume_profiling": "no",
+            "import_status": "done",
+            "alert_counters": {
+                "integration_id": "e372c01c-5022-41ce-9412-e96038bca305",
+                "hash": "4cd600e2a84b9e0d04cab38b4c08a349",
+                "warning_count": "0",
+                "updated_at": "2018-01-15 08:32:49.551560+00:00"
+            },
+            "nodes": [{
+                "hash": "b97976b230d125cb160cfefd4fe20cff",
+                "tags": ["tendrl/integration/gluster", "gluster/server", "tendrl/integration/e372c01c-5022-41ce-9412-e96038bca305", "tendrl/node_3d2b015c-08c7-440d-b9af-23aeb4c17f9f", "detected_cluster/6561e70789dc2fd78f67b176068c0d69c48dd33f78a801b1dba264d4afa32625", "tendrl/node"],
+                "sync_status": "done",
+                "fqdn": "dhcp43-237.lab.eng.blr.redhat.com",
+                "updated_at": "2018-01-29 05:01:42.855664+00:00",
+                "node_id": "3d2b015c-08c7-440d-b9af-23aeb4c17f9f",
+                "last_sync": "2018-01-29 05:01:42.817907+00:00",
+                "status": "UP",
+                "node_id": "3d2b015c-08c7-440d-b9af-23aeb4c17f9f"
+            }, {
+                "updated_at": "2018-01-29 05:01:11.901789+00:00",
+                "node_id": "5083d729-d666-47ac-a83c-3b6373f73ff2",
+                "last_sync": "2018-01-29 05:01:11.861982+00:00",
+                "status": "UP",
+                "hash": "c337a69aeec0e0a3e0d3216b9d6ca7c2",
+                "tags": ["tendrl/integration/gluster", "gluster/server", "tendrl/node_5083d729-d666-47ac-a83c-3b6373f73ff2", "tendrl/integration/e372c01c-5022-41ce-9412-e96038bca305", "detected_cluster/6561e70789dc2fd78f67b176068c0d69c48dd33f78a801b1dba264d4afa32625", "tendrl/node"],
+                "sync_status": "done",
+                "fqdn": "dhcp43-238.lab.eng.blr.redhat.com",
+                "node_id": "5083d729-d666-47ac-a83c-3b6373f73ff2"
+            }, {
+                "tags": ["tendrl/node_d7fd2f04-b829-4d7b-98b3-2fccdace918d", "tendrl/integration/gluster", "gluster/server", "provisioner/e372c01c-5022-41ce-9412-e96038bca305", "tendrl/integration/e372c01c-5022-41ce-9412-e96038bca305", "detected_cluster/6561e70789dc2fd78f67b176068c0d69c48dd33f78a801b1dba264d4afa32625", "tendrl/node"],
+                "sync_status": "done",
+                "fqdn": "dhcp43-232.lab.eng.blr.redhat.com",
+                "updated_at": "2018-01-29 05:01:52.907422+00:00",
+                "node_id": "d7fd2f04-b829-4d7b-98b3-2fccdace918d",
+                "last_sync": "2018-01-29 05:01:52.864539+00:00",
+                "status": "UP",
+                "hash": "94ea3e80ff6a26e69f193eb8d15aedcc",
+                "node_id": "d7fd2f04-b829-4d7b-98b3-2fccdace918d"
+            }]
+        }, {
+            "integration_id": "f755f0cd-b784-4920-83c3-db9d576d5935",
+            "hash": "80f10a7832bfc834f34c41aeb483a22c",
+            "sds_version": "3.8.4",
+            "updated_at": "2018-01-16 12:38:20.223805+00:00",
+            "sds_name": "gluster",
+            "cluster_name": "gluster-b9e05aebda5839ae1ed4c15122e32927df8cc6479a702ff70bbe0ed7cc702798",
+            "cluster_id": "f755f0cd-b784-4920-83c3-db9d576d5935",
+            "errors": [],
+            "public_network": "",
+            "cluster_network": "",
+            "is_managed": "no",
+            "enable_volume_profiling": "yes",
+            "import_status": "",
+            "import_job_id": "",
+            "nodes": [{
+                "sync_status": "done",
+                "fqdn": "dhcp43-226.lab.eng.blr.redhat.com",
+                "updated_at": "2018-01-29 05:01:49.227134+00:00",
+                "node_id": "307a15fa-9460-4679-8aee-c58e9a119a7e",
+                "last_sync": "2018-01-29 05:01:49.189015+00:00",
+                "status": "UP",
+                "hash": "c36196b062045eaf5e930d2dd05e1852",
+                "tags": ["tendrl/integration/f755f0cd-b784-4920-83c3-db9d576d5935", "detected_cluster/b9e05aebda5839ae1ed4c15122e32927df8cc6479a702ff70bbe0ed7cc702798", "gluster/server", "tendrl/server", "tendrl/node_307a15fa-9460-4679-8aee-c58e9a119a7e", "tendrl/monitor", "tendrl/node"],
+                "node_id": "307a15fa-9460-4679-8aee-c58e9a119a7e"
+            }, {
+                "fqdn": "dhcp43-143.lab.eng.blr.redhat.com",
+                "updated_at": "2018-01-29 05:01:44.115734+00:00",
+                "node_id": "338a58f6-d5a9-4e61-8ab9-1e3c51b4218f",
+                "last_sync": "2018-01-29 05:01:44.066744+00:00",
+                "status": "UP",
+                "hash": "c5ed0a7ec56d4bdb3ae79b4698922ec7",
+                "tags": ["tendrl/integration/f755f0cd-b784-4920-83c3-db9d576d5935", "detected_cluster/b9e05aebda5839ae1ed4c15122e32927df8cc6479a702ff70bbe0ed7cc702798", "tendrl/node_338a58f6-d5a9-4e61-8ab9-1e3c51b4218f", "gluster/server", "tendrl/node"],
+                "sync_status": "done",
+                "node_id": "338a58f6-d5a9-4e61-8ab9-1e3c51b4218f"
+            }]
+        }],
+        formattedOutput: [{
+            integrationId: "e372c01c-5022-41ce-9412-e96038bca305",
+            sdsVersion: "3.4.4",
+            sdsName: "gluster",
+            name: "e372c01c-5022-41ce-9412-e96038bca305",
+            currentTaskId: "01c-5022-41ce-9412-e96038bca305",
+            isProfilingEnabled: "Disabled",
+            managed: "Yes",
+            importStatus: "done",
+            status: "HEALTH_OK",
+            statusIcon: "Healthy",
+            importTaskId: "baf62e32-3929-4d3d-9cbc-9a83587b533c",
+            volCount: 1,
+            alertCount: 0,
+            errors: [],
+            message: "Ready to Use",
+            clusterId: "e372c01c-5022-41ce-9412-e96038bca305",
+            hosts: [{
+                nodeId: "3d2b015c-08c7-440d-b9af-23aeb4c17f9f",
+                fqdn: "dhcp43-237.lab.eng.blr.redhat.com",
+                status: "UP",
+                role: "Gluster Peer",
+                release: "gluster"
+            }, {
+                nodeId: "5083d729-d666-47ac-a83c-3b6373f73ff2",
+                fqdn: "dhcp43-238.lab.eng.blr.redhat.com",
+                status: "UP",
+                role: "Gluster Peer",
+                release: "gluster"
+            }, {
+                nodeId: "d7fd2f04-b829-4d7b-98b3-2fccdace918d",
+                fqdn: "dhcp43-232.lab.eng.blr.redhat.com",
+                status: "UP",
+                role: "Gluster Peer",
+                release: "gluster"
+            }]
+        }, {
+            integrationId: "f755f0cd-b784-4920-83c3-db9d576d5935",
+            sdsVersion: "3.8.4",
+            sdsName: "gluster",
+            name: "f755f0cd-b784-4920-83c3-db9d576d5935",
+            currentTaskId: "01c-5022-41ce-9412-e96038bca305",
+            isProfilingEnabled: "Enabled",
+            managed: "No",
+            importStatus: "",
+            importTaskId: "",
+            volCount: 0,
+            alertCount: 0,
+            errors: [],
+            message: "Ready to Import",
+            clusterId: "f755f0cd-b784-4920-83c3-db9d576d5935",
+            hosts: [{
+                nodeId: "307a15fa-9460-4679-8aee-c58e9a119a7e",
+                fqdn: "dhcp43-226.lab.eng.blr.redhat.com",
+                status: "UP",
+                role: "Gluster Peer",
+                release: "gluster"
+            }, {
+                nodeId: "338a58f6-d5a9-4e61-8ab9-1e3c51b4218f",
+                fqdn: "dhcp43-143.lab.eng.blr.redhat.com",
+                status: "UP",
+                role: "Gluster Peer",
+                release: "gluster"
+            }]
+        }]
+    });
+
+    testDataModule.value("editUser", {
+        users: [{
+            "username": "user1",
+            "name": "Steve bob",
+            "status": "enabled",
+            "role": "read-only",
+            "notification": "true",
+            "email": "steve@gmail.com"
+        }]
+    });
+
     testDataModule.value("eventList", {
         eventList: [{
             "message_id": "09b9315a-41f0-4d26-b17f-8668efaaec0b",
