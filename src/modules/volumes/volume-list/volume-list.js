@@ -150,13 +150,13 @@
         function showDisableBtn(volume) {
             return (volume.profileStatus === "Enabled" ||
                 (volume.currentTask.job_name === "StopProfiling" &&
-                    volume.currentTask.status === "in_progress"));
+                    volume.currentTask.status === "in_progress")) && ($rootScope.userRole !== "limited");
         }
 
         function showEnableBtn(volume) {
             return (volume.profileStatus === "Disabled" ||
                 (volume.currentTask.job_name === "StartProfiling" &&
-                    volume.currentTask.status === "in_progress"));
+                    volume.currentTask.status === "in_progress")) && ($rootScope.userRole !== "limited");
         }
 
         /*****Private Functions******/
