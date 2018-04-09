@@ -228,7 +228,7 @@
                 if ((!temp.errors.length) && temp.currentStatus === "failed") {
                     temp.message = "Cluster Misconfigured";
                 } else if (temp.currentStatus === "finished" || temp.currentTask === "{}") {
-                    temp.message = "Ready to import";
+                    temp.message = "Ready to Import";
                 }
             }
             if (temp.jobType === "ImportCluster") {
@@ -250,7 +250,7 @@
                 } else if (temp.currentStatus === "failed") {
                     temp.message = "Unmanage Failed";
                 } else if (temp.currentStatus === "finished") {
-                    temp.message = "Ready to import";
+                    temp.message = "Ready to Import";
                 }
             } else if (temp.managed === "Yes") {
                 if (temp.jobType === "ExpandClusterWithDetectedPeers" && temp.currentStatus === "in_progress") {
