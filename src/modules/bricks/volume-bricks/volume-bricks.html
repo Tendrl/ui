@@ -7,7 +7,9 @@
         <span class="pficon pficon-warning-triangle-o"></span>
         <label>Brick information may be incomplete while cluster expansion is in progress.</label>
     </div>
-    <div><h1 class="bold-text">Brick Details</h1></div>
+    <div>
+        <h1 class="bold-text">Brick Details</h1>
+    </div>
     <div class="row toolbar-pf">
         <div class="col-sm-12">
             <form class="toolbar-pf-actions">
@@ -87,42 +89,9 @@
                     <div class="close">
                         <span class="pficon pficon-close" ng-click="vm.closeExpandedView(subVolume)"></span>
                     </div>
-                    <div class="container-fluid">
-                        <table class="table table-striped table-bordered table-hover">
-                            <thead>
-                                <tr>
-                                    <th>Host Name</th>
-                                    <th>Brick Path</th>
-                                    <th>Utilization</th>
-                                    <th>Disk Device Path</th>
-                                    <th>Port</th>
-                                    <th colspan="2">Actions</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr ng-repeat="brick in subVolume.bricks | orderBy: 'fqdn'">
-                                    <td class="brick-table">{{brick.fqdn}}</td>
-                                    <td class="brick-table">
-                                        <span class="status-icons pull-left" ng-class="{'fa ffont fa-stop-circle-o': (brick.status.toLowerCase() !=='started'), 'pficon pficon-ok': (brick.status.toLowerCase() ==='started')}" uib-tooltip-html="'{{brick.status}}'" tooltip-placement="top-left"></span> {{brick.brickPath.split(":")[1]}}
-                                    </td>
-                                    <td class="brick-table utilisation-chart">
-                                        <utilisation-chart used="brick.utilization.used" total="brick.utilization.total| bytes: 2"></utilisation-chart>
-                                    </td>
-                                    <td class="brick-table">
-                                        <span ng-show="!brick.devices.length">0</span>
-                                        <span ng-repeat="device in brick.devices">{{device}}
-                                                    <span ng-show="$index !== (brick.devices.length-1)">, </span>
-                                        </span>
-                                    </td>
-                                    <td class="brick-table">{{brick.port}}</td>
-                                    <td class="table-view-pf-actions">
-                                        <div class="table-view-pf-btn">
-                                            <button class="btn btn-default dashboard-button" type="button" ng-click="vm.redirectToGrafana(brick)" tooltip-enable="vm.flag" ng-mouseover="vm.addTooltip($event)" uib-tooltip="Dashboard">Dashboard</button>
-                                        </div>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
+                    <div class="table-class">
+                        <pf-table-view id="volumeDetailView" config="vm.volumeDetailConfig" columns="vm.volumeDetailColumns" items="subVolume.bricks" action-buttons="vm.actionButtons">
+                        </pf-table-view>
                     </div>
                 </div>
             </div>

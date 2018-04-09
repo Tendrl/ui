@@ -32,8 +32,6 @@
 
         vm.expandSubVolume = expandSubVolume;
         vm.closeExpandedView = closeExpandedView;
-        vm.redirectToGrafana = redirectToGrafana;
-        vm.addTooltip = addTooltip;
         vm.expandAll = expandAll;
         vm.collapseAll = collapseAll;
 
@@ -63,6 +61,26 @@
             appliedFilters: [],
             onFilterChange: _filterChange
         };
+
+        vm.volumeDetailConfig = {
+            selectionMatchProp: "fqdn",
+            itemsAvailable: true,
+            showCheckboxes: false
+        };
+
+        vm.volumeDetailColumns = [
+            { header: "Host Name", itemField: "fqdn"},
+            { header: "Brick Path", itemField: "brickPath", htmlTemplate: "/modules/bricks/volume-bricks/brick-path.html" },
+            { header: "Utilization", itemField: "utilization", htmlTemplate: "/modules/bricks/volume-bricks/utilization-path.html" },
+            { header: "Disk Device Path", itemField: "devices", templateFn: function(value, item) { return value[0] } },
+            { header: "Port", itemField: "port" }
+        ];
+
+        vm.actionButtons = [{
+            name: "Dashboard",
+            title: "Dashboard",
+            actionFn: _redirectToGrafana
+        }];
 
         init();
 
@@ -231,13 +249,6 @@
             subVolume.isExpanded = false;
         }
 
-        function redirectToGrafana(brick) {
-            var brickName = brick.brickPath.split(":")[1],
-                hostName = brick.fqdn.replace(/\./gi, "_");
-
-            brickName = brickName.replace(/\//gi, "|");
-            utils.redirectToGrafana("bricks", { clusterId: vm.clusterId, hostName: hostName, brickName: brickName, volumeName: volumeStore.getVolumeObject(vm.volumeId).name });
-        }
 
         function expandAll() {
             var len = vm.filteredBrickList.length,
@@ -258,6 +269,14 @@
         }
 
         /***Private Functions***/
+
+        function _redirectToGrafana(action, brick) {
+            var brickName = brick.brickPath.split(":")[1],
+                hostName = brick.fqdn.replace(/\./gi, "_");
+
+            brickName = brickName.replace(/\//gi, "|");
+            utils.redirectToGrafana("bricks", { clusterId: vm.clusterId, hostName: hostName, brickName: brickName, volumeName: volumeStore.getVolumeObject(vm.volumeId).name });
+        }
 
         function _matchesFilter(item, filter) {
             var match = true;
@@ -377,10 +396,6 @@
                 return -999;
             }
 
-        }
-
-        function addTooltip($event) {
-            vm.flag = utils.tooltip($event);
         }
 
     }
