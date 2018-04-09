@@ -43,11 +43,6 @@
             }
         }
 
-        /*Cancelling interval when scope is destroy*/
-        $scope.$on("$destroy", function() {
-            $interval.cancel(clusterDetailTimer);
-        });
-
         /***Private Functions***/
 
         /**

@@ -17,21 +17,18 @@
     /*@ngInject*/
     function importClusterController($state, $rootScope, $stateParams, $uibModal, clusterStore) {
 
-        var vm = this,
-            hostList;
+        var vm = this;
 
         vm.filtersText = "";
         vm.enableProfiling = "enable";
-        vm.filterBy = "fqdn";
-        vm.filterByValue = "Name";
-        vm.filterPlaceholder = "Name";
         vm.taskInitiated = false;
         vm.importIcon = false;
+        vm.failedImport = false;
+        vm.isDataLoading = true;
         vm.hostList = [];
         vm.filteredHostList = [];
         vm.filters = [];
-        vm.failedImport = false;
-        vm.isDataLoading = true;
+        vm.jobId = "";
         vm.importCluster = importCluster;
         vm.importCancel = importCancel;
         vm.viewTaskProgress = viewTaskProgress;
@@ -53,7 +50,6 @@
             onFilterChange: _filterChange,
         };
 
-
         vm.tableConfig = {
             selectionMatchProp: "fqdn",
             itemsAvailable: true,
@@ -63,7 +59,6 @@
         vm.tableColumns = [
             { header: "Host", itemField: "fqdn" },
             { header: "Address", itemField: "ipAddress" }
-
         ];
 
         init();
@@ -93,6 +88,7 @@
                 _setImportDetail();
                 vm.filteredHostList = vm.hostList;
                 vm.isDataLoading = false;
+                _filterChange(vm.filters);
             }
         }
 
@@ -179,10 +175,7 @@
             vm.filters = filters;
             filters.forEach(function(filter) {
                 vm.filtersText += filter.title + " : ";
-                if (filter.value.filterCategory) {
-                    vm.filtersText += ((filter.value.filterCategory.title || filter.value.filterCategory) +
-                        filter.value.filterDelimiter + (filter.value.filterValue.title || filter.value.filterValue));
-                } else if (filter.value.title) {
+                if (filter.value.title) {
                     vm.filtersText += filter.value.title;
                 } else {
                     vm.filtersText += filter.value;
@@ -205,7 +198,6 @@
                     vm.taskInitiated = true;
                     vm.jobId = data.job_id;
                 });
-
         }
 
         /**
@@ -223,7 +215,6 @@
          * @memberOf importClusterController
          */
         function viewTaskProgress() {
-
             if (vm.clusterId) {
                 $state.go("global-task-detail", { clusterId: vm.clusterId, taskId: vm.jobId });
             }
