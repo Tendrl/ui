@@ -38,7 +38,7 @@
                 _makeTabList();
 
                 vm.clusterObj = clusterStore.getClusterDetails(vm.clusterId);
-                vm.clusterName = vm.clusterObj.clusterId || "NA";
+                vm.clusterName = vm.clusterObj.name || "NA";
                 vm.clusterStatus = vm.clusterObj.status;
                 if (!volumeStore.volumeList.length) {
                     volumeStore.getVolumeList(vm.clusterId)
@@ -63,7 +63,7 @@
                         _makeTabList();
 
                         vm.clusterObj = clusterStore.getClusterDetails(vm.clusterId);
-                        vm.clusterName = vm.clusterObj.clusterId || "NA";
+                        vm.clusterName = vm.clusterObj.name || "NA";
                         vm.clusterStatus = vm.clusterObj.status;
                         if (!volumeStore.volumeList.length) {
                             volumeStore.getVolumeList(vm.clusterId)

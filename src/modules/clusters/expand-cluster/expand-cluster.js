@@ -13,6 +13,7 @@
 
         vm.disableExpand = false;
         vm.clusterId = selectedCluster.clusterId;
+        vm.clusterName = selectedCluster.name;
         vm.hostList = [];
         vm.filteredHostList = [];
         vm.filters = [];
@@ -22,7 +23,7 @@
         vm.confirmModal = confirmModal;
 
         vm.modalHeader = {
-            "title": "Expand " + selectedCluster.clusterId,
+            "title": "Expand " + vm.clusterName,
             "close": vm.closeModal
         };
 

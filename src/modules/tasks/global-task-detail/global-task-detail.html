@@ -1,6 +1,5 @@
 <div ng-if="clusterData === null && !isAPINotFoundError" class="spinner spinner-lg"></div>
 <div ng-if="clusterData !== null" class="tendrl-global-task-detail-view-container container-fluid">
-
     <ul class="breadcrumb custom-breadcrumb" ng-if="!glbTaskDetailCntrl.isDataLoading && glbTaskDetailCntrl.taskDetail">
         <li><a ui-sref="clusters">All Clusters</a></li>
         <li>
@@ -24,7 +23,7 @@
         <div class="form-group required">
             <label class="col-sm-3 col-md-1 detail-label">Status:</label>
             <label class="col-sm-4 col-md-1 status-value"><i ng-class="{'pficon pficon-ok status-icon': (glbTaskDetailCntrl.taskDetail.status === 'finished')}"></i>{{glbTaskDetailCntrl.taskDetail.status === 'finished' ? "Completed": glbTaskDetailCntrl.taskDetail.status}}</label>
-            <label class="col-sm-4 col-md-2" ng-show="(glbTaskDetailCntrl.taskDetail.flow === 'ImportCluster') && (glbTaskDetailCntrl.taskDetail.status === 'finished') &&(!$root.selectedClusterOption)"><a href="" ng-click="glbTaskDetailCntrl.goToClusterDetail()">View cluster details</a></label>
+            <label class="col-sm-4 col-md-2" ng-show="(glbTaskDetailCntrl.taskDetail.flow === 'ImportCluster') && (glbTaskDetailCntrl.taskDetail.status === 'finished') &&(!$root.selectedClusterOption)"><span class="spinner spinner-xs spinner-inline" ng-show="glbTaskDetailCntrl.showLoadingIcon"></span> <a href="" ng-click="glbTaskDetailCntrl.goToClusterDetail()">View cluster details</a></label>
         </div>
     </form>
     <center ng-if="!glbTaskDetailCntrl.taskDetail && !glbTaskDetailCntrl.isDataLoading">

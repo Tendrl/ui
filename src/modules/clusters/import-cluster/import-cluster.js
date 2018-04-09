@@ -20,7 +20,9 @@
         var vm = this,
             hostList;
 
+        vm.clusterNamePattern = /^[a-zA-Z0-9][A-Za-z0-9_]*$/i;
         vm.filtersText = "";
+        vm.clusterName = "";
         vm.enableProfiling = "enable";
         vm.filterBy = "fqdn";
         vm.filterByValue = "Name";
@@ -124,6 +126,51 @@
             wizardDoneListener = $rootScope.$on("modal.done", closeWizard);
         }
 
+        /**
+         * @name importCluster
+         * @desc Perform import cluster
+         * @memberOf importClusterController
+         */
+        function importCluster() {
+            var clusterName;
+
+            if (vm.clusterName) {
+                clusterName = vm.clusterName.match(vm.clusterNamePattern);
+            }
+
+            if (clusterName !== null) {
+                vm.importIcon = true;
+                clusterStore.importCluster(vm.clusterId, vm.enableProfiling, vm.clusterName)
+                    .then(function(data) {
+                        vm.taskInitiated = true;
+                        vm.jobId = data.job_id;
+                    });
+            } else {
+                vm.errorMsg = "Please enter a valid cluster name. Only alphanumeric and underscore characters are allowed."
+            }
+
+        }
+
+        /**
+         * @name importCancel
+         * @desc Cancels import cluster
+         * @memberOf importClusterController
+         */
+        function importCancel() {
+            $state.go("clusters");
+        }
+
+        /**
+         * @name viewTaskProgress
+         * @desc redirect user to task detail page
+         * @memberOf importClusterController
+         */
+        function viewTaskProgress() {
+
+            if (vm.clusterId) {
+                $state.go("global-task-detail", { clusterId: vm.clusterId, taskId: vm.jobId });
+            }
+        }
 
         function _setImportDetail() {
             vm.clusterObj = clusterStore.getClusterDetails(vm.clusterId);
@@ -190,43 +237,6 @@
                 vm.filtersText += "\n";
             });
             _applyFilters(filters);
-        }
-
-        /**
-         * @name importCluster
-         * @desc Perform import cluster
-         * @memberOf importClusterController
-         */
-        function importCluster() {
-            vm.importIcon = true;
-
-            clusterStore.importCluster(vm.clusterId, vm.enableProfiling)
-                .then(function(data) {
-                    vm.taskInitiated = true;
-                    vm.jobId = data.job_id;
-                });
-
-        }
-
-        /**
-         * @name importCancel
-         * @desc Cancels import cluster
-         * @memberOf importClusterController
-         */
-        function importCancel() {
-            $state.go("clusters");
-        }
-
-        /**
-         * @name viewTaskProgress
-         * @desc redirect user to task detail page
-         * @memberOf importClusterController
-         */
-        function viewTaskProgress() {
-
-            if (vm.clusterId) {
-                $state.go("global-task-detail", { clusterId: vm.clusterId, taskId: vm.jobId });
-            }
         }
 
     }
