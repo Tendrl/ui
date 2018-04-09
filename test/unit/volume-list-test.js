@@ -183,6 +183,10 @@ describe("Unit Component: volumeList", function() {
 
             volume = volumeList.volumes[0];
             expect(vm.showEnableBtn(volume)).to.be.false;
+
+            volume = volumeList.volumes[1];
+            $rootScope.userRole = "limited";
+            expect(vm.showEnableBtn(volume)).to.be.false;
         });
 
         it("Should show disable button on proper conditions", function() {
@@ -191,6 +195,10 @@ describe("Unit Component: volumeList", function() {
 
             volume = volumeList.volumes[0];
             expect(vm.showDisableBtn(volume)).to.be.true;
+
+            volume = volumeList.volumes[0];
+            $rootScope.userRole = "limited";
+            expect(vm.showDisableBtn(volume)).to.be.false;
         });
 
     });
