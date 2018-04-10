@@ -174,6 +174,16 @@ describe("Unit Component: taskList", function() {
             expect(vm.invalidToDate).to.be.false;
         });
 
+        it("Should show 'Clear Dates' only if from/to date exist", function() {
+            vm.date.fromDate = "";
+            vm.date.toDate = "";
+            expect(Boolean(vm.showClearDateAction())).to.be.false;
+
+            vm.date.fromDate = "12";
+            vm.date.toDate = "";
+            expect(Boolean(vm.showClearDateAction())).to.be.true;
+        });
+
         it("Should return ok icon if status is 'Completed'", function() {
             expect(vm.statusIcon("Completed")).to.be.equal("pficon pficon-ok");
         });
@@ -185,7 +195,7 @@ describe("Unit Component: taskList", function() {
         it("Should return warning icon if status is 'Completed with Errors'", function() {
             expect(vm.statusIcon("Completed with Errors")).to.be.equal("pficon pficon-warning-triangle-o");
         });
-        
+
         it("Should return question icon if status is not available", function() {
             expect(vm.statusIcon(undefined)).to.be.equal("fa fa-question");
         });

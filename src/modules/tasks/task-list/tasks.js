@@ -34,6 +34,7 @@
         vm.openFromDate = openFromDate;
         vm.openToDate = openToDate;
         vm.statusIcon = statusIcon;
+        vm.showClearDateAction = showClearDateAction;
 
         vm.date = {
             fromDate: "",
@@ -169,6 +170,10 @@
             vm.date.fromDate = null;
             vm.date.toDate = null;
             vm.invalidToDate = false;
+        }
+
+        function showClearDateAction() {
+            return vm.date.fromDate || vm.date.toDate;
         }
 
         /*****Private Functions******/
