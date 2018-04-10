@@ -8,7 +8,7 @@
     /*@ngInject*/
     function AuthManager($http, $q, $state, $rootScope, config, $timeout) {
 
-        var authApiFactory;
+        var authApiFactory, navPlugin;
 
         function create_request(request_type, endpoint) {
             return {
@@ -75,9 +75,19 @@
             authApiFactory.isUserLoggedIn = false;
         }
 
+        function hideNav() {
+            if (navPlugin.isVisible()) {
+                navPlugin.hideMenu();
+                return true;
+            }
+            return false;
+        }
+
         function setFlags() {
             $rootScope.isHeaderShow = false;
             $rootScope.isAPINotFoundError = false;
+            navPlugin = $().setupVerticalNavigation(true);
+            hideNav();
         }
 
         function logout() {
