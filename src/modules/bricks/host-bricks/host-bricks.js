@@ -27,6 +27,7 @@
         vm.filteredBrickList = [];
         vm.filtersText = "";
         vm.filters = [];
+        vm.stoppedBrickCnt = 0;
 
         vm.addTooltip = addTooltip;
 
@@ -67,9 +68,9 @@
             { header: "Brick Path", itemField: "brickPath", htmlTemplate: "/modules/bricks/host-bricks/brick-path.html" },
             { header: "Volume Name", itemField: "volName" },
             { header: "Utilization", itemField: "utilization", htmlTemplate: "/modules/bricks/host-bricks/utilization-path.html" },
-            { header: "Disk Device Path", itemField: "devices", templateFn: function(value, item) { return value[0] } },
+            { header: "Disk Device Path", itemField: "devices", templateFn: function(value, item) {
+                    return value[0] } },
             { header: "Port", itemField: "port" }
-
         ];
 
         vm.actionButtons = [{
@@ -94,6 +95,7 @@
                     .then(function(data) {
                         vm.brickList = data;
                         vm.filteredBrickList = vm.brickList;
+                        _getStoppedBrickCount();
                         _filterChange(vm.filters);
                         $interval.cancel(hostBrickTimer);
                         startTimer();
@@ -114,6 +116,7 @@
                     }).then(function(data) {
                         vm.brickList = data;
                         vm.filteredBrickList = vm.brickList;
+                        _getStoppedBrickCount();
                         _filterChange(vm.filters);
                         $interval.cancel(hostBrickTimer);
                         _makeTabList();
@@ -216,6 +219,17 @@
             });
 
             _applyFilters(filters);
+        }
+
+        function _getStoppedBrickCount() {
+            var len = vm.filteredBrickList.length,
+                i;
+
+            for (i = 0; i < len; i++) {
+                if (vm.filteredBrickList[i].status === "stopped") {
+                    vm.stoppedBrickCnt += 1;
+                }
+            }
         }
     }
 
