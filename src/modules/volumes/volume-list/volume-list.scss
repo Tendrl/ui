@@ -10,6 +10,15 @@
             }
         }
     }
+
+    .icon-red {
+        color: $color-pf-red;
+    }
+
+    .icon-orange {
+        color: $color-pf-orange;
+    }    
+
     .flex-table {
         .ft-actions {
             flex-grow: 1.2;

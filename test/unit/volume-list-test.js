@@ -201,6 +201,46 @@ describe("Unit Component: volumeList", function() {
             expect(vm.showDisableBtn(volume)).to.be.false;
         });
 
+        it("Should check for volume icon if state is up", function() {
+            expect(vm.getVolumeIcon("up")).to.be.equal("pficon pficon-ok");
+        });
+
+        it("Should check for volume icon if state is down", function() {
+            expect(vm.getVolumeIcon("down")).to.be.equal("fa ffont fa-arrow-circle-o-down");
+        });
+
+        it("Should check for volume icon if state is partial", function() {
+            expect(vm.getVolumeIcon("partial")).to.be.equal("pficon pficon-degraded icon-red");
+        });
+
+        it("Should check for volume icon if state is Degraded", function() {
+            expect(vm.getVolumeIcon("degraded")).to.be.equal("pficon pficon-degraded icon-orange");
+        });
+
+        it("Should check for volume icon if state is unknown", function() {
+            expect(vm.getVolumeIcon("unknown")).to.be.equal("fa ffont fa-question");
+        });
+
+        it("Should check for volume tooltip if state is up", function() {
+            expect(vm.getVolState("up")).to.be.equal("Up");
+        });
+
+        it("Should check for volume tooltip if state is down", function() {
+            expect(vm.getVolState("down")).to.be.equal("Down");
+        });
+
+        it("Should check for volume tooltip if state is partial", function() {
+            expect(vm.getVolState("partial")).to.be.equal("Partial");
+        });
+
+        it("Should check for volume tooltip if state is Degraded", function() {
+            expect(vm.getVolState("degraded")).to.be.equal("Degraded");
+        });
+
+        it("Should check for volume tooltip if state is unknown", function() {
+            expect(vm.getVolState("unknown")).to.be.equal("Unknown");
+        });
+
     });
 
     it("Should verify for volume API error", function() {
@@ -266,17 +306,17 @@ describe("Unit Component: volumeList", function() {
         vm = $componentController("volumeList", { $scope: $scope });
 
         vm.filters = [{
-            id: "status",
-            title: "Status",
-            placeholder: "Filter by Status",
+            id: "state",
+            title: "State",
+            placeholder: "Filter by State",
             filterType: "select",
-            filterValues: ["Started", "Stopped"]
+            filterValues: ["Up", "Down", "Partial", "Degraded", "Unknown"]
         }];
 
-        vm.filters[0].value = "Started";
+        vm.filters[0].value = "up";
         getVolumeListDeferred.resolve(volumeList.volumes);
         $rootScope.$digest();
-        expect(vm.filtersText).to.be.equal("Status : Started\n");
+        expect(vm.filtersText).to.be.equal("State : up\n");
         vm.volumeList.forEach(function(o) { delete o.$$hashKey });
         expect(vm.filteredVolumeList).to.deep.equal(volumeList.filteredStatusFormattedOutput);
     });
