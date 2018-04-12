@@ -1590,6 +1590,7 @@
 
     testDataModule.value("volumeList", {
         volumes: [{
+            "state": "up",
             "status": "Started",
             "rebalStatus": "not_started",
             "brickCount": "4",
@@ -1601,6 +1602,7 @@
             "name": "vol1",
             "currentTask": "{}"
         }, {
+            "state": "(partial)",
             "status": "Stopped",
             "rebalStatus": "completed",
             "brickCount": "4",
@@ -1617,8 +1619,8 @@
             title: "Name",
             sortType: "alpha"
         }, {
-            id: "status",
-            title: "Status",
+            id: "state",
+            title: "State",
             sortType: "alpha"
         }],
         filterFields: [{
@@ -1627,11 +1629,11 @@
             placeholder: "Filter by Name",
             filterType: "text"
         }, {
-            id: "status",
-            title: "Status",
-            placeholder: "Filter by Status",
+            id: "state",
+            title: "State",
+            placeholder: "Filter by State",
             filterType: "select",
-            filterValues: ["Started", "Stopped"]
+            filterValues: ["Up", "Down", "Partial", "Degraded", "Unknown"]
         }, {
             id: "type",
             title: "Type",
@@ -1641,6 +1643,7 @@
         }],
         profilingResponse: { "job_id": "f508cc8a-e037-4af0-bcbe-54735cc1692f" },
         sortedformattedOutputName: [{
+            "state": "(partial)",
             "status": "Stopped",
             "rebalStatus": "completed",
             "brickCount": "4",
@@ -1652,6 +1655,7 @@
             "name": "vol2",
             "currentTask": { "status": "in_progress", "job_id": "f508cc8a-e037-4af0-bcbe-54735cc1692f", "job_name": "StartProfiling" }
         }, {
+            "state": "up",
             "status": "Started",
             "rebalStatus": "not_started",
             "brickCount": "4",
@@ -1664,6 +1668,7 @@
             "currentTask": "{}"
         }],
         sortedformattedOutputStatus: [{
+            "state": "(partial)",
             "status": "Stopped",
             "rebalStatus": "completed",
             "brickCount": "4",
@@ -1675,6 +1680,7 @@
             "name": "vol2",
             "currentTask": { "status": "in_progress", "job_id": "f508cc8a-e037-4af0-bcbe-54735cc1692f", "job_name": "StartProfiling" }
         }, {
+            "state": "up",
             "status": "Started",
             "rebalStatus": "not_started",
             "brickCount": "4",
@@ -1687,6 +1693,7 @@
             "currentTask": "{}"
         }],
         filteredNameFormattedOutput: [{
+            "state": "(partial)",
             "status": "Stopped",
             "rebalStatus": "completed",
             "brickCount": "4",
@@ -1699,6 +1706,7 @@
             "currentTask": { "status": "in_progress", "job_id": "f508cc8a-e037-4af0-bcbe-54735cc1692f", "job_name": "StartProfiling" }
         }],
         filteredStatusFormattedOutput: [{
+            "state": "up",
             "status": "Started",
             "rebalStatus": "not_started",
             "brickCount": "4",
@@ -1711,6 +1719,7 @@
             "currentTask": "{}"
         }],
         filteredTypeFormattedOutput: [{
+            "state": "(partial)",
             "status": "Stopped",
             "rebalStatus": "completed",
             "brickCount": "4",

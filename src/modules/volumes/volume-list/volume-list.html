@@ -46,7 +46,7 @@
         <div class="flex-table list-group list-view-pf list-view-pf-view" ng-show="!volumeCntrl.isDataLoading">
             <div class="ft-row list-group-item " ng-repeat="volume in volumeCntrl.filteredVolumeList">
                 <div class="ft-column ft-icon">
-                    <i ng-class="{'fa ffont fa-stop-circle-o': (volume.status.toLowerCase() === 'stopped'), 'pficon pficon-ok': (volume.status.toLowerCase() ==='started'), 'fa ffont fa-arrow-circle-o-up': (volume.status.toLowerCase() === 'created')}" uib-tooltip-html="'{{volume.status}}'" tooltip-placement="auto bottom-left"></i>
+                    <i ng-class="volumeCntrl.getVolumeIcon(volume.state)" uib-tooltip-html="volumeCntrl.getVolState(volume.state)" tooltip-placement="auto bottom-left"></i>
                 </div>
                 <div class="ft-column bold-text" list-view-pf-additional-info-item-stacked>
                     <div class="bold-text" uib-tooltip-html="'{{volume.name}}'" tooltip-placement="auto bottom-left" ng-click="volumeCntrl.goToVolumeDetail(volume)"><a class="volume-name">{{volume.name}}</a></div>
