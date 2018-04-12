@@ -35,6 +35,8 @@
         vm.goToTaskDetail = goToTaskDetail;
         vm.showDisableBtn = showDisableBtn;
         vm.showEnableBtn = showEnableBtn;
+        vm.getVolumeIcon = getVolumeIcon;
+        vm.getVolState = getVolState;
 
         vm.sortConfig = {
             fields: [{
@@ -42,8 +44,8 @@
                 title: "Name",
                 sortType: "alpha"
             }, {
-                id: "status",
-                title: "Status",
+                id: "state",
+                title: "State",
                 sortType: "alpha"
             }],
             onSortChange: _sortChange,
@@ -62,11 +64,11 @@
                 placeholder: "Filter by Name",
                 filterType: "text"
             }, {
-                id: "status",
-                title: "Status",
-                placeholder: "Filter by Status",
+                id: "state",
+                title: "State",
+                placeholder: "Filter by State",
                 filterType: "select",
-                filterValues: ["Started", "Stopped"]
+                filterValues: ["Up", "Down", "Partial", "Degraded", "Unknown"]
             }, {
                 id: "type",
                 title: "Type",
@@ -112,6 +114,44 @@
                 });
 
             $event.stopPropagation();
+        }
+
+        function getVolumeIcon(state) {
+            
+            var cls;
+            cls = "fa ffont fa-question";
+
+            if (state.indexOf("up") !== -1) {
+                cls = "pficon pficon-ok";
+            } else if (state.indexOf("down") !== -1) {
+                cls = "fa ffont fa-arrow-circle-o-down";
+            } else if (state.indexOf("partial") !== -1) {
+                cls = "pficon pficon-degraded icon-red";
+            } else if (state.indexOf("degraded") !== -1) {
+                cls = "pficon pficon-degraded icon-orange";
+            } else if (state.indexOf("unknown") !== -1) {
+                cls = "fa ffont fa-question";
+            }
+
+            return cls;
+        }
+
+        function getVolState(state) {
+            var cls;
+
+            if (state.indexOf("up") !== -1) {
+                cls = "Up";
+            } else if (state.indexOf("down") !== -1) {
+                cls = "Down";
+            } else if (state.indexOf("partial") !== -1) {
+                cls = "Partial";
+            } else if (state.indexOf("degraded") !== -1) {
+                cls = "Degraded";
+            } else if (state.indexOf("unknown") !== -1) {
+                cls = "Unknown";
+            }
+
+            return cls;
         }
 
         function goToTaskDetail(volume) {
@@ -166,8 +206,8 @@
             var re = new RegExp(filter.value, "i");
             if (filter.id === "name") {
                 match = item.name.match(re) !== null;
-            } else if (filter.id === "status") {
-                match = item.status === filter.value.id || item.status === filter.value;
+            } else if (filter.id === "state") {
+                match = item.state.indexOf(filter.value.toLowerCase()) !== -1 || item.state.indexOf(filter.value.toLowerCase()) !== -1;
             } else if (filter.id === "type") {
                 match = item["type"] === filter.value.id || item["type"].toLowerCase() === filter.value.toLowerCase();
             }

@@ -40,6 +40,7 @@
                     if (data[i].deleted !== "True") {
                         temp.volumeId = data[i].vol_id;
                         //temp.status = data[i].status !== "Stopped" ? "Running": data[i].status;
+                        temp.state = data[i].state;
                         temp.status = data[i].status;
                         temp.name = data[i].name;
                         temp.type = data[i].vol_type;
