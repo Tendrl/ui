@@ -15,7 +15,7 @@
         });
 
     /*@ngInject*/
-    function importClusterController($state, $rootScope, $stateParams, $uibModal, clusterStore) {
+    function importClusterController($state, $rootScope, $stateParams, $uibModal, clusterStore, Notifications) {
 
         var vm = this;
 
@@ -191,12 +191,15 @@
          * @memberOf importClusterController
          */
         function importCluster() {
-            vm.importIcon = true;
-
             clusterStore.importCluster(vm.clusterId, vm.enableProfiling)
                 .then(function(data) {
+                    vm.importIcon = true;
                     vm.taskInitiated = true;
                     vm.jobId = data.job_id;
+                }).catch(function(e){
+                    vm.importIcon = false;
+                    vm.taskInitiated = false;
+                    Notifications.message("danger", "", "Failed to initaite import.");
                 });
         }
 
