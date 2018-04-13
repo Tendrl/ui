@@ -89,6 +89,7 @@
         function init() {
             vm.clusterId = $stateParams.clusterId;
             vm.hostId = $stateParams.hostId;
+            vm.clusterName = clusterStore.getClusterDetails(vm.clusterId).name;
 
             if ($rootScope.clusterData) {
                 brickStore.getHostBrickList(vm.clusterId, vm.hostId)
@@ -153,7 +154,7 @@
                 hostName = brick.brickPath.split(":")[0].replace(/\./gi, "_");
 
             brickName = brickName.replace(/\//gi, "|");
-            utils.redirectToGrafana("bricks", { clusterId: vm.clusterId, hostName: hostName, brickName: brickName, volumeName: brick.volName });
+            utils.redirectToGrafana("bricks", { clusterId: vm.clusterName, hostName: hostName, brickName: brickName, volumeName: brick.volName });
         }
 
         function _performAction(action, item) {

@@ -170,7 +170,7 @@
         }
 
         function redirectToGrafana(cluster) {
-            utils.redirectToGrafana("glance", { clusterId: cluster.clusterId });
+            utils.redirectToGrafana("glance", { clusterId: cluster.name });
         }
 
         /**

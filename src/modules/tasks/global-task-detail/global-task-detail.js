@@ -23,6 +23,7 @@
             count = 1;
 
         vm.isDataLoading = true;
+        vm.showLoadingIcon = false;
         vm.isMessagesLoading = true;
         vm.taskDetail = [];
         vm.goToClusterDetail = goToClusterDetail;
@@ -46,7 +47,13 @@
         }
 
         function goToClusterDetail() {
-            $state.go("cluster-hosts", { clusterId: vm.taskDetail.parameters["TendrlContext.integration_id"] });
+            vm.showLoadingIcon = true;
+            clusterStore.getClusterList()
+                .then(function(data) {
+                    $rootScope.clusterData = clusterStore.formatClusterData(data);
+                    $state.go("cluster-hosts", { clusterId: vm.taskDetail.parameters["TendrlContext.integration_id"] });
+                    vm.showLoadingIcon = false;
+                });
         }
 
         function startStatusTimer() {
@@ -91,9 +98,9 @@
                     _getTaskLogs();
                     startStatusTimer();
                     startMessageTimer();
-                }).catch(function(){
+                }).catch(function() {
                     vm.taskDetail = [];
-                }).finally(function(){
+                }).finally(function() {
                     vm.isDataLoading = false;
                 });
         }

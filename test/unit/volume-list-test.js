@@ -5,10 +5,10 @@ describe("Unit Component: volumeList", function() {
     var $scope, $q, $httpBackend, $injector, $rootScope, $state, $templateCache, $compile, $interval, $destroy, $componentController, $event;
 
     // Module defined (non-Angular) injectables
-    var config, utils, volumeStore, volumeList, capitalizeFilter;
+    var config, utils, volumeStore, volumeList, capitalizeFilter, clusterStore;
 
     // Local variables used for testing
-    var getVolumeListDeferred, vm, clock, throttled, intervalSpy, timer, args, dashboardStub, element;
+    var getVolumeListDeferred, getClusterDetailDeferred, vm, clock, throttled, intervalSpy, timer, args, dashboardStub, element;
 
     // Initialize modules
     beforeEach(function() {
@@ -36,12 +36,13 @@ describe("Unit Component: volumeList", function() {
             element = $compile(templateHtml)($scope);
         });
 
-        inject(function(_utils_, _config_, _volumeStore_, _volumeList_, _capitalizeFilter_) {
+        inject(function(_utils_, _config_, _volumeStore_, _volumeList_, _capitalizeFilter_, _clusterStore_) {
             utils = _utils_;
             config = _config_;
             volumeStore = _volumeStore_;
             volumeList = _volumeList_;
             capitalizeFilter = _capitalizeFilter_;
+            clusterStore = _clusterStore_;
         });
 
     });
@@ -51,9 +52,11 @@ describe("Unit Component: volumeList", function() {
 
         $state.current.name = "cluster-volumes";
         getVolumeListDeferred = $q.defer();
+        getClusterDetailDeferred = $q.defer();
 
         sinon.stub($state, "go");
         sinon.stub(volumeStore, "getVolumeList").returns(getVolumeListDeferred.promise);
+        sinon.stub(clusterStore, "getClusterDetails").returns(getClusterDetailDeferred.promise)
         sinon.stub(utils, "redirectToGrafana")
 
         clock = sinon.useFakeTimers();
@@ -95,7 +98,7 @@ describe("Unit Component: volumeList", function() {
             vm.redirectToGrafana(volume);
 
             // Verify result (behavior)
-            expect(utils.redirectToGrafana.calledWith("volumes", { clusterId: vm.clusterId, volumeName: volume.name })).to.be.true;
+            expect(utils.redirectToGrafana.calledWith("volumes", { clusterId: vm.clusterName, volumeName: volume.name })).to.be.true;
         });
 
         it("Should enable/disable profiling on clicking Enable/Disable profiling action button", function() {

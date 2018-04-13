@@ -9,8 +9,21 @@
             <span class="pficon pficon-warning-triangle-o"></span>
             Import cluster previously failed with <a ng-click="vm.openImportErrorModal(vm.taskId)" class="alert-link">{{vm.taskId}}</a>. Be sure that all the issues have been corrected and the cluster has been unmanaged before proceeding.
         </div>
+        <div class="alert alert-danger" ng-show="vm.errorMsg.length > 0">
+            <span class="pficon pficon-error-circle-o"></span>
+            <label ng-bind="vm.errorMsg"></label>
+        </div>
         <h1 class="bold-text">Import Cluster</h1>
         <div class="container-fluid">
+            <div class="row cluster-name">
+                <label class="col-sm-2 col-md-1" for="clusterName">Cluster Name</label>
+                <div class="col-sm-4 col-md-3">
+                    <div class="row">
+                    <input class="col-md-12 col-sm-12" type="text" name="clusterName" ng-model="vm.clusterName"/>
+                    </div>
+                    <div class="row name-validation-msg">Only alphanumeric and underscore characters are allowed.</div>
+                </div>
+            </div>
             <div class="row">
                 <h3 class="col-sm-12">Review the hosts for the <span class="bold-text">{{vm.cluster.name}}</span> and click Import to monitor this cluster.</h3>
             </div>
