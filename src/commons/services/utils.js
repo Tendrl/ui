@@ -236,7 +236,7 @@
                 request;
 
             //url = "/api/events.json";
-            url = config.baseUrl + "clusters/" + clusterId+ "/notifications";
+            url = config.baseUrl + "clusters/" + clusterId + "/notifications";
 
             getEventListRequest = {
                 method: "GET",
@@ -274,29 +274,29 @@
             });
         };
 
-        vm.redirectToGrafana = function(dashboardName, grafanaObj){
+        vm.redirectToGrafana = function(dashboardName, grafanaObj) {
             var ip,
                 initialUrl,
                 dashboardTypes,
                 uri;
 
             dashboardTypes = {
-                glance: "tendrl-gluster-at-a-glance",
-                volumes: "tendrl-gluster-volumes",
-                hosts: "tendrl-gluster-hosts",
-                bricks: "tendrl-gluster-bricks"
+                glance: "cluster-dashboard",
+                volumes: "volume-dashboard",
+                hosts: "host-dashboard",
+                bricks: "brick-dashboard"
             };
             ip = $location.host();
-            initialUrl = "http://"+ ip +":3000/dashboard/db/" + dashboardTypes[dashboardName];
+            initialUrl = "http://" + ip + ":3000/dashboard/db/" + dashboardTypes[dashboardName];
 
-            if(dashboardName === "glance"){
-                uri = initialUrl + "?var-cluster_id="+ grafanaObj.clusterId;
-            } else if(dashboardName === "volumes") {
-                uri = initialUrl + "?var-cluster_id="+ grafanaObj.clusterId + "&var-volume_name=" + grafanaObj.volumeName;
-            } else if(dashboardName === "hosts") {
-                uri = initialUrl + "?var-cluster_id="+ grafanaObj.clusterId + "&var-host_name=" + grafanaObj.hostName;
-            } else if(dashboardName === "bricks") {
-                uri = initialUrl + "?var-cluster_id="+ grafanaObj.clusterId + "&var-volume_name=" + grafanaObj.volumeName + "&var-host_name=" + grafanaObj.hostName + "&var-brick_path=" + grafanaObj.brickName;
+            if (dashboardName === "glance") {
+                uri = initialUrl + "?var-cluster_id=" + grafanaObj.clusterId;
+            } else if (dashboardName === "volumes") {
+                uri = initialUrl + "?var-cluster_id=" + grafanaObj.clusterId + "&var-volume_name=" + grafanaObj.volumeName;
+            } else if (dashboardName === "hosts") {
+                uri = initialUrl + "?var-cluster_id=" + grafanaObj.clusterId + "&var-host_name=" + grafanaObj.hostName;
+            } else if (dashboardName === "bricks") {
+                uri = initialUrl + "?var-cluster_id=" + grafanaObj.clusterId + "&var-volume_name=" + grafanaObj.volumeName + "&var-host_name=" + grafanaObj.hostName + "&var-brick_path=" + grafanaObj.brickName;
             }
             window.open(uri);
         };
