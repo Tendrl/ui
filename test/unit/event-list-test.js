@@ -185,6 +185,18 @@ describe("Unit Component: eventList", function() {
             expect(vm.searchDescText).to.be.equal("");
         });
 
+        it("Should show 'Clear All  Filters' only if from/to date exist", function() {
+            vm.date.fromDate = "";
+            vm.date.toDate = "";
+            vm.searchDescText = "";
+            expect(Boolean(vm.showClearAction())).to.be.false;
+
+            vm.date.fromDate = "";
+            vm.date.toDate = "";
+            vm.searchDescText = "123";
+            expect(Boolean(vm.showClearAction())).to.be.true;
+        });
+
         it("Should filter the text by search", function() {
             var list = vm.searchByDesc(eventList.eventList);
             expect(list).to.deep.equal(eventList.eventList);

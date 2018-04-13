@@ -28,6 +28,7 @@
         vm.clearAllFilters = clearAllFilters;
         vm.openFromDate = openFromDate;
         vm.openToDate = openToDate;
+        vm.showClearAction = showClearAction;
 
         vm.date = {
             fromDate: "",
@@ -138,6 +139,10 @@
             } else if (vm.searchDescText && (list.message.toLowerCase()).indexOf(vm.searchDescText.toLowerCase()) !== -1) {
                 return list;
             }
+        }
+
+        function showClearAction() {
+            return vm.date.fromDate || vm.date.toDate || vm.searchDescText;
         }
     }
 
