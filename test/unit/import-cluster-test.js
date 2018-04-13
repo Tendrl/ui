@@ -142,6 +142,18 @@ describe("Unit Component: importCluster", function() {
             expect(vm.jobId).to.be.equal(importCluster.data.job_id);
         });
 
+        it("Should not initiate importing cluster", function() {
+
+            sinon.stub(Notifications, "message");
+            vm.importCluster();
+            importClusterDeferred.reject("error");
+            $rootScope.$digest();
+
+            expect(vm.importIcon).to.be.false;
+            expect(vm.taskInitiated).to.be.false;
+            expect(Notifications.message.calledWith("danger", "", "Failed to initaite import.")).to.be.true;
+        });
+
         it("Should take you to clusters state", function() {
             vm.importCancel();
             expect($state.go.calledWith("clusters"));
