@@ -129,16 +129,6 @@
                 });
         }
 
-        /* Trigger this function when we have cluster data */
-        $scope.$on("GotClusterData", function(event, data) {
-            /* Forward to home view if we don't have any cluster */
-            if ($rootScope.clusterData === null || $rootScope.clusterData.length === 0) {
-                vm.clusterNotPresent = true;
-            } else {
-                init();
-            }
-        });
-
         /**
          * @name startTimer
          * @desc starts the timer after a given time interval to poll cluster data
