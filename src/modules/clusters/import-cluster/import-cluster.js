@@ -76,7 +76,6 @@
             if (!$rootScope.clusterData) {
                 clusterStore.getClusterList()
                     .then(function(data) {
-                        $rootScope.clusterData = clusterStore.formatClusterData(data);
                         _setImportDetail();
                         vm.filteredHostList = vm.hostList;
                         _filterChange(vm.filters);

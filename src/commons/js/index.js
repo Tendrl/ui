@@ -155,7 +155,7 @@
 
                     var url = $location.path();
                     clusterStore.getClusterList().then(function(list) {
-                        $rootScope.clusterData = clusterStore.formatClusterData(list);
+                        $rootScope.clusterData = list;
                         /* Setting up manual broadcast event for ClusterData*/
                         $rootScope.$broadcast("GotClusterData", $rootScope.clusterData); // going down!
                         if ($rootScope.clusterData !== null && $rootScope.clusterData.length !== 0) {

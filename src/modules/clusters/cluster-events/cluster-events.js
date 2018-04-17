@@ -32,7 +32,6 @@
             if (!$rootScope.clusterData) {
                 clusterStore.getClusterList()
                     .then(function(data) {
-                        $rootScope.clusterData = clusterStore.formatClusterData(data);
                         _setClusterDetail();
                         vm.isDataLoading = false;
                     });

@@ -59,7 +59,6 @@
             } else {
                 clusterStore.getClusterList()
                     .then(function(data) {
-                        $rootScope.clusterData = clusterStore.formatClusterData(data);
                         _makeTabList();
                         vm.isDataLoading = false;
                         vm.clusterObj = clusterStore.getClusterDetails(vm.clusterId);

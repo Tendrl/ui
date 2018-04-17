@@ -55,7 +55,6 @@ describe("Unit Component: clusterList", function() {
 
         sinon.stub($state, "go");
         sinon.stub(clusterStore, "getClusterList").returns(getClusterListDeferred.promise);
-        sinon.stub(clusterStore, "formatClusterData").returns(clusterList.formattedOutput);
         sinon.stub(utils, "redirectToGrafana")
 
         clock = sinon.useFakeTimers();
@@ -92,12 +91,12 @@ describe("Unit Component: clusterList", function() {
         });
 
         it("Should get list of clusters", function() {
-            expect(vm.clusterList).to.deep.equal(clusterList.formattedOutput);
+            expect(vm.clusterList).to.deep.equal(clusterList.clusters);
         });
 
         it("Should take the user to dashboard on clicking Dashboard button", function() {
             // Exercise SUT
-            var cluster = clusterList.formattedOutput[0];
+            var cluster = clusterList.clusters[0];
             vm.redirectToGrafana(cluster);
 
             // Verify result (behavior)
@@ -106,7 +105,7 @@ describe("Unit Component: clusterList", function() {
 
         it("Should enable/disable profiling on clicking Enable/Disable profiling link", function() {
             // Exercise SUT
-            var cluster = clusterList.formattedOutput[0],
+            var cluster = clusterList.clusters[0],
                 profilingDeferred = $q.defer(),
                 event = new Event("click");
 
@@ -126,7 +125,7 @@ describe("Unit Component: clusterList", function() {
 
         it("Should give error while enable/disable profiling on clicking Enable/Disable profiling link", function() {
             // Exercise SUT
-            var cluster = clusterList.formattedOutput[0],
+            var cluster = clusterList.clusters[0],
                 profilingDeferred = $q.defer(),
                 event = new Event("click");
 
@@ -144,7 +143,7 @@ describe("Unit Component: clusterList", function() {
         });
 
         it("Should open modal to see error logs in case of import failure", function() {
-            var cluster = clusterList.formattedOutput[1],
+            var cluster = clusterList.clusters[1],
                 fakeResult = {
                     result: $q.resolve()
                 };
@@ -155,7 +154,7 @@ describe("Unit Component: clusterList", function() {
         });
 
         it("Should open modal to see Host for a cluster", function() {
-            var cluster = clusterList.formattedOutput[0],
+            var cluster = clusterList.clusters[0],
                 fakeResult = {
                     result: $q.resolve()
                 };
@@ -166,7 +165,7 @@ describe("Unit Component: clusterList", function() {
         });
 
         it("Should open modal to expand cluster", function() {
-            var cluster = clusterList.formattedOutput[0],
+            var cluster = clusterList.clusters[0],
                 fakeResult = {
                     result: $q.resolve()
                 };
@@ -177,7 +176,7 @@ describe("Unit Component: clusterList", function() {
         });
 
         it("Should open modal to unmanage cluster", function() {
-            var cluster = clusterList.formattedOutput[0],
+            var cluster = clusterList.clusters[0],
                 fakeResult = {
                     result: $q.resolve()
                 };
@@ -233,81 +232,81 @@ describe("Unit Component: clusterList", function() {
         });
 
         it("Should go to Import Flow View", function() {
-            var cluster = clusterList.formattedOutput[0];
+            var cluster = clusterList.clusters[0];
             vm.goToImportFlow(cluster);
             expect($state.go.calledWith("import-cluster", { clusterId: cluster.integrationId }));
         });
 
         it("Should go to Cluster Host View", function() {
-            var cluster = clusterList.formattedOutput[0];
+            var cluster = clusterList.clusters[0];
             vm.goToClusterHost(cluster);
             expect($state.go.calledWith("cluster-hosts", { clusterId: cluster.clusterId }));
         });
 
         it("Should go to Task Detail View when cluster is expanding", function() {
-            var cluster = clusterList.formattedOutput[0];
+            var cluster = clusterList.clusters[0];
             cluster.jobType = "ExpandClusterWithDetectedPeers";
             vm.goToTaskDetail(cluster);
             expect($state.go.calledWith("task-detail", { clusterId: cluster.integrationId, taskId: cluster.currentTaskId }));
         });
 
         it("Should go to Task Detail View when cluster is changing profiling", function() {
-            var cluster = clusterList.formattedOutput[0];
+            var cluster = clusterList.clusters[0];
             cluster.jobType = "EnableDisableVolumeProfiling";
             vm.goToTaskDetail(cluster);
             expect($state.go.calledWith("task-detail", { clusterId: cluster.integrationId, taskId: cluster.currentTaskId }));
         });
 
         it("Should go to Global Task Detail View", function() {
-            var cluster = clusterList.formattedOutput[0];
+            var cluster = clusterList.clusters[0];
             vm.goToTaskDetail(cluster);
             expect($state.go.calledWith("global-task-detail", { clusterId: cluster.integrationId, taskId: cluster.currentTaskId }));
         });
 
         it("Should show import button", function() {
-            var cluster = clusterList.formattedOutput[0];
+            var cluster = clusterList.clusters[0];
             $rootScope.userRole = "normal";
             expect(vm.showImportBtn(cluster)).to.be.true;
         });
 
         it("Should disable import button", function() {
-            var cluster = clusterList.formattedOutput[1];
+            var cluster = clusterList.clusters[1];
             cluster.currentStatus = "in_progress";
             $rootScope.userRole = "normal";
             expect(vm.disableImportBtn(cluster)).to.be.true;
         });
 
         it("Should show dashboard button", function() {
-            var cluster = clusterList.formattedOutput[1];
+            var cluster = clusterList.clusters[1];
             expect(vm.showDashboardBtn(cluster)).to.be.true;
         });
 
         it("Should show Kebab Menu", function() {
-            var cluster = clusterList.formattedOutput[1];
+            var cluster = clusterList.clusters[1];
             $rootScope.userRole = "normal";
             expect(vm.showKebabMenu(cluster)).to.be.true;
         });
 
         it("Should hide Expand button", function() {
-            var cluster = clusterList.formattedOutput[0];
+            var cluster = clusterList.clusters[0];
             $rootScope.userRole = "limited";
             expect(vm.hideExpandBtn(cluster)).to.be.true;
         });
 
         it("Should show tooltip", function() {
-            var cluster = clusterList.formattedOutput[0];
+            var cluster = clusterList.clusters[0];
             expect(vm.isTooltipEnable(cluster.message)).to.be.true;
         });
 
         it("Should get an icon class when cluster is unmanaged", function() {
-            var cluster = clusterList.formattedOutput[0];
+            var cluster = clusterList.clusters[0];
 
             var cls = vm.getClass(cluster);
             expect(cls).to.be.equal("fa ffont fa-question");
         });
 
         it("Should get an icon class when cluster is unhealthy", function() {
-            var cluster = clusterList.formattedOutput[0];
+            var cluster = clusterList.clusters[0];
             cluster.status = "HEALTH_ERR";
 
             var cls = vm.getClass(cluster);
@@ -315,7 +314,7 @@ describe("Unit Component: clusterList", function() {
         });
 
         it("Should get an icon class when cluster is ok", function() {
-            var cluster = clusterList.formattedOutput[0];
+            var cluster = clusterList.clusters[0];
             cluster.status = "HEALTH_OK";
 
             var cls = vm.getClass(cluster);
@@ -324,7 +323,7 @@ describe("Unit Component: clusterList", function() {
 
 
         it("Should get an icon class when cluster is expanding", function() {
-            var cluster = clusterList.formattedOutput[0];
+            var cluster = clusterList.clusters[0];
             cluster.state = "expanding";
             cluster.currentStatus = "in_progress";
             cluster.jobType = "ExpandClusterWithDetectedPeers";

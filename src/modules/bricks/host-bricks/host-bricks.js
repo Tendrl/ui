@@ -96,6 +96,7 @@
                     .then(function(data) {
                         vm.brickList = data;
                         vm.filteredBrickList = vm.brickList;
+                        vm.stoppedBrickCnt = 0;
                         _getStoppedBrickCount();
                         _filterChange(vm.filters);
                         $interval.cancel(hostBrickTimer);
@@ -109,7 +110,6 @@
             } else {
                 clusterStore.getClusterList()
                     .then(function(data) {
-                        $rootScope.clusterData = clusterStore.formatClusterData(data);
                         return brickStore.getHostBrickList(vm.clusterId, vm.hostId);
                     }).catch(function() {
                         $rootScope.clusterData = [];
@@ -117,6 +117,7 @@
                     }).then(function(data) {
                         vm.brickList = data;
                         vm.filteredBrickList = vm.brickList;
+                        vm.stoppedBrickCnt = 0;
                         _getStoppedBrickCount();
                         _filterChange(vm.filters);
                         $interval.cancel(hostBrickTimer);

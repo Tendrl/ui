@@ -109,13 +109,11 @@
             clusterStore.selectedTab = 1;
             clusterStore.getClusterList()
                 .then(function(data) {
-                    data = clusterStore.formatClusterData(data);
                     $interval.cancel(clusterListTimer);
 
                     if (vm.clusterList.length) {
                         vm.clusterNotPresent = false;
                     }
-
                     vm.clusterList = data;
                     vm.filteredClusterList = vm.clusterList;
                     _filterChange(vm.filters);
