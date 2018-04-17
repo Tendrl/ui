@@ -44,13 +44,12 @@ describe("Unit Component: clusterVolumes", function() {
     });
 
     beforeEach(function() {
-        $stateParams.clusterId = clusterVolumes.formattedOutput[0].clusterId;
+        $stateParams.clusterId = clusterVolumes.clusters[0].clusterId;
         $state.current.name = "cluster-volumes";
         getClusterListDeferred = $q.defer();
 
         sinon.stub(clusterStore, "getClusterList").returns(getClusterListDeferred.promise);
-        sinon.stub(clusterStore, "formatClusterData").returns(clusterVolumes.formattedOutput);
-        sinon.stub(clusterStore, "getClusterDetails").returns(clusterVolumes.formattedOutput[0]);
+        sinon.stub(clusterStore, "getClusterDetails").returns(clusterVolumes.clusters[0]);
 
     });
 
@@ -67,10 +66,9 @@ describe("Unit Component: clusterVolumes", function() {
         getClusterListDeferred.resolve(clusterVolumes.clusters);
         $rootScope.$digest();
 
-        expect($rootScope.clusterData).to.deep.equal(clusterVolumes.formattedOutput);
         expect(vm.isDataLoading).to.be.false;
-        expect(vm.clusterObj).to.deep.equal(clusterVolumes.formattedOutput[0]);
-        expect(vm.clusterName).to.be.equal(clusterVolumes.formattedOutput[0].clusterId);
+        expect(vm.clusterObj).to.deep.equal(clusterVolumes.clusters[0]);
+        expect(vm.clusterName).to.be.equal(clusterVolumes.clusters[0].clusterId);
     });
 
     it("Should not call getClusterList if clusterData exists", function() {
@@ -78,8 +76,8 @@ describe("Unit Component: clusterVolumes", function() {
         vm = $componentController("clusterVolumes", { $scope: $scope });
 
         expect(vm.isDataLoading).to.be.false;
-        expect(vm.clusterObj).to.deep.equal(clusterVolumes.formattedOutput[0]);
-        expect(vm.clusterName).to.be.equal(clusterVolumes.formattedOutput[0].clusterId);
+        expect(vm.clusterObj).to.deep.equal(clusterVolumes.clusters[0]);
+        expect(vm.clusterName).to.be.equal(clusterVolumes.clusters[0].clusterId);
 
     });
 
@@ -89,15 +87,14 @@ describe("Unit Component: clusterVolumes", function() {
         getClusterListDeferred.resolve(clusterVolumes.clusters);
         $rootScope.$digest();
 
-        $rootScope.clusterData = clusterVolumes.formattedOutput;
+        $rootScope.clusterData = clusterVolumes.clusters;
         $scope.$broadcast("GotClusterData");
-        expect($rootScope.selectedClusterOption).to.be.equal(clusterVolumes.formattedOutput[0].clusterId);
+        expect($rootScope.selectedClusterOption).to.be.equal(clusterVolumes.clusters[0].clusterId);
     });
 
     afterEach(function() {
         // Tear down
         clusterStore.getClusterList.restore();
-        clusterStore.formatClusterData.restore();
         clusterStore.getClusterDetails.restore();
     });
 

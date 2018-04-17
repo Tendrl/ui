@@ -44,13 +44,12 @@ describe("Unit Component: clusterEvents", function() {
     });
 
     beforeEach(function() {
-        $stateParams.clusterId = clusterEvents.formattedOutput[0].clusterId;
+        $stateParams.clusterId = clusterEvents.clusters[0].clusterId;
         $state.current.name = "cluster-events";
         getClusterListDeferred = $q.defer();
 
         sinon.stub(clusterStore, "getClusterList").returns(getClusterListDeferred.promise);
-        sinon.stub(clusterStore, "formatClusterData").returns(clusterEvents.formattedOutput);
-        sinon.stub(clusterStore, "getClusterDetails").returns(clusterEvents.formattedOutput[0]);
+        sinon.stub(clusterStore, "getClusterDetails").returns(clusterEvents.clusters[0]);
 
     });
 
@@ -67,10 +66,9 @@ describe("Unit Component: clusterEvents", function() {
         getClusterListDeferred.resolve(clusterEvents.clusters);
         $rootScope.$digest();
 
-        expect($rootScope.clusterData).to.deep.equal(clusterEvents.formattedOutput);
         expect(vm.isDataLoading).to.be.false;
-        expect(vm.clusterObj).to.deep.equal(clusterEvents.formattedOutput[0]);
-        expect(vm.clusterName).to.be.equal(clusterEvents.formattedOutput[0].clusterId);
+        expect(vm.clusterObj).to.deep.equal(clusterEvents.clusters[0]);
+        expect(vm.clusterName).to.be.equal(clusterEvents.clusters[0].clusterId);
     });
 
     it("Should not call getClusterList if clusterData exists", function() {
@@ -78,8 +76,8 @@ describe("Unit Component: clusterEvents", function() {
         vm = $componentController("clusterEvents", { $scope: $scope });
 
         expect(vm.isDataLoading).to.be.false;
-        expect(vm.clusterObj).to.deep.equal(clusterEvents.formattedOutput[0]);
-        expect(vm.clusterName).to.be.equal(clusterEvents.formattedOutput[0].clusterId);
+        expect(vm.clusterObj).to.deep.equal(clusterEvents.clusters[0]);
+        expect(vm.clusterName).to.be.equal(clusterEvents.clusters[0].clusterId);
 
     });
 
@@ -89,15 +87,14 @@ describe("Unit Component: clusterEvents", function() {
         getClusterListDeferred.resolve(clusterEvents.clusters);
         $rootScope.$digest();
 
-        $rootScope.clusterData = clusterEvents.formattedOutput;
+        $rootScope.clusterData = clusterEvents.clusters;
         $scope.$broadcast("GotClusterData");
-        expect($rootScope.selectedClusterOption).to.be.equal(clusterEvents.formattedOutput[0].clusterId);
+        expect($rootScope.selectedClusterOption).to.be.equal(clusterEvents.clusters[0].clusterId);
     });
 
     afterEach(function() {
         // Tear down
         clusterStore.getClusterList.restore();
-        clusterStore.formatClusterData.restore();
         clusterStore.getClusterDetails.restore();
     });
 

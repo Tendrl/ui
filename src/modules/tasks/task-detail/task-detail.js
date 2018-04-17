@@ -51,7 +51,6 @@
             } else {
                 clusterStore.getClusterList()
                     .then(function(data) {
-                        $rootScope.clusterData = clusterStore.formatClusterData(data);
 
                         vm.clusterObj = clusterStore.getClusterDetails(vm.clusterId);
                         vm.clusterName = vm.clusterObj.clusterId || "NA";

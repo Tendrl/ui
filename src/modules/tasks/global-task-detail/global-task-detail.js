@@ -39,7 +39,6 @@
             } else {
                 clusterStore.getClusterList()
                     .then(function(data) {
-                        $rootScope.clusterData = clusterStore.formatClusterData(data);
                         _getTaskList();
                     });
             }

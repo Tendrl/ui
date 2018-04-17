@@ -22,7 +22,8 @@
             deferred = $q.defer();
             clusterFactory.getClusterList()
                 .then(function(data) {
-                    deferred.resolve(data.clusters);
+                    $rootScope.clusterData = store.formatClusterData(data.clusters);
+                    deferred.resolve($rootScope.clusterData);
                 }).catch(function(e) {
                     deferred.reject(e);
                 });
@@ -209,7 +210,6 @@
 
         function _formatSingleCluster(cluster) {
             var temp = {};
-
 
             temp.integrationId = cluster.integration_id;
             temp.sdsVersion = cluster.sds_version;
