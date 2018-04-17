@@ -232,22 +232,6 @@ describe("Unit Component: clusterList", function() {
             expect($interval.cancel.calledOnce).to.be.true;
         });
 
-        it("Should listen GotClusterData event broadcast", function() {
-
-            $rootScope.clusterData = null;
-            $scope.$broadcast("GotClusterData");
-            expect(vm.clusterNotPresent).to.be.true;
-
-            $rootScope.clusterData = [];
-            $scope.$broadcast("GotClusterData");
-            expect(vm.clusterNotPresent).to.be.true;
-
-            vm.clusterNotPresent = false;
-            $rootScope.clusterData = ["cluster1"];
-            $scope.$broadcast("GotClusterData");
-            expect(vm.clusterNotPresent).to.be.false;
-        });
-
         it("Should go to Import Flow View", function() {
             var cluster = clusterList.formattedOutput[0];
             vm.goToImportFlow(cluster);
