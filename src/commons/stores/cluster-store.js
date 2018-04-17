@@ -22,7 +22,6 @@
             deferred = $q.defer();
             clusterFactory.getClusterList()
                 .then(function(data) {
-                    $rootScope.clusterData = store.formatClusterData(data.clusters);
                     deferred.resolve(data.clusters);
                 }).catch(function(e) {
                     deferred.reject(e);
@@ -32,8 +31,8 @@
         };
 
         /**
-         * @name getClusterList
-         * @desc store for GetClusterList
+         * @name getCluster
+         * @desc store for GetCluster
          * @memberOf clusterStore
          */
         store.getCluster = function(clusterId) {
@@ -217,11 +216,11 @@
             temp.sdsName = cluster.sds_name;
             temp.name = (cluster.short_name && cluster.short_name !== "None") ? cluster.short_name : cluster.integration_id;
             temp.clusterId = cluster.cluster_id;
-            temp.currentTask = cluster.current_job;
-            temp.jobType = JSON.parse(cluster.current_job).job_name;
-            temp.currentStatus = JSON.parse(cluster.current_job).status;
+            temp.currentTask = cluster.current_job || {};
+            temp.jobType = temp.currentTask.job_name;
+            temp.currentStatus = temp.currentTask.status;
             temp.managed = cluster.is_managed === "yes" ? "Yes" : "No";
-            temp.currentTaskId = JSON.parse(cluster.current_job).job_id;
+            temp.currentTaskId = temp.currentTask.job_id;
             temp.volCount = cluster.globaldetails && cluster.globaldetails.vol_count ? parseInt(cluster.globaldetails.vol_count) : 0;
             temp.alertCount = cluster.alert_counters ? parseInt(cluster.alert_counters.alert_count) : 0;
             temp.hostCount = cluster.nodes.length || 0;
@@ -233,7 +232,7 @@
             if (temp.managed === "No") {
                 if ((!temp.errors.length) && temp.currentStatus === "failed") {
                     temp.message = "Cluster Misconfigured";
-                } else if (temp.currentStatus === "finished" || temp.currentTask === "{}") {
+                } else if (temp.currentStatus === "finished" || temp.currentTask === {}) {
                     temp.message = "Ready to Import";
                 }
             }
