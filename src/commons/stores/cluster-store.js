@@ -6,7 +6,7 @@
         .service("clusterStore", clusterStore);
 
     /*@ngInject*/
-    function clusterStore($state, $q, $rootScope, nodeStore, clusterFactory) {
+    function clusterStore($state, $filter, $q, $rootScope, nodeStore, clusterFactory) {
         var store = this;
 
         store.selectedTab = 1;
@@ -213,7 +213,7 @@
 
             temp.integrationId = cluster.integration_id;
             temp.sdsVersion = cluster.sds_version;
-            temp.sdsName = cluster.sds_name;
+            temp.sdsName = _getSdsName(cluster.sds_name);
             temp.name = (cluster.short_name && cluster.short_name !== "None") ? cluster.short_name : cluster.integration_id;
             temp.clusterId = cluster.cluster_id;
             temp.currentTask = cluster.current_job || {};
@@ -300,6 +300,18 @@
 
             temp.hosts = store.getAssociatedHosts(cluster);
             return temp;
+        }
+
+        function _getSdsName(name) {
+            var sds;
+            
+            if (name.toLowerCase() === "gluster") {
+                sds = $filter("capitalize")(name);
+            } else if(name.toLowerCase() === "rhgs"){
+                sds = name.toUpperCase();
+            }
+
+            return sds;
         }
 
         function _getProfileStatus(temp, cluster) {
