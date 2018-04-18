@@ -209,11 +209,18 @@
         /****Private Functions****/
 
         function _formatSingleCluster(cluster) {
-            var temp = {};
+            var temp = {},
+                sdsMapping;
+
+            sdsMapping = {
+                "gluster": "Gluster",
+                "rhgs": "RHGS"
+            };
 
             temp.integrationId = cluster.integration_id;
             temp.sdsVersion = cluster.sds_version;
-            temp.sdsName = _getSdsName(cluster.sds_name);
+            temp.sdsName = cluster.sds_name;
+            temp.showSdsName = sdsMapping[cluster.sds_name.toLowerCase()];
             temp.name = (cluster.short_name && cluster.short_name !== "None") ? cluster.short_name : cluster.integration_id;
             temp.clusterId = cluster.cluster_id;
             temp.currentTask = cluster.current_job || {};
@@ -270,48 +277,19 @@
             }
 
             if (temp.managed === "Yes") {
-                if (temp.sdsName === "gluster") {
-                    if (cluster.globaldetails && cluster.globaldetails.status === "healthy") {
-                        temp.status = "HEALTH_OK";
-                        temp.statusIcon = "Healthy";
-                    } else if (cluster.globaldetails && cluster.globaldetails.status === "unhealthy") {
-                        temp.status = "HEALTH_ERR";
-                        temp.statusIcon = "Unhealthy";
-                    } else {
-                        temp.status = "NA";
-                    }
+                if (cluster.globaldetails && cluster.globaldetails.status === "healthy") {
+                    temp.status = "HEALTH_OK";
+                    temp.statusIcon = "Healthy";
+                } else if (cluster.globaldetails && cluster.globaldetails.status === "unhealthy") {
+                    temp.status = "HEALTH_ERR";
+                    temp.statusIcon = "Unhealthy";
                 } else {
-                    temp.status = cluster.globaldetails ? cluster.globaldetails.status : "NA";
-
-                    switch (temp.status) {
-
-                        case "HEALTH_OK":
-                            temp.statusIcon = "Healthy";
-                            break;
-                        case "HEALTH_ERR":
-                            temp.statusIcon = "Unhealthy";
-                            break;
-                        case "HEALTH_WARN":
-                            temp.statusIcon = "Warning";
-                            break;
-                    }
+                    temp.status = "NA";
                 }
             }
 
             temp.hosts = store.getAssociatedHosts(cluster);
             return temp;
-        }
-
-        function _getSdsName(name) {
-            var sds;
-            
-            if (name.toLowerCase() === "gluster") {
-                sds = $filter("capitalize")(name);
-            } else if(name.toLowerCase() === "rhgs"){
-                sds = name.toUpperCase();
-            }
-
-            return sds;
         }
 
         function _getProfileStatus(temp, cluster) {

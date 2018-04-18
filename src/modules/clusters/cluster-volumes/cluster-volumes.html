@@ -2,6 +2,6 @@
 <div ng-if="clusterData !== null" class="tendrl-cluster-volumes-container container-fluid">
     <div ng-if="vm.isDataLoading" class="spinner spinner-lg"></div>
     <div ng-if="!vm.isDataLoading">
-        <volume-list ng-show="vm.clusterObj.sdsName ==='gluster'" cluster-id="vm.clusterId"></volume-list>
+        <volume-list cluster-id="vm.clusterId"></volume-list>
     </div>
 </div>
