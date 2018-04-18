@@ -298,7 +298,7 @@
         }
 
         function hideExpandBtn(cluster) {
-            return ($rootScope.userRole === "limited" ||
+            return ($rootScope.userRole === "limited" || cluster.managed === "No" ||
                 (cluster.managed === "Yes" && cluster.state !== "expand_pending"));
         }
 
