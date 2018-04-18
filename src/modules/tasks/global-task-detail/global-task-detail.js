@@ -42,14 +42,12 @@
                         _getTaskList();
                     });
             }
-
         }
 
         function goToClusterDetail() {
             vm.showLoadingIcon = true;
             clusterStore.getClusterList()
                 .then(function(data) {
-                    $rootScope.clusterData = clusterStore.formatClusterData(data);
                     $state.go("cluster-hosts", { clusterId: vm.taskDetail.parameters["TendrlContext.integration_id"] });
                     vm.showLoadingIcon = false;
                 });

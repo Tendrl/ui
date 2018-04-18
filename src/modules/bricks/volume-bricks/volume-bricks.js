@@ -190,7 +190,6 @@
             } else {
                 clusterStore.getClusterList()
                     .then(function(data) {
-                        $rootScope.clusterData = clusterStore.formatClusterData(data);
                         return clusterStore.getCluster(vm.clusterId);
                     }).then(function(data) {
 
