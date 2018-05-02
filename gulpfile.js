@@ -8,8 +8,9 @@ var runSequence = require("run-sequence");
 var rename = require("gulp-rename");
 
 // Logger modules
-var gutil = require("gulp-util");
-var colors = gutil.colors;
+var noop = require("gulp-noop");
+var log = require("fancy-log");
+var colors = require("ansi-colors");
 
 // File handling related modules
 var del = require("del");
@@ -24,7 +25,7 @@ var request = require("request");
 // CSS, SASS and styling related modules
 var cssimport = require("gulp-cssimport");
 var sass = require("gulp-sass");
-var minifyCSS = require("gulp-minify-css");
+var minifyCSS = require("gulp-clean-css");
 var autoprefixer = require("autoprefixer");
 var postCss = require("gulp-postcss");
 
@@ -99,7 +100,7 @@ gulp.task("jsLibraries", function() {
     "node_modules/angular-sanitize/angular-sanitize.min.js",
     "node_modules/angular-animate/angular-animate.min.js",
     "node_modules/angular-aria/angular-aria.min.js",
-    "node_modules/angular-ui-router/release/angular-ui-router.js",
+    "node_modules/@uirouter/angularjs/release/angular-ui-router.min.js",
     "node_modules/patternfly/dist/js/patternfly.js",
     "node_modules/angular-patternfly/node_modules/lodash/lodash.min.js",
     "node_modules/angular-patternfly/dist/angular-patternfly.js",
@@ -124,7 +125,7 @@ gulp.task("cssLibraries", function() {
     "node_modules/bootstrap-switch/dist/css/bootstrap3/bootstrap-switch.min.css"
   ])
   .pipe(postCss([autoprefixer({ browsers: browsers })]))
-  .pipe(buildMode === "dev" ? gutil.noop() : minifyCSS())
+  .pipe(buildMode === "dev" ? noop() : minifyCSS())
   .pipe(concat("libraries.css"))
   .pipe(gulp.dest(paths.dest + paths.cssLibraries));
 });
@@ -148,7 +149,7 @@ gulp.task("eslint", function () {
     return gulp.src([filters.js], { cwd: paths.src })
         .pipe(eslint())
         .pipe(eslint.format("stylish"))
-        .pipe(buildMode === "dev" ? gutil.noop() : eslint.failAfterError());
+        .pipe(buildMode === "dev" ? noop() : eslint.failAfterError());
 });
 
 //Copy the files needed to load before the bootstraping of application
@@ -156,8 +157,8 @@ gulp.task("preload", ["eslint"], function () {
 
     return gulp.src(paths.preloads, { base: paths.src, cwd: paths.src })
         .pipe(concat("preload.jst", { newLine: ";" }))
-        .pipe(buildMode === "dev" ? gutil.noop() : ngAnnotate())
-        .pipe(buildMode === "dev" ? gutil.noop() : uglify())
+        .pipe(buildMode === "dev" ? noop() : ngAnnotate())
+        .pipe(buildMode === "dev" ? noop() : uglify())
         .pipe(gulp.dest(paths.dest + paths.preloadFolder));
 });
 
@@ -169,7 +170,7 @@ gulp.task("sass", function () {
             extensions: ["css"]
         }))
         .pipe(postCss([autoprefixer({ browsers: browsers })]))
-        .pipe(buildMode === "dev" ? gutil.noop() : minifyCSS())
+        .pipe(buildMode === "dev" ? noop() : minifyCSS())
         .pipe(gulp.dest(paths.dest));
 });
 
@@ -199,8 +200,8 @@ gulp.task("jsbundle", ["eslint"], function () {
 
     return gulp.src(paths.jsFiles, { cwd: paths.src })
         .pipe(concat("plugin-bundle.js"))
-        .pipe(buildMode === "dev" ? gutil.noop() : ngAnnotate())
-        .pipe(buildMode === "dev" ? gutil.noop() : uglify())
+        .pipe(buildMode === "dev" ? noop() : ngAnnotate())
+        .pipe(buildMode === "dev" ? noop() : uglify())
         .pipe(gulp.dest(paths.dest));
 });
 
@@ -216,21 +217,21 @@ gulp.task("watcher", ["browser-sync", "common"], function(done) {
     });
 
     gulp.watch(filesToCopy, { cwd: paths.src }, function (event) {
-        gutil.log("Modified:", colors.yellow(event.path));
+        log("Modified:", colors.yellow(event.path));
         runSequence("copy");
     });
 
     gulp.watch(paths.htmlFiles, { cwd: paths.src }, function (event) {
-        gutil.log("Modified:", colors.yellow(event.path));
+        log("Modified:", colors.yellow(event.path));
     });
 
     gulp.watch(filters.js, { cwd: paths.src }, function (event) {
-        gutil.log("Modified:", colors.yellow(event.path));
+        log("Modified:", colors.yellow(event.path));
         runSequence("preload", "jsbundle");
     });
 
     gulp.watch([filters.css, filters.scss], { cwd: paths.src }, function (event) {
-        gutil.log("Modified:", colors.yellow(event.path));
+        log("Modified:", colors.yellow(event.path));
         runSequence("sass");
     });
 
@@ -265,7 +266,7 @@ gulp.task("common", ["eslint", "jsLibraries", "cssLibraries", "resource", "copy"
 
 // dev mode task
 gulp.task("dev", ["common", "watcher"], function (done) {
-    gutil.log(colors.bold.yellow("Watchers Established. You can now start coding"));
+    log(colors.bold(colors.yellow("Watchers Established. You can now start coding")));
 });
 
 // production mode task
