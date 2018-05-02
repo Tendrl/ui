@@ -72,7 +72,7 @@
                         url: "/cluster-tasks/:clusterId",
                         template: "<cluster-tasks></cluster-tasks>"
                     })
-                        .state("host-detail", {
+                    .state("host-detail", {
                         url: "/cluster-hosts/:clusterId/host-detail/:hostId",
                         template: "<host-detail></host-detail>"
                     })
@@ -106,7 +106,7 @@
                     });
 
             });
-            storageModule.run(function($rootScope, $location, $http, $interval, menuService, AuthManager, utils, eventStore, config, clusterStore, userStore) {
+            storageModule.run(function($rootScope, $location, $http, $interval, $transitions, menuService, AuthManager, utils, eventStore, config, clusterStore, userStore) {
                 var restrictedPage, loggedIn, alertListTimer;
 
                 $rootScope.$on("$locationChangeStart", function(event, current, next) {
@@ -123,12 +123,14 @@
                     }
                 });
 
-                $rootScope.$on("$stateChangeSuccess", function(event, current, prev) {
+                $transitions.onSuccess({}, function($transitions) {
+                    var current = $transitions.$to();
                     menuService.setActive(current.name);
                 });
 
-                $rootScope.$on("$stateChangeStart", function(event, next, current) {
-                    if (AuthManager.isAuthenticated(next.name)) {
+                $transitions.onStart({}, function($transitions) {
+                    var current = $transitions.$to();
+                    if (AuthManager.isAuthenticated(current.name)) {
                         $location.path("/forbidden");
                     }
                 });
