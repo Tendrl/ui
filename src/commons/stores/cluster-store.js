@@ -236,6 +236,19 @@
 
             temp.errors = cluster.errors ? cluster.errors : [];
 
+            /*This block has be placed here, as it initializes statusIcon (used at line 283)*/
+            if (temp.managed === "Yes") {
+                if (cluster.globaldetails && cluster.globaldetails.status === "healthy") {
+                    temp.status = "HEALTH_OK";
+                    temp.statusIcon = "Healthy";
+                } else if (cluster.globaldetails && cluster.globaldetails.status === "unhealthy") {
+                    temp.status = "HEALTH_ERR";
+                    temp.statusIcon = "Unhealthy";
+                } else {
+                    temp.status = "NA";
+                }
+            }
+
             if (temp.managed === "No") {
                 if ((!temp.errors.length) && temp.currentStatus === "failed") {
                     temp.message = "Cluster Misconfigured";
@@ -267,24 +280,13 @@
             } else if (temp.managed === "Yes") {
                 if (temp.jobType === "ExpandClusterWithDetectedPeers" && temp.currentStatus === "in_progress") {
                     temp.message = "Expanding cluster";
+                    temp.statusIcon = "Expanding in progress";
                 } else if (temp.jobType === "ExpandClusterWithDetectedPeers" && temp.currentStatus === "failed") {
                     temp.message = "Expansion Failed";
                 } else if (temp.state === "expand_pending") {
                     temp.message = "Expansion required";
                 } else if (!temp.message) {
                     temp.message = "Ready to Use";
-                }
-            }
-
-            if (temp.managed === "Yes") {
-                if (cluster.globaldetails && cluster.globaldetails.status === "healthy") {
-                    temp.status = "HEALTH_OK";
-                    temp.statusIcon = "Healthy";
-                } else if (cluster.globaldetails && cluster.globaldetails.status === "unhealthy") {
-                    temp.status = "HEALTH_ERR";
-                    temp.statusIcon = "Unhealthy";
-                } else {
-                    temp.status = "NA";
                 }
             }
 
