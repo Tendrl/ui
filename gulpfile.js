@@ -7,6 +7,10 @@ var concat = require("gulp-concat");
 var runSequence = require("run-sequence");
 var rename = require("gulp-rename");
 
+var babel = require("gulp-babel");
+var sourcemaps = require("gulp-sourcemaps");
+var browserify = require("gulp-browserify");
+
 // Logger modules
 var noop = require("gulp-noop");
 var log = require("fancy-log");
@@ -49,7 +53,7 @@ var buildMode = process.argv[2] || "release";
 var browsers = pluginOpts.targetBrowsers;
 
 // System wide paths
-var paths = (function () {
+var paths = (function() {
 
     var src = "./src/";
 
@@ -69,7 +73,7 @@ var paths = (function () {
 })();
 
 // File selection filters
-var filters = (function () {
+var filters = (function() {
     return {
         all: "**/*.*",
         js: "**/*.{js,jst}",
@@ -88,55 +92,57 @@ del.sync([paths.dest]);
 
 //Copy js file of the dependent libraries 
 gulp.task("jsLibraries", function() {
-  return gulp.src([
-    "node_modules/d3/d3.min.js",
-    "node_modules/c3/c3.min.js",
-    "node_modules/jquery/dist/jquery.min.js",
-    "node_modules/bootstrap/dist/js/bootstrap.min.js", // For dropdown : temporary
-    "node_modules/bootstrap-datepicker/dist/js/bootstrap-datepicker.js",
-    "node_modules/angular/angular.js",
-    "node_modules/angular-ui-bootstrap/dist/ui-bootstrap.min.js",
-    "node_modules/angular-ui-bootstrap/dist/ui-bootstrap-tpls.js",
-    "node_modules/angular-sanitize/angular-sanitize.min.js",
-    "node_modules/angular-animate/angular-animate.min.js",
-    "node_modules/angular-aria/angular-aria.min.js",
-    "node_modules/@uirouter/angularjs/release/angular-ui-router.min.js",
-    "node_modules/patternfly/dist/js/patternfly.js",
-    "node_modules/angular-patternfly/node_modules/lodash/lodash.min.js",
-    "node_modules/angular-patternfly/dist/angular-patternfly.js",
-    "node_modules/c3-angular/c3-angular.min.js",
-    "node_modules/bootstrap-switch/dist/js/bootstrap-switch.min.js",
-    "node_modules/angular-bootstrap-switch/dist/angular-bootstrap-switch.min.js",
-    "node_modules/angular-patternfly/node_modules/angular-drag-and-drop-lists/angular-drag-and-drop-lists.js",
-    "node_modules/datatables/media/js/jquery.dataTables.js",
-    "node_modules/angular-patternfly/node_modules/angularjs-datatables/dist/angular-datatables.js"
-  ])
-  .pipe(uglify())
-  .pipe(concat("libraries.js"))
-  .pipe(gulp.dest(paths.dest + paths.jsLibraries));
+    return gulp.src([
+        "node_modules/d3/d3.min.js",
+        "node_modules/c3/c3.min.js",
+        "node_modules/jquery/dist/jquery.min.js",
+        "node_modules/bootstrap/dist/js/bootstrap.min.js", // For dropdown : temporary
+        "node_modules/bootstrap-datepicker/dist/js/bootstrap-datepicker.js",
+        "node_modules/react/umd/react.production.min.js",
+        "node_modules/react-dom/umd/react-dom.production.min.js",
+        "node_modules/angular/angular.js",
+        "node_modules/angular-ui-bootstrap/dist/ui-bootstrap.min.js",
+        "node_modules/angular-ui-bootstrap/dist/ui-bootstrap-tpls.js",
+        "node_modules/angular-sanitize/angular-sanitize.min.js",
+        "node_modules/angular-animate/angular-animate.min.js",
+        "node_modules/angular-aria/angular-aria.min.js",
+        "node_modules/@uirouter/angularjs/release/angular-ui-router.min.js",
+        "node_modules/patternfly/dist/js/patternfly.js",
+        "node_modules/angular-patternfly/node_modules/lodash/lodash.min.js",
+        "node_modules/angular-patternfly/dist/angular-patternfly.js",
+        "node_modules/c3-angular/c3-angular.min.js",
+        "node_modules/bootstrap-switch/dist/js/bootstrap-switch.min.js",
+        "node_modules/angular-bootstrap-switch/dist/angular-bootstrap-switch.min.js",
+        "node_modules/angular-patternfly/node_modules/angular-drag-and-drop-lists/angular-drag-and-drop-lists.js",
+        "node_modules/datatables/media/js/jquery.dataTables.js",
+        "node_modules/angular-patternfly/node_modules/angularjs-datatables/dist/angular-datatables.js"
+    ])
+    .pipe(uglify())
+    .pipe(concat("libraries.js"))
+    .pipe(gulp.dest(paths.dest + paths.jsLibraries));
 });
 
 //Copy css file of the dependent libraries 
 gulp.task("cssLibraries", function() {
-  return gulp.src([
-    "node_modules/patternfly/dist/css/patternfly.css",
-    "node_modules/patternfly/dist/css/patternfly-additions.css",
-    "node_modules/angular-patternfly/styles/angular-patternfly.css",
-    "node_modules/bootstrap-switch/dist/css/bootstrap3/bootstrap-switch.min.css"
-  ])
-  .pipe(postCss([autoprefixer({ browsers: browsers })]))
-  .pipe(buildMode === "dev" ? noop() : minifyCSS())
-  .pipe(concat("libraries.css"))
-  .pipe(gulp.dest(paths.dest + paths.cssLibraries));
+    return gulp.src([
+        "node_modules/patternfly/dist/css/patternfly.css",
+        "node_modules/patternfly/dist/css/patternfly-additions.css",
+        "node_modules/angular-patternfly/styles/angular-patternfly.css",
+        "node_modules/bootstrap-switch/dist/css/bootstrap3/bootstrap-switch.min.css"
+    ])
+    .pipe(postCss([autoprefixer({ browsers: browsers })]))
+    .pipe(buildMode === "dev" ? noop() : minifyCSS())
+    .pipe(concat("libraries.css"))
+    .pipe(gulp.dest(paths.dest + paths.cssLibraries));
 });
 
 //Copy all the application files to dist except js and css
-gulp.task("copy", function () {
+gulp.task("copy", function() {
     var filesToCopy;
 
     filesToCopy = [filters.all, "!../package.json", "!" + filters.jscss];
 
-    paths.htmlFiles.forEach(function (htmlFile) {
+    paths.htmlFiles.forEach(function(htmlFile) {
         //filesToCopy.push("!" + htmlFile);
     });
 
@@ -145,15 +151,26 @@ gulp.task("copy", function () {
 });
 
 //Task to do eslint
-gulp.task("eslint", function () {
+gulp.task("eslint", function() {
     return gulp.src([filters.js], { cwd: paths.src })
-        .pipe(eslint())
+        .pipe(eslint({
+            baseConfig: {
+                "parserOptions": {
+                    "ecmaVersion": 6,
+                    "sourceType": "module",
+                    "ecmaFeatures": {
+                        "jsx": true,
+                        "modules": true
+                    }
+                }
+            }
+        }))
         .pipe(eslint.format("stylish"))
         .pipe(buildMode === "dev" ? noop() : eslint.failAfterError());
 });
 
 //Copy the files needed to load before the bootstraping of application
-gulp.task("preload", ["eslint"], function () {
+gulp.task("preload", ["eslint"], function() {
 
     return gulp.src(paths.preloads, { base: paths.src, cwd: paths.src })
         .pipe(concat("preload.jst", { newLine: ";" }))
@@ -163,7 +180,7 @@ gulp.task("preload", ["eslint"], function () {
 });
 
 //Compile the scss files
-gulp.task("sass", function () {
+gulp.task("sass", function() {
     return gulp.src([paths.cssMain], { base: paths.src, cwd: paths.src })
         .pipe(sass())
         .pipe(cssimport({
@@ -175,13 +192,13 @@ gulp.task("sass", function () {
 });
 
 //Copy the resources(fonts etc) to dist folder
-gulp.task("resource", function (done) {
+gulp.task("resource", function(done) {
 
     var streams = merge(),
         resources = Object.keys(paths.resources);
 
     if (resources.length > 0) {
-        resources.forEach(function (resource) {
+        resources.forEach(function(resource) {
             var stream = gulp.src(resource, { cwd: paths.src })
                 .pipe(gulp.dest(paths.dest + paths.resources[resource]));
 
@@ -195,13 +212,25 @@ gulp.task("resource", function (done) {
 
 });
 
-//bundle application js files in plugin-bundle.js and copy it to dist
-gulp.task("jsbundle", ["eslint"], function () {
+gulp.task("jsbundle", ["eslint"], function() {
 
     return gulp.src(paths.jsFiles, { cwd: paths.src })
+        .pipe(babel({ presets: ["es2015"] }))
         .pipe(concat("plugin-bundle.js"))
+        .pipe(gulp.dest(paths.dest));
+});
+
+gulp.task("transform", ["jsbundle"], function() {
+    return gulp.src(paths.dest + 'plugin-bundle.js')
+        .pipe(browserify({
+            insertGlobals: true,
+            debug: true
+        }))
+        .pipe(concat("plugin-bundle.js"))
+        .pipe(sourcemaps.init({loadMaps: true}))
         .pipe(buildMode === "dev" ? noop() : ngAnnotate())
         .pipe(buildMode === "dev" ? noop() : uglify())
+        .pipe(sourcemaps.write(paths.dest + 'maps/'))
         .pipe(gulp.dest(paths.dest));
 });
 
@@ -212,25 +241,25 @@ gulp.task("watcher", ["browser-sync", "common"], function(done) {
 
     filesToCopy = [filters.images, filters.html];
 
-    paths.htmlFiles.forEach(function (htmlPath) {
+    paths.htmlFiles.forEach(function(htmlPath) {
         //filesToCopy.push("!" + htmlPath);
     });
 
-    gulp.watch(filesToCopy, { cwd: paths.src }, function (event) {
+    gulp.watch(filesToCopy, { cwd: paths.src }, function(event) {
         log("Modified:", colors.yellow(event.path));
         runSequence("copy");
     });
 
-    gulp.watch(paths.htmlFiles, { cwd: paths.src }, function (event) {
+    gulp.watch(paths.htmlFiles, { cwd: paths.src }, function(event) {
         log("Modified:", colors.yellow(event.path));
     });
 
-    gulp.watch(filters.js, { cwd: paths.src }, function (event) {
+    gulp.watch(filters.js, { cwd: paths.src }, function(event) {
         log("Modified:", colors.yellow(event.path));
         runSequence("preload", "jsbundle");
     });
 
-    gulp.watch([filters.css, filters.scss], { cwd: paths.src }, function (event) {
+    gulp.watch([filters.css, filters.scss], { cwd: paths.src }, function(event) {
         log("Modified:", colors.yellow(event.path));
         runSequence("sass");
     });
@@ -246,14 +275,14 @@ gulp.task("browser-sync", ["common"], function() {
             middleware: [historyApiFallback()]
 
         },
-         //proxy: "localhost:8080",
+        //proxy: "localhost:8080",
         files: ["dist/**/*.*"],
         reloadDebounce: 500
     });
 });
 
 //Run the unit tests
-gulp.task("ut", function (done) {
+gulp.task("ut", function(done) {
     var config = {
         configFile: __dirname + "/karma.conf.js",
         singleRun: true
@@ -262,16 +291,16 @@ gulp.task("ut", function (done) {
 });
 
 // Common task
-gulp.task("common", ["eslint", "jsLibraries", "cssLibraries", "resource", "copy", "preload", "sass", "jsbundle"]);
+gulp.task("common", ["eslint", "jsLibraries", "cssLibraries", "resource", "copy", "preload", "sass", "jsbundle", "transform"]);
 
 // dev mode task
-gulp.task("dev", ["common", "watcher"], function (done) {
+gulp.task("dev", ["common", "watcher"], function(done) {
     log(colors.bold(colors.yellow("Watchers Established. You can now start coding")));
 });
 
 // production mode task
-gulp.task("release", ["common"], function (done) {
-   runSequence("ut", done);
+gulp.task("release", ["common"], function(done) {
+    runSequence("ut", done);
 });
 
 //default task is common
