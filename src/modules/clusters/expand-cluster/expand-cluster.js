@@ -6,7 +6,7 @@
         .controller("expandClusterController", expandClusterController);
 
     /*@ngInject*/
-    function expandClusterController($rootScope, $scope, $state, clusterStore,  nodeStore, selectedCluster, Notifications, $uibModal) {
+    function expandClusterController($rootScope, $scope, $state, $uibModal, $filter, clusterStore, nodeStore, selectedCluster, Notifications) {
 
         var vm = this,
             jobId;
@@ -75,7 +75,7 @@
 
             nodeStore.getNodeList(vm.clusterId)
                 .then(function(list) {
-                    vm.hostList = list;
+                    vm.hostList = $filter("filter")(list, { managed: "No" });
                     vm.filteredHostList = vm.hostList;
                     _filterChange(vm.filters);
                 }).catch(function(e) {
