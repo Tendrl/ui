@@ -306,6 +306,10 @@
                 status = "Pending";
             } else {
                 status = profileStatus[cluster.volume_profiling_state];
+
+                if(typeof status === "undefined") {
+                    status = "Unknown";
+                }
             }
 
             return status;
