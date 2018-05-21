@@ -98,9 +98,10 @@ gulp.task("jsLibraries", function() {
         "node_modules/jquery/dist/jquery.min.js",
         "node_modules/bootstrap/dist/js/bootstrap.min.js", // For dropdown : temporary
         "node_modules/bootstrap-datepicker/dist/js/bootstrap-datepicker.js",
+        "node_modules/angular/angular.js",
         "node_modules/react/umd/react.production.min.js",
         "node_modules/react-dom/umd/react-dom.production.min.js",
-        "node_modules/angular/angular.js",
+        "node_modules/ngreact/ngReact.min.js",
         "node_modules/angular-ui-bootstrap/dist/ui-bootstrap.min.js",
         "node_modules/angular-ui-bootstrap/dist/ui-bootstrap-tpls.js",
         "node_modules/angular-sanitize/angular-sanitize.min.js",
@@ -115,7 +116,10 @@ gulp.task("jsLibraries", function() {
         "node_modules/angular-bootstrap-switch/dist/angular-bootstrap-switch.min.js",
         "node_modules/angular-patternfly/node_modules/angular-drag-and-drop-lists/angular-drag-and-drop-lists.js",
         "node_modules/datatables/media/js/jquery.dataTables.js",
-        "node_modules/angular-patternfly/node_modules/angularjs-datatables/dist/angular-datatables.js"
+        "node_modules/angular-patternfly/node_modules/angularjs-datatables/dist/angular-datatables.js",
+        "node_modules/q/q.js",
+        "node_modules/moment/min/moment.min.js",
+        "node_modules/react-datepicker/dist/react-datepicker.min.js"
     ])
     .pipe(uglify())
     .pipe(concat("libraries.js"))
@@ -128,7 +132,8 @@ gulp.task("cssLibraries", function() {
         "node_modules/patternfly/dist/css/patternfly.css",
         "node_modules/patternfly/dist/css/patternfly-additions.css",
         "node_modules/angular-patternfly/styles/angular-patternfly.css",
-        "node_modules/bootstrap-switch/dist/css/bootstrap3/bootstrap-switch.min.css"
+        "node_modules/bootstrap-switch/dist/css/bootstrap3/bootstrap-switch.min.css",
+        "node_modules/react-datepicker/dist/react-datepicker.min.css"
     ])
     .pipe(postCss([autoprefixer({ browsers: browsers })]))
     .pipe(buildMode === "dev" ? noop() : minifyCSS())
@@ -215,8 +220,8 @@ gulp.task("resource", function(done) {
 gulp.task("jsbundle", ["eslint"], function() {
 
     return gulp.src(paths.jsFiles, { cwd: paths.src })
-        .pipe(babel({ presets: ["es2015"] }))
         .pipe(concat("plugin-bundle.js"))
+        .pipe(babel({ presets: ["es2015", "react"] }))
         .pipe(gulp.dest(paths.dest));
 });
 
@@ -256,7 +261,7 @@ gulp.task("watcher", ["browser-sync", "common"], function(done) {
 
     gulp.watch(filters.js, { cwd: paths.src }, function(event) {
         log("Modified:", colors.yellow(event.path));
-        runSequence("preload", "jsbundle");
+        runSequence("preload", "jsbundle", "transform");
     });
 
     gulp.watch([filters.css, filters.scss], { cwd: paths.src }, function(event) {

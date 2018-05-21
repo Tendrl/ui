@@ -11,7 +11,8 @@
         "patternfly.form",
         "patternfly.notification",
         "patternfly.table",
-        "patternfly.filters"
+        "patternfly.filters",
+        "react"
     ]);
 
     /* Setting up provider for getting config data */
