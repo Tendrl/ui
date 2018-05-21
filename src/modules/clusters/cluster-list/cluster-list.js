@@ -54,6 +54,8 @@
         vm.isTooltipEnable = isTooltipEnable;
         vm.goToClusterHost = goToClusterHost;
         vm.showViewDetailsLink = showViewDetailsLink;
+        vm.showDisableLink = showDisableLink;
+        vm.showEnableLink = showEnableLink;
 
         vm.filterConfig = {
             fields: [{
@@ -294,7 +296,7 @@
         }
 
         function showViewDetailsLink(cluster) {
-            return ((cluster.currentStatus === "in_progress" && cluster.jobType !== "EnableDisableVolumeProfiling")|| cluster.currentStatus === "failed");
+            return ((cluster.currentStatus === "in_progress" && cluster.jobType !== "EnableDisableVolumeProfiling") || cluster.currentStatus === "failed");
         }
 
         function hideExpandBtn(cluster) {
@@ -348,6 +350,18 @@
 
             modalInstance.result.then(function() {}, function() {});
             wizardDoneListener = $rootScope.$on("modal.done", closeWizard);
+        }
+
+        function showDisableLink(cluster) {
+            return cluster.isProfilingEnabled === "Enabled" ||
+                cluster.isProfilingEnabled === "Mixed" ||
+                cluster.isProfilingEnabled === "Unknown";
+        }
+
+        function showEnableLink(cluster) {
+            return cluster.isProfilingEnabled === "Disabled" ||
+                cluster.isProfilingEnabled === "Mixed" ||
+                cluster.isProfilingEnabled === "Unknown";
         }
 
         /***Private Functions***/

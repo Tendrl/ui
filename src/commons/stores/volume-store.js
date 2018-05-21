@@ -55,14 +55,20 @@
                 return volumeList;
 
                 function _getProfileStatus(volume) {
-                    var profileStatus = "";
+                    var profileStatus = "",
+                        profileStatusMap = {
+                            "yes": "Enabled",
+                            "no": "Disabled"
+                        };
 
                     if (volume.currentTask && volume.currentTask.status === "in_progress" && (volume.currentTask.job_name === "StopProfiling" || volume.currentTask.job_name === "StartProfiling")) {
                         profileStatus = "Pending";
-                    } else if (data[i].profiling_enabled === "yes") {
-                        profileStatus = "Enabled";
                     } else {
-                        profileStatus = "Disabled";
+                        profileStatus = profileStatusMap[data[i].profiling_enabled];
+
+                        if (typeof profileStatus === "undefined") {
+                            profileStatus = "Unknown";
+                        }
                     }
 
                     return profileStatus;
