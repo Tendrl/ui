@@ -4,6 +4,7 @@ export const ngDeps = {};
 
 export function injectNgDeps(deps) {
     Object.assign(ngDeps, deps);
+    window.ngDeps = ngDeps;
 };
 
 export default ngDeps;
@@ -11,10 +12,10 @@ export default ngDeps;
 var storageModule = angular.module("TendrlModule");
 
 storageModule.run([
-    "$rootScope",
-    "$state",
-    "$q",
-    ($rootScope, $state, $q) => {
-        injectNgDeps({ $rootScope, $state, $q });
+    "$stateParams",
+    "utils",
+    "config",
+    ($stateParams, utils, config) => {
+        injectNgDeps({ $stateParams, utils, config });
     },
 ]);

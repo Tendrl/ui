@@ -1,15 +1,18 @@
-import React, { Component } from "react";
-import ngDeps from "../js/ng-react-ng-deps.js";
 
 const EventStore = {
+    showAlertIndication: false,
     getAlertList: function() {
         var list,
-            deferred;
+            deferred,
+            utils = window.ngDeps.utils,
+            that = this;
 
-        deferred = $q.defer();
+        deferred = Q.defer();
+
         utils.getAlertList()
             .then(function(data) {
-                $rootScope.showAlertIndication = false;
+
+                that.showAlertIndication = false;
                 list = data ? _formatAlertData(data) : [];
                 deferred.resolve(list);
             });
@@ -28,8 +31,8 @@ const EventStore = {
                 i;
 
             for (i = 0; i < len; i++) {
-                temp = {},
-                    temp.alertId = data[i].alert_id;
+                temp = {};
+                temp.alertId = data[i].alert_id;
                 temp.timeStamp = new Date(data[i].time_stamp);
                 temp.severity = severity[data[i].severity];
                 temp.nodeId = data[i].node_id;
@@ -39,8 +42,9 @@ const EventStore = {
                 temp.clusterName = data[i].tags.integration_id ? data[i].tags.integration_id : "";
                 temp.sdsName = data[i].tags.sds_name ? data[i].tags.sds_name : "";
 
-                if ((temp.severity === "error" || temp.severity === "warning") && !$rootScope.showAlertIndication) {
-                    $rootScope.showAlertIndication = true;
+                if ((temp.severity === "error" || temp.severity === "warning") && !that.showAlertIndication) {
+                    that.showAlertIndication = true;
+                    PubSubService.publish("alertIndicationChanged", that.showAlertIndication);
                 }
                 res.push(temp);
             }
@@ -49,9 +53,10 @@ const EventStore = {
     },
     getEventList: function(clusterId) {
         var list,
-            deferred;
+            deferred,
+            utils = window.ngDeps.utils;
 
-        deferred = $q.defer();
+        deferred = Q.defer();
         utils.getEventList(clusterId)
             .then(function(data) {
                 list = data ? _formatEventData(data) : [];
@@ -69,8 +74,8 @@ const EventStore = {
                 i;
 
             for (i = 0; i < len; i++) {
-                temp = {},
-                    temp.timeStamp = new Date(data[i].timestamp);
+                temp = {};
+                temp.timeStamp = moment(new Date(data[i].timestamp)).format('DD-MMM-YY HH:mm:ss');
                 temp.priority = data[i].priority;
                 temp.message = data[i].message;
                 temp.message_id = data[i].message_id;
@@ -81,13 +86,11 @@ const EventStore = {
     }
 };
 
-export default EventStore;
-
 angular
     .module("TendrlModule")
     .service("eventStore", eventStore);
 
 /*@ngInject*/
-function eventStore($state, $q, $rootScope, utils) {
+function eventStore() {
     return EventStore;
 }
