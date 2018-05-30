@@ -156,7 +156,7 @@
 
         function redirectToGrafana(host) {
             utils.redirectToGrafana("hosts", {
-                clusterId: host.clusterName,
+                clusterId: vm.cluster.name,
                 hostName: host.name.split(".").join("_")
             });
         }

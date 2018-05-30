@@ -209,10 +209,7 @@
             vm.filters = filters;
             filters.forEach(function(filter) {
                 vm.filtersText += filter.title + " : ";
-                if (filter.value.filterCategory) {
-                    vm.filtersText += ((filter.value.filterCategory.title || filter.value.filterCategory) +
-                        filter.value.filterDelimiter + (filter.value.filterValue.title || filter.value.filterValue));
-                } else if (filter.value.title) {
+                if (filter.value.title) {
                     vm.filtersText += filter.value.title;
                 } else {
                     vm.filtersText += filter.value;

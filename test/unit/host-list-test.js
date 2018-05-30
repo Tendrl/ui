@@ -105,7 +105,7 @@ describe("Unit Component: hostList", function() {
             vm.redirectToGrafana(host);
 
             // Verify result (behavior)
-            expect(utils.redirectToGrafana.calledWith("hosts", { clusterId: vm.clusterId, hostName: host_name })).to.be.true;
+            expect(utils.redirectToGrafana.calledWith("hosts", { clusterId: hostList.name, hostName: host_name })).to.be.true;
         });
 
         it("Should set the flag by addTooltip", function() {
