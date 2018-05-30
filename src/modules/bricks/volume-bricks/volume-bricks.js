@@ -18,7 +18,6 @@
     /*@ngInject*/
     function volumeBrickController($scope, $rootScope, $state, $interval, $stateParams, config, utils, brickStore, clusterStore, volumeStore) {
         var vm = this,
-            clusterObj,
             volumeBrickTimer;
 
         vm.isDataLoading = true;
@@ -53,6 +52,16 @@
                 filterType: "select",
                 filterValues: ["Started", "Stopped"]
             }, {
+                id: "utilMoreThan",
+                title: "Utilization More Than(%)",
+                placeholder: "Filter by Utilization More Than(%)",
+                filterType: "number"
+            }, {
+                id: "utilLessThan",
+                title: "Utilization Less Than(%)",
+                placeholder: "Filter by Utilization Less Than(%)",
+                filterType: "number"
+            }, {
                 id: "devices",
                 title: "Disk Device Path",
                 placeholder: "Filter by Brick Path",
@@ -68,14 +77,27 @@
             showCheckboxes: false
         };
 
-        vm.volumeDetailColumns = [
-            { header: "Host Name", itemField: "fqdn" },
-            { header: "Brick Path", itemField: "brickPath", htmlTemplate: "/modules/bricks/volume-bricks/brick-path.html" },
-            { header: "Utilization", itemField: "utilization", htmlTemplate: "/modules/bricks/volume-bricks/utilization-path.html" },
-            { header: "Disk Device Path", itemField: "devices", templateFn: function(value, item) {
-                    return value[0]; } },
-            { header: "Port", itemField: "port" }
-        ];
+        vm.volumeDetailColumns = [{
+            header: "Host Name",
+            itemField: "fqdn"
+        }, {
+            header: "Brick Path",
+            itemField: "brickPath",
+            htmlTemplate: "/modules/bricks/volume-bricks/brick-path.html"
+        }, {
+            header: "Utilization",
+            itemField: "utilization",
+            htmlTemplate: "/modules/bricks/volume-bricks/utilization-path.html"
+        }, {
+            header: "Disk Device Path",
+            itemField: "devices",
+            templateFn: function(value, item) {
+                return value[0];
+            }
+        }, {
+            header: "Port",
+            itemField: "port"
+        }];
 
         vm.actionButtons = [{
             name: "Dashboard",
@@ -300,6 +322,8 @@
 
         function _filterBrick(brick, filter) {
             var match = false,
+                percentage = 0,
+                utilization = 0,
                 re = new RegExp(filter.value, "i");
 
             if (filter.id === "fqdn") {
@@ -310,6 +334,17 @@
                 match = brick.status === filter.value.id || brick.status.toLowerCase() === filter.value.toLowerCase();
             } else if (filter.id === "devices") {
                 match = brick.devices[0].match(re) !== null;
+            } else if (filter.id === "utilMoreThan" || filter.id === "utilLessThan") {
+                percentage = parseInt(filter.value);
+                utilization = parseInt(brick.utilization.used);
+
+                if (percentage < 0 || percentage > 100) {
+                    vm.errorMsg = "Please enter a valid percentage.";
+                } else if (filter.id === "utilMoreThan") {
+                    match = (utilization > percentage);
+                } else if (filter.id === "utilLessThan") {
+                    match = (utilization < percentage);
+                }
             }
 
             return match;
@@ -389,7 +424,6 @@
             var subVolData = JSON.parse(JSON.stringify(vm.subVolumeList)),
                 len = subVolData.length,
                 subVolume,
-                expandedState,
                 i;
 
             vm.subVolumeList = data;
