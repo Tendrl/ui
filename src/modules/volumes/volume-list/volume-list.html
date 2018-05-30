@@ -49,7 +49,7 @@
                     <i ng-class="volumeCntrl.getVolumeIcon(volume.state)" uib-tooltip-html="volumeCntrl.getVolState(volume.state)" tooltip-placement="auto bottom-left"></i>
                 </div>
                 <div class="ft-column bold-text" list-view-pf-additional-info-item-stacked>
-                    <div class="bold-text" uib-tooltip-html="'{{volume.name}}'" tooltip-placement="auto bottom-left" ng-click="volumeCntrl.goToVolumeDetail(volume)"><a class="volume-name">{{volume.name}}</a></div>
+                    <div class="bold-text long-volume-name" uib-tooltip-html="'{{volume.name}}'" tooltip-placement="auto bottom-left" ng-click="volumeCntrl.goToVolumeDetail(volume)"><a class="volume-name">{{volume.name}}</a></div>
                     <div class="pull-left vol-type">{{volume.type | capitalize}}</div>
                 </div>
                 <div class="ft-column list-view-pf-additional-info-item list-view-pf-additional-info-item-stacked">
