@@ -2,8 +2,15 @@
     margin-bottom: 10px;
     .list-view-pf-view {
         .list-group-item {
-            .volume-name {
-                cursor: pointer;
+        
+            .long-volume-name {
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+
+                .volume-name {
+                    cursor: pointer;
+                }
             }
             .vol-type {
                 font-weight: normal;
@@ -17,7 +24,7 @@
 
     .icon-orange {
         color: $color-pf-orange;
-    }    
+    }
 
     .flex-table {
         .ft-actions {
@@ -32,7 +39,7 @@
     .toolbar-pf .form-group:last-child {
         padding-left: 0;
     }
-    .toolbar-pf-results > span {
+    .toolbar-pf-results>span {
         display: none;
     }
 }
