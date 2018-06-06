@@ -752,6 +752,7 @@
             errors: [],
             message: "Ready to Use",
             clusterId: "e372c01c-5022-41ce-9412-e96038bca305",
+            readyState: true,
             hosts: [{
                 nodeId: "3d2b015c-08c7-440d-b9af-23aeb4c17f9f",
                 fqdn: "dhcp43-237.lab.eng.blr.redhat.com",
@@ -787,6 +788,7 @@
             errors: [],
             message: "Ready to Import",
             clusterId: "f755f0cd-b784-4920-83c3-db9d576d5935",
+            readyState: false,
             hosts: [{
                 nodeId: "307a15fa-9460-4679-8aee-c58e9a119a7e",
                 fqdn: "dhcp43-226.lab.eng.blr.redhat.com",
@@ -819,6 +821,7 @@
             errors: [],
             message: "Ready to Use",
             clusterId: "e372c01c-5022-41ce-9412-e96038bca305",
+            readyState: true,
             hosts: [{
                 nodeId: "3d2b015c-08c7-440d-b9af-23aeb4c17f9f",
                 fqdn: "dhcp43-237.lab.eng.blr.redhat.com",
@@ -854,6 +857,7 @@
             errors: [],
             message: "Ready to Import",
             clusterId: "f755f0cd-b784-4920-83c3-db9d576d5935",
+            readyState: false,
             hosts: [{
                 nodeId: "307a15fa-9460-4679-8aee-c58e9a119a7e",
                 fqdn: "dhcp43-226.lab.eng.blr.redhat.com",
@@ -886,6 +890,7 @@
             errors: [],
             message: "Ready to Use",
             clusterId: "e372c01c-5022-41ce-9412-e96038bca305",
+            readyState: true,
             hosts: [{
                 nodeId: "3d2b015c-08c7-440d-b9af-23aeb4c17f9f",
                 fqdn: "dhcp43-237.lab.eng.blr.redhat.com",
@@ -921,6 +926,7 @@
             errors: [],
             message: "Ready to Import",
             clusterId: "f755f0cd-b784-4920-83c3-db9d576d5935",
+            readyState: false,
             hosts: [{
                 nodeId: "307a15fa-9460-4679-8aee-c58e9a119a7e",
                 fqdn: "dhcp43-226.lab.eng.blr.redhat.com",
@@ -957,6 +963,7 @@
             errors: [],
             message: "Ready to Import",
             clusterId: "f755f0cd-b784-4920-83c3-db9d576d5935",
+            readyState: false,
             hosts: [{
                 nodeId: "307a15fa-9460-4679-8aee-c58e9a119a7e",
                 fqdn: "dhcp43-226.lab.eng.blr.redhat.com",
@@ -989,6 +996,7 @@
             errors: [],
             message: "Ready to Use",
             clusterId: "e372c01c-5022-41ce-9412-e96038bca305",
+            readyState: true,
             hosts: [{
                 nodeId: "3d2b015c-08c7-440d-b9af-23aeb4c17f9f",
                 fqdn: "dhcp43-237.lab.eng.blr.redhat.com",
@@ -1025,6 +1033,7 @@
             errors: [],
             message: "Ready to Import",
             clusterId: "f755f0cd-b784-4920-83c3-db9d576d5935",
+            readyState: false,
             hosts: [{
                 nodeId: "307a15fa-9460-4679-8aee-c58e9a119a7e",
                 fqdn: "dhcp43-226.lab.eng.blr.redhat.com",
@@ -1057,6 +1066,7 @@
             errors: [],
             message: "Ready to Use",
             clusterId: "e372c01c-5022-41ce-9412-e96038bca305",
+            readyState: true,
             hosts: [{
                 nodeId: "3d2b015c-08c7-440d-b9af-23aeb4c17f9f",
                 fqdn: "dhcp43-237.lab.eng.blr.redhat.com",
@@ -1095,6 +1105,7 @@
             errors: [],
             message: "Ready to Use",
             clusterId: "e372c01c-5022-41ce-9412-e96038bca305",
+            readyState: true,
             hosts: [{
                 nodeId: "3d2b015c-08c7-440d-b9af-23aeb4c17f9f",
                 fqdn: "dhcp43-237.lab.eng.blr.redhat.com",
@@ -1130,6 +1141,7 @@
             errors: [],
             message: "Ready to Import",
             clusterId: "f755f0cd-b784-4920-83c3-db9d576d5935",
+            readyState: false,
             hosts: [{
                 nodeId: "307a15fa-9460-4679-8aee-c58e9a119a7e",
                 fqdn: "dhcp43-226.lab.eng.blr.redhat.com",
@@ -1161,6 +1173,7 @@
             errors: [],
             message: "Ready to Import",
             clusterId: "f755f0cd-b784-4920-83c3-db9d576d5935",
+            readyState: false,
             hosts: [{
                 nodeId: "307a15fa-9460-4679-8aee-c58e9a119a7e",
                 fqdn: "dhcp43-226.lab.eng.blr.redhat.com",
