@@ -351,11 +351,18 @@
         }
 
         function _matchesFilters(item, filters) {
-            var subVol;
+            var subVol,
+                i,
+                len = filters.length;
 
-            filters.forEach(function(filter) {
-                subVol = _matchesFilter(item, filter);
-            });
+            for (i = 0; i < len; i++) {
+                subVol = _matchesFilter(item, filters[i]);
+                
+                //if any filter criteria doesn't match, exit from the loop
+                if (subVol === -9999) {
+                    break;
+                }
+            }
 
             return subVol;
         }
