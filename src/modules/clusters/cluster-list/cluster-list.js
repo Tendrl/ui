@@ -282,7 +282,7 @@
 
         function disableImportBtn(cluster) {
             return (cluster.currentStatus === "in_progress" ||
-                (cluster.jobType === "UnmanageCluster" && cluster.currentStatus === "failed"));
+                ((cluster.jobType === "UnmanageCluster" || cluster.jobType === "ImportCluster") && cluster.currentStatus === "failed"));
         }
 
         function showDashboardBtn(cluster) {
