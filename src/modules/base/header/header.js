@@ -11,7 +11,7 @@
         });
 
     /*@ngInject*/
-    function headerController($rootScope, $state, $scope, $uibModal, AuthManager, utils, Notifications, userStore) {
+    function headerController($rootScope, $state, $scope, $uibModal, AuthManager, utils, Notifications, userStore, eventStore, pubSubService) {
 
         var vm = this,
             currentUser;
@@ -20,6 +20,7 @@
         vm.searchBy = {};
         vm.filterBy = "";
         vm.severity = "";
+        vm.showAlertIndication = eventStore.showAlertIndication;
 
         vm.notificationClose = notificationClose;
         vm.logout = logout;
@@ -45,6 +46,10 @@
                 vm.alertList = $rootScope.alertList;
                 vm.severityList = utils.getAlertSeverityList(vm.alertList);
             }
+        });
+
+        var subscription = pubSubService.subscribe("alertIndicationChanged", function(flag) {
+           vm.showAlertIndication = flag;
         });
 
         init();
@@ -84,7 +89,7 @@
             vm.showAlerts = false;
         }
 
-        function updateViewing (viewing, data) {
+        function updateViewing(viewing, data) {
             Notifications.setViewing(data, viewing);
         }
 

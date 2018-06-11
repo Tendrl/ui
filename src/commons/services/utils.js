@@ -235,8 +235,8 @@
                 getEventListRequest,
                 request;
 
-            //url = "/api/events.json";
-            url = config.baseUrl + "clusters/" + clusterId + "/notifications";
+            url = "/api/events.json";
+            //url = config.baseUrl + "clusters/" + clusterId + "/notifications";
 
             getEventListRequest = {
                 method: "GET",
