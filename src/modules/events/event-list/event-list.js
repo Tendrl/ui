@@ -1,149 +1,225 @@
-(function() {
-    "use strict";
+const Event = (props) => {
+    return (<div>
+                <div className="ft-row list-group-item">
+                    <div className="ft-column event-desc">
+                        <div>{props.message || "NA"}</div>
+                    </div>
+                    <div className="ft-column">
+                        <div>{props.timeStamp}</div>
+                    </div>
+                </div>
+            </div>);
+};
 
-    angular
-        .module("TendrlModule")
-        .component("eventList", {
+const Spinner = (props) => {
+    return (props.isDataLoading ? <div className="spinner spinner-lg"></div> : null);
+};
 
-            restrict: "E",
-            templateUrl: "/modules/events/event-list/event-list.html",
-            bindings: {},
-            controller: eventListController,
-            controllerAs: "eventListCntrl"
-        });
+class DatePickerComp extends Component {
+    constructor(props) {
+        super(props);
+        this.checkValidDate = (event) => {
+            event.preventDefault();
+        };
+    };
 
-    /*@ngInject*/
-    function eventListController($rootScope, $scope, $interval, $state, $timeout, $filter, $stateParams, config, eventStore, utils) {
+    render() {
+        return (<DatePicker dateFormat="YYYY-MM-DD"
+                selected={this.props.type}
+                onChange={this.checkValidDate}
+                peekNextMonth
+                showMonthDropdown
+                showYearDropdown
+                dropdownMode="select"
+                />);
+    };
+};
 
-        var vm = this,
-            eventTimer,
-            toDate,
-            count;
 
-        vm.eventList = [];
-        vm.isDataLoading = true;
-        vm.searchDescText = "";
-        vm.filterByCreatedDate = filterByCreatedDate;
-        vm.searchByDesc = searchByDesc;
-        vm.clearAllFilters = clearAllFilters;
-        vm.openFromDate = openFromDate;
-        vm.openToDate = openToDate;
-        vm.showClearAction = showClearAction;
+class EventList extends Component {
+    constructor(props) {
+        super(props);
+        let $stateParams = window.ngDeps.$stateParams,
+            config = window.ngDeps.config,
+            oThis = this;
 
-        vm.date = {
-            fromDate: "",
-            toDate: "",
+        oThis.eventTimer = null;
+        oThis.clusterId = $stateParams.clusterId;
+
+        oThis.state = {
+            eventList: [],
+            isDataLoading: true,
+            searchDescText: "",
+            date: {
+                fromDate: moment(),
+                toDate: moment()
+            },
+            dateFormat: {
+                format: "YYYY/MM/DD"
+            },
+            search: ""
         };
 
-        vm.toDateOptions = {
-            format: "dd M yyyy",
-            startDate: $filter("date")(vm.date.fromDate, "dd MMM yyyy")
-        };
+        oThis.updateSearch = oThis.updateSearch.bind(oThis);
 
-        vm.fromDateOptions = {
-            format: "dd M yyyy"
-        };
+        oThis.clearAllFilters = oThis.clearAllFilters.bind(oThis);
 
-        vm.popupFrom = {
-            opened: false
-        };
+        _init();
 
-        vm.popupTo = {
-            opened: false
-        };
+        function _init() {
 
+            EventStore.getEventList(oThis.clusterId)
+                .then((list) => {
+                    clearInterval(oThis.eventTimer);
 
-        init();
+                    oThis.setState({
+                        eventList: list
+                    });
 
-        function startEventTimer() {
-            eventTimer = $interval(function() {
-                init();
-            }, 1000 * config.eventsRefreshIntervalTime, 1);
-        }
+                    oThis.setState({
+                        isDataLoading: false
+                    });
 
-        function init() {
-            vm.clusterId = $stateParams.clusterId;
-            $rootScope.selectedClusterOption = vm.clusterId;
+                    _startEventTimer();
+                }).catch((e) => {
 
-            eventStore.getEventList(vm.clusterId)
-                .then(function(list) {
-                    $interval.cancel(eventTimer);
-                    vm.eventList = list;
-                    vm.isDataLoading = false;
-                    startEventTimer();
-                }).catch(function(e) {
-                    vm.eventList = [];
-                }).finally(function() {
-                    vm.isDataLoading = false;
+                    oThis.setState({
+                        eventList: []
+                    });
+                }).finally(() => {
+                    oThis.setState({
+                        isDataLoading: false
+                    });
                 });
         }
 
+        function _startEventTimer() {
+            oThis.eventTimer = setInterval(function() {
+                _init();
+            }, 1000 * config.eventsRefreshIntervalTime, 1);
 
-        $scope.$on("$destroy", function() {
-            $interval.cancel(eventTimer);
-        });
-
-        function openFromDate() {
-            vm.popupFrom.opened = true;
-        };
-
-        function openToDate() {
-            vm.popupTo.opened = true;
-        };
-
-        function filterByCreatedDate(list) {
-            var dateList,
-                dateTo,
-                dateFrom;
-
-            dateList = new Date(list.timeStamp);
-            dateFrom = new Date(vm.date.fromDate);
-            dateTo = new Date(vm.date.toDate);
-            if (vm.date.fromDate && vm.date.toDate) {
-                _checkValidDates();
-                if (vm.date.fromDate.valueOf() === vm.date.toDate.valueOf()) {
-                    return dateList.getDate() === dateTo.getDate();
-                } else {
-                    dateTo = dateTo.setDate(dateTo.getDate() +1);
-                    return Date.parse(dateList) >= Date.parse(dateFrom) && Date.parse(dateList) <= dateTo ;
-                }
-            } else if (vm.date.fromDate) {
-                return Date.parse(dateList) >= Date.parse(dateFrom);
-            } else if (vm.date.toDate) {
-                dateTo = dateTo.setDate(dateTo.getDate() +1);
-                return Date.parse(dateList) <= dateTo;
-            } else {
-                return list;
-            }
-        }
-
-        function _checkValidDates() {
-            if (Date.parse(vm.date.toDate) < Date.parse(vm.date.fromDate)) {
-                vm.date.toDate = "";
-                vm.invalidToDate = true;
-            } else {
-                vm.invalidToDate = false;
-            }
-        }
-
-        function clearAllFilters() {
-            vm.date.toDate = null;
-            vm.date.fromDate = null;
-            vm.invalidToDate = false;
-            vm.searchDescText = "";
-        }
-
-        function searchByDesc(list) {
-            if (!vm.searchDescText) {
-                return list;
-            } else if (vm.searchDescText && (list.message.toLowerCase()).indexOf(vm.searchDescText.toLowerCase()) !== -1) {
-                return list;
-            }
-        }
-
-        function showClearAction() {
-            return vm.date.fromDate || vm.date.toDate || vm.searchDescText;
         }
     }
 
-})();
+    updateSearch(e) {
+        this.setState({ search: e.target.value });
+        e.stopPropagation();
+    }
+
+    clearAllFilters(e) {
+        e.preventDefault();
+        this.setState({
+            search: ""
+        });
+        e.stopPropagation();
+    }
+
+    componentWillUnmount() {
+        clearInterval(this.eventTimer);
+    }
+
+    render() {
+        let filteredEvents = this.state.eventList.filter(
+            (event) => {
+                return event.message.toLowerCase().indexOf(this.state.search.toLowerCase()) !== -1;
+            }
+        );
+
+        let eventCount = (filteredEvents.length > 1) ? (filteredEvents.length) + " Events" : (this.state.eventList.length) + " Event";
+
+        let noEventFoundMsgEl = (
+            <center>
+                <div className="blank-slate-pf">
+                    <div className="blank-slate-pf-icon">
+                        <i className="pficon pficon-cluster"></i>
+                    </div>
+                    <h1>No Events Detected</h1>
+                </div>
+            </center>
+        );
+
+        let noFilteredEventFoundMsgEl = (
+            <center className="empty-filter-list">
+                <div className="blank-slate-pf">
+                    <div className="message">No results match the filter criteria</div>
+                    <div className="suggestion">
+                        <div className="title">Suggestions</div>
+                        <div>Please try selecting other filter criteria.</div>
+                    </div>
+                </div>
+            </center>
+        );
+
+        let noEventFoundEl = (!this.state.isDataLoading && this.state.eventList.length === 0) ? noEventFoundMsgEl : null;
+
+        let noFilteredEventFoundEl = (!this.state.isDataLoading && filteredEvents.length === 0 && this.state.eventList.length !== 0) ? noFilteredEventFoundMsgEl : null;
+
+        let tableEl = (
+            <div>
+                <div className="flex-table list-group list-view-pf list-view-pf-view event-list-table">
+                        {filteredEvents.map(event => <Event {...event} key={event.message_id}/>)}
+                </div>
+                <div className="row">
+                    <div className="col-md-12 horizontal-line"></div>
+                </div>
+            </div>
+        );
+
+        let eventData = (!this.state.isDataLoading && filteredEvents.length !== 0) ? tableEl : null;
+
+        return (
+            <div className="tendrl-event-list-view-container container-fluid">
+                <h1 className="bold-text">Events</h1>
+                <div className="row toolbar-pf">
+                    <div className="col-sm-12">
+                        <form className="toolbar-pf-actions">
+                            <div className="form-group date-selector date-filter">
+                                From:
+                                <DatePickerComp type={this.state.date.fromDate} />
+                            </div>
+                            <div className="form-group date-selector to-date-calendar">
+                                To:
+                                <DatePickerComp type={this.state.date.toDate} />
+                            </div>
+                            <div className="toolbar-pf-action-right">
+                                <div className="form-group toolbar-pf-find">
+                                    <input name="search-text" id="search-text" type="text" className="form-control" placeholder="Search" value={this.state.search} onChange={this.updateSearch}/>
+                                    <button className="btn btn-link btn-find" type="button">
+                                        <span className="fa fa-search"></span>
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+                        <div className="row">
+                            <div className="col-md-12 horizontal-line"></div>
+                        </div>
+                        <div className="row toolbar-pf-results extra-margin">
+                            <div className="col-md-5 col-sm-6">
+                                <h5>{eventCount}
+                                </h5>
+                            </div>
+                            <div className="col-md-7 col-sm-6">
+                                <div className="status-options">
+                                    <a onClick={this.clearAllFilters}>Clear All Filters</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {noEventFoundEl}
+                {noFilteredEventFoundEl}
+                <Spinner isDataLoading={this.state.isDataLoading} />
+                {eventData}
+            </div>
+        );
+    };
+}
+
+const props = [];
+
+const ReactEventList = reactDirective => reactDirective(EventList, props);
+ReactEventList.$inject = ["reactDirective"];
+
+angular
+    .module("TendrlModule")
+    .directive("eventList", ReactEventList);
