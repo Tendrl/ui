@@ -233,6 +233,7 @@
             temp.hostCount = cluster.nodes.length || 0;
             temp.state = cluster.status;
             temp.isProfilingEnabled = _getProfileStatus(temp, cluster);
+            temp.readyState = false;
 
             temp.errors = cluster.errors ? cluster.errors : [];
 
@@ -266,6 +267,7 @@
                         temp.message = "Expansion required";
                     } else {
                         temp.message = "Ready to Use";
+                        temp.readyState = true;
                     }
                 }
             } else if (temp.jobType === "UnmanageCluster") {
@@ -287,6 +289,7 @@
                     temp.message = "Expansion required";
                 } else if (!temp.message) {
                     temp.message = "Ready to Use";
+                    temp.readyState = true;
                 }
             }
 

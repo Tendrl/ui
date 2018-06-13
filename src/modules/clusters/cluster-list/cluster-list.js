@@ -51,11 +51,11 @@
         vm.getClass = getClass;
         vm.expandCluster = expandCluster;
         vm.hideExpandBtn = hideExpandBtn;
-        vm.isTooltipEnable = isTooltipEnable;
         vm.goToClusterHost = goToClusterHost;
         vm.showViewDetailsLink = showViewDetailsLink;
         vm.showDisableLink = showDisableLink;
         vm.showEnableLink = showEnableLink;
+        vm.getTemplate = getTemplate;
 
         vm.filterConfig = {
             fields: [{
@@ -304,9 +304,6 @@
                 (cluster.managed === "Yes" && cluster.state !== "expand_pending"));
         }
 
-        function isTooltipEnable(message) {
-            return (message !== "Expansion required" && message !== "Expansion Failed" && message !== "Expanding cluster");
-        }
 
         function getClass(cluster) {
             var cls;
@@ -362,6 +359,25 @@
             return cluster.isProfilingEnabled === "Disabled" ||
                 cluster.isProfilingEnabled === "Mixed" ||
                 cluster.isProfilingEnabled === "Unknown";
+        }
+
+        function getTemplate(cluster) {
+            var tooltip = {
+                    "unmanagecluster": "If unmanage fails, resolve the issue and reinitiate unmanage cluster.",
+                    "importcluster": "If import cluster fails, resolve the issue before performing an unmanage cluster and reinitiate import.",
+                    "expandclusterwithdetectedpeers": "If cluster expansion fails, check if tendrl-ansible was executed successfully and ensure the node agents are correctly configured.",
+                    "ready": "The cluster is successfully imported for viewing monitoring data and metrics."
+                },
+                template = "";
+
+            if (cluster.currentStatus === "failed") {
+                template = tooltip[cluster.jobType.toLowerCase()];
+
+            } else if (cluster.readyState) {
+                template = tooltip["ready"];
+            }
+
+            return template;
         }
 
         /***Private Functions***/
