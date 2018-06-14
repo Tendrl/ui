@@ -428,12 +428,13 @@
         }
 
         function _mantainExpandedState(data) {
-            var subVolData = JSON.parse(JSON.stringify(vm.subVolumeList)),
+            var subVolData = JSON.parse(JSON.stringify(vm.filteredBrickList)),
                 len = subVolData.length,
                 subVolume,
                 i;
 
             vm.subVolumeList = data;
+            vm.filteredBrickList = data;
 
             for (i = 0; i < len; i++) {
                 subVolume = _isSubVolPresent(subVolData[i]);
@@ -443,6 +444,8 @@
                     vm.subVolumeList[subVolume.index].activeTab = subVolume.subVolume.activeTab;
                 }
             }
+
+            _filterChange(vm.filters);
         }
 
         function _isSubVolPresent(subVolume) {
