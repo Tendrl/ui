@@ -6,8 +6,7 @@
             <li>Import Cluster</li>
         </ol>
         <div ng-show="vm.failedImport" class="alert alert-warning">
-            <span class="pficon pficon-warning-triangle-o"></span>
-            Import cluster previously failed with <a ng-click="vm.openImportErrorModal(vm.taskId)" class="alert-link">{{vm.taskId}}</a>. Be sure that all the issues have been corrected and the cluster has been unmanaged before proceeding.
+            <span class="pficon pficon-warning-triangle-o"></span> Import cluster previously failed with <a ng-click="vm.openImportErrorModal(vm.taskId)" class="alert-link">{{vm.taskId}}</a>. Be sure that all the issues have been corrected and the cluster has been unmanaged before proceeding.
         </div>
         <div class="alert alert-danger" ng-show="vm.errorMsg.length > 0">
             <span class="pficon pficon-error-circle-o"></span>
@@ -19,7 +18,7 @@
                 <label class="col-sm-2 col-md-1" for="clusterName">Cluster Name</label>
                 <div class="col-sm-4 col-md-3">
                     <div class="row">
-                    <input class="col-md-12 col-sm-12" type="text" name="clusterName" ng-model="vm.clusterName"/>
+                        <input class="col-md-12 col-sm-12" type="text" name="clusterName" ng-model="vm.clusterName" />
                     </div>
                     <div class="row name-validation-msg">Only alphanumeric and underscore characters are allowed.</div>
                 </div>
@@ -53,9 +52,9 @@
                 <!-- /col -->
             </div>
             <div class="row " ng-show="vm.filteredHostList.length ">
-                <h3 ng-if="vm.hostList.length !== 0" class="col-sm-12 ">{{vm.filteredHostList.length}} 
-                    <ng-pluralize count="vm.filteredHostList.length " when="{ 'one': 'Host', 'other': 'Hosts'} "></ng-pluralize> 
-                Discovered</h3>
+                <h3 ng-if="vm.hostList.length !== 0" class="col-sm-12 ">{{vm.filteredHostList.length}} of {{vm.hostList.length}} Discovered
+-                    <ng-pluralize count="vm.hostList.length " when="{ 'one': 'Host', 'other': 'Hosts'} "></ng-pluralize> 
+-                </h3>
             </div>
             <div ng-if="vm.isDataLoading" class="spinner spinner-lg"></div>
             <center ng-show="!vm.isDataLoading && vm.filteredHostList.length===0 ">
