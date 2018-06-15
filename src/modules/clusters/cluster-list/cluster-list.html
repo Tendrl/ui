@@ -63,12 +63,48 @@
                                     <i class="glyphicon glyphicon-refresh glyphicon-refresh-animate" data-ng-class="{'hidden': clusterCntrl.enProfilingBtnClicked !== true }"></i>
                                 </a>
                             </li>
+                            <pf-modal-overlay 
+                                show-modal="clusterCntrl.showUnmanageModal" 
+                                on-close="clusterCntrl.closeUnmanageModal(dismissCause)" 
+                                modal-id="clusterCntrl.unmanageModalId" 
+                                modal-title="clusterCntrl.unmanageModalTitle" 
+                                modal-body-template="clusterCntrl.unmanageTemplate" 
+                                action-buttons="clusterCntrl.unmanageActionButtons"
+                                modal-body-scope="clusterCntrl.unmanageCluster">
+                            </pf-modal-overlay>
+                            <pf-modal-overlay 
+                                show-modal="clusterCntrl.showUnmanageProgress" 
+                                on-close="clusterCntrl.closeUnmanageProgress(dismissCause)" 
+                                modal-id="clusterCntrl.unmanageProgressId" 
+                                modal-title="clusterCntrl.unmanageProgressTitle" 
+                                modal-body-template="clusterCntrl.unmanageProgressTemplate" 
+                                action-buttons="clusterCntrl.unmanageProgressActionButtons"
+                                modal-body-scope="clusterCntrl.unmanageCluster">
+                            </pf-modal-overlay>
+                            <pf-modal-overlay 
+                                show-modal="clusterCntrl.showHost" 
+                                on-close="clusterCntrl.closeHostModal(dismissCause)" 
+                                modal-id="clusterCntrl.hostModalId" 
+                                modal-title="clusterCntrl.hostModalTitle" 
+                                modal-body-template="clusterCntrl.hostModalTemplate" 
+                                action-buttons="clusterCntrl.hostModalActionButtons"
+                                modal-body-scope="clusterCntrl.hostCluster">
+                            </pf-modal-overlay>
+                            <pf-modal-overlay 
+                                show-modal="clusterCntrl.showExpand" 
+                                on-close="clusterCntrl.closeExpandModal(dismissCause)" 
+                                modal-id="clusterCntrl.expandModalId" 
+                                modal-title="clusterCntrl.expandModalTitle" 
+                                modal-body-template="clusterCntrl.expandModalTemplate" 
+                                action-buttons="clusterCntrl.expandModalActionButtons"
+                                modal-body-scope="clusterCntrl.expandCluster">
+                            </pf-modal-overlay>
                             <li ng-class="{'disable-pointer': $root.userRole === 'limited' || cluster.disableUnmanage}">
-                                <a ng-click="clusterCntrl.doClusterUnmanage(cluster)" uib-tooltip="Unmanage Cluster">Unmanage
+                                <a ng-click="clusterCntrl.openUnmanageModal(cluster)" uib-tooltip="Unmanage Cluster">Unmanage
                                 </a>
                             </li>
                             <li ng-class="{'disable-pointer': (clusterCntrl.hideExpandBtn(cluster) || cluster.disableExpand)}">
-                                <a ng-click="clusterCntrl.expandCluster(cluster)" uib-tooltip="Expand Cluster">Expand
+                                <a ng-click="clusterCntrl.openExpandModal(cluster)" uib-tooltip="Expand Cluster">Expand
                                 </a>
                             </li>
                         </ul>

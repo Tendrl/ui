@@ -28,7 +28,6 @@
         vm.isDataLoading = true;
         vm.addNewUser = addNewUser;
         vm.editUserDetail = editUserDetail;
-        vm.deleteUser = deleteUser;
         vm.toggleNotification = toggleNotification;
 
         vm.filterConfig = {
@@ -52,6 +51,54 @@
             onFilterChange: _filterChange
         };
 
+        /*BEGIN Delete User modal*/
+        vm.showDeleteUserModal = false;
+        vm.deleteUser = deleteUser;
+        vm.closeDeleteUserModal = closeDeleteUserModal;
+        vm.deleteUserModalTitle = "Delete User";
+        vm.deleteUserModalId = "deleteUserModal";
+        vm.deleteUserModalTemplate = "/modules/users/delete-user/delete-user.html";
+        vm.deleteUserModalActionButtons = [{
+                label: "Cancel",
+                isCancel: true
+            },
+            {
+                label: "Delete",
+                class: "btn-danger custom-class",
+                actionFn: function() {
+                    userStore.deleteUser(vm.deleteUser.username)
+                        .then(function(data) {
+                            vm.showDeleteUserModal = false;
+                            userStore.getUserList()
+                                .then(function(data) {
+                                    if (data !== null) {
+                                        $rootScope.$broadcast("UpdatedUserList", data);
+                                    }
+                                    Notifications.message("success", "", vm.deleteUser.username + " deleted Successfully.");
+                                });
+
+                        }).catch(function(e) {
+                            vm.showDeleteUserModal = false;
+                            Notifications.message("danger", "", "Error deleting " + vm.deleteUser.username);
+                        });
+
+                }
+
+            }
+        ];
+
+        function deleteUser(username) {
+            vm.showDeleteUserModal = true;
+            vm.deleteUser = {};
+            vm.deleteUser.username = username;
+        }
+
+        function closeDeleteUserModal(dismissCause) {
+            vm.showDeleteUserModal = false;
+        }
+
+        /*END Delete User modal*/
+
         init();
 
         function init() {
@@ -71,6 +118,8 @@
         $scope.$on("UpdatedUserList", function(event, data) {
             if (data !== null) {
                 vm.userList = data;
+                vm.filteredUserList = vm.userList;
+                _filterChange(vm.filters);
             }
         });
 
@@ -80,34 +129,6 @@
 
         function editUserDetail(username) {
             $state.go("edit-user", { userId: username });
-        }
-
-        function deleteUser(username) {
-            var wizardDoneListener,
-                modalInstance,
-                closeWizard;
-
-            modalInstance = $uibModal.open({
-                animation: true,
-                backdrop: "static",
-                templateUrl: "/modules/users/delete-user/delete-user.html",
-                controller: "deleteUserController",
-                controllerAs: "vm",
-                size: "md",
-                resolve: {
-                    selectedUser: function() {
-                        return username;
-                    }
-                }
-            });
-
-            closeWizard = function(e, reason) {
-                modalInstance.dismiss(reason);
-                wizardDoneListener();
-            };
-
-            modalInstance.result.then(function() {}, function() {});
-            wizardDoneListener = $rootScope.$on("modal.done", closeWizard);
         }
 
         function toggleNotification(user) {

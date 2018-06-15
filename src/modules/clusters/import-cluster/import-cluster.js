@@ -15,7 +15,7 @@
         });
 
     /*@ngInject*/
-    function importClusterController($state, $rootScope, $stateParams, $uibModal, clusterStore, Notifications) {
+    function importClusterController($state, $rootScope, $stateParams, $uibModal, clusterStore, taskStore, Notifications) {
 
         var vm = this;
 
@@ -34,7 +34,6 @@
         vm.importCluster = importCluster;
         vm.importCancel = importCancel;
         vm.viewTaskProgress = viewTaskProgress;
-        vm.openImportErrorModal = openImportErrorModal;
 
         vm.filterConfig = {
             fields: [{
@@ -62,6 +61,43 @@
             { header: "Host", itemField: "fqdn" },
             { header: "Address", itemField: "ipAddress" }
         ];
+
+        /*BEGIN error modal*/
+        vm.showErrorModal = false;
+        vm.openImportErrorModal = openImportErrorModal;
+        vm.closeErrorModal = closeErrorModal;
+        vm.errorModalId = "errorModal";
+        vm.errorModalTemplate = "/modules/clusters/import-cluster/import-fail/import-fail.html";
+        vm.errorModalActionButtons = [{
+            label: "Close",
+            class: "btn-primary custom-class",
+            isCancel: true
+        }];
+
+        function openImportErrorModal(taskId) {
+            vm.errorModalTitle = "Details:" + taskId;
+            vm.showErrorModal = true;
+            vm.errorCluster = {};
+            vm.errorCluster.initiateUnmanage = false;
+            vm.errorCluster.enableProfiling = true;
+            vm.errorCluster.taskInitiated = false;
+            vm.errorCluster.isMessagesLoading = true;
+            vm.errorCluster.logs = [];
+            taskStore.getTaskLogs(taskId)
+                .then(function(response) {
+                    vm.errorCluster.logs = response;
+                    vm.errorCluster.isMessagesLoading = false;
+                }).catch(function(e) {
+                    vm.errorCluster.isMessagesLoading = false;
+                });
+        }
+
+        function closeErrorModal(dismissCause) {
+            vm.showErrorModal = false;
+        }
+
+        /*END error modal*/
+
 
         init();
 
@@ -91,34 +127,6 @@
                 vm.isDataLoading = false;
                 _filterChange(vm.filters);
             }
-        }
-
-        function openImportErrorModal(taskId) {
-            var wizardDoneListener,
-                modalInstance,
-                closeWizard;
-
-            modalInstance = $uibModal.open({
-                animation: true,
-                backdrop: "static",
-                templateUrl: "/modules/clusters/import-cluster/import-fail/import-fail.html",
-                controller: "importFailController",
-                controllerAs: "vm",
-                size: "lg",
-                resolve: {
-                    failedJob: function() {
-                        return taskId;
-                    }
-                }
-            });
-
-            closeWizard = function(e, reason) {
-                modalInstance.dismiss(reason);
-                wizardDoneListener();
-            };
-
-            modalInstance.result.then(function() {}, function() {});
-            wizardDoneListener = $rootScope.$on("modal.done", closeWizard);
         }
 
         /**
