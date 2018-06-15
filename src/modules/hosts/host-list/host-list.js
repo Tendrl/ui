@@ -34,7 +34,6 @@
         vm.addTooltip = addTooltip;
         vm.getClass = getClass;
         vm.goToTaskDetail = goToTaskDetail;
-        vm.expandCluster = expandCluster;
 
         vm.sortConfig = {
             fields: [{
@@ -67,6 +66,157 @@
             appliedFilters: [],
             onFilterChange: _filterChange,
         };
+
+
+        /*BEGIN expand modal*/
+        vm.showExpand = false;
+        vm.openExpandModal = openExpandModal;
+        vm.closeExpandModal = closeExpandModal;
+        vm.expandModalId = "expandModal";
+        vm.expandModalTitle = "Expand Cluster";
+        vm.expandModalTemplate = "/modules/clusters/expand-cluster/expand-cluster.html";
+        vm.expandModalActionButtons = [{
+                label: "Cancel",
+                isCancel: true
+            },
+            {
+                label: "Expand",
+                class: "btn-primary custom-class",
+                actionFn: function() {
+                    var jobId;
+                    vm.showExpand = true;
+                    vm.cluster[vm.expandCluster].disableExpand = true;
+                    vm.showExpand = false;
+                    clusterStore.expandCluster(vm.expandCluster.clusterId)
+                        .then(function(data) {
+                            jobId = data.job_id;
+                            vm.cluster[vm.expandCluster].disableExpand = true;
+                            Notifications.message("success", "", "Successfully initiated expand cluster task");
+                        }).catch(function(error) {
+                            Notifications.message("danger", "", "Failed to initiate expand");
+                            vm.cluster[vm.expandCluster].disableExpand = false;
+                        });
+                }
+
+            }
+        ];
+
+        function openExpandModal() {
+            vm.showExpand = true;
+            vm.expandCluster = {};
+            vm.expandCluster.disableExpand = false;
+            vm.expandCluster = vm.cluster;
+            vm.expandCluster.hostList = [];
+            vm.expandCluster.filteredHostList = [];
+            vm.expandCluster.filters = [];
+            vm.expandCluster.isDataLoading = true;
+            vm.expandCluster.filterConfig = {
+                fields: [{
+                    id: "name",
+                    title: "Name",
+                    placeholder: "Filter by Name",
+                    filterType: "text"
+                }, {
+                    id: "ipAddress",
+                    title: "Address",
+                    placeholder: "Filter by IP Address",
+                    filterType: "text"
+                }],
+                appliedFilters: [],
+                onFilterChange: _filterChange,
+            };
+
+            vm.expandCluster.tableConfig = {
+                selectionMatchProp: "name",
+                itemsAvailable: true,
+                showCheckboxes: false
+            };
+
+            vm.expandCluster.tableColumns = [{
+                header: "Host",
+                itemField: "name"
+            }, {
+                header: "Address",
+                itemField: "ipAddress"
+            }];
+
+            nodeStore.getNodeList(vm.expandCluster.clusterId)
+                .then(function(list) {
+                    vm.expandCluster.hostList = $filter("filter")(list, { managed: "No" });
+                    vm.expandCluster.filteredHostList = vm.expandCluster.hostList;
+                    _filterChange(vm.expandCluster.filters);
+                }).catch(function(e) {
+                    vm.expandCluster.hostList = [];
+                    vm.expandCluster.filteredHostList = vm.expandCluster.hostList;
+                    _filterChange(vm.expandCluster.filters);
+                }).finally(function() {
+                    vm.expandCluster.isDataLoading = false;
+                });
+        }
+
+        function closeExpandModal(dismissCause) {
+            vm.showExpand = false;
+
+        }
+
+        //***Private Functions***
+
+        function _matchesExpandFilter(item, filter) {
+            var match = true;
+            var re = new RegExp(filter.value, "i");
+
+            if (filter.id === "name") {
+                match = item.fqdn.match(re) !== null;
+            } else if (filter.id === "ipAddress") {
+                match = item.ipAddress.match(re) !== null;
+            }
+            return match;
+        }
+
+        function _matchesExpandFilters(item, filters) {
+            var matches = true;
+
+            filters.forEach(function(filter) {
+                if (!_matchesExpandFilter(item, filter)) {
+                    matches = false;
+                    return false;
+                }
+            });
+            return matches;
+        }
+
+        function _applyExpandFilters(filters) {
+            vm.hostCluster.filtered = [];
+            if (filters && filters.length > 0) {
+                vm.hostCluster.hosts.forEach(function(item) {
+                    if (_matchesExpandFilters(item, filters)) {
+                        vm.hostCluster.filtered.push(item);
+                    }
+                });
+            } else {
+                vm.hostCluster.filtered = vm.hostCluster.hosts;
+            }
+            vm.hostCluster.filterConfig.resultsCount = vm.hostCluster.filtered.length;
+        }
+
+        function _filterExpandChange(filters) {
+            vm.hostCluster.filtersText = "";
+            vm.hostCluster.filters = filters;
+            filters.forEach(function(filter) {
+                vm.hostCluster.filtersText += filter.title + " : ";
+                if (filter.value.title) {
+                    vm.hostCluster.filtersText += filter.value.title;
+                } else {
+                    vm.hostCluster.filtersText += filter.value;
+                }
+                vm.hostCluster.filtersText += "\n";
+            });
+            _applyExpandFilters(filters);
+        }
+
+        //--------------------------------
+
+        /*END expand modal*/
 
         init();
 
@@ -165,34 +315,6 @@
             if (vm.clusterId) {
                 $state.go("host-detail", { clusterId: vm.clusterId, hostId: host.id });
             }
-        }
-
-        function expandCluster() {
-            var wizardDoneListener,
-                modalInstance,
-                closeWizard;
-
-            modalInstance = $uibModal.open({
-                animation: true,
-                backdrop: "static",
-                templateUrl: "/modules/clusters/expand-cluster/expand-cluster.html",
-                controller: "expandClusterController",
-                controllerAs: "vm",
-                size: "lg",
-                resolve: {
-                    selectedCluster: function() {
-                        return vm.cluster;
-                    }
-                }
-            });
-
-            closeWizard = function(e, reason) {
-                modalInstance.dismiss(reason);
-                wizardDoneListener();
-            };
-
-            modalInstance.result.then(function() {}, function() {});
-            wizardDoneListener = $rootScope.$on("modal.done", closeWizard);
         }
 
         /***Private Functions****/

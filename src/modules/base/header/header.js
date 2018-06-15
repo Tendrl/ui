@@ -27,7 +27,6 @@
         vm.setNotificationFlag = setNotificationFlag;
         vm.goToClusterPage = goToClusterPage;
         vm.getClusterName = getClusterName;
-        vm.userSetting = userSetting;
         vm.closeNotificationBar = closeNotificationBar;
 
         vm.filterBySeverity = filterBySeverity;
@@ -46,6 +45,133 @@
                 vm.severityList = utils.getAlertSeverityList(vm.alertList);
             }
         });
+
+        /*BEGIN user setting modal*/
+        vm.userScope = {};
+        vm.currentState = $state.current.name;
+        vm.showUserSetting = false;
+        vm.userSetting = userSetting;
+        vm.closeUserSetting = closeUserSetting;
+        vm.toggleTypePassword = toggleTypePassword;
+        vm.toggleConfirmPassword = toggleConfirmPassword;
+        vm.userSettingId = "userSettingModal";
+        vm.userSettingTitle = "My Settings";
+        vm.userSettingTemplate = "/modules/base/user-setting/user-setting.html";
+        vm.isForm = true;
+
+        vm.userSettingActionButtons = [{
+                label: "Cancel",
+                isCancel: true
+            },
+            {
+                label: "Save",
+                class: "btn-primary custom-class",
+                actionFn: function() {
+                    vm.userScope.formSubmitInProgress = true;
+                    if (_validateUIFields()) {
+                        vm.userScope.user.notification = vm.userScope.user.email_notifications;
+                        userStore.editUser(vm.userScope.user)
+                            .then(function(data) {
+                                vm.showUserSetting = false;
+                                if (vm.currentState === "users") {
+                                    userStore.getUserList()
+                                        .then(function(data) {
+                                            if (data !== null) {
+                                                $rootScope.$broadcast("UpdatedUserList", data);
+                                            }
+
+                                        });
+                                }
+                                Notifications.message("success", "", " Profile updated Successfully.");
+                            }).catch(function(e) {
+                                var keys,
+                                    messages;
+
+                                if (e.status === 422) {
+                                    keys = Object.keys(e.data.errors);
+                                    messages = Object.values(e.data.errors)[0];
+
+                                    if (keys.indexOf("email") !== -1) {
+                                        if (messages.indexOf("is taken") !== -1) {
+                                            vm.userScope.errorMsg = "Email is already taken. Please use different one.";
+                                        } else if (messages.indexOf("is invalid") !== -1) {
+                                            vm.userScope.errorMsg = "Please enter a valid Email Id";
+                                        }
+                                    } else if (keys.indexOf("name") !== -1) {
+                                        vm.userScope.errorMsg = "Name is too short (minimum is 4 characters).";
+                                    }
+                                } else {
+                                    vm.showUserSetting = false;
+                                    Notifications.message("danger", "", " Failed to update profile.");
+                                }
+                            });
+
+
+                    } else {
+                        vm.userScope.formSubmitInProgress = false;
+                    }
+                }
+
+            }
+        ];
+
+        function userSetting() {
+            vm.userScope.typePassword = false;
+            vm.userScope.confirmPassword = false;
+            vm.userScope.isDataLoading = true;
+            vm.showUserSetting = true;
+            userStore.getUserInfo()
+                .then(function(data) {
+                    vm.userScope.isDataLoading = false;
+                    vm.userScope.user = data;
+                    vm.userScope.user["password"]= "";
+                    vm.userScope.user["confirmPassword"]= "";
+                });
+        }
+
+        function toggleTypePassword() {
+            vm.userScope.typePassword = !vm.userScope.typePassword;
+        }
+
+        function toggleConfirmPassword() {
+            vm.userScope.confirmPassword = !vm.userScope.confirmPassword;
+        }
+
+
+        function closeUserSetting(dismissCause) {
+            vm.showUserSetting = false;
+        }
+
+        /***Private Functions***/
+
+        function _validateUIFields() {
+            var isFormValid = true,
+                form = vm.userScope.user;
+            if (form.name.$invalid) {
+                vm.userScope.errorMsg = "Please specify valid Name."
+                isFormValid = false;
+            } else if (!_isPasswordSame()) {
+                vm.userScope.errorMsg = "Password and Confirm Password doesn't match.";
+                isFormValid = false;
+            } else if (form.password.$invalid) {
+                vm.userScope.errorMsg = "Password should be 8 characters minimum";
+                isFormValid = false;
+            } else if (form.email.$invalid) {
+                vm.userScope.errorMsg = "Please enter Email id.";
+                isFormValid = false;
+            }
+
+            return isFormValid;
+        }
+
+        function _isPasswordSame() {
+            if (vm.userScope.user.password == vm.userScope.user.confirmPassword) {
+                return true;
+            } else {
+                return false;
+            }
+        }
+        /*END Unmanage confirm modal*/
 
         init();
 
@@ -84,7 +210,7 @@
             vm.showAlerts = false;
         }
 
-        function updateViewing (viewing, data) {
+        function updateViewing(viewing, data) {
             Notifications.setViewing(data, viewing);
         }
 
@@ -100,29 +226,6 @@
                     AuthManager.isUserLoggedIn = true;
                     console.log("Logout Error: Logout Not Successful");
                 });
-        }
-
-        function userSetting() {
-            var wizardDoneListener,
-                modalInstance,
-                closeWizard;
-
-            modalInstance = $uibModal.open({
-                animation: true,
-                backdrop: "static",
-                templateUrl: "/modules/base/user-setting/user-setting.html",
-                controller: "userSettingController",
-                controllerAs: "vm",
-                size: "md"
-            });
-
-            closeWizard = function(e, reason) {
-                modalInstance.dismiss(reason);
-                wizardDoneListener();
-            };
-
-            modalInstance.result.then(function() {}, function() {});
-            wizardDoneListener = $rootScope.$on("modal.done", closeWizard);
         }
 
         function homePage() {
