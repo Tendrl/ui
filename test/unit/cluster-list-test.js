@@ -142,50 +142,6 @@ describe("Unit Component: clusterList", function() {
             expect(event.stopPropagation.calledOnce).to.be.true;
         });
 
-        it("Should open modal to see error logs in case of import failure", function() {
-            var cluster = clusterList.clusters[1],
-                fakeResult = {
-                    result: $q.resolve()
-                };
-
-            sinon.stub($uibModal, "open").returns(fakeResult);
-            vm.openErrorModal(cluster);
-            expect($uibModal.open.calledOnce).to.be.true;
-        });
-
-        it("Should open modal to see Host for a cluster", function() {
-            var cluster = clusterList.clusters[0],
-                fakeResult = {
-                    result: $q.resolve()
-                };
-
-            sinon.stub($uibModal, "open").returns(fakeResult);
-            vm.openHostModal(cluster);
-            expect($uibModal.open.calledOnce).to.be.true;
-        });
-
-        it("Should open modal to expand cluster", function() {
-            var cluster = clusterList.clusters[0],
-                fakeResult = {
-                    result: $q.resolve()
-                };
-
-            sinon.stub($uibModal, "open").returns(fakeResult);
-            vm.expandCluster(cluster);
-            expect($uibModal.open.calledOnce).to.be.true;
-        });
-
-        it("Should open modal to unmanage cluster", function() {
-            var cluster = clusterList.clusters[0],
-                fakeResult = {
-                    result: $q.resolve()
-                };
-
-            sinon.stub($uibModal, "open").returns(fakeResult);
-            vm.doClusterUnmanage(cluster);
-            expect($uibModal.open.calledOnce).to.be.true;
-        });
-
         it("Should set the flag by addTooltip", function() {
             // Exercise SUT
             sinon.stub(utils, "tooltip").returns(true);

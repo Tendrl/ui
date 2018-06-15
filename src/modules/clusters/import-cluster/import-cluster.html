@@ -5,6 +5,15 @@
             <li><a ui-sref="clusters">Clusters</a></li>
             <li>Import Cluster</li>
         </ol>
+        <pf-modal-overlay 
+            show-modal="vm.showErrorModal" 
+            on-close="vm.closeErrorModal(dismissCause)" 
+            modal-id="vm.errorModalId" 
+            modal-title="vm.errorModalTitle" 
+            modal-body-template="vm.errorModalTemplate" 
+            action-buttons="vm.errorModalActionButtons" 
+            modal-body-scope="vm.errorCluster">
+        </pf-modal-overlay>
         <div ng-show="vm.failedImport" class="alert alert-warning">
             <span class="pficon pficon-warning-triangle-o"></span> Import cluster previously failed with <a ng-click="vm.openImportErrorModal(vm.taskId)" class="alert-link">{{vm.taskId}}</a>. Be sure that all the issues have been corrected and the cluster has been unmanaged before proceeding.
         </div>

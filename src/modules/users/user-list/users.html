@@ -72,6 +72,15 @@
                                 <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
                                     <span class="fa fa-ellipsis-v"></span>
                                 </button>
+                                <pf-modal-overlay 
+                                    show-modal="userCntrl.showDeleteUserModal" 
+                                    on-close="userCntrl.closeDeleteUserModal(dismissCause)" 
+                                    modal-id="userCntrl.deleteUserModalId" 
+                                    modal-title="userCntrl.deleteUserModalTitle" 
+                                    modal-body-template="userCntrl.deleteUserModalTemplate" 
+                                    action-buttons="userCntrl.deleteUserModalActionButtons" 
+                                    modal-body-scope="userCntrl.deleteUser">
+                                </pf-modal-overlay>
                                 <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownKebabRight">
                                     <!-- <li ng-if="(user.status | lowercase) == 'enabled'"><a href="#">Disable User</a></li>
                                 <li ng-if="(user.status | lowercase) == 'disabled'"><a href="#">Enable User</a></li> -->

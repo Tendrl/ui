@@ -4,6 +4,15 @@
         <!-- heading section-->
         <h1 class="bold-text">Hosts</h1>
         <!-- Actions section -->
+        <pf-modal-overlay 
+            show-modal="hostCntrl.showExpand" 
+            on-close="hostCntrl.closeModal(dismissCause)" 
+            modal-id="hostCntrl.expandModalId" 
+            modal-title="hostCntrl.expandModalTitle" 
+            modal-body-template="hostCntrl.expandModalTemplate" 
+            action-buttons="hostCntrl.expandModalActionButtons" 
+            modal-body-scope="hostCntrl.expandCluster">
+        </pf-modal-overlay>
         <div class="row toolbar-pf">
             <div class="col-md-12">
                 <form class="toolbar-pf-actions">
@@ -14,11 +23,11 @@
                         <pf-sort id="hostSort" config="hostCntrl.sortConfig"></pf-sort>
                     </div>
                     <div class="form-group sort-component hide-border pull-right">
-                        <button ng-hide="hostCntrl.hideExpandBtn" ng-disabled="hostCntrl.expansionInProgress || hostCntrl.cluster.disableExpand" ng-click="hostCntrl.expandCluster()">Expand Cluster</button>
+                        <button ng-hide="hostCntrl.hideExpandBtn" ng-disabled="hostCntrl.expansionInProgress || hostCntrl.cluster.disableExpand" ng-click="hostCntrl.openExpandModal()">Expand Cluster</button>
                     </div>
                     <div class="form-group sort-component pull-right" ng-show="!hostCntrl.hideExpandBtn || hostCntrl.expansionInProgress">
-                        {{hostCntrl.cluster.disableExpand ? "Expanding cluster" : hostCntrl.expansionMsg}}    
-                        <a ng-click="hostCntrl.goToTaskDetail()" ng-show="hostCntrl.cluster.currentStatus === 'in_progress' || hostCntrl.cluster.currentStatus === 'failed'" class="details-link">View Details</a>                    
+                        {{hostCntrl.cluster.disableExpand ? "Expanding cluster" : hostCntrl.expansionMsg}}
+                        <a ng-click="hostCntrl.goToTaskDetail()" ng-show="hostCntrl.cluster.currentStatus === 'in_progress' || hostCntrl.cluster.currentStatus === 'failed'" class="details-link">View Details</a>
                     </div>
                 </form>
                 <div class="row toolbar-pf-results">
@@ -80,16 +89,16 @@
                 <div class="ft-column ft-actions">
                     <button ng-show="host.role !== 'Tendrl Server' && host.managed === 'Yes'" class="btn btn-default dashboard-btn" ng-click="hostCntrl.redirectToGrafana(host, $event)" tooltip-enable="hostCntrl.flag" ng-mouseover="hostCntrl.addTooltip($event)" uib-tooltip="Dashboard">Dashboard</button>
                     <div ng-show="host.managed === 'No'">
-                        <div ng-show="hostCntrl.cluster.state === 'expand_pending'"">Ready to import.</div>
-                        <div ng-show="hostCntrl.cluster.state === 'expanding' && hostCntrl.cluster.currentStatus === 'in_progress'">Importing host.</div>
-                        <div ng-show="hostCntrl.cluster.state === 'expanding' && hostCntrl.cluster.currentStatus === 'failed'">Import failed.</div>
+                        <div ng-show="hostCntrl.cluster.state === 'expand_pending'" ">Ready to import.</div>
+                        <div ng-show="hostCntrl.cluster.state==='expanding' && hostCntrl.cluster.currentStatus==='in_progress' ">Importing host.</div>
+                        <div ng-show="hostCntrl.cluster.state==='expanding' && hostCntrl.cluster.currentStatus==='failed' ">Import failed.</div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-    <div class="row" ng-show="hostCntrl.filteredHostList.length !== 0">
-        <div class="col-md-12 horizontal-line"></div>
+    <div class="row " ng-show="hostCntrl.filteredHostList.length !==0 ">
+        <div class="col-md-12 horizontal-line "></div>
     </div>
 </div>
 </div>

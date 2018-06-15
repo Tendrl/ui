@@ -98,17 +98,6 @@ describe("Unit Component: UserList", function() {
             expect($state.go.calledWith("edit-user", { userId: user.username }));
         });
 
-        it("Should open modal to expand cluster", function() {
-            var user = userList.users[0];
-            var fakeResult = {
-                result: $q.resolve()
-            };
-
-            sinon.stub($uibModal, "open").returns(fakeResult);
-            vm.deleteUser(user.username);
-            expect($uibModal.open.calledOnce).to.be.true;
-        });
-
         it("Should toggle notification", function() {
             var user = userList.users[0],
                 userDeferred = $q.defer();
