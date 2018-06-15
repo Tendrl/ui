@@ -13,8 +13,12 @@
         padding-left: 0;
     }
 
-    .toolbar-pf-results > span {
-        display: none;
+    .toolbar-pf-results {
+        margin-left: 0;
+
+        & > span {
+            display: none;
+        }
     }
 
     .ffont {

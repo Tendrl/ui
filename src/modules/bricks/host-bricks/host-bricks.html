@@ -12,13 +12,13 @@
                     </div>
                 </form>
                 <div class="row toolbar-pf-results">
-                    <div class="col-md-1">
+                    <div class="pull-left">
                         <h5 ng-if="vm.brickList.length !== 0">{{vm.filteredBrickList.length}} 
                             <ng-pluralize count="vm.filteredBrickList.length" when="{'one': 'Brick',
                        'other': 'Bricks'}"></ng-pluralize>
                         </h5>
                     </div>
-                    <div class="col-md-1" ng-show="vm.stoppedBrickCnt">
+                    <div class="pull-left" ng-show="vm.stoppedBrickCnt">
                         <span uib-tooltip="Stopped" class="fa ffont fa-stop-circle-o"></span>
                         <h5>{{vm.stoppedBrickCnt}}</h5>
                     </div>

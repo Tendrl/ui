@@ -4,63 +4,42 @@
 
     testDataModule.value("importCluster", {
         clusters: [{
-            "sds_name": "gluster",
-            "cluster_name": "gluster-7a29bf0489ff01c0d0b02c40b1f75193aed12f51c1728104649f6a3bf34527b7",
-            "cluster_id": "ef7d719d-945d-4512-8d88-2806b52872d4",
-            "integration_id": "ef7d719d-945d-4512-8d88-2806b52872d4",
-            "hash": "589ad2e0726e1f07f16a2a53ee7f778f",
-            "sds_version": "4.1dev",
-            "updated_at": "2018-03-29 09:05:35.470419+00:00",
+            "integrationId": "34716aa4-7a0a-45de-83f9-9c08d4899a46",
+            "name": "test_cluster",
+            "sdsVersion": "3.12.9-1",
+            "clusterId": "34716aa4-7a0a-45de-83f9-9c08d4899a46",
+            "sdsName": "gluster",
+            "showSdsName": "Gluster",
             "errors": [],
-            "globaldetails": {
-                "status": "healthy",
-                "volume_up_degraded": "0",
-                "vol_count": "2",
-                "integration_id": "",
-                "connection_active": "0",
-                "updated_at": "2018-04-05 06:12:37.569363+00:00",
-                "peer_count": "2",
-                "hash": "dc4ab3e106f0343ca988147dc559fae2",
-                "connection_count": "0"
+            "managed": "No",
+            "isProfilingEnabled": "Disabled",
+            "state": "",
+            "currentTask": {
+                "status": "finished",
+                "job_name": "UnmanageCluster",
+                "job_id": "3459d9ea-3f89-4b8e-8c42-f8d9b503c005"
             },
-            "public_network": "",
-            "cluster_network": "",
-            "is_managed": "yes",
-            "volume_profiling_state": "enabled",
-            "alert_counters": {
-                "integration_id": "ef7d719d-945d-4512-8d88-2806b52872d4",
-                "hash": "6130c978aa1661847ad3926e1105cad5",
-                "alert_count": "0",
-                "updated_at": "2018-03-27 09:57:48.838143+00:00"
-            },
-            "status": "",
-            "current_job": "{\"status\": \"finished\", \"job_name\": \"EnableDisableVolumeProfiling\", \"job_id\": \"72d170f3-6736-4301-99ae-7d96b3c130f3\"}",
-            "nodes": [{
-                "last_sync": "2018-04-05 06:12:44.017135+00:00",
+            "jobType": "UnmanageCluster",
+            "currentStatus": "finished",
+            "currentTaskId": "3459d9ea-3f89-4b8e-8c42-f8d9b503c005",
+            "volCount": 0,
+            "alertCount": 0,
+            "hostCount": 2,
+            "message": "Ready to Import",
+            "hosts": [{
                 "status": "UP",
-                "hash": "3912ea133b9637333a2c4842ad290935",
-                "tags": ["tendrl/integration/gluster", "detected_cluster/7a29bf0489ff01c0d0b02c40b1f75193aed12f51c1728104649f6a3bf34527b7", "tendrl/integration/ef7d719d-945d-4512-8d88-2806b52872d4", "gluster/server", "tendrl/node_e05c2a88-d9b2-44fd-acd8-5af23c514f2c", "provisioner/ef7d719d-945d-4512-8d88-2806b52872d4", "tendrl/node"],
-                "sync_status": "done",
-                "fqdn": "dhcp42-91.lab.eng.blr.redhat.com",
-                "updated_at": "2018-04-05 06:13:02.975389+00:00",
-                "node_id": "e05c2a88-d9b2-44fd-acd8-5af23c514f2c",
-                "first_sync_done": "yes",
-                "ipv4_addr": "10.70.42.91",
-                "is_managed": "yes",
-                "node_id": "e05c2a88-d9b2-44fd-acd8-5af23c514f2c"
+                "fqdn": "tendrl-node-1",
+                "nodeId": "5395ac3b-4a50-47bc-9821-7178db0ca7e1",
+                "ipAddress": "172.28.128.137",
+                "role": "Gluster Peer",
+                "release": "gluster"
             }, {
-                "fqdn": "dhcp42-135.lab.eng.blr.redhat.com",
-                "updated_at": "2018-04-05 06:13:25.897682+00:00",
-                "ipv4_addr": "10.70.42.135",
-                "is_managed": "yes",
-                "hash": "45b72ab39f8e4cb5398db5b9b20e8acf",
-                "tags": ["tendrl/integration/gluster", "detected_cluster/7a29bf0489ff01c0d0b02c40b1f75193aed12f51c1728104649f6a3bf34527b7", "tendrl/integration/ef7d719d-945d-4512-8d88-2806b52872d4", "gluster/server", "tendrl/node_af48b10a-64cd-40eb-8f13-a8bd16c30d10", "tendrl/node"],
-                "sync_status": "done",
-                "last_sync": "2018-04-05 06:13:25.615774+00:00",
                 "status": "UP",
-                "first_sync_done": "yes",
-                "node_id": "af48b10a-64cd-40eb-8f13-a8bd16c30d10",
-                "node_id": "af48b10a-64cd-40eb-8f13-a8bd16c30d10"
+                "fqdn": "tendrl-node-2",
+                "nodeId": "352d0751-c23c-48f4-9c49-a0a1d935734e",
+                "ipAddress": "172.28.128.49",
+                "role": "Gluster Peer",
+                "release": "gluster"
             }]
         }],
         formattedOutput: [{
@@ -752,6 +731,7 @@
             errors: [],
             message: "Ready to Use",
             clusterId: "e372c01c-5022-41ce-9412-e96038bca305",
+            readyState: true,
             hosts: [{
                 nodeId: "3d2b015c-08c7-440d-b9af-23aeb4c17f9f",
                 fqdn: "dhcp43-237.lab.eng.blr.redhat.com",
@@ -787,6 +767,7 @@
             errors: [],
             message: "Ready to Import",
             clusterId: "f755f0cd-b784-4920-83c3-db9d576d5935",
+            readyState: false,
             hosts: [{
                 nodeId: "307a15fa-9460-4679-8aee-c58e9a119a7e",
                 fqdn: "dhcp43-226.lab.eng.blr.redhat.com",
@@ -819,6 +800,7 @@
             errors: [],
             message: "Ready to Use",
             clusterId: "e372c01c-5022-41ce-9412-e96038bca305",
+            readyState: true,
             hosts: [{
                 nodeId: "3d2b015c-08c7-440d-b9af-23aeb4c17f9f",
                 fqdn: "dhcp43-237.lab.eng.blr.redhat.com",
@@ -854,6 +836,7 @@
             errors: [],
             message: "Ready to Import",
             clusterId: "f755f0cd-b784-4920-83c3-db9d576d5935",
+            readyState: false,
             hosts: [{
                 nodeId: "307a15fa-9460-4679-8aee-c58e9a119a7e",
                 fqdn: "dhcp43-226.lab.eng.blr.redhat.com",
@@ -886,6 +869,7 @@
             errors: [],
             message: "Ready to Use",
             clusterId: "e372c01c-5022-41ce-9412-e96038bca305",
+            readyState: true,
             hosts: [{
                 nodeId: "3d2b015c-08c7-440d-b9af-23aeb4c17f9f",
                 fqdn: "dhcp43-237.lab.eng.blr.redhat.com",
@@ -921,6 +905,7 @@
             errors: [],
             message: "Ready to Import",
             clusterId: "f755f0cd-b784-4920-83c3-db9d576d5935",
+            readyState: false,
             hosts: [{
                 nodeId: "307a15fa-9460-4679-8aee-c58e9a119a7e",
                 fqdn: "dhcp43-226.lab.eng.blr.redhat.com",
@@ -957,6 +942,7 @@
             errors: [],
             message: "Ready to Import",
             clusterId: "f755f0cd-b784-4920-83c3-db9d576d5935",
+            readyState: false,
             hosts: [{
                 nodeId: "307a15fa-9460-4679-8aee-c58e9a119a7e",
                 fqdn: "dhcp43-226.lab.eng.blr.redhat.com",
@@ -989,6 +975,7 @@
             errors: [],
             message: "Ready to Use",
             clusterId: "e372c01c-5022-41ce-9412-e96038bca305",
+            readyState: true,
             hosts: [{
                 nodeId: "3d2b015c-08c7-440d-b9af-23aeb4c17f9f",
                 fqdn: "dhcp43-237.lab.eng.blr.redhat.com",
@@ -1025,6 +1012,7 @@
             errors: [],
             message: "Ready to Import",
             clusterId: "f755f0cd-b784-4920-83c3-db9d576d5935",
+            readyState: false,
             hosts: [{
                 nodeId: "307a15fa-9460-4679-8aee-c58e9a119a7e",
                 fqdn: "dhcp43-226.lab.eng.blr.redhat.com",
@@ -1057,6 +1045,7 @@
             errors: [],
             message: "Ready to Use",
             clusterId: "e372c01c-5022-41ce-9412-e96038bca305",
+            readyState: true,
             hosts: [{
                 nodeId: "3d2b015c-08c7-440d-b9af-23aeb4c17f9f",
                 fqdn: "dhcp43-237.lab.eng.blr.redhat.com",
@@ -1095,6 +1084,7 @@
             errors: [],
             message: "Ready to Use",
             clusterId: "e372c01c-5022-41ce-9412-e96038bca305",
+            readyState: true,
             hosts: [{
                 nodeId: "3d2b015c-08c7-440d-b9af-23aeb4c17f9f",
                 fqdn: "dhcp43-237.lab.eng.blr.redhat.com",
@@ -1130,6 +1120,7 @@
             errors: [],
             message: "Ready to Import",
             clusterId: "f755f0cd-b784-4920-83c3-db9d576d5935",
+            readyState: false,
             hosts: [{
                 nodeId: "307a15fa-9460-4679-8aee-c58e9a119a7e",
                 fqdn: "dhcp43-226.lab.eng.blr.redhat.com",
@@ -1161,6 +1152,7 @@
             errors: [],
             message: "Ready to Import",
             clusterId: "f755f0cd-b784-4920-83c3-db9d576d5935",
+            readyState: false,
             hosts: [{
                 nodeId: "307a15fa-9460-4679-8aee-c58e9a119a7e",
                 fqdn: "dhcp43-226.lab.eng.blr.redhat.com",

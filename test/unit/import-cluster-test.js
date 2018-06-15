@@ -8,7 +8,7 @@ describe("Unit Component: importCluster", function() {
     var config, utils, importCluster, Notifications, clusterStore;
 
     // Local variables used for testing
-    var getClusterListDeferred, importClusterDeferred, vm, clock, throttled, intervalSpy, timer, args, element;
+    var getClusterDeferred, importClusterDeferred, vm, clock, throttled, intervalSpy, timer, args, element;
 
     // Initialize modules
     beforeEach(function() {
@@ -53,12 +53,11 @@ describe("Unit Component: importCluster", function() {
         $rootScope.clusterData = importCluster.formattedOutput;
         $state.current.name = "import-cluster";
         $stateParams.clusterId = importCluster.formattedOutput[0].clusterId;
-        getClusterListDeferred = $q.defer();
+        getClusterDeferred = $q.defer();
         importClusterDeferred = $q.defer();
 
         sinon.stub($state, "go");
-        sinon.stub(clusterStore, "getClusterList").returns(getClusterListDeferred.promise);
-        sinon.stub(clusterStore, "formatClusterData").returns(importCluster.formattedOutput);
+        sinon.stub(clusterStore, "getCluster").returns(getClusterDeferred.promise);
         sinon.stub(clusterStore, "importCluster").returns(importClusterDeferred.promise);
 
         clock = sinon.useFakeTimers();
@@ -83,40 +82,11 @@ describe("Unit Component: importCluster", function() {
         expect(vm.tableColumns).to.deep.equal(importCluster.tableColumns);
     });
 
-    it("Should call getClusterList if clusterData doens't exit", function() {
-        vm = $componentController("importCluster", { $scope: $scope });
-        getClusterListDeferred.resolve(importCluster.clusters);
-        $rootScope.$digest();
-
-        expect($rootScope.clusterData).to.deep.equal(importCluster.formattedOutput);
-        expect(vm.isDataLoading).to.be.false;
-        expect(vm.clusterObj).to.deep.equal(importCluster.formattedOutput[0]);
-        expect(vm.hostList).to.be.equal(importCluster.formattedOutput[0].hosts);
-        expect(vm.taskId).to.be.equal(importCluster.formattedOutput[0].currentTaskId);
-        expect(vm.taskStatus).to.be.equal(importCluster.formattedOutput[0].currentStatus);
-        expect(vm.taskType).to.be.equal(importCluster.formattedOutput[0].jobType);
-        expect(vm.failedImport).to.be.false;
-        expect(vm.filteredHostList).to.deep.equal(importCluster.formattedOutput[0].hosts);
-    });
-
-    it("Should not call getClusterList if clusterData exists", function() {
-        $rootScope.clusterData = importCluster.formattedOutput;
-        vm = $componentController("importCluster", { $scope: $scope });
-
-        expect(vm.isDataLoading).to.be.false;
-        expect(vm.clusterObj).to.deep.equal(importCluster.formattedOutput[0]);
-        expect(vm.hostList).to.be.equal(importCluster.formattedOutput[0].hosts);
-        expect(vm.taskId).to.be.equal(importCluster.formattedOutput[0].currentTaskId);
-        expect(vm.taskStatus).to.be.equal(importCluster.formattedOutput[0].currentStatus);
-        expect(vm.taskType).to.be.equal(importCluster.formattedOutput[0].jobType);
-        expect(vm.failedImport).to.be.false;
-        expect(vm.filteredHostList).to.deep.equal(importCluster.formattedOutput[0].hosts);
-    });
 
     describe("Import Cluster workflows", function() {
         beforeEach(function() {
             vm = $componentController("importCluster", { $scope: $scope });
-            getClusterListDeferred.resolve(importCluster.clusters);
+            getClusterDeferred.resolve(importCluster.clusters[0]);
             $rootScope.$digest();
         });
 
@@ -171,6 +141,8 @@ describe("Unit Component: importCluster", function() {
         // Tear down
         $state.go.restore();
         clock.restore();
+        clusterStore.getCluster.restore();
+        clusterStore.importCluster.restore();
     });
 
 });

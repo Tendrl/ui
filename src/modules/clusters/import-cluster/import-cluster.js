@@ -127,27 +127,19 @@
          * @memberOf importClusterController
          */
         function importCluster() {
-            var clusterName;
 
-            if (vm.clusterName) {
-                clusterName = vm.clusterName.match(vm.clusterNamePattern);
-            }
-
-            if (clusterName !== null) {
+            if (_validateFields()) {
                 clusterStore.importCluster(vm.clusterId, vm.enableProfiling, vm.clusterName)
-                .then(function(data) {
-                    vm.importIcon = true;
-                    vm.taskInitiated = true;
-                    vm.jobId = data.job_id;
-                }).catch(function(e){
-                    vm.importIcon = false;
-                    vm.taskInitiated = false;
-                    Notifications.message("danger", "", "Failed to initaite import.");
-                });
-            } else {
-                vm.errorMsg = "Please enter a valid cluster name. Only alphanumeric and underscore characters are allowed."
+                    .then(function(data) {
+                        vm.importIcon = true;
+                        vm.taskInitiated = true;
+                        vm.jobId = data.job_id;
+                    }).catch(function(e) {
+                        vm.importIcon = false;
+                        vm.taskInitiated = false;
+                        Notifications.message("danger", "", "Failed to initaite import.");
+                    });
             }
-
         }
 
         /**
@@ -169,6 +161,23 @@
             if (vm.clusterId) {
                 $state.go("global-task-detail", { clusterId: vm.clusterId, taskId: vm.jobId });
             }
+        }
+
+        /***Private Functions***/
+
+        function _validateFields() {
+            var isValid = true,
+                clusterName = vm.clusterName && vm.clusterName.match(vm.clusterNamePattern);
+
+            if (clusterName === null) {
+                isValid = false;
+                vm.errorMsg = "Please enter a valid cluster name. Only alphanumeric and underscore characters are allowed.";
+            } else if (vm.filters.length) {
+                isValid = false;
+                vm.errorMsg = "Review the discovered host list, and ensure there are no filters applied before proceeding with Import.";
+            }
+
+            return isValid;
         }
 
         function _setImportDetail() {

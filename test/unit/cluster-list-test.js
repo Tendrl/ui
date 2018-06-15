@@ -294,8 +294,9 @@ describe("Unit Component: clusterList", function() {
         });
 
         it("Should show tooltip", function() {
-            var cluster = clusterList.clusters[0];
-            expect(vm.isTooltipEnable(cluster.message)).to.be.true;
+            var cluster = clusterList.clusters[1];
+            cluster.currentStatus = "finished";
+            expect(vm.getTemplate(cluster)).to.be.equal("The cluster is successfully imported for viewing monitoring data and metrics.");
         });
 
         it("Should get an icon class when cluster is unmanaged", function() {

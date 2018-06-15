@@ -351,11 +351,18 @@
         }
 
         function _matchesFilters(item, filters) {
-            var subVol;
+            var subVol,
+                i,
+                len = filters.length;
 
-            filters.forEach(function(filter) {
-                subVol = _matchesFilter(item, filter);
-            });
+            for (i = 0; i < len; i++) {
+                subVol = _matchesFilter(item, filters[i]);
+                
+                //if any filter criteria doesn't match, exit from the loop
+                if (subVol === -9999) {
+                    break;
+                }
+            }
 
             return subVol;
         }
@@ -421,12 +428,13 @@
         }
 
         function _mantainExpandedState(data) {
-            var subVolData = JSON.parse(JSON.stringify(vm.subVolumeList)),
+            var subVolData = JSON.parse(JSON.stringify(vm.filteredBrickList)),
                 len = subVolData.length,
                 subVolume,
                 i;
 
             vm.subVolumeList = data;
+            vm.filteredBrickList = data;
 
             for (i = 0; i < len; i++) {
                 subVolume = _isSubVolPresent(subVolData[i]);
@@ -436,6 +444,8 @@
                     vm.subVolumeList[subVolume.index].activeTab = subVolume.subVolume.activeTab;
                 }
             }
+
+            _filterChange(vm.filters);
         }
 
         function _isSubVolPresent(subVolume) {
