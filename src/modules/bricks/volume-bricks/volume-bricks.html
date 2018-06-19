@@ -7,8 +7,8 @@
         <span class="pficon pficon-warning-triangle-o"></span>
         <label>Brick information may be incomplete while cluster expansion is in progress.</label>
     </div>
-    <div class="alert alert-danger" ng-show="vm.errorMsg">
-        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">
+    <div class="alert alert-danger" ng-show="vm.errorMsg.length">
+        <button type="button" class="close" ng-click="vm.removeErrMsg()" aria-hidden="true">
             <span class="pficon pficon-close"></span>
         </button>
         <span class="pficon pficon-error-circle-o"></span>
