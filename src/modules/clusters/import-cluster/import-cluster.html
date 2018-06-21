@@ -18,13 +18,13 @@
                 <label class="col-sm-2 col-md-1" for="clusterName">Cluster Name</label>
                 <div class="col-sm-4 col-md-3">
                     <div class="row">
-                        <input class="col-md-12 col-sm-12" type="text" name="clusterName" ng-model="vm.clusterName" />
+                        <input class="col-md-12 col-sm-12 cluster-name-input" type="text" name="clusterName" ng-model="vm.clusterName" />
                     </div>
                     <div class="row name-validation-msg">Only alphanumeric and underscore characters are allowed.</div>
                 </div>
             </div>
             <div class="row">
-                <h3 class="col-sm-12">Review the hosts for the <span class="bold-text">{{vm.cluster.name}}</span> and click Import to monitor this cluster.</h3>
+                <h3 class="col-sm-12">Ensure all hosts in the cluster are listed below, then click Import to begin importing the cluster.</h3>
             </div>
             <div class="row">
                 <div class="col-sm-12 volume-profile">
