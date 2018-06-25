@@ -196,16 +196,6 @@ describe("Unit Component: hostList", function() {
             var cls = vm.getClass(host);
             expect(cls).to.be.equal("pficon pficon-in-progress");
         });
-
-        it("Should open modal to expand cluster", function() {
-            var fakeResult = {
-                result: $q.resolve()
-            };
-
-            sinon.stub($uibModal, "open").returns(fakeResult);
-            vm.expandCluster();
-            expect($uibModal.open.calledOnce).to.be.true;
-        });
     });
 
     it("Should verify for host API error", function() {

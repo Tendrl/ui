@@ -90,17 +90,6 @@ describe("Unit Component: importCluster", function() {
             $rootScope.$digest();
         });
 
-        it("Should open modal to see error logs in case of import failure", function() {
-            var taskId = importCluster.formattedOutput[0].currentTaskId,
-                fakeResult = {
-                    result: $q.resolve()
-                };
-
-            sinon.stub($uibModal, "open").returns(fakeResult);
-            vm.openImportErrorModal(taskId);
-            expect($uibModal.open.calledOnce).to.be.true;
-        });
-
         it("Should initiate importing cluster", function() {
 
             vm.importCluster();

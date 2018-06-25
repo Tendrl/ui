@@ -1,8 +1,8 @@
 //# sourceURL=storage-management-plugin.js
 (function() {
 
-    var storageModule = angular.module("TendrlModule", ["ui.router", "ui.bootstrap", "frapontillo.bootstrap-switch", "gridshore.c3js.chart", "patternfly.charts", "patternfly.card", "patternfly.form", "patternfly.notification", "patternfly.table", "patternfly.filters"]);
-
+    var storageModule = angular.module("TendrlModule", ["ui.router", "ui.bootstrap", "frapontillo.bootstrap-switch", "gridshore.c3js.chart", "patternfly.charts", "patternfly.card", "patternfly.form", "patternfly.notification", "patternfly.table", "patternfly.filters", "patternfly.modals"]);
+    
     /* Setting up provider for getting config data */
     storageModule.provider("config", function() {
 
@@ -21,6 +21,12 @@
             return config;
         };
 
+    });
+
+    /* ngAnimate (a dependency of patternfly.modals) is introducing a lag in spinner, 
+    following will disable ngAnimate for spinner class */
+    storageModule.config(function($animateProvider) {
+        $animateProvider.classNameFilter(/^(?:(?!spinner).)*$/);
     });
 
     /* First fetch the config data than only application will bootstrap */

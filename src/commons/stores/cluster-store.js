@@ -292,7 +292,7 @@
                     temp.readyState = true;
                 }
             }
-
+            
             temp.hosts = store.getAssociatedHosts(cluster);
             return temp;
         }

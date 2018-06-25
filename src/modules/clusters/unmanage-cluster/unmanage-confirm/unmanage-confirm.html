@@ -1,14 +1,12 @@
 <div class="tendrl-unmanage-confirm-modal-container">
-    <div>
-        <custom-modal-header title="vm.modalHeader.title" close="vm.modalHeader.close"></custom-modal-header>
-        <div class="modal-body row">
-            <div class="col-md-2 text-center">
-                <i class="pficon pficon pficon-warning-triangle-o"></i> 
-            </div>
-            <div class="col-md-10 desc">
-                Upon completion of this action, <strong>{{vm.clusterName}}</strong> will no longer be managed and must be imported again to initiate management and perform further monitoring. <br> <br>After clicking Unmanage, a task will be submitted to perform this action. This task cannot be undone, proceed with care.
-            </div>
+    <div class="modal-body row">
+        <div class="col-md-2 text-center">
+            <i class="pficon pficon pficon-warning-triangle-o"></i>
         </div>
-        <custom-modal-footer modal-footer="vm.modalFooter"></custom-modal-footer>
+        <div class="col-md-10 desc">
+            Upon completion of this action, <strong>{{$ctrl.modalBodyScope.name}}</strong> will no longer be managed and must be imported again to initiate management and perform further monitoring.
+            <br>
+            <br>After clicking Unmanage, a task will be submitted to perform this action. This task cannot be undone, proceed with care.
+        </div>
     </div>
 </div>

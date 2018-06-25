@@ -13,7 +13,7 @@
         });
 
     /*@ngInject*/
-    function clusterController($scope, $state, $interval, $rootScope, $uibModal, config, clusterStore, Notifications, utils) {
+    function clusterController($scope, $state, $interval, $rootScope, $uibModal, $filter, config, clusterStore, Notifications, utils, nodeStore) {
 
         var vm = this,
             key,
@@ -38,24 +38,21 @@
         vm.filteredClusterList = [];
         vm.goToImportFlow = goToImportFlow;
         vm.doProfilingAction = doProfilingAction;
-        vm.doClusterUnmanage = doClusterUnmanage;
         vm.redirectToGrafana = redirectToGrafana;
         vm.addTooltip = addTooltip;
-        vm.openErrorModal = openErrorModal;
-        vm.openHostModal = openHostModal;
         vm.goToTaskDetail = goToTaskDetail;
         vm.showImportBtn = showImportBtn;
         vm.showDashboardBtn = showDashboardBtn;
         vm.showKebabMenu = showKebabMenu;
         vm.disableImportBtn = disableImportBtn;
         vm.getClass = getClass;
-        vm.expandCluster = expandCluster;
         vm.hideExpandBtn = hideExpandBtn;
         vm.goToClusterHost = goToClusterHost;
         vm.showViewDetailsLink = showViewDetailsLink;
         vm.showDisableLink = showDisableLink;
         vm.showEnableLink = showEnableLink;
         vm.getTemplate = getTemplate;
+        vm.closeModal = closeModal;
 
         vm.filterConfig = {
             fields: [{
@@ -70,7 +67,7 @@
                 filterType: ""
             }],
             appliedFilters: [],
-            onFilterChange: _filterChange
+            onFilterChange: _filterChange,
         };
 
         vm.sortConfig = {
@@ -101,6 +98,209 @@
         };
 
         init();
+
+        /*BEGIN Unmanage confirm modal*/
+        vm.showUnmanageModal = false;
+        vm.openUnmanageModal = openUnmanageModal;
+        vm.unmanageModalId = "unmanageModal";
+        vm.unmanageModalTitle = "Unmanage Cluster";
+        vm.unmanageTemplate = "/modules/clusters/unmanage-cluster/unmanage-confirm/unmanage-confirm.html";
+        vm.unmanageActionButtons = [{
+            label: "Cancel",
+            isCancel: true
+        }, {
+            label: "Unmanage",
+            class: "btn-primary custom-class",
+            actionFn: function() {
+                vm.unmanageCluster.initiateUnmanage = true;
+                _disableClickUnmanage(vm.unmanageCluster, true);
+                clusterStore.doClusterUnmanage(vm.unmanageCluster.clusterId)
+                    .then(function(data) {
+                        vm.unmanageCluster.initiateUnmanage = false;
+                        vm.unmanageCluster.jobId = data.job_id;
+                        openUnmanageProgress(vm.unmanageCluster);
+                        _disableClickUnmanage(vm.unmanageCluster, true);
+                    }).catch(function(error) {
+                        Notifications.message("danger", "", "Failed to initiate unmanage");
+                        _disableClickUnmanage(vm.unmanageCluster, false);
+                    });
+            }
+        }];
+
+        function openUnmanageModal(cluster) {
+            vm.unmanageCluster = {};
+            vm.showUnmanageModal = true;
+            vm.unmanageCluster = cluster;
+        }
+
+        /*END Unmanage confirm modal*/
+
+        /*BEGIN Unmanage progress modal*/
+        vm.showUnmanageProgress = false;
+        vm.openUnmanageProgress = openUnmanageProgress;
+        vm.unmanageProgressId = "unmanageModal";
+        vm.unmanageProgressTitle = "Unmanage Cluster";
+        vm.unmanageProgressTemplate = "/modules/clusters/unmanage-cluster/unmanage-progress/unmanage-progress.html";
+        vm.unmanageProgressActionButtons = [{
+            label: "View Task Progress",
+            class: "btn-primary custom-class",
+            actionFn: function() {
+                if (vm.unmanageCluster.clusterId) {
+                    vm.showUnmanageProgress = false;
+                    $state.go("global-task-detail", { clusterId: vm.unmanageCluster.clusterId, taskId: vm.unmanageCluster.jobId });
+                }
+            }
+
+        }];
+
+        function openUnmanageProgress(cluster) {
+            vm.unmanageCluster = cluster;
+            vm.showUnmanageProgress = true;
+        }
+
+        /*END Unmanage progress modal*/
+
+        /*BEGIN Host modal*/
+        vm.showHost = false;
+        vm.openHostModal = openHostModal;
+        vm.hostModalId = "hostModal";
+        vm.hostModalTemplate = "/modules/clusters/host-list-modal/host-list-modal.html";
+        vm.hostModalActionButtons = [{
+            label: "Close",
+            isCancel: true
+        }];
+
+        function openHostModal(cluster) {
+            vm.showHost = true;
+            vm.hostCluster = cluster;
+            vm.hostCluster.hostList = cluster.hosts;
+            vm.hostCluster.filteredHostList = cluster.hosts;
+            vm.hostModalTitle = "Hosts on " + vm.hostCluster.name;
+            vm.hostCluster.filterConfig = {
+                fields: [{
+                    id: "fqdn",
+                    title: "Name",
+                    placeholder: "Filter by Name",
+                    filterType: "text"
+                }, {
+                    id: "ipAddress",
+                    title: "Address",
+                    placeholder: "Filter by IP Address",
+                    filterType: "text"
+                }],
+                appliedHostFilters: [],
+                onFilterChange: _filterHostChange,
+            };
+
+            vm.hostCluster.tableConfig = {
+                selectionMatchProp: "fqdn",
+                itemsAvailable: true,
+                showCheckboxes: false
+            };
+
+            vm.hostCluster.tableColumns = [{
+                header: "Host",
+                itemField: "fqdn"
+            }, {
+                header: "Address",
+                itemField: "ipAddress"
+            }];
+
+            vm.hostCluster.filterConfig.resultsCount = vm.hostCluster.filteredHostList.length;
+        }
+
+        /*END Host modal*/
+
+        /*BEGIN expand modal*/
+        vm.showExpand = false;
+        vm.openExpandModal = openExpandModal;
+        vm.expandModalId = "expandModal";
+        vm.expandModalTitle = "Expand Cluster";
+        vm.expandModalTemplate = "/modules/clusters/expand-cluster/expand-cluster.html";
+        vm.expandModalActionButtons = [{
+            label: "Cancel",
+            isCancel: true
+        }, {
+            label: "Expand",
+            class: "btn-primary custom-class",
+            actionFn: function() {
+                var jobId;
+                _disableClickExpand(vm.expandCluster, true);
+                clusterStore.expandCluster(vm.expandCluster.clusterId)
+                    .then(function(data) {
+                        jobId = data.job_id;
+                        _disableClickExpand(vm.expandCluster, true);
+                        Notifications.message("success", "", "Successfully initiated expand cluster task");
+                    }).catch(function(error) {
+                        Notifications.message("danger", "", "Failed to initiate expand");
+                        _disableClickExpand(vm.expandCluster, false);
+                    });
+                vm.showExpand = false;
+            }
+
+        }];
+
+        function openExpandModal(cluster) {
+            vm.showExpand = true;
+            vm.expandCluster = {};
+            vm.expandCluster.disableExpand = false;
+            vm.expandCluster = cluster;
+            vm.expandCluster.hostList = [];
+            vm.expandCluster.filteredHostList = [];
+            vm.expandCluster.filters = [];
+            vm.expandCluster.isDataLoading = true;
+            vm.expandCluster.filterConfig = {
+                fields: [{
+                    id: "name",
+                    title: "Name",
+                    placeholder: "Filter by Name",
+                    filterType: "text"
+                }, {
+                    id: "ipAddress",
+                    title: "Address",
+                    placeholder: "Filter by IP Address",
+                    filterType: "text"
+                }],
+                appliedFilters: [],
+                onFilterChange: _filterExpandChange,
+            };
+
+            vm.expandCluster.tableConfig = {
+                selectionMatchProp: "name",
+                itemsAvailable: true,
+                showCheckboxes: false
+            };
+
+            vm.expandCluster.tableColumns = [{
+                header: "Host",
+                itemField: "name"
+            }, {
+                header: "Address",
+                itemField: "ipAddress"
+            }];
+
+            nodeStore.getNodeList(vm.expandCluster.clusterId)
+                .then(function(list) {
+                    vm.expandCluster.hostList = $filter("filter")(list, { managed: "No" });
+                    vm.expandCluster.filteredHostList = vm.expandCluster.hostList;
+                    _filterExpandChange(vm.expandCluster.filters);
+                }).catch(function(e) {
+                    vm.expandCluster.hostList = [];
+                    vm.expandCluster.filteredHostList = vm.expandCluster.hostList;
+                    _filterExpandChange(vm.expandCluster.filters);
+                }).finally(function() {
+                    vm.expandCluster.isDataLoading = false;
+                });
+        }
+
+        /*END expand modal*/
+
+        function closeModal(dismissCause) {
+            vm.showHost = false;
+            vm.showUnmanageProgress = false;
+            vm.showUnmanageModal = false;
+            vm.showExpand = false;
+        }
 
         /**
          * @name init
@@ -184,86 +384,6 @@
             $event.stopPropagation();
         }
 
-        function doClusterUnmanage(cluster) {
-            var wizardDoneListener,
-                modalInstance,
-                closeWizard;
-
-            modalInstance = $uibModal.open({
-                animation: true,
-                backdrop: "static",
-                templateUrl: "/modules/clusters/unmanage-cluster/unmanage-confirm/unmanage-confirm.html",
-                controller: "unmanageConfirmController",
-                controllerAs: "vm",
-                size: "md",
-                resolve: {
-                    selectedCluster: function() {
-                        return cluster;
-                    }
-                }
-            });
-
-            closeWizard = function(e, reason) {
-                modalInstance.dismiss(reason);
-                wizardDoneListener();
-            };
-
-            modalInstance.result.then(function() {}, function() {});
-            wizardDoneListener = $rootScope.$on("modal.done", closeWizard);
-        }
-
-        function openErrorModal(cluster) {
-            var wizardDoneListener,
-                modalInstance,
-                closeWizard;
-
-            modalInstance = $uibModal.open({
-                animation: true,
-                backdrop: "static",
-                templateUrl: "/modules/clusters/cluster-error-list/cluster-error-list.html",
-                controller: "errorListController",
-                controllerAs: "vm",
-                size: "lg",
-                resolve: {
-                    cluster: cluster
-                }
-            });
-
-            closeWizard = function(e, reason) {
-                modalInstance.dismiss(reason);
-                wizardDoneListener();
-            };
-
-            modalInstance.result.then(function() {}, function() {});
-            wizardDoneListener = $rootScope.$on("modal.done", closeWizard);
-        }
-
-        function openHostModal(cluster) {
-            var wizardDoneListener,
-                modalInstance,
-                closeWizard;
-
-            modalInstance = $uibModal.open({
-                animation: true,
-                backdrop: "static",
-                templateUrl: "/modules/clusters/host-list-modal/host-list-modal.html",
-                controller: "hostModalController",
-                controllerAs: "vm",
-                size: "lg",
-                resolve: {
-                    cluster: cluster
-                }
-            });
-
-            closeWizard = function(e, reason) {
-                modalInstance.dismiss(reason);
-                wizardDoneListener();
-            };
-
-            modalInstance.result.then(function() {}, function() {});
-            wizardDoneListener = $rootScope.$on("modal.done", closeWizard);
-        }
-
         function addTooltip($event) {
             vm.flag = utils.tooltip($event);
         }
@@ -321,34 +441,6 @@
             return cls;
         }
 
-        function expandCluster(cluster) {
-            var wizardDoneListener,
-                modalInstance,
-                closeWizard;
-
-            modalInstance = $uibModal.open({
-                animation: true,
-                backdrop: "static",
-                templateUrl: "/modules/clusters/expand-cluster/expand-cluster.html",
-                controller: "expandClusterController",
-                controllerAs: "vm",
-                size: "lg",
-                resolve: {
-                    selectedCluster: function() {
-                        return cluster;
-                    }
-                }
-            });
-
-            closeWizard = function(e, reason) {
-                modalInstance.dismiss(reason);
-                wizardDoneListener();
-            };
-
-            modalInstance.result.then(function() {}, function() {});
-            wizardDoneListener = $rootScope.$on("modal.done", closeWizard);
-        }
-
         function showDisableLink(cluster) {
             return cluster.isProfilingEnabled === "Enabled" ||
                 cluster.isProfilingEnabled === "Mixed" ||
@@ -382,6 +474,30 @@
 
         /***Private Functions***/
 
+        function _disableClickUnmanage(cluster, bool) {
+            var i,
+                len = vm.clusterList.length;
+
+            for (i = 0; i < len; i++) {
+                if (vm.clusterList[i] === cluster) {
+                    vm.clusterList[i].disableUnmanage = bool;
+                    break;
+                }
+            }
+        }
+
+        function _disableClickExpand(cluster, bool) {
+            var i,
+                len = vm.clusterList.length;
+
+            for (i = 0; i < len; i++) {
+                if (vm.clusterList[i] === cluster) {
+                    vm.clusterList[i].disableExpand = bool;
+                    break;
+                }
+            }
+        }
+
         function _compareFn(item1, item2) {
             var compValue = 0;
 
@@ -411,12 +527,29 @@
             vm.filteredClusterList.sort(_compareFn);
         }
 
+        function _filterChange(filters) {
+            _filterConf(filters, vm, "cluster");
+        }
+
+        function _filterHostChange(filters) {
+            _filterConf(filters, vm.hostCluster, "host");
+        }
+
+        function _filterExpandChange(filters) {
+            _filterConf(filters, vm.expandCluster, "expandHost");
+
+        }
+
         function _matchesFilter(item, filter) {
             var match = true;
             var re = new RegExp(filter.value, "i");
 
             if (filter.id === "name") {
                 match = item.name.match(re) !== null;
+            } else if (filter.id === "fqdn") {
+                match = item.fqdn.match(re) !== null;
+            } else if (filter.id === "ipAddress") {
+                match = item.ipAddress.match(re) !== null;
             }
             return match;
         }
@@ -433,33 +566,53 @@
             return matches;
         }
 
-        function _applyFilters(filters) {
-            vm.filteredClusterList = [];
+        function _applyFilters(filters, context, type) {
+
+            context.filteredClusterList = [];
             if (filters && filters.length > 0) {
-                vm.clusterList.forEach(function(item) {
+                context.clusterList.forEach(function(item) {
                     if (_matchesFilters(item, filters)) {
-                        vm.filteredClusterList.push(item);
+                        context.filteredClusterList.push(item);
                     }
                 });
             } else {
-                vm.filteredClusterList = vm.clusterList;
+                context.filteredClusterList = context.clusterList;
             }
-            vm.filterConfig.resultsCount = vm.filteredClusterList.length;
+            context.filterConfig.resultsCount = context.filteredClusterList.length;
         }
 
-        function _filterChange(filters) {
-            vm.filtersText = "";
-            vm.filters = filters;
+        function _applyHostFilters(filters, context, type) {
+            context.filteredHostList = [];
+            if (filters && filters.length > 0) {
+                context.hostList.forEach(function(item) {
+                    if (_matchesFilters(item, filters)) {
+                        context.filteredHostList.push(item);
+                    }
+                });
+            } else {
+                context.filteredHostList = context.hostList;
+            }
+            context.filterConfig.resultsCount = context.filteredHostList.length;
+        }
+
+        function _filterConf(filters, context, type) {
+            context.filtersText = "";
+            context.filters = filters;
             filters.forEach(function(filter) {
-                vm.filtersText += filter.title + " : ";
+                context.filtersText += filter.title + " : ";
                 if (filter.value.title) {
-                    vm.filtersText += filter.value.title;
+                    context.filtersText += filter.value.title;
                 } else {
-                    vm.filtersText += filter.value;
+                    context.filtersText += filter.value;
                 }
-                vm.filtersText += "\n";
+                context.filtersText += "\n";
             });
-            _applyFilters(filters);
+
+            if (type === "cluster") {
+                _applyFilters(filters, context, type);
+            } else if (type === "host" || type === "expandHost") {
+                _applyHostFilters(filters, context, type);
+            }
         }
     }
 
