@@ -259,9 +259,9 @@
             }
             if (temp.jobType === "ImportCluster") {
                 if (temp.currentStatus === "in_progress") {
-                    temp.message = "Importing Cluster";
+                    temp.message = "Importing Cluster.";
                 } else if (temp.currentStatus === "failed" && temp.errors.length) {
-                    temp.message = "Import Failed";
+                    temp.message = "Import Failed.";
                 } else if (temp.currentStatus === "finished") {
                     if (temp.state === "expand_pending") {
                         temp.message = "Expansion required";
@@ -273,18 +273,18 @@
             } else if (temp.jobType === "UnmanageCluster") {
                 temp.managed = "No";
                 if (temp.currentStatus === "in_progress") {
-                    temp.message = "Unmanaging Cluster";
+                    temp.message = "Unmanaging Cluster.";
                 } else if (temp.currentStatus === "failed") {
-                    temp.message = "Unmanage Failed";
+                    temp.message = "Unmanage Failed.";
                 } else if (temp.currentStatus === "finished") {
                     temp.message = "Ready to Import";
                 }
             } else if (temp.managed === "Yes") {
                 if (temp.jobType === "ExpandClusterWithDetectedPeers" && temp.currentStatus === "in_progress") {
-                    temp.message = "Expanding cluster";
-                    temp.statusIcon = "Expanding in progress";
+                    temp.message = "Expanding Cluster.";
+                    temp.statusIcon = "Expand cluster in progress";
                 } else if (temp.jobType === "ExpandClusterWithDetectedPeers" && temp.currentStatus === "failed") {
-                    temp.message = "Expansion Failed";
+                    temp.message = "Expansion Failed.";
                 } else if (temp.state === "expand_pending") {
                     temp.message = "Expansion required";
                 } else if (!temp.message) {
