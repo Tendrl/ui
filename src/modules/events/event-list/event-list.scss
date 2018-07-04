@@ -92,4 +92,9 @@
     .bold-text {
         font-weight: bold;
     }
+    .flex-table {
+        .ft-main {
+            flex-grow: 6;
+        }
+    }
 }

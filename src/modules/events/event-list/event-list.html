@@ -73,7 +73,7 @@
     <div class="flex-table list-group list-view-pf list-view-pf-view event-list-table" ng-show="!eventListCntrl.isDataLoading && eventListCntrl.eventList.length !== 0">
         <div ng-repeat="event in eventListCntrl.filteredEventList = (eventListCntrl.eventList |filter: eventListCntrl.filterByCreatedDate| filter: eventListCntrl.searchByDesc | orderBy: ['-timeStamp', 'message_id'])">
             <div class="ft-row list-group-item">
-                <div class="ft-column event-desc">
+                <div class="ft-column ft-main event-desc">
                     <div>{{event.message || "NA"}}</div>
                 </div>
                 <div class="ft-column">
