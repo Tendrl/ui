@@ -175,7 +175,7 @@
                     $interval.cancel(hostListTimer);
                     vm.cluster = data;
                     _setExpansionState();
-                    return nodeStore.getNodeList(vm.clusterId);
+                    return nodeStore.getNodeList(vm.clusterId, vm.cluster.state);
                 }).catch(function(e) {
                     vm.cluster = {};
                 })

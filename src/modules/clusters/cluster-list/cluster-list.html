@@ -148,7 +148,7 @@
                                 <h5 class="pull-left" ng-show="cluster.isProfilingEnabled === 'Pending'"><a href="" ng-click="clusterCntrl.goToTaskDetail(cluster)">{{cluster.isProfilingEnabled || "NA"}}</a></h5>
                             </div>
                             <div class="list-view-pf-additional-info-item cluster-text" ng-class="{'error-message': (cluster.message === 'Cluster Misconfigured'), 'warning-message': (cluster.message === 'Import Failed' || cluster.message === 'Unmanage Failed')}">
-                                <p uib-tooltip-html="clusterCntrl.getTemplate(cluster)" tooltip-placement="auto">{{cluster.disableExpand ? "Expanding cluster" : cluster.message}}</p>
+                                <p uib-tooltip-html="clusterCntrl.getTemplate(cluster)" tooltip-placement="auto">{{cluster.disableExpand ? "Expanding Cluster." : cluster.message}}</p>
                                 <p><a ng-click="clusterCntrl.goToTaskDetail(cluster)" ng-show="clusterCntrl.showViewDetailsLink(cluster)" class="details-link">View Details</a></p>
                             </div>
                         </div>

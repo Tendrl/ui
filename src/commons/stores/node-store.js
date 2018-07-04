@@ -53,7 +53,7 @@
          * @desc returns list of nodes present in Tendrl/cluster
          * @memberOf nodeStore
          */
-        store.getNodeList = function(clusterId) {
+        store.getNodeList = function(clusterId, state) {
             var list,
                 deferred,
                 associatedHosts = [];
@@ -94,13 +94,19 @@
                     host.integrationId = list[i].cluster.integration_id;
                     host.version = list[i].cluster.sds_version || "NA";
                     host.managed = list[i].is_managed === "yes" ? "Yes" : "No";
-                    
+
                     if (host.managed === "Yes") {
                         host.status = list[i].status;
                         host.alerts = list[i].alert_counters ? list[i].alert_counters.alert_count : "No Data";
                         host.bricks = list[i].bricks_count || "No Data";
                     } else {
-                        host.status = "Not Managed";
+
+                        if (state === "expanding") {
+                            host.status = "Importing host to expand cluster";
+                        } else {
+                            host.status = "Not Managed";
+                        }
+
                         host.bricks = "None";
                         host.alerts = "None";
                     }
