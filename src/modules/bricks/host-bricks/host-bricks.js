@@ -30,6 +30,7 @@
         vm.stoppedBrickCnt = 0;
 
         vm.addTooltip = addTooltip;
+        vm.removeErrMsg = removeErrMsg;
 
         vm.filterConfig = {
             fields: [{
@@ -49,6 +50,16 @@
                 filterType: "select",
                 filterValues: ["Started", "Stopped"]
             }, {
+                id: "utilMoreThan",
+                title: "Utilization More Than(%)",
+                placeholder: "Filter by Utilization More Than(%)",
+                filterType: "number"
+            }, {
+                id: "utilLessThan",
+                title: "Utilization Less Than(%)",
+                placeholder: "Filter by Utilization Less Than(%)",
+                filterType: "number"
+            }, {
                 id: "devices",
                 title: "Disk Device Path",
                 placeholder: "Filter by Device Path",
@@ -64,14 +75,27 @@
             showCheckboxes: false
         };
 
-        vm.hostDetailColumns = [
-            { header: "Brick Path", itemField: "brickPath", htmlTemplate: "/modules/bricks/host-bricks/brick-path.html" },
-            { header: "Volume Name", itemField: "volName" },
-            { header: "Utilization", itemField: "utilization", htmlTemplate: "/modules/bricks/host-bricks/utilization-path.html" },
-            { header: "Disk Device Path", itemField: "devices", templateFn: function(value, item) {
-                    return value[0] } },
-            { header: "Port", itemField: "port" }
-        ];
+        vm.hostDetailColumns = [{
+            header: "Brick Path",
+            itemField: "brickPath",
+            htmlTemplate: "/modules/bricks/host-bricks/brick-path.html"
+        }, {
+            header: "Volume Name",
+            itemField: "volName"
+        }, {
+            header: "Utilization",
+            itemField: "utilization",
+            htmlTemplate: "/modules/bricks/host-bricks/utilization-path.html"
+        }, {
+            header: "Disk Device Path",
+            itemField: "devices",
+            templateFn: function(value, item) {
+                return value[0];
+            }
+        }, {
+            header: "Port",
+            itemField: "port"
+        }];
 
         vm.actionButtons = [{
             name: "Dashboard",
@@ -97,6 +121,7 @@
                         vm.brickList = data;
                         vm.filteredBrickList = vm.brickList;
                         vm.stoppedBrickCnt = 0;
+
                         _getStoppedBrickCount();
                         _filterChange(vm.filters);
                         $interval.cancel(hostBrickTimer);
@@ -118,6 +143,7 @@
                         vm.brickList = data;
                         vm.filteredBrickList = vm.brickList;
                         vm.stoppedBrickCnt = 0;
+
                         _getStoppedBrickCount();
                         _filterChange(vm.filters);
                         $interval.cancel(hostBrickTimer);
@@ -148,6 +174,24 @@
             vm.flag = utils.tooltip($event);
         }
 
+        function removeErrMsg() {
+            var len = vm.filters.length,
+                percentage,
+                i;
+
+            vm.errorMsg = "";
+
+            for (i = 0; i < len; i++) {
+                if (vm.filters[i].id === "utilMoreThan" || vm.filters[i].id === "utilLessThan") {
+                    percentage = parseFloat(vm.filters[i].value);
+
+                    if (percentage < 0 || percentage > 100) {
+                        vm.filters.splice(i, 1);
+                        _filterChange(vm.filters);
+                    }
+                }
+            }
+        }
         /*****Private Functions******/
 
         function _redirectToGrafana(brick) {
@@ -163,8 +207,10 @@
         }
 
         function _matchesFilter(item, filter) {
-            var match = true;
-            var re = new RegExp(filter.value, "i");
+            var match = true,
+                re = new RegExp(filter.value, "i"),
+                percentage,
+                utilization;
 
             if (filter.id === "volName") {
                 match = item.volName.match(re) !== null;
@@ -174,6 +220,18 @@
                 match = item.status === filter.value.id || item.status.toLowerCase() === filter.value.toLowerCase();
             } else if (filter.id === "devices") {
                 match = item.devices[0].match(re) !== null;
+            } else if (filter.id === "utilMoreThan" || filter.id === "utilLessThan") {
+                percentage = parseFloat(filter.value);
+                utilization = parseFloat(item.utilization.used);
+
+                if (percentage >= 0 && percentage <= 100) {
+
+                    if (filter.id === "utilMoreThan") {
+                        match = (utilization > percentage);
+                    } else if (filter.id === "utilLessThan") {
+                        match = (utilization < percentage);
+                    }
+                }
             }
             return match;
         }
@@ -188,6 +246,18 @@
                 }
             });
             return matches;
+        }
+
+        function _validateFilter(filter) {
+            var percentage;
+
+            if (filter.id === "utilMoreThan" || filter.id === "utilLessThan") {
+                percentage = parseFloat(filter.value);
+
+                if (percentage < 0 || percentage > 100) {
+                    vm.errorMsg = "Please enter a valid percentage.";
+                }
+            }
         }
 
         function _applyFilters(filters) {
@@ -208,7 +278,9 @@
             vm.filtersText = "";
             vm.filters = filters;
             filters.forEach(function(filter) {
+                _validateFilter(filter);
                 vm.filtersText += filter.title + " : ";
+
                 if (filter.value.title) {
                     vm.filtersText += filter.value.title;
                 } else {

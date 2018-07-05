@@ -2,6 +2,13 @@
 <div ng-if="clusterData !== null" class="tendrl-host-bricks-view-container">
     <div class="container-fluid">
         <!-- heading section-->
+        <div class="alert alert-danger" ng-show="vm.errorMsg.length">
+            <button type="button" class="close" ng-click="vm.removeErrMsg()" aria-hidden="true">
+                <span class="pficon pficon-close"></span>
+            </button>
+            <span class="pficon pficon-error-circle-o"></span>
+            <label>{{vm.errorMsg}}</label>
+        </div>
         <h1 class="bold-text">Brick Details</h1>
         <!-- Actions section -->
         <div class="row toolbar-pf">

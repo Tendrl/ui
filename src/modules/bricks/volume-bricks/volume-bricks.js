@@ -33,6 +33,7 @@
         vm.closeExpandedView = closeExpandedView;
         vm.expandAll = expandAll;
         vm.collapseAll = collapseAll;
+        vm.removeErrMsg = removeErrMsg;
 
         vm.filterConfig = {
             fields: [{
@@ -290,6 +291,25 @@
             }
         }
 
+        function removeErrMsg() {
+            var len = vm.filters.length,
+                percentage,
+                i;
+
+            vm.errorMsg = "";
+
+            for (i = 0; i < len; i++) {
+                if (vm.filters[i].id === "utilMoreThan" || vm.filters[i].id === "utilLessThan") {
+                    percentage = parseFloat(vm.filters[i].value);
+
+                    if (percentage < 0 || percentage > 100) {
+                        vm.filters.splice(i, 1);
+                        _filterChange(vm.filters);
+                    }
+                }
+            }
+        }
+
         /***Private Functions***/
 
         function _redirectToGrafana(action, brick) {
@@ -335,19 +355,36 @@
             } else if (filter.id === "devices") {
                 match = brick.devices[0].match(re) !== null;
             } else if (filter.id === "utilMoreThan" || filter.id === "utilLessThan") {
-                percentage = parseInt(filter.value);
-                utilization = parseInt(brick.utilization.used);
+                percentage = parseFloat(filter.value);
+                utilization = parseFloat(brick.utilization.used);
 
-                if (percentage < 0 || percentage > 100) {
-                    vm.errorMsg = "Please enter a valid percentage.";
-                } else if (filter.id === "utilMoreThan") {
-                    match = (utilization > percentage);
-                } else if (filter.id === "utilLessThan") {
-                    match = (utilization < percentage);
+                if (percentage >= 0 && percentage <= 100) {
+
+                    if (filter.id === "utilMoreThan") {
+                        match = (utilization > percentage);
+                    } else if (filter.id === "utilLessThan") {
+                        match = (utilization < percentage);
+                    }
                 }
             }
 
             return match;
+        }
+
+        function _validateFilter(filter) {
+            var percentage,
+                valid = true;
+
+            if (filter.id === "utilMoreThan" || filter.id === "utilLessThan") {
+                percentage = parseFloat(filter.value);
+
+                if (percentage < 0 || percentage > 100) {
+                    vm.errorMsg = "Please enter a valid percentage.";
+                    valid = false;
+                }
+            }
+
+            return valid;
         }
 
         function _matchesFilters(item, filters) {
@@ -357,7 +394,7 @@
 
             for (i = 0; i < len; i++) {
                 subVol = _matchesFilter(item, filters[i]);
-                
+
                 //if any filter criteria doesn't match, exit from the loop
                 if (subVol === -9999) {
                     break;
@@ -392,22 +429,32 @@
         }
 
         function _filterChange(filters) {
+            var len = filters.length,
+                valid = true,
+                i;
+
             vm.filtersText = "";
             vm.filters = filters;
 
             filters.forEach(function(filter) {
-                vm.filtersText += filter.title + " : ";
+                if (_validateFilter(filter)) {
+                    vm.filtersText += filter.title + " : ";
 
-                if (filter.value.title) {
-                    vm.filtersText += filter.value.title;
+                    if (filter.value.title) {
+                        vm.filtersText += filter.value.title;
+                    } else {
+                        vm.filtersText += filter.value;
+                    }
+
+                    vm.filtersText += "\n";
                 } else {
-                    vm.filtersText += filter.value;
+                    valid = false;
                 }
-
-                vm.filtersText += "\n";
             });
 
-            _applyFilters(filters);
+            if(valid) {
+                _applyFilters(filters);
+            }
         }
 
         function _setExpansionState() {
