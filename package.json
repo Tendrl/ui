@@ -10,7 +10,7 @@
         "angular-cookies": "~1.5.8",
         "angular-growl-v2": "~0.7.5",
         "angular-motion": "~0.4.4",
-        "angular-patternfly": "^4.0.0",
+        "angular-patternfly": "4.18.0",
         "angular-resource": "~1.5.8",
         "angular-route": "~1.5.8",
         "angular-sanitize": "~1.5.8",
