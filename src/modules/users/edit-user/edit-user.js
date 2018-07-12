@@ -100,6 +100,10 @@
             if (form.name.$invalid) {
                 vm.errorMsg = "Please specify valid Name."
                 isFormValid = false;
+            } else if((form.confirmPassword.$dirty && form.confirmPassword.$error.maxlength) || 
+                (form.password.$dirty && form.password.$error.maxlength) ) {
+                vm.errorMsg = "Password can contain maximum 128 characters."
+                isFormValid = false;
             } else if (!_isPasswordSame()) {
                 vm.errorMsg = "Password and Confirm Password doesn't match.";
                 isFormValid = false;

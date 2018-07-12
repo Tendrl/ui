@@ -75,7 +75,13 @@
             var isFormValid = true,
                 form = vm.signInForm;
 
-            if (form.username.$invalid) {
+            if ((form.username.$dirty && form.username.$error.maxlength) ||
+                (form.password.$dirty && form.password.$error.maxlength) ||
+                (form.password.$dirty && form.password.$error.minlength)) {
+
+                isFormValid = false;
+                vm.errorMsg = "The username or password you entered is incorrect."
+            } else if (form.username.$invalid) {
                 vm.invalidFormMessage = "Please specify valid email id.";
                 isFormValid = false;
             } else if (form.password.$invalid) {
