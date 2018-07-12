@@ -78,11 +78,14 @@
             var isFormValid = true,
                 form = vm.addUserForm;
 
-            if (form.username.$invalid) {
-                vm.errorMsg = "Please specify valid User Id.";
+            if (form.name.$invalid) {
+                vm.errorMsg = "Please specify valid Name.";
                 isFormValid = false;
-            } else if (form.name.$invalid) {
-                vm.errorMsg = "Please specify valid Name."
+            } else if (form.username.$dirty && form.username.$error.maxlength) {
+                vm.errorMsg = "User ID can contain maximum 20 characters."
+                isFormValid = false;
+            } else if (form.username.$invalid) {
+                vm.errorMsg = "Please specify valid User Id.";
                 isFormValid = false;
             } else if ((form.confirmPassword.$dirty && form.confirmPassword.$error.maxlength) ||
                 (form.password.$dirty && form.password.$error.maxlength)) {
@@ -95,7 +98,6 @@
                 vm.errorMsg = "Password and Confirm Password doesn't match.";
                 isFormValid = false;
             }
-
             return isFormValid;
         }
 
