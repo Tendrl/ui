@@ -56,12 +56,12 @@
                 id: "utilMoreThan",
                 title: "Utilization More Than(%)",
                 placeholder: "Filter by Utilization More Than(%)",
-                filterType: "number"
+                filterType: "text"
             }, {
                 id: "utilLessThan",
                 title: "Utilization Less Than(%)",
                 placeholder: "Filter by Utilization Less Than(%)",
-                filterType: "number"
+                filterType: "text"
             }, {
                 id: "devices",
                 title: "Disk Device Path",
@@ -378,7 +378,7 @@
             if (filter.id === "utilMoreThan" || filter.id === "utilLessThan") {
                 percentage = parseFloat(filter.value);
 
-                if (percentage < 0 || percentage > 100) {
+                if (percentage < 0 || percentage > 100 || isNaN(percentage)) {
                     vm.errorMsg = "Please enter a valid percentage.";
                     valid = false;
                 }
@@ -433,6 +433,7 @@
                 valid = true,
                 i;
 
+            vm.removeErrMsg();
             vm.filtersText = "";
             vm.filters = filters;
 
@@ -449,6 +450,8 @@
                     vm.filtersText += "\n";
                 } else {
                     valid = false;
+                    vm.filtersText = vm.filtersText.replace(filter.title + ": " + filter.value, "");
+                    vm.filterConfig.appliedFilters = vm.filtersText;
                 }
             });
 
