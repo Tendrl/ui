@@ -248,6 +248,8 @@
                 } else {
                     temp.status = "NA";
                 }
+            } else {
+                temp.statusIcon = "Cluster status is unknown. Import is required to monitor the cluster.";
             }
 
             if (temp.managed === "No") {
@@ -292,7 +294,7 @@
                     temp.readyState = true;
                 }
             }
-            
+
             temp.hosts = store.getAssociatedHosts(cluster);
             return temp;
         }
@@ -310,7 +312,7 @@
             } else {
                 status = profileStatus[cluster.volume_profiling_state];
 
-                if(typeof status === "undefined") {
+                if (typeof status === "undefined") {
                     status = "Unknown";
                 }
             }
