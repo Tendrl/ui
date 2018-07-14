@@ -53,6 +53,7 @@
         vm.showEnableLink = showEnableLink;
         vm.getTemplate = getTemplate;
         vm.closeModal = closeModal;
+        vm.getTooltip = getTooltip;
 
         vm.filterConfig = {
             fields: [{
@@ -470,6 +471,11 @@
             }
 
             return template;
+        }
+
+        //Done this way since uib-tooltip-html doesn't update the content(https://github.com/angular-ui/bootstrap/issues/5931)
+        function getTooltip(cluster) {
+            return cluster.statusIcon;
         }
 
         /***Private Functions***/

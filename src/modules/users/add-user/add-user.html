@@ -21,7 +21,7 @@
             <div class="form-group">
                 <label class="col-sm-2 col-md-1 control-label" for="username">User ID</label>
                 <div class="col-sm-8 col-md-6">
-                    <input type="text" class="form-control" data-id="username" name="username" ng-model="addUserCntrl.user.username" minlength="4" required/>
+                    <input type="text" class="form-control" data-id="username" name="username" ng-model="addUserCntrl.user.username" minlength="4" ng-maxlength="20" required/>
                 </div>
             </div>
             <div class="form-group">
@@ -43,7 +43,7 @@
             <div class="form-group">
                 <label class="col-sm-2 col-md-1 control-label" for="password">Password</label>
                 <div class="col-sm-8 col-md-6 inner-addon">
-                    <input type="{{ addUserCntrl.typePassword ? 'text' : 'password' }}" data-id="password" aria-describedby="passwordStatus" name="password" ng-model="addUserCntrl.user.password" minlength="8" required/>
+                    <input type="{{ addUserCntrl.typePassword ? 'text' : 'password' }}" data-id="password" aria-describedby="passwordStatus" name="password" ng-model="addUserCntrl.user.password" minlength="9" ng-maxlength="128" required/>
                     <span id="passwordStatus" class="showPassword" ng-click="addUserCntrl.toggleTypePassword()">
                         <span ng-if="addUserCntrl.typePassword === true">
                             <i class="glyphicon glyphicon-eye-open" aria-hidden="true"></i>
@@ -57,7 +57,7 @@
             <div class="form-group required">
                 <label class="col-sm-2 col-md-1 control-label cp-padding" for="password">Confirm Password</label>
                 <div class="col-sm-8 col-md-6 inner-addon">
-                    <input type="{{ addUserCntrl.confirmPassword ? 'text' : 'password' }}" data-id="password" aria-describedby="passwordStatus" name="confirmPassword" ng-model="addUserCntrl.user.confirmPassword" minlength="8" required/>
+                    <input type="{{ addUserCntrl.confirmPassword ? 'text' : 'password' }}" data-id="password" aria-describedby="passwordStatus" name="confirmPassword" ng-model="addUserCntrl.user.confirmPassword" minlength="9" ng-maxlength="128" required/>
                     <span id="passwordStatus" class="showPassword" ng-click="addUserCntrl.toggleConfirmPassword()">
                         <span ng-if="addUserCntrl.confirmPassword === true">
                             <i class="glyphicon glyphicon-eye-open" aria-hidden="true"></i>
