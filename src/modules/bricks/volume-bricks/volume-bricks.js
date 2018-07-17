@@ -302,7 +302,7 @@
                 if (vm.filters[i].id === "utilMoreThan" || vm.filters[i].id === "utilLessThan") {
                     percentage = parseFloat(vm.filters[i].value);
 
-                    if (percentage < 0 || percentage > 100) {
+                    if (percentage < 0 || percentage > 100 || isNaN(percentage)) {
                         vm.filters.splice(i, 1);
                         _filterChange(vm.filters);
                     }
@@ -349,7 +349,8 @@
             if (filter.id === "fqdn") {
                 match = brick.fqdn.match(re) !== null;
             } else if (filter.id === "brickPath") {
-                match = brick.brickPath.match(re) !== null;
+                //TODO: move this logic to store later on
+                match = (brick.brickPath.split(":")[1]).match(re) !== null;
             } else if (filter.id === "status") {
                 match = brick.status === filter.value.id || brick.status.toLowerCase() === filter.value.toLowerCase();
             } else if (filter.id === "devices") {
@@ -433,7 +434,6 @@
                 valid = true,
                 i;
 
-            vm.removeErrMsg();
             vm.filtersText = "";
             vm.filters = filters;
 
@@ -451,11 +451,11 @@
                 } else {
                     valid = false;
                     vm.filtersText = vm.filtersText.replace(filter.title + ": " + filter.value, "");
-                    vm.filterConfig.appliedFilters = vm.filtersText;
+                    vm.filterConfig.appliedFilters.splice(brickStore.getFilterIndex(vm.filters, filter));
                 }
             });
 
-            if(valid) {
+            if (valid) {
                 _applyFilters(filters);
             }
         }
