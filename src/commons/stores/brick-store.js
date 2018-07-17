@@ -189,6 +189,17 @@
 
         };
 
+        store.getFilterIndex = function(filterList, filter) {
+            var len = filterList.length,
+                i;
+
+            for (i = 0; i < len; i++) {
+                if (filterList[i].id === filter.id && filterList[i].value === filter.value) {
+                    return i;
+                }
+            }
+        };
+
     }
 
 })();
