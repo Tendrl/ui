@@ -53,12 +53,12 @@
                 id: "utilMoreThan",
                 title: "Utilization More Than(%)",
                 placeholder: "Filter by Utilization More Than(%)",
-                filterType: "number"
+                filterType: "text"
             }, {
                 id: "utilLessThan",
                 title: "Utilization Less Than(%)",
                 placeholder: "Filter by Utilization Less Than(%)",
-                filterType: "number"
+                filterType: "text"
             }, {
                 id: "devices",
                 title: "Disk Device Path",
@@ -185,7 +185,7 @@
                 if (vm.filters[i].id === "utilMoreThan" || vm.filters[i].id === "utilLessThan") {
                     percentage = parseFloat(vm.filters[i].value);
 
-                    if (percentage < 0 || percentage > 100) {
+                    if (percentage < 0 || percentage > 100 || isNaN(percentage)) {
                         vm.filters.splice(i, 1);
                         _filterChange(vm.filters);
                     }
@@ -215,7 +215,8 @@
             if (filter.id === "volName") {
                 match = item.volName.match(re) !== null;
             } else if (filter.id === "brickPath") {
-                match = item.name.match(re) !== null;
+                //TODO: move this logic to store later on
+                match = (item.name.split(":")[1]).match(re) !== null;
             } else if (filter.id === "status") {
                 match = item.status === filter.value.id || item.status.toLowerCase() === filter.value.toLowerCase();
             } else if (filter.id === "devices") {
@@ -249,15 +250,19 @@
         }
 
         function _validateFilter(filter) {
-            var percentage;
+            var percentage,
+                valid = true;
 
             if (filter.id === "utilMoreThan" || filter.id === "utilLessThan") {
                 percentage = parseFloat(filter.value);
 
-                if (percentage < 0 || percentage > 100) {
+                if (percentage < 0 || percentage > 100 || isNaN(percentage)) {
                     vm.errorMsg = "Please enter a valid percentage.";
+                    valid = false;
                 }
             }
+
+            return valid;
         }
 
         function _applyFilters(filters) {
@@ -275,21 +280,31 @@
         }
 
         function _filterChange(filters) {
+            var valid = true;
+
             vm.filtersText = "";
             vm.filters = filters;
-            filters.forEach(function(filter) {
-                _validateFilter(filter);
-                vm.filtersText += filter.title + " : ";
 
-                if (filter.value.title) {
-                    vm.filtersText += filter.value.title;
+            filters.forEach(function(filter) {
+                if (_validateFilter(filter)) {
+                    vm.filtersText += filter.title + " : ";
+
+                    if (filter.value.title) {
+                        vm.filtersText += filter.value.title;
+                    } else {
+                        vm.filtersText += filter.value;
+                    }
+                    vm.filtersText += "\n";
                 } else {
-                    vm.filtersText += filter.value;
+                    valid = false;
+                    vm.filtersText = vm.filtersText.replace(filter.title + ": " + filter.value, "");
+                    vm.filterConfig.appliedFilters.splice(brickStore.getFilterIndex(vm.filters, filter));
                 }
-                vm.filtersText += "\n";
             });
 
-            _applyFilters(filters);
+            if (valid) {
+                _applyFilters(filters);
+            }
         }
 
         function _getStoppedBrickCount() {
