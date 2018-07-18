@@ -103,7 +103,7 @@
                                 <a ng-click="clusterCntrl.openUnmanageModal(cluster)" uib-tooltip="Unmanage Cluster">Unmanage
                                 </a>
                             </li>
-                            <li ng-class="{'disable-pointer': (clusterCntrl.hideExpandBtn(cluster) || cluster.disableExpand)}">
+                            <li ng-class="{'disable-pointer': cluster.disableExpand}" ng-show="clusterCntrl.showExpandBtn(cluster)">
                                 <a ng-click="clusterCntrl.openExpandModal(cluster)" uib-tooltip="Expand Cluster">Expand
                                 </a>
                             </li>
