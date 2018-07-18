@@ -46,7 +46,6 @@
         vm.showKebabMenu = showKebabMenu;
         vm.disableImportBtn = disableImportBtn;
         vm.getClass = getClass;
-        vm.hideExpandBtn = hideExpandBtn;
         vm.goToClusterHost = goToClusterHost;
         vm.showViewDetailsLink = showViewDetailsLink;
         vm.showDisableLink = showDisableLink;
@@ -54,6 +53,7 @@
         vm.getTemplate = getTemplate;
         vm.closeModal = closeModal;
         vm.getTooltip = getTooltip;
+        vm.showExpandBtn = showExpandBtn;
 
         vm.filterConfig = {
             fields: [{
@@ -420,11 +420,10 @@
             return ((cluster.currentStatus === "in_progress" && cluster.jobType !== "EnableDisableVolumeProfiling") || cluster.currentStatus === "failed");
         }
 
-        function hideExpandBtn(cluster) {
-            return ($rootScope.userRole === "limited" || cluster.managed === "No" ||
-                (cluster.managed === "Yes" && cluster.state !== "expand_pending"));
+        function showExpandBtn(cluster) {
+            return ($rootScope.userRole !== "limited" && cluster.managed === "Yes" &&
+                (cluster.state === "expand_pending" || (cluster.jobType === "ExpandClusterWithDetectedPeers" && cluster.currentStatus === "failed")));
         }
-
 
         function getClass(cluster) {
             var cls;

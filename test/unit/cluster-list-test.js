@@ -246,7 +246,7 @@ describe("Unit Component: clusterList", function() {
         it("Should hide Expand button", function() {
             var cluster = clusterList.clusters[0];
             $rootScope.userRole = "limited";
-            expect(vm.hideExpandBtn(cluster)).to.be.true;
+            expect(vm.showExpandBtn(cluster)).to.be.false;
         });
 
         it("Should show tooltip", function() {
