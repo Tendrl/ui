@@ -458,7 +458,7 @@
             var tooltip = {
                     "unmanagecluster": "If unmanage fails, resolve the issue and reinitiate unmanage cluster.",
                     "importcluster": "If import cluster fails, resolve the issue before performing an unmanage cluster and reinitiate import.",
-                    "expandclusterwithdetectedpeers": "If cluster expansion fails, check if tendrl-ansible was executed successfully and ensure the node agents are correctly configured.",
+                    "expandclusterwithdetectedpeers": "If cluster expansion fails, check if tendrl-ansible was executed successfully and ensure the node agents are correctly configured.  If cluster expansion failed due to errors, resolve the errors on affected nodes and re-initiate the Expand Cluster action.",
                     "ready": "The cluster is successfully imported for viewing monitoring data and metrics."
                 },
                 template = "";
