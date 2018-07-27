@@ -3,7 +3,7 @@
     "description": "Dashboard",
     "version": "1.6.3",
     "dependencies": {
-        "@uirouter/angularjs": "^1.0.7",
+        "@uirouter/angularjs": "1.0.18",
         "angular": "~1.5.8",
         "angular-animate": "~1.5.8",
         "angular-bootstrap-switch": "~0.5.2",
