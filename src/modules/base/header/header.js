@@ -52,8 +52,8 @@
         vm.showUserSetting = false;
         vm.userSetting = userSetting;
         vm.closeUserSetting = closeUserSetting;
-        vm.toggleTypePassword = toggleTypePassword;
-        vm.toggleConfirmPassword = toggleConfirmPassword;
+        vm.userScope.toggleTypePassword = toggleTypePassword;
+        vm.userScope.toggleConfirmPassword = toggleConfirmPassword;
         vm.userSettingId = "userSettingModal";
         vm.userSettingTitle = "My Settings";
         vm.userSettingTemplate = "/modules/base/user-setting/user-setting.html";
@@ -104,10 +104,12 @@
                                     Notifications.message("danger", "", " Failed to update profile.");
                                 }
                             });
-
-
                     } else {
                         vm.userScope.formSubmitInProgress = false;
+                    }
+                    if (vm.userScope.errorMsg !== null){
+                      vm.showUserSetting = true;
+                      $event.preventDefault();
                     }
                 }
             }
@@ -168,7 +170,7 @@
                 return false;
             }
         }
-        /*END Unmanage confirm modal*/
+        /*END user setting modal*/
 
         init();
 
