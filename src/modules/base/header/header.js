@@ -52,66 +52,63 @@
         vm.showUserSetting = false;
         vm.userSetting = userSetting;
         vm.closeUserSetting = closeUserSetting;
-        vm.toggleTypePassword = toggleTypePassword;
-        vm.toggleConfirmPassword = toggleConfirmPassword;
+        vm.userScope.confirmModal = confirmModal;
+        vm.userScope.closeUserSetting = closeUserSetting;
+        vm.userScope.toggleTypePassword = toggleTypePassword;
+        vm.userScope.toggleConfirmPassword = toggleConfirmPassword;
         vm.userSettingId = "userSettingModal";
         vm.userSettingTitle = "My Settings";
         vm.userSettingTemplate = "/modules/base/user-setting/user-setting.html";
         vm.isForm = true;
 
-        vm.userSettingActionButtons = [{
-                label: "Cancel",
-                isCancel: true
-            }, {
-                label: "Save",
-                class: "btn-primary custom-class",
-                actionFn: function() {
-                    vm.userScope.formSubmitInProgress = true;
-                    if (_validateUIFields()) {
-                        vm.userScope.user.notification = vm.userScope.user.email_notifications;
-                        userStore.editUser(vm.userScope.user)
-                            .then(function(data) {
-                                vm.showUserSetting = false;
-                                if (vm.currentState === "users") {
-                                    userStore.getUserList()
-                                        .then(function(data) {
-                                            if (data !== null) {
-                                                $rootScope.$broadcast("UpdatedUserList", data);
-                                            }
 
-                                        });
-                                }
-                                Notifications.message("success", "", " Profile updated Successfully.");
-                            }).catch(function(e) {
-                                var keys,
-                                    messages;
+        function confirmModal() {
+            vm.userScope.formSubmitInProgress = true;
+            if (_validateUIFields()) {
+              vm.userScope.user.notification = vm.userScope.user.email_notifications;
+              userStore.editUser(vm.userScope.user)
+                .then(function(data) {
+                  vm.showUserSetting = false;
+                  if (vm.currentState === "users") {
+                    userStore.getUserList()
+                      .then(function(data) {
+                        if (data !== null) {
+                          $rootScope.$broadcast("UpdatedUserList", data);
+                        }
 
-                                if (e.status === 422) {
-                                    keys = Object.keys(e.data.errors);
-                                    messages = Object.values(e.data.errors)[0];
+                      });
+                  }
+                  Notifications.message("success", "", " Profile updated Successfully.");
+                }).catch(function(e) {
+                  var keys,
+                    messages;
 
-                                    if (keys.indexOf("email") !== -1) {
-                                        if (messages.indexOf("is taken") !== -1) {
-                                            vm.userScope.errorMsg = "Email is already taken. Please use different one.";
-                                        } else if (messages.indexOf("is invalid") !== -1) {
-                                            vm.userScope.errorMsg = "Please enter a valid Email Id";
-                                        }
-                                    } else if (keys.indexOf("name") !== -1) {
-                                        vm.userScope.errorMsg = "Name is too short (minimum is 4 characters).";
-                                    }
-                                } else {
-                                    vm.showUserSetting = false;
-                                    Notifications.message("danger", "", " Failed to update profile.");
-                                }
-                            });
+                  if (e.status === 422) {
+                    keys = Object.keys(e.data.errors);
+                    messages = Object.values(e.data.errors)[0];
 
-
-                    } else {
-                        vm.userScope.formSubmitInProgress = false;
+                    if (keys.indexOf("email") !== -1) {
+                      if (messages.indexOf("is taken") !== -1) {
+                        vm.userScope.errorMsg = "Email is already taken. Please use different one.";
+                      } else if (messages.indexOf("is invalid") !== -1) {
+                        vm.userScope.errorMsg = "Please enter a valid Email Id";
+                      }
+                    } else if (keys.indexOf("name") !== -1) {
+                      vm.userScope.errorMsg = "Name is too short (minimum is 4 characters).";
                     }
-                }
+                  } else {
+                    vm.showUserSetting = false;
+                    Notifications.message("danger", "", " Failed to update profile.");
+                  }
+
+                });
+              closeUserSetting();
+
+            } else {
+              vm.userScope.formSubmitInProgress = false;
             }
-        ];
+        }
+
 
         function userSetting() {
             vm.userScope.typePassword = false;
@@ -137,28 +134,28 @@
 
         function closeUserSetting(dismissCause) {
             vm.showUserSetting = false;
+            vm.userScope.errorMsg = "";
         }
 
         /***Private Functions***/
 
         function _validateUIFields() {
-            var isFormValid = true,
-                form = vm.userScope.user;
-            if (form.name.$invalid) {
-                vm.userScope.errorMsg = "Please specify valid Name."
-                isFormValid = false;
-            } else if (!_isPasswordSame()) {
-                vm.userScope.errorMsg = "Password and Confirm Password doesn't match.";
-                isFormValid = false;
-            } else if (form.password.$invalid) {
-                vm.userScope.errorMsg = "Password should be 8 characters minimum";
-                isFormValid = false;
-            } else if (form.email.$invalid) {
-                vm.userScope.errorMsg = "Please enter Email id.";
-                isFormValid = false;
-            }
+          var isFormValid = true,
+              form = vm.userScope.user;
 
-            return isFormValid;
+          if (form.name.$invalid) {
+              vm.userScope.errorMsg = "Please specify valid Name."
+              isFormValid = false;
+          } else if((form.confirmPassword.$dirty && form.confirmPassword.$error.maxlength) ||
+              (form.password.$dirty && form.password.$error.maxlength) ) {
+              vm.userScope.errorMsg = "Password can contain maximum 128 characters."
+              isFormValid = false;
+          } else if (!_isPasswordSame()) {
+              vm.userScope.errorMsg = "Password and Confirm Password doesn't match.";
+              isFormValid = false;
+          }
+
+          return isFormValid;
         }
 
         function _isPasswordSame() {
