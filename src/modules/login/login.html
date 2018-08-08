@@ -22,7 +22,7 @@
                         <div class="form-group" ng-class="{'has-error': loginCntrl.signInForm.username.$dirty && loginCntrl.signInForm.username.$error.required }">
                             <label for="inputUsername" class="col-sm-3 col-md-3">Username</label>
                             <div class="col-sm-8 col-md-8">
-                                <input class="form-control" id="username" tabindex="1" type="text" ng-model="loginCntrl.user.username" ng-trim="false" name="username" placeholder="Username" ng-maxlength="20" required />
+                                <input class="form-control" id="username" tabindex="1" type="text" ng-model="loginCntrl.user.username" ng-trim="false" name="username" placeholder="Username" required />
                             </div>
                             <div>
                                 <div class="col-sm-3 col-md-3"></div>
@@ -32,7 +32,7 @@
                         <div class="form-group" ng-class="{ 'has-error': loginCntrl.signInForm.username.$dirty && loginCntrl.signInForm.username.$error.required }">
                             <label for="inputPassword" class="col-sm-3 col-md-3">Password</label>
                             <div class="col-sm-8 col-md-8">
-                                <input class="form-control" type="password" name="password" id="password" tabindex="2" placeholder="Password" ng-model="loginCntrl.user.password" ng-maxlength="128" ng-minlength="9" required />
+                                <input class="form-control" type="password" name="password" id="password" tabindex="2" placeholder="Password" ng-model="loginCntrl.user.password" required />
                             </div>
                             <div>
                                 <div class="col-sm-3 col-md-3"></div>
