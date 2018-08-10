@@ -70,24 +70,24 @@
          */
         store.getAssociatedHosts = function(data) {
             var hostList = [],
-                keys = Object.keys(data.nodes),
-                len = keys.length,
-                temp,
-                obj,
+                nodes = data.nodes,
+                len = nodes.length,
                 tags,
+                temp,
                 i;
 
             for (i = 0; i < len; i++) {
-                obj = data.nodes[keys[i]];
                 temp = {};
-                temp.nodeId = obj.node_id;
-                temp.fqdn = obj.fqdn;
-                temp.ipAddress = obj.ipv4_addr;
-                temp.status = obj.status;
-                tags = nodeStore.findRole(obj.tags);
+                temp.nodeId = nodes[i].node_id;
+                temp.fqdn = nodes[i].fqdn;
+                temp.status = nodes[i].status;
+                temp.managed = nodes[i].is_managed === "yes" ? "Yes" : "No";
+                temp.ipAddress = nodes[i].ipv4_addr;
+                tags = nodeStore.findRole(nodes[i].tags);
                 temp.role = tags ? tags.role : "None";
                 temp.release = tags.release !== "NA" ? (tags.release + " " + data.sds_version) : "NA";
-                hostList.push(temp)
+
+                hostList.push(temp);
             }
 
             return hostList;
@@ -235,6 +235,9 @@
             temp.isProfilingEnabled = _getProfileStatus(temp, cluster);
             temp.readyState = false;
 
+            temp.hosts = store.getAssociatedHosts(cluster);
+            temp.isAnyHostUnmanaged = nodeStore.isAnyHostUnmanaged(temp.hosts);
+
             temp.errors = cluster.errors ? cluster.errors : [];
 
             /*This block has be placed here, as it initializes statusIcon (used at line 283)*/
@@ -282,6 +285,11 @@
                     temp.message = "Ready to Import";
                 }
             } else if (temp.managed === "Yes") {
+
+                if (temp.isAnyHostUnmanaged) {
+                    temp.message = "Expansion required";
+                }
+
                 if (temp.jobType === "ExpandClusterWithDetectedPeers" && temp.currentStatus === "in_progress") {
                     temp.message = "Expanding Cluster.";
                     temp.statusIcon = "Expand cluster in progress";
@@ -295,7 +303,6 @@
                 }
             }
 
-            temp.hosts = store.getAssociatedHosts(cluster);
             return temp;
         }
 
