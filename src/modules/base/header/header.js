@@ -52,8 +52,8 @@
         vm.showUserSetting = false;
         vm.userSetting = userSetting;
         vm.closeUserSetting = closeUserSetting;
-        vm.toggleTypePassword = toggleTypePassword;
-        vm.toggleConfirmPassword = toggleConfirmPassword;
+        vm.userScope.toggleTypePassword = toggleTypePassword;
+        vm.userScope.toggleConfirmPassword = toggleConfirmPassword;
         vm.userSettingId = "userSettingModal";
         vm.userSettingTitle = "My Settings";
         vm.userSettingTemplate = "/modules/base/user-setting/user-setting.html";
@@ -67,6 +67,7 @@
                 class: "btn-primary custom-class",
                 actionFn: function() {
                     vm.userScope.formSubmitInProgress = true;
+
                     if (_validateUIFields()) {
                         vm.userScope.user.notification = vm.userScope.user.email_notifications;
                         userStore.editUser(vm.userScope.user)
@@ -99,19 +100,27 @@
                                     } else if (keys.indexOf("name") !== -1) {
                                         vm.userScope.errorMsg = "Name is too short (minimum is 4 characters).";
                                     }
+                                    test();
                                 } else {
                                     vm.showUserSetting = false;
                                     Notifications.message("danger", "", " Failed to update profile.");
                                 }
                             });
-
-
                     } else {
                         vm.userScope.formSubmitInProgress = false;
                     }
+                    test();
                 }
             }
         ];
+
+        function test(){
+          if (!(vm.userScope.errorMsg === undefined || vm.userScope.errorMsg === "")){
+            closeUserSetting(dismissCause, true)
+          } else {
+            vm.userScope.errorMsg = "";
+          }
+        }
 
         function userSetting() {
             vm.userScope.typePassword = false;
@@ -135,8 +144,8 @@
             vm.userScope.confirmPassword = !vm.userScope.confirmPassword;
         }
 
-        function closeUserSetting(dismissCause) {
-            vm.showUserSetting = false;
+        function closeUserSetting(dismissCause, bool) {
+            vm.showUserSetting = bool;
         }
 
         /***Private Functions***/
@@ -158,6 +167,7 @@
                 isFormValid = false;
             }
 
+            test();
             return isFormValid;
         }
 
@@ -168,7 +178,7 @@
                 return false;
             }
         }
-        /*END Unmanage confirm modal*/
+        /*END user setting modal*/
 
         init();
 

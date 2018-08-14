@@ -17,13 +17,13 @@
             <div class="form-group">
                 <label class="col-sm-2 col-md-offset-1 col-md-3 control-label" for="name">Name</label>
                 <div class="col-sm-8 col-md-6">
-                    <input type="text" class="form-control" data-id="name" name="name" ng-model="$ctrl.modalBodyScope.user.name" required/>
+                    <input type="text" class="form-control" data-id="name" name="name" ng-model="$ctrl.modalBodyScope.user.name" minlength="4" required/>
                 </div>
             </div>
             <div class="form-group">
                 <label class="col-sm-2 col-md-offset-1 col-md-3 control-label cp-padding" for="password">New Password</label>
                 <div class="col-sm-8 col-md-6 inner-addon">
-                    <input type="{{ $ctrl.modalBodyScope.typePassword ? 'text' : 'password' }}" data-id="password" name="password" ng-model="$ctrl.modalBodyScope.user.password" minlength="8" />
+                    <input type="{{ $ctrl.modalBodyScope.typePassword ? 'text' : 'password' }}" data-id="password" name="password" ng-model="$ctrl.modalBodyScope.user.password" minlength="9" ng-maxlength="128" />
                     <span id="passwordStatus" class="showPassword" ng-click="$ctrl.modalBodyScope.toggleTypePassword()">
                         <span ng-if="$ctrl.modalBodyScope.typePassword == 1">
                             <i class="glyphicon glyphicon-eye-open" aria-hidden="true"></i>
@@ -37,7 +37,7 @@
             <div class="form-group">
                 <label class="col-sm-2 col-md-offset-1 col-md-3 control-label cp-padding" for="password">Confirm Password</label>
                 <div class="col-sm-8 col-md-6 inner-addon">
-                    <input type="{{ $ctrl.modalBodyScope.confirmPassword ? 'text' : 'password' }}" data-id="password" aria-describedby="passwordStatus" name="confirmPassword" ng-model="$ctrl.modalBodyScope.user.confirmPassword" minlength="8" />
+                    <input type="{{ $ctrl.modalBodyScope.confirmPassword ? 'text' : 'password' }}" data-id="password" aria-describedby="passwordStatus" name="confirmPassword" ng-model="$ctrl.modalBodyScope.user.confirmPassword" minlength="9" ng-maxlength="128" />
                     <i class="glyphicon glyphicon-eye-open" aria-hidden="true" ng-if="$ctrl.modalBodyScope.confirmPassword == 1" ng-click="$ctrl.modalBodyScope.toggleConfirmPassword()"></i>
                     <i class="glyphicon glyphicon-eye-close" aria-hidden="true" ng-if="$ctrl.modalBodyScope.confirmPassword == 0" ng-click="$ctrl.modalBodyScope.toggleConfirmPassword()"></i>
                 </div>
