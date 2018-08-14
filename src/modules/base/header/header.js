@@ -137,6 +137,7 @@
 
         function closeUserSetting(dismissCause) {
             vm.showUserSetting = false;
+            vm.userScope.errorMsg = "";
         }
 
         /***Private Functions***/
@@ -148,8 +149,9 @@
                 vm.userScope.errorMsg = "Please specify valid Name."
                 isFormValid = false;
             } else if (!_isPasswordSame()) {
-                vm.userScope.errorMsg = "Password and Confirm Password doesn't match.";
+                //vm.userScope.errorMsg = "Password and Confirm Password doesn't match.";
                 isFormValid = false;
+                Notifications.message("danger", "", "Your password and confirmation password do not match. Go to My Settings to reset your password.");
             } else if (form.password.$invalid) {
                 vm.userScope.errorMsg = "Password should be 8 characters minimum";
                 isFormValid = false;
