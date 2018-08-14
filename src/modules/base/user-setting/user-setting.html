@@ -7,7 +7,7 @@
                 <label ng-bind="$ctrl.modalBodyScope.errorMsg"></label>
             </div>
         </div>
-        <ng-form class="form-horizontal" name="userSettingForm" ng-submit="$ctrl.modalBodyScope.confirmModal()" ng-if="!$ctrl.modalBodyScope.isDataLoading">
+        <form class="form-horizontal" name="userSettingForm" ng-submit="$ctrl.modalBodyScope.confirmModal()" ng-if="!$ctrl.modalBodyScope.isDataLoading">
             <div class="form-group">
                 <label class="col-sm-2 col-md-offset-1 col-md-3 control-label">User ID</label>
                 <div class="col-sm-8 col-md-6">
@@ -17,13 +17,14 @@
             <div class="form-group">
                 <label class="col-sm-2 col-md-offset-1 col-md-3 control-label" for="name">Name</label>
                 <div class="col-sm-8 col-md-6">
-                    <input type="text" class="form-control" data-id="name" name="name" ng-model="$ctrl.modalBodyScope.user.name" required/>
+                    <input type="text" class="form-control" data-id="name" name="name" ng-model="$ctrl.modalBodyScope.user.name" minlength="4" required/>
                 </div>
             </div>
+            <br>
             <div class="form-group">
-                <label class="col-sm-2 col-md-offset-1 col-md-3 control-label cp-padding" for="password">New Password</label>
+                <label class="col-sm-2 col-md-offset-1 col-md-3 control-label" for="password">New Password</label>
                 <div class="col-sm-8 col-md-6 inner-addon">
-                    <input type="{{ $ctrl.modalBodyScope.typePassword ? 'text' : 'password' }}" data-id="password" name="password" ng-model="$ctrl.modalBodyScope.user.password" minlength="8" />
+                    <input type="{{ $ctrl.modalBodyScope.typePassword ? 'text' : 'password' }}" data-id="password" name="password" ng-model="$ctrl.modalBodyScope.user.password" minlength="9" ng-maxlength="128"/>
                     <span id="passwordStatus" class="showPassword" ng-click="$ctrl.modalBodyScope.toggleTypePassword()">
                         <span ng-if="$ctrl.modalBodyScope.typePassword == 1">
                             <i class="glyphicon glyphicon-eye-open" aria-hidden="true"></i>
@@ -34,26 +35,46 @@
                     </span>
                 </div>
             </div>
+            <br>
             <div class="form-group">
-                <label class="col-sm-2 col-md-offset-1 col-md-3 control-label cp-padding" for="password">Confirm Password</label>
+                <label class="col-sm-2 col-md-offset-1 col-md-3 control-label" for="password">Confirm Password</label>
                 <div class="col-sm-8 col-md-6 inner-addon">
-                    <input type="{{ $ctrl.modalBodyScope.confirmPassword ? 'text' : 'password' }}" data-id="password" aria-describedby="passwordStatus" name="confirmPassword" ng-model="$ctrl.modalBodyScope.user.confirmPassword" minlength="8" />
-                    <i class="glyphicon glyphicon-eye-open" aria-hidden="true" ng-if="$ctrl.modalBodyScope.confirmPassword == 1" ng-click="$ctrl.modalBodyScope.toggleConfirmPassword()"></i>
-                    <i class="glyphicon glyphicon-eye-close" aria-hidden="true" ng-if="$ctrl.modalBodyScope.confirmPassword == 0" ng-click="$ctrl.modalBodyScope.toggleConfirmPassword()"></i>
+                    <input type="{{ $ctrl.modalBodyScope.confirmPassword ? 'text' : 'password' }}" data-id="password" aria-describedby="passwordStatus" name="confirmPassword" ng-model="$ctrl.modalBodyScope.user.confirmPassword" minlength="9" ng-maxlength="128">
+                    <span id="passwordStatus" class="showPassword" ng-click="$ctrl.modalBodyScope.toggleConfirmPassword()">
+                        <span ng-if="$ctrl.modalBodyScope.confirmPassword === true">
+                            <i class="glyphicon glyphicon-eye-open" aria-hidden="true"></i>
+                        </span>
+                    <span ng-if="$ctrl.modalBodyScope.confirmPassword === false">
+                            <i class="glyphicon glyphicon-eye-close" aria-hidden="true"></i>
+                        </span>
+                    </span>
                 </div>
             </div>
+            <br/>
             <div class="form-group">
                 <label class="col-sm-2 col-md-offset-1 col-md-3 control-label" for="email">Email</label>
                 <div class="col-sm-8 col-md-6 inner-addon">
                     <input type="email" class="form-control width-full" data-id="email" name="userEmail" ng-model="$ctrl.modalBodyScope.user.email" required/>
                 </div>
             </div>
+            <br>
             <div class="form-group">
                 <label class="col-sm-2 col-md-offset-1 col-md-3 control-label" for="email-notification">Email Notifications</label>
                 <div class="col-sm-8 col-md-4">
                     <input ng-model="$ctrl.modalBodyScope.user.email_notifications" type="checkbox" ng-true-value="true" ng-false-value="false">
                 </div>
             </div>
-        </ng-form>
+            <div class="form-group form-inline bottom-button">
+                <label class="col-sm-2 col-md-1 control-label"></label>
+                <div class="col-sm-8 col-md-6">
+                    <button type="submit" class="btn btn-primary btn-lg submit-button" ng-disabled="$ctrl.modalBodyScope.formSubmitInProgress">
+                        <i class="glyphicon glyphicon-refresh glyphicon-refresh-animate" data-ng-class="{'hidden': $ctrl.modalBodyScope.formSubmitInProgress !== true }">
+                    </i>
+                        <span>Save</span>
+                    </button>
+                    <button type="button" ng-click="$ctrl.modalBodyScope.closeUserSetting('cancel')" class="btn btn-default btn-lg">Cancel</button>
+                </div>
+            </div>
+        </form>
     </div>
 </div>

@@ -42,14 +42,12 @@
                     <i class="pficon pficon-user"></i>
                     <span class="headerName">{{ header.currentUser }}</span>
                 </a>
-                <pf-modal-overlay 
-                    show-modal="header.showUserSetting" 
-                    on-close="header.closeUserSetting(dismissCause)" 
-                    modal-id="header.userSettingId" 
-                    modal-title="header.userSettingTitle" 
-                    modal-body-template="header.userSettingTemplate" 
-                    action-buttons="header.userSettingActionButtons" 
-                    is-form="header.isForm"
+                <pf-modal-overlay
+                    show-modal="header.showUserSetting"
+                    on-close="header.closeUserSetting(dismissCause)"
+                    modal-id="header.userSettingId"
+                    modal-title="header.userSettingTitle"
+                    modal-body-template="header.userSettingTemplate"
                     modal-body-scope="header.userScope">
                 </pf-modal-overlay>
                 <ul class="dropdown-menu" role="menu" aria-labelledby="usermenu">
