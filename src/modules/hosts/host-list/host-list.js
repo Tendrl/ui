@@ -28,6 +28,7 @@
         vm.filters = [];
         vm.hideExpandBtn = true;
         vm.expansionInProgress = false;
+        vm.expansionMsg = "";
 
         vm.redirectToGrafana = redirectToGrafana;
         vm.goToHostDetail = goToHostDetail;
@@ -174,7 +175,6 @@
                 .then(function(data) {
                     $interval.cancel(hostListTimer);
                     vm.cluster = data;
-                    _setExpansionState();
                     return nodeStore.getNodeList(vm.clusterId, vm.cluster.state);
                 }).catch(function(e) {
                     vm.cluster = {};
@@ -182,6 +182,7 @@
                 .then(function(list) {
                     vm.hostList = list;
                     vm.filteredHostList = vm.hostList;
+                    _setExpansionState();
                     _filterChange(vm.filters);
                     _sortChange(vm.sortConfig.currentField.id, vm.sortConfig.isAscending);
                     startTimer();
@@ -265,12 +266,11 @@
 
         function _filterExpandChange(filters) {
             _filterConf(filters, vm.expandCluster, "expandHost");
-
         }
 
         function _hideExpandBtn() {
             return ($rootScope.userRole === "limited" ||
-                (vm.cluster.managed === "Yes" && vm.cluster.state !== "expand_pending"));
+                (vm.cluster.managed === "Yes" && vm.cluster.state !== "expand_pending" && !vm.cluster.isAnyHostUnmanaged));
         }
 
         function _setExpansionState() {
@@ -278,15 +278,24 @@
             vm.hideExpandBtn = _hideExpandBtn();
 
             if (vm.expansionInProgress && vm.cluster.currentStatus === "in_progress") {
-                vm.expansionMsg = "Expanding cluster."
-            } else if (vm.expansionInProgress && vm.cluster.currentStatus === "failed") {
-                vm.expansionMsg = "Expansion failed."
+                vm.expansionMsg = "Expanding cluster.";
+            } else if (vm.cluster.jobType === "ExpandClusterWithDetectedPeers" && vm.cluster.currentStatus === "failed") {
+                vm.expansionMsg = "Expansion failed.";
             } else if (!vm.hideExpandBtn) {
-                vm.expansionMsg = "Cluster expansion required."
+                vm.expansionMsg = "Cluster expansion required.";
             }
 
             if (vm.expansionInProgress) {
                 vm.hideExpandBtn = false;
+            }
+
+            //TODO: Remove this once backend handles it
+            if (vm.cluster.jobType !== "ExpandClusterWithDetectedPeers" && vm.cluster.currentStatus === "in_progress") {
+                vm.expansionInProgress = true;
+            }
+
+            if (!vm.hideExpandBtn && !vm.expansionMsg.length) {
+                vm.expansionMsg = "Cluster expansion required.";
             }
         }
 
@@ -332,6 +341,7 @@
             });
             return matches;
         }
+
         function _applyHostFilters(filters, context, type) {
             context.filteredHostList = [];
             if (filters && filters.length > 0) {
@@ -345,6 +355,7 @@
             }
             context.filterConfig.resultsCount = context.filteredHostList.length;
         }
+
         function _filterConf(filters, context, type) {
             context.filtersText = "";
             context.filters = filters;
@@ -358,7 +369,6 @@
                 context.filtersText += "\n";
             });
 
-
             _applyHostFilters(filters, context, type);
 
         }
@@ -366,9 +376,11 @@
         function _isClusterExpanding() {
             var expansionInProgress = false;
             if (vm.cluster.managed === "Yes") {
-                if (vm.cluster.jobType === "ExpandClusterWithDetectedPeers" && (vm.cluster.currentStatus === "in_progress" || vm.cluster.currentStatus === "failed")) {
+
+                if (vm.cluster.jobType === "ExpandClusterWithDetectedPeers" && vm.cluster.currentStatus === "in_progress") {
                     expansionInProgress = true;
                 }
+
                 return expansionInProgress;
             }
         }

@@ -131,6 +131,13 @@
 
         };
 
+        store.isAnyHostUnmanaged = function(hostList) {
+
+            return hostList.some(function(host) {
+                return (host.managed === "No");
+            });
+        };
+
         function _getManagedState(clusters, host) {
             var len = clusters.length,
                 i;
