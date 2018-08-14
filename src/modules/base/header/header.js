@@ -60,58 +60,64 @@
         vm.isForm = true;
 
         vm.userSettingActionButtons = [{
-                label: "Cancel",
-                isCancel: true
-            }, {
-                label: "Save",
-                class: "btn-primary custom-class",
-                actionFn: function() {
-                    vm.userScope.formSubmitInProgress = true;
-                    if (_validateUIFields()) {
-                        vm.userScope.user.notification = vm.userScope.user.email_notifications;
-                        userStore.editUser(vm.userScope.user)
-                            .then(function(data) {
-                                vm.showUserSetting = false;
-                                if (vm.currentState === "users") {
-                                    userStore.getUserList()
-                                        .then(function(data) {
-                                            if (data !== null) {
-                                                $rootScope.$broadcast("UpdatedUserList", data);
-                                            }
-
-                                        });
-                                }
-                                Notifications.message("success", "", " Profile updated Successfully.");
-                            }).catch(function(e) {
-                                var keys,
-                                    messages;
-
-                                if (e.status === 422) {
-                                    keys = Object.keys(e.data.errors);
-                                    messages = Object.values(e.data.errors)[0];
-
-                                    if (keys.indexOf("email") !== -1) {
-                                        if (messages.indexOf("is taken") !== -1) {
-                                            vm.userScope.errorMsg = "Email is already taken. Please use different one.";
-                                        } else if (messages.indexOf("is invalid") !== -1) {
-                                            vm.userScope.errorMsg = "Please enter a valid Email Id";
+            label: "Cancel",
+            isCancel: true
+        }, {
+            label: "Save",
+            class: "btn-primary custom-class",
+            actionFn: function() {
+                vm.userScope.formSubmitInProgress = true;
+                if (_validateUIFields()) {
+                    vm.userScope.user.notification = vm.userScope.user.email_notifications;
+                    userStore.editUser(vm.userScope.user)
+                        .then(function(data) {
+                            vm.showUserSetting = false;
+                            if (vm.currentState === "users") {
+                                userStore.getUserList()
+                                    .then(function(data) {
+                                        if (data !== null) {
+                                            $rootScope.$broadcast("UpdatedUserList", data);
                                         }
-                                    } else if (keys.indexOf("name") !== -1) {
-                                        vm.userScope.errorMsg = "Name is too short (minimum is 4 characters).";
+
+                                    });
+                            }
+                            Notifications.message("success", "", "Profile updated Successfully.");
+                        }).catch(function(e) {
+                            var keys,
+                                messages;
+
+                            if (e.status === 422) {
+                                keys = Object.keys(e.data.errors);
+                                messages = Object.values(e.data.errors)[0];
+
+                                if (keys.indexOf("email") !== -1) {
+                                    if (messages.indexOf("is taken") !== -1) {
+                                        //TODO: uncomment this, once patternfly bug(patternfly/angular-patternfly#755) get solved
+
+                                        //vm.userScope.errorMsg = "Email is already taken. Please use different one.";
+                                        Notifications.message("danger", "", "Email is already taken. Please use different one.")
+
+                                    } else if (messages.indexOf("is invalid") !== -1) {
+                                        //vm.userScope.errorMsg = "Please enter a valid Email Id.";
+                                        Notifications.message("danger", "", "Please enter a valid Email Id.")
                                     }
-                                } else {
-                                    vm.showUserSetting = false;
-                                    Notifications.message("danger", "", " Failed to update profile.");
+
+                                } else if (keys.indexOf("name") !== -1) {
+                                    //vm.userScope.errorMsg = "Name is too short (minimum is 4 characters).";
+                                    Notifications.message("danger", "", "Name is too short (minimum is 4 characters).")
                                 }
-                            });
 
+                            } else {
+                                vm.showUserSetting = false;
+                                Notifications.message("danger", "", "Failed to update profile. Please go to my settings and try again.");
+                            }
+                        });
 
-                    } else {
-                        vm.userScope.formSubmitInProgress = false;
-                    }
+                } else {
+                    vm.userScope.formSubmitInProgress = false;
                 }
             }
-        ];
+        }];
 
         function userSetting() {
             vm.userScope.typePassword = false;
@@ -135,8 +141,9 @@
             vm.userScope.confirmPassword = !vm.userScope.confirmPassword;
         }
 
-        function closeUserSetting(dismissCause) {
+        function closeUserSetting() {
             vm.showUserSetting = false;
+            vm.userScope.errorMsg = "";
         }
 
         /***Private Functions***/
@@ -144,18 +151,33 @@
         function _validateUIFields() {
             var isFormValid = true,
                 form = vm.userScope.user;
+
             if (form.name.$invalid) {
-                vm.userScope.errorMsg = "Please specify valid Name."
+                //TODO: uncomment this, once patternfly bug(patternfly/angular-patternfly#755) get solved
+
+                //vm.userScope.errorMsg = "Please specify valid Name."
                 isFormValid = false;
-            } else if (!_isPasswordSame()) {
-                vm.userScope.errorMsg = "Password and Confirm Password doesn't match.";
+                Notifications.message("danger", "", "Please specify a valid name.");
+            } else if (form.password.$dirty && form.password.$error.maxlength) {
+
+                //vm.userScope.errorMsg = "Password can be maximum 128 characters.";
                 isFormValid = false;
+                Notifications.message("danger", "", "Password can be of maximum 128 characters.");
             } else if (form.password.$invalid) {
-                vm.userScope.errorMsg = "Password should be 8 characters minimum";
+
+                //vm.userScope.errorMsg = "Password should be 8 characters minimum.";
                 isFormValid = false;
+                Notifications.message("danger", "", "Password should be 8 characters minimum.");
             } else if (form.email.$invalid) {
-                vm.userScope.errorMsg = "Please enter Email id.";
+
+                //vm.userScope.errorMsg = "Please enter a valid Email id.";
                 isFormValid = false;
+                Notifications.message("danger", "", "Please enter a valid Email id.");
+            } else if (!_isPasswordSame()) {
+
+                //vm.userScope.errorMsg = "Password and Confirm Password doesn't match.";
+                isFormValid = false;
+                Notifications.message("danger", "", "Your password and confirmation password do not match. Go to My Settings to reset your password.");
             }
 
             return isFormValid;
