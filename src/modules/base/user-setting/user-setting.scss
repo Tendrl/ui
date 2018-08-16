@@ -4,6 +4,20 @@
         width: 100%;
     }
 
+    .passwordTooltip {
+      background-color: $color-black;
+      padding: 0px;
+      font-size: 14px;
+      font-family: inherit;
+      .tooltip-inner{
+        background-color: $color-black;
+        padding: 7px;
+      }
+      .tooltip-arrow{
+        border-color: $color-black;
+      }
+    }
+
     .inner-addon {
 
         input {
