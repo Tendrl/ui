@@ -1,0 +1,23 @@
+---
+# Development environment
+development:
+  common:
+    tendrl:
+      ip: tendrlserver.xyz
+      username: 
+      password: 
+
+# QA environment
+qa:
+  common:
+    tendrl:
+      ip: tendrlserver.xyz
+      username: 
+      password: 
+# Stage environment
+stage:
+  common:
+    tendrl:
+      ip: tendrlserver.xyz
+      username: 
+      password: 

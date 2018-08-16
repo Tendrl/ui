@@ -1,6 +1,6 @@
 Name: tendrl-ui
 Version: 1.6.3
-Release: 9%{?dist}
+Release: 10%{?dist}
 BuildArch: noarch
 Summary: GUI for Tendrl
 License: LGPLv2+
@@ -37,6 +37,9 @@ cp -a ./dist/* $RPM_BUILD_ROOT/%{_localstatedir}/www/tendrl/
 %license LICENSE
 
 %changelog
+* Thu Aug 16 2018 Ankush Behl <anbehl@redhat.com> - 1.6.3-10
+- Bugfixes (https://github.com/Tendrl/ui/milestone/13)
+
 * Tue Aug 14 2018 Ankush Behl <anbehl@redhat.com> - 1.6.3-9
 - Bugfixes (https://github.com/Tendrl/ui/milestone/12)
 
