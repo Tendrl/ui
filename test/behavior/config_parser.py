@@ -5,7 +5,7 @@ import os
 import sys
 
 try:
-    environment = os.environ.get('DASHBOARD_ENV') or 'development'
+    environment = os.environ.get('TENDRL_UI_ENV') or 'development'
 
     # Read yaml file
     file_path = os.path.join(os.getcwd(), 'config', 'settings.yml')
