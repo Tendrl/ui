@@ -6,7 +6,6 @@ development:
       ip: tendrlserver.xyz
       username: 
       password: 
-
 # QA environment
 qa:
   common:
