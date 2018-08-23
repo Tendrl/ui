@@ -19,7 +19,7 @@ Feature: CLUSTER
       And User sees "Unmanage Cluster" dialog box
       And User clicks on "unmanage" button
      Then User sees "Cluster Task" dialog box
-      And User closes "Cluster Tast" dialog box
+      And User closes "Cluster Task" dialog box
       And User sees that cluster is unmanaged
 
   Scenario: Filter by valid cluster name
