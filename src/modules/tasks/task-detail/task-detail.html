@@ -13,7 +13,7 @@
         </div>
         <div class="form-group required">
             <label class="col-sm-3 col-md-1 detail-label">Status:</label>
-            <label class="col-sm-4 col-md-1 status-value"><i ng-class="{'pficon pficon-ok status-icon': (taskDetailCntrl.taskDetail.status === 'finished')}"></i>{{taskDetailCntrl.taskDetail.status === 'finished' ? "Completed": taskDetailCntrl.taskDetail.status}}</label>
+            <label class="col-sm-4 col-md-2 status-value"><i ng-class="{'pficon pficon-ok status-icon': (taskDetailCntrl.taskDetail.status === 'finished')}"></i>{{taskDetailCntrl.taskDetail.status === 'finished' ? "Completed": taskDetailCntrl.taskDetail.status}}</label>
             <label class="col-sm-4 col-md-2" ng-show="(taskDetailCntrl.taskDetail.flow === 'ImportCluster') && (taskDetailCntrl.taskDetail.status === 'finished') &&(!$root.selectedClusterOption)"><a href="" ng-click="taskDetailCntrl.goToClusterDetail()">View cluster details</a></label>
         </div>
     </form>
