@@ -27,7 +27,7 @@
     font-weight: bold;
 }
 
-.dropdown-menu > li > a.disabled {
+.dropdown-menu>li>a.disabled {
     cursor: not-allowed;
     pointer-events: none;
     color: $color-light-grey;
@@ -201,5 +201,11 @@
     a {
         pointer-events: none;
         color: $color-gray !important;
+    }
+}
+
+@media screen and (min-width: 768px) {
+    .toolbar-pf-actions .toolbar-pf-filter {
+        width: 25%;
     }
 }
