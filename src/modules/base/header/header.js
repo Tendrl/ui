@@ -3,7 +3,7 @@
 
     angular
         .module("TendrlModule")
-        .component("header", {
+        .component("tendrlHeader", {
 
             templateUrl: "/modules/base/header/header.html",
             controller: headerController,
@@ -11,7 +11,7 @@
         });
 
     /*@ngInject*/
-    function headerController($rootScope, $state, $scope, $uibModal, AuthManager, utils, Notifications, userStore) {
+    function headerController($rootScope, $state, $scope, $uibModal, AuthManager, utils, Notifications, userStore, deviceDetector, config) {
 
         var vm = this,
             currentUser;
@@ -20,6 +20,7 @@
         vm.searchBy = {};
         vm.filterBy = "";
         vm.severity = "";
+        vm.releaseVersion = config.releaseVersion;
 
         vm.notificationClose = notificationClose;
         vm.logout = logout;
@@ -35,6 +36,7 @@
         vm.toggleNav = toggleNav;
         vm.getUserRole = getUserRole;
         vm.updateViewing = updateViewing;
+        vm.device = deviceDetector;
 
         $rootScope.notification = Notifications.data;
         vm.htmlContent = true;

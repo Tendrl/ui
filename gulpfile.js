@@ -110,7 +110,10 @@ gulp.task("jsLibraries", function() {
         "node_modules/angular-patternfly/node_modules/angular-drag-and-drop-lists/angular-drag-and-drop-lists.js",
         "node_modules/datatables/media/js/jquery.dataTables.js",
         "node_modules/angular-patternfly/node_modules/angularjs-datatables/dist/angular-datatables.js",
-        "node_modules/bootstrap-select/dist/js/bootstrap-select.js"
+        "node_modules/bootstrap-select/dist/js/bootstrap-select.js",
+        "node_modules/re-tree/re-tree.min.js",
+        "node_modules/ua-device-detector/ua-device-detector.min.js",
+        "node_modules/ng-device-detector/ng-device-detector.min.js"
     ])
     .pipe(uglify())
     .pipe(concat("libraries.js"))

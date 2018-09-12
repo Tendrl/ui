@@ -209,3 +209,38 @@
         width: 25%;
     }
 }
+
+
+/* About modal styles */
+
+.about-modal-pf {
+    background-image: url(/images/bg-modal-about-pf.png) !important;
+
+    .about-modal-footer-logo {
+        height: 35px;
+    }
+}
+
+@media screen and (max-width: 768px) {
+    #aboutModal .modal-dialog {
+        width: 460px;
+
+        .modal-body {
+            padding: 0 40px;
+        }
+
+        .about-modal-footer-logo {
+            height: 27px;
+        }
+    }
+}
+
+@media screen and (max-width: 480px) {
+    #aboutModal .modal-dialog {
+        width: 444px;
+    }
+
+    .about-modal-footer-logo {
+        height: 25px;
+    }
+}
