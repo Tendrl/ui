@@ -40,6 +40,8 @@
                 _setClusterDetail();
                 vm.isDataLoading = false;
             }
+
+            utils.refershSelector();
         }
 
         /***Private Functions***/
@@ -47,7 +49,7 @@
         /**
          * @name _setClusterDetail
          * @desc set cluster detail
-         * @memberOf clusterDetailController
+         * @memberOf clusterHostsController
          */
         function _setClusterDetail() {
             vm.clusterObj = clusterStore.getClusterDetails(vm.clusterId);

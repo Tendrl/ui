@@ -13,7 +13,7 @@
         });
 
     /*@ngInject*/
-    function userController($scope, $rootScope, $state, $uibModal, $interval, config, userStore, AuthManager, Notifications) {
+    function userController($scope, $rootScope, $state, $uibModal, $interval, config, userStore, AuthManager, Notifications, utils) {
 
         var vm = this,
             userList,
@@ -59,32 +59,31 @@
         vm.deleteUserModalId = "deleteUserModal";
         vm.deleteUserModalTemplate = "/modules/users/delete-user/delete-user.html";
         vm.deleteUserModalActionButtons = [{
-                label: "Cancel",
-                isCancel: true
-            }, {
-                label: "Delete",
-                class: "btn-danger custom-class",
-                actionFn: function() {
-                    userStore.deleteUser(vm.deleteUser.username)
-                        .then(function(data) {
-                            vm.showDeleteUserModal = false;
-                            userStore.getUserList()
-                                .then(function(data) {
-                                    if (data !== null) {
-                                        $rootScope.$broadcast("UpdatedUserList", data);
-                                    }
-                                    Notifications.message("success", "", vm.deleteUser.username + " deleted Successfully.");
-                                });
+            label: "Cancel",
+            isCancel: true
+        }, {
+            label: "Delete",
+            class: "btn-danger custom-class",
+            actionFn: function() {
+                userStore.deleteUser(vm.deleteUser.username)
+                    .then(function(data) {
+                        vm.showDeleteUserModal = false;
+                        userStore.getUserList()
+                            .then(function(data) {
+                                if (data !== null) {
+                                    $rootScope.$broadcast("UpdatedUserList", data);
+                                }
+                                Notifications.message("success", "", vm.deleteUser.username + " deleted Successfully.");
+                            });
 
-                        }).catch(function(e) {
-                            vm.showDeleteUserModal = false;
-                            Notifications.message("danger", "", "Error deleting " + vm.deleteUser.username);
-                        });
-
-                }
+                    }).catch(function(e) {
+                        vm.showDeleteUserModal = false;
+                        Notifications.message("danger", "", "Error deleting " + vm.deleteUser.username);
+                    });
 
             }
-        ];
+
+        }];
 
         function deleteUser(username) {
             vm.showDeleteUserModal = true;
@@ -95,9 +94,11 @@
         function closeDeleteUserModal(dismissCause) {
             vm.showDeleteUserModal = false;
         }
-
         /*END Delete User modal*/
 
+
+        //To refresh the selector selected option
+        utils.refershSelector();
         init();
 
         function init() {

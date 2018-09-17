@@ -170,6 +170,7 @@
 
             var clusters;
             clusters = $rootScope.clusterData;
+            $rootScope.selectedClusterOption = vm.clusterId;
 
             clusterStore.getCluster(vm.clusterId)
                 .then(function(data) {
