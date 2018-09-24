@@ -23,6 +23,10 @@
             clusterFactory.getClusterList()
                 .then(function(data) {
                     $rootScope.clusterData = store.formatClusterData(data.clusters);
+
+                    //Required to make the event listen in header.js file
+                    $rootScope.$broadcast("GotClusterData", $rootScope.clusterData);
+
                     deferred.resolve($rootScope.clusterData);
                 }).catch(function(e) {
                     deferred.reject(e);

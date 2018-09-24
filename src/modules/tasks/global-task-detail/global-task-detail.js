@@ -14,7 +14,7 @@
         });
 
     /*@ngInject*/
-    function globalTaskDetailController($rootScope, $scope, $interval, $state, $stateParams, taskStore, config, clusterStore) {
+    function globalTaskDetailController($rootScope, $scope, $interval, $state, $stateParams, taskStore, config, clusterStore, utils) {
 
         var vm = this,
             statusTimer,
@@ -28,6 +28,8 @@
         vm.taskDetail = [];
         vm.goToClusterDetail = goToClusterDetail;
 
+        //To refresh the selector selected option
+        utils.refershSelector();
         init();
 
         function init() {

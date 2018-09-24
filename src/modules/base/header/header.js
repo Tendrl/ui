@@ -46,6 +46,11 @@
             }
         });
 
+        $rootScope.$on("GotClusterData", function(event, data) {
+            //To refresh the selector selected option
+            utils.refershSelector();
+        });
+
         /*BEGIN user setting modal*/
         vm.userScope = {};
         vm.currentState = $state.current.name;
@@ -60,58 +65,57 @@
         vm.isForm = true;
 
         vm.userSettingActionButtons = [{
-                label: "Cancel",
-                isCancel: true
-            }, {
-                label: "Save",
-                class: "btn-primary custom-class",
-                actionFn: function() {
-                    vm.userScope.formSubmitInProgress = true;
-                    if (_validateUIFields()) {
-                        vm.userScope.user.notification = vm.userScope.user.email_notifications;
-                        userStore.editUser(vm.userScope.user)
-                            .then(function(data) {
-                                vm.showUserSetting = false;
-                                if (vm.currentState === "users") {
-                                    userStore.getUserList()
-                                        .then(function(data) {
-                                            if (data !== null) {
-                                                $rootScope.$broadcast("UpdatedUserList", data);
-                                            }
-
-                                        });
-                                }
-                                Notifications.message("success", "", " Profile updated Successfully.");
-                            }).catch(function(e) {
-                                var keys,
-                                    messages;
-
-                                if (e.status === 422) {
-                                    keys = Object.keys(e.data.errors);
-                                    messages = Object.values(e.data.errors)[0];
-
-                                    if (keys.indexOf("email") !== -1) {
-                                        if (messages.indexOf("is taken") !== -1) {
-                                            vm.userScope.errorMsg = "Email is already taken. Please use different one.";
-                                        } else if (messages.indexOf("is invalid") !== -1) {
-                                            vm.userScope.errorMsg = "Please enter a valid Email Id";
+            label: "Cancel",
+            isCancel: true
+        }, {
+            label: "Save",
+            class: "btn-primary custom-class",
+            actionFn: function() {
+                vm.userScope.formSubmitInProgress = true;
+                if (_validateUIFields()) {
+                    vm.userScope.user.notification = vm.userScope.user.email_notifications;
+                    userStore.editUser(vm.userScope.user)
+                        .then(function(data) {
+                            vm.showUserSetting = false;
+                            if (vm.currentState === "users") {
+                                userStore.getUserList()
+                                    .then(function(data) {
+                                        if (data !== null) {
+                                            $rootScope.$broadcast("UpdatedUserList", data);
                                         }
-                                    } else if (keys.indexOf("name") !== -1) {
-                                        vm.userScope.errorMsg = "Name is too short (minimum is 4 characters).";
+
+                                    });
+                            }
+                            Notifications.message("success", "", " Profile updated Successfully.");
+                        }).catch(function(e) {
+                            var keys,
+                                messages;
+
+                            if (e.status === 422) {
+                                keys = Object.keys(e.data.errors);
+                                messages = Object.values(e.data.errors)[0];
+
+                                if (keys.indexOf("email") !== -1) {
+                                    if (messages.indexOf("is taken") !== -1) {
+                                        vm.userScope.errorMsg = "Email is already taken. Please use different one.";
+                                    } else if (messages.indexOf("is invalid") !== -1) {
+                                        vm.userScope.errorMsg = "Please enter a valid Email Id";
                                     }
-                                } else {
-                                    vm.showUserSetting = false;
-                                    Notifications.message("danger", "", " Failed to update profile.");
+                                } else if (keys.indexOf("name") !== -1) {
+                                    vm.userScope.errorMsg = "Name is too short (minimum is 4 characters).";
                                 }
-                            });
+                            } else {
+                                vm.showUserSetting = false;
+                                Notifications.message("danger", "", " Failed to update profile.");
+                            }
+                        });
 
 
-                    } else {
-                        vm.userScope.formSubmitInProgress = false;
-                    }
+                } else {
+                    vm.userScope.formSubmitInProgress = false;
                 }
             }
-        ];
+        }];
 
         function userSetting() {
             vm.userScope.typePassword = false;

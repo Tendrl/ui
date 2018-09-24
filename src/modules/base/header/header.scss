@@ -89,4 +89,10 @@
         cursor: default;
         visibility: hidden;
     }
+
+    @media screen and (max-width: 992px) {
+        .navbar-brand {
+            display: none;
+        }
+    }
 }

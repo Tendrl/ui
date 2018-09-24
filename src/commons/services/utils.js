@@ -6,7 +6,7 @@
         .service("utils", utils);
 
     /*@ngInject*/
-    function utils($http, $rootScope, $state, $filter, config, AuthManager, $location) {
+    function utils($http, $rootScope, $state, $filter, $timeout, $location, config, AuthManager) {
 
         /* Cache the reference to this pointer */
         var vm = this,
@@ -309,5 +309,13 @@
             }
 
         };
+
+        vm.refershSelector = function() {
+            $timeout(function() {
+                //This will refersh the selectpicker in order to select the correct options
+                //TODO: Find an alternate way to do it
+                $(".selectpicker").selectpicker("refresh");
+            });
+        }
     };
 })();
