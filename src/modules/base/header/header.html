@@ -22,6 +22,11 @@
             <pf-toast-notification-list notifications="$root.notification" html-content="header.htmlContent" show-close="true" close-callback="header.notificationClose" update-viewing="header.updateViewing"></pf-toast-notification-list>
         </span>
         <ul class="nav navbar-nav navbar-right navbar-iconic" ng-if="!notification.message.length">
+            <li dropdown routerLinkActive="active" class="dropdown">
+                <button class="btn btn-link nav-item-iconic" id="aboutModalDropdown" data-toggle="modal" data-target="#aboutModal">
+                    <span title="Help" class="fa pficon-help dropdown-title"></span>
+                </button>
+            </li>
             <li class="dropdown admin" ng-if="header.getUserRole() === 'admin'">
                 <a data-toggle="dropdown" class="dropdown-toggle nav-item-iconic" href="" data-template="" data-animation="am-fade-and-slide-top" bs-dropdown="dropdown" title="User Management" id="usermanagement" data-toggle="admin-dropdown">
                     <i class="fa fa-gear"></i>
@@ -43,15 +48,7 @@
                     <i class="pficon pficon-user"></i>
                     <span class="headerName">{{ header.currentUser }}</span>
                 </a>
-                <pf-modal-overlay 
-                    show-modal="header.showUserSetting" 
-                    on-close="header.closeUserSetting(dismissCause)" 
-                    modal-id="header.userSettingId" 
-                    modal-title="header.userSettingTitle" 
-                    modal-body-template="header.userSettingTemplate" 
-                    action-buttons="header.userSettingActionButtons" 
-                    is-form="header.isForm"
-                    modal-body-scope="header.userScope">
+                <pf-modal-overlay show-modal="header.showUserSetting" on-close="header.closeUserSetting(dismissCause)" modal-id="header.userSettingId" modal-title="header.userSettingTitle" modal-body-template="header.userSettingTemplate" action-buttons="header.userSettingActionButtons" is-form="header.isForm" modal-body-scope="header.userScope">
                 </pf-modal-overlay>
                 <ul class="dropdown-menu" role="menu" aria-labelledby="usermenu">
                     <li role="presentation"><a href="" role="menuitem" tabindex="-1" ng-click="header.userSetting()">My Settings</a></li>
@@ -116,3 +113,33 @@
         </div>
     </div>
 </nav>
+<div class="modal fade" id="aboutModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content about-modal-pf">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                    <span class="pficon pficon-close"></span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <h1>Tendrl Unified Storage Manager</h1>
+                <div class="product-versions-pf">
+                    <ul class="list-unstyled">
+                        <li><strong>Version</strong>{{header.releaseVersion}}</li>
+                        <li><strong>User</strong> {{ header.currentUser }}</li>
+                        <li><strong>User Role</strong> {{header.getUserRole()}}</li>
+                        <li class="text-capitalize"><strong>Browser</strong> {{header.device.browser}}</li>
+                        <li><strong>Browser Version</strong> {{header.device.browser_version}}</li>
+                        <li class="text-capitalize"><strong>Browser OS</strong> {{header.device.os}}</li>
+                    </ul>
+                </div>
+                <div class="trademark-pf">
+                    <div class="pull-left">http://www.tendrl.org</div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <img class="pull-right about-modal-footer-logo" src="../images/logo.png" alt="tendrl | Unified Storage Manager" />
+            </div>
+        </div>
+    </div>
+</div>

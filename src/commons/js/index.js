@@ -1,7 +1,7 @@
 //# sourceURL=storage-management-plugin.js
 (function() {
 
-    var storageModule = angular.module("TendrlModule", ["ui.router", "ui.bootstrap", "frapontillo.bootstrap-switch", "patternfly.charts", "patternfly.card", "patternfly.form", "patternfly.notification", "patternfly.table", "patternfly.filters", "patternfly.modals"]);
+    var storageModule = angular.module("TendrlModule", ["ui.router", "ui.bootstrap", "frapontillo.bootstrap-switch", "patternfly.charts", "patternfly.card", "patternfly.form", "patternfly.notification", "patternfly.table", "patternfly.filters", "patternfly.modals", "ng.deviceDetector"]);
 
     /* Setting up provider for getting config data */
     storageModule.provider("config", function() {

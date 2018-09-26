@@ -27,6 +27,7 @@
         "font-awesome": "^4.7.0",
         "idb-wrapper": "~1.7.1",
         "jquery": "~3.1.1",
+        "ng-device-detector": "^5.1.2",
         "numeral": "~1.5.3",
         "patternfly": "~3.51.1"
     },
