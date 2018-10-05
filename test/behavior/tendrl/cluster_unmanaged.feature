@@ -1,36 +1,36 @@
 Feature: CLUSTER_UNMANAGED
 
-  Scenario: User sees cluster lists page after logging in
-    Given User opens the Tendrl link
-     When User passes correct login information
-     Then User should see "cluster list" page
-
-  Scenario: User sees cluster is unmanaged
+  Scenario: Cluster reported as unmanaged
     Given User is on the "cluster list" page
       And has at least one cluster available
-     Then User should see "No" under Managed
+     Then User should see "No" under Managed property of cluster
 
-  Scenario: User sees cluster status icon
+  Scenario: Cluster status icon reports unavailable
     Given User is on the "cluster list" page
       And has at least one cluster available
      When User hovers over cluster status icon
-      And User should see status is unknown
+      And User should see status is "unknown"
 
-  Scenario: User sees the cluster name/uuid
+  Scenario: Cluster name/uuid is reported
     Given User is on the "cluster list" page
       And has at least one cluster available
      Then User should see UUID of unimported cluster
 
-  Scenario: User sees Cluster Version info
+  Scenario: Cluster Version info is reported
     Given User is on the "cluster list" page
       And has at least one cluster available
      Then User should see Cluster Version info
 
-  Scenario: User sees hosts information
+  Scenario: Hosts information is accurate
+    Given User is on the "cluster list" page
+    And has at least one cluster available
+    Then hosts count should report actual number of hosts
+
+  Scenario: Hosts information is clickable
     Given User is on the "cluster list" page
       And has at least one cluster available
-     When User clicks on hosts link
-     Then User should be brought to hosts page
+     When User clicks on hosts count link
+     Then User should be brought to host list modal
 
   Scenario: Cluster is unavailable for import
     Given User is on the "cluster list" page
@@ -41,10 +41,10 @@ Feature: CLUSTER_UNMANAGED
   Scenario: Cluster is available to import
     Given User is on the "cluster list" page
       And has at least one cluster available
-     When the cluster is available for import
+     When the cluster is "Ready to import"
      Then the import button should be usable
 
-  Scenario: Filter by valid cluster name
+  Scenario: Filter by valid cluster namee
     Given User is on "cluster list" page
       And has at least one cluster available
      When User filters by a "valid" cluster name
@@ -55,12 +55,6 @@ Feature: CLUSTER_UNMANAGED
       And User has at least one cluster available
      When User filters by an "invalid" cluster name
      Then User should see no clusters
-  
-  Scenario: User logs out
-    Given User is on the "cluster list" page
-     When User clicks on "usermenu dropdown"
-      And User clicks logout
-     Then User should see "login" page
 
   Scenario: Sort by ascending cluster name
     Given User is on the "cluster list" page
