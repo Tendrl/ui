@@ -52,7 +52,6 @@
         };
 
         /*BEGIN Delete User modal*/
-        vm.showDeleteUserModal = false;
         vm.deleteUser = deleteUser;
         vm.closeDeleteUserModal = closeDeleteUserModal;
         vm.deleteUserModalTitle = "Delete User";
@@ -65,34 +64,35 @@
             label: "Delete",
             class: "btn-danger custom-class",
             actionFn: function() {
-                userStore.deleteUser(vm.deleteUser.username)
+                userStore.deleteUser(vm.userToDelete.username)
                     .then(function(data) {
-                        vm.showDeleteUserModal = false;
+                        vm.userToDelete.showDeleteUserModal = false;
                         userStore.getUserList()
                             .then(function(data) {
                                 if (data !== null) {
                                     $rootScope.$broadcast("UpdatedUserList", data);
                                 }
-                                Notifications.message("success", "", vm.deleteUser.username + " deleted Successfully.");
+                                Notifications.message("success", "", vm.userToDelete.username + " deleted successfully.");
                             });
 
                     }).catch(function(e) {
-                        vm.showDeleteUserModal = false;
-                        Notifications.message("danger", "", "Error deleting " + vm.deleteUser.username);
+                        vm.userToDelete.showDeleteUserModal = false;
+                        Notifications.message("danger", "", "Error in deleting " + vm.userToDelete.username);
                     });
 
             }
 
         }];
 
-        function deleteUser(username) {
-            vm.showDeleteUserModal = true;
-            vm.deleteUser = {};
-            vm.deleteUser.username = username;
+        function deleteUser(user) {
+
+            user.showDeleteUserModal = true;
+            vm.userToDelete = {};
+            vm.userToDelete = user;
         }
 
-        function closeDeleteUserModal(dismissCause) {
-            vm.showDeleteUserModal = false;
+        function closeDeleteUserModal(user) {
+            user.showDeleteUserModal = false;
         }
         /*END Delete User modal*/
 
