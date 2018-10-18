@@ -65,7 +65,10 @@
                                     vm.errorMsg = "Please enter a valid Email Id";
                                 }
                             } else if (keys.indexOf("name") !== -1) {
-                                vm.errorMsg = "Name is too short (minimum is 4 characters).";
+                                if(messages.indexOf("is too short (minimum is 4 characters)") !== -1)
+                                    vm.errorMsg = "Name is too short (minimum is 4 characters).";
+                                else if(messages.indexOf("is too long (maximum is 20 characters)") !== -1)
+                                    vm.errorMsg = "Name is too long (maximum is 20 characters).";
                             } else {
                                 vm.errorMsg = "Someting went wrong. Please try again.";
                             }
