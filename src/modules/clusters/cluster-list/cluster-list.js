@@ -101,7 +101,6 @@
         init();
 
         /*BEGIN Unmanage confirm modal*/
-        vm.showUnmanageModal = false;
         vm.openUnmanageModal = openUnmanageModal;
         vm.unmanageModalId = "unmanageModal";
         vm.unmanageModalTitle = "Unmanage Cluster";
@@ -130,14 +129,13 @@
 
         function openUnmanageModal(cluster) {
             vm.unmanageCluster = {};
-            vm.showUnmanageModal = true;
+            cluster.showUnmanageModal = true;
             vm.unmanageCluster = cluster;
         }
 
         /*END Unmanage confirm modal*/
 
         /*BEGIN Unmanage progress modal*/
-        vm.showUnmanageProgress = false;
         vm.openUnmanageProgress = openUnmanageProgress;
         vm.unmanageProgressId = "unmanageModal";
         vm.unmanageProgressTitle = "Unmanage Cluster";
@@ -147,7 +145,7 @@
             class: "btn-primary custom-class",
             actionFn: function() {
                 if (vm.unmanageCluster.clusterId) {
-                    vm.showUnmanageProgress = false;
+                    vm.unmanageCluster.showUnmanageProgress = false;
                     $state.go("global-task-detail", { clusterId: vm.unmanageCluster.clusterId, taskId: vm.unmanageCluster.jobId });
                 }
             }
@@ -156,13 +154,12 @@
 
         function openUnmanageProgress(cluster) {
             vm.unmanageCluster = cluster;
-            vm.showUnmanageProgress = true;
+            cluster.showUnmanageProgress = true;
         }
 
         /*END Unmanage progress modal*/
 
         /*BEGIN Host modal*/
-        vm.showHost = false;
         vm.openHostModal = openHostModal;
         vm.hostModalId = "hostModal";
         vm.hostModalTemplate = "/modules/clusters/host-list-modal/host-list-modal.html";
@@ -172,7 +169,7 @@
         }];
 
         function openHostModal(cluster) {
-            vm.showHost = true;
+            cluster.showHost = true;
             vm.hostCluster = cluster;
             vm.hostCluster.hostList = cluster.hosts;
             vm.hostCluster.filteredHostList = cluster.hosts;
@@ -213,7 +210,6 @@
         /*END Host modal*/
 
         /*BEGIN expand modal*/
-        vm.showExpand = false;
         vm.openExpandModal = openExpandModal;
         vm.expandModalId = "expandModal";
         vm.expandModalTitle = "Expand Cluster";
@@ -236,13 +232,13 @@
                         Notifications.message("danger", "", "Failed to initiate expand");
                         _disableClickExpand(vm.expandCluster, false);
                     });
-                vm.showExpand = false;
+                vm.expandCluster.showExpand = false;
             }
 
         }];
 
         function openExpandModal(cluster) {
-            vm.showExpand = true;
+            cluster.showExpand = true;
             vm.expandCluster = {};
             vm.expandCluster.disableExpand = false;
             vm.expandCluster = cluster;
@@ -296,11 +292,11 @@
 
         /*END expand modal*/
 
-        function closeModal(dismissCause) {
-            vm.showHost = false;
-            vm.showUnmanageProgress = false;
-            vm.showUnmanageModal = false;
-            vm.showExpand = false;
+        function closeModal(cluster) {
+            cluster.showHost = false;
+            cluster.showUnmanageProgress = false;
+            cluster.showUnmanageModal = false;
+            cluster.showExpand = false;
         }
 
         /**
