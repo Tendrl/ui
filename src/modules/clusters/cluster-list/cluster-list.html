@@ -64,8 +64,8 @@
                                 </a>
                             </li>
                             <pf-modal-overlay 
-                                show-modal="clusterCntrl.showUnmanageModal" 
-                                on-close="clusterCntrl.closeModal(dismissCause)" 
+                                show-modal="cluster.showUnmanageModal"
+                                on-close="clusterCntrl.closeModal(cluster)"
                                 modal-id="clusterCntrl.unmanageModalId" 
                                 modal-title="clusterCntrl.unmanageModalTitle" 
                                 modal-body-template="clusterCntrl.unmanageTemplate" 
@@ -73,8 +73,8 @@
                                 modal-body-scope="clusterCntrl.unmanageCluster">
                             </pf-modal-overlay>
                             <pf-modal-overlay 
-                                show-modal="clusterCntrl.showUnmanageProgress" 
-                                on-close="clusterCntrl.closeModal(dismissCause)" 
+                                show-modal="cluster.showUnmanageProgress"
+                                on-close="clusterCntrl.closeModal(cluster)"
                                 modal-id="clusterCntrl.unmanageProgressId" 
                                 modal-title="clusterCntrl.unmanageProgressTitle" 
                                 modal-body-template="clusterCntrl.unmanageProgressTemplate" 
@@ -82,8 +82,8 @@
                                 modal-body-scope="clusterCntrl.unmanageCluster">
                             </pf-modal-overlay>
                             <pf-modal-overlay 
-                                show-modal="clusterCntrl.showHost" 
-                                on-close="clusterCntrl.closeModal(dismissCause)" 
+                                show-modal="cluster.showHost"
+                                on-close="clusterCntrl.closeModal(cluster)"
                                 modal-id="clusterCntrl.hostModalId" 
                                 modal-title="clusterCntrl.hostModalTitle" 
                                 modal-body-template="clusterCntrl.hostModalTemplate" 
@@ -91,8 +91,8 @@
                                 modal-body-scope="clusterCntrl.hostCluster">
                             </pf-modal-overlay>
                             <pf-modal-overlay 
-                                show-modal="clusterCntrl.showExpand" 
-                                on-close="clusterCntrl.closeModal(dismissCause)" 
+                                show-modal="cluster.showExpand"
+                                on-close="clusterCntrl.closeModal(cluster)"
                                 modal-id="clusterCntrl.expandModalId" 
                                 modal-title="clusterCntrl.expandModalTitle" 
                                 modal-body-template="clusterCntrl.expandModalTemplate" 
