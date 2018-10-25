@@ -66,6 +66,52 @@
 
         };
 
+        vm.startVolume = function(volume, clusterId) {
+            var url,
+                startRequest,
+                request;
+
+            url = config.baseUrl + "clusters/" + clusterId + "/volumes/" + volume.name + "/start";
+
+            startRequest = {
+                method: "POST",
+                url: url
+            };
+
+            request = angular.copy(startRequest);
+            return $http(request).then(function(response) {
+                return response.data;
+            }, function(e) {
+                utils.checkErrorCode(e);
+                console.log("Error Occurred: while starting volume");
+                throw e;
+            });
+
+        };
+
+        vm.stopVolume = function(volume, clusterId) {
+            var url,
+                stopRequest,
+                request;
+
+            url = config.baseUrl + "clusters/" + clusterId + "/volumes/" + volume.name + "/stop";
+
+            stopRequest = {
+                method: "POST",
+                url: url
+            };
+
+            request = angular.copy(stopRequest);
+            return $http(request).then(function(response) {
+                return response.data;
+            }, function(e) {
+                utils.checkErrorCode(e);
+                console.log("Error Occurred: while stopping volume");
+                throw e;
+            });
+
+        };
+
     }
 
 })();

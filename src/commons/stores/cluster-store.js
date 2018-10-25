@@ -6,7 +6,7 @@
         .service("clusterStore", clusterStore);
 
     /*@ngInject*/
-    function clusterStore($state, $filter, $q, $rootScope, nodeStore, clusterFactory) {
+    function clusterStore($state, $filter, $q, $rootScope, peerStore, volumeFactory, clusterFactory) {
         var store = this;
 
         store.selectedTab = 1;
@@ -83,7 +83,7 @@
                 temp.status = nodes[i].status;
                 temp.managed = nodes[i].is_managed === "yes" ? "Yes" : "No";
                 temp.ipAddress = nodes[i].ipv4_addr;
-                tags = nodeStore.findRole(nodes[i].tags);
+                tags = peerStore.findRole(nodes[i].tags);
                 temp.role = tags ? tags.role : "None";
                 temp.release = tags.release !== "NA" ? (tags.release + " " + data.sds_version) : "NA";
 
@@ -98,18 +98,19 @@
          * @desc store for import cluster
          * @memberOf clusterStore
          */
-        store.importCluster = function(clusterId, enableProfiling, clusterName) {
+        store.importCluster = function(gd2Url, secret, clusterName) {
             var requestData = {
-                    "Cluster.volume_profiling_flag": enableProfiling === "leaveAsIs" ? "leave-as-is" : enableProfiling
+                    "gd2_url": gd2Url,
+                    "secret": secret
                 },
                 deferred;
 
             if (clusterName) {
-                requestData["Cluster.short_name"] = clusterName;
+                requestData["short_name"] = clusterName;
             }
 
             deferred = $q.defer();
-            clusterFactory.importCluster(requestData, clusterId)
+            clusterFactory.importCluster(requestData)
                 .then(function(data) {
                     deferred.resolve(data);
                 }).catch(function(e) {
@@ -217,35 +218,37 @@
                 "rhgs": "RHGS"
             };
 
-            temp.integrationId = cluster.integration_id;
-            temp.sdsVersion = cluster.sds_version;
-            temp.sdsName = cluster.sds_name;
-            temp.showSdsName = sdsMapping[cluster.sds_name.toLowerCase()];
-            temp.name = (cluster.short_name && cluster.short_name !== "None") ? cluster.short_name : cluster.integration_id;
-            temp.clusterId = cluster.cluster_id;
+            temp.integrationId = cluster['cluster-id'];
+            temp.sdsVersion = cluster.version;
+            temp.sdsName = 'gluster'; // TODO cluster.sds_name;
+            temp.showSdsName = sdsMapping[temp.sdsName.toLowerCase()];
+            temp.name = (cluster.short_name && cluster.short_name !== "None") ? cluster.short_name : cluster['cluster-id'];
+            temp.clusterId = cluster['cluster-id'];
             temp.currentTask = cluster.current_job || {};
             temp.jobType = temp.currentTask.job_name;
             temp.currentStatus = temp.currentTask.status;
-            temp.managed = cluster.is_managed === "yes" ? "Yes" : "No";
+            temp.managed = "Yes"; // cluster.is_managed === "yes" ? "Yes" : "No";
             temp.currentTaskId = temp.currentTask.job_id;
-            temp.volCount = cluster.globaldetails && cluster.globaldetails.vol_count ? parseInt(cluster.globaldetails.vol_count) : 0;
+            //temp.volCount = cluster.globaldetails && cluster.globaldetails.vol_count ? parseInt(cluster.globaldetails.vol_count) : 0;
+            temp.volCount = cluster.volumes.length;
             temp.alertCount = cluster.alert_counters ? parseInt(cluster.alert_counters.alert_count) : 0;
-            temp.hostCount = cluster.nodes.length || 0;
-            temp.state = cluster.status;
-            temp.isProfilingEnabled = _getProfileStatus(temp, cluster);
+            temp.hostCount = cluster.peers.length;
+            temp.state = 'healthy';//cluster.status;
+            temp.isProfilingEnabled = 'TODO'// TODO - derive this from volumes store, aggregate profiling statuses of volumes as yes, no, mixed - _getProfileStatus(temp, cluster);
             temp.readyState = false;
 
-            temp.hosts = store.getAssociatedHosts(cluster);
-            temp.isAnyHostUnmanaged = nodeStore.isAnyHostUnmanaged(temp.hosts);
+            temp.hosts = []; // TODO store.getAssociatedHosts(cluster);
+            temp.isAnyHostUnmanaged = []; //nodeStore.isAnyHostUnmanaged(temp.hosts);
 
             temp.errors = cluster.errors ? cluster.errors : [];
 
             /*This block has be placed here, as it initializes statusIcon (used at line 283)*/
+            // TODO - also hit peers, volumes, devices stores, find if any 
             if (temp.managed === "Yes") {
-                if (cluster.globaldetails && cluster.globaldetails.status === "healthy") {
+                if (temp.state === "healthy") {
                     temp.status = "HEALTH_OK";
                     temp.statusIcon = "Healthy";
-                } else if (cluster.globaldetails && cluster.globaldetails.status === "unhealthy") {
+                } else if (temp.state === "unhealthy") {
                     temp.status = "HEALTH_ERR";
                     temp.statusIcon = "Unhealthy";
                 } else {
@@ -287,7 +290,7 @@
             } else if (temp.managed === "Yes") {
 
                 if (temp.isAnyHostUnmanaged) {
-                    temp.message = "Expansion required";
+                    //temp.message = "Expansion required";
                 }
 
                 if (temp.jobType === "ExpandClusterWithDetectedPeers" && temp.currentStatus === "in_progress") {

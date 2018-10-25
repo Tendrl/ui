@@ -7,9 +7,6 @@
 
             restrict: "E",
             templateUrl: "/modules/clusters/import-cluster/import-cluster.html",
-            bindings: {
-                cluster: "="
-            },
             controller: importClusterController,
             controllerAs: "vm"
         });
@@ -107,26 +104,24 @@
          * @memberOf importClusterController
          */
         function init() {
-            vm.clusterId = $stateParams.clusterId;
-
-            if (!$rootScope.clusterData) {
-                clusterStore.getClusterList()
-                    .then(function(data) {
-                        _setImportDetail();
-                        vm.filteredHostList = vm.hostList;
-                        _filterChange(vm.filters);
-                    }).catch(function(e) {
-                        vm.hostList = [];
-                        vm.filteredHostList = vm.hostList;
-                    }).finally(function() {
-                        vm.isDataLoading = false;
-                    });
-            } else {
-                _setImportDetail();
-                vm.filteredHostList = vm.hostList;
-                vm.isDataLoading = false;
-                _filterChange(vm.filters);
-            }
+            //if (!$rootScope.clusterData) {
+                //clusterStore.getClusterList()
+                    //.then(function(data) {
+                        //_setImportDetail();
+                        //vm.filteredHostList = vm.hostList;
+                        //_filterChange(vm.filters);
+                    //}).catch(function(e) {
+                        //vm.hostList = [];
+                        //vm.filteredHostList = vm.hostList;
+                    //}).finally(function() {
+                        //vm.isDataLoading = false;
+                    //});
+            //} else {
+                //_setImportDetail();
+                //vm.filteredHostList = vm.hostList;
+                //vm.isDataLoading = false;
+                //_filterChange(vm.filters);
+            //}
         }
 
         /**
@@ -135,19 +130,18 @@
          * @memberOf importClusterController
          */
         function importCluster() {
-
-            if (_validateFields()) {
-                clusterStore.importCluster(vm.clusterId, vm.enableProfiling, vm.clusterName)
+            //if (_validateFields()) {
+                clusterStore.importCluster(vm.gd2Url, vm.secret, vm.clusterName)
                     .then(function(data) {
                         vm.importIcon = true;
                         vm.taskInitiated = true;
-                        vm.jobId = data.job_id;
+                        vm.jobId = data['cluster-id'];
                     }).catch(function(e) {
                         vm.importIcon = false;
                         vm.taskInitiated = false;
                         Notifications.message("danger", "", "Failed to initaite import.");
                     });
-            }
+            //}
         }
 
         /**
