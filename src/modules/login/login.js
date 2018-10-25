@@ -46,7 +46,7 @@
                         AuthManager.isUserLoggedIn = false;
 
                         if (error.status === -1 || error.status === 503) {
-                            vm.errorMsg = "Tendrl API is not reachable. Please restart the Tendrl API server by before logging in.";
+                            vm.errorMsg = "Tendrl API is not reachable. Please restart the Tendrl API server before logging in.";
                             vm.user.username = "";
                         } else {
                             vm.errorMsg = "The username or password you entered does not match our records. Please try again.";
