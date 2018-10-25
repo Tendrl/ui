@@ -59,8 +59,8 @@
         vm.showUserSetting = false;
         vm.userSetting = userSetting;
         vm.closeUserSetting = closeUserSetting;
-        vm.toggleTypePassword = toggleTypePassword;
-        vm.toggleConfirmPassword = toggleConfirmPassword;
+        vm.userScope.toggleTypePassword = toggleTypePassword;
+        vm.userScope.toggleConfirmPassword = toggleConfirmPassword;
         vm.userSettingId = "userSettingModal";
         vm.userSettingTitle = "My Settings";
         vm.userSettingTemplate = "/modules/base/user-setting/user-setting.html";
