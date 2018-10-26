@@ -287,7 +287,7 @@
                 bricks: "brick-dashboard"
             };
             ip = $location.host();
-            initialUrl = "http://" + ip + ":3000/dashboard/db/" + dashboardTypes[dashboardName];
+            initialUrl = "/grafana/dashboard/db/" + dashboardTypes[dashboardName];
 
             if (dashboardName === "glance") {
                 uri = initialUrl + "?var-cluster_id=" + grafanaObj.clusterId;
