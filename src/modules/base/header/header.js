@@ -185,12 +185,10 @@
         }
 
         function _getUserName() {
-            if (!userStore.users.length) {
-                userStore.getUserInfo()
-                    .then(function(data) {
-                        vm.currentUser = data.name;
-                    });
-            }
+            userStore.getUserInfo()
+                .then(function(data) {
+                    vm.currentUser = data.name;
+                });
         }
 
         function getUserRole() {
