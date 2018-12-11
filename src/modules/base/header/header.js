@@ -76,6 +76,12 @@
                 vm.userScope.formSubmitInProgress = true;
                 if (_validateUIFields()) {
                     vm.userScope.user.notification = vm.userScope.user.email_notifications;
+
+                    //this gets checked when user has entered password and then deleted
+                    if (!vm.userScope.user.password.length) {
+                        delete vm.userScope.user.password;
+                    }
+
                     userStore.editUser(vm.userScope.user)
                         .then(function(data) {
                             vm.showUserSetting = false;
@@ -85,10 +91,15 @@
                                         if (data !== null) {
                                             $rootScope.$broadcast("UpdatedUserList", data);
                                         }
-
                                     });
                             }
-                            Notifications.message("success", "", " Profile updated Successfully.");
+
+                            userStore.getUserInfo()
+                                .then(function(data) {
+                                    vm.currentUser = data.name;
+                                    Notifications.message("success", "", " Profile updated Successfully.");
+                                });
+
                         }).catch(function(e) {
                             var keys,
                                 messages;
@@ -128,8 +139,6 @@
                 .then(function(data) {
                     vm.userScope.isDataLoading = false;
                     vm.userScope.user = data;
-                    vm.userScope.user["password"] = "";
-                    vm.userScope.user["confirmPassword"] = "";
                 });
         }
 
@@ -158,9 +167,6 @@
                 //vm.userScope.errorMsg = "Password and Confirm Password doesn't match.";
                 isFormValid = false;
                 Notifications.message("danger", "", "Your password and confirmation password do not match. Go to My Settings to reset your password.");
-            } else if (form.password.$invalid) {
-                vm.userScope.errorMsg = "Password should be 8 characters minimum";
-                isFormValid = false;
             } else if (form.email.$invalid) {
                 vm.userScope.errorMsg = "Please enter Email id.";
                 isFormValid = false;
@@ -170,7 +176,16 @@
         }
 
         function _isPasswordSame() {
-            if (vm.userScope.user.password == vm.userScope.user.confirmPassword) {
+
+            if (typeof vm.userScope.user.password === "undefined") {
+                vm.userScope.user.password = "";
+            }
+
+            if (typeof vm.userScope.user.confirmPassword === "undefined") {
+                vm.userScope.user.confirmPassword = "";
+            }
+
+            if (vm.userScope.user.password === vm.userScope.user.confirmPassword) {
                 return true;
             } else {
                 return false;
