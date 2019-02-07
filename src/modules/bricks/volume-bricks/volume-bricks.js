@@ -316,7 +316,7 @@
             var brickName = brick.brickPath.split(":")[1],
                 hostName = brick.fqdn.replace(/\./gi, "_");
 
-            brickName = brickName.replace(/\//gi, "|");
+            brickName = brickName.replace(/\//gi, ":");
             utils.redirectToGrafana("bricks", { clusterId: vm.clusterName, hostName: hostName, brickName: brickName, volumeName: volumeStore.getVolumeObject(vm.volumeId).name });
         }
 
