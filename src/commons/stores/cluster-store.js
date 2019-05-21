@@ -262,7 +262,7 @@
             if (temp.managed === "No") {
                 if ((!temp.errors.length) && temp.currentStatus === "failed") {
                     temp.message = "Cluster Misconfigured";
-                } else if (temp.currentStatus === "finished" || temp.currentTask === {}) {
+                } else if (temp.currentStatus === "finished" || JSON.stringify(temp.currentTask) === "{}") {
                     temp.message = "Ready to Import";
                 }
             }
