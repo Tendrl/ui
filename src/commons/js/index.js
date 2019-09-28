@@ -59,8 +59,8 @@
                         template: "<cluster-list></cluster-list>"
                     })
                     .state("import-cluster", {
-                        url: "/import-cluster/:clusterId",
-                        template: "<import-cluster cluster='clusterTobeImported'></import-cluster>"
+                        url: "/import-cluster",
+                        template: "<import-cluster></import-cluster>"
                     })
                     .state("cluster-hosts", {
                         url: "/cluster-hosts/:clusterId",

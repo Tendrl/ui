@@ -29,6 +29,8 @@
 
         vm.getRebalStatus = volumeStore.getRebalStatus;
         vm.redirectToGrafana = redirectToGrafana;
+        vm.startVolume = startVolume;
+        vm.stopVolume = stopVolume;
         vm.goToVolumeDetail = goToVolumeDetail;
         vm.addTooltip = addTooltip;
         vm.toggleProfiling = toggleProfiling;
@@ -118,21 +120,20 @@
         }
 
         function getVolumeIcon(state) {
-            
             var cls;
             cls = "fa ffont fa-question";
 
-            if (state.indexOf("up") !== -1) {
+            if (state.indexOf("Started") !== -1) {
                 cls = "pficon pficon-ok";
-            } else if (state.indexOf("down") !== -1) {
+            } else if (state.indexOf("Stopped") !== -1) {
                 cls = "fa ffont fa-arrow-circle-o-down";
-            } else if (state.indexOf("partial") !== -1) {
-                cls = "pficon pficon-degraded icon-red";
-            } else if (state.indexOf("degraded") !== -1) {
-                cls = "pficon pficon-degraded icon-orange";
-            } else if (state.indexOf("unknown") !== -1) {
-                cls = "fa ffont fa-question";
-            }
+            } else if (state.indexOf("Created") !== -1) {
+                cls = "pficon pficon-pending icon-green";
+            } //else if (state.indexOf("degraded") !== -1) {
+                //cls = "pficon pficon-degraded icon-orange";
+            //} else if (state.indexOf("unknown") !== -1) {
+              //  cls = "fa ffont fa-question";
+            //}
 
             return cls;
         }
@@ -176,6 +177,16 @@
                 clusterId: vm.clusterName,
                 volumeName: volume.name
             });
+        }
+
+        function startVolume(volume, $event) {
+          volumeStore.startVolume(volume, vm.clusterId).then(() => init());
+          $event.stopPropagation();
+        }
+
+        function stopVolume(volume, $event) {
+          volumeStore.stopVolume(volume, vm.clusterId).then(() => init());
+          $event.stopPropagation();
         }
 
         function goToVolumeDetail(volume) {

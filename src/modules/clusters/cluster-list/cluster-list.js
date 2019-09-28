@@ -349,7 +349,7 @@
          * @memberOf clusterController
          */
         function goToImportFlow(cluster) {
-            $state.go("import-cluster", { clusterId: cluster.integrationId });
+            $state.go("import-cluster");
         }
 
         function goToClusterHost(cluster) {

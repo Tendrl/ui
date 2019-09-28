@@ -236,7 +236,7 @@
                 request;
 
             //url = "/api/events.json";
-            url = config.baseUrl + "clusters/" + clusterId + "/notifications";
+            url = config.baseUrl + "clusters/" + clusterId + "/events";
 
             getEventListRequest = {
                 method: "GET",
@@ -245,7 +245,7 @@
 
             request = angular.copy(getEventListRequest);
             return $http(request).then(function(response) {
-                return response.data;
+                return response.data.events;
             }, function(e) {
                 vm.checkErrorCode(e);
                 console.log("Error Occurred: while fetching getEventList");

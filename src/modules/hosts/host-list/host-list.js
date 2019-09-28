@@ -15,7 +15,7 @@
         });
 
     /*@ngInject*/
-    function hostController($scope, $filter, $rootScope, $state, $interval, $uibModal, utils, config, nodeStore, clusterStore) {
+    function hostController($scope, $filter, $rootScope, $state, $interval, $uibModal, utils, config, peerStore, clusterStore) {
         var vm = this,
             clusterObj,
             hostListTimer;
@@ -139,7 +139,7 @@
                 itemField: "ipAddress"
             }];
 
-            nodeStore.getNodeList(vm.expandCluster.clusterId)
+            peerStore.getNodeList(vm.expandCluster.clusterId)
                 .then(function(list) {
                     vm.expandCluster.hostList = $filter("filter")(list, { managed: "No" });
                     vm.expandCluster.filteredHostList = vm.expandCluster.hostList;
@@ -176,7 +176,7 @@
                 .then(function(data) {
                     $interval.cancel(hostListTimer);
                     vm.cluster = data;
-                    return nodeStore.getNodeList(vm.clusterId, vm.cluster.state);
+                    return peerStore.getNodeList(vm.clusterId, vm.cluster.state);
                 }).catch(function(e) {
                     vm.cluster = {};
                 })
@@ -224,9 +224,9 @@
                 cls = "pficon pficon-in-progress";
             } else if (host.managed === "No") {
                 cls = "fa ffont fa-question";
-            } else if (host.status === "DOWN") {
+            } else if (host.online === false) {
                 cls = "fa ffont fa-arrow-circle-o-down";
-            } else if (host.status === "UP") {
+            } else if (host.online === true) {
                 cls = "pficon pficon-ok";
             }
 

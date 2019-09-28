@@ -74,7 +74,7 @@
         <div ng-repeat="event in eventListCntrl.filteredEventList = (eventListCntrl.eventList |filter: eventListCntrl.filterByCreatedDate| filter: eventListCntrl.searchByDesc | orderBy: ['-timeStamp', 'message_id'])">
             <div class="ft-row list-group-item">
                 <div class="ft-column ft-main event-desc">
-                    <div>{{event.message || "NA"}}</div>
+                    <div>{{event.name}}</div>
                 </div>
                 <div class="ft-column">
                     <div>{{event.timeStamp| date: 'dd MMM yyyy HH:mm:ss'}}</div>

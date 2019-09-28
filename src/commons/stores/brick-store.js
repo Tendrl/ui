@@ -55,20 +55,27 @@
 
         store.getVolumeBrickList = function(clusterId, volId) {
             var subVolumes = [],
+                volume,
                 deferred,
                 len,
                 i;
 
             deferred = $q.defer();
-            brickFactory.getVolumeBrickList(clusterId, volId)
+            volume = volumeStore.getVolumeObject(volId);
+            brickFactory.getVolumeBrickList(clusterId, volume.name)
                 .then(function(data) {
-                    _createSubVolumes(data);
-                    len = subVolumes.length;
+                    //_createSubVolumes(data);
+                    len = volume.subvols.length;
                     for (i = 0; i < len; i++) {
-                        subVolumes[i].utilization = _calcUtilization(subVolumes[i].bricks);
+                      for(var j=0;j<volume.subvols[i].bricks.length;j++) {
+                        var brickId = volume.subvols[i].bricks[j].id;
+                        Object.assign(volume.subvols[i].bricks[j], data.find((e) => { return e.info.id == brickId }));
+                      }
+                        volume.subvols[i].utilization = _calcUtilization(volume.subvols[i].bricks);
                     }
+                deferred.resolve(volume.subvols);
 
-                    deferred.resolve(subVolumes);
+                    //deferred.resolve(subVolumes);
                 }).catch(function(e) {
                     deferred.reject(e);
                 });
@@ -104,10 +111,10 @@
                     total;
 
                 for (i = 0; i < len; i++) {
-                    used = parseFloat(bricks[i].utilization.used);
-                    total = parseFloat(bricks[i].utilization.total);
-                    utilization.used += (used * total) / 100;
-                    utilization.total += parseFloat(bricks[i].utilization.total);
+                    used = parseFloat(bricks[i].size.used);
+                    total = parseFloat(bricks[i].size.capacity);
+                    utilization.used += used;
+                    utilization.total += total;
                 }
                 percent_used = (utilization.used / utilization.total) * 100;
                 utilization.used = percent_used.toFixed(2);

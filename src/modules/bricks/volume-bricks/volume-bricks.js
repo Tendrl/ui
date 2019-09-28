@@ -37,7 +37,7 @@
 
         vm.filterConfig = {
             fields: [{
-                id: "fqdn",
+                id: "host",
                 title: "Host Name",
                 placeholder: "Filter by Host Name",
                 filterType: "text"
@@ -73,27 +73,27 @@
         };
 
         vm.volumeDetailConfig = {
-            selectionMatchProp: "fqdn",
+            selectionMatchProp: "host",
             itemsAvailable: true,
             showCheckboxes: false
         };
 
         vm.volumeDetailColumns = [{
             header: "Host Name",
-            itemField: "fqdn"
+            itemField: "host"
         }, {
             header: "Brick Path",
-            itemField: "brickPath",
+            itemField: "path",
             htmlTemplate: "/modules/bricks/volume-bricks/brick-path.html"
         }, {
             header: "Utilization",
-            itemField: "utilization",
+            itemField: "size",
             htmlTemplate: "/modules/bricks/volume-bricks/utilization-path.html"
         }, {
             header: "Disk Device Path",
-            itemField: "devices",
+            itemField: "device",
             templateFn: function(value, item) {
-                return value[0];
+                return value;
             }
         }, {
             header: "Port",
@@ -314,7 +314,7 @@
 
         function _redirectToGrafana(action, brick) {
             var brickName = brick.brickPath.split(":")[1],
-                hostName = brick.fqdn.replace(/\./gi, "_");
+                hostName = brick.host.replace(/\./gi, "_");
 
             brickName = brickName.replace(/\//gi, ":");
             utils.redirectToGrafana("bricks", { clusterId: vm.clusterName, hostName: hostName, brickName: brickName, volumeName: volumeStore.getVolumeObject(vm.volumeId).name });
@@ -346,8 +346,8 @@
                 utilization = 0,
                 re = new RegExp(filter.value, "i");
 
-            if (filter.id === "fqdn") {
-                match = brick.fqdn.match(re) !== null;
+            if (filter.id === "host") {
+                match = brick.host.match(re) !== null;
             } else if (filter.id === "brickPath") {
                 //TODO: move this logic to store later on
                 match = (brick.brickPath.split(":")[1]).match(re) !== null;

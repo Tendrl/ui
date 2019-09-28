@@ -134,4 +134,11 @@
     .toolbar-pf-results>span {
         display: none;
     }
+    .btn {
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        margin-left: 5px;
+    }
+
 }

@@ -32,6 +32,24 @@
                     <div class="row name-validation-msg">Only alphanumeric and underscore characters are allowed.</div>
                 </div>
             </div>
+            <div class="row gd2-url">
+                <label class="col-sm-2 col-md-1" for="gd2Url">Glusterd2 URL</label>
+                <div class="col-sm-4 col-md-3">
+                    <div class="row">
+                        <input class="col-md-12 col-sm-12 cluster-name-input" type="text" name="gd2Url" ng-model="vm.gd2Url" />
+                    </div>
+                    <div class="row name-validation-msg">URL</div>
+                </div>
+            </div>
+            <div class="row cluster-name">
+                <label class="col-sm-2 col-md-1" for="secret">Glusterd2 Secret</label>
+                <div class="col-sm-4 col-md-3">
+                    <div class="row">
+                        <input class="col-md-12 col-sm-12 cluster-name-input" type="text" name="secret" ng-model="vm.secret" />
+                    </div>
+                    <div class="row name-validation-msg">Only alphanumeric and underscore characters are allowed.</div>
+                </div>
+            </div>
             <div class="row">
                 <h3 class="col-sm-12">Ensure all hosts in the cluster are listed below, then click Import to begin importing the cluster.</h3>
             </div>
@@ -48,37 +66,37 @@
                     <label for="leaveAsIs">Keep current configuration</label>
                 </div>
             </div>
-            <h2>Discovered Host(s)</h2>
-            <div class="row toolbar-pf">
-                <div class="col-sm-12">
-                    <form class="toolbar-pf-actions">
-                        <div class="form-group toolbar-pf-filter" ng-class="{'disable-pointer': vm.hostList.length === 0}">
-                            <pf-filter id="importFilter" config="vm.filterConfig"></pf-filter>
-                        </div>
-                    </form>
-                    <!-- /row -->
-                </div>
-                <!-- /col -->
-            </div>
-            <div class="row " ng-show="vm.filteredHostList.length ">
-                <h3 ng-if="vm.hostList.length !== 0" class="col-sm-12 ">{{vm.filteredHostList.length}} of {{vm.hostList.length}} Discovered
--                    <ng-pluralize count="vm.hostList.length " when="{ 'one': 'Host', 'other': 'Hosts'} "></ng-pluralize> 
--                </h3>
-            </div>
-            <div ng-if="vm.isDataLoading" class="spinner spinner-lg"></div>
-            <center ng-show="!vm.isDataLoading && vm.filteredHostList.length===0 ">
-                <div class="blank-slate-pf ">
-                    <div class="blank-slate-pf-icon ">
-                        <i class="pficon pficon-cluster "></i>
-                    </div>
-                    <h1>No Hosts Detected</h1>
-                </div>
-            </center>
-            <div class="div-with-scroll  div-with-scroll-logs" ng-show="!vm.isDataLoading && vm.filteredHostList.length!==0 ">
-                <pf-table-view id="importTableView" config="vm.tableConfig" columns="vm.tableColumns" items="vm.filteredHostList">
-                </pf-table-view>
-            </div>
-            <div ng-if="!vm.isDataLoading && vm.filteredHostList.length!==0" class="row action-button ">
+            <!--<h2>Discovered Host(s)</h2>-->
+            <!--<div class="row toolbar-pf">-->
+                <!--<div class="col-sm-12">-->
+                    <!--<form class="toolbar-pf-actions">-->
+                        <!--<div class="form-group toolbar-pf-filter" ng-class="{'disable-pointer': vm.hostList.length === 0}">-->
+                            <!--<pf-filter id="importFilter" config="vm.filterConfig"></pf-filter>-->
+                        <!--</div>-->
+                    <!--</form>-->
+                     <!--/row -->
+                <!--</div>-->
+                 <!--/col -->
+            <!--</div>-->
+            <!--<div class="row " ng-show="vm.filteredHostList.length ">-->
+                <!--<h3 ng-if="vm.hostList.length !== 0" class="col-sm-12 ">{{vm.filteredHostList.length}} of {{vm.hostList.length}} Discovered-->
+<!---                    <ng-pluralize count="vm.hostList.length " when="{ 'one': 'Host', 'other': 'Hosts'} "></ng-pluralize> -->
+<!---                </h3>-->
+            <!--</div>-->
+            <!--<div ng-if="vm.isDataLoading" class="spinner spinner-lg"></div>-->
+            <!--<center ng-show="!vm.isDataLoading && vm.filteredHostList.length===0 ">-->
+                <!--<div class="blank-slate-pf ">-->
+                    <!--<div class="blank-slate-pf-icon ">-->
+                        <!--<i class="pficon pficon-cluster "></i>-->
+                    <!--</div>-->
+                    <!--<h1>No Hosts Detected</h1>-->
+                <!--</div>-->
+            <!--</center>-->
+            <!--<div class="div-with-scroll  div-with-scroll-logs" ng-show="!vm.isDataLoading && vm.filteredHostList.length!==0 ">-->
+                <!--<pf-table-view id="importTableView" config="vm.tableConfig" columns="vm.tableColumns" items="vm.filteredHostList">-->
+                <!--</pf-table-view>-->
+            <!--</div>-->
+            <!--<div ng-if="!vm.isDataLoading && vm.filteredHostList.length!==0" class="row action-button ">-->
                 <div class="col-sm-8 col-md-6 ">
                     <button class="btn btn-primary btn-lg " ng-click="vm.importCluster() " ng-disabled="vm.importIcon ">
                         <i class="glyphicon glyphicon-refresh glyphicon-refresh-animate " data-ng-class="{ 'hidden': vm.importIcon !==true } ">
@@ -87,7 +105,7 @@
                     </button>
                     <button class="btn btn-default btn-lg cancel-button " ng-click="vm.importCancel() ">Cancel</button>
                 </div>
-            </div>
+            <!--</div>-->
         </div>
     </div>
     <div ng-show="vm.taskInitiated" class="blank-slate-pf centered ">

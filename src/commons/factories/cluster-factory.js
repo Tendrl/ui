@@ -14,12 +14,12 @@
          * @desc Perform import cluster
          * @memberOf clusterFactory
          */
-        vm.importCluster = function(data, clusterId) {
+        vm.importCluster = function(data) {
             var url,
                 importRequest,
                 request;
 
-            url = config.baseUrl + "clusters/" + clusterId + "/import";
+            url = config.baseUrl + "/import";
 
             importRequest = {
                 method: "POST",

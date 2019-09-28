@@ -18,7 +18,7 @@
             var url = "",
                 getObjectListRequest, request;
 
-            url = config.baseUrl +"clusters/" + clusterId +"/nodes";
+            url = config.baseUrl +"clusters/" + clusterId +"/peers";
             //url = "/api/GetNodeList.json";
 
             getObjectListRequest = {

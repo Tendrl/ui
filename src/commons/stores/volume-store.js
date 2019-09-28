@@ -37,13 +37,16 @@
 
                 for (i = 0; i < len; i++) {
                     temp = {};
+                    data[i].brick_count = 0;
+                    data[i].subvols.map((value) => data[i].brick_count = data[i].brick_count + value.bricks.length);
                     if (data[i].deleted !== "True") {
-                        temp.volumeId = data[i].vol_id;
-                        //temp.status = data[i].status !== "Stopped" ? "Running": data[i].status;
+                        temp.volumeId = data[i].id;
+                        temp.subvols = data[i].subvols;
+                        //temp.status = data[i].state !== "Stopped" ? "Running": data[i].state;
                         temp.state = data[i].state;
                         temp.status = data[i].status;
                         temp.name = data[i].name;
-                        temp.type = data[i].vol_type;
+                        temp.type = data[i].type;
                         temp.rebalStatus = data[i].rebal_status;
                         temp.brickCount = data[i].brick_count;
                         temp.alertCount = data[i].alert_counters ? data[i].alert_counters.alert_count : "No Data";
@@ -129,6 +132,34 @@
 
             deferred = $q.defer();
             volumeFactory.toggleProfiling(volume, action, clusterId)
+                .then(function(data) {
+                    deferred.resolve(data);
+                }).catch(function(e) {
+                    deferred.reject(e);
+                });
+
+            return deferred.promise;
+        };
+
+        store.startVolume = function(volume, clusterId) {
+            var deferred;
+
+            deferred = $q.defer();
+            volumeFactory.startVolume(volume, clusterId)
+                .then(function(data) {
+                    deferred.resolve(data);
+                }).catch(function(e) {
+                    deferred.reject(e);
+                });
+
+            return deferred.promise;
+        };
+
+        store.stopVolume = function(volume, clusterId) {
+            var deferred;
+
+            deferred = $q.defer();
+            volumeFactory.stopVolume(volume, clusterId)
                 .then(function(data) {
                     deferred.resolve(data);
                 }).catch(function(e) {

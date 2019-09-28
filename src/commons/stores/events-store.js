@@ -80,7 +80,7 @@
                     temp = {},
                     temp.timeStamp = new Date(data[i].timestamp);
                     temp.priority = data[i].priority;
-                    temp.message = data[i].message;
+                    temp.name = data[i].name;
                     temp.message_id = data[i].message_id;
                     res.push(temp);
                 }
