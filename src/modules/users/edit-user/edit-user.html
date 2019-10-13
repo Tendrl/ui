@@ -42,7 +42,7 @@
             <div class="form-group">
                 <label class="col-sm-2 col-md-1 control-label cp-padding" for="password">New Password</label>
                 <div class="col-sm-8 col-md-6 inner-addon">
-                    <input type="{{ editUserCntrl.typePassword ? 'text' : 'password' }}" data-id="password" name="password" ng-model="editUserCntrl.user.password" minlength="9" ng-maxlength="128"/>
+                    <input type="{{ editUserCntrl.typePassword ? 'text' : 'password' }}" data-id="password" name="password" ng-model="editUserCntrl.user.password" ng-minlength="9" ng-maxlength="128"/>
                     <span id="passwordStatus" class="showPassword" ng-click="editUserCntrl.toggleTypePassword()">
                         <span ng-if="editUserCntrl.typePassword === true">
                             <i class="glyphicon glyphicon-eye-open" aria-hidden="true"></i>
@@ -56,7 +56,7 @@
             <div class="form-group">
                 <label class="col-sm-2 col-md-1 control-label cp-padding" for="password">Confirm Password</label>
                 <div class="col-sm-8 col-md-6 inner-addon">
-                    <input type="{{ editUserCntrl.confirmPassword ? 'text' : 'password' }}" data-id="password" aria-describedby="passwordStatus" name="confirmPassword" ng-model="editUserCntrl.user.confirmPassword" minlength="9" ng-maxlength="128">
+                    <input type="{{ editUserCntrl.confirmPassword ? 'text' : 'password' }}" data-id="password" aria-describedby="passwordStatus" name="confirmPassword" ng-model="editUserCntrl.user.confirmPassword" ng-minlength="9" ng-maxlength="128">
                     <span id="passwordStatus" class="showPassword" ng-click="editUserCntrl.toggleConfirmPassword()">
                         <span ng-if="editUserCntrl.confirmPassword === true">
                             <i class="glyphicon glyphicon-eye-open" aria-hidden="true"></i>
