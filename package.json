@@ -4,7 +4,7 @@
     "version": "1.6.3",
     "dependencies": {
         "@uirouter/angularjs": "1.0.18",
-        "angular": "~1.5.8",
+        "angular": "~1.8.0",
         "angular-animate": "~1.5.8",
         "angular-bootstrap-switch": "~0.5.2",
         "angular-cookies": "~1.5.8",
