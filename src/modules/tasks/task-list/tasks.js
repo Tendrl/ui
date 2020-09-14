@@ -67,7 +67,7 @@
             }, {
                 id: "flow",
                 title: "Task",
-                placeholder: "Filter by Task ID",
+                placeholder: "Filter by Task Name",
                 filterType: "text"
             }, {
                 id: "status",
